@@ -1,5 +1,4 @@
-﻿using Box.V2.Web;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +8,6 @@ namespace Box.V2.Services
 {
     public interface IBoxService
     {
-        Task<T> ToResponse<T>(IBoxRequest request);
+        Task<IBoxResponse<T>> ToResponse<T>(IBoxRequest request);
     }
 }

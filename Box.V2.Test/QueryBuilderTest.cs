@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Box.V2.Web;
 
 namespace Box.V2.Test
 {

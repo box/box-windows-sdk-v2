@@ -7,6 +7,6 @@ namespace Box.V2.Services
 {
     public interface IResponseParser
     {
-        T Parse<T>(string response);
+        T Parse<T>(string content);
     }
 }

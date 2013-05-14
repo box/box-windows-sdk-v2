@@ -28,6 +28,10 @@ namespace Box.V2.Auth
         [JsonProperty(PropertyName = "expires_in")]
         public int ExpiresIn { get; set; }
 
+        /// <summary>
+        /// Represents how the access token will be generated and presented
+        /// Most commonly this will be "bearer", anybody with a bearer token will have access
+        /// </summary>
         [JsonProperty(PropertyName = "token_type")]
         public string TokenType { get; set; }
     }

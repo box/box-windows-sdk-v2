@@ -8,9 +8,10 @@ namespace Box.V2.Services
 {
     public class JsonResponseParser : IResponseParser
     {
-        public T Parse<T>(string response)
+
+        public T Parse<T>(string content)
         {
-            return JsonConvert.DeserializeObject<T>(response);
+            return JsonConvert.DeserializeObject<T>(content);
         }
     }
 }

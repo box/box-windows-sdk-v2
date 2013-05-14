@@ -1,5 +1,4 @@
-﻿using Box.V2.Web;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -17,7 +16,7 @@ namespace Box.V2.Services
             _client = new HttpClient();
         }
 
-        public async Task<string> Execute(IBoxRequest request)
+        public async Task<IBoxResponse<T>> Execute<T>(IBoxRequest request)
         {
             //HttpClientHandler handler = new HttpClientHandler();
             //client.MaxResponseContentBufferSize = 25500;
@@ -46,9 +45,15 @@ namespace Box.V2.Services
                     throw new InvalidOperationException("Http method not supported");
             }
             
-            var response = await _client.SendAsync(httpRequest);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
+            HttpResponseMessage response = await _client.SendAsync(httpRequest);
+
+            BoxResponse<T> boxResponse = new BoxResponse<T>();
+            boxResponse.Status = response.IsSuccessStatusCode ?
+                ResponseStatus.Success :
+                ResponseStatus.Error;
+
+            boxResponse.ContentString = await response.Content.ReadAsStringAsync();
+            return boxResponse;
         }
     }
 }

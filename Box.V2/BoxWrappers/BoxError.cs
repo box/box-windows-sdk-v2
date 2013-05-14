@@ -12,7 +12,7 @@ namespace Box.V2
         /// The error received. This value will always be present in the event of an error
         /// </summary>
         [JsonProperty(PropertyName = "error")]
-        public string Error { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Description of what happened. Provides additional information to the error

@@ -1,5 +1,4 @@
-﻿using Box.V2.Web;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -19,7 +18,7 @@ namespace Box.V2.Services
         public BoxService(IResponseParser parser, IRequestHandler handler)
         {
             TaskQueue = new ObservableCollection<IBoxRequest>();
-            
+
             _parser = parser;
             _handler = handler;
 
@@ -50,10 +49,21 @@ namespace Box.V2.Services
 
         public static ObservableCollection<IBoxRequest> TaskQueue { get; set; }
 
-        public async Task<T> ToResponse<T>(IBoxRequest request)
+        public async Task<IBoxResponse<T>> ToResponse<T>(IBoxRequest request)
         {
-            string response = await _handler.Execute(request);
-            return _parser.Parse<T>(response);
+            IBoxResponse<T> response = await _handler.Execute<T>(request);
+
+            switch (response.Status)
+            {
+                case ResponseStatus.Success:
+                    response.BoxModel = _parser.Parse<T>(response.ContentString);
+                    break;
+                case ResponseStatus.Error:
+                    response.Error = _parser.Parse<BoxError>(response.ContentString);
+                    break;
+            }
+
+            return response;
         }
 
         //public async Task<T> EnqueueTask<T>(IBoxRequest request)
