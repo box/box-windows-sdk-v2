@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>BTANG-TWIST</Machine>
+    <WindowsUser>btang</WindowsUser>
+    <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
+    <PackageArchitecture>neutral</PackageArchitecture>
+    <RegisteredManifestChecksum>A5349EFF88FA1D6E269E315FEE32FA5D9020ADB441AE9330F36C412A26D6C09A</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>981c2254-5046-457c-a9c3-431e5c0a5381_1.0.0.0_neutral__sjq3ap7smv4mm</RegisteredPackageMoniker>
+    <RegisteredUserModeAppID>981c2254-5046-457c-a9c3-431e5c0a5381_sjq3ap7smv4mm!App</RegisteredUserModeAppID>
+    <RegisteredPackageID>981c2254-5046-457c-a9c3-431e5c0a5381</RegisteredPackageID>
+    <RegisteredPackagePublisher>CN=btang</RegisteredPackagePublisher>
+    <RegisteredVersion>1.0.0.0</RegisteredVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2013-05-08T21:31:01.153</Modified>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.exe">
+      <PackagePath>Box.V2.W8.exe</PackagePath>
+      <Modified>2013-05-14T18:27:13.198</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.pdb">
+      <PackagePath>Box.V2.W8.pdb</PackagePath>
+      <Modified>2013-05-14T18:27:13.178</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.dll">
+      <PackagePath>Box.V2.dll</PackagePath>
+      <Modified>2013-05-14T18:14:44.838</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.dll">
+      <PackagePath>Nito.AsyncEx.dll</PackagePath>
+      <Modified>2013-05-14T15:40:43.624</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll">
+      <PackagePath>Microsoft.Threading.Tasks.dll</PackagePath>
+      <Modified>2013-05-07T23:00:56.364</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.dll">
+      <PackagePath>Newtonsoft.Json.dll</PackagePath>
+      <Modified>2013-05-08T20:11:48.892</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.pdb">
+      <PackagePath>Box.V2.pdb</PackagePath>
+      <Modified>2013-05-14T18:14:44.818</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.xml">
+      <PackagePath>Nito.AsyncEx.xml</PackagePath>
+      <Modified>2013-05-14T15:40:43.631</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml">
+      <PackagePath>Microsoft.Threading.Tasks.xml</PackagePath>
+      <Modified>2013-05-07T23:00:56.398</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.xml">
+      <PackagePath>Newtonsoft.Json.xml</PackagePath>
+      <Modified>2013-05-08T20:11:48.902</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\Logo.png">
+      <PackagePath>Assets\Logo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2012-03-16T03:42:52.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\SmallLogo.png">
+      <PackagePath>Assets\SmallLogo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2012-03-16T03:42:52.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\SplashScreen.png">
+      <PackagePath>Assets\SplashScreen.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2012-03-16T03:42:52.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\StoreLogo.png">
+      <PackagePath>Assets\StoreLogo.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+      <Modified>2012-03-16T03:42:52.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\App.xaml">
+      <PackagePath>App.xaml</PackagePath>
+      <Modified>2013-05-07T06:47:11.489</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Common\StandardStyles.xaml">
+      <PackagePath>Common\StandardStyles.xaml</PackagePath>
+      <Modified>2012-06-26T23:19:20.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\MainPage.xaml">
+      <PackagePath>MainPage.xaml</PackagePath>
+      <Modified>2013-05-07T06:47:11.527</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+      <Modified>2013-05-07T06:54:17.551</Modified>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
