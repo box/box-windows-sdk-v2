@@ -10,11 +10,12 @@ namespace Box.V2.Test
         public void ParamTest()
         {
             Uri baseUri = new Uri("http://api.box.com/v2");
-            IBoxRequest qb = new BoxRequest(RequestMethod.GET, baseUri, "auth/oauth2");
-            qb.Param("test", "test2");
+            IBoxRequest request = new BoxRequest(baseUri, "auth/oauth2");
+            request.Param("test", "test2");
 
-            Assert.AreEqual(baseUri, qb.Host);
-            Assert.IsNotNull(qb.Parameters);
+            Assert.AreEqual(request.Method, RequestMethod.GET);
+            Assert.AreEqual(baseUri, request.Host);
+            Assert.IsNotNull(request.Parameters);
         }
     }
 }

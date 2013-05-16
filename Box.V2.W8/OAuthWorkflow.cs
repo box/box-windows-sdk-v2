@@ -24,7 +24,7 @@ namespace Box.V2.Auth
         {
             get
             {
-                return new BoxRequest(RequestMethod.GET, _boxConfig.BoxApiHostUri, Constants.AuthCodeEndpointString)
+                return new BoxRequest(_boxConfig.BoxApiHostUri, Constants.AuthCodeEndpointString)
                         .Param("response_type", "code")
                         .Param("client_id", _boxConfig.ClientId)
                         .Param("redirect_uri", _redirectUri)

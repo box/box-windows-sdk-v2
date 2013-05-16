@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.WP_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="5/14/2013 3:28:30 PM">
-  <file source="C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.dll" archivePath="Box.V2.WP.dll" lastWriteTime="5/14/2013 3:28:29 PM" />
+﻿<xapCache source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.WP_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="5/15/2013 8:26:51 PM">
+  <file source="C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.dll" archivePath="Box.V2.WP.dll" lastWriteTime="5/15/2013 8:26:49 PM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="5/13/2013 11:46:48 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="5/13/2013 11:46:48 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="5/13/2013 11:46:48 AM" />
@@ -8,15 +8,15 @@
   <file source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="5/14/2013 3:28:30 PM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="5/13/2013 11:46:48 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="5/13/2013 11:46:48 AM" />
-  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.dll" archivePath="Box.V2.dll" lastWriteTime="5/14/2013 3:28:27 PM" />
-  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.dll" archivePath="Nito.AsyncEx.dll" lastWriteTime="5/14/2013 8:40:43 AM" />
+  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.dll" archivePath="Box.V2.dll" lastWriteTime="5/15/2013 8:26:48 PM" />
+  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.dll" archivePath="Nito.AsyncEx.dll" lastWriteTime="5/15/2013 2:32:08 PM" />
   <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\System.Net.Http.dll" archivePath="System.Net.Http.dll" lastWriteTime="5/7/2013 2:04:43 PM" />
-  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll" archivePath="Microsoft.Threading.Tasks.dll" lastWriteTime="5/7/2013 4:00:56 PM" />
+  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll" archivePath="Microsoft.Threading.Tasks.dll" lastWriteTime="5/15/2013 2:32:07 PM" />
   <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="5/8/2013 1:11:48 PM" />
   <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\System.Net.Http.Primitives.dll" archivePath="System.Net.Http.Primitives.dll" lastWriteTime="5/7/2013 2:04:43 PM" />
-  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.xml" archivePath="Nito.AsyncEx.xml" lastWriteTime="5/14/2013 8:40:43 AM" />
+  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.xml" archivePath="Nito.AsyncEx.xml" lastWriteTime="5/15/2013 2:32:08 PM" />
   <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\System.Net.Http.xml" archivePath="System.Net.Http.xml" lastWriteTime="5/7/2013 2:04:43 PM" />
-  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml" archivePath="Microsoft.Threading.Tasks.xml" lastWriteTime="5/7/2013 4:00:56 PM" />
+  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml" archivePath="Microsoft.Threading.Tasks.xml" lastWriteTime="5/15/2013 2:32:07 PM" />
   <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.xml" archivePath="Newtonsoft.Json.xml" lastWriteTime="5/8/2013 1:11:48 PM" />
   <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\System.Net.Http.Primitives.xml" archivePath="System.Net.Http.Primitives.xml" lastWriteTime="5/7/2013 2:04:43 PM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="5/14/2013 3:28:30 PM" />

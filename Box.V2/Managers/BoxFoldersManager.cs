@@ -26,12 +26,14 @@ namespace Box.V2.Managers
         /// <param name="offset"></param>
         public async void GetFolderItems(string id, int limit, int offset = 0)
         {
-            BoxRequest query = new BoxRequest(RequestMethod.GET, _boxConfig.BoxApiUri, string.Format(@"/folders/{0}/items", id))
+            BoxRequest request = new BoxRequest(_boxConfig.BoxApiUri, string.Format(@"/folders/{0}/items", id))
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString());
-            AddAuthentication(query);
+            AddAuthentication(request);
 
-            var response = await _service.ToResponse<object>(query);
+            //var response = await _service.ToResponse<object>(query);
+
+            //var test = await _service.Enqueue<OAuthSession>(request);
         }
     }
 }

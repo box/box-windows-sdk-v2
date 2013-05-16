@@ -13,6 +13,11 @@ namespace Box.V2.Services
         private IResponseParser _parser;
         private IRequestHandler _handler;
         private static object _lock = new object();
+
+        LimitedConcurrencyLevelTaskScheduler _scheduler;
+        TaskFactory _factory;
+
+
         private static bool _isTaskRunning = false;
 
         public BoxService(IResponseParser parser, IRequestHandler handler)
@@ -22,32 +27,13 @@ namespace Box.V2.Services
             _parser = parser;
             _handler = handler;
 
-            //Observable.FromEventPattern<NotifyCollectionChangedEventArgs>(TaskQueue, "CollectionChanged")
-            //    .Select(c => c.EventArgs).Subscribe(ea => {
-            //        switch (ea.Action)
-            //        {
-            //            case NotifyCollectionChangedAction.Add:
-            //            case NotifyCollectionChangedAction.Remove:
-            //                lock (_lock)
-            //                {
-            //                    if (!_isTaskRunning && TaskQueue.Count > 0)
-            //                    {
-            //                        ToResponse(TaskQueue[0]);
-            //                    }
-            //                }
-            //                break;
-            //            default:
-            //                // Not interested in other actions
-            //                break;
-            //        }
-            //    });
+            // This ensures that only one task is performed at a time 
+            _scheduler = new LimitedConcurrencyLevelTaskScheduler(1);
+            _factory = new TaskFactory(_scheduler);
+        
         }
 
-
-        //LimitedConcurrencyLevelTaskScheduler scheduler = new LimitedConcurrencyLevelTaskScheduler(5);
-        //TaskFactory factory = new TaskFactory(scheduler);
-
-        public static ObservableCollection<IBoxRequest> TaskQueue { get; set; }
+        public ObservableCollection<IBoxRequest> TaskQueue { get; set; }
 
         public async Task<IBoxResponse<T>> ToResponse<T>(IBoxRequest request)
         {
@@ -66,12 +52,11 @@ namespace Box.V2.Services
             return response;
         }
 
-        //public async Task<T> EnqueueTask<T>(IBoxRequest request)
-        //{
-        //    lock (_lock)
-        //    {
-        //        TaskQueue.Add(request);
-        //    }
-        //}
+        public async Task<IBoxResponse<T>> Enqueue<T>(IBoxRequest request)
+        {
+            Task<IBoxResponse<T>> t = _factory.StartNew(async () => await ToResponse<T>(request)).Unwrap();
+            return await t;
+        }
+
     }
 }

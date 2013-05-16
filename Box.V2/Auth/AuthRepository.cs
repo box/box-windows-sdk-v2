@@ -19,6 +19,7 @@ namespace Box.V2.Auth
         private List<string> _expiredTokens = new List<string>();
 
         private readonly AsyncLock _mutex = new AsyncLock();
+        private readonly AsyncLock _serviceLock = new AsyncLock();
         
 
         public AuthRepository(IBoxConfig boxConfig, IBoxService boxService) : this (boxConfig, boxService, null) { }
@@ -36,11 +37,11 @@ namespace Box.V2.Auth
         {
             get
             {
-                return new BoxRequest(RequestMethod.GET, _config.BoxApiHostUri, Constants.AuthCodeEndpointString)
-                        .Param("response_type", "code")
-                        .Param("client_id", _config.ClientId)
-                        .Param("redirect_uri", _config.RedirectUri)
-                        .AbsoluteUri;
+                return new BoxRequest(_config.BoxApiHostUri, Constants.AuthCodeEndpointString)
+                                .Param("response_type", "code")
+                                .Param("client_id", _config.ClientId)
+                                .Param("redirect_uri", _config.RedirectUri)
+                                .AbsoluteUri;
             }
         }
 
@@ -50,7 +51,8 @@ namespace Box.V2.Auth
             if (string.IsNullOrWhiteSpace(authCode))
                 throw new ArgumentException("Auth code cannot be null or empty", "authCode");
 
-            BoxRequest boxRequest = new BoxRequest(RequestMethod.POST, _config.BoxApiHostUri, Constants.AuthTokenEndpointString)
+            BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
+                                            .Method(RequestMethod.POST)
                                             .Param("grant_type", "authorization_code")
                                             .Param("code", authCode)
                                             .Param("client_id", _config.ClientId)
@@ -109,13 +111,18 @@ namespace Box.V2.Auth
 
         private async Task<OAuthSession> ExchangeRefreshToken(string refreshToken)
         {
-            BoxRequest boxRequest = new BoxRequest(RequestMethod.POST, _config.BoxApiHostUri, Constants.AuthTokenEndpointString)
+            BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
+                                            .Method(RequestMethod.POST)
                                             .Param("grant_type", "refresh_token")
                                             .Param("refresh_token", refreshToken)
                                             .Param("client_id", _config.ClientId)
                                             .Param("client_secret", _config.ClientSecret);
 
-            IBoxResponse<OAuthSession> boxResponse = await _service.ToResponse<OAuthSession>(boxRequest);
+            IBoxResponse<OAuthSession> boxResponse;
+            using (await _serviceLock.LockAsync())
+            {
+                boxResponse = await _service.ToResponse<OAuthSession>(boxRequest);
+            }
             
             // Return new session
             return boxResponse.BoxModel;

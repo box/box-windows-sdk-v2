@@ -7,6 +7,7 @@ using Box.V2.Auth;
 using Box.V2.Contracts;
 using System.Collections.Generic;
 using Box.V2.Exceptions;
+using System.Linq;
 
 namespace Box.V2.Test
 {
@@ -74,24 +75,19 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(BoxException))]
         public async Task Authenticate_ErrorResponse_Exception()
         {
             // Arrange
             _handler.Setup(h => h.Execute<OAuthSession>(It.IsAny<IBoxRequest>()))
                 .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
                 {
-                    Status = ResponseStatus.Success,
-                    ContentString = "{\"access_token\": \"T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
+                    Status = ResponseStatus.Error,
+                    ContentString = "{\"error\": \"invalid_grant\",\"error_description\": \"Invalid user credentials\"}"
                 }));
 
             // Act
             OAuthSession session = await _authRepository.Authenticate("fakeauthorizationcode");
-
-            // Assert
-            Assert.AreEqual(session.AccessToken, null);
-            Assert.AreEqual(session.ExpiresIn, 0);
-            Assert.AreEqual(session.RefreshToken, null);
-            Assert.AreEqual(session.TokenType, null);
         }
 
         [TestMethod]
@@ -117,44 +113,37 @@ namespace Box.V2.Test
 
 
         [TestMethod]
-        public async Task RefreshSession_MultipleThreadsSameAccessToken_ValidSession()
+        public async Task RefreshSession_MultipleThreadsSameAccessToken_SameSession()
         {
 
-            // Arrange
-            int numThreads = 1000;
-            int accessToken = 0;
+            /*** Arrange ***/
+            int numTasks = 1000;
 
+            int count = 0; 
+
+            // Increments the access token each time a call is made to the API
             _handler.Setup(h => h.Execute<OAuthSession>(It.IsAny<IBoxRequest>()))
-                .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
+                .Returns(() => Task.FromResult<IBoxResponse<OAuthSession>>(new BoxResponse<OAuthSession>() 
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = "{\"access_token\": \"" + ++accessToken + "\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
-                }));
+                    ContentString = "{\"access_token\": \""+ count + "\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
+                })).Callback(() => System.Threading.Interlocked.Increment(ref count));
 
-            List<string> accessTokens = new List<string>();
-            for (int i = 0; i < numThreads; i++)
-                accessTokens.Add("fakeAccesToken");
+            /*** Act ***/
+            List<Task<OAuthSession>> tasks = new List<Task<OAuthSession>>();
 
+            for (int i = 0; i < numTasks; i++)
+                tasks.Add(_authRepository.RefreshAccessToken("fakeAccessToken")); // Refresh with the same access token each time
 
-            object mutex = new object();
-            bool assertAggregate = true;
-            int threadCount = 0;
+            await Task.WhenAll(tasks);
 
-            // Act
-            Parallel.ForEach(accessTokens, async (token) =>
-            {
-                OAuthSession session = await _authRepository.RefreshAccessToken(token);
-
-                lock (mutex)
-                {
-                    assertAggregate = assertAggregate && (session.AccessToken == "1");
-                    System.Threading.Interlocked.Increment(ref threadCount);
-                }
-            });
-
-            // Assert
-            Assert.IsTrue(assertAggregate); // All refresh calls should have validated with an access token of 1
-            Assert.AreEqual(numThreads, threadCount); // Ensures all threads completed successfully
+            /*** Assert ***/
+            var exceptions = tasks.Where(t => t.Status == TaskStatus.Faulted).Select(t => t.Exception);
+            Assert.AreEqual(exceptions.Count(), 0);
+            var completions = tasks.Where(t => t.Status == TaskStatus.RanToCompletion).Select(t => t.Result);
+            Assert.AreEqual(completions.Count(), numTasks);
+            var results = tasks.Where(t => t.Result.AccessToken == "0").Select(t => t.Result);
+            Assert.AreEqual(results.Count(), numTasks);
         }
     }
 }

@@ -8,9 +8,8 @@ namespace Box.V2
 {
     public class BoxRequest : IBoxRequest
     {
-        public BoxRequest(RequestMethod method, Uri hostUri, string path)
+        public BoxRequest(Uri hostUri, string path)
         {
-            Method = method;
             Host = hostUri;
             Path = path;
 

@@ -9,5 +9,7 @@ namespace Box.V2.Services
     public interface IBoxService
     {
         Task<IBoxResponse<T>> ToResponse<T>(IBoxRequest request);
+
+        Task<IBoxResponse<T>> Enqueue<T>(IBoxRequest request);
     }
 }

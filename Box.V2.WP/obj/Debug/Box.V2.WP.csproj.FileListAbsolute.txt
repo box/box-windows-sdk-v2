@@ -30,3 +30,4 @@ C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.csproj.GenerateResource.Cache
 C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.dll
 C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.pdb
 C:\Dev\Box.V2\Box.V2.WP\obj\Debug\XapCacheFile.xml
+C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.WP.dll.config
