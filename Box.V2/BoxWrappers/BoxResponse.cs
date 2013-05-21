@@ -10,7 +10,7 @@ namespace Box.V2
         /// <summary>
         /// The parsed model from a successful response
         /// </summary>
-        public T BoxModel { get; set;  }
+        public T ResponseObject { get; set;  }
 
         /// <summary>
         /// The full response string from the request

@@ -8,9 +8,11 @@ namespace Box.V2
 {
     public interface IBoxRequest
     {
-        IList<KeyValuePair<string, string>> HttpHeaders { get; }
+        Dictionary<string, string> HttpHeaders { get; }
 
         Dictionary<string, string> Parameters { get; }
+
+        Dictionary<string, string> PayloadParameters { get; }
 
         string Path { get; }
 

@@ -10,9 +10,11 @@ namespace Box.V2.Auth
     {
         OAuthSession Session { get; }
 
-        Task<OAuthSession> Authenticate(string authCode);
+        Task<OAuthSession> AuthenticateAsync(string authCode);
 
-        Task<OAuthSession> RefreshAccessToken(string accessToken);
+        Task<OAuthSession> RefreshAccessTokenAsync(string accessToken);
+
+        Task LogoutAsync();
 
         Uri AuthCodeUri { get; }
     }

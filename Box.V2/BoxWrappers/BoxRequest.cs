@@ -8,13 +8,16 @@ namespace Box.V2
 {
     public class BoxRequest : IBoxRequest
     {
+        public BoxRequest(Uri hostUri) : this(hostUri, string.Empty) { }
+
         public BoxRequest(Uri hostUri, string path)
         {
             Host = hostUri;
             Path = path;
 
-            HttpHeaders = new List<KeyValuePair<string, string>>();
+            HttpHeaders = new Dictionary<string, string>();
             Parameters = new Dictionary<string, string>();
+            PayloadParameters = new Dictionary<string, string>();
         }
 
         public Uri Host { get; private set; }
@@ -23,7 +26,7 @@ namespace Box.V2
 
         public RequestMethod Method { get; set; }
 
-        public IList<KeyValuePair<string, string>> HttpHeaders { get; private set; }
+        public Dictionary<string, string> HttpHeaders { get; private set; }
 
         public Dictionary<string, string> Parameters { get; private set; }
 

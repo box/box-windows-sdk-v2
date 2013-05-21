@@ -53,7 +53,7 @@ namespace Box.V2.WP
                     }
                 }
 
-                _client.Auth.Authenticate(keyDictionary["code"]);
+                _client.Auth.AuthenticateAsync(keyDictionary["code"]);
             }
         }
 

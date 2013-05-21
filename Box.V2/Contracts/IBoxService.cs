@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Box.V2.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace Box.V2.Services
 {
     public interface IBoxService
     {
-        Task<IBoxResponse<T>> ToResponse<T>(IBoxRequest request);
+        Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request);
 
-        Task<IBoxResponse<T>> Enqueue<T>(IBoxRequest request);
+        Task<IBoxResponse<T>> EnqueueAsync<T>(IBoxRequest request);
     }
 }

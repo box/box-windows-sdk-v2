@@ -16,7 +16,7 @@ namespace Box.V2.Contracts
         }
 
         public Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
-        public Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
+        public Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiV1UriString); } }
         public Uri BoxUploadApiUri { get { return new Uri(Constants.BoxUploadApiUriString); } }
 
         public string ClientId { get; private set; }
@@ -28,7 +28,7 @@ namespace Box.V2.Contracts
         public string DeviceName { get; set; }
         public string UserAgent { get; set; }
 
-
-
+        public Uri FoldersEndpointUri { get { return new Uri(Constants.FoldersEndpointString); } }
+        public Uri FilesEndpointUri { get { return new Uri(Constants.FilesEndpointString); } }
     }
 }

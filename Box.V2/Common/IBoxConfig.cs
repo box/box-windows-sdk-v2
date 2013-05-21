@@ -20,5 +20,7 @@ namespace Box.V2.Contracts
         string DeviceName { get; set; }
         string UserAgent { get; set; }
 
+        Uri FoldersEndpointUri { get; }
+        Uri FilesEndpointUri { get; }
     }
 }

@@ -47,7 +47,7 @@ namespace Box.V2.Test
             int count = 0;
 
             // Increments the access token each time a call is made to the API
-            _handler.Setup(h => h.Execute<OAuthSession>(It.IsAny<IBoxRequest>()))
+            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<OAuthSession>>(new BoxResponse<OAuthSession>()
                 {
                     Status = ResponseStatus.Success,
@@ -59,14 +59,14 @@ namespace Box.V2.Test
 
             List<Task<IBoxResponse<OAuthSession>>> tasks = new List<Task<IBoxResponse<OAuthSession>>>();
             for (int i = 0; i < numTasks; i++)
-                tasks.Add(_service.Enqueue<OAuthSession>(request));
+                tasks.Add(_service.EnqueueAsync<OAuthSession>(request));
 
             await Task.WhenAll(tasks);
 
             /*** Assert ***/
             for (int i = 0; i < numTasks; i++)
             {
-                Assert.AreEqual(tasks[i].Result.BoxModel.AccessToken, i.ToString());
+                Assert.AreEqual(tasks[i].Result.ResponseObject.AccessToken, i.ToString());
             }
         }
     }

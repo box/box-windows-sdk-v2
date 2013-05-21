@@ -7,28 +7,51 @@ namespace Box.V2
 {
     public static class BoxRequestExtensions
     {
-        public static T Param<T>(this T query, string name, string value) where T : IBoxRequest
-        {
-            query.Parameters[name] = value;
-
-            return query;
-        }
-
-        public static T Header<T>(this T query, string name, string value) where T : IBoxRequest
+        public static T Param<T>(this T request, string name, string value) where T : IBoxRequest
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException();
 
-            query.HttpHeaders.Add(new KeyValuePair<string, string>(name, value));
+            request.Parameters[name] = value;
 
-            return query;
+            return request;
         }
 
-        public static T Method<T>(this T query, RequestMethod method) where T : IBoxRequest
+        public static T Header<T>(this T request, string name, string value) where T : IBoxRequest
         {
-            query.Method = method;
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException();
 
-            return query;
+            request.HttpHeaders.Add(name, value);
+
+            return request;
+        }
+
+        public static T Method<T>(this T request, RequestMethod method) where T : IBoxRequest
+        {
+            request.Method = method;
+
+            return request;
+        }
+
+        public static T Payload<T>(this T request, string name, string value) where T : IBoxRequest
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException();
+
+            request.PayloadParameters.Add(name, value);
+
+            return request;
+        }
+
+        public static T Authenticate<T>(this T request, string accessToken) where T : IBoxRequest
+        {
+            if (string.IsNullOrEmpty(accessToken))
+                throw new ArgumentNullException();
+
+            request.HttpHeaders.Add("Authorization", string.Format("Bearer {0}", accessToken));
+
+            return request;
         }
     }
 }

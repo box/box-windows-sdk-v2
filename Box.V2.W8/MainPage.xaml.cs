@@ -1,5 +1,6 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Contracts;
+using Box.V2.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Networking.BackgroundTransfer;
 using Windows.Security.Authentication.Web;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -49,15 +52,19 @@ namespace Box.V2.W8
             _client = new BoxClient(_config);
 
             string authCode = await Authenticate();
-            OAuthSession session = await _client.Auth.Authenticate(authCode);
+            OAuthSession session = await _client.Auth.AuthenticateAsync(authCode);
 
-            List<Task> tasks = new List<Task>();
-            OAuthSession session1 = await _client.Auth.RefreshAccessToken(session.AccessToken);
+            Folder f = await _client.FoldersManager.GetItemsAsync("0", 10);
+            //OAuthSession session1 = await _client.Auth.RefreshAccessTokenAsync(session.AccessToken);
+
+            byte[] data = await _client.FilesManager.DownloadAsync("7546361455");
+            var test = await KnownFolders.DocumentsLibrary.CreateFileAsync("test.xml");
+
+            await Windows.Storage.FileIO.WriteBytesAsync(test, data);
         }
         
         public async Task<string> Authenticate()
         {
-
             WebAuthenticationResult war = await WebAuthenticationBroker.AuthenticateAsync(
                 WebAuthenticationOptions.None,
                 _client.Auth.AuthCodeUri,

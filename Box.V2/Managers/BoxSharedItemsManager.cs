@@ -1,5 +1,6 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Contracts;
+using Box.V2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Box.V2.Managers
 {
     public class BoxSharedItemsManager : BoxResourceManager
     {
-        public BoxSharedItemsManager(IBoxConfig boxConfig, IAuthRepository auth)
-            : base(boxConfig, auth)
+        public BoxSharedItemsManager(IBoxConfig config, IBoxService service, IAuthRepository auth)
+            : base(config, service, auth)
         {
 
         }

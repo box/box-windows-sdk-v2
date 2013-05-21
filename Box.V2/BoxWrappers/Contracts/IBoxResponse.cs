@@ -8,9 +8,9 @@ namespace Box.V2
     public interface IBoxResponse<T>
     {
         /// <summary>
-        /// The parsed model from a successful response
+        /// The response object from a successful response
         /// </summary>
-        T BoxModel { get; set; }
+        T ResponseObject { get; set; }
 
         /// <summary>
         /// The full response string from the request

@@ -54,9 +54,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AuthRepositoryTest.cs" />
+    <Compile Include="BoxFilesManagerTest.cs" />
+    <Compile Include="BoxResourceManagerTest.cs" />
     <Compile Include="BoxServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryBuilderTest.cs" />
+    <Compile Include="BoxFoldersManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
