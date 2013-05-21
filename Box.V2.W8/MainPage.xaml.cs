@@ -11,6 +11,7 @@ using Windows.Foundation.Collections;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Security.Authentication.Web;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -54,13 +55,20 @@ namespace Box.V2.W8
             string authCode = await Authenticate();
             OAuthSession session = await _client.Auth.AuthenticateAsync(authCode);
 
-            Folder f = await _client.FoldersManager.GetItemsAsync("0", 10);
+            //Folder f = await _client.FoldersManager.GetItemsAsync("0", 10);
             //OAuthSession session1 = await _client.Auth.RefreshAccessTokenAsync(session.AccessToken);
+            
+            //File f = await _client.FilesManager.GetInformationAsync("7546361455");
+            byte[] data = await _client.FilesManager.DownloadBytesAsync("7546361455");
 
-            byte[] data = await _client.FilesManager.DownloadAsync("7546361455");
-            var test = await KnownFolders.DocumentsLibrary.CreateFileAsync("test.xml");
+            FileSavePicker fileSavePicker = new FileSavePicker();
+            fileSavePicker.SuggestedFileName = "test.xml"; //f.Name;
+            //string ext = Path.GetExtension(f.Name);
+            fileSavePicker.FileTypeChoices.Add("xml", new string[] { ".xml" });
+            //fileSavePicker.SuggestedFileName 
+            StorageFile file = await fileSavePicker.PickSaveFileAsync();
 
-            await Windows.Storage.FileIO.WriteBytesAsync(test, data);
+            await Windows.Storage.FileIO.WriteBytesAsync(file, data);
         }
         
         public async Task<string> Authenticate()

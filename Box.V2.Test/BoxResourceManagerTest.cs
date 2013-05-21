@@ -18,7 +18,6 @@ namespace Box.V2.Test
         protected Mock<IRequestHandler> _handler;
         protected IBoxService _service;
         protected Mock<IBoxConfig> _config;
-        protected BoxFoldersManager _foldersManager;
         protected AuthRepository _authRepository;
 
         protected Uri _baseUri = new Uri(Constants.BoxApiUriString);
@@ -39,7 +38,6 @@ namespace Box.V2.Test
                     RefreshToken = "fakeRefreshToken",
                     TokenType = "bearer"
                 });
-            _foldersManager = new BoxFoldersManager(_config.Object, _service, _authRepository);
         }
     }
 }

@@ -86,15 +86,5 @@ namespace Box.V2.W8
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
-
-        /// <summary>
-        /// Invoked when the application is activated to display a file open picker.
-        /// </summary>
-        /// <param name="args">Details about the activation request.</param>
-        protected override void OnFileOpenPickerActivated(Windows.ApplicationModel.Activation.FileOpenPickerActivatedEventArgs args)
-        {
-            var fileOpenPickerPage = new Box.V2.W8.FileOpenPickerPage();
-            fileOpenPickerPage.Activate(args);
-        }
     }
 }

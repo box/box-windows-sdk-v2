@@ -25,7 +25,7 @@ namespace Box.V2.Test.Integration
         {
             _auth = new OAuthSession()
             {
-                AccessToken = "Xznde1gh1HkfeZK6fKZ0Bs3VJ4zPu5vb",
+                AccessToken = "SCW1KnyuFfCKjmZXgfYzBEKhUvPGnRjR",
                 RefreshToken = "ZrRzZh5ikbrYeQeTUILOf33SlJM2zVNp1H3mdRKAYupfTuqPLtpq0yNVkEvSfJRy",
                 TokenType = "bearer",
                 ExpiresIn = 3600

@@ -35,6 +35,3 @@ C:\Dev\Box.V2\Box.V2.W8\obj\Debug\priconfig.xml.intermediate
 C:\Dev\Box.V2\Box.V2.W8\obj\Debug\layout.resfiles.intermediate
 C:\Dev\Box.V2\Box.V2.W8\obj\Debug\resources.resfiles.intermediate
 C:\Dev\Box.V2\Box.V2.W8\obj\Debug\pri.resfiles.intermediate
-C:\Dev\Box.V2\Box.V2.W8\obj\Debug\FileOpenPickerPage.g.i.cs
-C:\Dev\Box.V2\Box.V2.W8\obj\Debug\FileOpenPickerPage.g.cs
-C:\Dev\Box.V2\Box.V2.W8\obj\Debug\FileOpenPickerPage.xaml

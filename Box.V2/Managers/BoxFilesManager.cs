@@ -28,7 +28,7 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<File> GetInformationAsync(string id)
         {
-            BoxRequest request = new BoxRequest(_config.BoxApiUri, string.Format(@"/folders/{0}/items", id));
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id);
             AddAuthentication(request);
 
             IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
@@ -37,13 +37,22 @@ namespace Box.V2.Managers
         }
 
 
-        public async Task<byte[]> DownloadAsync(string id)
+        public async Task<byte[]> DownloadBytesAsync(string id)
         {
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id));
             AddAuthentication(request);
 
             IBoxResponse<byte[]> response = await _service.ToResponseAsync<byte[]>(request);
-            IBoxResponse<MemoryStream> r2 = await _service.ToResponseAsync<MemoryStream>(request);
+
+            return response.ResponseObject;
+        }
+
+        public async Task<MemoryStream> DownloadStreamAsync(string id)
+        {
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id));
+            AddAuthentication(request);
+
+            IBoxResponse<MemoryStream> response = await _service.ToResponseAsync<MemoryStream>(request);
 
             return response.ResponseObject;
         }
