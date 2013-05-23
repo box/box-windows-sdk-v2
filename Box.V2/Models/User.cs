@@ -6,14 +6,8 @@ using System.Text;
 
 namespace Box.V2.Models
 {
-    public class User
+    public class User : BoxEntity
     {
-        [JsonProperty(PropertyName = "type")]
-        public string Type { get; set; }
-
-        [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
-
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 

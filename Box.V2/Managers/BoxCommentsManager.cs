@@ -11,10 +11,7 @@ namespace Box.V2.Managers
     public class BoxCommentsManager : BoxResourceManager
     {
 
-        public BoxCommentsManager(IBoxConfig config, IBoxService service, IAuthRepository auth)
-            : base(config, service, auth)
-        {
-
-        }
+        public BoxCommentsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
+            : base(config, service, converter, auth) { } 
     }
 }

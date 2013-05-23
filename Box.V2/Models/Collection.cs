@@ -9,16 +9,16 @@ namespace Box.V2.Models
     public class Collection<T> where T : class, new()
     {
         [JsonProperty(PropertyName = "total_count")]
-        public int TotalCount { get; set; }
+        public int TotalCount { get; private set; }
 
         [JsonProperty(PropertyName = "entries")]
-        public List<T> Entries { get; set; }
+        public List<T> Entries { get; private set; }
 
         [JsonProperty(PropertyName = "offset")]
-        public int Offset { get; set; }
+        public int Offset { get; private set; }
 
         [JsonProperty(PropertyName = "limit")]
-        public int Limit { get; set; }
+        public int Limit { get; private set; }
 
     }
 }

@@ -9,8 +9,11 @@ namespace Box.V2
     {
         public static T Param<T>(this T request, string name, string value) where T : IBoxRequest
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException();
+
+            if (string.IsNullOrWhiteSpace(value))
+                return request;
 
             request.Parameters[name] = value;
 
@@ -36,8 +39,11 @@ namespace Box.V2
 
         public static T Payload<T>(this T request, string name, string value) where T : IBoxRequest
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException();
+
+            if (string.IsNullOrWhiteSpace(value))
+                return request;
 
             request.PayloadParameters.Add(name, value);
 
@@ -50,6 +56,16 @@ namespace Box.V2
                 throw new ArgumentNullException();
 
             request.HttpHeaders.Add("Authorization", string.Format("Bearer {0}", accessToken));
+
+            return request;
+        }
+
+        public static T FormPart<T>(this T request, IBoxFormPart formPart) where T : BoxMultiPartRequest
+        {
+            if (formPart == null)
+                throw new ArgumentNullException();
+
+            request.Parts.Add(formPart);
 
             return request;
         }

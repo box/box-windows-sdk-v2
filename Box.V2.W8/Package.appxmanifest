@@ -22,6 +22,12 @@
     </Application>
   </Applications>
   <Capabilities>
+    <Capability Name="sharedUserCertificates" />
     <Capability Name="internetClient" />
   </Capabilities>
+  <Extensions>
+    <Extension Category="windows.certificates">
+      <Certificates />
+    </Extension>
+  </Extensions>
 </Package>

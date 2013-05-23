@@ -10,11 +10,7 @@ namespace Box.V2.Managers
 {
     public class BoxSharedItemsManager : BoxResourceManager
     {
-        public BoxSharedItemsManager(IBoxConfig config, IBoxService service, IAuthRepository auth)
-            : base(config, service, auth)
-        {
-
-        }
-
+        public BoxSharedItemsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
+            : base(config, service, converter, auth) { } 
     }
 }

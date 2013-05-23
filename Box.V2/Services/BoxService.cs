@@ -13,14 +13,14 @@ namespace Box.V2.Services
 {
     public class BoxService : IBoxService
     {
-        private IResponseParser _parser;
+        private IBoxConverter _parser;
         private IRequestHandler _handler;
         private static object _lock = new object();
 
         LimitedConcurrencyLevelTaskScheduler _scheduler;
         TaskFactory _factory;
 
-        public BoxService(IResponseParser parser, IRequestHandler handler)
+        public BoxService(IBoxConverter parser, IRequestHandler handler)
         {
             _parser = parser;
             _handler = handler;
@@ -28,7 +28,6 @@ namespace Box.V2.Services
             // This ensures that only one task is executed at a time 
             _scheduler = new LimitedConcurrencyLevelTaskScheduler(1);
             _factory = new TaskFactory(_scheduler);
-        
         }
 
         public async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request) 

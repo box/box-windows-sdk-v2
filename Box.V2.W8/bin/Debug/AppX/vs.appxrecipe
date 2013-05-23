@@ -5,7 +5,7 @@
     <WindowsUser>btang</WindowsUser>
     <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
     <PackageArchitecture>neutral</PackageArchitecture>
-    <RegisteredManifestChecksum>A5349EFF88FA1D6E269E315FEE32FA5D9020ADB441AE9330F36C412A26D6C09A</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>AD9789CFB8BCAB6A4C520BBEED2FD2580F5509D0186609A9ABC2EE33217B17CA</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>981c2254-5046-457c-a9c3-431e5c0a5381_1.0.0.0_neutral__sjq3ap7smv4mm</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>981c2254-5046-457c-a9c3-431e5c0a5381_sjq3ap7smv4mm!App</RegisteredUserModeAppID>
     <RegisteredPackageID>981c2254-5046-457c-a9c3-431e5c0a5381</RegisteredPackageID>
@@ -16,21 +16,21 @@
     <AppXManifest Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2013-05-21T18:34:47.869</Modified>
+      <Modified>2013-05-23T02:15:28.526</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.exe">
       <PackagePath>Box.V2.W8.exe</PackagePath>
-      <Modified>2013-05-21T19:08:12.428</Modified>
+      <Modified>2013-05-23T22:40:19.828</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.pdb">
       <PackagePath>Box.V2.W8.pdb</PackagePath>
-      <Modified>2013-05-21T19:08:12.406</Modified>
+      <Modified>2013-05-23T22:40:19.805</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.dll">
       <PackagePath>Box.V2.dll</PackagePath>
-      <Modified>2013-05-21T19:07:47.463</Modified>
+      <Modified>2013-05-23T22:40:18.839</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.dll">
       <PackagePath>Nito.AsyncEx.dll</PackagePath>
@@ -46,7 +46,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.pdb">
       <PackagePath>Box.V2.pdb</PackagePath>
-      <Modified>2013-05-21T19:07:47.432</Modified>
+      <Modified>2013-05-23T22:40:18.809</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.xml">
       <PackagePath>Nito.AsyncEx.xml</PackagePath>
@@ -94,7 +94,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2013-05-21T18:34:47.795</Modified>
+      <Modified>2013-05-23T02:15:28.473</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

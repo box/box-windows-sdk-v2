@@ -7,6 +7,7 @@ using Box.V2.Auth;
 using Box.V2.Contracts;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Box.V2.Test
 {
@@ -14,7 +15,7 @@ namespace Box.V2.Test
     public class BoxServiceTest
     {
 
-        IResponseParser _parser;
+        IBoxConverter _parser;
         Mock<IRequestHandler> _handler;
         IBoxService _service;
         Mock<IBoxConfig> _boxConfig;
@@ -23,17 +24,12 @@ namespace Box.V2.Test
         public BoxServiceTest()
         {
             // Initial Setup
-            _parser = new JsonResponseParser();
+            _parser = new BoxJsonConverter();
             _handler = new Mock<IRequestHandler>();
             _service = new BoxService(_parser, _handler.Object);
             _boxConfig = new Mock<IBoxConfig>();
 
-            OAuthSession session = new OAuthSession() {
-                AccessToken = "fakeAccessToken",
-                ExpiresIn = 3600,
-                RefreshToken = "fakeRefreshToken",
-                TokenType = "bearer"
-            };
+            OAuthSession session = new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer");
 
             _authRepository = new AuthRepository(_boxConfig.Object, _service, session);
         }
@@ -69,5 +65,45 @@ namespace Box.V2.Test
                 Assert.AreEqual(tasks[i].Result.ResponseObject.AccessToken, i.ToString());
             }
         }
+
+
+        [TestMethod]
+        public void JsonTest()
+        {
+            string retString = "{ \"my_name\":\"Brian\", \"nest\" : { \"blah_name\":\"hi\"} }";
+
+            MyTest test = _parser.Parse<MyTest>(retString);
+        }
+
+    }
+    public class MyTest
+    {
+        //[JsonConstructor]
+        //public MyTest(string my_name, NestClass  another_class, NestClass nest)
+        //{
+        //    MyName = my_name;
+        //    AnotherClass = another_class;
+        //    Class = nest;
+        //}
+        
+        [JsonProperty("my_name")]
+        public string MyName { get; private set; }
+
+        [JsonProperty("another_class")]
+        public NestClass AnotherClass { get; private set; }
+
+        [JsonProperty("nest")]
+        public NestClass Class { get; private set; }
+    }
+
+    public class NestClass
+    {
+        [JsonConstructor]
+        public NestClass(string blah_name)
+        {
+            Name = blah_name;
+        }
+
+        public string Name { get; private set; }
     }
 }

@@ -19,25 +19,18 @@ namespace Box.V2.Test.Integration
         protected BoxClient _client;
         protected IBoxConfig _config;
         protected IRequestHandler _handler;
-        protected IResponseParser _parser;
+        protected IBoxConverter _parser;
 
         public BoxResourceManagerTestIntegration()
         {
-            _auth = new OAuthSession()
-            {
-                AccessToken = "SCW1KnyuFfCKjmZXgfYzBEKhUvPGnRjR",
-                RefreshToken = "ZrRzZh5ikbrYeQeTUILOf33SlJM2zVNp1H3mdRKAYupfTuqPLtpq0yNVkEvSfJRy",
-                TokenType = "bearer",
-                ExpiresIn = 3600
-            };
+
+
+            _auth = new OAuthSession("C7bEFjfhZaD8GGlS50QAsFfylhUyPMv8", "aPgnuziyrZ23r9hUOOl4mCUboy7q3pAntRdcGuy5r6hkEE34tuuSHuZaLfXpZHBY", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
-            _parser = new JsonResponseParser();
+            _parser = new BoxJsonConverter();
             _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
             _client = new BoxClient(_config, _auth);
         }
-
-
-
     }
 }

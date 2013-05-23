@@ -10,10 +10,7 @@ namespace Box.V2.Managers
 {
     public class BoxUsersManager : BoxResourceManager
     {
-        public BoxUsersManager(IBoxConfig config, IBoxService service, IAuthRepository auth)
-            : base(config, service, auth)
-        {
-
-        }
+        public BoxUsersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
+            : base(config, service, converter, auth) { } 
     }
 }

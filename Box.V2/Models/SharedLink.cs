@@ -12,6 +12,6 @@ namespace Box.V2.Models
         /// The Url of the shared link
         /// </summary>
         [JsonProperty(PropertyName="url")]
-        public string Url { get; set; }
+        public string Url { get; private set; }
     }
 }

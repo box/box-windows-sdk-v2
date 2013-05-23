@@ -16,8 +16,12 @@ namespace Box.V2.WP
     {
 
         public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
-        public const string ConsumerKey = "hdivvq08t2gnj19zssp6xqmovjp42u2g";
         public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
+
+        // Ryan's Dev keys
+        //private const string ClientId = "yrizdmqzb9jw4bf6c3cged90xyjyzlzy";
+        //public const string ClientSecret = "c6vRohbuxHCn7ol6yDdho6prcQg0buRJ";
+
         public const string RedirectUri = @"http://localhost";
 
         IBoxConfig _config;
@@ -36,7 +40,7 @@ namespace Box.V2.WP
 
         private void oauthBrowser_Navigating(object sender, NavigatingEventArgs e)
         {
-            if (e.Uri.Host.Equals("localhost")) // in our case we used localhost as the redirect_uri
+            if (e.Uri.Host.Equals("boxsdk")) // in our case we used localhost as the redirect_uri
             {
                 oauthBrowser.Visibility = Visibility.Collapsed;
                 e.Cancel = true;

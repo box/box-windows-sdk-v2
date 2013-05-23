@@ -36,8 +36,11 @@
     <Compile Include="Auth\AuthRepository.cs" />
     <Compile Include="BoxClient.cs" />
     <Compile Include="BoxWrappers\BoxError.cs" />
+    <Compile Include="BoxWrappers\BoxMultiPartRequest.cs" />
     <Compile Include="BoxWrappers\BoxResponse.cs" />
     <Compile Include="BoxWrappers\Contracts\IBoxResponse.cs" />
+    <Compile Include="BoxWrappers\BoxFormPart.cs" />
+    <Compile Include="BoxWrappers\IBoxFormPart.cs" />
     <Compile Include="Common\BoxConfig.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Contracts\IAuthRepository.cs" />
@@ -53,8 +56,11 @@
     <Compile Include="Models\BoxEntity.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\File.cs" />
+    <Compile Include="Models\Request\BoxFileRequest.cs" />
     <Compile Include="Models\Folder.cs" />
     <Compile Include="Models\Collection.cs" />
+    <Compile Include="Models\Request\BoxRequestEntity.cs" />
+    <Compile Include="Models\Request\BoxFolderRequest.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\MiniFolder.cs" />
     <Compile Include="Models\OAuthSession.cs" />
@@ -69,8 +75,9 @@
     <Compile Include="Services\HttpRequestHandler.cs" />
     <Compile Include="Contracts\IBoxService.cs" />
     <Compile Include="Contracts\IRequestHandler.cs" />
-    <Compile Include="Contracts\IResponseParser.cs" />
-    <Compile Include="Services\JsonResponseParser.cs" />
+    <Compile Include="Contracts\IBoxConverter.cs" />
+    <Compile Include="Services\IBoxEntity.cs" />
+    <Compile Include="Services\BoxJsonConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

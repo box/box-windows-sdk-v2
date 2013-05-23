@@ -14,7 +14,7 @@ namespace Box.V2.Test
     public abstract class BoxResourceManagerTest 
     {
 
-        protected IResponseParser _parser;
+        protected IBoxConverter _converter;
         protected Mock<IRequestHandler> _handler;
         protected IBoxService _service;
         protected Mock<IBoxConfig> _config;
@@ -25,19 +25,12 @@ namespace Box.V2.Test
         public BoxResourceManagerTest()
         {
             // Initial Setup
-            _parser = new JsonResponseParser();
+            _converter = new BoxJsonConverter();
             _handler = new Mock<IRequestHandler>();
-            _service = new BoxService(_parser, _handler.Object);
+            _service = new BoxService(_converter, _handler.Object);
             _config = new Mock<IBoxConfig>();
 
-            _authRepository = new AuthRepository(_config.Object, _service,
-                new OAuthSession()
-                {
-                    AccessToken = "fakeAccessToken",
-                    ExpiresIn = 3600,
-                    RefreshToken = "fakeRefreshToken",
-                    TokenType = "bearer"
-                });
+            _authRepository = new AuthRepository(_config.Object, _service, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
     }
 }

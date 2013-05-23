@@ -17,7 +17,7 @@ namespace Box.V2.Test
         
         public BoxFilesManagerTest()
         {
-            _filesManager = new BoxFilesManager(_config.Object, _service, _authRepository);
+            _filesManager = new BoxFilesManager(_config.Object, _service, _converter, _authRepository);
         }
 
         [TestMethod]
@@ -47,22 +47,40 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task UploadFile_ValidResponse_ValidFile()
         {
+            /*** Arrange ***/
             string responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-02-04T16:57:52-08:00\", \"content_modified_at\": \"2013-02-04T16:57:52-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": null, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" } ] }";
-            _handler.Setup(h => h.ExecuteAsync<File>(It.IsAny<IBoxRequest>()))
-                .Returns(Task.FromResult<IBoxResponse<File>>(new BoxResponse<File>()
+            _handler.Setup(h => h.ExecuteAsync<Collection<File>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<Collection<File>>>(new BoxResponse<Collection<File>>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
                 }));
 
+            var fakeFileRequest = new BoxFileRequest()
+            {
+                Name = "test.txt",
+                Parent = new BoxRequestEntity() { Id = "0" }
+            };
+
+            var fakeStream = new Mock<System.IO.Stream>();
+
+            /*** Act ***/
             BoxRequest request = new BoxRequest(_config.Object.FilesEndpointUri);
 
-            File f = await _filesManager.UploadAsync();
+            File f = await _filesManager.UploadAsync(fakeFileRequest, fakeStream.Object);
+
+            /*** Assert ***/
+            Assert.AreEqual("5000948880", f.Id);
+            Assert.AreEqual("3", f.SequenceId);
+            Assert.AreEqual("tigers.jpeg", f.Name);
+            Assert.AreEqual("134b65991ed521fcfe4724b7d814ab8ded5185dc", f.Sha1);
+            Assert.AreEqual(629644, f.Size);
         }
 
         [TestMethod]
         public async Task UploadNewVersion_ValidResponse_ValidFile()
         {
+            /*** Arrange ***/
             string responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-02-04T16:57:52-08:00\", \"content_modified_at\": \"2013-02-04T16:57:52-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" } ] }";
             _handler.Setup(h => h.ExecuteAsync<File>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<File>>(new BoxResponse<File>()
@@ -71,9 +89,25 @@ namespace Box.V2.Test
                     ContentString = responseString
                 }));
 
+            var fakeFileRequest = new BoxFileRequest()
+            {
+                Name = "test.txt",
+                Parent = new BoxRequestEntity() { Id = "0" }
+            };
+
+            var fakeStream = new Mock<System.IO.Stream>();
+
+            /*** Act ***/
             BoxRequest request = new BoxRequest(_config.Object.FilesEndpointUri);
 
-            File f = await _filesManager.UploadNewVersionAsync();
+            File f = await _filesManager.UploadAsync(fakeFileRequest, fakeStream.Object);
+
+            /*** Assert ***/
+            Assert.AreEqual("5000948880", f.Id);
+            Assert.AreEqual("3", f.SequenceId);
+            Assert.AreEqual("tigers.jpeg", f.Name);
+            Assert.AreEqual("134b65991ed521fcfe4724b7d814ab8ded5185dc", f.Sha1);
+            Assert.AreEqual(629644, f.Size);
         }
 
         [TestMethod]
@@ -121,7 +155,7 @@ namespace Box.V2.Test
 
             BoxRequest request = new BoxRequest(_config.Object.FilesEndpointUri);
 
-            File f = await _filesManager.UploadAsync();
+            //File f = await _filesManager.UploadAsync();
         }
 
         [TestMethod]

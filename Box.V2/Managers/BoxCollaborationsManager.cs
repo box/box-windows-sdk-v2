@@ -11,10 +11,7 @@ namespace Box.V2.Managers
     public class BoxCollaborationsManager : BoxResourceManager
     {
 
-        public BoxCollaborationsManager(IBoxConfig config, IBoxService service, IAuthRepository auth)
-            : base(config, service, auth)
-        {
-
-        }
+        public BoxCollaborationsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
+            : base(config, service, converter, auth) { } 
     }
 }

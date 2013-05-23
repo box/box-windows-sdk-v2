@@ -13,6 +13,7 @@ namespace Box.V2
     {
         private IBoxConfig _config;
         private IBoxService _service;
+        IBoxConverter _converter;
 
         public BoxClient(IBoxConfig boxConfig) : this(boxConfig, null) { }
 
@@ -20,9 +21,9 @@ namespace Box.V2
         {
             _config = boxConfig;
             
-            IResponseParser parser = new JsonResponseParser();
             IRequestHandler handler = new HttpRequestHandler();
-            _service = new BoxService(parser, handler);
+            _converter = new BoxJsonConverter();
+            _service = new BoxService(_converter, handler);
 
             Auth = new AuthRepository(_config, _service, authSession);
 
@@ -31,8 +32,8 @@ namespace Box.V2
 
         private void InitManagers()
         {
-            FoldersManager = new BoxFoldersManager(_config, _service, Auth);
-            FilesManager = new BoxFilesManager(_config, _service, Auth);
+            FoldersManager = new BoxFoldersManager(_config, _service, _converter, Auth);
+            FilesManager = new BoxFilesManager(_config, _service, _converter, Auth);
         }
 
         public BoxFilesManager FilesManager { get; private set; }

@@ -7,10 +7,18 @@ namespace Box.V2
 {
     public static class Constants
     {
-        /*** Base API URIs ***/
-        public const string BoxApiV1UriString = "https://www.box.com/api/";
-        public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0";
+        ///*** Base API URIs ***/
+        public const string BoxApiHostUriString = "https://www.box.com/api/";
+        public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
+
+        //public const string BoxApiHostUriString = "https://rlopopolo.inside-box.net/api/";
+        //public const string BoxUploadApiUriString = "https://upload.rlopopolo.inside-box.net/api/2.0";
+        //public const string BoxApiUriString = "https://rlopopolo.inside-box.net/api/2.0";
+
+        //public const string BoxApiHostUriString = "https://btang.inside-box.net/api/";
+        //public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0";
+        //public const string BoxApiUriString = "https://btang.inside-box.net/api/2.0";
 
 
         /*** API Endpoints ***/
@@ -20,6 +28,8 @@ namespace Box.V2
 
         public const string FoldersEndpointString = BoxApiUriString +  @"folders/";
         public const string FilesEndpointString = BoxApiUriString + @"files/";
+
+        public const string FilesUploadEndpointString = BoxUploadApiUriString + @"files/content";
 
         /*** Endpoint Paths ***/
 

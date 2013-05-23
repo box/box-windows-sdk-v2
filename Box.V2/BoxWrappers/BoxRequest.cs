@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Box.V2
 
         public string Path { get; private set; }
 
-        public RequestMethod Method { get; set; }
+        public virtual RequestMethod Method { get; set; }
 
         public Dictionary<string, string> HttpHeaders { get; private set; }
 
@@ -34,17 +35,19 @@ namespace Box.V2
 
         public Uri Uri { get { return new Uri(Host, Path); } }
 
+        public string Payload { get; set; }
+
         /// <summary>
         /// Returns the full Uri including host, path, and querystring
         /// </summary>
-        public Uri AbsoluteUri 
-        { 
-            get 
+        public Uri AbsoluteUri
+        {
+            get
             {
                 return new Uri(Uri,
                     Parameters.Count == 0 ? string.Empty :
-                    string.Format("?{0}", GetQueryString())); 
-            } 
+                    string.Format("?{0}", GetQueryString()));
+            }
         }
 
         /// <summary>

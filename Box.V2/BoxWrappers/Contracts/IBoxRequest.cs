@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -13,6 +14,8 @@ namespace Box.V2
         Dictionary<string, string> Parameters { get; }
 
         Dictionary<string, string> PayloadParameters { get; }
+
+        string Payload { get; }
 
         string Path { get; }
 

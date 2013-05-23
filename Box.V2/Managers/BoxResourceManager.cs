@@ -11,29 +11,29 @@ namespace Box.V2.Managers
 {
     public abstract class BoxResourceManager
     {
-        protected IAuthRepository _auth;
-        protected IBoxService _service;
         protected IBoxConfig _config;
+        protected IBoxService _service;
+        protected IBoxConverter _converter;
+        protected IAuthRepository _auth;
 
-        public BoxResourceManager(IBoxConfig config, IBoxService service, IAuthRepository auth)
+        public BoxResourceManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
         {
             _config = config;
             _service = service;
+            _converter = converter; 
             _auth = auth;
         }
 
         protected IBoxRequest AddAuthentication(IBoxRequest request)
         {
             request
-                .Header("Authorization", string.Format("Bearer {0}", _auth.Session.AccessToken))
-                .Header("User-Agent", _config.UserAgent ?? string.Empty)
-                .Param("device_id", _config.DeviceId ?? string.Empty)
-                .Param("device_name", _config.DeviceName ?? string.Empty);
+                .Header("Authorization", string.Format("Bearer {0}", _auth.Session.AccessToken));
+                //.Header("Accept", "*/*");
+                //.Header("User-Agent", _config.UserAgent ?? string.Empty);
+                //.Param("device_id", _config.DeviceId ?? string.Empty)
+                //.Param("device_name", _config.DeviceName ?? string.Empty);
 
             return request;
         }
-
-
-        //"{0} api_key={1}&auth_token={2}", "BoxAuth", _config.ConsumerKey
     }
 }

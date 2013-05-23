@@ -12,8 +12,8 @@ namespace Box.V2.Managers
 {
     public class BoxFoldersManager : BoxResourceManager
     {
-        public BoxFoldersManager(IBoxConfig config, IBoxService service, IAuthRepository auth)
-            : base(config, service, auth) { }
+        public BoxFoldersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
+            : base(config, service, converter, auth) { }
 
         /// <summary>
         /// Retrieves the files and/or folders contained in the provided folder id
@@ -36,6 +36,30 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to create a new empty folder. The new folder will be created inside of the specified parent folder
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        public async Task<Folder> CreateAsync(BoxFolderRequest folderRequest)
+        {
+            if (folderRequest == null ||
+            string.IsNullOrEmpty(folderRequest.Name) ||
+            string.IsNullOrEmpty(folderRequest.Parent.Id))
+                throw new ArgumentException("Invalid parameters for required fields");
+
+            BoxJsonConverter parser = new BoxJsonConverter();
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri)
+                .Method(RequestMethod.POST);
+            request.Payload = parser.Serialize<BoxFolderRequest>(folderRequest);
+            AddAuthentication(request);
+
+            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Retrieves the full metadata about a folder, including information about when it was last updated 
         /// as well as the files and folders contained in it. The root folder of a Box account is always 
         /// represented by the id “0″.
@@ -47,27 +71,6 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Authenticate(accessToken);
-
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
-
-            return response.ResponseObject;
-        }
-
-        /// <summary>
-        /// Used to create a new empty folder. The new folder will be created inside of the specified parent folder
-        /// </summary>
-        /// <param name="folder"></param>
-        /// <returns></returns>
-        public async Task<Folder> CreateAsync(Folder folder)
-        {
-            if (folder == null &&
-            string.IsNullOrEmpty(folder.Name) &&
-            string.IsNullOrEmpty(folder.Parent.Id))
-                throw new ArgumentException("Invalid parameters for required fields");
-
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri)
-                .Method(RequestMethod.POST);
-            AddAuthentication(request);
 
             IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
 

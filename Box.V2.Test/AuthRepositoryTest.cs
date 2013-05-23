@@ -21,7 +21,7 @@ namespace Box.V2.Test
         {
             // Arrange
             IRequestHandler handler = new HttpRequestHandler();
-            IBoxService service = new BoxService(_parser, handler);
+            IBoxService service = new BoxService(_converter, handler);
             IBoxConfig config = new BoxConfig(null, null, null);
 
             IAuthRepository authRepository = new AuthRepository(config, service);
