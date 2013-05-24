@@ -149,13 +149,13 @@ namespace Box.V2.W8.ViewModels
         public async void Init()
         {
             OAuthSession session = null;
-            session = new OAuthSession("l3iueabbUADqNCPOJlXzthJRliSpdyFt", "DmFLf5Pb5M0DR76SIW8evarPw3qNedD7msPwD5vez1cWXu0DnjbMcJHmvMlYxie3", 3600, "bearer");
+            //session = new OAuthSession("l3iueabbUADqNCPOJlXzthJRliSpdyFt", "DmFLf5Pb5M0DR76SIW8evarPw3qNedD7msPwD5vez1cWXu0DnjbMcJHmvMlYxie3", 3600, "bearer");
 
             _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
             _client = new BoxClient(_config, session);
 
-            //string authCode = await Authenticate();
-            //await _client.Auth.AuthenticateAsync(authCode);
+            string authCode = await Authenticate();
+            await _client.Auth.AuthenticateAsync(authCode);
 
             // Get the root folder
             await GetFolderItems("0", ItemLimit);
