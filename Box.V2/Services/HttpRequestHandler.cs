@@ -28,8 +28,6 @@ namespace Box.V2.Services
                                                 BuildMultiPartRequest(request as BoxMultiPartRequest) :
                                                 BuildRequest(request);
 
-            string test = await httpRequest.Content.ReadAsStringAsync();
-
             // Add headers
             foreach (var kvp in request.HttpHeaders)
                 httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);

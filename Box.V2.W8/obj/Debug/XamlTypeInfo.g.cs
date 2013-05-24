@@ -112,7 +112,9 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
             }
         }
 
-        private object Activate_0_MainPage() { return new global::Box.V2.W8.MainPage(); }
+        private object Activate_0_ViewModelLocator() { return new global::Box.V2.W8.ViewModels.ViewModelLocator(); }
+
+        private object Activate_1_MainPage() { return new global::Box.V2.W8.MainPage(); }
 
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(string typeName)
@@ -122,6 +124,10 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
 
             switch (typeName)
             {
+            case "Object":
+                xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::System.Object));
+                break;
+
             case "Windows.UI.Xaml.Controls.Page":
                 xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::Windows.UI.Xaml.Controls.Page));
                 break;
@@ -130,9 +136,15 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::Windows.UI.Xaml.Controls.UserControl));
                 break;
 
+            case "Box.V2.W8.ViewModels.ViewModelLocator":
+                userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.W8.ViewModels.ViewModelLocator), GetXamlTypeByName("Object"));
+                userType.Activator = Activate_0_ViewModelLocator;
+                xamlType = userType;
+                break;
+
             case "Box.V2.W8.MainPage":
                 userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.W8.MainPage), GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_0_MainPage;
+                userType.Activator = Activate_1_MainPage;
                 xamlType = userType;
                 break;
 

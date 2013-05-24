@@ -41,8 +41,12 @@ namespace Box.V2.Services
                         response.ResponseObject = _parser.Parse<T>(response.ContentString);
                     break;
                 case ResponseStatus.Error:
-                    response.Error = _parser.Parse<BoxError>(response.ContentString);
-                    throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description));
+                    if (!string.IsNullOrWhiteSpace(response.ContentString))
+                    {
+                        response.Error = _parser.Parse<BoxError>(response.ContentString);
+                        throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description));
+                    }
+                    break;
             }
 
             return response;

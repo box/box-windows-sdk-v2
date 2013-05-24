@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Box.V2.Models
 {
-    public abstract class BoxEntity
+    public class BoxEntity
     {
         /// <summary>
         /// For folders is ‘folder'

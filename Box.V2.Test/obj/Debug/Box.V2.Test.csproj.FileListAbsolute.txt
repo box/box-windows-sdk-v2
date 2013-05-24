@@ -2,15 +2,15 @@ C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Box.V2.Test.dll
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Box.V2.Test.pdb
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Box.V2.dll
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Moq.dll
+C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Newtonsoft.Json.dll
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Nito.AsyncEx.dll
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Microsoft.Threading.Tasks.dll
-C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Newtonsoft.Json.dll
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Box.V2.pdb
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Moq.pdb
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Moq.xml
+C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Newtonsoft.Json.xml
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Nito.AsyncEx.xml
 C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Microsoft.Threading.Tasks.xml
-C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Newtonsoft.Json.xml
 C:\Dev\Box.V2\Box.V2.Test\obj\Debug\Box.V2.Test.csprojResolveAssemblyReference.cache
 C:\Dev\Box.V2\Box.V2.Test\obj\Debug\Box.V2.Test.dll
 C:\Dev\Box.V2\Box.V2.Test\obj\Debug\Box.V2.Test.pdb

@@ -20,6 +20,11 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// The new description for the file
+        /// </summary>
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
 
         /// <summary>
         /// The time this file was created on the user’s machine.

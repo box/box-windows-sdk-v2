@@ -5,10 +5,53 @@
     xmlns:local="using:Box.V2.W8"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
-
+    mc:Ignorable="d"
+    DataContext="{Binding Main, Source={StaticResource locator}}">
+    <Page.BottomAppBar>
+        <AppBar IsOpen="{Binding AppBarOpened, Mode=TwoWay}">
+            <Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button x:ConnectionId='2' Style="{StaticResource UploadAppBarButtonStyle}"
+                                                 />
+                    <Button x:ConnectionId='3' Style="{StaticResource DownloadAppBarButtonStyle}"
+                                                   />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:ConnectionId='1' Style="{StaticResource RefreshAppBarButtonStyle}"
+                                                  />
+                </StackPanel>
+            </Grid>
+        </AppBar>
+    </Page.BottomAppBar>
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
+        <Grid Margin="0,100,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:ConnectionId='5' x:Name="backButton"                      Style="{StaticResource BackButtonStyle}"/>
+            <TextBlock x:Name="pageTitle" Text="{Binding FolderName}" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1" IsHitTestVisible="false"/>
+            <ProgressRing Grid.Column="1" Width="75" Height="75" IsActive="{Binding IsLoading}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </Grid>
+        <GridView x:ConnectionId='4' 
+            Grid.Row="1"
+            Padding="120,6,120,50"
+            ItemsSource="{Binding Items}" 
+            ItemTemplate="{StaticResource FolderViewItemTemplate}"
+            IsItemClickEnabled="True"
+                                            
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <!--<GridView.Header>
+                <StackPanel>
+                    <TextBlock Text="{Binding FolderName}" Style="{StaticResource SubheaderTextStyle}"/>
+                </StackPanel>
+            </GridView.Header>-->
+        </GridView>
     </Grid>
 </Page>
 

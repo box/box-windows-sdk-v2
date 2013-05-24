@@ -34,7 +34,12 @@ namespace Box.V2
         /*** Endpoint Paths ***/
 
         public const string ItemsPathString = @"{0}/items";
+        public const string VersionsPathString = @"{0}/versions";
         public const string CopyPathString = @"copy";
+        public const string CommentsPathString = @"{0}/comments";
+        public const string ThumbnailPathString = @"{0}/thumbnail.extension";
+        public const string TrashPathString = @"{0}/trash";
+         
         public const string DiscussionsPathString = @"{0}/discussions";
         public const string CollaborationsPathString = @"{0}/collaborations";
         public const string TrashItemsPathString = @"trash/items";

@@ -520,21 +520,28 @@
     </Style>
     -->
 
-    <!--
-    <Style x:Key="VideoAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
-        <Setter Property="AutomationProperties.AutomationId" Value="VideoAppBarButton"/>
-        <Setter Property="AutomationProperties.Name" Value="Video"/>
-        <Setter Property="Content" Value="&#xE116;"/>
-    </Style>
     <Style x:Key="RefreshAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="RefreshAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Refresh"/>
         <Setter Property="Content" Value="&#xE117;"/>
     </Style>
+
     <Style x:Key="DownloadAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="DownloadAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Download"/>
         <Setter Property="Content" Value="&#xE118;"/>
+    </Style>
+
+    <Style x:Key="UploadAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="UploadAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="Upload"/>
+        <Setter Property="Content" Value="&#xE11C;"/>
+    </Style>
+    <!--
+    <Style x:Key="VideoAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="VideoAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="Video"/>
+        <Setter Property="Content" Value="&#xE116;"/>
     </Style>
     <Style x:Key="MailAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="MailAppBarButton"/>
@@ -550,11 +557,6 @@
         <Setter Property="AutomationProperties.AutomationId" Value="HelpAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Help"/>
         <Setter Property="Content" Value="&#xE11B;"/>
-    </Style>
-    <Style x:Key="UploadAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
-        <Setter Property="AutomationProperties.AutomationId" Value="UploadAppBarButton"/>
-        <Setter Property="AutomationProperties.Name" Value="Upload"/>
-        <Setter Property="Content" Value="&#xE11C;"/>
     </Style>
     <Style x:Key="EmojiAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="EmojiAppBarButton"/>
@@ -1665,10 +1667,21 @@
                 <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
             </Border>
             <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
-                <TextBlock Text="{Binding Title}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
-                <TextBlock Text="{Binding Subtitle}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
+                <TextBlock Text="{Binding ModifiedBy.Name}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
+                <TextBlock Text="{Binding ModifiedAt}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
                 <TextBlock Text="{Binding Description}" Style="{StaticResource BodyTextStyle}" MaxHeight="60"/>
             </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="FolderViewItemTemplate">
+        <Grid Height="110" Width="280" Margin="5">
+            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                <StackPanel VerticalAlignment="Bottom" Margin="10,0,0,10">
+                    <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
+                </StackPanel>
+            </Border>
         </Grid>
     </DataTemplate>
 

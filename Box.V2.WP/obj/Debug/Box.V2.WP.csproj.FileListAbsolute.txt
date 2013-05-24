@@ -4,6 +4,7 @@ C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\Tiles\IconicTileSmall.png
+C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.WP.dll.config
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.WP.dll
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.WP.pdb
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\AppManifest.xaml
@@ -30,4 +31,3 @@ C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.csproj.GenerateResource.Cache
 C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.dll
 C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.pdb
 C:\Dev\Box.V2\Box.V2.WP\obj\Debug\XapCacheFile.xml
-C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.WP.dll.config

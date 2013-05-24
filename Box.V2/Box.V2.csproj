@@ -54,11 +54,14 @@
     <Compile Include="Managers\BoxCollaborationsManager.cs" />
     <Compile Include="Managers\BoxResourceManager.cs" />
     <Compile Include="Models\BoxEntity.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Request\BoxSharedLinkRequest.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\Request\BoxFileRequest.cs" />
     <Compile Include="Models\Folder.cs" />
     <Compile Include="Models\Collection.cs" />
+    <Compile Include="Models\Request\BoxPermissionsRequest.cs" />
     <Compile Include="Models\Request\BoxRequestEntity.cs" />
     <Compile Include="Models\Request\BoxFolderRequest.cs" />
     <Compile Include="Models\Item.cs" />

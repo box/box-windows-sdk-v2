@@ -12,6 +12,7 @@ namespace Box.V2
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException();
 
+            // Don't add a parameter that does not have a value
             if (string.IsNullOrWhiteSpace(value))
                 return request;
 
