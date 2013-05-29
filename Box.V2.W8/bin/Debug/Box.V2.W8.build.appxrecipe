@@ -25,11 +25,11 @@
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.dll">
       <PackagePath>Nito.AsyncEx.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll">
-      <PackagePath>Microsoft.Threading.Tasks.dll</PackagePath>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll">
+      <PackagePath>Microsoft.Threading.Tasks.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.pdb">
       <PackagePath>Box.V2.pdb</PackagePath>
@@ -37,11 +37,11 @@
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.xml">
       <PackagePath>Nito.AsyncEx.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml">
-      <PackagePath>Microsoft.Threading.Tasks.xml</PackagePath>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.xml">
       <PackagePath>Newtonsoft.Json.xml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml">
+      <PackagePath>Microsoft.Threading.Tasks.xml</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>

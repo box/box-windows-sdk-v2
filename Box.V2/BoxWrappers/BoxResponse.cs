@@ -33,6 +33,7 @@ namespace Box.V2
     {
         Unknown,
         Success,
-        Error
+        Error,
+        Unauthorized
     }
 }

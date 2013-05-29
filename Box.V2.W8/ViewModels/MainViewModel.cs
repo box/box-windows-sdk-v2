@@ -23,8 +23,13 @@ namespace Box.V2.W8.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        // Keys on Live
         public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
         public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
+
+        // Keys on Dev
+        //public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
+        //public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
 
         // Ryan's Dev keys
         //private const string ClientId = "yrizdmqzb9jw4bf6c3cged90xyjyzlzy";

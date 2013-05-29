@@ -22,3 +22,4 @@ C:\Dev\Box.V2\Box.V2\bin\Debug\System.Threading.Tasks.xml
 C:\Dev\Box.V2\Box.V2\obj\Debug\Box.V2.csproj.App.config
 C:\Dev\Box.V2\Box.V2\obj\Debug\Box.V2.dll
 C:\Dev\Box.V2\Box.V2\obj\Debug\Box.V2.pdb
+C:\Dev\Box.V2\Box.V2\obj\Debug\Box.V2.csprojResolveAssemblyReference.cache

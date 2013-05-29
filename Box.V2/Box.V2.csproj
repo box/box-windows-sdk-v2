@@ -38,6 +38,7 @@
     <Compile Include="BoxWrappers\BoxError.cs" />
     <Compile Include="BoxWrappers\BoxMultiPartRequest.cs" />
     <Compile Include="BoxWrappers\BoxResponse.cs" />
+    <Compile Include="BoxWrappers\BoxResponseExtensions.cs" />
     <Compile Include="BoxWrappers\Contracts\IBoxResponse.cs" />
     <Compile Include="BoxWrappers\BoxFormPart.cs" />
     <Compile Include="BoxWrappers\IBoxFormPart.cs" />
@@ -54,7 +55,12 @@
     <Compile Include="Managers\BoxCollaborationsManager.cs" />
     <Compile Include="Managers\BoxResourceManager.cs" />
     <Compile Include="Models\BoxEntity.cs" />
+    <Compile Include="Models\BoxEnums.cs" />
+    <Compile Include="Models\Collaboration.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Permission.cs" />
+    <Compile Include="Models\Request\BoxEmailRequest.cs" />
+    <Compile Include="Models\Request\BoxItemRequest.cs" />
     <Compile Include="Models\Request\BoxSharedLinkRequest.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\File.cs" />

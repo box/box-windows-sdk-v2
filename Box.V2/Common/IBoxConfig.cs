@@ -7,8 +7,8 @@ namespace Box.V2.Contracts
 {
     public interface IBoxConfig
     {
-        Uri BoxApiUri { get; }
         Uri BoxApiHostUri { get; }
+        Uri BoxApiUri { get; }
         Uri BoxUploadApiUri { get; }
 
         string ClientId { get; }

@@ -7,18 +7,14 @@ namespace Box.V2
 {
     public static class Constants
     {
-        ///*** Base API URIs ***/
+        /*** Base API URIs ***/
         public const string BoxApiHostUriString = "https://www.box.com/api/";
-        public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
-
-        //public const string BoxApiHostUriString = "https://rlopopolo.inside-box.net/api/";
-        //public const string BoxUploadApiUriString = "https://upload.rlopopolo.inside-box.net/api/2.0";
-        //public const string BoxApiUriString = "https://rlopopolo.inside-box.net/api/2.0";
+        public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
 
         //public const string BoxApiHostUriString = "https://btang.inside-box.net/api/";
-        //public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0";
         //public const string BoxApiUriString = "https://btang.inside-box.net/api/2.0";
+        //public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0";
 
 
         /*** API Endpoints ***/
@@ -35,7 +31,7 @@ namespace Box.V2
 
         public const string ItemsPathString = @"{0}/items";
         public const string VersionsPathString = @"{0}/versions";
-        public const string CopyPathString = @"copy";
+        public const string CopyPathString = @"{0}/copy";
         public const string CommentsPathString = @"{0}/comments";
         public const string ThumbnailPathString = @"{0}/thumbnail.extension";
         public const string TrashPathString = @"{0}/trash";

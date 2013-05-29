@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Box.V2.Models
 {
-    public abstract class Item : BoxEntity
+    public class Item : BoxEntity
     {
         /// <summary>
         /// A unique ID for use with the /events endpoint

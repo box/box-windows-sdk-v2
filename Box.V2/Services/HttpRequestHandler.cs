@@ -36,9 +36,12 @@ namespace Box.V2.Services
 
             BoxResponse<T> boxResponse = new BoxResponse<T>()
             {
+                // Sets the status to success, unauthorized, or error
                 Status = response.IsSuccessStatusCode ?
                     ResponseStatus.Success :
-                    ResponseStatus.Error,
+                    response.StatusCode == System.Net.HttpStatusCode.Unauthorized ? 
+                        ResponseStatus.Unauthorized :
+                        ResponseStatus.Error
             };
 
             if (typeof(T) == typeof(byte[]))
@@ -65,24 +68,25 @@ namespace Box.V2.Services
 
             switch (request.Method)
             {
+                case RequestMethod.GET:
+                    httpRequest.Method = HttpMethod.Get;
+                    return httpRequest;
                 case RequestMethod.PUT:
                     httpRequest.Method = HttpMethod.Put;
-                    httpRequest.Content = new StringContent(request.GetQueryString());
                     break;
                 case RequestMethod.DELETE:
                     httpRequest.Method = HttpMethod.Delete;
-                    httpRequest.Content = new StringContent(request.GetQueryString());
                     break;
                 case RequestMethod.POST:
                     httpRequest.Method = HttpMethod.Post;
-                    httpRequest.Content  = new FormUrlEncodedContent(request.PayloadParameters);
-                    break;
-                case RequestMethod.GET:
-                    httpRequest.Method = HttpMethod.Get;
                     break;
                 default:
                     throw new InvalidOperationException("Http method not supported");
             }
+
+            httpRequest.Content = !string.IsNullOrWhiteSpace(request.Payload) ?
+                (HttpContent)new StringContent(request.Payload) :
+                (HttpContent)new FormUrlEncodedContent(request.PayloadParameters);
 
             return httpRequest;
         }
@@ -119,7 +123,7 @@ namespace Box.V2.Services
 
         /// <summary>
         /// Adds quotes around the named parameters
-        /// This is unfortunately required as the API will currently not take parameters without quotes
+        /// This is required as the API will currently not take multi-part parameters without quotes
         /// </summary>
         /// <param name="name">The name parameter to add quotes to</param>
         /// <returns>The name parameter surrounded by quotes</returns>

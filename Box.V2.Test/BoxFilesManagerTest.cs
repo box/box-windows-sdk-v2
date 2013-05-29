@@ -199,12 +199,11 @@ namespace Box.V2.Test
 
             BoxSharedLinkRequest sharedLink = new BoxSharedLinkRequest()
             {
-                Id = "0",
-                Access = "collaborators"
+                Access = BoxSharedLinkAccessType.collaborators
             };
 
             /*** Act ***/
-            File f = await _filesManager.CreateSharedLinkAsync(sharedLink);
+            File f = await _filesManager.CreateSharedLinkAsync("0", sharedLink);
 
             /*** Assert ***/
             Assert.AreEqual("5000948880", f.Id);

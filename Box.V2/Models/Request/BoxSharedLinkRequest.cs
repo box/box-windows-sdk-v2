@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,16 @@ using System.Text;
 namespace Box.V2.Models
 {
     /// <summary>
-    /// An object representing this item’s shared link and associated permissions
+    /// An object representing the request to create a shared link
     /// </summary>
-    public class BoxSharedLinkRequest : BoxRequestEntity
+    public class BoxSharedLinkRequest
     {
         /// <summary>
         /// The level of access required for this shared link. Can be open, company, collaborators
         /// </summary>
         [JsonProperty(PropertyName = "access")]
-        public string Access { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public BoxSharedLinkAccessType? Access { get; set; }
 
         /// <summary>
         /// The day that this link should be disabled at. Timestamps are rounded off to the given day.
@@ -30,3 +32,4 @@ namespace Box.V2.Models
         public BoxPermissionsRequest Permissions { get; set; }
     }
 }
+

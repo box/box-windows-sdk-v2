@@ -9,6 +9,14 @@ namespace Box.V2.Services
 {
     public class BoxJsonConverter : IBoxConverter
     {
+        JsonSerializerSettings _settings;
+
+        public BoxJsonConverter()
+        {
+            _settings = new JsonSerializerSettings();
+            _settings.NullValueHandling = NullValueHandling.Ignore;
+        }
+
         public T Parse<T>(string content)
         {
             return JsonConvert.DeserializeObject<T>(content);
@@ -16,7 +24,7 @@ namespace Box.V2.Services
 
         public string Serialize<T>(T entity)
         {
-            return JsonConvert.SerializeObject(entity);
+            return JsonConvert.SerializeObject(entity, _settings);
         }
     }
 }

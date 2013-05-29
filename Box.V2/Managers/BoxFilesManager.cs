@@ -191,13 +191,13 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-        public async Task<File> CreateSharedLinkAsync(BoxSharedLinkRequest sharedLink)
+        public async Task<File> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLink)
         {
-            if (string.IsNullOrWhiteSpace(sharedLink.Id) ||
-                string.IsNullOrWhiteSpace(sharedLink.Access))
+            if (string.IsNullOrWhiteSpace(id) ||
+                sharedLink.Access == null)
                 throw new ArgumentException("Invalid parameters for required fields");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.CopyPathString, sharedLink.Id))
+            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, id)
                 .Method(RequestMethod.POST);
             request.Payload = _converter.Serialize(sharedLink);
             AddAuthentication(request);

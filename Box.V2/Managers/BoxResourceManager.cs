@@ -35,5 +35,16 @@ namespace Box.V2.Managers
 
             return request;
         }
+
+        protected void CheckPrerequisite(params object[] values)
+        {
+            foreach (var v in values)
+            {
+                if (v == null)
+                    throw new ArgumentException("Invalid parameters for required fields");
+                if (v.GetType() == typeof(string) && string.IsNullOrWhiteSpace(v.ToString()))
+                    throw new ArgumentException("Invalid parameters for required fields");
+            }
+        }
     }
 }

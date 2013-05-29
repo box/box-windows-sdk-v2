@@ -15,8 +15,8 @@ namespace Box.V2.Contracts
             RedirectUri = redirectUri;
         }
 
-        public Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
         public Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
+        public Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
         public Uri BoxUploadApiUri { get { return new Uri(Constants.BoxUploadApiUriString); } }
 
         public string ClientId { get; private set; }

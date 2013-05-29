@@ -30,7 +30,14 @@ namespace Box.V2.Services
             _factory = new TaskFactory(_scheduler);
         }
 
-        public async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request) 
+        /// <summary>
+        /// Executes the request according to the default TaskScheduler
+        /// This will allow for concurrent requests and is managed by the thread pool
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request)
         {
             IBoxResponse<T> response = await _handler.ExecuteAsync<T>(request);
 
@@ -52,6 +59,13 @@ namespace Box.V2.Services
             return response;
         }
 
+        /// <summary>
+        /// Executes the request using the LimitedConcurrencyLevelTaskScheduler
+        /// This will force the tasks in the queue to be executed sequentially
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<IBoxResponse<T>> EnqueueAsync<T>(IBoxRequest request)
         {
             Task<IBoxResponse<T>> t = _factory.StartNew(async () => await ToResponseAsync<T>(request)).Unwrap();

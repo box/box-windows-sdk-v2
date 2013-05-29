@@ -6,25 +6,8 @@ using System.Text;
 
 namespace Box.V2.Models
 {
-    public class BoxFileRequest : BoxRequestEntity
+    public class BoxFileRequest : BoxItemRequest
     {
-        /// <summary>
-        /// The folder that contains this file
-        /// </summary>
-        [JsonProperty(PropertyName = "parent")]
-        public BoxRequestEntity Parent { get; set; }
-
-        /// <summary>
-        /// The name of the file 
-        /// </summary>
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// The new description for the file
-        /// </summary>
-        [JsonProperty(PropertyName = "description")]
-        public string Description { get; set; }
 
         /// <summary>
         /// The time this file was created on the user’s machine.
