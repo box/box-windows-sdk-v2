@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Box.V2
 {
-    public class BoxResponse<T> : IBoxResponse<T>
+    public class BoxResponse<T> : IBoxResponse<T> where T : class
     {
         /// <summary>
-        /// The parsed model from a successful response
+        /// The object representation of a successful response
         /// </summary>
         public T ResponseObject { get; set;  }
 

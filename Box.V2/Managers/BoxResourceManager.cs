@@ -1,5 +1,6 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Contracts;
+using Box.V2.Exceptions;
 using Box.V2.Services;
 using System;
 using System.Collections.Generic;
@@ -24,27 +25,44 @@ namespace Box.V2.Managers
             _auth = auth;
         }
 
-        protected IBoxRequest AddAuthentication(IBoxRequest request)
+        protected IBoxRequest AddDefaultHeaders(IBoxRequest request)
         {
-            request
-                .Header("Authorization", string.Format("Bearer {0}", _auth.Session.AccessToken));
-                //.Header("Accept", "*/*");
-                //.Header("User-Agent", _config.UserAgent ?? string.Empty);
+            request.Header("User-Agent", _config.UserAgent ?? string.Empty);
                 //.Param("device_id", _config.DeviceId ?? string.Empty)
                 //.Param("device_name", _config.DeviceName ?? string.Empty);
 
             return request;
         }
 
-        protected void CheckPrerequisite(params object[] values)
+        protected void CheckPrerequisite(params string[] values)
         {
             foreach (var v in values)
             {
-                if (v == null)
-                    throw new ArgumentException("Invalid parameters for required fields");
-                if (v.GetType() == typeof(string) && string.IsNullOrWhiteSpace(v.ToString()))
-                    throw new ArgumentException("Invalid parameters for required fields");
+                if (string.IsNullOrWhiteSpace(v.ToString()))
+                    throw new ArgumentException("Value for a required field cannot be null or empty");
             }
         }
+
+        protected async Task<IBoxResponse<T>> RetryExpiredTokenRequest<T>(IBoxRequest request)
+            where T : class
+        {
+            OAuthSession newSession = await _auth.RefreshAccessTokenAsync(request.Authorization);
+            request.Authorize(newSession.AccessToken);
+            return await _service.ToResponseAsync<T>(request);
+        }
+
+        protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, bool queueRequest = false)
+            where T : class
+        {
+            var response = queueRequest ? 
+                await _service.EnqueueAsync<T>(request) :
+                await _service.ToResponseAsync<T>(request);
+
+            if (response.Status == ResponseStatus.Unauthorized)
+                response = await RetryExpiredTokenRequest<T>(request);
+
+            return response.ParseResults(_converter);
+        }
+
     }
 }

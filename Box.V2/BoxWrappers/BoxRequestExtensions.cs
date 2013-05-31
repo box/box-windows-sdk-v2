@@ -26,7 +26,11 @@ namespace Box.V2
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException();
 
-            request.HttpHeaders.Add(name, value);
+            // Don't add a parameter that does not have a value
+            if (string.IsNullOrWhiteSpace(value))
+                return request;
+
+            request.HttpHeaders[name] = value;
 
             return request;
         }
@@ -46,17 +50,18 @@ namespace Box.V2
             if (string.IsNullOrWhiteSpace(value))
                 return request;
 
-            request.PayloadParameters.Add(name, value);
+            request.PayloadParameters[name] = value;
 
             return request;
         }
 
-        public static T Authenticate<T>(this T request, string accessToken) where T : IBoxRequest
+        public static T Authorize<T>(this T request, string accessToken) where T : IBoxRequest
         {
             if (string.IsNullOrEmpty(accessToken))
                 throw new ArgumentNullException();
 
-            request.HttpHeaders.Add("Authorization", string.Format("Bearer {0}", accessToken));
+            request.Authorization = accessToken;
+            request.Header("Authorization", string.Format("Bearer {0}", accessToken));
 
             return request;
         }
@@ -69,6 +74,21 @@ namespace Box.V2
             request.Parts.Add(formPart);
 
             return request;
+        }
+
+
+        /// <summary>
+        /// Checks if the object is null 
+        /// </summary>
+        /// <typeparam name="T">Type of the object being checked</typeparam>
+        /// <param name="param"></param>
+        /// <param name="name"></param>
+        public static T ThrowIfNull<T>(this T param, string name) where T : class
+        {
+            if (param == null)
+                throw new ArgumentNullException(name);
+
+            return param;
         }
     }
 }

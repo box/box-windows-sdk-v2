@@ -23,17 +23,14 @@ namespace Box.V2.Managers
         /// <param name="offset"></param>
         public async Task<Folder> GetItemsAsync(string id, int limit, int offset = 0)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("Invalid parameters for required fields");
-
-            string accessToken = _auth.Session.AccessToken;
+            CheckPrerequisite(id);
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
-                .Authenticate(accessToken)
                 .Param("limit", limit.ToString())
-                .Param("offset", offset.ToString());
+                .Param("offset", offset.ToString())
+                .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
 
             return response.ResponseObject;
         }
@@ -45,17 +42,16 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Folder> CreateAsync(BoxFolderRequest folderRequest)
         {
-            if (folderRequest == null ||
-            string.IsNullOrEmpty(folderRequest.Name) ||
-            string.IsNullOrEmpty(folderRequest.Parent.Id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(folderRequest.ThrowIfNull("folderRequest").Name,
+                folderRequest.Parent.ThrowIfNull("folderRequest.Parent").Id);
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri)
-                .Method(RequestMethod.POST);
+                .Method(RequestMethod.POST)
+                .Authorize(_auth.Session.AccessToken);
             request.Payload = _converter.Serialize<BoxFolderRequest>(folderRequest);
-            AddAuthentication(request);
 
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
+
 
             return response.ResponseObject;
         }
@@ -68,15 +64,14 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Folder> GetInformationAsync(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(id);
 
             string accessToken = _auth.Session.AccessToken;
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
-                .Authenticate(accessToken);
+                .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
 
             return response.ResponseObject;
         }
@@ -87,17 +82,15 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Folder> CopyAsync(BoxFolderRequest folderRequest)
         {
-            if (folderRequest == null ||
-                string.IsNullOrWhiteSpace(folderRequest.Id) ||
-                string.IsNullOrEmpty(folderRequest.Parent.Id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(folderRequest.ThrowIfNull("folderRequest").Id,
+                folderRequest.Parent.ThrowIfNull("folderRequest.Parent").Id);
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CopyPathString, folderRequest.Id))
-                    .Method(RequestMethod.POST);
+                    .Method(RequestMethod.POST)
+                    .Authorize(_auth.Session.AccessToken);
             request.Payload = _converter.Serialize(folderRequest);
-            AddAuthentication(request);
-
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
 
             return response.ResponseObject;
         }
@@ -108,17 +101,16 @@ namespace Box.V2.Managers
         /// if it knows about the latest version.
         /// </summary>
         /// <returns></returns>
-        public async Task<Folder> DeleteAsync(string id, bool recursive)
+        public async Task<Folder> DeleteAsync(string id, bool recursive = false)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(id);
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.DELETE)
+                .Authorize(_auth.Session.AccessToken)
                 .Param("recursive", recursive.ToString());
-            AddAuthentication(request);
 
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
 
             return response.ResponseObject;
         }
@@ -132,16 +124,14 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Folder> UpdateInformationAsync(BoxFolderRequest folderRequest)
         {
-            if (folderRequest == null || 
-                string.IsNullOrWhiteSpace(folderRequest.Id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(folderRequest.ThrowIfNull("folderRequest").Id);
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
-                    .Method(RequestMethod.PUT);
+                    .Method(RequestMethod.PUT)
+                    .Authorize(_auth.Session.AccessToken);
             request.Payload = _converter.Serialize(folderRequest);
-            AddAuthentication(request);
 
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
 
             return response.ResponseObject;
         }
@@ -154,14 +144,16 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Folder> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest)
         {
-            CheckPrerequisite(id, sharedLinkRequest.Access);
+            CheckPrerequisite(id);
+            if (!sharedLinkRequest.ThrowIfNull("sharedLinkRequest").Access.HasValue)
+                throw new ArgumentException("sharedLinkRequest.Access");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
-                .Method(RequestMethod.PUT);
+                .Method(RequestMethod.PUT)
+                .Authorize(_auth.Session.AccessToken);
             request.Payload = _converter.Serialize(new BoxItemRequest(){ SharedLink = sharedLinkRequest });
-            AddAuthentication(request);
 
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
 
             return response.ResponseObject;
         }
@@ -172,13 +164,12 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Collection<Collaboration>> GetCollaborationsAsync(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(id);
 
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CollaborationsPathString, id));
-            AddAuthentication(request);
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CollaborationsPathString, id))
+                .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<Collection<Collaboration>> response = await _service.ToResponseAsync<Collection<Collaboration>>(request);
+            IBoxResponse<Collection<Collaboration>> response = await ToResponseAsync<Collection<Collaboration>>(request);
 
             return response.ResponseObject;
         }
@@ -193,16 +184,15 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Collection<Item>> GetTrashItemsAsync(string id, int limit, int offset = 0, string fields = null)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(id);
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
-                .Param("fields", fields);
-            AddAuthentication(request);
+                .Param("fields", fields)
+                .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<Collection<Item>> response = await _service.ToResponseAsync<Collection<Item>>(request);
+            IBoxResponse<Collection<Item>> response = await ToResponseAsync<Collection<Item>>(request);
 
             return response.ResponseObject;
         }
@@ -215,17 +205,15 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Folder> RestoreTrashedFolderAsync(BoxFolderRequest folderRequest)
         {
-            if (folderRequest == null ||
-                string.IsNullOrWhiteSpace(folderRequest.Id) ||
-                string.IsNullOrWhiteSpace(folderRequest.Parent.Id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(folderRequest.ThrowIfNull("folderRequest").Id,
+                folderRequest.Parent.ThrowIfNull("folderRequest.Parent").Id);
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
-                    .Method(RequestMethod.POST);
+                    .Method(RequestMethod.POST)
+                    .Authorize(_auth.Session.AccessToken);
             request.Payload = _converter.Serialize(folderRequest);
-            AddAuthentication(request);
 
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
 
             return response.ResponseObject;
         }
@@ -236,14 +224,13 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Folder> PurgeTrashedFolderAsync(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(id);
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
-                .Method(RequestMethod.DELETE);
-            AddAuthentication(request);
+                .Method(RequestMethod.DELETE)
+                .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
 
             return response.ResponseObject;
         }
@@ -254,13 +241,12 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Folder> GetTrashedFolderAsync(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(id);
 
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id));
-            AddAuthentication(request);
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
+                .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
+            IBoxResponse<Folder> response = await ToResponseAsync<Folder>(request);
 
             return response.ResponseObject;
         }

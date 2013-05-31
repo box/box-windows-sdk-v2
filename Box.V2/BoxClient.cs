@@ -23,9 +23,10 @@ namespace Box.V2
             
             IRequestHandler handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
-            _service = new BoxService(_converter, handler);
 
-            Auth = new AuthRepository(_config, _service, authSession);
+            _service = new BoxService(handler);
+
+            Auth = new AuthRepository(_config, _service, _converter, authSession);
 
             InitManagers();
         }

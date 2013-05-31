@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Box.V2
 {
-    public interface IBoxResponse<T>
+    public interface IBoxResponse<T> where T : class
     {
         /// <summary>
         /// The response object from a successful response

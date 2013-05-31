@@ -1,4 +1,5 @@
-﻿using Box.V2.Exceptions;
+﻿using Box.V2.Auth;
+using Box.V2.Exceptions;
 using Box.V2.Models;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,13 @@ namespace Box.V2.Services
 {
     public class BoxService : IBoxService
     {
-        private IBoxConverter _parser;
         private IRequestHandler _handler;
-        private static object _lock = new object();
 
         LimitedConcurrencyLevelTaskScheduler _scheduler;
         TaskFactory _factory;
 
-        public BoxService(IBoxConverter parser, IRequestHandler handler)
+        public BoxService(IRequestHandler handler)
         {
-            _parser = parser;
             _handler = handler;
 
             // This ensures that only one task is executed at a time 
@@ -38,25 +36,9 @@ namespace Box.V2.Services
         /// <param name="request"></param>
         /// <returns></returns>
         public async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request)
+            where T : class
         {
-            IBoxResponse<T> response = await _handler.ExecuteAsync<T>(request);
-
-            switch (response.Status)
-            {
-                case ResponseStatus.Success:
-                    if (!string.IsNullOrWhiteSpace(response.ContentString))
-                        response.ResponseObject = _parser.Parse<T>(response.ContentString);
-                    break;
-                case ResponseStatus.Error:
-                    if (!string.IsNullOrWhiteSpace(response.ContentString))
-                    {
-                        response.Error = _parser.Parse<BoxError>(response.ContentString);
-                        throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description));
-                    }
-                    break;
-            }
-
-            return response;
+            return await _handler.ExecuteAsync<T>(request);
         }
 
         /// <summary>
@@ -67,6 +49,7 @@ namespace Box.V2.Services
         /// <param name="request"></param>
         /// <returns></returns>
         public async Task<IBoxResponse<T>> EnqueueAsync<T>(IBoxRequest request)
+            where T : class
         {
             Task<IBoxResponse<T>> t = _factory.StartNew(async () => await ToResponseAsync<T>(request)).Unwrap();
             return await t;

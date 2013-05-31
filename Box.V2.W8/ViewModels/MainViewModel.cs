@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -16,6 +17,7 @@ using Windows.Foundation;
 using Windows.Security.Authentication.Web;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI.Notifications;
 using Windows.UI.Popups;
 
@@ -154,7 +156,6 @@ namespace Box.V2.W8.ViewModels
         public async void Init()
         {
             OAuthSession session = null;
-            //session = new OAuthSession("l3iueabbUADqNCPOJlXzthJRliSpdyFt", "DmFLf5Pb5M0DR76SIW8evarPw3qNedD7msPwD5vez1cWXu0DnjbMcJHmvMlYxie3", 3600, "bearer");
 
             _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
             _client = new BoxClient(_config, session);
@@ -252,9 +253,18 @@ namespace Box.V2.W8.ViewModels
             fileSavePicker.FileTypeChoices.Add(ext, new string[] { ext });
             StorageFile saveFile = await fileSavePicker.PickSaveFileAsync();
 
-            byte[] data = await _client.FilesManager.DownloadBytesAsync(SelectedItem.Id);
+            //HttpClient hc = new HttpClient();
+            //HttpClientHandler handler = new HttpClientHandler();
+            //hc.DefaultRequestHeaders.Add("Authorization", string.Format("Bearer {0}", _client.Auth.Session.AccessToken));
+            //using (Stream dataStream = await hc.GetStreamAsync(string.Format("https://api.box.com/2.0/files/{0}/content", SelectedItem.Id)))
+            using (Stream dataStream = await _client.FilesManager.DownloadStreamAsync(SelectedItem.Id))
+            using (var writeStream = await saveFile.OpenStreamForWriteAsync())
+            {
+                await dataStream.CopyToAsync(writeStream);
+            }
 
-            await Windows.Storage.FileIO.WriteBytesAsync(saveFile, data);
+            //byte[] data = await _client.FilesManager.DownloadBytesAsync(SelectedItem.Id);
+            //await Windows.Storage.FileIO.WriteBytesAsync(saveFile, data);
 
             await new MessageDialog(string.Format("File Saved to: {0}", saveFile.Path)).ShowAsync();
         }

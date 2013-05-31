@@ -9,6 +9,10 @@ namespace Box.V2
 {
     public interface IBoxRequest
     {
+        Uri Host { get; }
+
+        string Path { get; }
+
         Dictionary<string, string> HttpHeaders { get; }
 
         Dictionary<string, string> Parameters { get; }
@@ -17,9 +21,7 @@ namespace Box.V2
 
         string Payload { get; }
 
-        string Path { get; }
-
-        Uri Host { get; }
+        string Authorization { get; set; }
 
         RequestMethod Method { get; set;  }
 

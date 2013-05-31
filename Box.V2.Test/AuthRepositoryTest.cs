@@ -21,10 +21,10 @@ namespace Box.V2.Test
         {
             // Arrange
             IRequestHandler handler = new HttpRequestHandler();
-            IBoxService service = new BoxService(_converter, handler);
+            IBoxService service = new BoxService(handler);
             IBoxConfig config = new BoxConfig(null, null, null);
 
-            IAuthRepository authRepository = new AuthRepository(config, service);
+            IAuthRepository authRepository = new AuthRepository(config, service, _converter);
 
             // Act
             OAuthSession response = await authRepository.AuthenticateAsync("fakeAuthorizationCode");

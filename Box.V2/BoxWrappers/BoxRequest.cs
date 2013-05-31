@@ -37,6 +37,8 @@ namespace Box.V2
 
         public string Payload { get; set; }
 
+        public string Authorization { get; set; }
+
         /// <summary>
         /// Returns the full Uri including host, path, and querystring
         /// </summary>

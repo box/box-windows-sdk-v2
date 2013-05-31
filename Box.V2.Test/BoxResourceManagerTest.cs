@@ -27,10 +27,10 @@ namespace Box.V2.Test
             // Initial Setup
             _converter = new BoxJsonConverter();
             _handler = new Mock<IRequestHandler>();
-            _service = new BoxService(_converter, _handler.Object);
+            _service = new BoxService(_handler.Object);
             _config = new Mock<IBoxConfig>();
 
-            _authRepository = new AuthRepository(_config.Object, _service, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
+            _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
     }
 }

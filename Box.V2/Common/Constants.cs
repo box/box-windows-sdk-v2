@@ -13,8 +13,8 @@ namespace Box.V2
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
 
         //public const string BoxApiHostUriString = "https://btang.inside-box.net/api/";
-        //public const string BoxApiUriString = "https://btang.inside-box.net/api/2.0";
-        //public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0";
+        //public const string BoxApiUriString = "https://btang.inside-box.net/api/2.0/";
+        //public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0/";
 
 
         /*** API Endpoints ***/

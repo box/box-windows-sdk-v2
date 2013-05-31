@@ -13,17 +13,18 @@ namespace Box.V2.Services
     public class HttpRequestHandler : IRequestHandler
     {
         private static HttpClient _client;
+        private HttpClientHandler _handler;
 
         public HttpRequestHandler()
         {
-            _client = new HttpClient();
+            _handler = new HttpClientHandler();
+            _client = new HttpClient(_handler);
+            //_client.MaxResponseContentBufferSize = 1024 * 16;
         }
 
         public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request) 
+            where T : class
         {
-            HttpClientHandler handler = new HttpClientHandler();
-            //client.MaxResponseContentBufferSize = 25500;
-
             HttpRequestMessage httpRequest = request.GetType() == typeof(BoxMultiPartRequest) ?
                                                 BuildMultiPartRequest(request as BoxMultiPartRequest) :
                                                 BuildRequest(request);
@@ -31,8 +32,8 @@ namespace Box.V2.Services
             // Add headers
             foreach (var kvp in request.HttpHeaders)
                 httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
-            
-            HttpResponseMessage response = await _client.SendAsync(httpRequest);
+
+            HttpResponseMessage response = await _client.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead);
 
             BoxResponse<T> boxResponse = new BoxResponse<T>()
             {
@@ -44,15 +45,16 @@ namespace Box.V2.Services
                         ResponseStatus.Error
             };
 
-            if (typeof(T) == typeof(byte[]))
-            {
-                var resObj = await response.Content.ReadAsByteArrayAsync();
-                boxResponse.ResponseObject = (T)Convert.ChangeType(resObj, typeof(T), null);
-            }
-            else if (typeof(T) == typeof(MemoryStream))
+            //if (typeof(T) == typeof(byte[]))
+            //{
+            //    var resObj = await response.Content.ReadAsByteArrayAsync();
+            //    boxResponse.ResponseObject = (T)Convert.ChangeType(resObj, typeof(T), null);
+            //}
+            if (typeof(T) == typeof(Stream))
             {
                 var resObj = await response.Content.ReadAsStreamAsync();
-                boxResponse.ResponseObject = (T)Convert.ChangeType(resObj, typeof(T), null);
+
+                boxResponse.ResponseObject = resObj as T;
             }
             else
                 boxResponse.ContentString = await response.Content.ReadAsStringAsync();

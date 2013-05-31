@@ -10,6 +10,7 @@ namespace Box.V2.Services
 {
     public interface IRequestHandler
     {
-        Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request);
+        Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
+            where T : class;
     }
 }

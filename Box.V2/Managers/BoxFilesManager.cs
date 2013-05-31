@@ -25,10 +25,12 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<File> GetInformationAsync(string id)
         {
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id);
-            AddAuthentication(request);
+            CheckPrerequisite(id);
 
-            IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+                .Authorize(_auth.Session.AccessToken);
+
+            IBoxResponse<File> response = await ToResponseAsync<File>(request);
 
             return response.ResponseObject;
         }
@@ -40,10 +42,12 @@ namespace Box.V2.Managers
         /// <returns>byte[] of the requested file</returns>
         public async Task<byte[]> DownloadBytesAsync(string id)
         {
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id));
-            AddAuthentication(request);
+            CheckPrerequisite(id);
 
-            IBoxResponse<byte[]> response = await _service.EnqueueAsync<byte[]>(request);
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
+                .Authorize(_auth.Session.AccessToken);
+
+            IBoxResponse<byte[]> response = await ToResponseAsync<byte[]>(request, true);
 
             return response.ResponseObject;
         }
@@ -53,12 +57,14 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">Id of the file to download</param>
         /// <returns>MemoryStream of the requested file</returns>
-        public async Task<MemoryStream> DownloadStreamAsync(string id)
+        public async Task<Stream> DownloadStreamAsync(string id)
         {
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id));
-            AddAuthentication(request);
+            CheckPrerequisite(id);
 
-            IBoxResponse<MemoryStream> response = await _service.ToResponseAsync<MemoryStream>(request);
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
+                .Authorize(_auth.Session.AccessToken);
+
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
 
             return response.ResponseObject;
         }
@@ -67,74 +73,73 @@ namespace Box.V2.Managers
         /// Uploads a provided file to the target parent folder
         /// If the file already exists, an error will be thrown
         /// </summary>
-        /// <param name="fileReq"></param>
+        /// <param name="fileRequest"></param>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public async Task<File> UploadAsync(BoxFileRequest fileReq, Stream stream)
+        public async Task<File> UploadAsync(BoxFileRequest fileRequest, Stream stream)
         {
-            if (string.IsNullOrWhiteSpace(fileReq.Name) ||
-                string.IsNullOrWhiteSpace(fileReq.Parent.Id) ||
-                stream == null)
-                throw new ArgumentException("Invalid parameters for required fields");
+            stream.ThrowIfNull("stream");
+            CheckPrerequisite(
+                fileRequest.ThrowIfNull("fileRequest").Name,
+                fileRequest.Parent.ThrowIfNull("fileRequest.Parent").Id);
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri)
+                .Authorize(_auth.Session.AccessToken)
                 .FormPart(new BoxStringFormPart()
                 {
                     Name = "metadata",
-                    Value = _converter.Serialize(fileReq)
+                    Value = _converter.Serialize(fileRequest)
                 })
                 .FormPart(new BoxFileFormPart()
                 {
                     Name = "file",
                     Value = stream,
-                    FileName = fileReq.Name
+                    FileName = fileRequest.Name
                 });
-            AddAuthentication(request);
 
-            IBoxResponse<Collection<File>> response = await _service.ToResponseAsync<Collection<File>>(request);
+            IBoxResponse<Collection<File>> response = await ToResponseAsync<Collection<File>>(request, true);
 
             // We can only upload one file at a time, so return the first entry
             return response.ResponseObject.Entries.FirstOrDefault();
         }
 
-        public async Task<File> UploadAsync(BoxFileRequest fileReq, byte[] file)
+        public async Task<File> UploadAsync(BoxFileRequest fileRequest, byte[] file)
         {
-            if (string.IsNullOrWhiteSpace(fileReq.Name) ||
-                string.IsNullOrWhiteSpace(fileReq.Parent.Id))
-                throw new ArgumentException("Invalid parameters for required fields");
+
+            file.ThrowIfNull("file");
+            CheckPrerequisite(
+                fileRequest.ThrowIfNull("fileRequest").Name,
+                fileRequest.Parent.ThrowIfNull("fileRequest.Parent").Id);
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri)
+                .Authorize(_auth.Session.AccessToken)
                 .FormPart(new BoxStringFormPart()
                 {
                     Name = "metadata",
-                    Value = _converter.Serialize(fileReq)
+                    Value = _converter.Serialize(fileRequest)
                 });
 
-            AddAuthentication(request);
-
-            IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
+            IBoxResponse<File> response = await ToResponseAsync<File>(request, true);
 
             return response.ResponseObject;
         }
 
         public async Task<File> UploadNewVersionAsync(string etag, string fileName, Stream stream)
         {
-            if (string.IsNullOrWhiteSpace(etag) ||
-                    string.IsNullOrWhiteSpace(fileName) ||
-                    stream == null)
-                throw new ArgumentException("Invalid parameters for required fields");
+            stream.ThrowIfNull("stream");
+            CheckPrerequisite(etag, fileName);
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri)
                 .Header("If-Match", etag)
+                .Authorize(_auth.Session.AccessToken)
                 .FormPart(new BoxFileFormPart()
                 {
                     Name = "filename",
                     Value = stream,
                     FileName = fileName
                 });
-            AddAuthentication(request);
 
-            IBoxResponse<Collection<File>> response = await _service.ToResponseAsync<Collection<File>>(request);
+            IBoxResponse<Collection<File>> response = await ToResponseAsync<Collection<File>>(request);
 
             // We can only upload one file at a time, so return the first entry
             return response.ResponseObject.Entries.FirstOrDefault();
@@ -142,20 +147,24 @@ namespace Box.V2.Managers
 
         public async Task<File> ViewVersionsAsync(string id)
         {
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.VersionsPathString, id));
-            AddAuthentication(request);
+            CheckPrerequisite(id);
 
-            IBoxResponse<Collection<File>> response = await _service.ToResponseAsync<Collection<File>>(request);
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.VersionsPathString, id))
+                .Authorize(_auth.Session.AccessToken);
+
+            IBoxResponse<Collection<File>> response = await ToResponseAsync<Collection<File>>(request);
 
             return response.ResponseObject.Entries.FirstOrDefault();
         }
 
         public async Task<File> UpdateInformationAsync(BoxFileRequest fileRequest)
         {
+            CheckPrerequisite(fileRequest.ThrowIfNull("fileRequest").Id);
+
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
-                .Method(RequestMethod.PUT);
+                .Method(RequestMethod.PUT)
+                .Authorize(_auth.Session.AccessToken);
             request.Payload = _converter.Serialize(fileRequest);
-            AddAuthentication(request);
 
             IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
 
@@ -164,45 +173,45 @@ namespace Box.V2.Managers
 
         public async Task<bool> DeleteAsync(string id, string etag)
         {
+            CheckPrerequisite(id, etag);
+
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, id)
                 .Method(RequestMethod.DELETE)
+                .Authorize(_auth.Session.AccessToken)
                 .Header("If-Match", etag);
 
-            AddAuthentication(request);
-
-            IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
+            IBoxResponse<File> response = await ToResponseAsync<File>(request);
 
             return response.Status == ResponseStatus.Success;
         }
 
-        public async Task<File> CopyAsync(BoxFileRequest fileReq)
+        public async Task<File> CopyAsync(BoxFileRequest fileRequest)
         {
-            if (string.IsNullOrWhiteSpace(fileReq.Name) ||
-                string.IsNullOrWhiteSpace(fileReq.Parent.Id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(fileRequest.ThrowIfNull("fileRequest").Name,
+                fileRequest.Parent.ThrowIfNull("fileRequest.Parent").Id);
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.CopyPathString, fileReq.Id))
-                .Method(RequestMethod.POST);
-            request.Payload = _converter.Serialize(fileReq);
-            AddAuthentication(request);
+            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.CopyPathString, fileRequest.Id))
+                .Method(RequestMethod.POST)
+                .Authorize(_auth.Session.AccessToken);
+            request.Payload = _converter.Serialize(fileRequest);
 
-            IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
+            IBoxResponse<File> response = await ToResponseAsync<File>(request);
 
             return response.ResponseObject;
         }
 
         public async Task<File> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLink)
         {
-            if (string.IsNullOrWhiteSpace(id) ||
-                sharedLink.Access == null)
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(id);
+            if (!sharedLink.ThrowIfNull("sharedLink").Access.HasValue)
+                throw new ArgumentException("A required field is missing", "sharedLink.Access");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, id)
-                .Method(RequestMethod.POST);
+                .Method(RequestMethod.POST)
+                .Authorize(_auth.Session.AccessToken);
             request.Payload = _converter.Serialize(sharedLink);
-            AddAuthentication(request);
 
-            IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
+            IBoxResponse<File> response = await ToResponseAsync<File>(request);
 
             return response.ResponseObject;
         }
@@ -215,13 +224,12 @@ namespace Box.V2.Managers
         /// <returns>A Collection of comment objects are returned. If there are no comments on the file, an empty comments array is returned</returns>
         public async Task<Collection<Comment>> GetCommentsAsync(string id)
         {
-            if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException("Invalid parameters for required fields");
+            CheckPrerequisite(id);
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.CommentsPathString, id));
-            AddAuthentication(request);
+            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.CommentsPathString, id))
+                .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<Collection<Comment>> response = await _service.ToResponseAsync<Collection<Comment>>(request);
+            IBoxResponse<Collection<Comment>> response = await ToResponseAsync<Collection<Comment>>(request);
 
             return response.ResponseObject;
         }
@@ -243,13 +251,13 @@ namespace Box.V2.Managers
                 throw new ArgumentException("Invalid parameters for required fields");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.ThumbnailPathString, id))
+                .Authorize(_auth.Session.AccessToken)
                 .Param("min_height", minHeight.ToString())
                 .Param("min_width", minWidth.ToString())
                 .Param("max_height", maxHeight.ToString())
                 .Param("max_width", maxWidth.ToString());
-            AddAuthentication(request);
 
-            IBoxResponse<Stream> response = await _service.ToResponseAsync<Stream>(request);
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
 
             return response.ResponseObject;
         }
@@ -264,10 +272,10 @@ namespace Box.V2.Managers
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentException("Invalid parameters for required fields");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.TrashPathString, id));
-            AddAuthentication(request);
+            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.TrashPathString, id))
+                .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
+            IBoxResponse<File> response = await ToResponseAsync<File>(request);
 
             return response.ResponseObject;
         }
@@ -285,11 +293,11 @@ namespace Box.V2.Managers
                 throw new ArgumentException("Invalid parameters for required fields");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, fileReq.Id)
+                .Authorize(_auth.Session.AccessToken)
                 .Method(RequestMethod.POST);
             request.Payload = _converter.Serialize(fileReq);
-            AddAuthentication(request);
 
-            IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
+            IBoxResponse<File> response = await ToResponseAsync<File>(request);
 
             return response.ResponseObject;
         }
@@ -305,10 +313,10 @@ namespace Box.V2.Managers
                 throw new ArgumentException("Invalid parameters for required fields");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.TrashPathString, id))
-                .Method(RequestMethod.DELETE);
-            AddAuthentication(request);
+                .Method(RequestMethod.DELETE)
+                .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<File> response = await _service.ToResponseAsync<File>(request);
+            IBoxResponse<File> response = await ToResponseAsync<File>(request);
 
             return response.Status == ResponseStatus.Success;
         }

@@ -15,7 +15,7 @@ namespace Box.V2.Test
     public class BoxServiceTest
     {
 
-        IBoxConverter _parser;
+        IBoxConverter _converter;
         Mock<IRequestHandler> _handler;
         IBoxService _service;
         Mock<IBoxConfig> _boxConfig;
@@ -24,14 +24,14 @@ namespace Box.V2.Test
         public BoxServiceTest()
         {
             // Initial Setup
-            _parser = new BoxJsonConverter();
+            _converter = new BoxJsonConverter();
             _handler = new Mock<IRequestHandler>();
-            _service = new BoxService(_parser, _handler.Object);
+            _service = new BoxService(_handler.Object);
             _boxConfig = new Mock<IBoxConfig>();
 
             OAuthSession session = new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer");
 
-            _authRepository = new AuthRepository(_boxConfig.Object, _service, session);
+            _authRepository = new AuthRepository(_boxConfig.Object, _service, _converter, session);
         }
 
         [TestMethod]

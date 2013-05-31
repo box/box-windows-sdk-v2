@@ -22,43 +22,43 @@
   <ItemGroup>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.exe">
       <PackagePath>Box.V2.W8.exe</PackagePath>
-      <Modified>2013-05-29T20:14:53.802</Modified>
+      <Modified>2013-05-31T03:33:36.733</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.pdb">
       <PackagePath>Box.V2.W8.pdb</PackagePath>
-      <Modified>2013-05-29T20:14:53.779</Modified>
+      <Modified>2013-05-31T03:33:36.711</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.dll">
       <PackagePath>Box.V2.dll</PackagePath>
-      <Modified>2013-05-29T20:14:52.766</Modified>
+      <Modified>2013-05-31T03:29:02.364</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.dll">
       <PackagePath>Nito.AsyncEx.dll</PackagePath>
       <Modified>2013-05-15T21:32:08.216</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll">
-      <PackagePath>Microsoft.Threading.Tasks.dll</PackagePath>
-      <Modified>2013-05-15T21:32:07.691</Modified>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
       <Modified>2013-05-08T20:11:48.892</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll">
+      <PackagePath>Microsoft.Threading.Tasks.dll</PackagePath>
+      <Modified>2013-05-15T21:32:07.691</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.pdb">
       <PackagePath>Box.V2.pdb</PackagePath>
-      <Modified>2013-05-29T20:14:52.740</Modified>
+      <Modified>2013-05-31T03:29:02.330</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.xml">
       <PackagePath>Nito.AsyncEx.xml</PackagePath>
       <Modified>2013-05-15T21:32:08.222</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml">
-      <PackagePath>Microsoft.Threading.Tasks.xml</PackagePath>
-      <Modified>2013-05-15T21:32:07.712</Modified>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.xml">
       <PackagePath>Newtonsoft.Json.xml</PackagePath>
       <Modified>2013-05-08T20:11:48.902</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml">
+      <PackagePath>Microsoft.Threading.Tasks.xml</PackagePath>
+      <Modified>2013-05-15T21:32:07.712</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>

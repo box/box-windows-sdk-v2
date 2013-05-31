@@ -15,17 +15,19 @@ namespace Box.V2.Auth
     {
         private IBoxConfig _config;
         private IBoxService _service;
+        private IBoxConverter _converter;
 
         private List<string> _expiredTokens = new List<string>();
 
         private readonly AsyncLock _mutex = new AsyncLock();
 
-        public AuthRepository(IBoxConfig boxConfig, IBoxService boxService) : this(boxConfig, boxService, null) { }
+        public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, IBoxConverter converter) : this(boxConfig, boxService, converter, null) { }
 
-        public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, OAuthSession session)
+        public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, IBoxConverter converter, OAuthSession session)
         {
             _config = boxConfig;
             _service = boxService;
+            _converter = converter;
             Session = session;
         }
 
@@ -56,6 +58,7 @@ namespace Box.V2.Auth
                                             .Payload("client_secret", _config.ClientSecret);
 
             IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest);
+            boxResponse.ParseResults(_converter);
 
             using (await _mutex.LockAsync())
                 Session = boxResponse.ResponseObject;
@@ -92,6 +95,9 @@ namespace Box.V2.Auth
 
         private async Task<OAuthSession> ExchangeRefreshToken(string refreshToken)
         {
+            if (string.IsNullOrWhiteSpace(refreshToken))
+                throw new ArgumentException("Refresh token cannot be null or empty", "refreshToken");
+
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.POST)
                                             .Payload("grant_type", "refresh_token")
@@ -100,6 +106,7 @@ namespace Box.V2.Auth
                                             .Payload("client_secret", _config.ClientSecret);
 
             IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest);
+            boxResponse.ParseResults(_converter);
 
             // Return new session
             return boxResponse.ResponseObject;
