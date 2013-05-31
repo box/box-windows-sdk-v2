@@ -22,7 +22,7 @@ namespace Box.V2
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                     {
                         response.Error = converter.Parse<BoxError>(response.ContentString);
-                        if (response.Error != null)
+                        if (response.Error != null && !string.IsNullOrWhiteSpace(response.Error.Name))
                             throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description));
                         throw new BoxException(response.ContentString);
                     }

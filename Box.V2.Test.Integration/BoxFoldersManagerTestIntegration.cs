@@ -11,8 +11,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse()
         {
-            //Folder f = await _client.FoldersManager.GetItemsAsync("811565831", 10);
-            Folder f = await _client.FoldersManager.GetItemsAsync("0", 50);
+            BoxFolder f = await _client.FoldersManager.GetItemsAsync("0", 50);
         }
 
         [TestMethod]
@@ -26,12 +25,12 @@ namespace Box.V2.Test.Integration
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
 
-            Folder f = await _client.FoldersManager.CreateAsync(folderReq);
+            BoxFolder f = await _client.FoldersManager.CreateAsync(folderReq);
 
             Assert.AreEqual(testName, f.Name);
 
             // Test Get Information
-            Folder fi = await _client.FoldersManager.GetInformationAsync(f.Id);
+            BoxFolder fi = await _client.FoldersManager.GetInformationAsync(f.Id);
 
             Assert.AreEqual(f.Id, fi.Id);
             Assert.AreEqual(testName, fi.Name);
@@ -41,7 +40,7 @@ namespace Box.V2.Test.Integration
                 Access = BoxSharedLinkAccessType.open
             };
 
-            Folder fsl = await _client.FoldersManager.CreateSharedLinkAsync(f.Id, sharedLinkReq);
+            BoxFolder fsl = await _client.FoldersManager.CreateSharedLinkAsync(f.Id, sharedLinkReq);
 
             Assert.AreEqual(BoxSharedLinkAccessType.open, fsl.SharedLink.Access);
 
@@ -54,7 +53,7 @@ namespace Box.V2.Test.Integration
                 SyncState = BoxSyncStateType.not_synced
             };
 
-            Folder uf = await _client.FoldersManager.UpdateInformationAsync(updateReq);
+            BoxFolder uf = await _client.FoldersManager.UpdateInformationAsync(updateReq);
 
             Assert.AreEqual(newTestname, uf.Name);
 
@@ -67,18 +66,13 @@ namespace Box.V2.Test.Integration
                 Name = copyTestName
             };
 
-            Folder f2 = await _client.FoldersManager.CopyAsync(copyReq);
+            BoxFolder f2 = await _client.FoldersManager.CopyAsync(copyReq);
 
             Assert.AreEqual(copyTestName, f2.Name);
 
             // Test Delete Folder
             await _client.FoldersManager.DeleteAsync(f.Id, true);
             await _client.FoldersManager.DeleteAsync(f2.Id, true);
-        }
-
-        private string GetUniqueName()
-        {
-            return string.Format("test{0}", Guid.NewGuid().ToString());
         }
     }
 }

@@ -26,16 +26,12 @@ namespace Box.V2.W8.ViewModels
     public class MainViewModel : BaseViewModel
     {
         // Keys on Live
-        public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
-        public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
+        //public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
+        //public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
 
         // Keys on Dev
-        //public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
-        //public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
-
-        // Ryan's Dev keys
-        //private const string ClientId = "yrizdmqzb9jw4bf6c3cged90xyjyzlzy";
-        //public const string ClientSecret = "c6vRohbuxHCn7ol6yDdho6prcQg0buRJ";
+        public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
+        public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
 
         public const string RedirectUri = "http://localhost";
         public readonly int ItemLimit = 5;
@@ -47,8 +43,8 @@ namespace Box.V2.W8.ViewModels
 
         #region Properties
 
-        private ObservableCollection<Item> _items = new ObservableCollection<Item>();
-        public ObservableCollection<Item> Items
+        private ObservableCollection<BoxItem> _items = new ObservableCollection<BoxItem>();
+        public ObservableCollection<BoxItem> Items
         {
             get
             {
@@ -107,8 +103,8 @@ namespace Box.V2.W8.ViewModels
             }
         }
 
-        private Item _selectedItem;
-        public Item SelectedItem
+        private BoxItem _selectedItem;
+        public BoxItem SelectedItem
         {
             get { return _selectedItem; }
             set
@@ -192,6 +188,7 @@ namespace Box.V2.W8.ViewModels
                     }
                 case WebAuthenticationStatus.UserCancel:
                     {
+                        
                         //log("HTTP Error returned by AuthenticateAsync() : " + war.ResponseErrorDetail.ToString());
                         break;
                     }
@@ -211,7 +208,7 @@ namespace Box.V2.W8.ViewModels
             int itemCount = 0;
             IsLoading = true;
 
-            Folder folder;
+            BoxFolder folder;
             do
             {
                 folder = await _client.FoldersManager.GetItemsAsync(id, limit, itemCount);
@@ -253,18 +250,11 @@ namespace Box.V2.W8.ViewModels
             fileSavePicker.FileTypeChoices.Add(ext, new string[] { ext });
             StorageFile saveFile = await fileSavePicker.PickSaveFileAsync();
 
-            //HttpClient hc = new HttpClient();
-            //HttpClientHandler handler = new HttpClientHandler();
-            //hc.DefaultRequestHeaders.Add("Authorization", string.Format("Bearer {0}", _client.Auth.Session.AccessToken));
-            //using (Stream dataStream = await hc.GetStreamAsync(string.Format("https://api.box.com/2.0/files/{0}/content", SelectedItem.Id)))
             using (Stream dataStream = await _client.FilesManager.DownloadStreamAsync(SelectedItem.Id))
             using (var writeStream = await saveFile.OpenStreamForWriteAsync())
             {
                 await dataStream.CopyToAsync(writeStream);
             }
-
-            //byte[] data = await _client.FilesManager.DownloadBytesAsync(SelectedItem.Id);
-            //await Windows.Storage.FileIO.WriteBytesAsync(saveFile, data);
 
             await new MessageDialog(string.Format("File Saved to: {0}", saveFile.Path)).ShowAsync();
         }
@@ -281,7 +271,7 @@ namespace Box.V2.W8.ViewModels
                 Name = openFile.Name,
                 Parent = new BoxRequestEntity() { Id = FolderId }
             };
-            File file = await _client.FilesManager.UploadAsync(fileReq, stream);
+            BoxFile file = await _client.FilesManager.UploadAsync(fileReq, stream);
             Items.Add(file);
         }
 
@@ -315,12 +305,12 @@ namespace Box.V2.W8.ViewModels
 
         private async Task TestFolderInfo()
         {
-            File f = await _client.FilesManager.GetInformationAsync("7546361455");
+            BoxFile f = await _client.FilesManager.GetInformationAsync("7546361455");
         }
 
         private async Task TestGetFolderItems()
         {
-            Folder f = await _client.FoldersManager.GetItemsAsync("0", 10);
+            BoxFolder f = await _client.FoldersManager.GetItemsAsync("0", 10);
         }
 
         private async Task TestCreateFolder()
@@ -330,59 +320,7 @@ namespace Box.V2.W8.ViewModels
                 Name = "testFolder",
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
-            Folder fol = await _client.FoldersManager.CreateAsync(folderReq);
-        }
-
-        private async Task FakeUpload()
-        {
-            HttpClient client = new HttpClient();
-
-            FileOpenPicker fileOpenPicker = new FileOpenPicker();
-            fileOpenPicker.FileTypeFilter.Add("*");
-            StorageFile openFile = await fileOpenPicker.PickSingleFileAsync();
-            var stream = await openFile.OpenStreamForReadAsync();
-
-
-            BoxFileRequest fileReq = new BoxFileRequest()
-            {
-                Name = openFile.Name,
-                Parent = new BoxRequestEntity() { Id = "0" }
-            };
-            BoxJsonConverter converter = new BoxJsonConverter();
-            string content = converter.Serialize(fileReq);
-            //byte[] oFile;
-            //byte[] buffer = new byte[16 * 1024];
-            //MemoryStream ms = new MemoryStream();
-            //int read;
-            //while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
-            //{
-            //    ms.Write(buffer, 0, read);
-            //}
-            //oFile = ms.ToArray();
-
-            MultipartFormDataContent multiForm = new MultipartFormDataContent();
-            //multiForm.Add(new StringContent(content), "metadata");
-
-
-            StreamContent fileContent = new StreamContent(stream);
-            //ByteArrayContent fileContent = new ByteArrayContent(new byte[] { 0x41, 0x42, 0x43 });
-            ////ByteArrayContent fileContent = new ByteArrayContent(oFile);
-            //fileContent.Headers.Add("Content-Type", "application/octet-stream");
-
-            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-            {
-                FileName = string.Format("\"{0}\"", openFile.Name),
-                Name = "\"file\""
-            };
-            multiForm.Add(fileContent, "file");
-
-            multiForm.Add(new StringContent(content), "\"metadata\"");
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer dxjIn0rSa2YiG71nsQTuL7K5D8dTKMuO");
-
-            //var formContents = await multiForm.ReadAsStringAsync();
-
-            var test = await client.PostAsync(_config.FilesUploadEndpointUri, multiForm); //"http://posttestserver.com/post.php?dir=example", multiForm); //
-            var testString = await test.Content.ReadAsStringAsync();
+            BoxFolder fol = await _client.FoldersManager.CreateAsync(folderReq);
         }
 
         #endregion

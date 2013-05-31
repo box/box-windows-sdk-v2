@@ -124,6 +124,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="Box.V2.W8_TemporaryKey.pfx" />
+    <Compile Include="OAuth2Sample.W8.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Logo.png" />

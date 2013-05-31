@@ -11,12 +11,12 @@ namespace Box.V2.Test.Integration
     public abstract class BoxResourceManagerTestIntegration
     {
         // Keys on Live
-        public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
-        public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
+        //public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
+        //public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
 
         // Keys on Dev
-        //public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
-        //public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
+        public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
+        public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
 
         public const string RedirectUri = "http://localhost";
 
@@ -29,7 +29,7 @@ namespace Box.V2.Test.Integration
 
         public BoxResourceManagerTestIntegration()
         {
-            _auth = new OAuthSession("bjKLHyaNPvDqOwXI8wALJpNvInd4rWV2", "rIymGBF7CaiLMGzYHv1MFBboieflnOVdIhaiGmjD4oBuSAL0EbmOfZkWfoUJlKFv", 3600, "bearer");
+            _auth = new OAuthSession("v2Z326fQWvHtgQCbn1oKMG6jrmnqyOxv", "EfqvkAfxirnZZyske4mpJfUwbtJZHL6nkqMfHcF1ISRn3DRyoAZxFGvNE0IMtylj", 3600, "bearer");
             //_auth = new OAuthSession("pguK95gVVI2VSVZXJYI9UFoZ5SWzXwNL", "dVHrGw3is1exrQGSRGHdGptCvHgYG8hYj5XxdnVJeEAPe3boDw7ZgusGxKGr8hFk", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
@@ -44,6 +44,11 @@ namespace Box.V2.Test.Integration
             OAuthSession auth = await _client.Auth.RefreshAccessTokenAsync(_auth.AccessToken);
             var accesstoken = auth.AccessToken;
             var refreshToken = auth.RefreshToken;
+        }
+
+        protected string GetUniqueName()
+        {
+            return string.Format("test{0}", Guid.NewGuid().ToString());
         }
     }
 }

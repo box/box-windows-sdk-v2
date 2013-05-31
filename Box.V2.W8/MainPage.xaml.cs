@@ -54,12 +54,13 @@ namespace Box.V2.W8
 
         private async void GoBack_Click(object sender, RoutedEventArgs e)
         {
-            await _main.GetFolderItems(_main.ParentId, _main.ItemLimit);
+            if (!string.IsNullOrWhiteSpace(_main.ParentId))
+                await _main.GetFolderItems(_main.ParentId, _main.ItemLimit);
         }
 
         private async void FolderView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var item = e.ClickedItem as Item;
+            var item = e.ClickedItem as BoxItem;
             if (item == null || item.Type != "folder")
                 return;
 

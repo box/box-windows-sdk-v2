@@ -8,13 +8,13 @@ namespace Box.V2
     public static class Constants
     {
         /*** Base API URIs ***/
-        public const string BoxApiHostUriString = "https://www.box.com/api/";
-        public const string BoxApiUriString = "https://api.box.com/2.0/";
-        public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
+        //public const string BoxApiHostUriString = "https://www.box.com/api/";
+        //public const string BoxApiUriString = "https://api.box.com/2.0/";
+        //public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
 
-        //public const string BoxApiHostUriString = "https://btang.inside-box.net/api/";
-        //public const string BoxApiUriString = "https://btang.inside-box.net/api/2.0/";
-        //public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0/";
+        public const string BoxApiHostUriString = "https://btang.inside-box.net/api/";
+        public const string BoxApiUriString = "https://btang.inside-box.net/api/2.0/";
+        public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0/";
 
 
         /*** API Endpoints ***/
@@ -26,6 +26,7 @@ namespace Box.V2
         public const string FilesEndpointString = BoxApiUriString + @"files/";
 
         public const string FilesUploadEndpointString = BoxUploadApiUriString + @"files/content";
+        public const string FilesNewVersionEndpointString = BoxUploadApiUriString + @"files/{0}/content";
 
         /*** Endpoint Paths ***/
 
@@ -33,7 +34,7 @@ namespace Box.V2
         public const string VersionsPathString = @"{0}/versions";
         public const string CopyPathString = @"{0}/copy";
         public const string CommentsPathString = @"{0}/comments";
-        public const string ThumbnailPathString = @"{0}/thumbnail.extension";
+        public const string ThumbnailPathString = @"{0}/thumbnail.png";
         public const string TrashPathString = @"{0}/trash";
          
         public const string DiscussionsPathString = @"{0}/discussions";
