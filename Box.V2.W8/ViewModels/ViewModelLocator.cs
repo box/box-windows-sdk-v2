@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Box.V2.W8.ViewModels
+namespace Box.V2.Sample.ViewModels
 {
     public class ViewModelLocator
     {

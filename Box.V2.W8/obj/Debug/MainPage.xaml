@@ -1,4 +1,4 @@
-﻿<Page
+﻿<Page x:ConnectionId='1'
     x:Class="Box.V2.W8.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,18 +6,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+                            
     DataContext="{Binding Main, Source={StaticResource locator}}">
     <Page.BottomAppBar>
         <AppBar IsOpen="{Binding AppBarOpened, Mode=TwoWay}">
             <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button x:ConnectionId='2' Style="{StaticResource UploadAppBarButtonStyle}"
+                    <Button x:ConnectionId='3' Style="{StaticResource UploadAppBarButtonStyle}"
                                                  />
-                    <Button x:ConnectionId='3' Style="{StaticResource DownloadAppBarButtonStyle}"
+                    <Button x:ConnectionId='4' Style="{StaticResource DownloadAppBarButtonStyle}"
                                                    />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button x:ConnectionId='1' Style="{StaticResource RefreshAppBarButtonStyle}"
+                    <Button x:ConnectionId='2' Style="{StaticResource RefreshAppBarButtonStyle}"
                                                   />
                 </StackPanel>
             </Grid>
@@ -34,11 +35,11 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:ConnectionId='5' x:Name="backButton"                      Style="{StaticResource BackButtonStyle}"/>
+            <Button x:ConnectionId='6' x:Name="backButton"                      Style="{StaticResource BackButtonStyle}"/>
             <TextBlock x:Name="pageTitle" Text="{Binding FolderName}" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1" IsHitTestVisible="false"/>
             <ProgressRing Grid.Column="1" Width="75" Height="75" IsActive="{Binding IsLoading}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Grid>
-        <GridView x:ConnectionId='4' 
+        <GridView x:ConnectionId='5' 
             Grid.Row="1"
             Padding="120,6,120,50"
             ItemsSource="{Binding Items}" 

@@ -224,7 +224,6 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-
         /// <summary>
         /// Retrieves the comments on a particular file, if any exist.
         /// </summary>
@@ -268,6 +267,21 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        public async Task<Stream> GetPreviewAsync(string id, int page)
+        {
+            CheckPrerequisite(id);
+
+            BoxRequest request = new BoxRequest(new Uri(string.Format("https://www.box.net/api/2.0/files/{0}/preview.png", id)))
+                .Authorize(_auth.Session.AccessToken)
+                .Param("page", page.ToString());
+
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
+
+            return response.ResponseObject;
+            
+        }
+
 
         /// <summary>
         /// Retrieves an item that has been moved to the trash.

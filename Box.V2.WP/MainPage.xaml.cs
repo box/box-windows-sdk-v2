@@ -9,61 +9,49 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Box.V2.WP.Resources;
 using Box.V2.Contracts;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Windows.Resources;
+using Box.V2.Sample.ViewModels;
 
 namespace Box.V2.WP
 {
     public partial class MainPage : PhoneApplicationPage
     {
-
+        // Keys on Live
         public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
         public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
 
-        // Ryan's Dev keys
-        //private const string ClientId = "yrizdmqzb9jw4bf6c3cged90xyjyzlzy";
-        //public const string ClientSecret = "c6vRohbuxHCn7ol6yDdho6prcQg0buRJ";
+        // Keys on Dev
+        //public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
+        //public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
 
         public const string RedirectUri = @"http://localhost";
 
-        IBoxConfig _config;
-        BoxClient _client;
+
+        MainViewModel _main;
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
 
-            _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
-            _client = new BoxClient(_config);
-        }
+            _main = ViewModelLocator.Main;
 
-
-
-        private void oauthBrowser_Navigating(object sender, NavigatingEventArgs e)
-        {
-            if (e.Uri.Host.Equals("boxsdk")) // in our case we used localhost as the redirect_uri
+            oauth.AuthCodeReceived += async (s, e) =>
             {
-                oauthBrowser.Visibility = Visibility.Collapsed;
-                e.Cancel = true;
+                var auth = s as OAuth2Sample;
+                if (auth == null)
+                    return;
 
-                // grab access_token and oauth_verifier
-                IDictionary<string, string> keyDictionary = new Dictionary<string, string>();
-                var qSplit = e.Uri.Query.Split('?');
-                foreach (var kvp in qSplit[qSplit.Length - 1].Split('&'))
-                {
-                    var kvpSplit = kvp.Split('=');
-                    if (kvpSplit.Length == 2)
-                    {
-                        keyDictionary.Add(kvpSplit[0], kvpSplit[1]);
-                    }
-                }
-
-                _client.Auth.AuthenticateAsync(keyDictionary["code"]);
-            }
+                await _main.Init(auth.AuthCode);
+                NavigationService.Navigate(new Uri("/PreviewPage.xaml", UriKind.Relative));
+            };
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            oauthBrowser.Navigate(_client.Auth.AuthCodeUri);
+            oauth.GetAuthCode(_main.Config.AuthCodeUri, _main.Config.RedirectUri);
         }
     }
 }

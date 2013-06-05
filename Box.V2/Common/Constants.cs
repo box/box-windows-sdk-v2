@@ -8,17 +8,18 @@ namespace Box.V2
     public static class Constants
     {
         /*** Base API URIs ***/
-        //public const string BoxApiHostUriString = "https://www.box.com/api/";
-        //public const string BoxApiUriString = "https://api.box.com/2.0/";
-        //public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
+        public const string BoxApiHostUriString = "https://www.box.com/api/";
+        public const string BoxApiUriString = "https://api.box.com/2.0/";
+        public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
 
-        public const string BoxApiHostUriString = "https://btang.inside-box.net/api/";
-        public const string BoxApiUriString = "https://btang.inside-box.net/api/2.0/";
-        public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0/";
+        //public const string BoxApiHostUriString = "https://btang.inside-box.net/api/";
+        //public const string BoxApiUriString = "https://btang.inside-box.net/api/2.0/";
+        //public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0/";
 
 
         /*** API Endpoints ***/
-        public const string AuthCodeEndpointString = @"oauth2/authorize";
+        public const string AuthCodeString = @"oauth2/authorize";
+        public const string AuthCodeEndpointString = BoxApiHostUriString + @"oauth2/authorize";
         public const string AuthTokenEndpointString = @"oauth2/token";
         public const string RevokeEndpointString = @"oauth2/revoke";
 

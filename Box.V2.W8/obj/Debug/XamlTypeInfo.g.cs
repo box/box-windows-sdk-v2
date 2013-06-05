@@ -112,7 +112,7 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
             }
         }
 
-        private object Activate_0_ViewModelLocator() { return new global::Box.V2.W8.ViewModels.ViewModelLocator(); }
+        private object Activate_0_ViewModelLocator() { return new global::Box.V2.Sample.ViewModels.ViewModelLocator(); }
 
         private object Activate_1_MainPage() { return new global::Box.V2.W8.MainPage(); }
 
@@ -136,8 +136,8 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::Windows.UI.Xaml.Controls.UserControl));
                 break;
 
-            case "Box.V2.W8.ViewModels.ViewModelLocator":
-                userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.W8.ViewModels.ViewModelLocator), GetXamlTypeByName("Object"));
+            case "Box.V2.Sample.ViewModels.ViewModelLocator":
+                userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.Sample.ViewModels.ViewModelLocator), GetXamlTypeByName("Object"));
                 userType.Activator = Activate_0_ViewModelLocator;
                 xamlType = userType;
                 break;

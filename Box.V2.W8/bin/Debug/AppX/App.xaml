@@ -2,7 +2,7 @@
     x:Class="Box.V2.W8.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:vm="using:Box.V2.W8.ViewModels"
+    xmlns:vm="using:Box.V2.Sample.ViewModels"
     xmlns:local="using:Box.V2.W8">
 
     <Application.Resources>

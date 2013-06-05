@@ -138,7 +138,12 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            BoxFile f = await _filesManager.UpdateInformationAsync(new BoxFileRequest());
+            BoxFileRequest request = new BoxFileRequest()
+            {
+                Id = "fakeId"
+            };
+
+            BoxFile f = await _filesManager.UpdateInformationAsync(request);
 
             /*** Assert ***/
 

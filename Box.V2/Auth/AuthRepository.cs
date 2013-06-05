@@ -33,17 +33,17 @@ namespace Box.V2.Auth
 
         public OAuthSession Session { get; private set; }
 
-        public Uri AuthCodeUri
-        {
-            get
-            {
-                return new BoxRequest(_config.BoxApiHostUri, Constants.AuthCodeEndpointString)
-                                .Param("response_type", "code")
-                                .Param("client_id", _config.ClientId)
-                                .Param("redirect_uri", _config.RedirectUri)
-                                .AbsoluteUri;
-            }
-        }
+        //public Uri AuthCodeUri
+        //{
+        //    get
+        //    {
+        //        return new BoxRequest(_config.BoxApiHostUri, Constants.AuthCodeString)
+        //                        .Param("response_type", "code")
+        //                        .Param("client_id", _config.ClientId)
+        //                        .Param("redirect_uri", _config.RedirectUri)
+        //                        .AbsoluteUri;
+        //    }
+        //}
 
         public async Task<OAuthSession> AuthenticateAsync(string authCode)
         {

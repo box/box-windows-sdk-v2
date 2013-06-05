@@ -8,40 +8,42 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Windows.Foundation;
-using Windows.Security.Authentication.Web;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.UI.Notifications;
 using Windows.UI.Popups;
 
-namespace Box.V2.W8.ViewModels
+namespace Box.V2.Sample.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
         // Keys on Live
-        //public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
-        //public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
+        public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
+        public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
 
         // Keys on Dev
-        public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
-        public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
+        //public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
+        //public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
 
         public const string RedirectUri = "http://localhost";
         public readonly int ItemLimit = 5;
 
-        private IBoxConfig _config;
-        private BoxClient _client;
+        public MainViewModel() : base() {
+            OAuthSession session = null;
 
-        public MainViewModel() : base() { }
+            Config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
+            Client = new BoxClient(Config, session);
+        }
 
         #region Properties
+
+        public IBoxConfig Config { get; set; }
+        public BoxClient Client { get; set; }
 
         private ObservableCollection<BoxItem> _items = new ObservableCollection<BoxItem>();
         public ObservableCollection<BoxItem> Items
@@ -149,15 +151,9 @@ namespace Box.V2.W8.ViewModels
         }
         #endregion
 
-        public async void Init()
+        public async Task Init(string authCode)
         {
-            OAuthSession session = null;
-
-            _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
-            _client = new BoxClient(_config, session);
-
-            string authCode = await Authenticate();
-            await _client.Auth.AuthenticateAsync(authCode);
+            await Client.Auth.AuthenticateAsync(authCode);
 
             // Get the root folder
             await GetFolderItems("0", ItemLimit);
@@ -168,37 +164,7 @@ namespace Box.V2.W8.ViewModels
             //await TestDownloadFile();
             //await TestUploadBytes();
             //await TestUploadStream();
-        }
-
-        public async Task<string> Authenticate()
-        {
-            WebAuthenticationResult war = await WebAuthenticationBroker.AuthenticateAsync(
-                WebAuthenticationOptions.None,
-                _client.Auth.AuthCodeUri,
-                new Uri(_config.RedirectUri));
-
-            switch (war.ResponseStatus)
-            {
-                case WebAuthenticationStatus.Success:
-                    {
-                        // grab auth code
-                        var response = war.ResponseData;
-                        WwwFormUrlDecoder decoder = new WwwFormUrlDecoder(new Uri(response).Query);
-                        return decoder.GetFirstValueByName("code");
-                    }
-                case WebAuthenticationStatus.UserCancel:
-                    {
-                        
-                        //log("HTTP Error returned by AuthenticateAsync() : " + war.ResponseErrorDetail.ToString());
-                        break;
-                    }
-                default:
-                case WebAuthenticationStatus.ErrorHttp:
-                    //log("Error returned by AuthenticateAsync() : " + war.ResponseStatus.ToString());
-                    break;
-            }
-
-            return string.Empty;
+            //await TestGetComments();
         }
 
         public async Task GetFolderItems(string id, int limit)
@@ -211,11 +177,16 @@ namespace Box.V2.W8.ViewModels
             BoxFolder folder;
             do
             {
-                folder = await _client.FoldersManager.GetItemsAsync(id, limit, itemCount);
+                folder = await Client.FoldersManager.GetItemsAsync(id, limit, itemCount);
                 IsLoading = false;
                 if (folder == null)
                 {
-                    await new MessageDialog("Unable to get folder items. Please try again later").ShowAsync();
+                    string message = "Unable to get folder items. Please try again later";
+#if W8
+                    await new MessageDialog(message).ShowAsync();
+#else
+                    MessageBox.Show(message);
+#endif
                     break;
                 }
 
@@ -241,6 +212,7 @@ namespace Box.V2.W8.ViewModels
 
         internal async Task Download()
         {
+#if W8
             if (SelectedItem == null)
                 await new MessageDialog("No File Selected").ShowAsync();
 
@@ -250,13 +222,14 @@ namespace Box.V2.W8.ViewModels
             fileSavePicker.FileTypeChoices.Add(ext, new string[] { ext });
             StorageFile saveFile = await fileSavePicker.PickSaveFileAsync();
 
-            using (Stream dataStream = await _client.FilesManager.DownloadStreamAsync(SelectedItem.Id))
+            using (Stream dataStream = await Client.FilesManager.DownloadStreamAsync(SelectedItem.Id))
             using (var writeStream = await saveFile.OpenStreamForWriteAsync())
             {
                 await dataStream.CopyToAsync(writeStream);
             }
 
             await new MessageDialog(string.Format("File Saved to: {0}", saveFile.Path)).ShowAsync();
+#endif
         }
 
         internal async Task Upload()
@@ -271,7 +244,7 @@ namespace Box.V2.W8.ViewModels
                 Name = openFile.Name,
                 Parent = new BoxRequestEntity() { Id = FolderId }
             };
-            BoxFile file = await _client.FilesManager.UploadAsync(fileReq, stream);
+            BoxFile file = await Client.FilesManager.UploadAsync(fileReq, stream);
             Items.Add(file);
         }
 
@@ -300,17 +273,17 @@ namespace Box.V2.W8.ViewModels
 
         private async Task TestRefreshToken()
         {
-            OAuthSession session1 = await _client.Auth.RefreshAccessTokenAsync(_client.Auth.Session.AccessToken);
+            OAuthSession session1 = await Client.Auth.RefreshAccessTokenAsync(Client.Auth.Session.AccessToken);
         }
 
         private async Task TestFolderInfo()
         {
-            BoxFile f = await _client.FilesManager.GetInformationAsync("7546361455");
+            BoxFile f = await Client.FilesManager.GetInformationAsync("7546361455");
         }
 
         private async Task TestGetFolderItems()
         {
-            BoxFolder f = await _client.FoldersManager.GetItemsAsync("0", 10);
+            BoxFolder f = await Client.FoldersManager.GetItemsAsync("0", 10);
         }
 
         private async Task TestCreateFolder()
@@ -320,7 +293,12 @@ namespace Box.V2.W8.ViewModels
                 Name = "testFolder",
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
-            BoxFolder fol = await _client.FoldersManager.CreateAsync(folderReq);
+            BoxFolder fol = await Client.FoldersManager.CreateAsync(folderReq);
+        }
+
+        private async Task TestGetComments()
+        {
+            BoxCollection<BoxComment> c = await Client.FilesManager.GetCommentsAsync("8356335198");
         }
 
         #endregion

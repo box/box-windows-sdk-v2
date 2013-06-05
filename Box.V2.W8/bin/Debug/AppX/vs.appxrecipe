@@ -16,21 +16,21 @@
     <AppXManifest Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2013-05-24T21:15:15.858</Modified>
+      <Modified>2013-06-04T23:44:41.541</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.exe">
       <PackagePath>Box.V2.W8.exe</PackagePath>
-      <Modified>2013-05-31T23:13:38.120</Modified>
+      <Modified>2013-06-05T00:25:10.246</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.pdb">
       <PackagePath>Box.V2.W8.pdb</PackagePath>
-      <Modified>2013-05-31T23:13:38.096</Modified>
+      <Modified>2013-06-05T00:25:10.222</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.dll">
       <PackagePath>Box.V2.dll</PackagePath>
-      <Modified>2013-05-31T23:13:36.859</Modified>
+      <Modified>2013-06-05T00:25:09.326</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.dll">
       <PackagePath>Nito.AsyncEx.dll</PackagePath>
@@ -46,7 +46,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.pdb">
       <PackagePath>Box.V2.pdb</PackagePath>
-      <Modified>2013-05-31T23:13:36.829</Modified>
+      <Modified>2013-06-05T00:25:09.298</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.xml">
       <PackagePath>Nito.AsyncEx.xml</PackagePath>
@@ -82,7 +82,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\App.xaml">
       <PackagePath>App.xaml</PackagePath>
-      <Modified>2013-05-24T03:17:37.640</Modified>
+      <Modified>2013-06-04T23:44:38.392</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Common\StandardStyles.xaml">
       <PackagePath>Common\StandardStyles.xaml</PackagePath>
@@ -90,7 +90,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\MainPage.xaml">
       <PackagePath>MainPage.xaml</PackagePath>
-      <Modified>2013-05-24T17:42:10.486</Modified>
+      <Modified>2013-06-04T22:35:57.823</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>

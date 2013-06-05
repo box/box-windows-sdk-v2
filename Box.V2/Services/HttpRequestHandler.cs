@@ -53,7 +53,7 @@ namespace Box.V2.Services
                         ResponseStatus.Error
             };
 
-            if (isStream)
+            if (isStream && boxResponse.Status == ResponseStatus.Success)
             {
                 var resObj = await response.Content.ReadAsStreamAsync();
                 boxResponse.ResponseObject = resObj as T;

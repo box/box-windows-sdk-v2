@@ -28,6 +28,8 @@ namespace Box.V2.Contracts
         public string DeviceName { get; set; }
         public string UserAgent { get; set; }
 
+        public Uri AuthCodeUri { get { return new Uri(string.Format("{0}?response_type=code&client_id={1}&redirect_uri={2}", Constants.AuthCodeEndpointString, ClientId, RedirectUri)); } }
+            
         public Uri FoldersEndpointUri { get { return new Uri(Constants.FoldersEndpointString); } }
         public Uri FilesEndpointUri { get { return new Uri(Constants.FilesEndpointString); } }
         public Uri FilesUploadEndpointUri { get { return new Uri(Constants.FilesUploadEndpointString); } }

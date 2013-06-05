@@ -1,0 +1,25 @@
+﻿<html>
+   <head><title>Preview File</title>
+       <script type="text/javascript" src="jquery-1.10.1.min.js"></script>
+   </head>
+   <body>
+       preview<br />
+       <div id="container" />
+       <script type="text/javascript">           
+           function addPreviews() {
+               $("#container").append("<div class=\"preview-page\"><img src=\"test.png\"/></div>");
+               $("#container").append("<div class=\"preview-page\"><img src=\"test.png\"/></div>");
+               $("#container").append("<div class=\"preview-page\"><img src=\"test.png\"/></div>");
+               $("#container").append("<div class=\"preview-page\"><img src=\"test.png\"/></div>");
+               $("#container").append("<div class=\"preview-page\"><img src=\"test.png\"/></div>");
+               $("#container").append("<div class=\"preview-page\"><img src=\"test.png\"/></div>");
+           }
+           //var anchor_offset = $('a[href="#load"]').offset().top;
+
+           //$(window).on('scroll', function () {
+           //    if ($(window).scrollTop() > anchor_offset)
+           //        addPreviews();
+           //});
+       </script>
+   </body>
+</html>

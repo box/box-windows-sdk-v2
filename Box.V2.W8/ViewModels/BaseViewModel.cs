@@ -4,16 +4,22 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 
-namespace Box.V2.W8.ViewModels
+#if W8
+using Windows.UI.Xaml;
+#endif
+
+namespace Box.V2.Sample.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
         public BaseViewModel()
         {
+#if W8
             _dispatcher = Window.Current.Dispatcher;
+#endif
         }
 
         private CoreDispatcher _dispatcher = null;
@@ -27,7 +33,11 @@ namespace Box.V2.W8.ViewModels
 
         private async Task UIThreadAction(Action act)
         {
+#if W8
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => act.Invoke());
+#else
+            Deployment.Current.Dispatcher.BeginInvoke(act);
+#endif
         }
 
         internal async void PropertyChangedAsync(string property)

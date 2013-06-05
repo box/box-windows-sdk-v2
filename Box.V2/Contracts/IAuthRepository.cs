@@ -15,7 +15,5 @@ namespace Box.V2.Auth
         Task<OAuthSession> RefreshAccessTokenAsync(string accessToken);
 
         Task LogoutAsync();
-
-        Uri AuthCodeUri { get; }
     }
 }

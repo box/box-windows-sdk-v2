@@ -38,7 +38,7 @@ namespace Box.V2.Managers
         {
             foreach (var v in values)
             {
-                if (string.IsNullOrWhiteSpace(v.ToString()))
+                if (string.IsNullOrWhiteSpace(v))
                     throw new ArgumentException("Value for a required field cannot be null or empty");
             }
         }

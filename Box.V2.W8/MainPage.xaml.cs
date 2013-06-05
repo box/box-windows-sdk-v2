@@ -2,7 +2,7 @@
 using Box.V2.Contracts;
 using Box.V2.Models;
 using Box.V2.Services;
-using Box.V2.W8.ViewModels;
+using Box.V2.Sample.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +40,6 @@ namespace Box.V2.W8
         {
             this.InitializeComponent();
             _main = ViewModelLocator.Main;
-            _main.Init();
         }
 
         /// <summary>
@@ -51,6 +50,8 @@ namespace Box.V2.W8
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
+        
 
         private async void GoBack_Click(object sender, RoutedEventArgs e)
         {
@@ -80,6 +81,12 @@ namespace Box.V2.W8
         private async void Upload_Click(object sender, RoutedEventArgs e)
         {
             await _main.Upload();
+        }
+
+        private async void mainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            string authCode = await OAuth2Sample.GetAuthCode(_main.Config.AuthCodeUri, new Uri(_main.Config.RedirectUri));
+            _main.Init(authCode);
         }
 
     }

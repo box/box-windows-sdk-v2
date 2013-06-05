@@ -31,3 +31,5 @@ C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.csproj.GenerateResource.Cache
 C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.dll
 C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.pdb
 C:\Dev\Box.V2\Box.V2.WP\obj\Debug\XapCacheFile.xml
+C:\Dev\Box.V2\Box.V2.WP\obj\Debug\OAuth2Sample.g.cs
+C:\Dev\Box.V2\Box.V2.WP\obj\Debug\PreviewPage.g.cs
