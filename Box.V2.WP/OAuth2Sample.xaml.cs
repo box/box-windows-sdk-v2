@@ -34,7 +34,6 @@ namespace Box.V2.WP
         {
             if (e.Uri.Host.Equals(_redirectUri.Host)) // in our case we used localhost as the redirect_uri
             {
-                //oauthBrowser.Visibility = Visibility.Collapsed;
                 e.Cancel = true;
 
                 // grab access_token and oauth_verifier

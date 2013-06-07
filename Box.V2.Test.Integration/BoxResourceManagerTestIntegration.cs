@@ -29,7 +29,7 @@ namespace Box.V2.Test.Integration
 
         public BoxResourceManagerTestIntegration()
         {
-            _auth = new OAuthSession("v2Z326fQWvHtgQCbn1oKMG6jrmnqyOxv", "EfqvkAfxirnZZyske4mpJfUwbtJZHL6nkqMfHcF1ISRn3DRyoAZxFGvNE0IMtylj", 3600, "bearer");
+            _auth = new OAuthSession("Rym31A9YNrrh3YgdfFG0N7jNXrunzZpP", "1ydCUndE33ntAzJmsTPdXSlnLr15CtURVoU3obIvqNmaFBOPRLNu8Sa8wfTOjhmK", 3600, "bearer");
             //_auth = new OAuthSession("pguK95gVVI2VSVZXJYI9UFoZ5SWzXwNL", "dVHrGw3is1exrQGSRGHdGptCvHgYG8hYj5XxdnVJeEAPe3boDw7ZgusGxKGr8hFk", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
@@ -50,5 +50,25 @@ namespace Box.V2.Test.Integration
         {
             return string.Format("test{0}", Guid.NewGuid().ToString());
         }
+
+
+        #region Test Properties
+
+        private string _testFolderId = "0";
+        public string TestFolderId
+        {
+            get { return _testFolderId; }
+            set { _testFolderId = value; }
+        }
+
+        private string _testFileId = "7869094982";
+        public string TestFileId
+        {
+            get { return _testFileId; }
+            set { _testFileId = value; }
+        }
+
+
+        #endregion
     }
 }

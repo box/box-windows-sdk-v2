@@ -19,7 +19,7 @@ namespace Box.V2
 
         Dictionary<string, string> PayloadParameters { get; }
 
-        string Payload { get; }
+        string Payload { get; set;  }
 
         string Authorization { get; set; }
 

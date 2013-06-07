@@ -156,7 +156,7 @@ namespace Box.V2.Sample.ViewModels
             await Client.Auth.AuthenticateAsync(authCode);
 
             // Get the root folder
-            await GetFolderItems("0", ItemLimit);
+            await GetFolderItems("0");
 
             //await TestRefreshToken();
             //await TestFolderInfo();
@@ -167,7 +167,7 @@ namespace Box.V2.Sample.ViewModels
             //await TestGetComments();
         }
 
-        public async Task GetFolderItems(string id, int limit)
+        public async Task GetFolderItems(string id)
         {
             Items.Clear();
             FolderName = string.Empty;
@@ -177,7 +177,7 @@ namespace Box.V2.Sample.ViewModels
             BoxFolder folder;
             do
             {
-                folder = await Client.FoldersManager.GetItemsAsync(id, limit, itemCount);
+                folder = await Client.FoldersManager.GetItemsAsync(id, ItemLimit, itemCount);
                 IsLoading = false;
                 if (folder == null)
                 {
@@ -206,7 +206,7 @@ namespace Box.V2.Sample.ViewModels
                 {
                     Items.Add(i);
                 }
-                itemCount += limit;
+                itemCount += ItemLimit;
             } while (itemCount < folder.ItemCollection.TotalCount);
         }
 

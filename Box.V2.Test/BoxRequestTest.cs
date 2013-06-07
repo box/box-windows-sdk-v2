@@ -7,7 +7,7 @@ namespace Box.V2.Test
     public class BoxRequestTest
     {
         [TestMethod]
-        public void ParamTest()
+        public void ValidParameters_ValidRequest()
         {
             Uri baseUri = new Uri("http://api.box.com/v2");
             IBoxRequest request = new BoxRequest(baseUri, "auth/oauth2");

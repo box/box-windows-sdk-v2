@@ -11,51 +11,84 @@ using System.IO.IsolatedStorage;
 using System.Windows.Resources;
 using System.IO;
 using Box.V2.Sample.ViewModels;
+using System.Threading.Tasks;
 
 namespace Box.V2.WP
 {
     public partial class PreviewPage : PhoneApplicationPage
     {
         MainViewModel _main;
+        IsolatedStorageFile _isoStore;
+
+        private const string fileNameFormat = "{0}-{1}{2}";
+        private const string addPreviewContainers = "addPreviewContainers";//('{0}', {1}, {2})";
+        private const string addPreview = "addPreview";//('{0}', {1}, '{2}')";
+        private const string previewExt = ".png";
+        private const int buffer = 5;
+
+
+        int pagesLoaded = 1;
 
         public PreviewPage()
         {
             InitializeComponent();
-            _main = ViewModelLocator.Main;
+            Init();
         }
 
-
-        private async void previewBrowser_Loaded(object sender, RoutedEventArgs e)
+        private async Task Init()
         {
+            _main = ViewModelLocator.Main;
+
+            _isoStore = IsolatedStorageFile.GetUserStoreForApplication();
             SaveFilesToIsoStore();
 
-            Stream test = await _main.Client.FilesManager.GetPreviewAsync("8356335198", 1);
-            //Stream test = await _client.FilesManager.GetThumbnailAsync("8356335198");
-            IsolatedStorageFile isoFile = IsolatedStorageFile.GetUserStoreForApplication();
-
-            string fileName = "test.png";
-
-            using (IsolatedStorageFileStream destStream = new IsolatedStorageFileStream(fileName, FileMode.OpenOrCreate, isoFile))
-            {
-                await test.CopyToAsync(destStream);
-            }
+            await previewBrowser.ClearInternetCacheAsync();
             previewBrowser.Navigate(new Uri("/preview.html", UriKind.Relative));
-            //string html = string.Format("<html><head><title>Sample img test</title></head><body><img src=\"{0}\"/></body></html>", fileName);
-            //oauthBrowser.NavigateToString(html);
+        }
 
+        private async Task GetNextPages(string id, int start, int num)
+        {
+            int length = start + num;
+
+            previewBrowser.InvokeScript(addPreviewContainers, new string[] { id, start.ToString(), length.ToString() });
+
+            List<Task> tasks = new List<Task>();
+
+            for (int i = start; i < length; ++i)
+            {
+                Task<Stream> previewStream = _main.Client.FilesManager.GetPreviewAsync(id, i);
+                tasks.Add(SavePreviewToDisk(string.Format(fileNameFormat, id, i, previewExt), previewStream));
+            }
+
+            await Task.WhenAll(tasks);
+            for (int i = start; i < length; ++i)
+            {
+                previewBrowser.InvokeScript(addPreview, new string[] { id, i.ToString(), previewExt });
+            }
+        }
+
+        private async Task GetPreview(string id, string pageNum)
+        {
+            Task<Stream> previewStream = _main.Client.FilesManager.GetPreviewAsync(id, int.Parse(pageNum));
+            await SavePreviewToDisk(string.Format(fileNameFormat, id, pageNum, previewExt), previewStream);
         }
 
 
+        private async Task SavePreviewToDisk(string fileName, Task<Stream> previewStream)
+        {
+            using (IsolatedStorageFileStream destStream = new IsolatedStorageFileStream(fileName, FileMode.OpenOrCreate, _isoStore))
+            {
+                await (await previewStream).CopyToAsync(destStream);
+            }
+        }
 
         private void SaveFilesToIsoStore()
         {
             //These files must match what is included in the application package,
             //or BinaryStream.Dispose below will throw an exception.
             string[] files = {
-            "preview.html", "jquery-2.0.2.min.js"
+            "preview.html", "jquery-1.10.1.min.js", "waypoints.min.js"
         };
-
-            IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication();
 
             foreach (string f in files)
             {
@@ -75,40 +108,49 @@ namespace Box.V2.WP
             char[] delimiter = delimStr.ToCharArray();
             string[] dirsPath = fileName.Split(delimiter);
 
-            //Get the IsoStore.
-            IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication();
-
             //Re-create the directory structure.
             for (int i = 0; i < dirsPath.Length - 1; i++)
             {
                 strBaseDir = System.IO.Path.Combine(strBaseDir, dirsPath[i]);
-                isoStore.CreateDirectory(strBaseDir);
+                _isoStore.CreateDirectory(strBaseDir);
             }
 
             //Remove the existing file.
-            if (isoStore.FileExists(fileName))
+            if (_isoStore.FileExists(fileName))
             {
-                isoStore.DeleteFile(fileName);
+                _isoStore.DeleteFile(fileName);
             }
 
             //Write the file.
-            using (BinaryWriter bw = new BinaryWriter(isoStore.CreateFile(fileName)))
+            using (BinaryWriter bw = new BinaryWriter(_isoStore.CreateFile(fileName)))
             {
                 bw.Write(data);
                 bw.Close();
             }
         }
 
-        private void previewBrowser_Navigated(object sender, NavigationEventArgs e)
+        private async void previewBrowser_Navigated(object sender, NavigationEventArgs e)
         {
-
-            //string[] codeString = { String.Format(" {0}('{1}') ", @"$.city.venue.onVenueSelected", result.ToString()) };
-            //this.myBrowser.Document.InvokeScript("eval", codeString);
+            await GetNextPages("8356335198", 0, 5);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void previewBrowser_ScriptNotify(object sender, NotifyEventArgs e)
         {
-            previewBrowser.InvokeScript("addPreviews");
+            string pageNum = e.Value;
+            await GetPreview("8356335198", pageNum);
+            previewBrowser.InvokeScript("addPreview", new string[] { "8356335198", pageNum });
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            GetNextPages(_main.SelectedItem.Id, pagesLoaded, buffer);
+            pagesLoaded += buffer;
+        }
+
+        private async void previewBrowser_LoadCompleted(object sender, NavigationEventArgs e)
+        {
+            GetNextPages(_main.SelectedItem.Id, pagesLoaded, buffer);
+            pagesLoaded += buffer;
         }
 
     }

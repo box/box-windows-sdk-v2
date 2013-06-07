@@ -24,10 +24,12 @@ namespace Box.V2
         public const string RevokeEndpointString = @"oauth2/revoke";
 
         public const string FoldersEndpointString = BoxApiUriString +  @"folders/";
+        
         public const string FilesEndpointString = BoxApiUriString + @"files/";
-
         public const string FilesUploadEndpointString = BoxUploadApiUriString + @"files/content";
         public const string FilesNewVersionEndpointString = BoxUploadApiUriString + @"files/{0}/content";
+
+        public const string CommentsEndpointString = BoxApiUriString + @"comments/";
 
         /*** Endpoint Paths ***/
 

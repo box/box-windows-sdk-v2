@@ -33,5 +33,7 @@ namespace Box.V2.Contracts
         public Uri FoldersEndpointUri { get { return new Uri(Constants.FoldersEndpointString); } }
         public Uri FilesEndpointUri { get { return new Uri(Constants.FilesEndpointString); } }
         public Uri FilesUploadEndpointUri { get { return new Uri(Constants.FilesUploadEndpointString); } }
+        public Uri CommentsEndpointUri { get { return new Uri(Constants.CommentsEndpointString); }
+        }
     }
 }

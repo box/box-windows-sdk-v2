@@ -7,12 +7,16 @@
     xmlns:local="clr-namespace:Box.V2.WP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:img="clr-namespace:ImageTools;assembly=ImageTools"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True" Loaded="Page_Loaded">
+    shell:SystemTray.IsVisible="True" Loaded="Page_Loaded"
+    DataContext="{Binding Main, Source={StaticResource locator}}"
+    >
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -37,8 +41,35 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <!--<toolkit:LongListMultiSelector
+                ItemsSource="{Binding Items}" 
+                Tap="MultiselectList_Tap"
+                SelectionChanged="MultiselectList_SelectionChanged"
+                >
+                <toolkit:LongListMultiSelector.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </toolkit:LongListMultiSelector.ItemTemplate>
+            </toolkit:LongListMultiSelector>-->
+            <StackPanel>
+                <TextBlock Text="{Binding FolderName}" FontSize="18" />
+                <ListBox
+                    ItemsSource="{Binding Items}" 
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                    SelectionChanged="ListBox_SelectionChanged" Margin="12">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="10">
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
             <local:OAuth2Sample x:Name="oauth" />
-            <!--<phone:WebBrowser x:Name="oauthBrowser" Navigating="oauthBrowser_Navigating" />-->
         </Grid>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are

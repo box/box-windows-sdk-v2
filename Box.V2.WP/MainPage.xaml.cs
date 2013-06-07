@@ -45,13 +45,29 @@ namespace Box.V2.WP
                     return;
 
                 await _main.Init(auth.AuthCode);
-                NavigationService.Navigate(new Uri("/PreviewPage.xaml", UriKind.Relative));
+                //NavigationService.Navigate(new Uri("/PreviewPage.xaml", UriKind.Relative));
             };
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             oauth.GetAuthCode(_main.Config.AuthCodeUri, _main.Config.RedirectUri);
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_main.SelectedItem == null)
+                return;
+
+            switch (_main.SelectedItem.Type)
+            {
+                case "folder":
+                    _main.GetFolderItems(_main.SelectedItem.Id);
+                    break;
+                case "file":
+                    NavigationService.Navigate(new Uri("/PreviewPage.xaml", UriKind.Relative));
+                    break;
+            }
         }
     }
 }

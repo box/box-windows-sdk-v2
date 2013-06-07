@@ -62,7 +62,8 @@ namespace Box.V2.Test
             /*** Assert ***/
             for (int i = 0; i < numTasks; i++)
             {
-                Assert.AreEqual(tasks[i].Result.ResponseObject.AccessToken, i.ToString());
+                OAuthSession session = _converter.Parse<OAuthSession>(tasks[i].Result.ContentString);
+                Assert.AreEqual(session.AccessToken, i.ToString());
             }
         }
 

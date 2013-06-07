@@ -42,6 +42,16 @@ namespace Box.V2
             return request;
         }
 
+        public static T Payload<T>(this T request, string value) where T : IBoxRequest
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentNullException("value");
+
+            request.Payload = value;
+
+            return request;
+        }
+
         public static T Payload<T>(this T request, string name, string value) where T : IBoxRequest
         {
             if (string.IsNullOrWhiteSpace(name))

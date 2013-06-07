@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ImageTools</id>
+    <version>0.3.1</version>
+    <title>ImageTools</title>
+    <authors>Sebastian Stehle</authors>
+    <owners>Sebastian Stehle</owners>
+    <licenseUrl>http://imagetools.codeplex.com/license</licenseUrl>
+    <projectUrl>http://imagetools.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ImageTools for Silverlight is a library, which provides additional functionality for loading, saving and manipulation images from different sources and with different formats.</description>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <references>
+      <reference file="ICSharpCode.SharpZLib.Phone.dll" />
+      <reference file="ImageTools.Controls.dll" />
+      <reference file="ImageTools.dll" />
+      <reference file="ImageTools.Filtering.dll" />
+      <reference file="ImageTools.IO.Bmp.dll" />
+      <reference file="ImageTools.IO.Gif.dll" />
+      <reference file="ImageTools.IO.Png.dll" />
+      <reference file="ImageTools.Utils.dll" />
+      <reference file="PhoneCodeContractsAssemblies.dll" />
+      <reference file="ImageTools.Contracts.dll" />
+      <reference file="ImageTools.Controls.Contracts.dll" />
+      <reference file="ImageTools.Filtering.Contracts.dll" />
+      <reference file="ImageTools.Utils.Contracts.dll" />
+      <reference file="ICSharpCode.SharpZLib.Silverlight.dll" />
+      <reference file="ImageTools.IO.Jpeg.dll" />
+      <reference file="zxing.Silverlight.dll" />
+    </references>
+  </metadata>
+</package>

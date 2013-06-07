@@ -24,5 +24,6 @@ namespace Box.V2.Contracts
         Uri FoldersEndpointUri { get; }
         Uri FilesEndpointUri { get; }
         Uri FilesUploadEndpointUri { get; }
+        Uri CommentsEndpointUri { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Box.V2.Services;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,20 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
+
+        /// <summary>
+        /// The type of the item that this comment will be placed on. Can be file, discussion, or comment
+        /// </summary>
+        [JsonProperty(PropertyName = "type")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public BoxType? Type { get; set; } 
     }
+}
+
+
+public enum BoxType
+{
+    file, 
+    discussion, 
+    comment
 }

@@ -75,6 +75,7 @@
     <Compile Include="Models\OAuthSession.cs" />
     <Compile Include="Models\BoxSharedLink.cs" />
     <Compile Include="Models\BoxUser.cs" />
+    <Compile Include="Models\Request\BoxCommentRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoxWrappers\BoxRequest.cs" />
     <Compile Include="BoxWrappers\Contracts\IBoxRequest.cs" />

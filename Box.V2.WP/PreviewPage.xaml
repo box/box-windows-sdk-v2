@@ -16,8 +16,8 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <phone:WebBrowser x:Name="previewBrowser" Loaded="previewBrowser_Loaded" Navigated="previewBrowser_Navigated" IsScriptEnabled="True"/>
-            <Button Click="Button_Click" Content="Add more" VerticalAlignment="Bottom" />
+            <phone:WebBrowser x:Name="previewBrowser" LoadCompleted="previewBrowser_LoadCompleted" IsScriptEnabled="True" ScriptNotify="previewBrowser_ScriptNotify" />
+            <Button Click="Button_Click"  Content="Add more" VerticalAlignment="Bottom" Foreground="Black"/>
         </Grid>
     </Grid>
 

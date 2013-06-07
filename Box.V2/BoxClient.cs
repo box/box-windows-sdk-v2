@@ -35,10 +35,12 @@ namespace Box.V2
         {
             FoldersManager = new BoxFoldersManager(_config, _service, _converter, Auth);
             FilesManager = new BoxFilesManager(_config, _service, _converter, Auth);
+            CommentsManager = new BoxCommentsManager(_config, _service, _converter, Auth);
         }
 
         public BoxFilesManager FilesManager { get; private set; }
         public BoxFoldersManager FoldersManager { get; private set; }
+        public BoxCommentsManager CommentsManager { get; private set; }
 
         public AuthRepository Auth { get; set; }
     }
