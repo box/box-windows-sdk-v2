@@ -19,11 +19,20 @@ namespace Box.V2.Contracts
         string DeviceId { get; set; }
         string DeviceName { get; set; }
         string UserAgent { get; set; }
+        
+        /// <summary>
+        /// Sends compressed responses from Box for faster response times
+        /// </summary>
+        CompressionType? AcceptEncoding { get; }
 
         Uri AuthCodeUri { get; }
         Uri FoldersEndpointUri { get; }
         Uri FilesEndpointUri { get; }
         Uri FilesUploadEndpointUri { get; }
         Uri CommentsEndpointUri { get; }
+        Uri SearchEndpointUri { get; }
+        Uri UserEndpointUri { get; }
+        Uri CollaborationsEndpointUri { get; }
+        
     }
 }

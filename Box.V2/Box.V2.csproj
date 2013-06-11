@@ -54,6 +54,7 @@
     <Compile Include="Managers\BoxUsersManager.cs" />
     <Compile Include="Managers\BoxCollaborationsManager.cs" />
     <Compile Include="Managers\BoxResourceManager.cs" />
+    <Compile Include="Managers\BoxSearchManager.cs" />
     <Compile Include="Models\BoxEntity.cs" />
     <Compile Include="Models\BoxEnums.cs" />
     <Compile Include="Models\BoxCollaboration.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Models\BoxPermission.cs" />
     <Compile Include="Models\Request\BoxEmailRequest.cs" />
     <Compile Include="Models\Request\BoxItemRequest.cs" />
+    <Compile Include="Models\Request\BoxRequestFields.cs" />
     <Compile Include="Models\Request\BoxSharedLinkRequest.cs" />
     <Compile Include="Models\BoxEmail.cs" />
     <Compile Include="Models\BoxFile.cs" />
@@ -76,6 +78,9 @@
     <Compile Include="Models\BoxSharedLink.cs" />
     <Compile Include="Models\BoxUser.cs" />
     <Compile Include="Models\Request\BoxCommentRequest.cs" />
+    <Compile Include="Models\Request\BoxUserRequest.cs" />
+    <Compile Include="Models\Request\BoxCollaborationRequest.cs" />
+    <Compile Include="Models\Request\BoxCollaborationUserRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoxWrappers\BoxRequest.cs" />
     <Compile Include="BoxWrappers\Contracts\IBoxRequest.cs" />

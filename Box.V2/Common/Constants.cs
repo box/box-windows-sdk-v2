@@ -31,6 +31,12 @@ namespace Box.V2
 
         public const string CommentsEndpointString = BoxApiUriString + @"comments/";
 
+        public const string SearchEndpointString = BoxApiUriString + @"search";
+
+        public const string UserEndpointString = BoxApiUriString + @"users/";
+
+        public const string CollaborationsEndpointString = BoxApiUriString + @"collaborations/";
+
         /*** Endpoint Paths ***/
 
         public const string ItemsPathString = @"{0}/items";

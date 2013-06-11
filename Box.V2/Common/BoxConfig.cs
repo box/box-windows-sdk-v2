@@ -28,12 +28,25 @@ namespace Box.V2.Contracts
         public string DeviceName { get; set; }
         public string UserAgent { get; set; }
 
+        /// <summary>
+        /// Sends compressed responses from Box for faster response times
+        /// </summary>
+        public CompressionType? AcceptEncoding { get; set; }
+
         public Uri AuthCodeUri { get { return new Uri(string.Format("{0}?response_type=code&client_id={1}&redirect_uri={2}", Constants.AuthCodeEndpointString, ClientId, RedirectUri)); } }
             
         public Uri FoldersEndpointUri { get { return new Uri(Constants.FoldersEndpointString); } }
         public Uri FilesEndpointUri { get { return new Uri(Constants.FilesEndpointString); } }
         public Uri FilesUploadEndpointUri { get { return new Uri(Constants.FilesUploadEndpointString); } }
-        public Uri CommentsEndpointUri { get { return new Uri(Constants.CommentsEndpointString); }
-        }
+        public Uri CommentsEndpointUri { get { return new Uri(Constants.CommentsEndpointString); } }
+        public Uri SearchEndpointUri { get { return new Uri(Constants.SearchEndpointString); } }
+        public Uri UserEndpointUri { get { return new Uri(Constants.UserEndpointString); } }
+        public Uri CollaborationsEndpointUri { get { return new Uri(Constants.CollaborationsEndpointString); } }
+    }
+
+    public enum CompressionType
+    {
+        gzip, 
+        deflate
     }
 }

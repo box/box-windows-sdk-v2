@@ -51,8 +51,6 @@ namespace Box.V2.W8
         {
         }
 
-        
-
         private async void GoBack_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(_main.ParentId))

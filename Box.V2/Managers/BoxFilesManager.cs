@@ -268,6 +268,12 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Gets the stream of a preview page
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="page"></param>
+        /// <returns>A PNG of the preview</returns>
         public async Task<Stream> GetPreviewAsync(string id, int page)
         {
             CheckPrerequisite(id);
@@ -281,7 +287,6 @@ namespace Box.V2.Managers
             return response.ResponseObject;
             
         }
-
 
         /// <summary>
         /// Retrieves an item that has been moved to the trash.

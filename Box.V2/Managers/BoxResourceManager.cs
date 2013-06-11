@@ -27,7 +27,9 @@ namespace Box.V2.Managers
 
         protected IBoxRequest AddDefaultHeaders(IBoxRequest request)
         {
-            request.Header("User-Agent", _config.UserAgent ?? string.Empty);
+            request
+                .Header("User-Agent", _config.UserAgent)
+                .Header("Accept-Encoding", _config.AcceptEncoding.ToString());
                 //.Param("device_id", _config.DeviceId ?? string.Empty)
                 //.Param("device_name", _config.DeviceName ?? string.Empty);
 
@@ -62,6 +64,21 @@ namespace Box.V2.Managers
                 response = await RetryExpiredTokenRequest<T>(request);
 
             return response.ParseResults(_converter);
+        }
+
+        protected void AddAuthorization(IBoxRequest request, string accessToken)
+        {
+            StringBuilder sb = new StringBuilder(string.Format("Bearer {0}", accessToken));
+            
+            // Device ID is required for accounts that have device pinning enabled
+            sb.Append(string.IsNullOrWhiteSpace(_config.DeviceId) ? 
+                string.Empty : 
+                string.Format("&device_id={0}", _config.DeviceId));
+            sb.Append(string.IsNullOrWhiteSpace(_config.DeviceName) ? 
+                string.Empty : 
+                string.Format("&device_name={0}", _config.DeviceName));
+
+            request.Header("Authorization", sb.ToString());
         }
 
     }
