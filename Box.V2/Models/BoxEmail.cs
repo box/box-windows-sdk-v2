@@ -8,10 +8,13 @@ namespace Box.V2.Models
 {
     public class BoxEmail
     {
-        [JsonProperty(PropertyName="access")]
+        public const string FieldAccess = "access";
+        public const string FieldEmail = "email";
+
+        [JsonProperty(PropertyName = FieldAccess)]
         public string Acesss { get; private set; }
 
-        [JsonProperty(PropertyName="email")]
+        [JsonProperty(PropertyName = FieldEmail)]
         public string Address { get; private set; }
     }
 }

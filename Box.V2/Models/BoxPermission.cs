@@ -8,6 +8,8 @@ namespace Box.V2.Models
 {
     public class BoxPermission
     {
+
+
         [JsonProperty("can_download")]
         public bool CanDownload { get; set; }
 

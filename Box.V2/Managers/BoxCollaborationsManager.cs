@@ -23,18 +23,18 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="collaborationRequest"></param>
         /// <returns></returns>
-        public async Task<BoxCollaboration> AddCollaborationAsync(BoxCollaborationRequest collaborationRequest)
+        public async Task<BoxCollaboration> AddCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null)
         {
-            CheckPrerequisite(
-                collaborationRequest.ThrowIfNull("collaborationRequest")
-                    .Item.ThrowIfNull("collaborationRequest.Item").Id,
-                    collaborationRequest.AccessibleBy.ThrowIfNull("collaborationRequest.AccessibleBy").Id,
-                    collaborationRequest.AccessibleBy.Login);
+            collaborationRequest.ThrowIfNull("collaborationRequest")
+                .Item.ThrowIfNull("collaborationRequest.Item")
+                .Id.ThrowIfNullOrWhiteSpace("collaborationRequest.Item.Id");
+            collaborationRequest.AccessibleBy.ThrowIfNull("collaborationRequest.AccessibleBy");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri)
                 .Method(RequestMethod.POST)
-                .Authorize(_auth.Session.AccessToken)
-                .Payload(_converter.Serialize(collaborationRequest));
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(collaborationRequest))
+                .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
 
@@ -47,15 +47,16 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="collaborationRequest"></param>
         /// <returns></returns>
-        public async Task<BoxCollaboration> EditCollaborationAsync(BoxCollaborationRequest collaborationRequest)
+        public async Task<BoxCollaboration> EditCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null)
         {
-            CheckPrerequisite(
-                collaborationRequest.ThrowIfNull("collaborationRequest").Id);
+            collaborationRequest.ThrowIfNull("collaborationRequest")
+                .Id.ThrowIfNullOrWhiteSpace("collaborationRequest.Id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, collaborationRequest.Id)
                 .Method(RequestMethod.PUT)
-                .Authorize(_auth.Session.AccessToken)
-                .Payload(_converter.Serialize(collaborationRequest));
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(collaborationRequest))
+                .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
 
@@ -65,13 +66,13 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to delete a single collaboration.
         /// </summary>
-        /// <param name="collaborationRequest"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<bool> RemoveCollaborationAsync(BoxCollaborationRequest collaborationRequest)
+        public async Task<bool> RemoveCollaborationAsync(string id)
         {
-            CheckPrerequisite(collaborationRequest.ThrowIfNull("collaborationRequest").Id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, collaborationRequest.Id)
+            BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, id)
                 .Method(RequestMethod.DELETE)
                 .Authorize(_auth.Session.AccessToken);
 
@@ -86,11 +87,12 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="collaborationRequest"></param>
         /// <returns></returns>
-        public async Task<BoxCollaboration> GetCollaborationAsync(string id)
+        public async Task<BoxCollaboration> GetCollaborationAsync(string id, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, id)
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);

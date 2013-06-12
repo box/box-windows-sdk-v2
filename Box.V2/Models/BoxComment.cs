@@ -8,55 +8,55 @@ namespace Box.V2.Models
 {
     public class BoxComment : BoxEntity
     {
-        /// <summary>
-        /// For comments is ‘comment’
-        /// </summary>
-        [JsonProperty(PropertyName = "type")]
-        public string Type { get; set; }
+        public const string FieldIsReplyComment = "is_reply_comment";
+        public const string FieldMessage = "message";
+        public const string FieldTaggedMessage = "tagged_message";
+        public const string FieldCreatedBy = "created_by";
+        public const string FieldCreatedAt = "created_at";
+        public const string FieldItem = "item";
+        public const string FieldModifiedAt = "modified_at";
 
         /// <summary>
         /// Whether or not this comment is a reply to another comment
         /// </summary>
-        [JsonProperty(PropertyName = "is_reply_comment")]
+        [JsonProperty(PropertyName = FieldIsReplyComment)]
         public bool IsReplyComment { get; set; }
 
         /// <summary>
         /// The comment text that the user typed
         /// </summary>
-        [JsonProperty(PropertyName = "message")]
+        [JsonProperty(PropertyName = FieldMessage)]
         public string Message { get; set; }
 
         /// <summary>
         /// The string representing the comment text with @mentions included. 
         /// @mention format is @[id:username]. Field is not included by default.
         /// </summary>
-        [JsonProperty(PropertyName = "tagged_message")]
+        [JsonProperty(PropertyName = FieldTaggedMessage)]
         public string TaggedMessage { get; set; }
 
         /// <summary>
         /// A mini user object representing the author of the comment
         /// </summary>
-        [JsonProperty(PropertyName = "created_by")]
+        [JsonProperty(PropertyName = FieldCreatedBy)]
         public BoxUser CreatedBy { get; set; }
 
         /// <summary>
         /// The time this comment was created
         /// </summary>
-        [JsonProperty(PropertyName = "created_at")]
+        [JsonProperty(PropertyName = FieldCreatedAt)]
         public DateTime? CreatedAt { get; set; }
 
-        
         /// <summary>
         /// The time this comment was last modified
         /// </summary>
-        [JsonProperty(PropertyName = "modified_at")]
+        [JsonProperty(PropertyName = FieldModifiedAt)]
         public DateTime? ModifiedAt { get; set; }
-        
 
         /// <summary>
         /// The object this comment was placed on
         /// </summary>
-        [JsonProperty(PropertyName = "item")]
+        [JsonProperty(PropertyName = FieldItem)]
         public BoxEntity Item { get; set; }
     }
 }

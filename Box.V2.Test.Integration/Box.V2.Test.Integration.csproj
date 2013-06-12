@@ -54,6 +54,9 @@
     <Compile Include="BoxFoldersManagerTestIntegration.cs" />
     <Compile Include="BoxResourceManagerTestIntegration.cs" />
     <Compile Include="BoxCommentsManagerTestIntegration.cs" />
+    <Compile Include="BoxSearchManagerTestIntegration.cs" />
+    <Compile Include="BoxUsersManagerTestIntegration.cs" />
+    <Compile Include="BoxCollaborationsManagerTestIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

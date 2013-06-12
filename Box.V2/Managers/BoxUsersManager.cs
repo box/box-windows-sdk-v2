@@ -19,9 +19,10 @@ namespace Box.V2.Managers
         /// Retrieves information about the user who is currently logged in i.e. the user for whom this auth token was generated.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxUser> GetCurrentUserInformationAsync()
+        public async Task<BoxUser> GetCurrentUserInformationAsync(List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, "me")
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request);
@@ -36,9 +37,10 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="userRequest"></param>
         /// <returns></returns>
-        public async Task<BoxUser> UpdateUserInformationAsync(string id, BoxUserRequest userRequest)
+        public async Task<BoxUser> UpdateUserInformationAsync(BoxUserRequest userRequest, List<string> fields = null)
         {
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, id)
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userRequest.Id)
+                .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(userRequest))
                 .Authorize(_auth.Session.AccessToken);
 

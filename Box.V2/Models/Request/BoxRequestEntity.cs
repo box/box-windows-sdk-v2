@@ -17,7 +17,7 @@ namespace Box.V2.Models
         public string Id { get; set; }
 
         /// <summary>
-        /// The type of the item that this comment will be placed on. Can be file, discussion, or comment
+        /// The type of the item 
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         [JsonConverter(typeof(StringEnumConverter))]
@@ -30,5 +30,6 @@ public enum BoxType
 {
     file, 
     discussion, 
-    comment
+    comment,
+    folder,
 }

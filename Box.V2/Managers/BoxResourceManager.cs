@@ -12,6 +12,8 @@ namespace Box.V2.Managers
 {
     public abstract class BoxResourceManager
     {
+        protected const string ParamFields = "fields";
+
         protected IBoxConfig _config;
         protected IBoxService _service;
         protected IBoxConverter _converter;
@@ -34,15 +36,6 @@ namespace Box.V2.Managers
                 //.Param("device_name", _config.DeviceName ?? string.Empty);
 
             return request;
-        }
-
-        protected void CheckPrerequisite(params string[] values)
-        {
-            foreach (var v in values)
-            {
-                if (string.IsNullOrWhiteSpace(v))
-                    throw new ArgumentException("Value for a required field cannot be null or empty");
-            }
         }
 
         protected async Task<IBoxResponse<T>> RetryExpiredTokenRequest<T>(IBoxRequest request)

@@ -9,35 +9,45 @@ namespace Box.V2.Models
 {
     public class BoxSharedLink
     {
+        public const string FieldUrl = "url";
+        public const string FieldDownloadUrl = "download_url";
+        public const string FieldVanityUrl = "vanity_url";
+        public const string FieldIsPasswordEnabled = "is_password_enabled";
+        public const string FieldUnsharedAt = "unshared_at";
+        public const string FieldDownloadCount = "download_count";
+        public const string FieldPreviewCount = "preview_count";
+        public const string FieldAccess = "access";
+        public const string FieldPermissions = "permissions";
+
         /// <summary>
         /// The Url of the shared link
         /// </summary>
-        [JsonProperty(PropertyName = "url")]
+        [JsonProperty(PropertyName = FieldUrl)]
         public string Url { get; private set; }
 
-        [JsonProperty(PropertyName = "download_url")]
-        public string DownloadUrl { get; set; }
+        [JsonProperty(PropertyName = FieldDownloadUrl)]
+        public string DownloadUrl { get; private set; }
 
-        [JsonProperty(PropertyName = "vanity_url")]
-        public string VanityUrl { get; set; }
+        [JsonProperty(PropertyName = FieldVanityUrl)]
+        public string VanityUrl { get; private set; }
 
-        [JsonProperty(PropertyName = "is_password_enabled")]
-        public bool IsPasswordEnabled { get; set; }
+        [JsonProperty(PropertyName = FieldIsPasswordEnabled)]
+        public bool IsPasswordEnabled { get; private set; }
 
-        [JsonProperty(PropertyName = "unshared_at")]
-        public DateTime? UnsharedAt { get; set; }
+        [JsonProperty(PropertyName = FieldUnsharedAt)]
+        public DateTime? UnsharedAt { get; private set; }
 
-        [JsonProperty(PropertyName = "download_count")]
-        public int DownloadCount { get; set; }
+        [JsonProperty(PropertyName = FieldDownloadCount)]
+        public int DownloadCount { get; private set; }
 
-        [JsonProperty(PropertyName = "preview_count")]
-        public int PreviewCount { get; set; }
+        [JsonProperty(PropertyName = FieldPreviewCount)]
+        public int PreviewCount { get; private set; }
 
-        [JsonProperty(PropertyName = "access")]
+        [JsonProperty(PropertyName = FieldAccess)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public BoxSharedLinkAccessType? Access { get; set; }
+        public BoxSharedLinkAccessType? Access { get; private set; }
 
-        [JsonProperty(PropertyName = "permissions")]
-        public BoxPermission Permissions { get; set; }
+        [JsonProperty(PropertyName = FieldPermissions)]
+        public BoxPermission Permissions { get; private set; }
     }
 }

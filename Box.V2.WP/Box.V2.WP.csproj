@@ -102,6 +102,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BoxFilePicker.xaml.cs">
+      <DependentUpon>BoxFilePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MultiSelectList.cs" />
     <Compile Include="Controls\VisualTreeExtensions.cs" />
     <Compile Include="LocalizedStrings.cs" />
@@ -126,6 +129,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="BoxFilePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

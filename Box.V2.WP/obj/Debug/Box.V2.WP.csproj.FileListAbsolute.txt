@@ -59,3 +59,4 @@ C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\ImageTools.IO.Png.xml
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\ImageTools.Utils.pdb
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\ImageTools.Utils.xml
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\PhoneCodeContractsAssemblies.pdb
+C:\Dev\Box.V2\Box.V2.WP\obj\Debug\BoxFilePicker.g.cs

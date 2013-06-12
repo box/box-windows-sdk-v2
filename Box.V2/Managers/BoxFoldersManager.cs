@@ -12,6 +12,7 @@ namespace Box.V2.Managers
 {
     public class BoxFoldersManager : BoxResourceManager
     {
+
         public BoxFoldersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
             : base(config, service, converter, auth) { }
 
@@ -21,13 +22,14 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="limit"></param>
         /// <param name="offset"></param>
-        public async Task<BoxFolder> GetItemsAsync(string id, int limit, int offset = 0)
+        public async Task<BoxFolder> GetItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
@@ -40,15 +42,18 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        public async Task<BoxFolder> CreateAsync(BoxFolderRequest folderRequest)
+        public async Task<BoxFolder> CreateAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
-            CheckPrerequisite(folderRequest.ThrowIfNull("folderRequest").Name,
-                folderRequest.Parent.ThrowIfNull("folderRequest.Parent").Id);
+            folderRequest.ThrowIfNull("folderRequest")
+                .Name.ThrowIfNullOrWhiteSpace("folderRequest.Name");
+            folderRequest.Parent.ThrowIfNull("folderRequest.Parent")
+                .Id.ThrowIfNullOrWhiteSpace("folderRequest.Parent.Id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri)
                 .Method(RequestMethod.POST)
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize<BoxFolderRequest>(folderRequest))
                 .Authorize(_auth.Session.AccessToken);
-            request.Payload = _converter.Serialize<BoxFolderRequest>(folderRequest);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -62,13 +67,14 @@ namespace Box.V2.Managers
         /// represented by the id “0″.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxFolder> GetInformationAsync(string id)
+        public async Task<BoxFolder> GetInformationAsync(string id, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             string accessToken = _auth.Session.AccessToken;
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
@@ -80,15 +86,18 @@ namespace Box.V2.Managers
         /// Used to create a copy of a folder in another folder. The original version of the folder will not be altered.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxFolder> CopyAsync(BoxFolderRequest folderRequest)
+        public async Task<BoxFolder> CopyAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
-            CheckPrerequisite(folderRequest.ThrowIfNull("folderRequest").Id,
-                folderRequest.Parent.ThrowIfNull("folderRequest.Parent").Id);
+            folderRequest.ThrowIfNull("folderRequest")
+                .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
+            folderRequest.Parent.ThrowIfNull("folderRequest.Parent")
+                .Id.ThrowIfNullOrWhiteSpace("folderRequest.Parent.Id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CopyPathString, folderRequest.Id))
                     .Method(RequestMethod.POST)
+                    .Param(ParamFields, fields)
+                    .Payload(_converter.Serialize(folderRequest))
                     .Authorize(_auth.Session.AccessToken);
-            request.Payload = _converter.Serialize(folderRequest);
             
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -101,18 +110,18 @@ namespace Box.V2.Managers
         /// if it knows about the latest version.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxFolder> DeleteAsync(string id, bool recursive = false)
+        public async Task<bool> DeleteAsync(string id, bool recursive = false)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.DELETE)
-                .Authorize(_auth.Session.AccessToken)
-                .Param("recursive", recursive.ToString());
+                .Param("recursive", recursive.ToString())
+                .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
-            return response.ResponseObject;
+            return response.Status == ResponseStatus.Success;
         }
 
         /// <summary>
@@ -122,14 +131,16 @@ namespace Box.V2.Managers
         /// about the latest version.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest)
+        public async Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
-            CheckPrerequisite(folderRequest.ThrowIfNull("folderRequest").Id);
+            folderRequest.ThrowIfNull("folderRequest")
+                .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
+                    .Param(ParamFields, fields)
+                    .Payload(_converter.Serialize(folderRequest))
                     .Method(RequestMethod.PUT)
                     .Authorize(_auth.Session.AccessToken);
-            request.Payload = _converter.Serialize(folderRequest);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -142,16 +153,17 @@ namespace Box.V2.Managers
         /// request with the value of shared_link set to null, i.e. {"shared_link": null}
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxFolder> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest)
+        public async Task<BoxFolder> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
             if (!sharedLinkRequest.ThrowIfNull("sharedLinkRequest").Access.HasValue)
-                throw new ArgumentException("sharedLinkRequest.Access");
+                throw new ArgumentNullException("sharedLinkRequest.Access");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.PUT)
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(new BoxItemRequest(){ SharedLink = sharedLinkRequest }))
                 .Authorize(_auth.Session.AccessToken);
-            request.Payload = _converter.Serialize(new BoxItemRequest(){ SharedLink = sharedLinkRequest });
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -162,11 +174,12 @@ namespace Box.V2.Managers
         /// Use this to get a list of all the collaborations on a folder i.e. all of the users that have access to that folder.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id)
+        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CollaborationsPathString, id))
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxCollection<BoxCollaboration>> response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request);
@@ -182,14 +195,14 @@ namespace Box.V2.Managers
         /// retrieved using the limit and offset parameters.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, string fields = null)
+        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
-                .Param("fields", fields)
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request);
@@ -203,15 +216,18 @@ namespace Box.V2.Managers
         /// name in that parent folder, the new parent folder and/or new name will need to be included in the request.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxFolder> RestoreTrashedFolderAsync(BoxFolderRequest folderRequest)
+        public async Task<BoxFolder> RestoreTrashedFolderAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
-            CheckPrerequisite(folderRequest.ThrowIfNull("folderRequest").Id,
-                folderRequest.Parent.ThrowIfNull("folderRequest.Parent").Id);
+            folderRequest.ThrowIfNull("folderRequest")
+                .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
+            folderRequest.Parent.ThrowIfNull("folderRequest.Parent")
+                .Id.ThrowIfNullOrWhiteSpace("folderRequest.Parent.Id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
                     .Method(RequestMethod.POST)
+                    .Param(ParamFields, fields)
+                    .Payload(_converter.Serialize(folderRequest))
                     .Authorize(_auth.Session.AccessToken);
-            request.Payload = _converter.Serialize(folderRequest);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -222,9 +238,9 @@ namespace Box.V2.Managers
         /// Permanently deletes an item that is in the trash. The item will no longer exist in Box. This action cannot be undone.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxFolder> PurgeTrashedFolderAsync(string id)
+        public async Task<bool> PurgeTrashedFolderAsync(string id)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
                 .Method(RequestMethod.DELETE)
@@ -232,18 +248,19 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
-            return response.ResponseObject;
+            return response.Status == ResponseStatus.Success;
         }
 
         /// <summary>
         /// Retrieves a folder that has been moved to the trash.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxFolder> GetTrashedFolderAsync(string id)
+        public async Task<BoxFolder> GetTrashedFolderAsync(string id, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);

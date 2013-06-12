@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Box.V2.Test.Integration
 {
@@ -11,7 +12,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse()
         {
-            BoxFolder f = await _client.FoldersManager.GetItemsAsync("0", 50);
+            BoxFolder f = await _client.FoldersManager.GetItemsAsync("0", 50, 0, new List<string>() { BoxFolder.FieldModifiedAt, BoxFolder.FieldModifiedBy});
         }
 
         [TestMethod]

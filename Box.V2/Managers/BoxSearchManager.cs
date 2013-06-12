@@ -24,14 +24,15 @@ namespace Box.V2.Managers
         /// <param name="limit"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxItem>> SearchAsync(string keyword, int limit, int offset = 0)
+        public async Task<BoxCollection<BoxItem>> SearchAsync(string keyword, int limit, int offset = 0, List<string> fields = null)
         {
-            CheckPrerequisite(keyword);
+            keyword.ThrowIfNullOrWhiteSpace("keyword");
 
             BoxRequest request = new BoxRequest(_config.SearchEndpointUri)
                 .Param("query", keyword)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request);

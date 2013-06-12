@@ -27,11 +27,12 @@ namespace Box.V2.Managers
         /// <param name="limit">The number of items to return (default=100, max=1000)</param>
         /// <param name="offset">The item at which to begin the response (default=0)</param>
         /// <returns></returns>
-        public async Task<BoxFile> GetInformationAsync(string id)
+        public async Task<BoxFile> GetInformationAsync(string id, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
@@ -46,7 +47,7 @@ namespace Box.V2.Managers
         /// <returns>MemoryStream of the requested file</returns>
         public async Task<Stream> DownloadStreamAsync(string id)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
                 .Authorize(_auth.Session.AccessToken);
@@ -63,14 +64,16 @@ namespace Box.V2.Managers
         /// <param name="fileRequest"></param>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream)
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null)
         {
             stream.ThrowIfNull("stream");
-            CheckPrerequisite(
-                fileRequest.ThrowIfNull("fileRequest").Name,
-                fileRequest.Parent.ThrowIfNull("fileRequest.Parent").Id);
+            fileRequest.ThrowIfNull("fileRequest")
+                .Name.ThrowIfNullOrWhiteSpace("filedRequest.Name");
+            fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
+                .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri)
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken)
                 .FormPart(new BoxStringFormPart()
                 {
@@ -99,13 +102,15 @@ namespace Box.V2.Managers
         /// <param name="stream"></param>
         /// <param name="etag"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null)
+        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null)
         {
             stream.ThrowIfNull("stream");
-            CheckPrerequisite(etag, fileName);
+            etag.ThrowIfNullOrWhiteSpace("etag");
+            fileName.ThrowIfNullOrWhiteSpace("fileName");
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)))
                 .Header("If-Match", etag)
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken)
                 .FormPart(new BoxFileFormPart()
                 {
@@ -126,11 +131,12 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxFile>> ViewVersionsAsync(string id)
+        public async Task<BoxCollection<BoxFile>> ViewVersionsAsync(string id, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.VersionsPathString, id))
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request);
@@ -145,15 +151,17 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequest"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null)
+        public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, List<string> fields = null)
         {
-            CheckPrerequisite(fileRequest.ThrowIfNull("fileRequest").Id);
+            fileRequest.ThrowIfNull("fileRequest")
+                .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.PUT)
-                .Authorize(_auth.Session.AccessToken)
-                .Header("If-Match", etag);
-                
+                .Header("If-Match", etag)
+                .Param(ParamFields, fields)
+                .Authorize(_auth.Session.AccessToken);
+
             request.Payload = _converter.Serialize(fileRequest);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
@@ -170,12 +178,13 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<bool> DeleteAsync(string id, string etag)
         {
-            CheckPrerequisite(id, etag);
+            id.ThrowIfNullOrWhiteSpace("id");
+            etag.ThrowIfNullOrWhiteSpace("etag");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, id)
                 .Method(RequestMethod.DELETE)
-                .Authorize(_auth.Session.AccessToken)
-                .Header("If-Match", etag);
+                .Header("If-Match", etag)
+                .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -187,15 +196,18 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequest"></param>
         /// <returns></returns>
-        public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest)
+        public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null)
         {
-            CheckPrerequisite(fileRequest.ThrowIfNull("fileRequest").Name,
-                fileRequest.Parent.ThrowIfNull("fileRequest.Parent").Id);
+            fileRequest.ThrowIfNull("fileRequest")
+                .Name.ThrowIfNullOrWhiteSpace("fileRequest.Name");
+            fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
+                .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.CopyPathString, fileRequest.Id))
                 .Method(RequestMethod.POST)
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(fileRequest))
                 .Authorize(_auth.Session.AccessToken);
-            request.Payload = _converter.Serialize(fileRequest);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -208,16 +220,17 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="sharedLinkRequest"></param>
         /// <returns></returns>
-        public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest)
+        public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
             if (!sharedLinkRequest.ThrowIfNull("sharedLinkRequest").Access.HasValue)
-                throw new ArgumentException("A required field is missing", "sharedLink.Access");
+                throw new ArgumentNullException("sharedLink.Access");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, id)
                 .Method(RequestMethod.POST)
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }))
                 .Authorize(_auth.Session.AccessToken);
-            request.Payload = _converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest });
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -229,11 +242,12 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">The Id of the item the comments should be retrieved for</param>
         /// <returns>A Collection of comment objects are returned. If there are no comments on the file, an empty comments array is returned</returns>
-        public async Task<BoxCollection<BoxComment>> GetCommentsAsync(string id)
+        public async Task<BoxCollection<BoxComment>> GetCommentsAsync(string id, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.CommentsPathString, id))
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxCollection<BoxComment>> response = await ToResponseAsync<BoxCollection<BoxComment>>(request);
@@ -254,7 +268,7 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.ThumbnailPathString, id))
                 .Authorize(_auth.Session.AccessToken)
@@ -276,7 +290,7 @@ namespace Box.V2.Managers
         /// <returns>A PNG of the preview</returns>
         public async Task<Stream> GetPreviewAsync(string id, int page)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(new Uri(string.Format("https://www.box.net/api/2.0/files/{0}/preview.png", id)))
                 .Authorize(_auth.Session.AccessToken)
@@ -285,7 +299,7 @@ namespace Box.V2.Managers
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
 
             return response.ResponseObject;
-            
+
         }
 
         /// <summary>
@@ -293,11 +307,12 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The full item will be returned, including information about when the it was moved to the trash.</returns>
-        public async Task<BoxFile> GetTrashedAsync(string id)
+        public async Task<BoxFile> GetTrashedAsync(string id, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.TrashPathString, id))
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
@@ -311,15 +326,17 @@ namespace Box.V2.Managers
         /// parent folder, the new parent folder and/or new name will need to be included in the request.
         /// </summary>
         /// <returns>The full item will be returned with a 201 Created status. By default it is restored to the parent folder it was in before it was trashed.</returns>
-        public async Task<BoxFile> RestoreTrashedAsync(BoxFileRequest fileRequest)
+        public async Task<BoxFile> RestoreTrashedAsync(BoxFileRequest fileRequest, List<string> fields = null)
         {
-            CheckPrerequisite(fileRequest.ThrowIfNull("fileRequest").Id,
-                fileRequest.Name);
+            fileRequest.ThrowIfNull("fileRequest")
+                .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
+            fileRequest.Name.ThrowIfNullOrWhiteSpace("fileRequest.Name");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, fileRequest.Id)
-                .Authorize(_auth.Session.AccessToken)
-                .Method(RequestMethod.POST);
-            request.Payload = _converter.Serialize(fileRequest);
+                .Method(RequestMethod.POST)
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(fileRequest))
+                .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -333,7 +350,7 @@ namespace Box.V2.Managers
         /// <returns>An empty 204 No Content response will be returned upon successful deletion</returns>
         public async Task<bool> PurgeTrashedAsync(string id)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.TrashPathString, id))
                 .Method(RequestMethod.DELETE)

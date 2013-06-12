@@ -62,6 +62,7 @@
     <Compile Include="Models\BoxPermission.cs" />
     <Compile Include="Models\Request\BoxEmailRequest.cs" />
     <Compile Include="Models\Request\BoxItemRequest.cs" />
+    <Compile Include="Models\Request\BoxRequestEnums.cs" />
     <Compile Include="Models\Request\BoxRequestFields.cs" />
     <Compile Include="Models\Request\BoxSharedLinkRequest.cs" />
     <Compile Include="Models\BoxEmail.cs" />
@@ -73,7 +74,6 @@
     <Compile Include="Models\Request\BoxRequestEntity.cs" />
     <Compile Include="Models\Request\BoxFolderRequest.cs" />
     <Compile Include="Models\BoxItem.cs" />
-    <Compile Include="Models\BoxMiniFolder.cs" />
     <Compile Include="Models\OAuthSession.cs" />
     <Compile Include="Models\BoxSharedLink.cs" />
     <Compile Include="Models\BoxUser.cs" />

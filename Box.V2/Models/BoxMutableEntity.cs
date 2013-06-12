@@ -8,9 +8,8 @@ namespace Box.V2.Models
 {
     public class BoxEntity
     {
-        // Marked private as Type and ID are always returned with every response regardless of included Fields
-        private const string FieldType = "type";
-        private const string FieldId = "id";
+        public const string FieldType = "type";
+        public const string FieldId = "id";
 
         /// <summary>
         /// The folder’s ID

@@ -9,14 +9,26 @@ namespace Box.V2
     {
         public static T Param<T>(this T request, string name, string value) where T : IBoxRequest
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException();
+            name.ThrowIfNullOrWhiteSpace("name");
 
             // Don't add a parameter that does not have a value
             if (string.IsNullOrWhiteSpace(value))
                 return request;
 
             request.Parameters[name] = value;
+
+            return request;
+        }
+
+        public static T Param<T>(this T request, string name, List<string> values) where T : IBoxRequest
+        {
+            name.ThrowIfNullOrWhiteSpace("name");
+
+            // Don't add a parameter that does not have a value
+            if (values == null || values.Count == 0)
+                return request;
+
+            request.Parameters[name] = string.Join("&", values);
 
             return request;
         }
@@ -44,8 +56,7 @@ namespace Box.V2
 
         public static T Payload<T>(this T request, string value) where T : IBoxRequest
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentNullException("value");
+            value.ThrowIfNullOrWhiteSpace("value");
 
             request.Payload = value;
 
@@ -67,8 +78,7 @@ namespace Box.V2
 
         public static T Authorize<T>(this T request, string accessToken) where T : IBoxRequest
         {
-            if (string.IsNullOrEmpty(accessToken))
-                throw new ArgumentNullException();
+            accessToken.ThrowIfNullOrWhiteSpace("accessToken");
 
             request.Authorization = accessToken;
             request.Header("Authorization", string.Format("Bearer {0}", accessToken));
@@ -78,8 +88,7 @@ namespace Box.V2
 
         public static T FormPart<T>(this T request, IBoxFormPart formPart) where T : BoxMultiPartRequest
         {
-            if (formPart == null)
-                throw new ArgumentNullException();
+            formPart.ThrowIfNull("formPart");
 
             request.Parts.Add(formPart);
 
@@ -99,6 +108,20 @@ namespace Box.V2
                 throw new ArgumentNullException(name);
 
             return param;
+        }
+
+        /// <summary>
+        /// Checks if a string is null or whitespace
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string ThrowIfNullOrWhiteSpace(this string value, string name)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Required field cannot be null or whitespace", name);
+
+            return value;
         }
     }
 }

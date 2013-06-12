@@ -35,4 +35,15 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }
     }
+
+    public static class BoxCollaborationRoles
+    {
+        public const string Editor = "editor";
+        public const string Viewer = "viewer";
+        public const string Previewer = "previewer";
+        public const string Uploader = "uploader";
+        public const string PreviewerUploader = "previewer uploader";
+        public const string ViewerUploader = "viewer uploader";
+        public const string CoOwner = "co-owner";
+    }
 }

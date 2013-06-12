@@ -20,17 +20,19 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="commentRequest"></param>
         /// <returns></returns>
-        public async Task<BoxComment> AddCommentAsync(BoxCommentRequest commentRequest)
+        public async Task<BoxComment> AddCommentAsync(BoxCommentRequest commentRequest, List<string> fields = null)
         {
-            CheckPrerequisite(commentRequest.ThrowIfNull("commentRequest")
-                .Item.ThrowIfNull("commentRequest.Item").Id);
+            commentRequest.ThrowIfNull("commentRequest")
+                .Item.ThrowIfNull("commentRequest.Item")
+                .Id.ThrowIfNullOrWhiteSpace("commentRequest.Item.Id");
             if (commentRequest.Item.Type == null)
                 throw new ArgumentNullException("commentRequest.Item.Type");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri)
                 .Method(RequestMethod.POST)
-                .Authorize(_auth.Session.AccessToken)
-                .Payload(_converter.Serialize(commentRequest));
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(commentRequest))
+                .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
 
@@ -42,11 +44,12 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="commentRequest"></param>
         /// <returns></returns>
-        public async Task<BoxComment> GetInformationAsync(string id)
+        public async Task<BoxComment> GetInformationAsync(string id, List<string> fields = null)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
+                .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
@@ -59,15 +62,17 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<BoxComment> UpdateAsync(string id, BoxCommentRequest commentsRequest)
+        public async Task<BoxComment> UpdateAsync(string id, BoxCommentRequest commentsRequest, List<string> fields = null)
         {
-            CheckPrerequisite(id, 
-                commentsRequest.ThrowIfNull("commentsRequest").Message);
+            id.ThrowIfNullOrWhiteSpace("id");
+            commentsRequest.ThrowIfNull("commentsRequest")
+                .Message.ThrowIfNullOrWhiteSpace("commentsRequest.Message");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
                 .Method(RequestMethod.PUT)
-                .Authorize(_auth.Session.AccessToken)
-                .Payload(_converter.Serialize(commentsRequest));
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(commentsRequest))
+                .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
 
@@ -82,7 +87,7 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<bool> DeleteAsync(string id)
         {
-            CheckPrerequisite(id);
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
                 .Method(RequestMethod.DELETE)
