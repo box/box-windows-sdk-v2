@@ -50,7 +50,7 @@ namespace Box.V2.Managers
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Parent.Id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri)
-                .Method(RequestMethod.POST)
+                .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize<BoxFolderRequest>(folderRequest))
                 .Authorize(_auth.Session.AccessToken);
@@ -94,7 +94,7 @@ namespace Box.V2.Managers
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Parent.Id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CopyPathString, folderRequest.Id))
-                    .Method(RequestMethod.POST)
+                    .Method(RequestMethod.Post)
                     .Param(ParamFields, fields)
                     .Payload(_converter.Serialize(folderRequest))
                     .Authorize(_auth.Session.AccessToken);
@@ -115,7 +115,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
-                .Method(RequestMethod.DELETE)
+                .Method(RequestMethod.Delete)
                 .Param("recursive", recursive.ToString())
                 .Authorize(_auth.Session.AccessToken);
 
@@ -139,7 +139,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
                     .Param(ParamFields, fields)
                     .Payload(_converter.Serialize(folderRequest))
-                    .Method(RequestMethod.PUT)
+                    .Method(RequestMethod.Put)
                     .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
@@ -160,7 +160,7 @@ namespace Box.V2.Managers
                 throw new ArgumentNullException("sharedLinkRequest.Access");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
-                .Method(RequestMethod.PUT)
+                .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(new BoxItemRequest(){ SharedLink = sharedLinkRequest }))
                 .Authorize(_auth.Session.AccessToken);
@@ -224,7 +224,7 @@ namespace Box.V2.Managers
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Parent.Id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
-                    .Method(RequestMethod.POST)
+                    .Method(RequestMethod.Post)
                     .Param(ParamFields, fields)
                     .Payload(_converter.Serialize(folderRequest))
                     .Authorize(_auth.Session.AccessToken);
@@ -243,7 +243,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
-                .Method(RequestMethod.DELETE)
+                .Method(RequestMethod.Delete)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);

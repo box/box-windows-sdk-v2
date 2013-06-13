@@ -31,7 +31,7 @@ namespace Box.V2.Managers
             collaborationRequest.AccessibleBy.ThrowIfNull("collaborationRequest.AccessibleBy");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri)
-                .Method(RequestMethod.POST)
+                .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(collaborationRequest))
                 .Authorize(_auth.Session.AccessToken);
@@ -53,7 +53,7 @@ namespace Box.V2.Managers
                 .Id.ThrowIfNullOrWhiteSpace("collaborationRequest.Id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, collaborationRequest.Id)
-                .Method(RequestMethod.PUT)
+                .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(collaborationRequest))
                 .Authorize(_auth.Session.AccessToken);
@@ -73,7 +73,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, id)
-                .Method(RequestMethod.DELETE)
+                .Method(RequestMethod.Delete)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);

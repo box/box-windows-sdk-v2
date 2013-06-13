@@ -59,4 +59,11 @@ C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\ImageTools.IO.Png.xml
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\ImageTools.Utils.pdb
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\ImageTools.Utils.xml
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\PhoneCodeContractsAssemblies.pdb
-C:\Dev\Box.V2\Box.V2.WP\obj\Debug\BoxFilePicker.g.cs
+C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Toolkit.Content\ApplicationBar.Cancel.png
+C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Toolkit.Content\ApplicationBar.Check.png
+C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Toolkit.Content\ApplicationBar.Delete.png
+C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Toolkit.Content\ApplicationBar.Select.png
+C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Controls\BoxFilePicker.g.cs
+C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\generic.png
+C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\PrivateFolder.png
+C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\ShareFolder.png

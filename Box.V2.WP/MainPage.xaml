@@ -54,6 +54,7 @@
                 </toolkit:LongListMultiSelector.ItemTemplate>
             </toolkit:LongListMultiSelector>-->
             <StackPanel>
+                <local:BoxFilePicker Client="{Binding Client}" />
                 <TextBlock Text="{Binding FolderName}" FontSize="18" />
                 <ListBox
                     ItemsSource="{Binding Items}" 
@@ -62,7 +63,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="10">
-                                <TextBlock Text="{Binding Name}" />
+                                <Image Source="{Binding Image}" />
+                                <TextBlock Text="{Binding Item.Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

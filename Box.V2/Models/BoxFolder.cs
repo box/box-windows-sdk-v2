@@ -23,7 +23,7 @@ namespace Box.V2.Models
         /// A collection of mini file and folder objects contained in this folder
         /// </summary>
         [JsonProperty(PropertyName = FieldItemCollection)]
-        public BoxCollection<BoxFile> ItemCollection { get; private set; }
+        public BoxCollection<BoxItem> ItemCollection { get; private set; }
 
         /// <summary>
         /// Whether this folder will be synced by the Box sync clients or not. Can be synced, not_synced, or partially_synced

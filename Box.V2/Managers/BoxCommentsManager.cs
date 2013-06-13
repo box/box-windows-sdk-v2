@@ -29,7 +29,7 @@ namespace Box.V2.Managers
                 throw new ArgumentNullException("commentRequest.Item.Type");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri)
-                .Method(RequestMethod.POST)
+                .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(commentRequest))
                 .Authorize(_auth.Session.AccessToken);
@@ -69,7 +69,7 @@ namespace Box.V2.Managers
                 .Message.ThrowIfNullOrWhiteSpace("commentsRequest.Message");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
-                .Method(RequestMethod.PUT)
+                .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(commentsRequest))
                 .Authorize(_auth.Session.AccessToken);
@@ -90,7 +90,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
-                .Method(RequestMethod.DELETE)
+                .Method(RequestMethod.Delete)
                 .Authorize(_auth.Session.AccessToken);
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);

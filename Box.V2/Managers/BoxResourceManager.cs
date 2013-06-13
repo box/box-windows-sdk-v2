@@ -32,8 +32,6 @@ namespace Box.V2.Managers
             request
                 .Header("User-Agent", _config.UserAgent)
                 .Header("Accept-Encoding", _config.AcceptEncoding.ToString());
-                //.Param("device_id", _config.DeviceId ?? string.Empty)
-                //.Param("device_name", _config.DeviceName ?? string.Empty);
 
             return request;
         }

@@ -205,9 +205,12 @@ namespace Box.V2.Sample.ViewModels
                 foreach (var i in folder.ItemCollection.Entries)
                 {
                     Items.Add(i);
+                    //Stream thumb = await Client.FilesManager.GetThumbnailAsync(id);
                 }
                 itemCount += ItemLimit;
             } while (itemCount < folder.ItemCollection.TotalCount);
+
+
         }
 
         internal async Task Download()

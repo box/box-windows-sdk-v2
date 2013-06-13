@@ -13,7 +13,7 @@ namespace Box.V2.Test
             IBoxRequest request = new BoxRequest(baseUri, "auth/oauth2");
             request.Param("test", "test2");
 
-            Assert.AreEqual(request.Method, RequestMethod.GET);
+            Assert.AreEqual(request.Method, RequestMethod.Get);
             Assert.AreEqual(baseUri, request.Host);
             Assert.IsNotNull(request.Parameters);
         }

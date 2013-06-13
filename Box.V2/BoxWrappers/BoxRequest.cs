@@ -71,9 +71,10 @@ namespace Box.V2
 
     public enum RequestMethod
     {
-        GET,
-        POST,
-        PUT,
-        DELETE
+        Get,
+        Post,
+        Put,
+        Delete,
+        Options
     }
 }

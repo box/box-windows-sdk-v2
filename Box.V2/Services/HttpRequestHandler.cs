@@ -72,17 +72,20 @@ namespace Box.V2.Services
 
             switch (request.Method)
             {
-                case RequestMethod.GET:
+                case RequestMethod.Get:
                     httpRequest.Method = HttpMethod.Get;
                     return httpRequest;
-                case RequestMethod.PUT:
+                case RequestMethod.Put:
                     httpRequest.Method = HttpMethod.Put;
                     break;
-                case RequestMethod.DELETE:
+                case RequestMethod.Delete:
                     httpRequest.Method = HttpMethod.Delete;
                     break;
-                case RequestMethod.POST:
+                case RequestMethod.Post:
                     httpRequest.Method = HttpMethod.Post;
+                    break;
+                case RequestMethod.Options:
+                    httpRequest.Method = HttpMethod.Options;
                     break;
                 default:
                     throw new InvalidOperationException("Http method not supported");

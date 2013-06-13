@@ -22,7 +22,7 @@ namespace Box.V2
         {
             get
             {
-                return RequestMethod.POST;
+                return RequestMethod.Post;
             }
         }
 

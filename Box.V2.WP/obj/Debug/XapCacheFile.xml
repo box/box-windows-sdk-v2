@@ -1,13 +1,15 @@
-﻿<xapCache source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.WP_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="6/11/2013 5:23:18 PM">
-  <file source="C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.dll" archivePath="Box.V2.WP.dll" lastWriteTime="6/11/2013 5:23:16 PM" />
+﻿<xapCache source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.WP_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="6/12/2013 4:31:42 PM">
+  <file source="C:\Dev\Box.V2\Box.V2.WP\obj\Debug\Box.V2.WP.dll" archivePath="Box.V2.WP.dll" lastWriteTime="6/12/2013 4:31:41 PM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="5/13/2013 11:46:48 AM" />
+  <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\generic.png" archivePath="Assets\generic.png" lastWriteTime="6/12/2013 12:15:47 PM" />
+  <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\PrivateFolder.png" archivePath="Assets\PrivateFolder.png" lastWriteTime="6/12/2013 12:15:52 PM" />
+  <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\ShareFolder.png" archivePath="Assets\ShareFolder.png" lastWriteTime="6/12/2013 12:15:52 PM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="5/13/2013 11:46:48 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="5/13/2013 11:46:48 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="5/13/2013 11:46:48 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="5/13/2013 11:46:48 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\jquery-1.10.1.min.js" archivePath="jquery-1.10.1.min.js" lastWriteTime="6/5/2013 3:51:17 PM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\preview.html" archivePath="preview.html" lastWriteTime="6/7/2013 2:30:35 PM" />
-  <file source="C:\Dev\Box.V2\Box.V2.WP\README_FIRST.txt" archivePath="README_FIRST.txt" lastWriteTime="6/7/2013 10:20:05 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Toolkit.Content\ApplicationBar.Cancel.png" archivePath="Toolkit.Content\ApplicationBar.Cancel.png" lastWriteTime="6/7/2013 10:20:05 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Toolkit.Content\ApplicationBar.Check.png" archivePath="Toolkit.Content\ApplicationBar.Check.png" lastWriteTime="6/7/2013 10:20:05 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Toolkit.Content\ApplicationBar.Delete.png" archivePath="Toolkit.Content\ApplicationBar.Delete.png" lastWriteTime="6/7/2013 10:20:05 AM" />
@@ -16,7 +18,7 @@
   <file source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="6/7/2013 10:41:34 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="5/13/2013 11:46:48 AM" />
   <file source="C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="5/13/2013 11:46:48 AM" />
-  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.dll" archivePath="Box.V2.dll" lastWriteTime="6/11/2013 5:23:15 PM" />
+  <file source="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.dll" archivePath="Box.V2.dll" lastWriteTime="6/12/2013 3:59:13 PM" />
   <file source="C:\Dev\Box.V2\packages\ImageTools.0.3.1\lib\sl3-wp\ICSharpCode.SharpZLib.Phone.dll" archivePath="ICSharpCode.SharpZLib.Phone.dll" lastWriteTime="6/7/2013 10:39:44 AM" />
   <file source="C:\Dev\Box.V2\packages\ImageTools.0.3.1\lib\sl3-wp\ImageTools.Controls.dll" archivePath="ImageTools.Controls.dll" lastWriteTime="6/7/2013 10:39:44 AM" />
   <file source="C:\Dev\Box.V2\packages\ImageTools.0.3.1\lib\sl3-wp\ImageTools.dll" archivePath="ImageTools.dll" lastWriteTime="6/7/2013 10:39:44 AM" />

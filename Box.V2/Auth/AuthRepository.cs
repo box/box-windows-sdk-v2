@@ -51,7 +51,7 @@ namespace Box.V2.Auth
                 throw new ArgumentException("Auth code cannot be null or empty", "authCode");
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
-                                            .Method(RequestMethod.POST)
+                                            .Method(RequestMethod.Post)
                                             .Payload("grant_type", "authorization_code")
                                             .Payload("code", authCode)
                                             .Payload("client_id", _config.ClientId)
@@ -99,7 +99,7 @@ namespace Box.V2.Auth
                 throw new ArgumentException("Refresh token cannot be null or empty", "refreshToken");
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
-                                            .Method(RequestMethod.POST)
+                                            .Method(RequestMethod.Post)
                                             .Payload("grant_type", "refresh_token")
                                             .Payload("refresh_token", refreshToken)
                                             .Payload("client_id", _config.ClientId)
@@ -124,7 +124,7 @@ namespace Box.V2.Auth
                 token = Session.AccessToken;
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.RevokeEndpointString)
-                                            .Method(RequestMethod.POST)
+                                            .Method(RequestMethod.Post)
                                             .Payload("client_id", _config.ClientId)
                                             .Payload("client_secret", _config.ClientSecret)
                                             .Payload("refresh_token", token);
