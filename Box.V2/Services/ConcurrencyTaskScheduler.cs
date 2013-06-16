@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace Box.V2.Services
 {
     /// <summary> 
-    /// Provides a task scheduler that ensures a maximum concurrency level while 
-    /// running on top of the ThreadPool. 
+    /// Provides a task scheduler that ensures a maximum concurrency level 
     /// </summary> 
     public class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
     {

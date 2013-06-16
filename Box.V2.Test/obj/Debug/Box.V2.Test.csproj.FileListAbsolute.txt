@@ -14,3 +14,5 @@ C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Microsoft.Threading.Tasks.xml
 C:\Dev\Box.V2\Box.V2.Test\obj\Debug\Box.V2.Test.csprojResolveAssemblyReference.cache
 C:\Dev\Box.V2\Box.V2.Test\obj\Debug\Box.V2.Test.dll
 C:\Dev\Box.V2\Box.V2.Test\obj\Debug\Box.V2.Test.pdb
+C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Dev\Box.V2\Box.V2.Test\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml

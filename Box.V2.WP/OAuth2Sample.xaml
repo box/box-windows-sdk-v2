@@ -11,5 +11,5 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
-    <phone:WebBrowser x:Name="oauthBrowser" Navigating="oauthBrowser_Navigating"/>
+    <phone:WebBrowser x:Name="oauthBrowser" Navigating="oauthBrowser_Navigating" IsScriptEnabled="True"/>
 </UserControl>

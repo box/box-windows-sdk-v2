@@ -6,18 +6,27 @@ using System.Text;
 
 namespace Box.V2.Models
 {
-    public class BoxCollection<T> where T : class, new()
+    public abstract class BoxCollection
     {
-        [JsonProperty(PropertyName = "total_count")]
+        public const string FieldTotalCount = "total_count";
+        public const string FieldEntries = "entries";
+        public const string FieldOffset = "offset";
+        public const string FieldLimit = "limit";
+    }
+    
+    public class BoxCollection<T> : BoxCollection 
+        where T : class, new()
+    {
+        [JsonProperty(PropertyName = FieldTotalCount)]
         public int TotalCount { get; private set; }
 
-        [JsonProperty(PropertyName = "entries")]
+        [JsonProperty(PropertyName = FieldEntries)]
         public List<T> Entries { get; private set; }
 
-        [JsonProperty(PropertyName = "offset")]
+        [JsonProperty(PropertyName = FieldOffset)]
         public int Offset { get; private set; }
 
-        [JsonProperty(PropertyName = "limit")]
+        [JsonProperty(PropertyName = FieldLimit)]
         public int Limit { get; private set; }
 
     }

@@ -1,6 +1,7 @@
 ﻿using Box.V2.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -35,33 +36,47 @@ namespace Box.V2.Services
             foreach (var kvp in request.HttpHeaders)
                 httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
 
-
             // If we are retrieving a stream, we should return without reading the entire response
-            HttpCompletionOption completionOption = isStream ? 
-                HttpCompletionOption.ResponseHeadersRead : 
+            HttpCompletionOption completionOption = isStream ?
+                HttpCompletionOption.ResponseHeadersRead :
                 HttpCompletionOption.ResponseContentRead;
 
-            HttpResponseMessage response = await _client.SendAsync(httpRequest, completionOption);
+            Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));//, RequestHeader: {1} , httpRequest.Headers.Select(i => string.Format("{0}:{1}", i.Key, i.Value)).Aggregate((i, j) => i + "," + j)));
 
-            BoxResponse<T> boxResponse = new BoxResponse<T>()
+            try
             {
-                // Sets the status to success, unauthorized, or error
-                Status = response.IsSuccessStatusCode ?
-                    ResponseStatus.Success :
-                    response.StatusCode == System.Net.HttpStatusCode.Unauthorized ? 
-                        ResponseStatus.Unauthorized :
-                        ResponseStatus.Error
-            };
+                HttpResponseMessage response = await _client.SendAsync(httpRequest, completionOption);
 
-            if (isStream && boxResponse.Status == ResponseStatus.Success)
-            {
-                var resObj = await response.Content.ReadAsStreamAsync();
-                boxResponse.ResponseObject = resObj as T;
+                BoxResponse<T> boxResponse = new BoxResponse<T>()
+                {
+                    // Sets the status to success, unauthorized, or error
+                    Status = response.IsSuccessStatusCode ?
+                        ResponseStatus.Success :
+                        response.StatusCode == System.Net.HttpStatusCode.Unauthorized ?
+                            ResponseStatus.Unauthorized :
+                            ResponseStatus.Error
+                };
+
+                if (isStream && boxResponse.Status == ResponseStatus.Success)
+                {
+                    using (var resObj = await response.Content.ReadAsStreamAsync())
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        resObj.Position = 0;
+                        await resObj.CopyToAsync(ms);
+                        boxResponse.ResponseObject = ms as T;
+                    }
+                }
+                else
+                    boxResponse.ContentString = await response.Content.ReadAsStringAsync();
+
+                return boxResponse;
             }
-            else
-                boxResponse.ContentString = await response.Content.ReadAsStringAsync();
-
-            return boxResponse;
+            catch (Exception ex)
+            {
+                Debug.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
+            }
         }
 
         private HttpRequestMessage BuildRequest(IBoxRequest request)

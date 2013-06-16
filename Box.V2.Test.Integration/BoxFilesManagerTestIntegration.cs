@@ -10,9 +10,19 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public class BoxFilesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
-        private const string FileId = "5004322318";
+        private const string FileId = "8599229215";
+
+//https://api.box.com/2.0/folders/915264606?fields=name&modified_at&item_collection
+//https://api.box.com/2.0/files/8599229215?fields=name&modified_at&size
 
         private const string savePath = @"C:\Users\btang\Downloads\{0}";
+
+        [TestMethod]
+        public async Task GetInformation_Fields_ValidResponse()
+        {
+            var test = await _client.FilesManager.GetInformationAsync(FileId, new List<string> { BoxFile.FieldName, BoxFile.FieldModifiedAt, BoxFile.FieldOwnedBy });
+        }
+
 
         [TestMethod]
         public async Task Download_ValidRequest_ValidStream()

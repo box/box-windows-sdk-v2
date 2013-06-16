@@ -31,6 +31,9 @@
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll">
       <PackagePath>Microsoft.Threading.Tasks.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll">
+      <PackagePath>Microsoft.Threading.Tasks.Extensions.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.pdb">
       <PackagePath>Box.V2.pdb</PackagePath>
     </AppxPackagedFile>
@@ -42,6 +45,9 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml">
       <PackagePath>Microsoft.Threading.Tasks.xml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml">
+      <PackagePath>Microsoft.Threading.Tasks.Extensions.xml</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>

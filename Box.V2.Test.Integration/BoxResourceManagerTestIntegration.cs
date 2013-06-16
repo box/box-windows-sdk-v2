@@ -29,7 +29,7 @@ namespace Box.V2.Test.Integration
 
         public BoxResourceManagerTestIntegration()
         {
-            _auth = new OAuthSession("ZLvFyRCTfQjv9AX0Okw75JNZdQ0xsvfm", "DnLZpGt5jHFiPiDFN9NrYZF3ey8uXIg3VzN72Xo4JTpGVeUq1kzr2JL1EjQX6obZ", 3600, "bearer");
+            _auth = new OAuthSession("doWY12bnwDd12byd5I3I4RsGiFYQHGU7", "rWJDTI80oihCGzkD3szITtr95wuOLp6U3idhpiTpc1au7Z34Tfb6alxVEG2MB7q0", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
             _parser = new BoxJsonConverter();

@@ -5,10 +5,10 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:local="clr-namespace:Box.V2.WP"
+    xmlns:v2con="clr-namespace:Box.V2.Controls;assembly=Box.V2.Controls.WP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:img="clr-namespace:ImageTools;assembly=ImageTools"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -54,7 +54,9 @@
                 </toolkit:LongListMultiSelector.ItemTemplate>
             </toolkit:LongListMultiSelector>-->
             <StackPanel>
-                <local:BoxFilePicker Client="{Binding Client}" />
+                <v2con:BoxFilePicker Client="{Binding Client}" />
+                <v2con:BoxFolderPicker Client="{Binding Client}" />
+                <Image Source="{Binding TestImage}" />
                 <TextBlock Text="{Binding FolderName}" FontSize="18" />
                 <ListBox
                     ItemsSource="{Binding Items}" 
@@ -63,8 +65,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="10">
-                                <Image Source="{Binding Image}" />
-                                <TextBlock Text="{Binding Item.Name}" />
+                                <TextBlock Text="{Binding Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

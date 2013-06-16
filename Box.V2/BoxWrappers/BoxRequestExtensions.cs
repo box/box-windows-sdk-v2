@@ -28,7 +28,7 @@ namespace Box.V2
             if (values == null || values.Count == 0)
                 return request;
 
-            request.Parameters[name] = string.Join("&", values);
+            request.Parameters[name] = string.Join(",", values);
 
             return request;
         }

@@ -270,14 +270,14 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.ThumbnailPathString, id))
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ThumbnailPathString, id))
                 .Authorize(_auth.Session.AccessToken)
                 .Param("min_height", minHeight.ToString())
                 .Param("min_width", minWidth.ToString())
                 .Param("max_height", maxHeight.ToString())
                 .Param("max_width", maxWidth.ToString());
 
-            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request, true);
 
             return response.ResponseObject;
         }

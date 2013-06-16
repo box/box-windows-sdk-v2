@@ -31,7 +31,5 @@ C:\Dev\Box.V2\Box.V2.W8\obj\Debug\resources.resfiles
 C:\Dev\Box.V2\Box.V2.W8\obj\Debug\pri.resfiles
 C:\Dev\Box.V2\Box.V2.W8\obj\Debug\LanguageQualifiers.txt
 C:\Dev\Box.V2\Box.V2.W8\obj\Debug\ProjectArchitectures.txt
-C:\Dev\Box.V2\Box.V2.W8\obj\Debug\priconfig.xml.intermediate
-C:\Dev\Box.V2\Box.V2.W8\obj\Debug\layout.resfiles.intermediate
-C:\Dev\Box.V2\Box.V2.W8\obj\Debug\resources.resfiles.intermediate
-C:\Dev\Box.V2\Box.V2.W8\obj\Debug\pri.resfiles.intermediate
+C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml

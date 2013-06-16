@@ -5,6 +5,7 @@ using Box.V2.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,6 +18,11 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
+
+#if WINDOWS_PHONE
+using System.Windows.Media.Imaging;
+using System.Threading;
+#endif
 
 namespace Box.V2.Sample.ViewModels
 {
@@ -31,7 +37,7 @@ namespace Box.V2.Sample.ViewModels
         //public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
 
         public const string RedirectUri = "http://localhost";
-        public readonly int ItemLimit = 5;
+        public readonly int ItemLimit = 100;
 
         public MainViewModel() : base() {
             OAuthSession session = null;
@@ -211,7 +217,41 @@ namespace Box.V2.Sample.ViewModels
             } while (itemCount < folder.ItemCollection.TotalCount);
 
 
+            //string[] ids = { "7918928406",
+            //                  "7918928976",
+            //                  "7918929126",
+            //                  "7918929466",
+            //                  "7918930332",
+            //                  "7918929914",
+            //                  "7918930534",
+            //                  "7918930810",
+            //                  "7918931172",
+            //                  "7918931736",
+            //                  "7918931930",
+            //                  "7918932720",
+            //                  "7918932692",
+            //                  "7918933326",
+            //                  "7918933600",
+            //                  "7918934086",
+            //                  "7918934724" };
+
         }
+        //SemaphoreSlim _throttler = new SemaphoreSlim(2);
+
+
+        //private async Task TestThrottle(string id)
+        //{
+        //    await _throttler.WaitAsync();
+
+        //    try
+        //    {
+        //        await Client.FilesManager.GetThumbnailAsync(id, 50, 50);
+        //    }
+        //    finally
+        //    {
+        //        _throttler.Release();
+        //    }
+        //}
 
         internal async Task Download()
         {
