@@ -10,17 +10,15 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480" x:Name="root"
     >
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <local:FileSizeConverter x:Key="fileSizeConverter"  BytesText="B" KiloBytesText="KB" MegaBytesText="MB" GigaBytesText="GB" />
         <local:DateConverter x:Key="dateConverter" />
         <local:TextToUpperConverter x:Key="textToUpperConverter" />
         <local:ValueToVisibilityConverter x:Key="valueToVisibilityConverter" />
-    </UserControl.Resources>
+    </UserControl.Resources>-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
-        <StackPanel>
-            <Button Content="Select a File" Click="FilePicker_Click" />
-        </StackPanel>
-        <Popup 
+            <Button Content="Select a File" Click="itemPicker_Click" />
+        <!--<Popup 
             x:Name="puItemPicker" 
             IsOpen="{Binding IsOpen, ElementName=root}" >
             <Border x:Name="child"
@@ -65,6 +63,6 @@
                     </ListBox>
                 </Grid>
             </Border>
-        </Popup>
+        </Popup>-->
     </Grid>
 </local:BoxItemPicker>

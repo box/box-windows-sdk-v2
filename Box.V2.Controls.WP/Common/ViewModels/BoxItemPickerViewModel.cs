@@ -14,6 +14,7 @@ using System.Threading;
 using System.Windows.Media.Imaging;
 #else
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage;
 #endif
 
 
@@ -107,10 +108,10 @@ namespace Box.V2.Controls
             }
         }
 
-        public async Task GetFolderItems(string id)
+        public async Task GetFolderItems(string id, string folderName = null)
         {
             Items.Clear();
-            FolderName = string.Empty;
+            FolderName = folderName;
             int itemCount = 0;
             IsLoading = true;
 
@@ -149,8 +150,17 @@ namespace Box.V2.Controls
                 {
                     BoxItemViewModel biVM = new BoxItemViewModel(i, _client);
                     if (i.Type == "folder")
+                    {
+#if WINDOWS_PHONE
                         biVM.Image = new BitmapImage(new Uri("/Assets/PrivateFolder.png", UriKind.RelativeOrAbsolute));
-
+#else
+                        var uri = new System.Uri("ms-appx:///Assets/SmallLogo.png");
+                        var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+                        var stream = await file.OpenReadAsync();
+                        biVM.Image = new BitmapImage();
+                        await biVM.Image.SetSourceAsync(stream);
+#endif
+                    }
                     Items.Add(biVM);
                 }
                 itemCount += _numItems;

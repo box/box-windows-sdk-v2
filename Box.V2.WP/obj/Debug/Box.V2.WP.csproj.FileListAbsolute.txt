@@ -91,3 +91,4 @@ C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.csproj.GenerateResource.Cac
 C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.dll
 C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.pdb
 C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\XapCacheFile.xml
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Properties\WMAppManifest.xml

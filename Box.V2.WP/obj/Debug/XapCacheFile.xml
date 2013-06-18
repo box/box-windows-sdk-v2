@@ -1,5 +1,5 @@
-﻿<xapCache source="C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Box.V2.WP_Debug_AnyCPU.xap" wasSigned="False" certificateThumbprint="" TimeStampUrl="" lastWriteTime="6/17/2013 6:59:31 PM">
-  <file source="C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.dll" archivePath="Box.V2.WP.dll" lastWriteTime="6/17/2013 6:59:30 PM" />
+﻿<xapCache source="C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Box.V2.WP_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="6/18/2013 3:55:17 PM">
+  <file source="C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.dll" archivePath="Box.V2.WP.dll" lastWriteTime="6/18/2013 3:55:16 PM" />
   <file source="C:\dev\box-windows-sdk\Box.V2.WP\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="6/13/2013 1:01:25 AM" />
   <file source="C:\dev\box-windows-sdk\Box.V2.WP\Assets\generic.png" archivePath="Assets\generic.png" lastWriteTime="6/13/2013 1:01:25 AM" />
   <file source="C:\dev\box-windows-sdk\Box.V2.WP\Assets\PrivateFolder.png" archivePath="Assets\PrivateFolder.png" lastWriteTime="6/13/2013 1:01:25 AM" />
@@ -20,8 +20,8 @@
   <file source="C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ShareFolder.png" archivePath="Assets\ShareFolder.png" lastWriteTime="6/17/2013 2:49:30 PM" />
   <file source="C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="6/13/2013 1:01:25 AM" />
   <file source="C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="6/13/2013 1:01:25 AM" />
-  <file source="C:\dev\box-windows-sdk\Box.V2.Controls.WP\Bin\Debug\Box.V2.Controls.WP.dll" archivePath="Box.V2.Controls.WP.dll" lastWriteTime="6/17/2013 6:59:30 PM" />
-  <file source="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Box.V2.dll" archivePath="Box.V2.dll" lastWriteTime="6/17/2013 6:55:40 PM" />
+  <file source="C:\dev\box-windows-sdk\Box.V2.Controls.WP\Bin\Debug\Box.V2.Controls.WP.dll" archivePath="Box.V2.Controls.WP.dll" lastWriteTime="6/18/2013 3:55:16 PM" />
+  <file source="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Box.V2.dll" archivePath="Box.V2.dll" lastWriteTime="6/18/2013 3:51:14 PM" />
   <file source="C:\dev\box-windows-sdk\packages\WPtoolkit.4.2012.10.30\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="6/13/2013 1:01:27 AM" />
   <file source="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Nito.AsyncEx.dll" archivePath="Nito.AsyncEx.dll" lastWriteTime="6/13/2013 1:01:27 AM" />
   <file source="C:\dev\box-windows-sdk\Box.V2\bin\Debug\System.Net.Http.dll" archivePath="System.Net.Http.dll" lastWriteTime="6/13/2013 1:01:26 AM" />

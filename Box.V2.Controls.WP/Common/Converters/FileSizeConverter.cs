@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+#if WINDOWS_PHONE
 using System.Windows.Data;
+#else
+using Windows.UI.Xaml.Data;
+using System.Globalization;
+#endif
 
 namespace Box.V2.Controls
 {
@@ -22,7 +28,11 @@ namespace Box.V2.Controls
             SizeLimit = 921;
         }
 
+#if WINDOWS_PHONE
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+#else
+        public object Convert(object value, Type targetType, object parameter, string language)
+#endif
         {
             if (!(value is long))
             {
@@ -55,10 +65,20 @@ namespace Box.V2.Controls
                     sizeText = GigaBytesText;
                     break;
             }
-            return string.Format(culture, "{0:###0.#} {1}", size, sizeText);
+
+#if WINDOWS_PHONE
+            var curCulture = culture;
+#else
+            var curCulture = CultureInfo.CurrentCulture;
+#endif
+            return string.Format(curCulture, "{0:###0.#} {1}", size, sizeText);
         }
 
+#if WINDOWS_PHONE
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+#else
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+#endif
         {
             throw new NotImplementedException();
         }

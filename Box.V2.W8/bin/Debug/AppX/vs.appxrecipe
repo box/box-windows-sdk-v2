@@ -5,7 +5,7 @@
     <WindowsUser>Brian</WindowsUser>
     <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
     <PackageArchitecture>neutral</PackageArchitecture>
-    <RegisteredManifestChecksum>B44EC130C9A0680EC75B87A9568BAD6E309D69E9DA34A049B09F3787421EB6FC</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>FC7D537737283F68EBD2DFDB47DE2C8269C34F4872312416850F05A7CFA9F1D3</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>981c2254-5046-457c-a9c3-431e5c0a5381_1.0.0.0_neutral__sjq3ap7smv4mm</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>981c2254-5046-457c-a9c3-431e5c0a5381_sjq3ap7smv4mm!App</RegisteredUserModeAppID>
     <RegisteredPackageID>981c2254-5046-457c-a9c3-431e5c0a5381</RegisteredPackageID>
@@ -16,29 +16,29 @@
     <AppXManifest Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2013-06-18T03:01:15.439</Modified>
+      <Modified>2013-06-18T09:26:47.002</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.W8.exe">
       <PackagePath>Box.V2.W8.exe</PackagePath>
-      <Modified>2013-06-18T03:14:56.431</Modified>
+      <Modified>2013-06-18T22:12:33.449</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.W8.pdb">
       <PackagePath>Box.V2.W8.pdb</PackagePath>
-      <Modified>2013-06-18T03:14:56.415</Modified>
+      <Modified>2013-06-18T22:12:33.433</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Box.V2.Controls.W8.pdb">
       <PackagePath>Box.V2.Controls.W8.pdb</PackagePath>
-      <Modified>2013-06-18T03:14:55.667</Modified>
+      <Modified>2013-06-18T22:12:32.619</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Box.V2.Controls.W8.dll">
       <PackagePath>Box.V2.Controls.W8.dll</PackagePath>
-      <Modified>2013-06-18T03:14:55.681</Modified>
+      <Modified>2013-06-18T22:12:32.635</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Box.V2.dll">
       <PackagePath>Box.V2.dll</PackagePath>
-      <Modified>2013-06-18T01:55:40.076</Modified>
+      <Modified>2013-06-18T20:29:42.074</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Nito.AsyncEx.dll">
       <PackagePath>Nito.AsyncEx.dll</PackagePath>
@@ -58,7 +58,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Box.V2.pdb">
       <PackagePath>Box.V2.pdb</PackagePath>
-      <Modified>2013-06-18T01:55:40.054</Modified>
+      <Modified>2013-06-18T20:29:42.056</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Nito.AsyncEx.xml">
       <PackagePath>Nito.AsyncEx.xml</PackagePath>
@@ -96,9 +96,21 @@
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2013-06-13T08:01:25.096</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\Assets\generic.png">
+      <PackagePath>Box.V2.Controls.W8\Assets\generic.png</PackagePath>
+      <Modified>2013-06-18T18:31:22.499</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\Assets\PrivateFolder.png">
+      <PackagePath>Box.V2.Controls.W8\Assets\PrivateFolder.png</PackagePath>
+      <Modified>2013-06-18T18:31:22.501</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\Assets\ShareFolder.png">
+      <PackagePath>Box.V2.Controls.W8\Assets\ShareFolder.png</PackagePath>
+      <Modified>2013-06-18T18:31:22.504</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\App.xaml">
       <PackagePath>App.xaml</PackagePath>
-      <Modified>2013-06-13T08:01:25.092</Modified>
+      <Modified>2013-06-18T04:58:18.654</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Common\StandardStyles.xaml">
       <PackagePath>Common\StandardStyles.xaml</PackagePath>
@@ -106,15 +118,19 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\MainPage.xaml">
       <PackagePath>MainPage.xaml</PackagePath>
-      <Modified>2013-06-18T03:12:21.485</Modified>
+      <Modified>2013-06-18T20:43:11.720</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxFilePicker.xaml">
-      <PackagePath>Box.V2.Controls.W8\BoxFilePicker.xaml</PackagePath>
-      <Modified>2013-06-18T03:11:52.241</Modified>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxItemPickerLauncher.xaml">
+      <PackagePath>Box.V2.Controls.W8\BoxItemPickerLauncher.xaml</PackagePath>
+      <Modified>2013-06-18T20:43:01.319</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxFilePickerPage.xaml">
+      <PackagePath>Box.V2.Controls.W8\BoxFilePickerPage.xaml</PackagePath>
+      <Modified>2013-06-18T21:00:45.461</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2013-06-18T03:01:15.397</Modified>
+      <Modified>2013-06-18T20:43:44.085</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

@@ -71,6 +71,15 @@
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\Assets\generic.png">
+      <PackagePath>Box.V2.Controls.W8\Assets\generic.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\Assets\PrivateFolder.png">
+      <PackagePath>Box.V2.Controls.W8\Assets\PrivateFolder.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\Assets\ShareFolder.png">
+      <PackagePath>Box.V2.Controls.W8\Assets\ShareFolder.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\App.xaml">
       <PackagePath>App.xaml</PackagePath>
     </AppxPackagedFile>
@@ -80,8 +89,11 @@
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\MainPage.xaml">
       <PackagePath>MainPage.xaml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxFilePicker.xaml">
-      <PackagePath>Box.V2.Controls.W8\BoxFilePicker.xaml</PackagePath>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxItemPickerLauncher.xaml">
+      <PackagePath>Box.V2.Controls.W8\BoxItemPickerLauncher.xaml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxFilePickerPage.xaml">
+      <PackagePath>Box.V2.Controls.W8\BoxFilePickerPage.xaml</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>

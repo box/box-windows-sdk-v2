@@ -3,14 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Box.V2.W8"
-    xmlns:classlibrary="using:Box.V2.Controls.W8"
+    xmlns:controls="using:Box.V2.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Loaded="mainPage_Loaded"
     DataContext="{Binding Main, Source={StaticResource locator}}">
     <Page.BottomAppBar>
-        <AppBar IsOpen="{Binding AppBarOpened, Mode=TwoWay}">
+        <AppBar>
             <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Button Style="{StaticResource UploadAppBarButtonStyle}"
@@ -26,22 +26,23 @@
         </AppBar>
     </Page.BottomAppBar>
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <classlibrary:BoxFilePicker />
-        <Grid Grid.Row="1" Margin="0,100,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="backButton" Click="GoBack_Click" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Text="{Binding FolderName}" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1" IsHitTestVisible="false"/>
-            <ProgressRing Grid.Column="1" Width="75" Height="75" IsActive="{Binding IsLoading}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        </Grid>
-        <GridView 
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <controls:BoxItemPickerLauncher x:Name="boxFilePicker" Client="{Binding Client}" StartingFolderName="All Files"/>
+            <Grid Grid.Row="1" Margin="0,100,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="backButton" Click="GoBack_Click" Style="{StaticResource BackButtonStyle}"/>
+                <TextBlock x:Name="pageTitle" Text="{Binding FolderName}" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1" IsHitTestVisible="false"/>
+                <ProgressRing Grid.Column="1" Width="75" Height="75" IsActive="{Binding IsLoading}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </Grid>
+            <GridView 
             Grid.Row="2"
             Padding="120,6,120,50"
             ItemsSource="{Binding Items}" 
@@ -49,11 +50,12 @@
             IsItemClickEnabled="True"
             ItemClick="FolderView_ItemClick"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <!--<GridView.Header>
+                <!--<GridView.Header>
                 <StackPanel>
                     <TextBlock Text="{Binding FolderName}" Style="{StaticResource SubheaderTextStyle}"/>
                 </StackPanel>
             </GridView.Header>-->
-        </GridView>
+            </GridView>
+        </Grid>
     </Grid>
 </Page>

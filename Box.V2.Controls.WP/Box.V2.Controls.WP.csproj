@@ -92,6 +92,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BoxFilePickerPage.xaml.cs">
+      <DependentUpon>BoxFilePickerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BoxFolderPicker.xaml.cs">
       <DependentUpon>BoxFolderPicker.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
     <Page Include="BoxFilePicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BoxFilePickerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BoxFolderPicker.xaml">
       <SubType>Designer</SubType>

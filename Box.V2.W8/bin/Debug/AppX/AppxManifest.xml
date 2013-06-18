@@ -40,9 +40,10 @@
   <build:Metadata>
     <build:Item Name="TargetFrameworkMoniker" Value=".NETCore,Version=v4.5" />
     <build:Item Name="VisualStudio" Version="11.0" />
+    <build:Item Name="VisualStudioEdition" Value="Microsoft Visual Studio Premium 2012" />
     <build:Item Name="OperatingSystem" Version="6.2.9200.16384 (win8_rtm.120725-1247)" />
-    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="11.0.50727.1" />
-    <build:Item Name="Microsoft.Windows.UI.Xaml.Build.Tasks.dll" Version="11.0.50727.1" />
+    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="11.0.60315.1" />
+    <build:Item Name="Microsoft.Windows.UI.Xaml.Build.Tasks.dll" Version="11.0.60315.1" />
     <build:Item Name="MakePri.exe" Version="6.2.9200.16384 (win8_rtm.120725-1247)" />
   </build:Metadata>
 </Package>

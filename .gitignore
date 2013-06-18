@@ -10,5 +10,6 @@
 *.pdb
 *.cache
 *.dll
+*.exe
 [Tt]humbs.db 
 TestResults
