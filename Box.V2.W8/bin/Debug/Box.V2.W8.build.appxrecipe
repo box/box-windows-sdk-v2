@@ -1,80 +1,89 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Machine>BTANG-TWIST</Machine>
-    <WindowsUser>btang</WindowsUser>
+    <Machine>BTANG</Machine>
+    <WindowsUser>Brian</WindowsUser>
     <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
     <PackageArchitecture>neutral</PackageArchitecture>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\AppxManifest.xml">
+    <AppXManifest Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.exe">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.W8.exe">
       <PackagePath>Box.V2.W8.exe</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Box.V2.W8.pdb">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.W8.pdb">
       <PackagePath>Box.V2.W8.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.dll">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Box.V2.Controls.W8.pdb">
+      <PackagePath>Box.V2.Controls.W8.pdb</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Box.V2.Controls.W8.dll">
+      <PackagePath>Box.V2.Controls.W8.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Box.V2.dll">
       <PackagePath>Box.V2.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.dll">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Nito.AsyncEx.dll">
       <PackagePath>Nito.AsyncEx.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.dll">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Microsoft.Threading.Tasks.dll">
       <PackagePath>Microsoft.Threading.Tasks.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll">
       <PackagePath>Microsoft.Threading.Tasks.Extensions.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Box.V2.pdb">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Box.V2.pdb">
       <PackagePath>Box.V2.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Nito.AsyncEx.xml">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Nito.AsyncEx.xml">
       <PackagePath>Nito.AsyncEx.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Newtonsoft.Json.xml">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Newtonsoft.Json.xml">
       <PackagePath>Newtonsoft.Json.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Microsoft.Threading.Tasks.xml">
       <PackagePath>Microsoft.Threading.Tasks.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml">
       <PackagePath>Microsoft.Threading.Tasks.Extensions.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\Logo.png">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\Assets\Logo.png">
       <PackagePath>Assets\Logo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\SmallLogo.png">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\Assets\SmallLogo.png">
       <PackagePath>Assets\SmallLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\SplashScreen.png">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\Assets\SplashScreen.png">
       <PackagePath>Assets\SplashScreen.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\App.xaml">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\App.xaml">
       <PackagePath>App.xaml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\Common\StandardStyles.xaml">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Common\StandardStyles.xaml">
       <PackagePath>Common\StandardStyles.xaml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\MainPage.xaml">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\MainPage.xaml">
       <PackagePath>MainPage.xaml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Dev\Box.V2\Box.V2.W8\bin\Debug\resources.pri">
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxFilePicker.xaml">
+      <PackagePath>Box.V2.Controls.W8\BoxFilePicker.xaml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>

@@ -2,15 +2,23 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.Threading;
+
+#if WINDOWS_PHONE
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using System.IO.IsolatedStorage;
+#else
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml;
+using Windows.UI.Core;
+using Windows.Storage.Streams;
+#endif
 
 namespace Box.V2.Controls
 {
@@ -19,7 +27,6 @@ namespace Box.V2.Controls
         private BoxClient _client;
 
         private const string fileNamePattern = "/{0}.png";
-        //private readonly AsyncLock _mutex = new AsyncLock();
 
         public BoxItemViewModel(BoxItem item, BoxClient client)
         {
@@ -46,7 +53,7 @@ namespace Box.V2.Controls
         public string Name
         {
             get { return _name; }
-            set 
+            set
             {
                 if (_name != value)
                 {
@@ -60,7 +67,7 @@ namespace Box.V2.Controls
         public DateTime? ModifiedAt
         {
             get { return _modifiedAt; }
-            set 
+            set
             {
                 if (_modifiedAt != value)
                 {
@@ -134,7 +141,11 @@ namespace Box.V2.Controls
             {
                 if (_image == null)
                 {
+#if WINDOWS_PHONE
                     Deployment.Current.Dispatcher.BeginInvoke(async () =>
+#else
+                    Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+#endif
                     {
                         try
                         {
@@ -165,6 +176,8 @@ namespace Box.V2.Controls
             Item = item;
             Name = item.Name;
             ModifiedAt = item.ModifiedAt;
+            if (item.Type == "file")
+                Size = item.Size;
         }
 
         private void UpdateFileBindings(BoxFile file)
@@ -192,14 +205,14 @@ namespace Box.V2.Controls
             {
                 case "folder":
                     Image = new BitmapImage(new Uri("/Assets/PrivateFolder.png", UriKind.RelativeOrAbsolute));
-                    UpdateFolderBindings(await _client.FoldersManager.GetInformationAsync(Item.Id, 
+                    UpdateFolderBindings(await _client.FoldersManager.GetInformationAsync(Item.Id,
                         new List<string>() {
                             BoxFolder.FieldName,
                             BoxFolder.FieldModifiedAt,
                             BoxFolder.FieldItemCollection}));
                     break;
                 case "file":
-                    UpdateFileBindings(await _client.FilesManager.GetInformationAsync(Item.Id, 
+                    UpdateFileBindings(await _client.FilesManager.GetInformationAsync(Item.Id,
                         new List<string>() { 
                             BoxFile.FieldName, 
                             BoxFile.FieldModifiedAt, 
@@ -219,12 +232,20 @@ namespace Box.V2.Controls
             BitmapImage image = new BitmapImage();
             if (imageStream != null && imageStream.Length > 0)
             {
-                Deployment.Current.Dispatcher.BeginInvoke(() =>
+#if WINDOWS_PHONE
+                image.SetSource(imageStream);
+#else
+                IRandomAccessStream inMemoryStream = new InMemoryRandomAccessStream();
+                using (var inputStream = imageStream.AsInputStream())
                 {
-                    image.SetSource(imageStream);
-                });
+                    await RandomAccessStream.CopyAsync(inputStream, inMemoryStream);
+                }
+                inMemoryStream.Seek(0);
+
+                await image.SetSourceAsync(inMemoryStream);
+#endif
             }
-            
+
             return image;
 
             //using (await _mutex.LockAsync())

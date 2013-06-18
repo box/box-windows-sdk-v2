@@ -1,12 +1,20 @@
 ﻿using Box.V2.Models;
-using Microsoft.Phone.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+
+#if NETFX_CORE
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
+#endif
+
+#if WINDOWS_PHONE
+using Microsoft.Phone.Controls;
 using System.Windows.Controls;
+#endif
 
 namespace Box.V2.Controls
 {
@@ -14,8 +22,9 @@ namespace Box.V2.Controls
     {
         public Action<BoxItem> ItemSelected;
         internal BoxItemPickerViewModel _vm;
-        protected PhoneApplicationPage _parent;
 
+#if WINDOWS_PHONE
+        protected PhoneApplicationPage _parent;
 
         protected virtual async void parent_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -33,6 +42,7 @@ namespace Box.V2.Controls
                 IsOpen = false;
             }
         }
+#endif
 
         #region Dependency Properties
 

@@ -2,6 +2,7 @@
 using Box.V2.Contracts;
 using Box.V2.Models;
 using Box.V2.Services;
+using Box.V2.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -188,11 +189,6 @@ namespace Box.V2.Sample.ViewModels
                 if (folder == null)
                 {
                     string message = "Unable to get folder items. Please try again later";
-#if W8
-                    await new MessageDialog(message).ShowAsync();
-#else
-                    MessageBox.Show(message);
-#endif
                     break;
                 }
 

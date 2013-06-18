@@ -1,5 +1,4 @@
 ﻿using Box.V2.Models;
-using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,8 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using Windows.UI.Core;
+using System.Threading;
+
+#if WINDOWS_PHONE
+using System.Windows.Media.Imaging;
+#else
+using Windows.UI.Xaml.Media.Imaging;
+#endif
 
 
 
@@ -20,8 +25,8 @@ namespace Box.V2.Controls
         private const int _numItems = 100;
         public BoxClient _client;
 
+        SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
-        AsyncLock _mutex = new AsyncLock();
         private Stack<string> _parentFolders = new Stack<string>();
 
         public BoxItemPickerViewModel(BoxClient client)
@@ -124,11 +129,6 @@ namespace Box.V2.Controls
                 if (folder == null)
                 {
                     string message = "Unable to get folder items. Please try again later";
-#if W8
-                    await new MessageDialog(message).ShowAsync();
-#else
-                    MessageBox.Show(message);
-#endif
                     break;
                 }
 
@@ -159,12 +159,17 @@ namespace Box.V2.Controls
 
         public async Task<string> GetParentFolder()
         {
-            using (await _mutex.LockAsync())
+            await _semaphore.WaitAsync();
+            try
             {
                 if (_parentFolders.Count > 0)
                     return _parentFolders.Pop();
+                return null;
             }
-            return null;
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public async Task PushParentFolder(string folderId)
@@ -172,9 +177,14 @@ namespace Box.V2.Controls
             if (string.IsNullOrWhiteSpace(folderId))
                 return;
 
-            using (await _mutex.LockAsync())
+            await _semaphore.WaitAsync();
+            try
             {
                 _parentFolders.Push(folderId);
+            }
+            finally
+            {
+                _semaphore.Release();
             }
         }
     }

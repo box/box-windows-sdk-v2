@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Box.V2.W8"
+    xmlns:classlibrary="using:Box.V2.Controls.W8"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -27,10 +28,11 @@
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-        <Grid Margin="0,100,0,0">
+        <classlibrary:BoxFilePicker />
+        <Grid Grid.Row="1" Margin="0,100,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -40,7 +42,7 @@
             <ProgressRing Grid.Column="1" Width="75" Height="75" IsActive="{Binding IsLoading}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Grid>
         <GridView x:ConnectionId='5' 
-            Grid.Row="1"
+            Grid.Row="2"
             Padding="120,6,120,50"
             ItemsSource="{Binding Items}" 
             ItemTemplate="{StaticResource FolderViewItemTemplate}"

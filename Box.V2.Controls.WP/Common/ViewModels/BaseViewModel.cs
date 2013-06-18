@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Windows.UI.Core;
 
-#if W8
+#if NETFX_CORE
 using Windows.UI.Xaml;
 #endif
 
@@ -17,7 +17,7 @@ namespace Box.V2.Controls
     {
         public BaseViewModel()
         {
-#if W8
+#if NETFX_CORE
             _dispatcher = Window.Current.Dispatcher;
 #endif
         }
@@ -33,14 +33,14 @@ namespace Box.V2.Controls
 
         private async Task UIThreadAction(Action act)
         {
-#if W8
+#if NETFX_CORE
             await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => act.Invoke());
 #else
             Deployment.Current.Dispatcher.BeginInvoke(act);
 #endif
         }
 
-        internal async void PropertyChangedAsync(string property)
+        public async void PropertyChangedAsync(string property)
         {
             if (PropertyChanged != null)
                 await UIThreadAction(() => PropertyChanged(this, new PropertyChangedEventArgs(property)));

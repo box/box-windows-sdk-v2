@@ -98,6 +98,8 @@
     <Compile Include="BoxItemPicker.cs" />
     <Compile Include="Common\Converters\DateConverter.cs" />
     <Compile Include="Common\Converters\FileSizeConverter.cs" />
+    <Compile Include="Common\Converters\TextToUpperConverter.cs" />
+    <Compile Include="Common\Converters\ValueToVisibilityConverter.cs" />
     <Compile Include="Common\ViewModels\BaseViewModel.cs" />
     <Compile Include="BoxFilePicker.xaml.cs">
       <DependentUpon>BoxFilePicker.xaml</DependentUpon>

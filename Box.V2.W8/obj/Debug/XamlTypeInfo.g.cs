@@ -59,6 +59,10 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
             {
                 xamlType = GetXamlTypeByName(type.FullName);
             }
+            if(xamlType == null)
+            {
+                xamlType = CheckOtherMetadataProvidersForType(type);
+            }
             return xamlType;
         }
 
@@ -74,6 +78,10 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 return xamlType;
             }
             xamlType = CreateXamlType(typeName);
+            if (xamlType == null)
+            {
+                xamlType = CheckOtherMetadataProvidersForName(typeName);
+            }
             if (xamlType != null)
             {
                 _xamlTypes.Add(typeName, xamlType);
@@ -114,7 +122,9 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
 
         private object Activate_0_ViewModelLocator() { return new global::Box.V2.Sample.ViewModels.ViewModelLocator(); }
 
-        private object Activate_1_MainPage() { return new global::Box.V2.W8.MainPage(); }
+        private object Activate_1_BoxFilePicker() { return new global::Box.V2.Controls.W8.BoxFilePicker(); }
+
+        private object Activate_2_MainPage() { return new global::Box.V2.W8.MainPage(); }
 
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(string typeName)
@@ -128,12 +138,12 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::System.Object));
                 break;
 
-            case "Windows.UI.Xaml.Controls.Page":
-                xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::Windows.UI.Xaml.Controls.Page));
-                break;
-
             case "Windows.UI.Xaml.Controls.UserControl":
                 xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::Windows.UI.Xaml.Controls.UserControl));
+                break;
+
+            case "Windows.UI.Xaml.Controls.Page":
+                xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::Windows.UI.Xaml.Controls.Page));
                 break;
 
             case "Box.V2.Sample.ViewModels.ViewModelLocator":
@@ -142,9 +152,15 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 xamlType = userType;
                 break;
 
+            case "Box.V2.Controls.W8.BoxFilePicker":
+                userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.Controls.W8.BoxFilePicker), GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
+                userType.Activator = Activate_1_BoxFilePicker;
+                xamlType = userType;
+                break;
+
             case "Box.V2.W8.MainPage":
                 userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.W8.MainPage), GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_1_MainPage;
+                userType.Activator = Activate_2_MainPage;
                 xamlType = userType;
                 break;
 
@@ -152,6 +168,49 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
             return xamlType;
         }
 
+        private global::System.Collections.Generic.List<global::Windows.UI.Xaml.Markup.IXamlMetadataProvider> _otherProviders;
+        private global::System.Collections.Generic.List<global::Windows.UI.Xaml.Markup.IXamlMetadataProvider> OtherProviders
+        {
+            get
+            {
+                if(_otherProviders == null)
+                {
+                    _otherProviders = new global::System.Collections.Generic.List<global::Windows.UI.Xaml.Markup.IXamlMetadataProvider>();
+                    global::Windows.UI.Xaml.Markup.IXamlMetadataProvider provider;
+                    provider = new global::Box.V2.Controls.W8.Box_V2_Controls_W8_XamlTypeInfo.XamlMetaDataProvider() as global::Windows.UI.Xaml.Markup.IXamlMetadataProvider;
+                    _otherProviders.Add(provider); 
+                }
+                return _otherProviders;
+            }
+        }
+
+        private global::Windows.UI.Xaml.Markup.IXamlType CheckOtherMetadataProvidersForName(string typeName)
+        {
+            global::Windows.UI.Xaml.Markup.IXamlType xamlType = null;
+            foreach(global::Windows.UI.Xaml.Markup.IXamlMetadataProvider xmp in OtherProviders)
+            {
+                xamlType = xmp.GetXamlType(typeName);
+                if(xamlType != null)
+                {
+                    return xamlType;
+                }
+            }
+            return null;
+        }
+
+        private global::Windows.UI.Xaml.Markup.IXamlType CheckOtherMetadataProvidersForType(global::System.Type type)
+        {
+            global::Windows.UI.Xaml.Markup.IXamlType xamlType = null;
+            foreach(global::Windows.UI.Xaml.Markup.IXamlMetadataProvider xmp in OtherProviders)
+            {
+                xamlType = xmp.GetXamlType(type);
+                if(xamlType != null)
+                {
+                    return xamlType;
+                }
+            }
+            return null;
+        }
 
 
         private global::Windows.UI.Xaml.Markup.IXamlMember CreateXamlMember(string longMemberName)

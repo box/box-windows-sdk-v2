@@ -1,1 +1,2 @@
-C:\Dev\Box.V2\Box.V2.W8\Box.V2.W8.csproj;neutral
+C:\dev\box-windows-sdk\Box.V2.Controls.W8\Box.V2.Controls.W8.csproj;neutral
+C:\dev\box-windows-sdk\Box.V2.W8\Box.V2.W8.csproj;neutral

@@ -99,17 +99,38 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="..\Box.V2.Controls.WP\BoxItemPicker.cs">
+      <Link>BoxItemPicker.cs</Link>
+    </Compile>
+    <Compile Include="..\Box.V2.Controls.WP\Common\ViewModels\BaseViewModel.cs">
+      <Link>ViewModels\BaseViewModel.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Box.V2.Controls.WP\Common\ViewModels\BoxItemPickerViewModel.cs">
+      <Link>ViewModels\BoxItemPickerViewModel.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\Box.V2.Controls.WP\Common\ViewModels\BoxItemViewModel.cs">
+      <Link>ViewModels\BoxItemViewModel.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BoxFilePicker.xaml.cs">
+      <DependentUpon>BoxFilePicker.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Box.V2\Box.V2.csproj">
+      <Project>{740075f5-8b88-4b8a-a75a-564f66359607}</Project>
+      <Name>Box.V2</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Page Include="BoxFilePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BoxFilePicker.xaml.cs">
-      <DependentUpon>BoxFilePicker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

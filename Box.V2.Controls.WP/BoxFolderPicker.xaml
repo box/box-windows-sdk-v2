@@ -8,12 +8,15 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    d:DesignHeight="480" d:DesignWidth="480"
+    x:Name="root">
     <local:BoxItemPicker.Resources>
         <local:FileSizeConverter x:Key="fileSizeConverter"  BytesText="B" KiloBytesText="KB" MegaBytesText="MB" GigaBytesText="GB" />
         <local:DateConverter x:Key="dateConverter" />
+        <local:TextToUpperConverter x:Key="textToUpperConverter" />
+        <local:ValueToVisibilityConverter x:Key="valueToVisibilityConverter" />
     </local:BoxItemPicker.Resources>
-    
+
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
         <StackPanel>
             <Button Content="Select a Folder" Click="ItemPicker_Click" />
@@ -25,28 +28,36 @@
                 Width="{Binding PopupWidth,ElementName=root}" 
                 Height="{Binding PopupHeight, ElementName=root}"
                     Background="{StaticResource PhoneBackgroundBrush}">
-                <Grid>
-                    <TextBlock Text="{Binding FolderName}" />
+                <Grid Margin="12,24,12,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding FolderName, Converter={StaticResource textToUpperConverter}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontWeight="Bold"/>
                     <ListBox
+                        Grid.Row="1"
                         x:Name="lbItemsList"
                         ItemsSource="{Binding Items}"
                         SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                        Margin="12" >
+                        Margin="0,24,0,0" >
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="12, 0, 12, 12">
+                                <Grid Margin="0,12,0,12">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="60" />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <Image Source="{Binding Image}"/>
+                                    <Image Source="{Binding Image}" VerticalAlignment="Center"/>
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextNormalStyle}" />
+                                        <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextTitle2Style}" />
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Updated" Style="{StaticResource PhoneTextSubtleStyle}" />
-                                            <TextBlock Text="{Binding ModifiedAt, Converter={StaticResource dateConverter}, ConverterParameter=NoTimeUnlessToday}" Style="{StaticResource PhoneTextSubtleStyle}" />
+                                            <TextBlock Style="{StaticResource PhoneTextSubtleStyle}">
+                                                <Run Text="Updated" />
+                                                <Run Text="{Binding ModifiedAt, Converter={StaticResource dateConverter}}" />
+                                            </TextBlock>
+                                            <TextBlock Text=" · " Visibility="{Binding Size, Converter={StaticResource valueToVisibilityConverter}}" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                            <TextBlock Text="{Binding Size, Converter={StaticResource fileSizeConverter}}" Style="{StaticResource PhoneTextSubtleStyle}"/>
                                         </StackPanel>
-                                        <TextBlock Text="{Binding Size, Converter={StaticResource fileSizeConverter}}" Style="{StaticResource PhoneTextSubtleStyle}" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -55,5 +66,6 @@
                 </Grid>
             </Border>
         </Popup>
+        
     </Grid>
 </local:BoxItemPicker>

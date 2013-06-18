@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETFX_CORE;W8</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -101,6 +101,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\Box.V2.Controls.W8\Box.V2.Controls.W8.csproj">
+      <Project>{4c822106-63ef-49de-8ebc-186bb0b64f40}</Project>
+      <Name>Box.V2.Controls.W8</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Box.V2\Box.V2.csproj">
       <Project>{740075f5-8b88-4b8a-a75a-564f66359607}</Project>
       <Name>Box.V2</Name>
@@ -115,7 +119,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
   </ItemGroup>

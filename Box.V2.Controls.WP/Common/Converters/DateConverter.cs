@@ -16,7 +16,7 @@ namespace Box.V2.Controls
                 return null;
 
             var date = DateTime.Parse(value.ToString(), CultureInfo.CurrentCulture);
-            var shortDate = date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern, CultureInfo.InvariantCulture);
+            var shortDate = date.ToString("MMM dd, yyyy");
             var shortTime = string.Empty;
 
             if (parameter != null &&

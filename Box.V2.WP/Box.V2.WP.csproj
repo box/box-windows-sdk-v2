@@ -90,9 +90,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Box.V2.W8\ViewModels\BaseViewModel.cs">
-      <Link>ViewModels\BaseViewModel.cs</Link>
-    </Compile>
     <Compile Include="..\Box.V2.W8\ViewModels\MainViewModel.cs">
       <Link>ViewModels\MainViewModel.cs</Link>
     </Compile>
