@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using Box.V2.Services;
 using Moq;
 using Box.V2.Auth;
-using Box.V2.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Box.V2.Request;
+using Box.V2.Converter;
+using Box.V2.Config;
 
 namespace Box.V2.Test
 {

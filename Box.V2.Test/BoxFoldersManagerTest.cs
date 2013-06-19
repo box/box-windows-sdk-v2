@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Box.V2.Managers;
+using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Box.V2.Services;
-using Box.V2.Contracts;
-using Box.V2.Auth;
-using Box.V2.Models;
-using System.Threading.Tasks;
-using Box.V2.Managers;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {

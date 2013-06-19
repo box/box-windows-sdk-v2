@@ -8,7 +8,6 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Box.V2.WP.Resources;
-using Box.V2.Contracts;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Windows.Resources;
@@ -54,7 +53,7 @@ namespace Box.V2.WP
             oauth.GetAuthCode(_main.Config.AuthCodeUri, _main.Config.RedirectUri);
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_main.SelectedItem == null)
                 return;
@@ -62,7 +61,7 @@ namespace Box.V2.WP
             switch (_main.SelectedItem.Type)
             {
                 case "folder":
-                    _main.GetFolderItems(_main.SelectedItem.Id);
+                    await _main.GetFolderItemsAsync(_main.SelectedItem.Id);
                     break;
                 case "file":
                     NavigationService.Navigate(new Uri("/PreviewPage.xaml", UriKind.Relative));

@@ -11,7 +11,7 @@ namespace Box.V2.Test
         {
             Uri baseUri = new Uri("http://api.box.com/v2");
             IBoxRequest request = new BoxRequest(baseUri, "auth/oauth2");
-            request.Param("test", "test2");
+            request.Parameters.Add("test", "test2");
 
             Assert.AreEqual(request.Method, RequestMethod.Get);
             Assert.AreEqual(baseUri, request.Host);

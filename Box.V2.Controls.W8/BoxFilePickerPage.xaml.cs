@@ -33,7 +33,7 @@ namespace Box.V2.Controls
 
         private async void GoBack_Click(object sender, RoutedEventArgs e)
         {
-            var parentFolder = await _vm.GetParentFolder();
+            var parentFolder = await _vm.PopParentFolder();
             if (!string.IsNullOrWhiteSpace(parentFolder))
             {
                 await _vm.GetFolderItems(parentFolder);

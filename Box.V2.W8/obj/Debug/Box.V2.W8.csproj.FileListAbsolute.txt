@@ -71,10 +71,10 @@ C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\ProjectArchitectures.txt
 C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.Controls.W8.dll
 C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.Controls.W8.pdb
 C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.Controls.W8.pri
+C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Assets\generic.png
+C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Assets\PrivateFolder.png
+C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Assets\ShareFolder.png
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\priconfig.xml.intermediate
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\layout.resfiles.intermediate
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\resources.resfiles.intermediate
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\pri.resfiles.intermediate
-C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Assets\generic.png
-C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Assets\PrivateFolder.png
-C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Assets\ShareFolder.png

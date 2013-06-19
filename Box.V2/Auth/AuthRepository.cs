@@ -1,4 +1,5 @@
-﻿using Box.V2.Contracts;
+﻿using Box.V2.Config;
+using Box.V2.Converter;
 using Box.V2.Exceptions;
 using Box.V2.Services;
 using Nito.AsyncEx;
@@ -33,18 +34,6 @@ namespace Box.V2.Auth
 
         public OAuthSession Session { get; private set; }
 
-        //public Uri AuthCodeUri
-        //{
-        //    get
-        //    {
-        //        return new BoxRequest(_config.BoxApiHostUri, Constants.AuthCodeString)
-        //                        .Param("response_type", "code")
-        //                        .Param("client_id", _config.ClientId)
-        //                        .Param("redirect_uri", _config.RedirectUri)
-        //                        .AbsoluteUri;
-        //    }
-        //}
-
         public async Task<OAuthSession> AuthenticateAsync(string authCode)
         {
             if (string.IsNullOrWhiteSpace(authCode))
@@ -64,12 +53,6 @@ namespace Box.V2.Auth
                 Session = boxResponse.ResponseObject;
 
             return boxResponse.ResponseObject;
-
-            //throw new BoxException(string.Format("Error authenticating with provided auth code {0}: {1} {2}",
-            //                authCode,
-            //                boxResponse.Error.Name,
-            //                boxResponse.Error.Description));
-
         }
 
         public async Task<OAuthSession> RefreshAccessTokenAsync(string accessToken)

@@ -58,8 +58,7 @@ namespace Box.V2.Controls
 
         internal override void SwapBackAppBar()
         {
-            if (_parentAppBar != null)
-                _parent.ApplicationBar = _parentAppBar;
+            _parent.ApplicationBar = _parentAppBar;
         }
     }
 }

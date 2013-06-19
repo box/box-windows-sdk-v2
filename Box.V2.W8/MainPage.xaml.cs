@@ -1,5 +1,4 @@
 ﻿using Box.V2.Auth;
-using Box.V2.Contracts;
 using Box.V2.Models;
 using Box.V2.Services;
 using Box.V2.Sample.ViewModels;
@@ -54,7 +53,7 @@ namespace Box.V2.W8
         private async void GoBack_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(_main.ParentId))
-                await _main.GetFolderItems(_main.ParentId);
+                await _main.GetFolderItemsAsync(_main.ParentId);
         }
 
         private async void FolderView_ItemClick(object sender, ItemClickEventArgs e)
@@ -63,12 +62,12 @@ namespace Box.V2.W8
             if (item == null || item.Type != "folder")
                 return;
 
-            await _main.GetFolderItems(item.Id);
+            await _main.GetFolderItemsAsync(item.Id);
         }
 
         private async void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            await _main.GetFolderItems(_main.FolderId);
+            await _main.GetFolderItemsAsync(_main.FolderId);
         }
 
         private async void Download_Click(object sender, RoutedEventArgs e)
@@ -84,7 +83,7 @@ namespace Box.V2.W8
         private async void mainPage_Loaded(object sender, RoutedEventArgs e)
         {
             string authCode = await OAuth2Sample.GetAuthCode(_main.Config.AuthCodeUri, new Uri(_main.Config.RedirectUri));
-            _main.Init(authCode);
+            await _main.Init(authCode);
         }
 
     }

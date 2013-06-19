@@ -1,10 +1,8 @@
 ﻿using Box.V2.Auth;
+using Box.V2.Config;
+using Box.V2.Converter;
 using Box.V2.Managers;
-using Box.V2.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Box.V2.Request;
 using Box.V2.Services;
 
 namespace Box.V2

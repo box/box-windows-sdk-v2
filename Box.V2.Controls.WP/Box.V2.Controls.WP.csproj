@@ -111,9 +111,6 @@
     <Compile Include="BoxFolderPickerPage.xaml.cs">
       <DependentUpon>BoxFolderPickerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageAsync.xaml.cs">
-      <DependentUpon>ImageAsync.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -134,10 +131,6 @@
     <Page Include="BoxFolderPickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ImageAsync.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

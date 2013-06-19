@@ -4,10 +4,11 @@ using Moq;
 using Box.V2.Services;
 using System.Threading.Tasks;
 using Box.V2.Auth;
-using Box.V2.Contracts;
 using System.Collections.Generic;
 using Box.V2.Exceptions;
 using System.Linq;
+using Box.V2.Request;
+using Box.V2.Config;
 
 namespace Box.V2.Test
 {

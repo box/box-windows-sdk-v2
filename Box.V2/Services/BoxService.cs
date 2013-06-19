@@ -1,36 +1,19 @@
-﻿using Box.V2.Auth;
-using Box.V2.Exceptions;
-using Box.V2.Models;
+﻿using Box.V2.Request;
 using Nito.AsyncEx;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Services
 {
     public class BoxService : IBoxService
     {
+        private const int NumberOfThreads = 2;
         private IRequestHandler _handler;
 
-        AsyncSemaphore _throttler = new AsyncSemaphore(2);
-
-        LimitedConcurrencyLevelTaskScheduler _scheduler;
-
-        TaskFactory _factory;
+        AsyncSemaphore _throttler = new AsyncSemaphore(NumberOfThreads); 
 
         public BoxService(IRequestHandler handler)
         {
             _handler = handler;
-
-            // This ensures that only one task is executed at a time 
-            _scheduler = new LimitedConcurrencyLevelTaskScheduler(1);
-            _factory = new TaskFactory(_scheduler);
-
         }
 
         /// <summary>
@@ -47,20 +30,11 @@ namespace Box.V2.Services
         }
 
         /// <summary>
-        /// Executes the request using the LimitedConcurrencyLevelTaskScheduler
-        /// This will force the tasks in the queue to be executed sequentially
+        /// Executes the request but limits the number of threads that can be used 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="request"></param>
         /// <returns></returns>
-        //public async Task<IBoxResponse<T>> EnqueueAsync<T>(IBoxRequest request)
-        //    where T : class
-        //{
-        //    Task<IBoxResponse<T>> t = _factory.StartNew(async () => await ToResponseAsync<T>(request)).Unwrap();
-        //    return await t;
-        //}
-
-
         public async Task<IBoxResponse<T>> EnqueueAsync<T>(IBoxRequest request)
             where T : class
         {

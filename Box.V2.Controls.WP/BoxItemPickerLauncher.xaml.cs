@@ -44,7 +44,8 @@ namespace Box.V2.Controls
 
         protected async void itemPicker_Click(object sender, RoutedEventArgs e)
         {
-            this.Client.ThrowIfNull("Client");
+            if (this.Client == null)
+                throw new ArgumentNullException("Client");
 
             _pickerPopup = new Popup();
             _pickerPage = ItemPickerType == BoxItemPickerType.File ? 

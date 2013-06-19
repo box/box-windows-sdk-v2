@@ -12,6 +12,7 @@ using System.Threading;
 
 #if WINDOWS_PHONE
 using System.Windows.Media.Imaging;
+using Nito.AsyncEx;
 #else
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -26,7 +27,8 @@ namespace Box.V2.Controls
         private const int _numItems = 100;
         public BoxClient _client;
 
-        SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        SemaphoreSlim _parentFolderLock = new SemaphoreSlim(1);
+        SemaphoreSlim _itemsLock = new SemaphoreSlim(1);
 
         private Stack<string> _parentFolders = new Stack<string>();
 
@@ -126,66 +128,89 @@ namespace Box.V2.Controls
 
         public async Task GetFolderItems(string id, string folderName = null)
         {
-            Items.Clear();
-            FolderName = folderName;
-            int itemCount = 0;
-            IsLoading = true;
-
-            BoxFolder folder;
-            do
+            await _itemsLock.WaitAsync();
+            try
             {
-                folder = await _client.FoldersManager.GetItemsAsync(id, _numItems, itemCount, 
-                    new List<string>() { 
+                Items.Clear();
+                FolderName = folderName;
+                int itemCount = 0;
+                IsLoading = true;
+
+                BoxFolder folder;
+                do
+                {
+                    folder = await _client.FoldersManager.GetItemsAsync(id, _numItems, itemCount,
+                        new List<string>() { 
                         BoxItem.FieldName, 
                         BoxItem.FieldModifiedAt, 
                         BoxItem.FieldSize, 
                         BoxFolder.FieldItemCollection, 
                         BoxFolder.FieldPathCollection, 
                         BoxCollection.FieldTotalCount });
-                IsLoading = false;
-                if (folder == null)
-                {
-                    string message = "Unable to get folder items. Please try again later";
-                    break;
-                }
-
-                // Is first time in loop
-                if (itemCount == 0)
-                {
-                    CurrentFolder = folder;
-                    
-                    if (folder.PathCollection != null && folder.PathCollection.TotalCount > 0)
+                    IsLoading = false;
+                    if (folder == null)
                     {
-                        var parent = folder.PathCollection.Entries.LastOrDefault();
-                        if (parent != null)
-                            await PushParentFolder(parent.Id);
+                        string message = "Unable to get folder items. Please try again later";
+                        break;
                     }
-                }
 
-                foreach (var i in folder.ItemCollection.Entries)
-                {
-                    BoxItemViewModel biVM = new BoxItemViewModel(i, _client);
-                    if (i.Type == "folder")
+                    // Is first time in loop
+                    if (itemCount == 0)
                     {
+                        CurrentFolder = folder;
+
+                        if (folder.PathCollection != null && folder.PathCollection.TotalCount > 0)
+                        {
+                            var parent = folder.PathCollection.Entries.LastOrDefault();
+                            if (parent != null && parent.Id != await PeekParentFolder())
+                                await PushParentFolder(parent.Id);
+                        }
+                    }
+
+                    foreach (var i in folder.ItemCollection.Entries)
+                    {
+                        BoxItemViewModel biVM = new BoxItemViewModel(i, _client);
+                        if (i.Type == "folder")
+                        {
 #if WINDOWS_PHONE
                         biVM.Image = new BitmapImage(new Uri("/Assets/PrivateFolder.png", UriKind.RelativeOrAbsolute));
 #else
-                        //var uri = new System.Uri("ms-appx:///Assets/PrivateFolder.png");
-                        //var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
-                        //var stream = await file.OpenReadAsync();
-                        biVM.Image = new BitmapImage();
-                        //await biVM.Image.SetSourceAsync(stream);
+                            //var uri = new System.Uri("ms-appx:///Assets/PrivateFolder.png");
+                            //var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+                            //var stream = await file.OpenReadAsync();
+                            biVM.Image = new BitmapImage();
+                            //await biVM.Image.SetSourceAsync(stream);
 #endif
+                        }
+                        Items.Add(biVM);
                     }
-                    Items.Add(biVM);
-                }
-                itemCount += _numItems;
-            } while (itemCount < folder.ItemCollection.TotalCount);
+                    itemCount += _numItems;
+                } while (itemCount < folder.ItemCollection.TotalCount);
+            }
+            finally
+            {
+                _itemsLock.Release();
+            }
         }
 
-        public async Task<string> GetParentFolder()
+        public async Task<string> PeekParentFolder()
         {
-            await _semaphore.WaitAsync();
+            await _parentFolderLock.WaitAsync();
+            try
+            {
+                if (_parentFolders.Count > 0)
+                    return _parentFolders.Peek();
+                return string.Empty;
+            }
+            finally
+            {
+                _parentFolderLock.Release();
+            }
+        }
+
+        public async Task<string> PopParentFolder()
+        {
+            await _parentFolderLock.WaitAsync();
             try
             {
                 if (_parentFolders.Count > 0)
@@ -194,7 +219,7 @@ namespace Box.V2.Controls
             }
             finally
             {
-                _semaphore.Release();
+                _parentFolderLock.Release();
             }
         }
 
@@ -203,14 +228,14 @@ namespace Box.V2.Controls
             if (string.IsNullOrWhiteSpace(folderId))
                 return;
 
-            await _semaphore.WaitAsync();
+            await _parentFolderLock.WaitAsync();
             try
             {
                 _parentFolders.Push(folderId);
             }
             finally
             {
-                _semaphore.Release();
+                _parentFolderLock.Release();
             }
         }
     }

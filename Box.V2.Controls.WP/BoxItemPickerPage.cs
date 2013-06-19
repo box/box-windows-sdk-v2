@@ -43,7 +43,7 @@ namespace Box.V2.Controls
 
         internal async Task GoBack()
         {
-            var parentFolder = await _vm.GetParentFolder();
+            var parentFolder = await _vm.PopParentFolder();
             if (!string.IsNullOrWhiteSpace(parentFolder))
             {
                 await _vm.GetFolderItems(parentFolder);

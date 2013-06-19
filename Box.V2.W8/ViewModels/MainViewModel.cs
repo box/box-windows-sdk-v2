@@ -1,5 +1,4 @@
 ﻿using Box.V2.Auth;
-using Box.V2.Contracts;
 using Box.V2.Models;
 using Box.V2.Services;
 using Box.V2.Controls;
@@ -19,6 +18,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
+using Box.V2.Config;
 
 #if WINDOWS_PHONE
 using System.Windows.Media.Imaging;
@@ -163,18 +163,10 @@ namespace Box.V2.Sample.ViewModels
             await Client.Auth.AuthenticateAsync(authCode);
 
             // Get the root folder
-            await GetFolderItems("0");
-
-            //await TestRefreshToken();
-            //await TestFolderInfo();
-            //await TestCreateFolder();
-            //await TestDownloadFile();
-            //await TestUploadBytes();
-            //await TestUploadStream();
-            //await TestGetComments();
+            await GetFolderItemsAsync("0");
         }
 
-        public async Task GetFolderItems(string id)
+        public async Task GetFolderItemsAsync(string id)
         {
             Items.Clear();
             FolderName = string.Empty;
@@ -207,51 +199,14 @@ namespace Box.V2.Sample.ViewModels
                 foreach (var i in folder.ItemCollection.Entries)
                 {
                     Items.Add(i);
-                    //Stream thumb = await Client.FilesManager.GetThumbnailAsync(id);
                 }
                 itemCount += ItemLimit;
             } while (itemCount < folder.ItemCollection.TotalCount);
-
-
-            //string[] ids = { "7918928406",
-            //                  "7918928976",
-            //                  "7918929126",
-            //                  "7918929466",
-            //                  "7918930332",
-            //                  "7918929914",
-            //                  "7918930534",
-            //                  "7918930810",
-            //                  "7918931172",
-            //                  "7918931736",
-            //                  "7918931930",
-            //                  "7918932720",
-            //                  "7918932692",
-            //                  "7918933326",
-            //                  "7918933600",
-            //                  "7918934086",
-            //                  "7918934724" };
-
         }
-        //SemaphoreSlim _throttler = new SemaphoreSlim(2);
 
-
-        //private async Task TestThrottle(string id)
-        //{
-        //    await _throttler.WaitAsync();
-
-        //    try
-        //    {
-        //        await Client.FilesManager.GetThumbnailAsync(id, 50, 50);
-        //    }
-        //    finally
-        //    {
-        //        _throttler.Release();
-        //    }
-        //}
-
+#if NETFX_CORE
         internal async Task Download()
         {
-#if W8
             if (SelectedItem == null)
                 await new MessageDialog("No File Selected").ShowAsync();
 
@@ -268,7 +223,6 @@ namespace Box.V2.Sample.ViewModels
             }
 
             await new MessageDialog(string.Format("File Saved to: {0}", saveFile.Path)).ShowAsync();
-#endif
         }
 
         internal async Task Upload()
@@ -286,61 +240,7 @@ namespace Box.V2.Sample.ViewModels
             BoxFile file = await Client.FilesManager.UploadAsync(fileReq, stream);
             Items.Add(file);
         }
-
-        #region Test Methods
-
-        private async Task TestUploadBytes()
-        {
-            FileOpenPicker fileOpenPicker = new FileOpenPicker();
-            fileOpenPicker.FileTypeFilter.Add("*");
-            StorageFile openFile = await fileOpenPicker.PickSingleFileAsync();
-            var raStream = await openFile.OpenAsync(FileAccessMode.Read);
-            var stream = raStream.GetInputStreamAt(0).AsStreamForRead();
-
-            byte[] oFile;
-            byte[] buffer = new byte[16 * 1024];
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int read;
-                while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-                oFile = ms.ToArray();
-            }
-        }
-
-        private async Task TestRefreshToken()
-        {
-            OAuthSession session1 = await Client.Auth.RefreshAccessTokenAsync(Client.Auth.Session.AccessToken);
-        }
-
-        private async Task TestFolderInfo()
-        {
-            BoxFile f = await Client.FilesManager.GetInformationAsync("7546361455");
-        }
-
-        private async Task TestGetFolderItems()
-        {
-            BoxFolder f = await Client.FoldersManager.GetItemsAsync("0", 10);
-        }
-
-        private async Task TestCreateFolder()
-        {
-            BoxFolderRequest folderReq = new BoxFolderRequest()
-            {
-                Name = "testFolder",
-                Parent = new BoxRequestEntity() { Id = "0" }
-            };
-            BoxFolder fol = await Client.FoldersManager.CreateAsync(folderReq);
-        }
-
-        private async Task TestGetComments()
-        {
-            BoxCollection<BoxComment> c = await Client.FilesManager.GetCommentsAsync("8356335198");
-        }
-
-        #endregion
+#endif
 
     }
 }
