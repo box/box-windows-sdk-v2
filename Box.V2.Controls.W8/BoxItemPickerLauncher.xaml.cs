@@ -22,5 +22,39 @@ namespace Box.V2.Controls
         {
             this.InitializeComponent();
         }
+
+        Popup _pickerPopup;
+        //BoxItemPickerPage _pickerPage;
+
+        private async void itemPicker_Click(object sender, RoutedEventArgs e)
+        {
+            this.Client.ThrowIfNull("Client");
+
+            _pickerPopup = new Popup();
+            _pickerPage = ItemPickerType == BoxItemPickerType.File ?
+                new BoxFilePickerPage(Client) as BoxItemPickerPage :
+                null;
+                //new BoxFolderPickerPage(Client) as BoxItemPickerPage;
+            _pickerPage.CloseRequested += filePickerPage_CloseRequested;
+            _pickerPopup.Child = _pickerPage;
+
+            var frame = (Frame)Window.Current.Content;
+            var page = (Page)frame.Content;
+            _pickerPage.SwapAppBar(page);
+
+            _pickerPopup.IsOpen = true;
+            await _pickerPage.Init(StartingFolderId.ToString(), StartingFolderName);
+        }
+
+        private void filePickerPage_CloseRequested(object sender, EventArgs e)
+        {
+            _pickerPopup.IsOpen = false;
+            _pickerPage.SwapBackAppBar();
+
+            if (ItemSelected != null)
+                ItemSelected(_pickerPage.SelectedItem);
+        }
+
+        
     }
 }

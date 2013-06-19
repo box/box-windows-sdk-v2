@@ -47,3 +47,4 @@ C:\dev\box-windows-sdk\Box.V2\bin\Debug\System.Threading.Tasks.xml
 C:\dev\box-windows-sdk\Box.V2\obj\Debug\Box.V2.csproj.App.config
 C:\dev\box-windows-sdk\Box.V2\obj\Debug\Box.V2.dll
 C:\dev\box-windows-sdk\Box.V2\obj\Debug\Box.V2.pdb
+C:\dev\box-windows-sdk\Box.V2\obj\Debug\Box.V2.csprojResolveAssemblyReference.cache

@@ -124,9 +124,7 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
 
         private object Activate_1_BoxItemPickerLauncher() { return new global::Box.V2.Controls.BoxItemPickerLauncher(); }
 
-        private object Activate_2_BoxItemPicker() { return new global::Box.V2.Controls.BoxItemPicker(); }
-
-        private object Activate_4_MainPage() { return new global::Box.V2.W8.MainPage(); }
+        private object Activate_7_MainPage() { return new global::Box.V2.W8.MainPage(); }
 
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(string typeName)
@@ -152,10 +150,6 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::System.Boolean));
                 break;
 
-            case "Double":
-                xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::System.Double));
-                break;
-
             case "Int32":
                 xamlType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::System.Int32));
                 break;
@@ -178,7 +172,6 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
 
             case "Box.V2.Controls.BoxItemPicker":
                 userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.Controls.BoxItemPicker), GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
-                userType.Activator = Activate_2_BoxItemPicker;
                 userType.AddMemberName("Client");
                 userType.AddMemberName("StartingFolderName");
                 AddToMapOfTypeToStandardName(typeof(global::System.String),
@@ -186,15 +179,13 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 userType.AddMemberName("IsOpen");
                 AddToMapOfTypeToStandardName(typeof(global::System.Boolean),
                                                    "Boolean");
-                userType.AddMemberName("PopupHeight");
-                AddToMapOfTypeToStandardName(typeof(global::System.Double),
-                                                   "Double");
-                userType.AddMemberName("PopupWidth");
-                AddToMapOfTypeToStandardName(typeof(global::System.Double),
-                                                   "Double");
                 userType.AddMemberName("StartingFolderId");
                 AddToMapOfTypeToStandardName(typeof(global::System.Int32),
                                                    "Int32");
+                userType.AddMemberName("ItemPickerType");
+                userType.AddMemberName("ButtonText");
+                AddToMapOfTypeToStandardName(typeof(global::System.String),
+                                                   "String");
                 xamlType = userType;
                 break;
 
@@ -203,9 +194,26 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 xamlType = userType;
                 break;
 
+            case "Box.V2.Controls.BoxItemPickerType":
+                userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.Controls.BoxItemPickerType), GetXamlTypeByName("System.Enum"));
+                userType.AddEnumValue("File", global::Box.V2.Controls.BoxItemPickerType.File);
+                userType.AddEnumValue("Folder", global::Box.V2.Controls.BoxItemPickerType.Folder);
+                xamlType = userType;
+                break;
+
+            case "System.Enum":
+                userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::System.Enum), GetXamlTypeByName("System.ValueType"));
+                xamlType = userType;
+                break;
+
+            case "System.ValueType":
+                userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::System.ValueType), GetXamlTypeByName("Object"));
+                xamlType = userType;
+                break;
+
             case "Box.V2.W8.MainPage":
                 userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.W8.MainPage), GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_4_MainPage;
+                userType.Activator = Activate_7_MainPage;
                 xamlType = userType;
                 break;
 
@@ -287,35 +295,35 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
             var that = (global::Box.V2.Controls.BoxItemPicker)instance;
             that.IsOpen = (global::System.Boolean)Value;
         }
-        private object get_3_BoxItemPicker_PopupHeight(object instance)
-        {
-            var that = (global::Box.V2.Controls.BoxItemPicker)instance;
-            return that.PopupHeight;
-        }
-        private void set_3_BoxItemPicker_PopupHeight(object instance, object Value)
-        {
-            var that = (global::Box.V2.Controls.BoxItemPicker)instance;
-            that.PopupHeight = (global::System.Double)Value;
-        }
-        private object get_4_BoxItemPicker_PopupWidth(object instance)
-        {
-            var that = (global::Box.V2.Controls.BoxItemPicker)instance;
-            return that.PopupWidth;
-        }
-        private void set_4_BoxItemPicker_PopupWidth(object instance, object Value)
-        {
-            var that = (global::Box.V2.Controls.BoxItemPicker)instance;
-            that.PopupWidth = (global::System.Double)Value;
-        }
-        private object get_5_BoxItemPicker_StartingFolderId(object instance)
+        private object get_3_BoxItemPicker_StartingFolderId(object instance)
         {
             var that = (global::Box.V2.Controls.BoxItemPicker)instance;
             return that.StartingFolderId;
         }
-        private void set_5_BoxItemPicker_StartingFolderId(object instance, object Value)
+        private void set_3_BoxItemPicker_StartingFolderId(object instance, object Value)
         {
             var that = (global::Box.V2.Controls.BoxItemPicker)instance;
             that.StartingFolderId = (global::System.Int32)Value;
+        }
+        private object get_4_BoxItemPicker_ItemPickerType(object instance)
+        {
+            var that = (global::Box.V2.Controls.BoxItemPicker)instance;
+            return that.ItemPickerType;
+        }
+        private void set_4_BoxItemPicker_ItemPickerType(object instance, object Value)
+        {
+            var that = (global::Box.V2.Controls.BoxItemPicker)instance;
+            that.ItemPickerType = (global::Box.V2.Controls.BoxItemPickerType)Value;
+        }
+        private object get_5_BoxItemPicker_ButtonText(object instance)
+        {
+            var that = (global::Box.V2.Controls.BoxItemPicker)instance;
+            return that.ButtonText;
+        }
+        private void set_5_BoxItemPicker_ButtonText(object instance, object Value)
+        {
+            var that = (global::Box.V2.Controls.BoxItemPicker)instance;
+            that.ButtonText = (global::System.String)Value;
         }
 
         private global::Windows.UI.Xaml.Markup.IXamlMember CreateXamlMember(string longMemberName)
@@ -346,26 +354,26 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 xamlMember.Getter = get_2_BoxItemPicker_IsOpen;
                 xamlMember.Setter = set_2_BoxItemPicker_IsOpen;
                 break;
-            case "Box.V2.Controls.BoxItemPicker.PopupHeight":
-                userType = (global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Box.V2.Controls.BoxItemPicker");
-                xamlMember = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlMember(this, "PopupHeight", "Double");
-                xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_3_BoxItemPicker_PopupHeight;
-                xamlMember.Setter = set_3_BoxItemPicker_PopupHeight;
-                break;
-            case "Box.V2.Controls.BoxItemPicker.PopupWidth":
-                userType = (global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Box.V2.Controls.BoxItemPicker");
-                xamlMember = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlMember(this, "PopupWidth", "Double");
-                xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_4_BoxItemPicker_PopupWidth;
-                xamlMember.Setter = set_4_BoxItemPicker_PopupWidth;
-                break;
             case "Box.V2.Controls.BoxItemPicker.StartingFolderId":
                 userType = (global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Box.V2.Controls.BoxItemPicker");
                 xamlMember = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlMember(this, "StartingFolderId", "Int32");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_5_BoxItemPicker_StartingFolderId;
-                xamlMember.Setter = set_5_BoxItemPicker_StartingFolderId;
+                xamlMember.Getter = get_3_BoxItemPicker_StartingFolderId;
+                xamlMember.Setter = set_3_BoxItemPicker_StartingFolderId;
+                break;
+            case "Box.V2.Controls.BoxItemPicker.ItemPickerType":
+                userType = (global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Box.V2.Controls.BoxItemPicker");
+                xamlMember = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlMember(this, "ItemPickerType", "Box.V2.Controls.BoxItemPickerType");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_4_BoxItemPicker_ItemPickerType;
+                xamlMember.Setter = set_4_BoxItemPicker_ItemPickerType;
+                break;
+            case "Box.V2.Controls.BoxItemPicker.ButtonText":
+                userType = (global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Box.V2.Controls.BoxItemPicker");
+                xamlMember = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlMember(this, "ButtonText", "String");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_5_BoxItemPicker_ButtonText;
+                xamlMember.Setter = set_5_BoxItemPicker_ButtonText;
                 break;
             }
             return xamlMember;

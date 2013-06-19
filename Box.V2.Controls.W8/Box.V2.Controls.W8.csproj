@@ -102,6 +102,9 @@
     <Compile Include="..\Box.V2.Controls.WP\BoxItemPicker.cs">
       <Link>BoxItemPicker.cs</Link>
     </Compile>
+    <Compile Include="..\Box.V2.Controls.WP\BoxItemPickerPage.cs">
+      <Link>BoxItemPickerPage.cs</Link>
+    </Compile>
     <Compile Include="..\Box.V2.Controls.WP\Common\Converters\DateConverter.cs">
       <Link>Converters\DateConverter.cs</Link>
     </Compile>

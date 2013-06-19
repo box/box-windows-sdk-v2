@@ -62,7 +62,7 @@ namespace Box.V2.Services
                     using (var resObj = await response.Content.ReadAsStreamAsync())
                     {
                         MemoryStream ms = new MemoryStream();
-                        resObj.Position = 0;
+                        //resObj.Position = 0;
                         await resObj.CopyToAsync(ms);
                         boxResponse.ResponseObject = ms as T;
                     }

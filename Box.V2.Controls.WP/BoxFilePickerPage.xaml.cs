@@ -12,22 +12,14 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Controls
 {
-    public partial class BoxFilePickerPage : PhoneApplicationPage
+    internal partial class BoxFilePickerPage : BoxItemPickerPage
     {
-        BoxItemPickerViewModel _vm;
+        IApplicationBar _appBar;
 
-        public event EventHandler CloseRequested;
-
-        public BoxFilePickerPage(BoxClient client)
+        internal BoxFilePickerPage(BoxClient client)
         {
             InitializeComponent();
-            
-            _vm = new BoxItemPickerViewModel(client);
-            this.DataContext = _vm;
-
-
-            LayoutRoot.Width = Application.Current.Host.Content.ActualWidth;
-            LayoutRoot.Height = Application.Current.Host.Content.ActualHeight;
+            Init(client);
         }
 
         private async void lbItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -41,23 +33,23 @@ namespace Box.V2.Controls
             else if (bivm.Item.Type == "file")
             {
                 SelectedItem = bivm.Item;
-                CloseRequested(this, EventArgs.Empty);
+                Close();
             }
         }
 
-        public BoxItem SelectedItem
+        internal override void SwapAppBar(PhoneApplicationPage _parent)
         {
-            get { return (BoxItem)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            if (_parent.ApplicationBar != null && _parent.ApplicationBar.IsVisible)
+            {
+                _appBar = _parent.ApplicationBar;
+                _appBar.IsVisible = false;
+            }
         }
 
-        // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register("SelectedItem", typeof(BoxItem), typeof(BoxFilePickerPage), new PropertyMetadata(null));
-
-        public async Task Init(string folderId, string folderName)
+        internal override void SwapBackAppBar()
         {
-            await _vm.GetFolderItems(folderId, folderName);
+            if (_appBar != null)
+                _appBar.IsVisible = true;
         }
     }
 }

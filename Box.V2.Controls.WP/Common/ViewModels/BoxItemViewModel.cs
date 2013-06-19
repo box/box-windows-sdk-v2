@@ -26,8 +26,6 @@ namespace Box.V2.Controls
     {
         private BoxClient _client;
 
-        private const string fileNamePattern = "/{0}.png";
-
         public BoxItemViewModel(BoxItem item, BoxClient client)
         {
             _client = client;
@@ -91,20 +89,6 @@ namespace Box.V2.Controls
             }
         }
 
-        private Uri _imageUri;
-        public Uri ImageUri
-        {
-            get { return _imageUri; }
-            set
-            {
-                if (_imageUri != value)
-                {
-                    _imageUri = value;
-                    PropertyChangedAsync("ImageUri");
-                }
-            }
-        }
-
         private int _numItems;
         public int NumItems
         {
@@ -141,22 +125,7 @@ namespace Box.V2.Controls
             {
                 if (_image == null)
                 {
-#if WINDOWS_PHONE
-                    Deployment.Current.Dispatcher.BeginInvoke(async () =>
-#else
-                    Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-#endif
-                    {
-                        try
-                        {
-                            Image = await GetThumbnail(Item.Id, _client);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine(ex.Message);
-                            Image = new BitmapImage();
-                        }
-                    });
+                    GetThumbnailAsync(Item.Id, _client);
                 }
                 return _image;
             }
@@ -180,53 +149,15 @@ namespace Box.V2.Controls
                 Size = item.Size;
         }
 
-        private void UpdateFileBindings(BoxFile file)
-        {
-            if (file == null)
-                return;
-
-            UpdateBaseBindings(file);
-            Size = file.Size;
-        }
-
-        private void UpdateFolderBindings(BoxFolder folder)
-        {
-            if (folder == null)
-                return;
-
-            UpdateBaseBindings(folder);
-            NumItems = folder.ItemCollection.TotalCount;
-        }
-
-        public async Task GetMetadata()
-        {
-            SemaphoreSlim sem = new SemaphoreSlim(5);
-            switch (Item.Type)
-            {
-                case "folder":
-                    Image = new BitmapImage(new Uri("/Assets/PrivateFolder.png", UriKind.RelativeOrAbsolute));
-                    UpdateFolderBindings(await _client.FoldersManager.GetInformationAsync(Item.Id,
-                        new List<string>() {
-                            BoxFolder.FieldName,
-                            BoxFolder.FieldModifiedAt,
-                            BoxFolder.FieldItemCollection}));
-                    break;
-                case "file":
-                    UpdateFileBindings(await _client.FilesManager.GetInformationAsync(Item.Id,
-                        new List<string>() { 
-                            BoxFile.FieldName, 
-                            BoxFile.FieldModifiedAt, 
-                            BoxFile.FieldSize}));
-                    break;
-            }
-        }
-
-        public async Task<BitmapImage> GetThumbnail(string id, BoxClient client)
+        public async Task GetThumbnailAsync(string id, BoxClient client)
         {
             if (string.IsNullOrWhiteSpace(Item.Id))
-                return new BitmapImage();
+            {
+                Image = new BitmapImage();
+                return;
+            }
 
-            Stream imageStream = await _client.FilesManager.GetThumbnailAsync(Item.Id, 50, 50);
+            MemoryStream imageStream = await _client.FilesManager.GetThumbnailAsync(Item.Id, 50, 50) as MemoryStream;
             Debug.WriteLine(string.Format("Stream received: {0}", Item.Id));
 
             BitmapImage image = new BitmapImage();
@@ -235,18 +166,11 @@ namespace Box.V2.Controls
 #if WINDOWS_PHONE
                 image.SetSource(imageStream);
 #else
-                IRandomAccessStream inMemoryStream = new InMemoryRandomAccessStream();
-                using (var inputStream = imageStream.AsInputStream())
-                {
-                    await RandomAccessStream.CopyAsync(inputStream, inMemoryStream);
-                }
-                inMemoryStream.Seek(0);
-
-                await image.SetSourceAsync(inMemoryStream);
+                IRandomAccessStream randStream = await ConvertToRandomAccessStream(imageStream);
+                await image.SetSourceAsync(randStream);
 #endif
             }
-
-            return image;
+            Image = image;
 
             //using (await _mutex.LockAsync())
             //{
@@ -271,5 +195,26 @@ namespace Box.V2.Controls
             //}
 
         }
+
+#if NETFX_CORE
+
+        public async Task<IRandomAccessStream> ConvertToRandomAccessStream(MemoryStream memoryStream)
+        {
+            var randomAccessStream = new InMemoryRandomAccessStream();
+
+            var outputStream = randomAccessStream.GetOutputStreamAt(0);
+            var dw = new DataWriter(outputStream);
+            var task = new Task(() => dw.WriteBytes(memoryStream.ToArray()));
+            task.Start();
+
+            await task;
+            await dw.StoreAsync();
+
+            await outputStream.FlushAsync();
+
+            return randomAccessStream;
+        }
+
+#endif
     }
 }

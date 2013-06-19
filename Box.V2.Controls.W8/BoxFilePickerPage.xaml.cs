@@ -21,22 +21,14 @@ namespace Box.V2.Controls
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class BoxFilePickerPage : Page
+    internal sealed partial class BoxFilePickerPage : BoxItemPickerPage
     {
-        BoxItemPickerViewModel _vm;
-        public event EventHandler CloseRequested;
+        Page _parent;
 
-        public BoxFilePickerPage(BoxClient client)
+        internal BoxFilePickerPage(BoxClient client)
         {
             this.InitializeComponent();
-
-            _vm = new BoxItemPickerViewModel(client);
-            this.DataContext = _vm;
-
-            var bounds = Window.Current.Bounds;
-            layoutRoot.Width = bounds.Width;
-            layoutRoot.Height = bounds.Height;
-
+            Init(client);
         }
 
         private async void GoBack_Click(object sender, RoutedEventArgs e)
@@ -48,13 +40,18 @@ namespace Box.V2.Controls
             }
             else
             {
-                CloseRequested(this, EventArgs.Empty);
+                Close();
             }
         }
 
         private async void FolderView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var item = e.ClickedItem as BoxItem;
+            var itemVM = e.ClickedItem as BoxItemViewModel;
+            if (itemVM == null)
+                return;
+
+            var item = itemVM.Item;
+
             if (item.Type == "folder")
             {
                 await _vm.GetFolderItems(item.Id);
@@ -62,25 +59,42 @@ namespace Box.V2.Controls
             else if (item.Type == "file")
             {
                 SelectedItem = item;
-                CloseRequested(this, EventArgs.Empty);
+                Close();
             }
         }
 
 
-        public BoxItem SelectedItem
+        internal override void SwapAppBar(Page parent)
         {
-            get { return (BoxItem)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            if (parent == null)
+                return;
+
+            _parent = parent;
+            if (_parent.TopAppBar != null)
+                _parent.TopAppBar.Opened += AppBar_Opened;
+            if (_parent.BottomAppBar != null)
+                _parent.BottomAppBar.Opened += AppBar_Opened;
+
+        }
+        
+        void AppBar_Opened(object sender, object e)
+        {
+            var appBar = sender as AppBar;
+            if (appBar == null)
+                return;
+
+            appBar.IsOpen = false;
         }
 
-        // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register("SelectedItem", typeof(BoxItem), typeof(BoxItemPicker), new PropertyMetadata(null));
-
-        public async Task Init(string folderId, string folderName)
+        internal override void SwapBackAppBar()
         {
-            await _vm.GetFolderItems(folderId, folderName);
-        }
+            if (_parent == null)
+                return;
 
+            if (_parent.TopAppBar != null)
+                _parent.TopAppBar.Opened -= AppBar_Opened;
+            if (_parent.BottomAppBar != null)
+                _parent.BottomAppBar.Opened -= AppBar_Opened;
+        }
     }
 }

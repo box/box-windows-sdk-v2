@@ -20,36 +20,14 @@ using System.Windows.Controls.Primitives;
 
 namespace Box.V2.Controls
 {
-    public class BoxItemPicker : UserControl
+    public abstract class BoxItemPicker : UserControl
     {
         public Action<BoxItem> ItemSelected;
-        internal BoxItemPickerViewModel _vm;
+        protected  Popup _pickerPopup;
+        internal BoxItemPickerPage _pickerPage;
 
-
-#if WINDOWS_PHONE
-        protected PhoneApplicationPage _parent;
-
-        protected virtual async void parent_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            // Override the back key press
-            e.Cancel = true;
-
-            var parentFolder = await _vm.GetParentFolder();
-            if (!string.IsNullOrWhiteSpace(parentFolder))
-            {
-                await _vm.GetFolderItems(parentFolder);
-            }
-            else
-            {
-                _parent.BackKeyPress -= parent_BackKeyPress;
-                IsOpen = false;
-            }
-        }
-#else
-        public event EventHandler CloseRequested;
-#endif
-
-
+        protected const string FileSelectText = "Select a File";
+        protected const string FolderSelectText = "Select a Folder";
 
         #region Dependency Properties
 
@@ -62,26 +40,6 @@ namespace Box.V2.Controls
         // Using a DependencyProperty as the backing store for IsOpen.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsOpenProperty =
             DependencyProperty.Register("IsOpen", typeof(bool), typeof(BoxItemPicker), new PropertyMetadata(false));
-
-        public double PopupHeight
-        {
-            get { return (double)GetValue(PopupHeightProperty); }
-            set { SetValue(PopupHeightProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PopupHeight.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PopupHeightProperty =
-            DependencyProperty.Register("PopupHeight", typeof(double), typeof(BoxItemPicker), new PropertyMetadata(null));
-
-        public double PopupWidth
-        {
-            get { return (double)GetValue(PopupWidthProperty); }
-            set { SetValue(PopupWidthProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for PopupWidth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PopupWidthProperty =
-            DependencyProperty.Register("PopupWidth", typeof(double), typeof(BoxItemPicker), new PropertyMetadata(null));
 
 
         public BoxClient Client
@@ -128,13 +86,23 @@ namespace Box.V2.Controls
         public static readonly DependencyProperty ItemPickerTypeProperty =
             DependencyProperty.Register("ItemPickerType", typeof(BoxItemPickerType), typeof(BoxItemPicker), new PropertyMetadata(BoxItemPickerType.File));
 
-        
+
+
+        public string ButtonText
+        {
+            get { return (string)GetValue(ButtonTextProperty); }
+            set { SetValue(ButtonTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ButtonText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ButtonTextProperty =
+            DependencyProperty.Register("ButtonText", typeof(string), typeof(BoxItemPickerLauncher), new PropertyMetadata("Select a File"));
         #endregion
     }
 
     public enum BoxItemPickerType
     {
-        Folder,
-        File
+        File,
+        Folder
     }
 }

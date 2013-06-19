@@ -45,12 +45,6 @@ C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.Controls.WP.dll
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.Controls.WP.pdb
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationIcon.png
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\Tiles\IconicTileSmall.png
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\generic.png
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\PrivateFolder.png
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ShareFolder.png
@@ -92,3 +86,7 @@ C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.dll
 C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.pdb
 C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\XapCacheFile.xml
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Properties\WMAppManifest.xml
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Cancel.png
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Check.png
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Delete.png
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Select.png

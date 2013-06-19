@@ -1,0 +1,973 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BindableApplicationBar</name>
+    </assembly>
+    <members>
+        <member name="T:BindableApplicationBar.NamespaceDoc">
+            <summary>
+            The <see cref="N:BindableApplicationBar"/> namespace contains wrappers
+            for <see cref="T:Microsoft.Phone.Shell.ApplicationBar"/>
+            (<see cref="T:BindableApplicationBar.BindableApplicationBar"/>),
+            <see cref="T:Microsoft.Phone.Shell.ApplicationBarIconButton"/>
+            (<see cref="T:BindableApplicationBar.BindableApplicationBarButton"/>) and
+            <see cref="T:Microsoft.Phone.Shell.ApplicationBarMenuItem"/>
+            (<see cref="T:BindableApplicationBar.BindableApplicationBarMenuItem"/>) as well as
+            the <see cref="T:BindableApplicationBar.Bindable"/> class that allows to easily set these
+            on a <see cref="T:Microsoft.Phone.Controls.PhoneApplicationPage"/> class in XAML through
+            the ApplicationBar property.
+            </summary>
+        </member>
+        <member name="T:BindableApplicationBar.BindableApplicationBar">
+            <summary>
+            Serves as a bindable control wrapping the native ApplicationBar
+            for use in MVVM applications.
+            </summary>
+            <remarks>
+            TODO: Find out if bindings can work through ElementName - check for namescope issues.
+            TODO: Find out if current/max number of buttons/menu items can be exposed as bindable properties.
+            TODO: Figure out the best handling of cases when a button or menu item is added beyond the maximum number allowable.
+            </remarks>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.ButtonsProperty">
+            <summary>
+            Buttons Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnButtonsChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the Buttons property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnButtonsChanged(System.Windows.DependencyObjectCollection{BindableApplicationBar.BindableApplicationBarButton},System.Windows.DependencyObjectCollection{BindableApplicationBar.BindableApplicationBarButton})">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the Buttons property.
+            </summary>
+            <param name="oldButtons">The old buttons.</param>
+            <param name="newButtons">The new buttons.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.MenuItemsProperty">
+            <summary>
+            MenuItems Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnMenuItemsChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the MenuItems property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnMenuItemsChanged(System.Windows.DependencyObjectCollection{BindableApplicationBar.BindableApplicationBarMenuItem},System.Windows.DependencyObjectCollection{BindableApplicationBar.BindableApplicationBarMenuItem})">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the MenuItems property.
+            </summary>
+            <param name="oldMenuItems">The old menu items.</param>
+            <param name="newMenuItems">The new menu items.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.ButtonsSourceProperty">
+            <summary>
+            ButtonsSource Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnButtonsSourceChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the ButtonsSource property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnButtonsSourceChanged(System.Collections.IEnumerable,System.Collections.IEnumerable)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the ButtonsSource property.
+            </summary>
+            <param name="oldButtonsSource">The old buttons source.</param>
+            <param name="newButtonsSource">The new buttons source.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.ButtonTemplateProperty">
+            <summary>
+            ButtonTemplate Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnButtonTemplateChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the ButtonTemplate property.
+            </summary>
+            <param name="d">
+            The dependency property.
+            </param>
+            <param name="e">
+            The event arguments.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnButtonTemplateChanged(System.Windows.DataTemplate,System.Windows.DataTemplate)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the ButtonTemplate property.
+            </summary>
+            <param name="oldButtonTemplate">The old button template.</param>
+            <param name="newButtonTemplate">The new button template.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.MenuItemsSourceProperty">
+            <summary>
+            MenuItemsSource Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnMenuItemsSourceChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the MenuItemsSource property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnMenuItemsSourceChanged(System.Collections.IEnumerable,System.Collections.IEnumerable)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the MenuItemsSource property.
+            </summary>
+            <param name="oldMenuItemsSource">
+            The old MenuItemsSource value.
+            </param>
+            <param name="newMenuItemsSource">
+            The new MenuItemsSource value.
+            </param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.MenuItemTemplateProperty">
+            <summary>
+            MenuItemTemplate Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnMenuItemTemplateChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the MenuItemTemplate property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnMenuItemTemplateChanged(System.Windows.DataTemplate,System.Windows.DataTemplate)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the MenuItemTemplate property.
+            </summary>
+            <param name="oldMenuItemTemplate">
+            The old MenuItemTemplate value.
+            </param>
+            <param name="newMenuItemTemplate">
+            The new MenuItemTemplate value.
+            </param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.IsVisibleProperty">
+            <summary>
+            IsVisible Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnIsVisibleChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the IsVisible property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnIsVisibleChanged(System.Boolean,System.Boolean)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the IsVisible property.
+            </summary>
+            <param name="oldIsVisible">The old IsVisible value.</param>
+            <param name="newIsVisible">The new IsVisible value.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.IsMenuEnabledProperty">
+            <summary>
+            IsMenuEnabled Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnIsMenuEnabledChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the IsMenuEnabled property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnIsMenuEnabledChanged(System.Boolean,System.Boolean)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the IsMenuEnabled property.
+            </summary>
+            <param name="oldIsMenuEnabled">
+            The old IsMenuEnabled value.
+            </param>
+            <param name="newIsMenuEnabled">
+            The new IsMenuEnabled value.
+            </param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.IsMenuVisibleProperty">
+            <summary>
+            IsMenuVisible Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnIsMenuVisibleChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the IsMenuVisible property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnIsMenuVisibleChanged(System.Boolean,System.Boolean)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the IsMenuVisible property.
+            </summary>
+            <param name="oldIsMenuVisible">
+            The old IsMenuVisible value.
+            </param>
+            <param name="newIsMenuVisible">
+            The new IsMenuVisible value.
+            </param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.isMenuVisible">
+            <summary>
+            Used to make sure the dependency property is read-only.
+            </summary>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.BackgroundColorProperty">
+            <summary>
+            BackgroundColor Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnBackgroundColorChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the BackgroundColor property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnBackgroundColorChanged(System.Windows.Media.Color,System.Windows.Media.Color)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the BackgroundColor property.
+            </summary>
+            <param name="oldBackgroundColor">
+            The old BackgroundColor value.
+            </param>
+            <param name="newBackgroundColor">
+            The new BackgroundColor value.
+            </param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.ForegroundColorProperty">
+            <summary>
+            ForegroundColor Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnForegroundColorChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the ForegroundColor property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnForegroundColorChanged(System.Windows.Media.Color,System.Windows.Media.Color)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the ForegroundColor property.
+            </summary>
+            <param name="oldForegroundColor">
+            The old ForegroundColor value.
+            </param>
+            <param name="newForegroundColor">
+            The new ForegroundColor value.
+            </param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.ModeProperty">
+            <summary>
+            Mode Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnModeChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the Mode property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnModeChanged(Microsoft.Phone.Shell.ApplicationBarMode,Microsoft.Phone.Shell.ApplicationBarMode)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the Mode property.
+            </summary>
+            <param name="oldMode">The old Mode value.</param>
+            <param name="newMode">The new Mode value.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBar.BindableOpacityProperty">
+            <summary>
+            BindableOpacity Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnBindableOpacityChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the BindableOpacity property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.OnBindableOpacityChanged(System.Double,System.Double)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the BindableOpacity property.
+            </summary>
+            <param name="oldBindableOpacity">
+            The old BindableOpacity value.
+            </param>
+            <param name="newBindableOpacity">
+            The new BindableOpacity value.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:BindableApplicationBar.BindableApplicationBar"/> class.
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.Attach(Microsoft.Phone.Controls.PhoneApplicationPage)">
+            <summary>
+            Attaches the BindableApplicationBar to the specified page,
+            creating the ApplicationBar if required and adding the buttons
+            and menu items specified in the Buttons and MenuItems properties.
+            </summary>
+            <param name="parentPage">The parentPage to attach to.</param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBar.Detach(Microsoft.Phone.Controls.PhoneApplicationPage)">
+            <summary>
+            Detaches from the specified page, removing all the buttons
+            and menu items specified in the Buttons and MenuItems properties.
+            </summary>
+            <remarks>
+            Note: The code in this method has not been tested and is likely
+            not to work properly, will possibly raise exceptions
+            and leak memory.
+            </remarks>
+            <param name="parentPage">The parentPage.</param>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.Buttons">
+            <summary>
+            Gets or sets the Buttons property. This dependency property 
+            indicates the list of BindableApplicationBarButton objects that
+            map to ApplicationBarIconButton generated for the ApplicationBar.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.MenuItems">
+            <summary>
+            Gets or sets the MenuItems property. This dependency property 
+            indicates the list of BindableApplicationBarMenuItem objects that
+            map to ApplicationBarMenuItem generated for the ApplicationBar.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.ButtonsSource">
+            <summary>
+            Gets or sets the ButtonsSource property. This dependency property
+            indicates the collection from which to build the button objects,
+            using the <see cref="P:BindableApplicationBar.BindableApplicationBar.ButtonTemplate"/> DataTemplate.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.ButtonTemplate">
+            <summary>
+            Gets or sets the ButtonTemplate property.
+            This dependency property indicates the template for a
+            <see cref="T:BindableApplicationBar.BindableApplicationBarButton"/> that is used together
+            with the <see cref="P:BindableApplicationBar.BindableApplicationBar.ButtonsSource"/> collection
+            to create the application bar buttons.
+            </summary>
+            <remarks>
+            The default template defines the property names to match
+            the names of properties of a BindableApplicationBarButton.
+            </remarks>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.MenuItemsSource">
+            <summary>
+            Gets or sets the MenuItemsSource property.
+            This dependency property indicates the collection from which
+            to build the MenuItem objects,
+            using the <see cref="P:BindableApplicationBar.BindableApplicationBar.MenuItemTemplate"/> DataTemplate.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.MenuItemTemplate">
+            <summary>
+            Gets or sets the MenuItemTemplate property.
+            This dependency property indicates the template
+            for a <see cref="T:BindableApplicationBar.BindableApplicationBarMenuItem"/> that is used
+            together with the <see cref="P:BindableApplicationBar.BindableApplicationBar.MenuItemsSource"/> collection
+            to create the application bar MenuItems.
+            </summary>
+            <remarks>
+            The default template defines the property names to match
+            the names of properties of a BindableApplicationBarMenuItem.
+            </remarks>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.IsVisible">
+            <summary>
+            Gets or sets a value indicating whether
+            the attached ApplicationBar is visible.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.IsMenuEnabled">
+            <summary>
+            Gets or sets a value indicating whether the menu is enabled.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.IsMenuVisible">
+            <summary>
+            Gets or sets a value indicating whether the menu is visible.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.BackgroundColor">
+            <summary>
+            Gets or sets the BackgroundColor property.
+            This dependency property indicates the BackgroundColor
+            of the ApplicationBar.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.ForegroundColor">
+            <summary>
+            Gets or sets the ForegroundColor property. This dependency
+            property indicates the ForegroundColor of the ApplicationBar.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.Mode">
+            <summary>
+            Gets or sets the Mode property. This dependency property 
+            indicates the Mode of the ApplicationBar.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBar.BindableOpacity">
+            <summary>
+            Gets or sets the BindableOpacity property.
+            This dependency property indicates the Opacity of
+            the ApplicationBar.
+            The <see cref="P:System.Windows.UIElement.Opacity"/> property can be used instead,
+            since BindableOpacity is only used to allow handling changes to
+            <see cref="P:System.Windows.UIElement.Opacity"/>.
+            </summary>
+        </member>
+        <member name="T:BindableApplicationBar.Bindable">
+            <summary>
+            Provides an attached dependency property
+            <see cref="F:BindableApplicationBar.Bindable.ApplicationBarProperty"/> that can be used
+            to set a <see cref="T:BindableApplicationBar.BindableApplicationBar"/>
+            on a <see cref="T:Microsoft.Phone.Controls.PhoneApplicationPage"/> object.
+            </summary>
+        </member>
+        <member name="F:BindableApplicationBar.Bindable.ApplicationBarProperty">
+            <summary>
+            ApplicationBar Attached Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.Bindable.GetApplicationBar(System.Windows.DependencyObject)">
+            <summary>
+            Gets the ApplicationBar property. This dependency property 
+            indicates the BindableApplicationBar instance associated
+            with a page.
+            </summary>
+            <param name="d">
+            The dependency object.
+            </param>
+            <returns>
+            Gets the application bar.
+            </returns>
+        </member>
+        <member name="M:BindableApplicationBar.Bindable.SetApplicationBar(System.Windows.DependencyObject,BindableApplicationBar.BindableApplicationBar)">
+            <summary>
+            Sets the ApplicationBar property. This dependency property
+            indicates the BindableApplicationBar instance associated with
+            a page.
+            </summary>
+            <param name="d">The dependency object.</param>
+            <param name="value">The new value.</param>
+        </member>
+        <member name="M:BindableApplicationBar.Bindable.OnApplicationBarChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the ApplicationBar property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="T:BindableApplicationBar.BindableApplicationBarMenuItem">
+            <summary>
+            A wrapper for an <see cref="T:Microsoft.Phone.Shell.ApplicationBarMenuItem"/> object
+            that adds support for data binding.
+            </summary>
+            <remarks>
+            To be used in <see cref="P:BindableApplicationBar.BindableApplicationBar.MenuItems"/> or
+            <see cref="P:BindableApplicationBar.BindableApplicationBar.MenuItemTemplate"/>
+            <para/>
+            The class derives from <see cref="T:System.Windows.FrameworkElement"/> to support
+            DataContext and bindings.
+            <para/>
+            Note that <see cref="E:Microsoft.Phone.Shell.ApplicationBarMenuItem.Click"/> event is not
+            wrapped since /// the purpose of this class is to bind to view models
+            and use Commands instead.
+            </remarks>
+            <example>
+            See the below example for usage of the BindableApplicationBar:<br/>
+            <code>
+            <![CDATA[
+            <bar:BindableApplicationBar
+                xmlns:bar="clr-namespace:BindableApplicationBar;assembly=BindableApplicationBar"
+                MenuItemsSource="{Binding MenuItems}">
+                <bar:BindableApplicationBar.MenuItemTemplate>
+                    <DataTemplate>
+                        <bar:BindableApplicationBarMenuItem
+                            Command="{Binding Command}"
+                            CommandParameter="{Binding CommandParameter}"
+                            IsEnabled="{Binding IsEnabled}"
+                            Text="{Binding Text}" />
+                    </DataTemplate>
+                </bar:BindableApplicationBar.MenuItemTemplate>
+                <bar:BindableApplicationBar.MenuItems>
+                    <bar:BindableApplicationBarMenuItem
+                        Text="{Binding MenuItemText}"
+                        IsEnabled="{Binding MenuItemIsEnabled}"/>
+                    <bar:BindableApplicationBarMenuItem
+                        Text="Menu item 2"
+                        Command="{Binding TestCommand2}"
+                        CommandParameter="{Binding TestCommand2Parameter}" />
+                </bar:BindableApplicationBar.MenuItems>
+            </bar:BindableApplicationBar>
+            ]]>
+            </code>
+            </example>
+            <seealso cref="T:BindableApplicationBar.BindableApplicationBar"/>
+            <seealso cref="T:BindableApplicationBar.BindableApplicationBarButton"/>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBarMenuItem.TextProperty">
+            <summary>
+            Text Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.OnTextChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the Text property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.OnTextChanged(System.String,System.String)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to the
+            Text property.
+            </summary>
+            <param name="oldText">The old text.</param>
+            <param name="newText">The new text.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBarMenuItem.IsEnabledProperty">
+            <summary>
+            IsEnabled Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.OnIsEnabledChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the IsEnabled property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.OnIsEnabledChanged(System.Boolean,System.Boolean)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to the
+            IsEnabled property.
+            </summary>
+            <param name="oldIsEnabled">The old IsEnabled value.</param>
+            <param name="newIsEnabled">The new IsEnabled value.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBarMenuItem.CommandProperty">
+            <summary>
+            Command Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.OnCommandChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the Command property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.OnCommandChanged(System.Windows.Input.ICommand,System.Windows.Input.ICommand)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the Command property.
+            </summary>
+            <param name="oldCommand">The old command.</param>
+            <param name="newCommand">The new command.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBarMenuItem.CommandParameterProperty">
+            <summary>
+            CommandParameter Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.OnCommandParameterChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the CommandParameter property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.OnCommandParameterChanged(System.Object,System.Object)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the CommandParameter property.
+            </summary>
+            <param name="oldCommandParameter">
+            The old CommandParameter value.
+            </param>
+            <param name="newCommandParameter">
+            The new CommandParameter value.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.Attach(Microsoft.Phone.Shell.ApplicationBar,System.Int32)">
+            <summary>
+            Creates an associated <see cref="T:Microsoft.Phone.Shell.ApplicationBarMenuItem"/> and
+            attaches it to the specified application bar.
+            </summary>
+            <param name="parentApplicationBar">
+            The application bar to attach to.
+            </param>
+            <param name="i">
+            The index at which the associated
+            <see cref="T:Microsoft.Phone.Shell.ApplicationBarMenuItem"/> will be inserted.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarMenuItem.Detach">
+            <summary>
+            Detaches the associated <see cref="T:Microsoft.Phone.Shell.ApplicationBarMenuItem"/>
+            from the <see cref="T:Microsoft.Phone.Shell.ApplicationBar"/> and from this instance.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBarMenuItem.Text">
+            <summary>
+            Gets or sets the Text property. This dependency property 
+            indicates the Text bound to the associated
+            ApplicationBarMenuItem's Text property.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBarMenuItem.IsEnabled">
+            <summary>
+            Gets or sets a value indicating whether the associated menu item
+            is enabled.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBarMenuItem.Command">
+            <summary>
+            Gets or sets the Command property. This dependency property 
+            indicates the command to execute when the menuItem gets clicked.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBarMenuItem.CommandParameter">
+            <summary>
+            Gets or sets the CommandParameter property.
+            This dependency property indicates the parameter to be passed
+            to the Command when the menu item gets pressed.
+            </summary>
+        </member>
+        <member name="T:BindableApplicationBar.BindableApplicationBarButton">
+            <summary>
+            A wrapper for an <see cref="T:Microsoft.Phone.Shell.ApplicationBarIconButton"/> object
+            that adds support for data binding.
+            </summary>
+            <remarks>
+            To be used in <see cref="P:BindableApplicationBar.BindableApplicationBar.Buttons"/> or
+            <see cref="P:BindableApplicationBar.BindableApplicationBar.ButtonTemplate"/>
+            The class derives from <see cref="T:System.Windows.FrameworkElement"/> to support
+            DataContext and bindings.
+            </remarks>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBarButton.TextProperty">
+            <summary>
+            Text Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnTextChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the Text property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnTextChanged(System.String,System.String)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to the
+            Text property.
+            </summary>
+            <param name="oldText">The old Text value.</param>
+            <param name="newText">The new Text value.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBarButton.IconUriProperty">
+            <summary>
+            IconUri Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnIconUriChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the IconUri property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnIconUriChanged(System.Uri,System.Uri)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to the
+            IconUri property.
+            </summary>
+            <param name="oldIconUri">The old IconUri value.</param>
+            <param name="newIconUri">The new IconUri value.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBarButton.IsEnabledProperty">
+            <summary>
+            IsEnabled Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnIsEnabledChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the IsEnabled property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnIsEnabledChanged(System.Boolean,System.Boolean)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the IsEnabled property.
+            </summary>
+            <param name="oldIsEnabled">The old IsEnabled value.</param>
+            <param name="newIsEnabled">The new IsEnabled value.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBarButton.CommandProperty">
+            <summary>
+            Command Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnCommandChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the Command property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnCommandChanged(System.Windows.Input.ICommand,System.Windows.Input.ICommand)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the Command property.
+            </summary>
+            <param name="oldCommand">The old Command value.</param>
+            <param name="newCommand">The new Command value.</param>
+        </member>
+        <member name="F:BindableApplicationBar.BindableApplicationBarButton.CommandParameterProperty">
+            <summary>
+            CommandParameter Dependency Property
+            </summary>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnCommandParameterChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the CommandParameter property.
+            </summary>
+            <param name="d">
+            The <see cref="T:System.Windows.DependencyObject"/> on which
+            the property has changed value.
+            </param>
+            <param name="e">
+            Event data that is issued by any event that
+            tracks changes to the effective value of this property.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.OnCommandParameterChanged(System.Object,System.Object)">
+            <summary>
+            Provides derived classes an opportunity to handle changes to
+            the CommandParameter property.
+            </summary>
+            <param name="oldCommandParameter">
+            The old CommandParameter value.
+            </param>
+            <param name="newCommandParameter">
+            The new CommandParameter value.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.Attach(Microsoft.Phone.Shell.ApplicationBar,System.Int32)">
+            <summary>
+            Creates an associated <see cref="T:Microsoft.Phone.Shell.ApplicationBarIconButton"/> and
+            attaches it to the specified application bar.
+            </summary>
+            <param name="parentApplicationBar">
+            The application bar to attach to.
+            </param>
+            <param name="i">
+            The index at which the associated
+            <see cref="T:Microsoft.Phone.Shell.ApplicationBarIconButton"/> will be inserted.
+            </param>
+        </member>
+        <member name="M:BindableApplicationBar.BindableApplicationBarButton.Detach">
+            <summary>
+            Detaches the associated <see cref="T:Microsoft.Phone.Shell.ApplicationBarIconButton"/>
+            from the <see cref="T:Microsoft.Phone.Shell.ApplicationBar"/> and from this instance.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBarButton.Text">
+            <summary>
+            Gets or sets the Text property. This dependency property 
+            indicates the Text bound to the associated
+            ApplicationBarIconButton's Text property.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBarButton.IconUri">
+            <summary>
+            Gets or sets the IconUri property. This dependency property 
+            indicates the URI to the icon to display for the button.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBarButton.IsEnabled">
+            <summary>
+            Gets or sets a value indicating whether the associated button is
+            enabled.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBarButton.Command">
+            <summary>
+            Gets or sets the Command property. This dependency property 
+            indicates the command to execute when the button gets clicked.
+            </summary>
+        </member>
+        <member name="P:BindableApplicationBar.BindableApplicationBarButton.CommandParameter">
+            <summary>
+            Gets or sets the CommandParameter property.
+            This dependency property indicates the parameter to be passed
+            to the Command when the button gets pressed.
+            </summary>
+        </member>
+    </members>
+</doc>

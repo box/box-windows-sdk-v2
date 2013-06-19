@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>BindableApplicationBar</id>
+    <version>1.0.0</version>
+    <title>BindableApplicationBar</title>
+    <authors>Filip Skakun</authors>
+    <owners>Filip Skakun</owners>
+    <licenseUrl>http://bindableapplicationb.codeplex.com/license</licenseUrl>
+    <projectUrl>http://bindableapplicationb.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A bindable ApplicationBar control wrapper for Windows Phone that allows specifying and updating the ApplicationBar properties by changing the properties of a view model instead of handling events in the code behind.</description>
+    <releaseNotes>Version 1.0 of the BindableApplicationBar.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <language />
+    <tags>wp7 windowsphone wp7dev wpdev phone appbar applicationbar</tags>
+    <references>
+      <reference file="BindableApplicationBar.dll" />
+    </references>
+  </metadata>
+</package>

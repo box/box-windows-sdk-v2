@@ -35,6 +35,22 @@ namespace Box.V2.Controls
             _client = client;
         }
 
+        private BoxFolder _currentFolder;
+        public BoxFolder CurrentFolder
+        {
+            get { return _currentFolder; }
+            set
+            {
+                if (_currentFolder != value)
+                {
+                    _currentFolder = value;
+                    PropertyChangedAsync("CurrentFolder");
+                    FolderName = _currentFolder.Name;
+                    FolderId = _currentFolder.Id;
+                }
+            }
+        }
+
         private string _folderName;
         public string FolderName
         {
@@ -136,8 +152,8 @@ namespace Box.V2.Controls
                 // Is first time in loop
                 if (itemCount == 0)
                 {
-                    FolderName = folder.Name;
-                    FolderId = folder.Id;
+                    CurrentFolder = folder;
+                    
                     if (folder.PathCollection != null && folder.PathCollection.TotalCount > 0)
                     {
                         var parent = folder.PathCollection.Entries.LastOrDefault();
@@ -154,11 +170,11 @@ namespace Box.V2.Controls
 #if WINDOWS_PHONE
                         biVM.Image = new BitmapImage(new Uri("/Assets/PrivateFolder.png", UriKind.RelativeOrAbsolute));
 #else
-                        var uri = new System.Uri("ms-appx:///Assets/SmallLogo.png");
-                        var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
-                        var stream = await file.OpenReadAsync();
+                        //var uri = new System.Uri("ms-appx:///Assets/PrivateFolder.png");
+                        //var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+                        //var stream = await file.OpenReadAsync();
                         biVM.Image = new BitmapImage();
-                        await biVM.Image.SetSourceAsync(stream);
+                        //await biVM.Image.SetSourceAsync(stream);
 #endif
                     }
                     Items.Add(biVM);

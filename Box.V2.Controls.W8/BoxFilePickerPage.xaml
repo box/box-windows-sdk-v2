@@ -1,22 +1,25 @@
-﻿<Page
+﻿<local:BoxItemPickerPage
     x:Class="Box.V2.Controls.BoxFilePickerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Box.V2.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
-    <Page.Resources>
+    mc:Ignorable="d"
+    x:Name="root">
+    <local:BoxItemPickerPage.Resources>
         <local:FileSizeConverter x:Key="fileSizeConverter"  BytesText="B" KiloBytesText="KB" MegaBytesText="MB" GigaBytesText="GB" />
         <local:DateConverter x:Key="dateConverter" />
         <local:TextToUpperConverter x:Key="textToUpperConverter" />
         <local:ValueToVisibilityConverter x:Key="valueToVisibilityConverter" />
-    </Page.Resources>
-        <Grid 
+    </local:BoxItemPickerPage.Resources>
+    <Grid 
         x:Name="layoutRoot" 
         Background="{StaticResource ApplicationPageBackgroundThemeBrush}" 
         HorizontalAlignment="Stretch" 
-        VerticalAlignment="Stretch">
+        VerticalAlignment="Stretch"
+        Width="{Binding LayoutWidth, ElementName=root}" 
+        Height="{Binding LayoutHeight, ElementName=root}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -32,18 +35,19 @@
             ItemsSource="{Binding Items}" 
             IsItemClickEnabled="True"
             ItemClick="FolderView_ItemClick"
+            SelectionMode="None"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                        <Grid Height="110" Width="280" Margin="5">
+                        <Grid Height="110" Width="340" Margin="10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="70" />
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="{Binding Image}" />
-                            <StackPanel Grid.Column="1" Margin="10,0,0,10" VerticalAlignment="Center" Orientation="Vertical">
-                                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
+                            <Image Source="{Binding Image}" Margin="10,0,0,0"/>
+                            <StackPanel Grid.Column="1" Margin="20,0,0,10" VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" Style="{StaticResource SubheaderTextStyle}" TextWrapping="NoWrap"/>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource CaptionTextStyle}">
                                                 <Run Text="Updated" />
@@ -59,4 +63,4 @@
             </GridView.ItemTemplate>
         </GridView>
     </Grid>
-</Page>
+</local:BoxItemPickerPage>
