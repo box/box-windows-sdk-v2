@@ -101,6 +101,9 @@
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Common\BoxStyles.xaml">
       <PackagePath>Box.V2.Controls.W8\Common\BoxStyles.xaml</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxFolderPickerPage.xaml">
+      <PackagePath>Box.V2.Controls.W8\BoxFolderPickerPage.xaml</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
     </AppxPackagedFile>

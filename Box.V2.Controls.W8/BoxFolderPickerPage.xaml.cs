@@ -21,15 +21,17 @@ namespace Box.V2.Controls
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    internal sealed partial class BoxFilePickerPage : BoxItemPickerPage
+    internal sealed partial class BoxFolderPickerPage : BoxItemPickerPage
     {
         Page _parent;
 
-        internal BoxFilePickerPage(BoxClient client)
+        internal BoxFolderPickerPage(BoxClient client)
         {
             this.InitializeComponent();
             Init(client);
         }
+
+        #region Event Handlers
 
         private async void GoBack_Click(object sender, RoutedEventArgs e)
         {
@@ -56,13 +58,33 @@ namespace Box.V2.Controls
             {
                 await _vm.GetFolderItems(item.Id);
             }
-            else if (item.Type == "file")
+        }
+
+        private void FolderSelect_Click(object sender, RoutedEventArgs e)
+        {
+            var bivm = _vm.SelectedItem as BoxItemViewModel;
+            if (bivm == null)
+                return;
+
+            SelectedItem = bivm.Item;
+            Close();
+        }
+
+
+        private void FolderView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var bivm = _vm.SelectedItem as BoxItemViewModel;
+            if (bivm == null)
+                return;
+
+            if (bivm.ItemType == BoxItemType.File)
             {
-                SelectedItem = item;
-                Close();
+                var prevItem = e.RemovedItems.FirstOrDefault() as BoxItemViewModel;
+                _vm.SelectedItem = prevItem;
             }
         }
 
+#endregion
 
         internal override void SwapAppBar(Page parent)
         {
@@ -96,6 +118,5 @@ namespace Box.V2.Controls
             if (_parent.BottomAppBar != null)
                 _parent.BottomAppBar.Opened -= AppBar_Opened;
         }
-
     }
 }

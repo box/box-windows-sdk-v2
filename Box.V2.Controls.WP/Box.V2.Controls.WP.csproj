@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="BoxItemPicker.cs" />
     <Compile Include="BoxItemPickerPage.cs" />
+    <Compile Include="Common\Converters\BoxTypeToDoubleConverter.cs" />
     <Compile Include="Common\Converters\BoxTypeToBoolConverter.cs" />
     <Compile Include="Common\Converters\DateConverter.cs" />
     <Compile Include="Common\Converters\FileSizeConverter.cs" />
@@ -162,9 +163,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="BindableApplicationBar">
-      <HintPath>..\packages\BindableApplicationBar.1.0.0\lib\sl4-windowsphone71\BindableApplicationBar.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\wp8\Microsoft.Threading.Tasks.dll</HintPath>

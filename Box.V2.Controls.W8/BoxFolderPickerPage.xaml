@@ -1,5 +1,5 @@
 ﻿<local:BoxItemPickerPage
-    x:Class="Box.V2.Controls.BoxFilePickerPage"
+    x:Class="Box.V2.Controls.BoxFolderPickerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Box.V2.Controls"
@@ -12,7 +12,9 @@
         <local:DateConverter x:Key="dateConverter" />
         <local:TextToUpperConverter x:Key="textToUpperConverter" />
         <local:ValueToVisibilityConverter x:Key="valueToVisibilityConverter" />
-
+        <local:ValueToBoolConverter x:Key="valueToBoolConverter" />
+        <local:BoxTypeToDoubleConverter x:Key="boxTypeToDoubleConverter" />
+        <local:BoxTypeToBoolConverter x:Key="boxTypeToBoolConverter" />
         
         <SolidColorBrush x:Key="BoxForegroundBrush" Color="Black" />
         <SolidColorBrush x:Key="BoxBackgroundBrush" Color="White" />
@@ -163,6 +165,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="100" />
         </Grid.RowDefinitions>
         <StackPanel Margin="0,100,0,0" Orientation="Horizontal">
             <Button x:Name="backButton" Click="GoBack_Click" Style="{StaticResource BoxBackButtonStyle}" VerticalAlignment="Center"/>
@@ -178,11 +181,16 @@
             ItemsSource="{Binding Items}" 
             IsItemClickEnabled="True"
             ItemClick="FolderView_ItemClick"
-            SelectionMode="None"
+            SelectionChanged="FolderView_SelectionChanged"
+            SelectionMode="Single"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="110" Width="340" Margin="10">
+                    <Grid 
+                        Height="110" 
+                        Width="340" 
+                        Margin="10" 
+                        Opacity="{Binding ItemType, Converter={StaticResource boxTypeToDoubleConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="70" />
                             <ColumnDefinition/>
@@ -203,5 +211,17 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        <Border Background="Black" Grid.Row="3">
+            <Button 
+                x:Name="FolderSelect"
+                Style="{StaticResource AppBarButtonStyle}" 
+                FontFamily="Segoe UI Symbol" 
+                Content="&#xE001;"  
+                IsEnabled="{Binding SelectedItem, Converter={StaticResource valueToBoolConverter}}"
+                Click="FolderSelect_Click" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center" 
+                AutomationProperties.Name="Select folder"/>
+        </Border>
     </Grid>
 </local:BoxItemPickerPage>

@@ -22,19 +22,19 @@
   <ItemGroup>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.W8.exe">
       <PackagePath>Box.V2.W8.exe</PackagePath>
-      <Modified>2013-06-20T08:23:04.731</Modified>
+      <Modified>2013-06-20T16:59:48.164</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.W8.pdb">
       <PackagePath>Box.V2.W8.pdb</PackagePath>
-      <Modified>2013-06-20T08:23:04.715</Modified>
+      <Modified>2013-06-20T16:59:48.148</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Box.V2.Controls.W8.pdb">
       <PackagePath>Box.V2.Controls.W8.pdb</PackagePath>
-      <Modified>2013-06-20T08:23:03.937</Modified>
+      <Modified>2013-06-20T16:59:47.364</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Box.V2.Controls.W8.dll">
       <PackagePath>Box.V2.Controls.W8.dll</PackagePath>
-      <Modified>2013-06-20T08:23:03.954</Modified>
+      <Modified>2013-06-20T16:59:47.381</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Box.V2.dll">
       <PackagePath>Box.V2.dll</PackagePath>
@@ -122,7 +122,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\MainPage.xaml">
       <PackagePath>MainPage.xaml</PackagePath>
-      <Modified>2013-06-19T04:59:03.905</Modified>
+      <Modified>2013-06-20T14:20:07.250</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxItemPickerLauncher.xaml">
       <PackagePath>Box.V2.Controls.W8\BoxItemPickerLauncher.xaml</PackagePath>
@@ -130,15 +130,19 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxFilePickerPage.xaml">
       <PackagePath>Box.V2.Controls.W8\BoxFilePickerPage.xaml</PackagePath>
-      <Modified>2013-06-20T08:23:01.641</Modified>
+      <Modified>2013-06-20T14:28:39.019</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Common\BoxStyles.xaml">
       <PackagePath>Box.V2.Controls.W8\Common\BoxStyles.xaml</PackagePath>
       <Modified>2013-06-19T21:48:17.148</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxFolderPickerPage.xaml">
+      <PackagePath>Box.V2.Controls.W8\BoxFolderPickerPage.xaml</PackagePath>
+      <Modified>2013-06-20T16:59:44.531</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2013-06-19T21:47:34.174</Modified>
+      <Modified>2013-06-20T13:36:47.190</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

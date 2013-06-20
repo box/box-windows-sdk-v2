@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+
 #if WINDOWS_PHONE
 using System.Windows.Data;
 #else
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml;
 #endif
-   
+
 namespace Box.V2.Controls
 {
-    public class BoxTypeToBoolConverter : IValueConverter
+    public class ValueToBoolConverter : IValueConverter
     {
 #if WINDOWS_PHONE
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -20,21 +23,7 @@ namespace Box.V2.Controls
 #endif
         {
             if (value == null)
-                return true;
-
-            BoxItemType type;
-            if (Enum.TryParse<BoxItemType>(value.ToString(), out type))
-            {
-                switch (type)
-                {
-                    case BoxItemType.File:
-                        return false;
-                    case BoxItemType.Folder:
-                        return true;
-                    default:
-                        return true;
-                }
-            }
+                return false;
 
             return true;
         }

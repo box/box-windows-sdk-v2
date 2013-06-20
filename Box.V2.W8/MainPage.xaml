@@ -29,11 +29,10 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <controls:BoxItemPickerLauncher x:Name="boxFilePicker" Client="{Binding Client}" StartingFolderName="All Files"/>
-            <Grid Grid.Row="1" Margin="0,100,0,0">
+            <Grid Grid.Row="0" Margin="0,100,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -43,7 +42,7 @@
                 <ProgressRing Grid.Column="1" Width="75" Height="75" IsActive="{Binding IsLoading}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             </Grid>
             <GridView 
-            Grid.Row="2"
+            Grid.Row="1"
             Padding="120,6,120,50"
             ItemsSource="{Binding Items}" 
             ItemTemplate="{StaticResource FolderViewItemTemplate}"
@@ -56,6 +55,11 @@
                 </StackPanel>
             </GridView.Header>-->
             </GridView>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="120,20,0,0">
+                <TextBlock Text="Box File/Folder Pickers:" Margin="0,0,20,0" Style="{StaticResource PageSubheaderTextStyle}"/>
+                <controls:BoxItemPickerLauncher x:Name="boxFilePicker" Client="{Binding Client}" StartingFolderName="All Files"/>
+                <controls:BoxItemPickerLauncher x:Name="boxFolderPicker" Client="{Binding Client}" ItemPickerType="Folder"  StartingFolderName="All Files"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

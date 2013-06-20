@@ -34,8 +34,7 @@ namespace Box.V2.Controls
             _pickerPopup = new Popup();
             _pickerPage = ItemPickerType == BoxItemType.File ?
                 new BoxFilePickerPage(Client) as BoxItemPickerPage :
-                null;
-                //new BoxFolderPickerPage(Client) as BoxItemPickerPage;
+                new BoxFolderPickerPage(Client) as BoxItemPickerPage;
             _pickerPage.CloseRequested += filePickerPage_CloseRequested;
             _pickerPopup.Child = _pickerPage;
 

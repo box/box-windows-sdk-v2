@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Data;
    
 namespace Box.V2.Controls
 {
-    public class BoxTypeToBoolConverter : IValueConverter
+    public class BoxTypeToDoubleConverter : IValueConverter
     {
 #if WINDOWS_PHONE
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -20,7 +20,7 @@ namespace Box.V2.Controls
 #endif
         {
             if (value == null)
-                return true;
+                return 1;
 
             BoxItemType type;
             if (Enum.TryParse<BoxItemType>(value.ToString(), out type))
@@ -28,15 +28,15 @@ namespace Box.V2.Controls
                 switch (type)
                 {
                     case BoxItemType.File:
-                        return false;
+                        return 0.5;
                     case BoxItemType.Folder:
-                        return true;
+                        return 1;
                     default:
-                        return true;
+                        return 1;
                 }
             }
 
-            return true;
+            return 1;
         }
 
 #if WINDOWS_PHONE

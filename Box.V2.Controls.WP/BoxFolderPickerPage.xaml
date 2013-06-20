@@ -21,6 +21,7 @@
         <local:DateConverter x:Key="dateConverter" />
         <local:TextToUpperConverter x:Key="textToUpperConverter" />
         <local:ValueToVisibilityConverter x:Key="valueToVisibilityConverter" />
+        <local:BoxTypeToDoubleConverter x:Key="boxTypeToDoubleConverter" />
     </local:BoxItemPickerPage.Resources>
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid 
@@ -43,7 +44,7 @@
                 Margin="0,24,0,24" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="0,12,0,12">
+                        <Grid Margin="0,12,0,12" Opacity="{Binding ItemType, Converter={StaticResource boxTypeToDoubleConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="60" />
                                 <ColumnDefinition />

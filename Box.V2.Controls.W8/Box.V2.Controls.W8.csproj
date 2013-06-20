@@ -105,6 +105,12 @@
     <Compile Include="..\Box.V2.Controls.WP\BoxItemPickerPage.cs">
       <Link>BoxItemPickerPage.cs</Link>
     </Compile>
+    <Compile Include="..\Box.V2.Controls.WP\Common\Converters\BoxTypeToBoolConverter.cs">
+      <Link>Converters\BoxTypeToBoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Box.V2.Controls.WP\Common\Converters\BoxTypeToDoubleConverter.cs">
+      <Link>Converters\BoxTypeToDoubleConverter.cs</Link>
+    </Compile>
     <Compile Include="..\Box.V2.Controls.WP\Common\Converters\DateConverter.cs">
       <Link>Converters\DateConverter.cs</Link>
     </Compile>
@@ -136,6 +142,10 @@
     <Compile Include="BoxFilePickerPage.xaml.cs">
       <DependentUpon>BoxFilePickerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BoxFolderPickerPage.xaml.cs">
+      <DependentUpon>BoxFolderPickerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\ValueToBoolConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +167,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="BoxFolderPickerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

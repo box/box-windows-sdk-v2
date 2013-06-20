@@ -68,13 +68,13 @@ C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\MainPage.xaml
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\Box.V2.W8.exe
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\Box.V2.W8.pdb
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\Box.V2.W8.csproj.GenerateResource.Cache
+C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\priconfig.xml.intermediate
+C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\layout.resfiles.intermediate
+C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\resources.resfiles.intermediate
+C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\pri.resfiles.intermediate
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\priconfig.xml
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\layout.resfiles
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\resources.resfiles
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\pri.resfiles
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\LanguageQualifiers.txt
 C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\ProjectArchitectures.txt
-C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\priconfig.xml.intermediate
-C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\layout.resfiles.intermediate
-C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\resources.resfiles.intermediate
-C:\dev\box-windows-sdk\Box.V2.W8\obj\Debug\pri.resfiles.intermediate

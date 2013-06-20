@@ -7,7 +7,6 @@
 *.ncb
 *.log 
 *.DS_Store
-*.pdb
 *.cache
 *.exe
 [Tt]humbs.db 
