@@ -33,6 +33,38 @@ namespace Box.V2.Managers
             return request;
         }
 
+        protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, bool queueRequest = false)
+            where T : class
+        {
+            var response = await ExecuteRequest<T>(request, queueRequest);
+
+            return response.ParseResults(_converter);
+        }
+
+        private async Task<IBoxResponse<T>> ExecuteRequest<T>(IBoxRequest request, bool queueRequest)
+            where T : class
+        {
+            var response = queueRequest ? 
+                await _service.EnqueueAsync<T>(request) :
+                await _service.ToResponseAsync<T>(request);
+
+            switch (response.Status)
+            {
+                // Refresh the access token if the status is "Unauthorized" (HTTP Status Code 401: Unauthorized)
+                // This will only be attempted once as refresh tokens are single use
+                case ResponseStatus.Unauthorized:
+                    response = await RetryExpiredTokenRequest<T>(request);
+                    break;
+                // Continue to retry the request if the status is "Pending" (HTTP Status Code 202: Approved)
+                // this will occur if a preview/thumbnail is not ready yet
+                case ResponseStatus.Pending:
+                    response = await ExecuteRequest<T>(request, queueRequest);
+                    break;
+            }
+
+            return response;
+        }
+
         protected async Task<IBoxResponse<T>> RetryExpiredTokenRequest<T>(IBoxRequest request)
             where T : class
         {
@@ -41,18 +73,6 @@ namespace Box.V2.Managers
             return await _service.ToResponseAsync<T>(request);
         }
 
-        protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, bool queueRequest = false)
-            where T : class
-        {
-            var response = queueRequest ? 
-                await _service.EnqueueAsync<T>(request) :
-                await _service.ToResponseAsync<T>(request);
-
-            if (response.Status == ResponseStatus.Unauthorized)
-                response = await RetryExpiredTokenRequest<T>(request);
-
-            return response.ParseResults(_converter);
-        }
 
         protected void AddAuthorization(IBoxRequest request, string accessToken)
         {

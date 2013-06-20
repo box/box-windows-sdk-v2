@@ -129,6 +129,7 @@ namespace Box.V2.Controls
         public async Task GetFolderItems(string id, string folderName = null)
         {
             await _itemsLock.WaitAsync();
+            FolderName = folderName;
             try
             {
                 Items.Clear();

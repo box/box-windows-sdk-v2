@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Box.V2.Request
             _client = new HttpClient(_handler);
         }
 
-        public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request) 
+        public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
             where T : class
         {
             // Need to account for special cases when the return type is a stream
@@ -38,21 +39,34 @@ namespace Box.V2.Request
                 HttpCompletionOption.ResponseHeadersRead :
                 HttpCompletionOption.ResponseContentRead;
 
+#if DEBUG
             Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));//, RequestHeader: {1} , httpRequest.Headers.Select(i => string.Format("{0}:{1}", i.Key, i.Value)).Aggregate((i, j) => i + "," + j)));
+#endif
 
             try
             {
                 HttpResponseMessage response = await _client.SendAsync(httpRequest, completionOption);
 
-                BoxResponse<T> boxResponse = new BoxResponse<T>()
+                BoxResponse<T> boxResponse = new BoxResponse<T>();
+
+                // Translate the status codes that interest us 
+                switch (response.StatusCode)
                 {
-                    // Sets the status to success, unauthorized, or error
-                    Status = response.IsSuccessStatusCode ?
-                        ResponseStatus.Success :
-                        response.StatusCode == System.Net.HttpStatusCode.Unauthorized ?
-                            ResponseStatus.Unauthorized :
-                            ResponseStatus.Error
-                };
+                    case HttpStatusCode.OK:
+                    case HttpStatusCode.Created:
+                    case HttpStatusCode.NoContent:
+                        boxResponse.Status = ResponseStatus.Success;
+                        break;
+                    case HttpStatusCode.Accepted:
+                        boxResponse.Status = ResponseStatus.Pending;
+                        break;
+                    case HttpStatusCode.Unauthorized:
+                        boxResponse.Status = ResponseStatus.Unauthorized;
+                        break;
+                    default:
+                        boxResponse.Status = ResponseStatus.Error;
+                        break;
+                }
 
                 if (isStream && boxResponse.Status == ResponseStatus.Success)
                 {
@@ -134,7 +148,7 @@ namespace Box.V2.Request
             // Create the string part
             foreach (var sp in stringParts)
                 multiPart.Add(new StringContent(sp.Value), ForceQuotesOnParam(sp.Name));
-            
+
             httpRequest.Content = multiPart;
 
             return httpRequest;

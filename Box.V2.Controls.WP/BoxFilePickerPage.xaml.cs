@@ -29,7 +29,7 @@ namespace Box.V2.Controls
                 return;
 
             if (bivm.Item.Type == "folder")
-                await _vm.GetFolderItems(bivm.Item.Id);
+                await _vm.GetFolderItems(bivm.Item.Id, bivm.Item.Name);
             else if (bivm.Item.Type == "file")
             {
                 SelectedItem = bivm.Item;

@@ -56,7 +56,7 @@ namespace Box.V2.Controls
 
             if (item.Type == "folder")
             {
-                await _vm.GetFolderItems(item.Id);
+                await _vm.GetFolderItems(item.Id, item.Name);
             }
         }
 

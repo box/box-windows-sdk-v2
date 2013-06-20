@@ -19,6 +19,11 @@ namespace Box.V2
         public ResponseStatus Status { get; set; }
 
         /// <summary>
+        /// Status code of the HTTP response
+        /// </summary>
+        public int StatusCode { get; set; }
+
+        /// <summary>
         /// The error associated with an Error status
         /// This will be null in all other cases
         /// </summary>
@@ -29,6 +34,7 @@ namespace Box.V2
     {
         Unknown,
         Success,
+        Pending,
         Error,
         Unauthorized
     }

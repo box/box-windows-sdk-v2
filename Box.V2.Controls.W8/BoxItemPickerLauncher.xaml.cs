@@ -23,9 +23,6 @@ namespace Box.V2.Controls
             this.InitializeComponent();
         }
 
-        Popup _pickerPopup;
-        //BoxItemPickerPage _pickerPage;
-
         private async void itemPicker_Click(object sender, RoutedEventArgs e)
         {
             if (this.Client == null)
