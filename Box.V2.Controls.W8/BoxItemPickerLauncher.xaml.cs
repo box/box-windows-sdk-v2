@@ -32,7 +32,7 @@ namespace Box.V2.Controls
                 throw new ArgumentNullException("Client");
 
             _pickerPopup = new Popup();
-            _pickerPage = ItemPickerType == BoxItemPickerType.File ?
+            _pickerPage = ItemPickerType == BoxItemType.File ?
                 new BoxFilePickerPage(Client) as BoxItemPickerPage :
                 null;
                 //new BoxFolderPickerPage(Client) as BoxItemPickerPage;

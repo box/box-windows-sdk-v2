@@ -21,26 +21,9 @@ namespace Box.V2.Controls
         public BoxItemPickerLauncher()
         {
             InitializeComponent();
-            UpdateButtonText();
         }
 
         #region Event Handlers
-
-
-        private void UpdateButtonText()
-        {
-            var type = (BoxItemPickerType)Enum.Parse(typeof(BoxItemPickerType), ItemPickerType.ToString());
-
-            switch (type)
-            {
-                case BoxItemPickerType.File:
-                    buttonLauncher.Content = FileSelectText;
-                    break;
-                case BoxItemPickerType.Folder:
-                    buttonLauncher.Content = FolderSelectText;
-                    break;
-            }
-        }
 
         protected async void itemPicker_Click(object sender, RoutedEventArgs e)
         {
@@ -48,7 +31,7 @@ namespace Box.V2.Controls
                 throw new ArgumentNullException("Client");
 
             _pickerPopup = new Popup();
-            _pickerPage = ItemPickerType == BoxItemPickerType.File ? 
+            _pickerPage = ItemPickerType == BoxItemType.File ? 
                 new BoxFilePickerPage(Client) as BoxItemPickerPage :
                 new BoxFolderPickerPage(Client) as BoxItemPickerPage;
             _pickerPage.CloseRequested += filePickerPage_CloseRequested;
@@ -86,29 +69,6 @@ namespace Box.V2.Controls
         }
 
         #endregion
-
-        //protected async Task InitAndLaunchItemPicker()
-        //{
-        //    Client.ThrowIfNull("Client");
-
-        //    // Add listener for the back key press
-        //    _parent = this.GetParentOfType<PhoneApplicationPage>();
-        //    _parent.BackKeyPress += parent_BackKeyPress;
-
-        //    // Add the view model to the popup window
-        //    _vm = new BoxItemPickerViewModel(Client);
-        //    puItemPicker.DataContext = _vm;
-
-
-
-        //    // Set height and width to size of screen
-        //    PopupWidth = Application.Current.Host.Content.ActualWidth;
-        //    PopupHeight = Application.Current.Host.Content.ActualHeight;
-        //    IsOpen = true;
-
-        //    await _vm.GetFolderItems(StartingFolderId.ToString());
-        //}
-
 
     }
 }

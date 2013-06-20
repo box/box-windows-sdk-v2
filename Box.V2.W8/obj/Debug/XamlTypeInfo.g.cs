@@ -194,10 +194,10 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case "Box.V2.Controls.BoxItemPickerType":
-                userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.Controls.BoxItemPickerType), GetXamlTypeByName("System.Enum"));
-                userType.AddEnumValue("File", global::Box.V2.Controls.BoxItemPickerType.File);
-                userType.AddEnumValue("Folder", global::Box.V2.Controls.BoxItemPickerType.Folder);
+            case "Box.V2.Controls.BoxItemType":
+                userType = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Box.V2.Controls.BoxItemType), GetXamlTypeByName("System.Enum"));
+                userType.AddEnumValue("File", global::Box.V2.Controls.BoxItemType.File);
+                userType.AddEnumValue("Folder", global::Box.V2.Controls.BoxItemType.Folder);
                 xamlType = userType;
                 break;
 
@@ -313,7 +313,7 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
         private void set_4_BoxItemPicker_ItemPickerType(object instance, object Value)
         {
             var that = (global::Box.V2.Controls.BoxItemPicker)instance;
-            that.ItemPickerType = (global::Box.V2.Controls.BoxItemPickerType)Value;
+            that.ItemPickerType = (global::Box.V2.Controls.BoxItemType)Value;
         }
         private object get_5_BoxItemPicker_ButtonText(object instance)
         {
@@ -363,7 +363,7 @@ namespace Box.V2.W8.Box_V2_W8_XamlTypeInfo
                 break;
             case "Box.V2.Controls.BoxItemPicker.ItemPickerType":
                 userType = (global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Box.V2.Controls.BoxItemPicker");
-                xamlMember = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlMember(this, "ItemPickerType", "Box.V2.Controls.BoxItemPickerType");
+                xamlMember = new global::Box.V2.W8.Box_V2_W8_XamlTypeInfo.XamlMember(this, "ItemPickerType", "Box.V2.Controls.BoxItemType");
                 xamlMember.SetIsDependencyProperty();
                 xamlMember.Getter = get_4_BoxItemPicker_ItemPickerType;
                 xamlMember.Setter = set_4_BoxItemPicker_ItemPickerType;

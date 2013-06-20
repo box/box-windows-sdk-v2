@@ -76,17 +76,32 @@ namespace Box.V2.Controls
         /// <summary>
         /// The type of Item the picker return. Valid values are File and Folder with default being File
         /// </summary>
-        public BoxItemPickerType ItemPickerType
+        public BoxItemType ItemPickerType
         {
-            get { return (BoxItemPickerType)GetValue(ItemPickerTypeProperty); }
+            get { return (BoxItemType)GetValue(ItemPickerTypeProperty); }
             set { SetValue(ItemPickerTypeProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for ItemPickerType.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemPickerTypeProperty =
-            DependencyProperty.Register("ItemPickerType", typeof(BoxItemPickerType), typeof(BoxItemPicker), new PropertyMetadata(BoxItemPickerType.File));
+            DependencyProperty.Register("ItemPickerType", typeof(BoxItemType), typeof(BoxItemPicker), new PropertyMetadata(BoxItemType.File, OnItemPickerTypePropertyChanged));
 
+        private static void OnItemPickerTypePropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var picker = o as BoxItemPicker;
+            if (picker == null)
+                return;
 
+            switch (picker.ItemPickerType)
+            {
+                case BoxItemType.File:
+                    picker.ButtonText = FileSelectText;
+                    break;
+                case BoxItemType.Folder:
+                    picker.ButtonText = FolderSelectText;
+                    break;
+            }
+        }
 
         public string ButtonText
         {
@@ -96,11 +111,12 @@ namespace Box.V2.Controls
 
         // Using a DependencyProperty as the backing store for ButtonText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ButtonTextProperty =
-            DependencyProperty.Register("ButtonText", typeof(string), typeof(BoxItemPickerLauncher), new PropertyMetadata("Select a File"));
+            DependencyProperty.Register("ButtonText", typeof(string), typeof(BoxItemPickerLauncher), new PropertyMetadata(FileSelectText));
         #endregion
+
     }
 
-    public enum BoxItemPickerType
+    public enum BoxItemType
     {
         File,
         Folder

@@ -45,5 +45,6 @@ C:\dev\box-windows-sdk\Box.V2\bin\Debug\System.Net.Http.Primitives.xml
 C:\dev\box-windows-sdk\Box.V2\bin\Debug\System.Runtime.xml
 C:\dev\box-windows-sdk\Box.V2\bin\Debug\System.Threading.Tasks.xml
 C:\dev\box-windows-sdk\Box.V2\obj\Debug\Box.V2.csproj.App.config
+C:\dev\box-windows-sdk\Box.V2\obj\Debug\Box.V2.csprojResolveAssemblyReference.cache
 C:\dev\box-windows-sdk\Box.V2\obj\Debug\Box.V2.dll
 C:\dev\box-windows-sdk\Box.V2\obj\Debug\Box.V2.pdb

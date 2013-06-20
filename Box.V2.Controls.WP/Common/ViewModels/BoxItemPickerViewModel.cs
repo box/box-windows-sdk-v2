@@ -175,11 +175,11 @@ namespace Box.V2.Controls
 #if WINDOWS_PHONE
                         biVM.Image = new BitmapImage(new Uri("/Assets/PrivateFolder.png", UriKind.RelativeOrAbsolute));
 #else
-                            //var uri = new System.Uri("ms-appx:///Assets/PrivateFolder.png");
-                            //var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
-                            //var stream = await file.OpenReadAsync();
+                            var uri = new System.Uri("ms-appx:///Assets/PrivateFolder.png");
+                            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+                            var stream = await file.OpenReadAsync();
                             biVM.Image = new BitmapImage();
-                            //await biVM.Image.SetSourceAsync(stream);
+                            await biVM.Image.SetSourceAsync(stream);
 #endif
                         }
                         Items.Add(biVM);

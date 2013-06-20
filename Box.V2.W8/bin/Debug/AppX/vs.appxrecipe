@@ -16,29 +16,29 @@
     <AppXManifest Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2013-06-19T17:50:07.175</Modified>
+      <Modified>2013-06-19T20:53:26.967</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.W8.exe">
       <PackagePath>Box.V2.W8.exe</PackagePath>
-      <Modified>2013-06-19T19:16:06.161</Modified>
+      <Modified>2013-06-20T08:23:04.731</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Box.V2.W8.pdb">
       <PackagePath>Box.V2.W8.pdb</PackagePath>
-      <Modified>2013-06-19T19:16:06.137</Modified>
+      <Modified>2013-06-20T08:23:04.715</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Box.V2.Controls.W8.pdb">
       <PackagePath>Box.V2.Controls.W8.pdb</PackagePath>
-      <Modified>2013-06-19T19:09:22.863</Modified>
+      <Modified>2013-06-20T08:23:03.937</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Box.V2.Controls.W8.dll">
       <PackagePath>Box.V2.Controls.W8.dll</PackagePath>
-      <Modified>2013-06-19T19:09:22.880</Modified>
+      <Modified>2013-06-20T08:23:03.954</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Box.V2.dll">
       <PackagePath>Box.V2.dll</PackagePath>
-      <Modified>2013-06-19T19:09:21.972</Modified>
+      <Modified>2013-06-19T20:24:08.282</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Nito.AsyncEx.dll">
       <PackagePath>Nito.AsyncEx.dll</PackagePath>
@@ -58,7 +58,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Box.V2.pdb">
       <PackagePath>Box.V2.pdb</PackagePath>
-      <Modified>2013-06-19T19:09:21.952</Modified>
+      <Modified>2013-06-19T20:24:08.260</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2\bin\Debug\Nito.AsyncEx.xml">
       <PackagePath>Nito.AsyncEx.xml</PackagePath>
@@ -80,6 +80,10 @@
       <PackagePath>Assets\Logo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2013-06-13T08:01:25.094</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\Assets\PrivateFolder.png">
+      <PackagePath>Assets\PrivateFolder.png</PackagePath>
+      <Modified>2013-06-19T20:51:51.711</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\Assets\SmallLogo.png">
       <PackagePath>Assets\SmallLogo.png</PackagePath>
@@ -114,7 +118,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\Common\StandardStyles.xaml">
       <PackagePath>Common\StandardStyles.xaml</PackagePath>
-      <Modified>2013-06-13T08:01:25.104</Modified>
+      <Modified>2013-06-19T21:57:30.845</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\MainPage.xaml">
       <PackagePath>MainPage.xaml</PackagePath>
@@ -126,11 +130,15 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\BoxFilePickerPage.xaml">
       <PackagePath>Box.V2.Controls.W8\BoxFilePickerPage.xaml</PackagePath>
-      <Modified>2013-06-19T14:14:13.648</Modified>
+      <Modified>2013-06-20T08:23:01.641</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.Controls.W8\bin\Debug\Common\BoxStyles.xaml">
+      <PackagePath>Box.V2.Controls.W8\Common\BoxStyles.xaml</PackagePath>
+      <Modified>2013-06-19T21:48:17.148</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\dev\box-windows-sdk\Box.V2.W8\bin\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2013-06-19T17:50:07.097</Modified>
+      <Modified>2013-06-19T21:47:34.174</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

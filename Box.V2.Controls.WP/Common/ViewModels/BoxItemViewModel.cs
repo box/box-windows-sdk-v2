@@ -103,20 +103,14 @@ namespace Box.V2.Controls
             }
         }
 
+        private BoxItemType _itemType;
 
-        private string _imagePath;
-        public string ImagePath
+        public BoxItemType ItemType
         {
-            get { return _imagePath; }
-            set
-            {
-                if (_imagePath != value)
-                {
-                    _imagePath = value;
-                    PropertyChangedAsync("ImagePath");
-                }
-            }
+            get { return _itemType; }
+            set { _itemType = value; }
         }
+
 
         private BitmapImage _image;
         public BitmapImage Image
@@ -140,13 +134,22 @@ namespace Box.V2.Controls
             }
         }
 
+
         private void UpdateBaseBindings(BoxItem item)
         {
             Item = item;
             Name = item.Name;
             ModifiedAt = item.ModifiedAt;
             if (item.Type == "file")
+            {
                 Size = item.Size;
+                ItemType = BoxItemType.File;
+            }
+            else if (item.Type == "folder")
+            {
+                ItemType = BoxItemType.Folder;
+            }
+
         }
 
         public async Task GetThumbnailAsync(string id, BoxClient client)

@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="BoxItemPicker.cs" />
     <Compile Include="BoxItemPickerPage.cs" />
+    <Compile Include="Common\Converters\BoxTypeToBoolConverter.cs" />
     <Compile Include="Common\Converters\DateConverter.cs" />
     <Compile Include="Common\Converters\FileSizeConverter.cs" />
     <Compile Include="Common\Converters\TextToUpperConverter.cs" />

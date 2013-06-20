@@ -45,6 +45,10 @@ C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.Controls.WP.dll
 C:\Dev\Box.V2\Box.V2.WP\Bin\Debug\Box.V2.Controls.WP.pdb
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Cancel.png
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Check.png
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Delete.png
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Select.png
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\generic.png
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\PrivateFolder.png
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ShareFolder.png
@@ -56,6 +60,7 @@ C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Box.V2.WP.dll.config
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Box.V2.WP.dll
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Box.V2.WP.pdb
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\AppManifest.xaml
+C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Properties\WMAppManifest.xml
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Box.V2.WP_Debug_AnyCPU.xap
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Box.V2.Controls.WP.dll
 C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Box.V2.dll
@@ -85,8 +90,3 @@ C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.csproj.GenerateResource.Cac
 C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.dll
 C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\Box.V2.WP.pdb
 C:\dev\box-windows-sdk\Box.V2.WP\obj\Debug\XapCacheFile.xml
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Properties\WMAppManifest.xml
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Cancel.png
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Check.png
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Delete.png
-C:\dev\box-windows-sdk\Box.V2.WP\Bin\Debug\Assets\ApplicationBar.Select.png

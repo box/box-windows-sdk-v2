@@ -17,6 +17,6 @@
         <local:ValueToVisibilityConverter x:Key="valueToVisibilityConverter" />
     </UserControl.Resources>-->
     <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
-            <Button x:Name="buttonLauncher" Click="itemPicker_Click" />
+        <Button Content="{Binding ButtonText, ElementName=root}" Click="itemPicker_Click" />
     </Grid>
 </local:BoxItemPicker>
