@@ -160,43 +160,23 @@ namespace Box.V2.Controls
                 return;
             }
 
-            MemoryStream imageStream = await _client.FilesManager.GetThumbnailAsync(Item.Id, 50, 50) as MemoryStream;
+            Stream imageStream = await _client.FilesManager.GetThumbnailAsync(Item.Id, 50, 50);
+            MemoryStream ms = new MemoryStream();
+            await imageStream.CopyToAsync(ms);
+
             Debug.WriteLine(string.Format("Stream received: {0}", Item.Id));
 
             BitmapImage image = new BitmapImage();
             if (imageStream != null && imageStream.Length > 0)
             {
 #if WINDOWS_PHONE
-                image.SetSource(imageStream);
+                image.SetSource(ms);
 #else
-                IRandomAccessStream randStream = await ConvertToRandomAccessStream(imageStream);
+                IRandomAccessStream randStream = await ConvertToRandomAccessStream(ms);
                 await image.SetSourceAsync(randStream);
 #endif
             }
             Image = image;
-
-            //using (await _mutex.LockAsync())
-            //{
-            //    IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication();
-            //    string fileName = string.Format(fileNamePattern, id);
-            //    using (IsolatedStorageFileStream destStream = new IsolatedStorageFileStream(fileName, FileMode.OpenOrCreate, isoStore))
-            //    {
-            //        await imageStream.CopyToAsync(destStream);
-            //        Debug.WriteLine(string.Format("Thumbnail written: {0}", id));
-            //    }
-
-            //    if (!isoStore.FileExists(fileName))
-            //        return new BitmapImage();
-
-            //    BitmapImage bitMapImage = new BitmapImage();
-            //    using (IsolatedStorageFileStream fileStream = isoStore.OpenFile(fileName, FileMode.Open, FileAccess.Read))
-            //    {
-            //        bitMapImage.SetSource(fileStream);
-            //        Debug.WriteLine(string.Format("Thumbnail read: {0}", id));
-            //        return bitMapImage;
-            //    }
-            //}
-
         }
 
 #if NETFX_CORE

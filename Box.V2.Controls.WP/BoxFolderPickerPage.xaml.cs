@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Box.V2.Models;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Box.V2.Controls
 {

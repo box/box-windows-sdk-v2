@@ -70,13 +70,8 @@ namespace Box.V2.Request
 
                 if (isStream && boxResponse.Status == ResponseStatus.Success)
                 {
-                    using (var resObj = await response.Content.ReadAsStreamAsync())
-                    {
-                        MemoryStream ms = new MemoryStream();
-                        //resObj.Position = 0;
-                        await resObj.CopyToAsync(ms);
-                        boxResponse.ResponseObject = ms as T;
-                    }
+                    var resObj = await response.Content.ReadAsStreamAsync();
+                    boxResponse.ResponseObject = resObj as T;
                 }
                 else
                     boxResponse.ContentString = await response.Content.ReadAsStringAsync();

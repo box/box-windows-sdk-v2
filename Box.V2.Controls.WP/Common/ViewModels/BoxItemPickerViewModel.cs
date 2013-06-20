@@ -176,7 +176,7 @@ namespace Box.V2.Controls
 #if WINDOWS_PHONE
                         biVM.Image = new BitmapImage(new Uri("/Assets/PrivateFolder.png", UriKind.RelativeOrAbsolute));
 #else
-                            var uri = new System.Uri("ms-appx:///Assets/PrivateFolder.png");
+                            var uri = new System.Uri("ms-appx:///Box.V2.Controls.W8/Assets/PrivateFolder.png");
                             var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
                             var stream = await file.OpenReadAsync();
                             biVM.Image = new BitmapImage();
