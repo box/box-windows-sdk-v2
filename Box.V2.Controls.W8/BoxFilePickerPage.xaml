@@ -27,14 +27,14 @@
         </Style>
 
         <Style x:Key="BoxSubHeaderTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="44" />
-            <Setter Property="FontWeight" Value="SemiLight" />
+            <Setter Property="FontSize" Value="36" />
+            <Setter Property="FontWeight" Value="Light" />
             <Setter Property="Foreground" Value="{StaticResource BoxForegroundBrush}" />
         </Style>
 
         <Style x:Key="BoxTitleTextStyle" TargetType="TextBlock">
-            <Setter Property="FontWeight" Value="SemiLight"/>
-            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="FontSize" Value="26" />
             <Setter Property="Foreground" Value="{StaticResource BoxForegroundBrush}" />
             <Setter Property="TextTrimming" Value="WordEllipsis"/>
             <Setter Property="TextWrapping" Value="NoWrap"/>
@@ -164,17 +164,17 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Margin="0,100,0,0" Orientation="Horizontal">
+        <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
             <Button x:Name="backButton" Click="GoBack_Click" Style="{StaticResource BoxBackButtonStyle}" VerticalAlignment="Center"/>
-            <TextBlock x:Name="pageTitle" Text="Select a file:" Margin="0,0,30,40" Style="{StaticResource BoxHeaderTextStyle}" Grid.Column="1" IsHitTestVisible="false"/>
+            <TextBlock x:Name="pageTitle" Text="Select a file:" Margin="0,0,30,20" Style="{StaticResource BoxHeaderTextStyle}" Grid.Column="1" IsHitTestVisible="false"/>
         </StackPanel>
-        <StackPanel Grid.Row="1" Margin="120,50,0,0" Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Margin="120,6,0,0" Orientation="Horizontal">
             <TextBlock Text="{Binding FolderName}" Style="{StaticResource BoxSubHeaderTextStyle}"/>
-            <ProgressRing Width="75" Height="75" IsActive="{Binding IsLoading}" Margin="20,0,0,0"/>
+            <ProgressRing Width="50" Height="50" IsActive="{Binding IsLoading}" Margin="20,0,0,0"/>
         </StackPanel>
         <GridView 
             Grid.Row="2"
-            Margin="120,20,120,50"
+            Margin="120,0,0,0"
             ItemsSource="{Binding Items}" 
             IsItemClickEnabled="True"
             ItemClick="FolderView_ItemClick"
@@ -182,12 +182,14 @@
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="110" Width="340" Margin="10">
+                    <Grid 
+                        Height="80" 
+                        Width="340">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="70" />
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Image Source="{Binding Image}" Margin="0" Height="60" />
+                        <Image Source="{Binding Image}" Margin="0" MaxHeight="60" MaxWidth="60" />
                         <StackPanel Grid.Column="1" Margin="20,0,0,10" VerticalAlignment="Center" Orientation="Vertical">
                             <TextBlock Text="{Binding Name}" Style="{StaticResource BoxTitleTextStyle}" />
                             <StackPanel Orientation="Horizontal">

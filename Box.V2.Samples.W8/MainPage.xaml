@@ -39,8 +39,15 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="backButton" Click="GoBack_Click" Style="{StaticResource BackButtonStyle}"/>
-                <TextBlock x:Name="pageTitle" Text="{Binding FolderName}" Style="{StaticResource PageHeaderTextStyle}" Grid.Column="1" IsHitTestVisible="false"/>
-                <ProgressRing Grid.Column="1" Width="75" Height="75" IsActive="{Binding IsLoading}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" >
+                    <TextBlock x:Name="pageTitle" Text="{Binding FolderName}" Style="{StaticResource PageHeaderTextStyle}" IsHitTestVisible="false"/>
+                    <ProgressRing Grid.Column="1" Width="75" Height="75" IsActive="{Binding IsLoading}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,120,0" HorizontalAlignment="Right" >
+                    <TextBlock Text="Box File/Folder Pickers:" Margin="0,0,24,12" Style="{StaticResource PageSubheaderTextStyle}" VerticalAlignment="Center" />
+                    <controls:BoxItemPickerLauncher x:Name="boxFilePicker" Client="{Binding Client}" StartingFolderName="All Files"/>
+                    <controls:BoxItemPickerLauncher x:Name="boxFolderPicker" Client="{Binding Client}" ItemPickerType="Folder"  StartingFolderName="All Files"/>
+                </StackPanel>
             </Grid>
             <GridView 
             Grid.Row="1"
@@ -56,11 +63,6 @@
                 </StackPanel>
             </GridView.Header>-->
             </GridView>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="120,20,0,0">
-                <TextBlock Text="Box File/Folder Pickers:" Margin="0,0,20,0" Style="{StaticResource PageSubheaderTextStyle}"/>
-                <controls:BoxItemPickerLauncher x:Name="boxFilePicker" Client="{Binding Client}" StartingFolderName="All Files"/>
-                <controls:BoxItemPickerLauncher x:Name="boxFolderPicker" Client="{Binding Client}" ItemPickerType="Folder"  StartingFolderName="All Files"/>
-            </StackPanel>
         </Grid>
     </Grid>
 </Page>
