@@ -62,11 +62,7 @@ namespace Box.V2.Controls
 
         private void FolderSelect_Click(object sender, RoutedEventArgs e)
         {
-            var bivm = _vm.SelectedItem as BoxItemViewModel;
-            if (bivm == null)
-                return;
-
-            SelectedItem = bivm.Item;
+            SelectedItem = _vm.CurrentFolder;
             Close();
         }
 
