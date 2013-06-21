@@ -119,7 +119,7 @@ namespace Box.V2.Controls
             {
                 if (_image == null)
                 {
-                    GetThumbnailAsync(Item.Id, _client);
+                    SetThumbnailAsync(Item.Id, _client);
                 }
                 return _image;
             }
@@ -152,31 +152,39 @@ namespace Box.V2.Controls
 
         }
 
-        public async Task GetThumbnailAsync(string id, BoxClient client)
+        private async Task SetThumbnailAsync(string id, BoxClient client)
         {
-            if (string.IsNullOrWhiteSpace(Item.Id))
-            {
-                Image = new BitmapImage();
-                return;
-            }
+            var image = await GetThumbnailAsync(id, client);
+            Image = image;
+        }
 
-            Stream imageStream = await _client.FilesManager.GetThumbnailAsync(Item.Id, 50, 50);
-            MemoryStream ms = new MemoryStream();
-            await imageStream.CopyToAsync(ms);
-
-            Debug.WriteLine(string.Format("Stream received: {0}", Item.Id));
-
+        private async Task<BitmapImage> GetThumbnailAsync(string id, BoxClient client)
+        {
             BitmapImage image = new BitmapImage();
-            if (imageStream != null && imageStream.Length > 0)
+
+            using (MemoryStream ms = new MemoryStream())
             {
+                using (Stream imageStream = await _client.FilesManager.GetThumbnailAsync(Item.Id, 50, 50))
+                {
+                    if (imageStream == null)
+                        return image;
+
+                    await imageStream.CopyToAsync(ms);
+                    if (ms.Length == 0)
+                        return image;
+                }
+#if DEBUG
+                Debug.WriteLine(string.Format("Stream received: {0}", Item.Id));
+#endif
+
 #if WINDOWS_PHONE
                 image.SetSource(ms);
 #else
                 IRandomAccessStream randStream = await ConvertToRandomAccessStream(ms);
                 await image.SetSourceAsync(randStream);
 #endif
+                return image;
             }
-            Image = image;
         }
 
 #if NETFX_CORE

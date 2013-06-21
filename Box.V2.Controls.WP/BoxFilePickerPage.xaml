@@ -20,43 +20,61 @@
         <local:DateConverter x:Key="dateConverter" />
         <local:TextToUpperConverter x:Key="textToUpperConverter" />
         <local:ValueToVisibilityConverter x:Key="valueToVisibilityConverter" />
+
+        <SolidColorBrush x:Key="BoxForegroundBrush" Color="Black" />
+        <SolidColorBrush x:Key="BoxBackgroundBrush" Color="White" />
+        <SolidColorBrush x:Key="BoxSubtleBrush" Color="#bbbbbb" />
     </local:BoxItemPickerPage.Resources>
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid 
         x:Name="LayoutRoot" 
-        Background="{StaticResource PhoneBackgroundBrush}" 
+        Background="{StaticResource BoxBackgroundBrush}" 
         Width="{Binding LayoutWidth, ElementName=root}" 
         Height="{Binding LayoutHeight, ElementName=root}">
-        <Grid Margin="12,24,12,0">
+        <Grid Margin="24,24,24,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding FolderName, Converter={StaticResource textToUpperConverter}}" FontSize="{StaticResource PhoneFontSizeNormal}" FontWeight="Bold"/>
+            <TextBlock 
+                Margin="0,36,0,0" 
+                Text="{Binding FolderName, Converter={StaticResource textToUpperConverter}}" 
+                FontSize="{StaticResource PhoneFontSizeNormal}" 
+                Foreground="{StaticResource BoxForegroundBrush}"
+                FontWeight="Bold" 
+                VerticalAlignment="Bottom" />
             <ListBox
-                        Grid.Row="1"
-                        x:Name="lbItemsList"
-                        ItemsSource="{Binding Items}"
-                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                        SelectionChanged="lbItemsList_SelectionChanged"
-                        Margin="0,24,0,0" >
+                Grid.Row="1"
+                x:Name="lbItemsList"
+                ItemsSource="{Binding Items}"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                SelectionChanged="lbItemsList_SelectionChanged"
+                Margin="0,6,0,0" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,12,0,12">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="70" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Image Source="{Binding Image}" VerticalAlignment="Center"/>
+                            <Image Source="{Binding Image}" VerticalAlignment="Center" MaxWidth="60" MaxHeight="60" HorizontalAlignment="Center"/>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextTitle2Style}" />
+                                <TextBlock Text="{Binding Name}" Style="{StaticResource PhoneTextTitle2Style}" Foreground="{StaticResource BoxForegroundBrush}" />
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Style="{StaticResource PhoneTextSubtleStyle}">
-                                                <Run Text="Updated" />
-                                                <Run Text="{Binding ModifiedAt, Converter={StaticResource dateConverter}}" />
+                                    <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Foreground="{StaticResource BoxSubtleBrush}">
+                                        <Run Text="Updated" />
+                                        <Run Text="{Binding ModifiedAt, Converter={StaticResource dateConverter}}" />
                                     </TextBlock>
-                                    <TextBlock Text=" · " Visibility="{Binding Size, Converter={StaticResource valueToVisibilityConverter}}" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                    <TextBlock Text="{Binding Size, Converter={StaticResource fileSizeConverter}}" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                                    <TextBlock 
+                                        Margin="-5,0,-5,0" 
+                                        Text=" · " 
+                                        Visibility="{Binding Size, Converter={StaticResource valueToVisibilityConverter}}" 
+                                        Style="{StaticResource PhoneTextSubtleStyle}" 
+                                        Foreground="{StaticResource BoxSubtleBrush}" />
+                                    <TextBlock 
+                                        Text="{Binding Size, Converter={StaticResource fileSizeConverter}}" 
+                                        Style="{StaticResource PhoneTextSubtleStyle}" 
+                                        Foreground="{StaticResource BoxSubtleBrush}" />
                                 </StackPanel>
                             </StackPanel>
                         </Grid>

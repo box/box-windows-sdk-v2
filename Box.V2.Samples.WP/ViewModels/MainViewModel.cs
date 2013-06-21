@@ -155,12 +155,30 @@ namespace Box.V2.Samples.ViewModels
                 }
             }
         }
+
+        private bool _isLoggedIn = false;
+
+        public bool IsLoggedIn
+        {
+            get { return _isLoggedIn; }
+            set
+            {
+                if (_isLoggedIn != value)
+                {
+                    _isLoggedIn = value;
+                    PropertyChangedAsync("IsLoggedIn");
+                }
+            }
+        }
+        
+
         #endregion
 
         public async Task Init(string authCode)
         {
-            await Client.Auth.AuthenticateAsync(authCode);
+            var session = await Client.Auth.AuthenticateAsync(authCode);
 
+            IsLoggedIn = true;
             // Get the root folder
             await GetFolderItemsAsync("0");
         }

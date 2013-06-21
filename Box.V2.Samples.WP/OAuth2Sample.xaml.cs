@@ -19,7 +19,7 @@ namespace Box.V2.Samples.WP
 
         private Uri _redirectUri;
 
-        public EventHandler AuthCodeReceived;
+        public event EventHandler AuthCodeReceived;
 
         public string AuthCode { get; private set; }
 

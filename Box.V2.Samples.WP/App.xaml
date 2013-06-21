@@ -4,11 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:local="clr-namespace:Box.V2.Samples.WP" 
     xmlns:vm="clr-namespace:Box.V2.Samples.ViewModels">
 
     <!--Application Resources-->
     <Application.Resources>
-        <local:LocalizedStrings xmlns:local="clr-namespace:Box.V2.Samples.WP" x:Key="LocalizedStrings"/>
+        <local:LocalizedStrings x:Key="LocalizedStrings"/>
+        <local:BooleanToVisibilityConverter x:Key="boolToVisibilityConverter" />
         <vm:ViewModelLocator x:Key="locator" />
     </Application.Resources>
 

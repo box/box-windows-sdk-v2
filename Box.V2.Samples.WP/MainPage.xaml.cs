@@ -12,6 +12,7 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Windows.Resources;
 using Box.V2.Samples.ViewModels;
+using Box.V2.Samples.WP.Controls;
 
 namespace Box.V2.Samples.WP
 {
@@ -29,14 +30,15 @@ namespace Box.V2.Samples.WP
 
 
         MainViewModel _main;
+        IApplicationBar _appBar;
 
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-
             _main = ViewModelLocator.Main;
 
+            this.ApplicationBar.IsVisible = false;
             oauth.AuthCodeReceived += async (s, e) =>
             {
                 var auth = s as OAuth2Sample;
@@ -44,13 +46,18 @@ namespace Box.V2.Samples.WP
                     return;
 
                 await _main.Init(auth.AuthCode);
-                //NavigationService.Navigate(new Uri("/PreviewPage.xaml", UriKind.Relative));
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    this.ApplicationBar.IsVisible = true;
+                });
             };
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            oauth.GetAuthCode(_main.Config.AuthCodeUri, _main.Config.RedirectUri);
+            if (!_main.IsLoggedIn)
+                oauth.GetAuthCode(_main.Config.AuthCodeUri, _main.Config.RedirectUri);
         }
 
         private async void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -67,6 +74,11 @@ namespace Box.V2.Samples.WP
                     NavigationService.Navigate(new Uri("/PreviewPage.xaml", UriKind.Relative));
                     break;
             }
+        }
+
+        private void ItemPicker_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/ItemPickerPage.xaml", UriKind.Relative));
         }
     }
 }
