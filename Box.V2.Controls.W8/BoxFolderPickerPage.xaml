@@ -72,7 +72,7 @@
                                                          To="1" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectionBackground"
                                                                         Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ListViewItemSelectedPointerOverBackgroundThemeBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BoxBackgroundBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectedBorder"
                                                                         Storyboard.TargetProperty="Stroke">
@@ -98,7 +98,7 @@
                                                          To="1" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectionBackground"
                                                                         Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ListViewItemSelectedPointerOverBackgroundThemeBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BoxBackgroundBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SelectedBorder"
                                                                         Storyboard.TargetProperty="Stroke">
@@ -263,7 +263,7 @@
                                                          To="1" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="contentPresenter"
                                                                        Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ListViewItemSelectedForegroundThemeBrush}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource BoxForegroundBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -410,7 +410,7 @@
                                         <Rectangle x:Name="PointerOverBorder"
                                                IsHitTestVisible="False"
                                                Opacity="0"
-                                               Fill="{StaticResource ListViewItemPointerOverBackgroundThemeBrush}"
+                                               Fill="{StaticResource BoxBackgroundBrush}"
                                                Margin="1" />
                                         <Rectangle x:Name="FocusVisual"
                                                IsHitTestVisible="False"
@@ -622,6 +622,7 @@
             ItemClick="FolderView_ItemClick"
             SelectionChanged="FolderView_SelectionChanged"
             SelectionMode="Single"
+            ItemContainerStyle="{StaticResource BoxGridViewItemStyle}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <GridView.ItemTemplate>
                 <DataTemplate>
