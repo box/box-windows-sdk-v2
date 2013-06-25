@@ -70,9 +70,6 @@ namespace Box.V2.Samples.WP
                 case "folder":
                     await _main.GetFolderItemsAsync(_main.SelectedItem.Id);
                     break;
-                case "file":
-                    NavigationService.Navigate(new Uri("/PreviewPage.xaml", UriKind.Relative));
-                    break;
             }
         }
 
