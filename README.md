@@ -102,8 +102,7 @@ Tests
 -----
 Unit tests are included that use Moq to simulate network requests and responses. These tests can be found in the Box.V2.Test project
 
-Documentation
--------------
 
 Known Issues
 ------------
+Windows 8 Sample OAuth2 uses desktop login screen instead of mobile. Pending fix from platform team.
