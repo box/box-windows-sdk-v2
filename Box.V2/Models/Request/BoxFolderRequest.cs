@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// A request class for making folder requests
+    /// </summary>
     public class BoxFolderRequest : BoxItemRequest
     {
         /// <summary>

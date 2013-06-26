@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:Box.V2.Controls"
+    xmlns:tk="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:ab="clr-namespace:BindableApplicationBar;assembly=BindableApplicationBar"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -15,7 +16,8 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    x:Name="root">
+    x:Name="root"
+    tk:TiltEffect.IsTiltEnabled="True">
     <local:BoxItemPickerPage.Resources>
         <local:FileSizeConverter x:Key="fileSizeConverter"  BytesText="B" KiloBytesText="KB" MegaBytesText="MB" GigaBytesText="GB" />
         <local:DateConverter x:Key="dateConverter" />

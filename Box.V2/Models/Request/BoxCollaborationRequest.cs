@@ -2,9 +2,11 @@
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// A request class for collaboration requests
+    /// </summary>
     public class BoxCollaborationRequest : BoxRequestEntity
     {
-
         /// <summary>
         /// The item to add the collaboration on
         /// The ID and Type are required. The Type MUST also be folder

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Box.V2
 {
+    /// <summary>
+    /// Extends the BoxRequest object with convenience methods
+    /// </summary>
     internal static class BoxRequestExtensions
     {
         internal static T Param<T>(this T request, string name, string value) where T : IBoxRequest

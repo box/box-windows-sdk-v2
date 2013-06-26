@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents all of the user endpoints
+    /// </summary>
     public class BoxUsersManager : BoxResourceManager
     {
         public BoxUsersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)

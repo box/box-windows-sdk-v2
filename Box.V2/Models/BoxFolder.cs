@@ -2,6 +2,9 @@
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Box representation of a folder
+    /// </summary>
     public class BoxFolder : BoxItem
     {
         

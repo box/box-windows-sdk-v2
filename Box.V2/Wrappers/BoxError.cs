@@ -2,6 +2,9 @@
 
 namespace Box.V2
 {
+    /// <summary>
+    /// Box representation of an Error
+    /// </summary>
     public class BoxError
     {
         /// <summary>

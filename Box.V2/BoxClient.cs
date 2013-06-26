@@ -7,14 +7,27 @@ using Box.V2.Services;
 
 namespace Box.V2
 {
+    /// <summary>
+    /// The central entrypoint for all SDK interaction. The BoxClient houses all of the API endpoints and are represented 
+    /// as resource managers for each distinct endpoint
+    /// </summary>
     public class BoxClient
     {
         private IBoxConfig _config;
         private IBoxService _service;
         IBoxConverter _converter;
 
+        /// <summary>
+        /// Instantiates a BoxClient with the provided config object
+        /// </summary>
+        /// <param name="boxConfig">The config object to be used</param>
         public BoxClient(IBoxConfig boxConfig) : this(boxConfig, null) { }
 
+        /// <summary>
+        /// Instantiates a BoxClient with the provided config object and auth session
+        /// </summary>
+        /// <param name="boxConfig">The config object to be used</param>
+        /// <param name="authSession">A fully authenticated auth session</param>
         public BoxClient(IBoxConfig boxConfig, OAuthSession authSession)
         {
             _config = boxConfig;
@@ -38,14 +51,40 @@ namespace Box.V2
             SearchManager = new BoxSearchManager(_config, _service, _converter, Auth);
             UsersManager = new BoxUsersManager(_config, _service, _converter, Auth);
         }
-
+        
+        /// <summary>
+        /// The manager that represents the files endpoint
+        /// </summary>
         public BoxFilesManager FilesManager { get; private set; }
+        
+        /// <summary>
+        /// The manager that represents the folders endpoint
+        /// </summary>
         public BoxFoldersManager FoldersManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the comments endpoint
+        /// </summary>
         public BoxCommentsManager CommentsManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the collaboration endpoint
+        /// </summary>
         public BoxCollaborationsManager CollaborationsManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the search endpoint
+        /// </summary>
         public BoxSearchManager SearchManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the users endpoint
+        /// </summary>
         public BoxUsersManager UsersManager { get; private set; }
 
+        /// <summary>
+        /// The Auth repository that holds the auth session
+        /// </summary>
         public AuthRepository Auth { get; set; }
     }
 }

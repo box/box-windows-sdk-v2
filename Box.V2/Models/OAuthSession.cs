@@ -2,6 +2,9 @@
 
 namespace Box.V2.Auth
 {
+    /// <summary>
+    /// Box representation of an OAuth2 session
+    /// </summary>
     public class OAuthSession
     {
         private const string FieldAccessToken = "access_token";
@@ -9,7 +12,14 @@ namespace Box.V2.Auth
         private const string FieldExpiresIn = "expires_in";
         private const string FieldTokenType = "token_type";
 
-
+        /// <summary>
+        /// Instantiates a new OAuth 2 session. This is primarily used if you are developing a custom
+        /// OAuth login experience
+        /// </summary>
+        /// <param name="access_token">A valid access token</param>
+        /// <param name="refresh_token">A valid refresh token</param>
+        /// <param name="expires_in">Time in seconds the access token will expire</param>
+        /// <param name="token_type">Token type (usually bearer)</param>
         public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type)
         {
             AccessToken = access_token;

@@ -14,6 +14,9 @@ namespace Box.V2.Request
         private static HttpClient _client;
         private HttpClientHandler _handler;
 
+        /// <summary>
+        /// Instantiates a new HttpRequestHandler
+        /// </summary>
         public HttpRequestHandler()
         {
             _handler = new HttpClientHandler();

@@ -3,6 +3,9 @@ using System;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Box representation of a comment
+    /// </summary>
     public class BoxComment : BoxEntity
     {
         public const string FieldIsReplyComment = "is_reply_comment";

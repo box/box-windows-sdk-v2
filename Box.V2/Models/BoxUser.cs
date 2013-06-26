@@ -3,6 +3,9 @@ using System;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Box representation of a user
+    /// </summary>
     public class BoxUser : BoxEntity
     {
         public const string FieldName = "name";

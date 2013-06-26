@@ -4,8 +4,18 @@ using Box.V2.Services;
 
 namespace Box.V2
 {
+    /// <summary>
+    /// Extends the BoxResponse class with convenience methods
+    /// </summary>
     internal static class BoxResponseExtensions
     {
+        /// <summary>
+        /// Parses the BoxResponse with the provided converter
+        /// </summary>
+        /// <typeparam name="T">The return type of the Box response</typeparam>
+        /// <param name="response">The response to parse</param>
+        /// <param name="converter">The converter to use for the conversion</param>
+        /// <returns></returns>
         internal static IBoxResponse<T> ParseResults<T>(this IBoxResponse<T> response, IBoxConverter converter)
             where T : class
         {

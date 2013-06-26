@@ -2,6 +2,9 @@
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// A request class for making user requests
+    /// </summary>
     public class BoxUserRequest : BoxRequestEntity
     {
         /// <summary>

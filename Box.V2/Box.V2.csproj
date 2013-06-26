@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Box.V2.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,7 +51,6 @@
     <Compile Include="Managers\BoxCommentsManager.cs" />
     <Compile Include="Managers\BoxFilesManager.cs" />
     <Compile Include="Managers\BoxFoldersManager.cs" />
-    <Compile Include="Managers\BoxSharedItemsManager.cs" />
     <Compile Include="Managers\BoxUsersManager.cs" />
     <Compile Include="Managers\BoxCollaborationsManager.cs" />
     <Compile Include="Managers\BoxResourceManager.cs" />

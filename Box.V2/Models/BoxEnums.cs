@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// The available types of access for a shared link
+    /// </summary>
     public enum BoxSharedLinkAccessType
     {
         open,
@@ -12,6 +15,9 @@ namespace Box.V2.Models
         collaborators
     }
 
+    /// <summary>
+    /// The available types for the sync states
+    /// </summary>
     public enum BoxSyncStateType
     {
         synced,

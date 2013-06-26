@@ -14,6 +14,10 @@ using System.Windows.Controls.Primitives;
 
 namespace Box.V2.Controls
 {
+    /// <summary>
+    /// An item picker launcher that is packaged with the SDK. The launcher defaults to a File picker
+    /// but can be changed to a folder picker by setting the "ItemPickerType" to "Folder"
+    /// </summary>
     public partial class BoxItemPickerLauncher : BoxItemPicker
     {
         protected PhoneApplicationPage _parent;

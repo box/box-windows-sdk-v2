@@ -22,8 +22,21 @@ namespace Box.V2.Auth
 
         private readonly AsyncLock _mutex = new AsyncLock();
 
+        /// <summary>
+        /// Instantiates a new AuthRepository
+        /// </summary>
+        /// <param name="boxConfig">The Box configuration that should be used</param>
+        /// <param name="boxService">The Box service that will be used to make the requests</param>
+        /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
         public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, IBoxConverter converter) : this(boxConfig, boxService, converter, null) { }
 
+        /// <summary>
+        /// Instantiates a new AuthRepository
+        /// </summary>
+        /// <param name="boxConfig">The Box configuration that should be used</param>
+        /// <param name="boxService">The Box service that will be used to make the requests</param>
+        /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
+        /// <param name="session">The current authenticated session</param>
         public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, IBoxConverter converter, OAuthSession session)
         {
             _config = boxConfig;
@@ -95,10 +108,6 @@ namespace Box.V2.Auth
             return boxResponse.ResponseObject;
         }
 
-        /// <summary>
-        /// Revokes access by invalidating both the access token and refresh token
-        /// </summary>
-        /// <returns></returns>
         public async Task LogoutAsync()
         {
             string token;

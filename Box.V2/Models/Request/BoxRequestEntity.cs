@@ -8,6 +8,9 @@ using System.Text;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// a request class for box requests. This is the parent class for most of the request classes
+    /// </summary>
     public class BoxRequestEntity
     {
         /// <summary>
@@ -25,7 +28,9 @@ namespace Box.V2.Models
     }
 }
 
-
+/// <summary>
+/// The types available for the request
+/// </summary>
 public enum BoxType
 {
     file, 

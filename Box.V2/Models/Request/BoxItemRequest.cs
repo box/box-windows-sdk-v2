@@ -2,9 +2,11 @@
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// A request class for making item requests. Is the parent class for Files and Folder requests
+    /// </summary>
     public class BoxItemRequest : BoxRequestEntity
     {
-
         /// <summary>
         /// The folder that contains this file
         /// </summary>

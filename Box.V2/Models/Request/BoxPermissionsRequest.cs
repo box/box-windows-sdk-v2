@@ -23,6 +23,9 @@ namespace Box.V2.Models
         public BoxPermissionType? Preview { get; set; }
     }
 
+    /// <summary>
+    /// The available permissions for the request
+    /// </summary>
     public enum BoxPermissionType
     {
         Open,

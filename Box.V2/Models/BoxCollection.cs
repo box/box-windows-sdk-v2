@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Box representation of a collection
+    /// </summary>
     public abstract class BoxCollection
     {
         public const string FieldTotalCount = "total_count";
@@ -11,6 +14,10 @@ namespace Box.V2.Models
         public const string FieldLimit = "limit";
     }
     
+    /// <summary>
+    /// Box representation of a collection
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BoxCollection<T> : BoxCollection 
         where T : class, new()
     {

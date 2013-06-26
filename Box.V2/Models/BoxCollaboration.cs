@@ -3,6 +3,9 @@ using System;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Box representation of a collaboration
+    /// </summary>
     public class BoxCollaboration : BoxEntity
     {
         public const string FieldCreatedBy = "created_by";

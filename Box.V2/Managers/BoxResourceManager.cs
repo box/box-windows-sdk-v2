@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The base class for all of the Box resource managers
+    /// </summary>
     public abstract class BoxResourceManager
     {
         protected const string ParamFields = "fields";
@@ -16,6 +19,13 @@ namespace Box.V2.Managers
         protected IBoxConverter _converter;
         protected IAuthRepository _auth;
 
+        /// <summary>
+        /// Instantiates the base class for the Box resource managers
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="service"></param>
+        /// <param name="converter"></param>
+        /// <param name="auth"></param>
         public BoxResourceManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
         {
             _config = config;

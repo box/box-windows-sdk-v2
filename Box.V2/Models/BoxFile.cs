@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Box representation of a file
+    /// </summary>
     public class BoxFile : BoxItem
     {
         public const string FieldSha1 = "sha1";

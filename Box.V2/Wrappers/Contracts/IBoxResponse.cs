@@ -1,6 +1,10 @@
 ﻿
 namespace Box.V2
 {
+    /// <summary>
+    /// Interface for all Box responses
+    /// </summary>
+    /// <typeparam name="T">The return type of the Box response</typeparam>
     public interface IBoxResponse<T> where T : class
     {
         /// <summary>

@@ -6,8 +6,17 @@ namespace Box.V2
 {
     public class BoxRequest : IBoxRequest
     {
+        /// <summary>
+        /// Instantiates a new Box request with the provided host URI
+        /// </summary>
+        /// <param name="hostUri"></param>
         public BoxRequest(Uri hostUri) : this(hostUri, string.Empty) { }
 
+        /// <summary>
+        /// Instantiates a new Box request with the provided host URI and path
+        /// </summary>
+        /// <param name="hostUri"></param>
+        /// <param name="path"></param>
         public BoxRequest(Uri hostUri, string path)
         {
             Host = hostUri;
@@ -66,6 +75,9 @@ namespace Box.V2
         }
     }
 
+    /// <summary>
+    /// The available request types
+    /// </summary>
     public enum RequestMethod
     {
         Get,

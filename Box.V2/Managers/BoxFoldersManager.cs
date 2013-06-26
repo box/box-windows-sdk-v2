@@ -267,22 +267,5 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-
-        /*** DEPRECATED 
-        /// <summary>
-        /// Retrieves the discussions on a particular folder, if any exist.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<Folder> GetDiscussionsAsync()
-        {
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri);
-            AddAuthentication(request);
-
-            IBoxResponse<Folder> response = await _service.ToResponseAsync<Folder>(request);
-
-            return response.ResponseObject;
-        }
-         ***/
-
     }
 }

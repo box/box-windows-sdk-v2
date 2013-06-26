@@ -22,7 +22,11 @@ namespace Box.V2.Controls
 {
     public abstract class BoxItemPicker : UserControl
     {
+        /// <summary>
+        /// The action that is called when the appropriate item is selected
+        /// </summary>
         public Action<BoxItem> ItemSelected;
+
         protected  Popup _pickerPopup;
         internal BoxItemPickerPage _pickerPage;
 
@@ -41,7 +45,10 @@ namespace Box.V2.Controls
         public static readonly DependencyProperty IsOpenProperty =
             DependencyProperty.Register("IsOpen", typeof(bool), typeof(BoxItemPicker), new PropertyMetadata(false));
 
-
+        /// <summary>
+        /// The client the item picker will be using to make all subsequent API requests. 
+        /// This must be a fully authenticated client
+        /// </summary>
         public BoxClient Client
         {
             get { return (BoxClient)GetValue(ClientProperty); }
@@ -52,7 +59,9 @@ namespace Box.V2.Controls
         public static readonly DependencyProperty ClientProperty =
             DependencyProperty.Register("Client", typeof(BoxClient), typeof(BoxItemPicker), new PropertyMetadata(null));
 
-
+        /// <summary>
+        /// The ID of the folder the item picker should open to
+        /// </summary>
         public int StartingFolderId
         {
             get { return (int)GetValue(StartingFolderIdProperty); }
@@ -63,6 +72,10 @@ namespace Box.V2.Controls
         public static readonly DependencyProperty StartingFolderIdProperty =
             DependencyProperty.Register("StartingFolderId", typeof(int), typeof(BoxItemPicker), new PropertyMetadata(0));
 
+        /// <summary>
+        /// Because the folder name will not be known until the first network request is made, a folder name can be provided so the folder 
+        /// name will not be empty on start
+        /// </summary>
         public string StartingFolderName
         {
             get { return (string)GetValue(StartingFolderNameProperty); }
@@ -103,6 +116,9 @@ namespace Box.V2.Controls
             }
         }
 
+        /// <summary>
+        ///  The text that the item picker button will display
+        /// </summary>
         public string ButtonText
         {
             get { return (string)GetValue(ButtonTextProperty); }
@@ -116,6 +132,9 @@ namespace Box.V2.Controls
 
     }
 
+    /// <summary>
+    /// The item type that the picker is based on
+    /// </summary>
     public enum BoxItemType
     {
         File,

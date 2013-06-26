@@ -1,6 +1,10 @@
 ﻿
 namespace Box.V2
 {
+    /// <summary>
+    /// The Box response returned from the API
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BoxResponse<T> : IBoxResponse<T> where T : class
     {
         /// <summary>
@@ -30,6 +34,9 @@ namespace Box.V2
         public BoxError Error { get; set; }
     }
 
+    /// <summary>
+    /// The available Response statuses
+    /// </summary>
     public enum ResponseStatus
     {
         Unknown,

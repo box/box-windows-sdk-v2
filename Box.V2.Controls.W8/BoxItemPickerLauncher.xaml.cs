@@ -16,6 +16,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Box.V2.Controls
 {
+    /// <summary>
+    /// An item picker launcher that is packaged with the SDK. The launcher defaults to a File picker
+    /// but can be changed to a folder picker by setting the "ItemPickerType" to "Folder"
+    /// </summary>
     public sealed partial class BoxItemPickerLauncher : BoxItemPicker
     {
         public BoxItemPickerLauncher()

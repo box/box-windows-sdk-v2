@@ -2,9 +2,11 @@
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// A request class for making comment requests
+    /// </summary>
     public class BoxCommentRequest
     {
-
         /// <summary>
         /// The item that this comment will be placed on.
         /// </summary>

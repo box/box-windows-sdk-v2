@@ -9,8 +9,13 @@ namespace Box.V2.Services
         private const int NumberOfThreads = 2;
         private IRequestHandler _handler;
 
+        // Used to limit the number of requests that go out
         AsyncSemaphore _throttler = new AsyncSemaphore(NumberOfThreads); 
 
+        /// <summary>
+        /// Instantiates a new BoxService with the provided handler
+        /// </summary>
+        /// <param name="handler"></param>
         public BoxService(IRequestHandler handler)
         {
             _handler = handler;

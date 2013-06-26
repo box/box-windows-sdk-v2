@@ -8,6 +8,12 @@ namespace Box.V2.Config
     public class BoxConfig : IBoxConfig
     {
 
+        /// <summary>
+        /// Instantiates a Box config with all of the standard defaults
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="clientSecret"></param>
+        /// <param name="redirectUri"></param>
         public BoxConfig(string clientId, string clientSecret, string redirectUri)
         {
             ClientId = clientId;

@@ -53,7 +53,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
                 .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request, true);
 
             return response.ResponseObject;
         }
@@ -361,47 +361,5 @@ namespace Box.V2.Managers
 
             return response.Status == ResponseStatus.Success;
         }
-
-        /*** Not used
-
-        /// <summary>
-        /// Returns the byte array of the requested file
-        /// </summary>
-        /// <param name="id">Id of the file to download</param>
-        /// <returns>byte[] of the requested file</returns>
-        public async Task<byte[]> DownloadBytesAsync(string id)
-        {
-            CheckPrerequisite(id);
-
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
-                .Authorize(_auth.Session.AccessToken);
-
-            IBoxResponse<byte[]> response = await ToResponseAsync<byte[]>(request, true);
-
-            return response.ResponseObject;
-        } 
-        
-        
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, byte[] file)
-        {
-
-            file.ThrowIfNull("file");
-            CheckPrerequisite(
-                fileRequest.ThrowIfNull("fileRequest").Name,
-                fileRequest.Parent.ThrowIfNull("fileRequest.Parent").Id);
-
-            BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri)
-                .Authorize(_auth.Session.AccessToken)
-                .FormPart(new BoxStringFormPart()
-                {
-                    Name = "metadata",
-                    Value = _converter.Serialize(fileRequest)
-                });
-
-            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request, true);
-
-            return response.ResponseObject;
-        }
-         ***/
     }
 }

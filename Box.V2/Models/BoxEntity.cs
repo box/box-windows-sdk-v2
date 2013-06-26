@@ -2,6 +2,9 @@
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Represents the base class for most Box model objects
+    /// </summary>
     public class BoxEntity
     {
         // Marked private as Type and ID are always returned with every response regardless of included Fields

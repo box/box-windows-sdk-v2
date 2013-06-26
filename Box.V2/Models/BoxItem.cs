@@ -3,6 +3,9 @@ using System;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Box representation of an item in box
+    /// </summary>
     public class BoxItem : BoxEntity
     {
         public const string FieldSequence = "sequence_id";

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents all of the Search endpoints
+    /// </summary>
     public class BoxSearchManager : BoxResourceManager
     {
         public BoxSearchManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
