@@ -53,7 +53,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
                 .Authorize(_auth.Session.AccessToken);
 
-            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request, true);
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
 
             return response.ResponseObject;
         }
@@ -88,7 +88,7 @@ namespace Box.V2.Managers
                     FileName = fileRequest.Name
                 });
 
-            IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request, true);
+            IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request);
 
             // We can only upload one file at a time, so return the first entry
             return response.ResponseObject.Entries.FirstOrDefault();
@@ -204,7 +204,7 @@ namespace Box.V2.Managers
             fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.CopyPathString, fileRequest.Id))
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CopyPathString, fileRequest.Id))
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(fileRequest))
@@ -227,7 +227,7 @@ namespace Box.V2.Managers
             if (!sharedLinkRequest.ThrowIfNull("sharedLinkRequest").Access.HasValue)
                 throw new ArgumentNullException("sharedLink.Access");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, id)
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }))
@@ -247,7 +247,7 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.CommentsPathString, id))
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CommentsPathString, id))
                 .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
@@ -312,7 +312,7 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.TrashPathString, id))
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TrashPathString, id))
                 .Param(ParamFields, fields)
                 .Authorize(_auth.Session.AccessToken);
 
@@ -333,7 +333,7 @@ namespace Box.V2.Managers
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
             fileRequest.Name.ThrowIfNullOrWhiteSpace("fileRequest.Name");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, fileRequest.Id)
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(fileRequest))
@@ -353,7 +353,7 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, string.Format(Constants.TrashPathString, id))
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TrashPathString, id))
                 .Method(RequestMethod.Delete)
                 .Authorize(_auth.Session.AccessToken);
 

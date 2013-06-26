@@ -29,13 +29,8 @@ namespace Box.V2.Samples.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        // Keys on Live
-        public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
-        public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
-
-        // Keys on Dev
-        //public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
-        //public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
+        public const string ClientId = "YOUR_CLIENT_ID";
+        public const string ClientSecret = "YOUR_CLIENT_SECRET";
 
         public const string RedirectUri = "http://localhost";
         public readonly int ItemLimit = 100;

@@ -13,12 +13,8 @@ namespace Box.V2.Test.Integration
     public abstract class BoxResourceManagerTestIntegration
     {
         // Keys on Live
-        //public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
-        //public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
-
-        // Keys on Dev
-        public const string ClientId = "2simanymqjyz8hgnd5xzv0ayjdl5dhps";
-        public const string ClientSecret = "3BOQj9pOC2z01YhG17pCHw74fmmH9qqs";
+        public const string ClientId = "YOUR_CLIENT_ID";
+        public const string ClientSecret = "YOUR_CLIENT_SECRET";
 
         public const string RedirectUri = "http://localhost";
 
@@ -31,7 +27,7 @@ namespace Box.V2.Test.Integration
 
         public BoxResourceManagerTestIntegration()
         {
-            _auth = new OAuthSession("doWY12bnwDd12byd5I3I4RsGiFYQHGU7", "rWJDTI80oihCGzkD3szITtr95wuOLp6U3idhpiTpc1au7Z34Tfb6alxVEG2MB7q0", 3600, "bearer");
+            _auth = new OAuthSession("X5OQiaUIc88XAdJTi9C5JSIKyoz", "8w8CyvZuWY7lkYQp8kESj4IOSeaW3HmYRd6zEvZgNDjRltiQ5w", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
             _parser = new BoxJsonConverter();
