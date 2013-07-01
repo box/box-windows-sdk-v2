@@ -117,6 +117,9 @@ Tests
 -----
 Unit tests are included that use Moq to simulate network requests and responses. These tests can be found in the Box.V2.Test project
 
+Documentation
+-------------
+Documentation of all classes and methods are provided through the standard ```<summary></summary>``` xml tags. The easiest way to view these is through Visual Studio's built in "Object Browser" (VIEW -> Object Browser, or CTRL+W, J). 
 
 Known Issues
 ------------
