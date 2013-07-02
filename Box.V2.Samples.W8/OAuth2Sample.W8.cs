@@ -19,12 +19,16 @@ namespace Box.V2.Samples.W8
         /// <param name="authCodeUri">The box api uri to retrieve the auth code. BoxConfig.AuthCodeUri should be used for this field</param>
         /// <param name="redirectUri">The redirect uri that the page will navigate to after granting the auth code</param>
         /// <returns></returns>
-        public static async Task<string> GetAuthCode(Uri authCodeUri, Uri redirectUri)
+        public static async Task<string> GetAuthCode(Uri authCodeUri, Uri redirectUri = null)
         {
+            Uri callbackUri = redirectUri == null ? 
+                WebAuthenticationBroker.GetCurrentApplicationCallbackUri() :
+                redirectUri;
+
             WebAuthenticationResult war = await WebAuthenticationBroker.AuthenticateAsync(
                 WebAuthenticationOptions.None,
                 authCodeUri,
-                redirectUri);
+                callbackUri);
 
             switch (war.ResponseStatus)
             {

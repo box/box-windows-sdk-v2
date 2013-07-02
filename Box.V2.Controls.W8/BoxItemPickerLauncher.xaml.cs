@@ -52,8 +52,7 @@ namespace Box.V2.Controls
             _pickerPopup.IsOpen = false;
             _pickerPage.SwapBackAppBar();
 
-            if (ItemSelected != null)
-                ItemSelected(_pickerPage.SelectedItem);
+            OnItemSelected(_pickerPage.SelectedItem);
         }
 
         

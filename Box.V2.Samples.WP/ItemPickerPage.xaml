@@ -32,8 +32,8 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <StackPanel>
-                <controls:BoxItemPickerLauncher Client="{Binding Client}" />
-                <controls:BoxItemPickerLauncher Client="{Binding Client}" StartingFolderName="All Items" StartingFolderId="0" ItemPickerType="Folder" />
+                <controls:BoxItemPickerLauncher x:Name="filePicker" Client="{Binding Client}" />
+                <controls:BoxItemPickerLauncher x:Name="folderPicker" Client="{Binding Client}" StartingFolderName="All Items" StartingFolderId="0" ItemPickerType="Folder" />
             </StackPanel>
         </Grid>
     </Grid>

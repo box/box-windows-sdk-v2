@@ -68,8 +68,7 @@ namespace Box.V2.Controls
             _parent.BackKeyPress -= parent_BackKeyPress;
             _pickerPage.SwapBackAppBar();
 
-            if (ItemSelected != null)
-                ItemSelected(_pickerPage.SelectedItem);
+            OnItemSelected(_pickerPage.SelectedItem);
         }
 
         #endregion

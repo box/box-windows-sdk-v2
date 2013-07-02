@@ -23,16 +23,15 @@ namespace Box.V2.Samples.WP
 
         public string AuthCode { get; private set; }
 
-        public void GetAuthCode(Uri authUri, string redirectUri)
+        public void GetAuthCode(Uri authUri, Uri redirectUri)
         {
-            _redirectUri = new Uri(redirectUri);
             oauthBrowser.Navigate(authUri);
             oauthBrowser.Visibility = Visibility.Visible;
         }
 
         private void oauthBrowser_Navigating(object sender, NavigatingEventArgs e)
         {
-            if (e.Uri.Host.Equals(_redirectUri.Host)) // in our case we used localhost as the redirect_uri
+            if (e.Uri.Host.Equals(_redirectUri.Host)) 
             {
                 e.Cancel = true;
 

@@ -16,8 +16,7 @@ namespace Box.V2.Test.Integration
         public const string ClientId = "YOUR_CLIENT_ID";
         public const string ClientSecret = "YOUR_CLIENT_SECRET";
 
-        public const string RedirectUri = "http://localhost";
-
+        public Uri RedirectUri = new Uri("http://boxsdk");
 
         protected OAuthSession _auth;
         protected BoxClient _client;

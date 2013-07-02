@@ -15,6 +15,15 @@ namespace Box.V2.Samples.WP
         public ItemPickerPage()
         {
             InitializeComponent();
+
+            filePicker.ItemSelected += itemPicker_ItemSelected;
+            folderPicker.ItemSelected += itemPicker_ItemSelected;
+        }
+
+        void itemPicker_ItemSelected(object sender, Models.BoxItem e)
+        {
+            if (e != null)
+                MessageBox.Show(string.Format("{0} Selected!", e.Name));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Box.V2.Config
         string ClientId { get; }
         string ConsumerKey { get; }
         string ClientSecret { get; }
-        string RedirectUri { get; }
+        Uri RedirectUri { get; }
 
         string DeviceId { get; set; }
         string DeviceName { get; set; }

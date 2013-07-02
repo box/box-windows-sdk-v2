@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -38,7 +39,22 @@ namespace Box.V2.Samples.W8
         public MainPage()
         {
             this.InitializeComponent();
+
             _main = ViewModelLocator.Main;
+
+            // Attach the event handler for when an item is selected 
+            boxFilePicker.ItemSelected += boxItemPicker_ItemSelected;
+            boxFolderPicker.ItemSelected += boxItemPicker_ItemSelected;
+        }
+
+        async void boxItemPicker_ItemSelected(object sender, BoxItem e)
+        {
+            if (e != null)
+            {
+                MessageDialog dialog = new MessageDialog(string.Format("{0} Selected!", e.Name));
+                await dialog.ShowAsync();
+            }
+            
         }
 
         /// <summary>
@@ -82,7 +98,7 @@ namespace Box.V2.Samples.W8
 
         private async void mainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            string authCode = await OAuth2Sample.GetAuthCode(_main.Config.AuthCodeUri, new Uri(_main.Config.RedirectUri));
+            string authCode = await OAuth2Sample.GetAuthCode(_main.Config.AuthCodeUri, _main.Config.RedirectUri);
             await _main.Init(authCode);
         }
 

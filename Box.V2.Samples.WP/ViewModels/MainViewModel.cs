@@ -32,7 +32,7 @@ namespace Box.V2.Samples.ViewModels
         public const string ClientId = "YOUR_CLIENT_ID";
         public const string ClientSecret = "YOUR_CLIENT_SECRET";
 
-        public const string RedirectUri = "http://localhost";
+        public Uri RedirectUri = new Uri("https://boxsdk");
         public readonly int ItemLimit = 100;
 
         public MainViewModel() : base() {

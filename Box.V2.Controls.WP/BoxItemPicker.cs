@@ -23,9 +23,11 @@ namespace Box.V2.Controls
     public abstract class BoxItemPicker : UserControl
     {
         /// <summary>
-        /// The action that is called when the appropriate item is selected
+        /// The event handler that is called when the appropriate item is selected
         /// </summary>
-        public Action<BoxItem> ItemSelected;
+        public event EventHandler<BoxItem> ItemSelected;
+
+        public Action<BoxItem> Selected;
 
         protected  Popup _pickerPopup;
         internal BoxItemPickerPage _pickerPage;
@@ -129,6 +131,17 @@ namespace Box.V2.Controls
         public static readonly DependencyProperty ButtonTextProperty =
             DependencyProperty.Register("ButtonText", typeof(string), typeof(BoxItemPickerLauncher), new PropertyMetadata(FileSelectText));
         #endregion
+
+
+        /// <summary>
+        /// Fires the ItemSelected EvenHandler passing in the selected item
+        /// </summary>
+        /// <param name="item"></param>
+        public void OnItemSelected(BoxItem item)
+        {
+            if (ItemSelected != null)
+                ItemSelected(this, item);
+        }
 
     }
 

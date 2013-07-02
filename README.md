@@ -16,7 +16,7 @@ Quick Start
 
 Set your configuration parameters and initialize the client:
 ```c#
-var config = new BoxConfig(<Client_Id>, <Client_Secret>, "http://localhost");
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, "https://boxsdk");
 var client = new BoxClient(config);
 ```
 If you dont' have a client id or client secret, you can get one here: https://app.box.com/developers/services
@@ -111,7 +111,7 @@ The Box Windows SDK includes a user control that allows developers an easy way t
 <controls:BoxItemPickerLauncher Client="{Binding Client}" ItemPickerType="Folder" />
 ```
 
-Please see sample apps for additional detail on how the controls look and work
+You can attach an event handler to the ItemSelected event to handle when an Item is selected. Please see sample apps for additional detail on how the controls look and work. 
 
 Tests
 -----

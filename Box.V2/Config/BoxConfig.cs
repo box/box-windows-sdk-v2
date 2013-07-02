@@ -13,8 +13,8 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="clientId"></param>
         /// <param name="clientSecret"></param>
-        /// <param name="redirectUri"></param>
-        public BoxConfig(string clientId, string clientSecret, string redirectUri)
+        /// <param name="redirectUriString"></param>
+        public BoxConfig(string clientId, string clientSecret, Uri redirectUri)
         {
             ClientId = clientId;
             ClientSecret = clientSecret;
@@ -28,7 +28,7 @@ namespace Box.V2.Config
         public string ClientId { get; private set; }
         public string ConsumerKey { get; private set; }
         public string ClientSecret { get; private set; }
-        public string RedirectUri { get; set; }
+        public Uri RedirectUri { get; set; }
 
         public string DeviceId { get; set; }
         public string DeviceName { get; set; }
