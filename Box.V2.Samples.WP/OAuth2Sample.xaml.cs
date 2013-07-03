@@ -25,6 +25,7 @@ namespace Box.V2.Samples.WP
 
         public void GetAuthCode(Uri authUri, Uri redirectUri)
         {
+            _redirectUri = redirectUri;
             oauthBrowser.Navigate(authUri);
             oauthBrowser.Visibility = Visibility.Visible;
         }

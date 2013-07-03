@@ -12,7 +12,6 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public abstract class BoxResourceManagerTestIntegration
     {
-        // Keys on Live
         public const string ClientId = "YOUR_CLIENT_ID";
         public const string ClientSecret = "YOUR_CLIENT_SECRET";
 
@@ -26,7 +25,7 @@ namespace Box.V2.Test.Integration
 
         public BoxResourceManagerTestIntegration()
         {
-            _auth = new OAuthSession("X5OQiaUIc88XAdJTi9C5JSIKyoz", "8w8CyvZuWY7lkYQp8kESj4IOSeaW3HmYRd6zEvZgNDjRltiQ5w", 3600, "bearer");
+            _auth = new OAuthSession("HrMywfaXCtAStbY9FTvoCbMZCBPeBgud", "Qx34izsfUuvbcm90x88gPs6ZiRXexxN3jbQGqNoY2r9to6mppRBoCD4iqlSVrm0F", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
             _parser = new BoxJsonConverter();
@@ -34,19 +33,10 @@ namespace Box.V2.Test.Integration
             _client = new BoxClient(_config, _auth);
         }
 
-        [TestMethod]
-        public async Task RefreshTokens_LiveSession_ValidResponse()
-        {
-            OAuthSession auth = await _client.Auth.RefreshAccessTokenAsync(_auth.AccessToken);
-            var accesstoken = auth.AccessToken;
-            var refreshToken = auth.RefreshToken;
-        }
-
         protected string GetUniqueName()
         {
             return string.Format("test{0}", Guid.NewGuid().ToString());
         }
-
 
         #region Test Properties
 

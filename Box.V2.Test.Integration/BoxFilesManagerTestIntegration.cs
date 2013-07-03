@@ -12,9 +12,6 @@ namespace Box.V2.Test.Integration
     {
         private const string FileId = "8599229215";
 
-//https://api.box.com/2.0/folders/915264606?fields=name&modified_at&item_collection
-//https://api.box.com/2.0/files/8599229215?fields=name&modified_at&size
-
         private const string savePath = @"C:\Users\btang\Downloads\{0}";
 
         [TestMethod]
