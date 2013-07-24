@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Box.V2.Auth
 {
@@ -20,12 +21,26 @@ namespace Box.V2.Auth
         /// <param name="refresh_token">A valid refresh token</param>
         /// <param name="expires_in">Time in seconds the access token will expire</param>
         /// <param name="token_type">Token type (usually bearer)</param>
+        [JsonConstructor]
         public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type)
+            : this(access_token, refresh_token, expires_in, token_type, AuthVersion.V2) { } 
+
+        /// <summary>
+        /// Instantiates a new OAuth 2 session and allows you to define the auth version. This constructor is primarily 
+        /// available to support legacy V1 calls. Creating an Auth session with V1 is not encouraged as they will not work in 2014
+        /// </summary>
+        /// <param name="access_token"></param>
+        /// <param name="refresh_token"></param>
+        /// <param name="expires_in"></param>
+        /// <param name="token_type"></param>
+        /// <param name="authVersion"></param>
+        public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type, AuthVersion authVersion) 
         {
             AccessToken = access_token;
             RefreshToken = refresh_token;
             ExpiresIn = expires_in;
             TokenType = token_type;
+            AuthVersion = authVersion;
         }
 
         /// <summary>
@@ -54,5 +69,19 @@ namespace Box.V2.Auth
         /// </summary>
         [JsonProperty(PropertyName = FieldTokenType)]
         public string TokenType { get; private set; }
+
+        /// <summary>
+        /// Read-only property to provide support for legacy V1 authentication
+        /// </summary>
+        public AuthVersion AuthVersion { get; private set; }
+    }
+
+    /// <summary>
+    /// Allows the SDK to differentiate between a V1 and a V2 auth token
+    /// </summary>
+    public enum AuthVersion
+    {
+        V1,
+        V2
     }
 }
