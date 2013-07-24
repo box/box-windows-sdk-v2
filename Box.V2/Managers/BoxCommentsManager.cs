@@ -32,8 +32,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(commentRequest))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize(commentRequest));
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
 
@@ -50,8 +49,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
 
@@ -72,8 +70,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(commentsRequest))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize(commentsRequest));
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
 
@@ -91,8 +88,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
-                .Method(RequestMethod.Delete)
-                .Authorize(_auth.Session.AccessToken);
+                .Method(RequestMethod.Delete);
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
             return response.Status == ResponseStatus.Success;

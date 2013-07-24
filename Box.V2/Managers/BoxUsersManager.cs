@@ -23,8 +23,7 @@ namespace Box.V2.Managers
         public async Task<BoxUser> GetCurrentUserInformationAsync(List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, "me")
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
 
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request);
 
@@ -42,8 +41,7 @@ namespace Box.V2.Managers
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userRequest.Id)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(userRequest))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize(userRequest));
 
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request);
 

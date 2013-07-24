@@ -2,6 +2,7 @@
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Services;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,7 @@ namespace Box.V2.Managers
         protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, bool queueRequest = false)
             where T : class
         {
+            AddAuthorization(request);
             var response = await ExecuteRequest<T>(request, queueRequest);
 
             return response.ParseResults(_converter);
@@ -75,18 +77,29 @@ namespace Box.V2.Managers
             return response;
         }
 
+        /// <summary>
+        /// Retry the request once if the first try was due to an expired token
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="request"></param>
+        /// <returns></returns>
         protected async Task<IBoxResponse<T>> RetryExpiredTokenRequest<T>(IBoxRequest request)
             where T : class
         {
             OAuthSession newSession = await _auth.RefreshAccessTokenAsync(request.Authorization);
-            request.Authorize(newSession.AccessToken);
+            AddAuthorization(request, newSession.AccessToken);
             return await _service.ToResponseAsync<T>(request);
         }
 
-
-        protected void AddAuthorization(IBoxRequest request, string accessToken)
+        protected void AddAuthorization(IBoxRequest request, string accessToken = null)
         {
-            StringBuilder sb = new StringBuilder(string.Format("Bearer {0}", accessToken));
+            var auth = accessToken ?? _auth.Session.AccessToken;
+
+            string authString = _auth.Session.AuthVersion == AuthVersion.V1 ? 
+                string.Format(CultureInfo.InvariantCulture, V1AuthString, _config.ClientId, auth) : 
+                string.Format(CultureInfo.InvariantCulture, V2AuthString, auth);
+
+            StringBuilder sb = new StringBuilder(authString);
             
             // Device ID is required for accounts that have device pinning enabled
             sb.Append(string.IsNullOrWhiteSpace(_config.DeviceId) ? 
@@ -98,6 +111,10 @@ namespace Box.V2.Managers
 
             request.Header("Authorization", sb.ToString());
         }
+
+        private string V1AuthString { get { return "BoxAuth api_key={0}&auth_token={1}"; } }
+
+        private string V2AuthString { get { return "Bearer {0}"; } }
 
     }
 }

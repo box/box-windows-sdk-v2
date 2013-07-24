@@ -34,8 +34,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(collaborationRequest))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize(collaborationRequest));
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
 
@@ -56,8 +55,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, collaborationRequest.Id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(collaborationRequest))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize(collaborationRequest));
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
 
@@ -74,8 +72,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, id)
-                .Method(RequestMethod.Delete)
-                .Authorize(_auth.Session.AccessToken);
+                .Method(RequestMethod.Delete);
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
 
@@ -93,8 +90,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, id)
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
 

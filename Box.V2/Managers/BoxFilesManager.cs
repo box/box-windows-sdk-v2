@@ -33,8 +33,8 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
+                
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -50,8 +50,8 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
-                .Authorize(_auth.Session.AccessToken);
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id));
+                
 
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
 
@@ -75,7 +75,6 @@ namespace Box.V2.Managers
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri)
                 .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken)
                 .FormPart(new BoxStringFormPart()
                 {
                     Name = "metadata",
@@ -112,7 +111,6 @@ namespace Box.V2.Managers
             BoxMultiPartRequest request = new BoxMultiPartRequest(new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)))
                 .Header("If-Match", etag)
                 .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken)
                 .FormPart(new BoxFileFormPart()
                 {
                     Name = "filename",
@@ -137,8 +135,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.VersionsPathString, id))
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request);
 
@@ -160,8 +157,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Put)
                 .Header("If-Match", etag)
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
 
             request.Payload = _converter.Serialize(fileRequest);
 
@@ -184,8 +180,7 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, id)
                 .Method(RequestMethod.Delete)
-                .Header("If-Match", etag)
-                .Authorize(_auth.Session.AccessToken);
+                .Header("If-Match", etag);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -207,8 +202,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CopyPathString, fileRequest.Id))
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(fileRequest))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize(fileRequest));
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -230,8 +224,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }));
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -248,8 +241,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CommentsPathString, id))
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxComment>> response = await ToResponseAsync<BoxCollection<BoxComment>>(request);
 
@@ -272,7 +264,6 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ThumbnailPathString, id))
-                .Authorize(_auth.Session.AccessToken)
                 .Param("min_height", minHeight.ToString())
                 .Param("min_width", minWidth.ToString())
                 .Param("max_height", maxHeight.ToString())
@@ -294,7 +285,6 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(new Uri(string.Format("https://www.box.net/api/2.0/files/{0}/preview.png", id)))
-                .Authorize(_auth.Session.AccessToken)
                 .Param("page", page.ToString());
 
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
@@ -313,8 +303,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TrashPathString, id))
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -336,8 +325,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(fileRequest))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize(fileRequest));
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 
@@ -354,8 +342,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TrashPathString, id))
-                .Method(RequestMethod.Delete)
-                .Authorize(_auth.Session.AccessToken);
+                .Method(RequestMethod.Delete);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
 

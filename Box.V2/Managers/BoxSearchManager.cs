@@ -33,8 +33,7 @@ namespace Box.V2.Managers
                 .Param("query", keyword)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request);
                     

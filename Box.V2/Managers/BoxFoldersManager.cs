@@ -28,8 +28,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -51,8 +50,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize<BoxFolderRequest>(folderRequest))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize<BoxFolderRequest>(folderRequest));
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -73,8 +71,8 @@ namespace Box.V2.Managers
             string accessToken = _auth.Session.AccessToken;
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
+                
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -95,8 +93,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CopyPathString, folderRequest.Id))
                     .Method(RequestMethod.Post)
                     .Param(ParamFields, fields)
-                    .Payload(_converter.Serialize(folderRequest))
-                    .Authorize(_auth.Session.AccessToken);
+                    .Payload(_converter.Serialize(folderRequest));
             
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -115,8 +112,7 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.Delete)
-                .Param("recursive", recursive.ToString())
-                .Authorize(_auth.Session.AccessToken);
+                .Param("recursive", recursive.ToString());
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -138,8 +134,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
                     .Param(ParamFields, fields)
                     .Payload(_converter.Serialize(folderRequest))
-                    .Method(RequestMethod.Put)
-                    .Authorize(_auth.Session.AccessToken);
+                    .Method(RequestMethod.Put);
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -161,8 +156,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(new BoxItemRequest(){ SharedLink = sharedLinkRequest }))
-                .Authorize(_auth.Session.AccessToken);
+                .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }));
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -178,8 +172,8 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CollaborationsPathString, id))
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
+                
 
             IBoxResponse<BoxCollection<BoxCollaboration>> response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request);
 
@@ -201,8 +195,8 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
+                
 
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request);
 
@@ -225,8 +219,8 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
                     .Method(RequestMethod.Post)
                     .Param(ParamFields, fields)
-                    .Payload(_converter.Serialize(folderRequest))
-                    .Authorize(_auth.Session.AccessToken);
+                    .Payload(_converter.Serialize(folderRequest));
+                    
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -242,8 +236,8 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
-                .Method(RequestMethod.Delete)
-                .Authorize(_auth.Session.AccessToken);
+                .Method(RequestMethod.Delete);
+                
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
@@ -259,8 +253,8 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
-                .Param(ParamFields, fields)
-                .Authorize(_auth.Session.AccessToken);
+                .Param(ParamFields, fields);
+                
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
 
