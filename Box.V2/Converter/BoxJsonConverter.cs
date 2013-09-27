@@ -28,7 +28,7 @@ namespace Box.V2.Converter
         /// <returns>The box representation of the JSON</returns>
         public T Parse<T>(string content)
         {
-            return JsonConvert.DeserializeObject<T>(content);
+            return JsonConvert.DeserializeObject<T>(content, new BoxItemConverter());
         }
 
         /// <summary>
