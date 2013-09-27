@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Auth\AuthRepository.cs" />
     <Compile Include="BoxClient.cs" />
+    <Compile Include="Converter\BoxItemConverter.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
     <Compile Include="Wrappers\BoxResponse.cs" />
