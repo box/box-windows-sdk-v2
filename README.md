@@ -86,6 +86,7 @@ BoxFile f = await client.FilesManager.UpdateInformationAsync(request );
 ```c#
 // Create request object with name and parent folder the file should be uploaded to
 BoxFileRequest req = new BoxFileRequest()
+{
 	Name = "NewFile",
 	Parent = new BoxRequestEntity() { Id = "0" }
 };
