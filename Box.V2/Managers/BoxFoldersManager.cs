@@ -21,6 +21,7 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="limit"></param>
         /// <param name="offset"></param>
+        [Obsolete("This endpoint is not officially supported by the API and is not guaranteed to be available in the next version. Please use GetFolderItemsAsync")]
         public async Task<BoxFolder> GetItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -34,6 +35,27 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Retrieves the files and/or folders contained in the provided folder id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.ItemsPathString, id))
+                .Param("limit", limit.ToString())
+                .Param("offset", offset.ToString())
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request);
+
+            return response.ResponseObject;
+        }
+
 
         /// <summary>
         /// Used to create a new empty folder. The new folder will be created inside of the specified parent folder

@@ -12,7 +12,32 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse()
         {
-            BoxFolder f = await _client.FoldersManager.GetItemsAsync("0", 50, 0, new List<string>() { BoxFolder.FieldModifiedAt, BoxFolder.FieldModifiedBy});
+            BoxFolder f = await _client.FoldersManager.GetItemsAsync("0", 50, 0, new List<string>() { 
+                BoxFolder.FieldName, 
+                BoxFolder.FieldSize, 
+                BoxFolder.FieldModifiedAt, 
+                BoxFolder.FieldModifiedBy,
+                BoxFolder.FieldItemCollection
+            });
+            BoxCollection<BoxItem> c = await _client.FoldersManager.GetFolderItemsAsync("0", 50, 0, new List<string>() { 
+                BoxItem.FieldName, 
+                BoxItem.FieldSize, 
+                BoxItem.FieldModifiedAt, 
+                BoxItem.FieldModifiedBy,
+                BoxFolder.FieldItemCollection
+            });
+
+            Assert.AreEqual(f.ItemCollection.TotalCount, c.TotalCount);
+            Assert.AreEqual(f.ItemCollection.Entries.Count, c.Entries.Count);
+            for (int i = 0; i < f.ItemCollection.TotalCount; i++)
+            {
+                Assert.AreEqual(f.ItemCollection.Entries[i].Type, c.Entries[i].Type);
+                Assert.AreEqual(f.ItemCollection.Entries[i].Id, c.Entries[i].Id);
+                Assert.AreEqual(f.ItemCollection.Entries[i].Name, c.Entries[i].Name);
+                Assert.AreEqual(f.ItemCollection.Entries[i].Size, c.Entries[i].Size);
+                Assert.AreEqual(f.ItemCollection.Entries[i].ModifiedAt, c.Entries[i].ModifiedAt);
+                Assert.AreEqual(f.ItemCollection.Entries[i].CreatedAt, c.Entries[i].CreatedAt);
+            }
         }
 
         [TestMethod]

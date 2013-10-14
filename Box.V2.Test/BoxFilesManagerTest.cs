@@ -14,7 +14,7 @@ namespace Box.V2.Test
     public class BoxFilesManagerTest : BoxResourceManagerTest
     {
         protected BoxFilesManager _filesManager;
-        
+
         public BoxFilesManagerTest()
         {
             _filesManager = new BoxFilesManager(_config.Object, _service, _converter, _authRepository);
@@ -106,24 +106,31 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file_version\", \"id\": \"672259576\", \"sha1\": \"359c6c1ed98081b9a69eb3513b9deced59c957f9\", \"name\": \"Dragons.js\", \"size\": 92556, \"created_at\": \"2012-08-20T10:20:30-07:00\", \"modified_at\": \"2012-11-28T13:14:58-08:00\", \"modified_by\": { \"type\": \"user\", \"id\": \"183732129\", \"name\": \"sean rose\", \"login\": \"sean+apitest@box.com\" } } ] }";
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFile>>(It.IsAny<IBoxRequest>()))
-                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFile>>>(new BoxResponse<BoxCollection<BoxFile>>()
+            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFileVersion>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFileVersion>>>(new BoxResponse<BoxCollection<BoxFileVersion>>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
                 }));
 
             /*** Act ***/
-            BoxCollection<BoxFile> c = await _filesManager.ViewVersionsAsync("0");
+            BoxCollection<BoxFileVersion> c = await _filesManager.ViewVersionsAsync("0");
 
             /*** Assert ***/
             Assert.AreEqual(c.TotalCount, 1);
-
-            BoxFile f = c.Entries.First();
-            Assert.AreEqual("672259576", f.Id);
+            Assert.AreEqual(c.Entries.Count, 1);
+            BoxFileVersion f = c.Entries.First();
             Assert.AreEqual("file_version", f.Type);
+            Assert.AreEqual("672259576", f.Id);
             Assert.AreEqual("359c6c1ed98081b9a69eb3513b9deced59c957f9", f.Sha1);
             Assert.AreEqual("Dragons.js", f.Name);
+            Assert.AreEqual(DateTime.Parse("2012-08-20T10:20:30-07:00"), f.CreatedAt);
+            Assert.AreEqual(DateTime.Parse("2012-11-28T13:14:58-08:00"), f.ModifiedAt);
+            Assert.AreEqual(92556, f.Size);
+            Assert.AreEqual("user", f.ModifiedBy.Type);
+            Assert.AreEqual("183732129", f.ModifiedBy.Id);
+            Assert.AreEqual("sean rose", f.ModifiedBy.Name);
+            Assert.AreEqual("sean+apitest@box.com", f.ModifiedBy.Login);
         }
 
         [TestMethod]

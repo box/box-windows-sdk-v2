@@ -130,14 +130,14 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxFile>> ViewVersionsAsync(string id, List<string> fields = null)
+        public async Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.VersionsPathString, id))
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request);
+            IBoxResponse<BoxCollection<BoxFileVersion>> response = await ToResponseAsync<BoxCollection<BoxFileVersion>>(request);
 
             return response.ResponseObject;
         }
