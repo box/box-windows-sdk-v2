@@ -7,10 +7,11 @@ namespace Box.V2.Models
     /// </summary>
     public class BoxFolder : BoxItem
     {
-        
+
         public const string FieldFolderUploadEmail = "folder_upload_email";
         public const string FieldItemCollection = "item_collection";
         public const string FieldSyncState = "sync_state";
+        public const string FieldHasCollaborations = "has_collaborations";
 
         /// <summary>
         /// The upload email address for this folder
@@ -25,10 +26,16 @@ namespace Box.V2.Models
         public BoxCollection<BoxItem> ItemCollection { get; private set; }
 
         /// <summary>
-        /// Whether this folder will be synced by the Box sync clients or not. Can be synced, not_synced, or partially_synced
+        /// Indicates whether this folder will be synced by the Box sync clients or not. Can be synced, not_synced, or partially_synced
         /// </summary>
         [JsonProperty(PropertyName = FieldSyncState)]
         public string SyncState { get; private set; }
+
+        /// <summary>
+        /// Indicates whether this folder is a collaboration folder or not
+        /// </summary>
+        [JsonProperty(PropertyName = FieldHasCollaborations)]
+        public bool? HasCollaborations { get; private set; }
 
     }
 }

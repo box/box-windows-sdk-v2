@@ -60,6 +60,8 @@ namespace Box.V2.Test
             var fakeFileRequest = new BoxFileRequest()
             {
                 Name = "test.txt",
+                ContentCreatedAt = DateTime.Now,
+                ContentModifiedAt = DateTime.Now,
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
 

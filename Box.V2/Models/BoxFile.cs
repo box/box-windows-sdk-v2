@@ -16,6 +16,8 @@ namespace Box.V2.Models
         public const string FieldPurgedAt = "purged_at";
         public const string FieldContentCreatedAt = "content_created_at";
         public const string FieldContentModifiedAt = "content_modified_at";
+        public const string FieldVersionNumber = "version_number";
+        public const string FieldCommentCount = "comment_count";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -37,16 +39,28 @@ namespace Box.V2.Models
 
         /// <summary>
         /// When the content of this file was created
-        /// <see cref="http://developers.box.com/content-times/"/> 
+        /// For more information about content times <see>http://developers.box.com/content-times/</see>
         /// </summary>
         [JsonProperty(PropertyName = FieldContentCreatedAt)]
         public DateTime? ContentCreatedAt { get; private set; }
 
         /// <summary>
         /// When the content of this file was last modified
-        /// <see cref="http://developers.box.com/content-times/"/>
+        /// For more information about content times <see>http://developers.box.com/content-times/</see>
         /// </summary>
         [JsonProperty(PropertyName = FieldContentModifiedAt)]
         public DateTime? ContentModifiedAt { get; private set; }
+
+        /// <summary>
+        /// The version of the file
+        /// </summary>
+        [JsonProperty(PropertyName = FieldVersionNumber)]
+        public string VersionNumber { get; private set; }
+
+        /// <summary>
+        /// The number of comments on a file
+        /// </summary>
+        [JsonProperty(PropertyName = FieldCommentCount)]
+        public string CommentCount { get; private set; }
     }
 }
