@@ -17,7 +17,9 @@ namespace Box.V2.Test.Integration
                 BoxFolder.FieldSize, 
                 BoxFolder.FieldModifiedAt, 
                 BoxFolder.FieldModifiedBy,
-                BoxFolder.FieldItemCollection
+                BoxFolder.FieldItemCollection,
+                BoxFolder.FieldHasCollaborations,
+                BoxFile.FieldCommentCount
             });
             BoxCollection<BoxItem> c = await _client.FoldersManager.GetFolderItemsAsync("0", 50, 0, new List<string>() { 
                 BoxItem.FieldName, 

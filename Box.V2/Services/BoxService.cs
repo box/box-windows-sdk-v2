@@ -31,7 +31,7 @@ namespace Box.V2.Services
         public async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request)
             where T : class
         {
-            return await _handler.ExecuteAsync<T>(request);
+            return await _handler.ExecuteAsync<T>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -43,11 +43,11 @@ namespace Box.V2.Services
         public async Task<IBoxResponse<T>> EnqueueAsync<T>(IBoxRequest request)
             where T : class
         {
-            await _throttler.WaitAsync();
+            await _throttler.WaitAsync().ConfigureAwait(false);
 
             try
             {
-                return await _handler.ExecuteAsync<T>(request);
+                return await _handler.ExecuteAsync<T>(request).ConfigureAwait(false);
             }
             finally
             {

@@ -31,7 +31,7 @@ namespace Box.V2.Managers
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -51,7 +51,7 @@ namespace Box.V2.Managers
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request);
+            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -74,7 +74,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize<BoxFolderRequest>(folderRequest));
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
 
             return response.ResponseObject;
@@ -94,9 +94,9 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Param(ParamFields, fields);
-                
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -116,8 +116,8 @@ namespace Box.V2.Managers
                     .Method(RequestMethod.Post)
                     .Param(ParamFields, fields)
                     .Payload(_converter.Serialize(folderRequest));
-            
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -136,7 +136,7 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Delete)
                 .Param("recursive", recursive.ToString());
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
         }
@@ -158,7 +158,7 @@ namespace Box.V2.Managers
                     .Payload(_converter.Serialize(folderRequest))
                     .Method(RequestMethod.Put);
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -180,7 +180,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }));
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -195,9 +195,9 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CollaborationsPathString, id))
                 .Param(ParamFields, fields);
-                
 
-            IBoxResponse<BoxCollection<BoxCollaboration>> response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request);
+
+            IBoxResponse<BoxCollection<BoxCollaboration>> response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -218,9 +218,9 @@ namespace Box.V2.Managers
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
-                
 
-            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request);
+
+            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -242,9 +242,9 @@ namespace Box.V2.Managers
                     .Method(RequestMethod.Post)
                     .Param(ParamFields, fields)
                     .Payload(_converter.Serialize(folderRequest));
-                    
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -259,9 +259,9 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
                 .Method(RequestMethod.Delete);
-                
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
         }
@@ -276,9 +276,9 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
                 .Param(ParamFields, fields);
-                
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request);
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }

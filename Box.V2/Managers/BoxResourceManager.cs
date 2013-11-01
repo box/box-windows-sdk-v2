@@ -48,7 +48,7 @@ namespace Box.V2.Managers
             where T : class
         {
             AddAuthorization(request);
-            var response = await ExecuteRequest<T>(request, queueRequest);
+            var response = await ExecuteRequest<T>(request, queueRequest).ConfigureAwait(false);
 
             return response.ParseResults(_converter);
         }
@@ -56,21 +56,21 @@ namespace Box.V2.Managers
         private async Task<IBoxResponse<T>> ExecuteRequest<T>(IBoxRequest request, bool queueRequest)
             where T : class
         {
-            var response = queueRequest ? 
-                await _service.EnqueueAsync<T>(request) :
-                await _service.ToResponseAsync<T>(request);
+            var response = queueRequest ?
+                await _service.EnqueueAsync<T>(request).ConfigureAwait(false) :
+                await _service.ToResponseAsync<T>(request).ConfigureAwait(false);
 
             switch (response.Status)
             {
                 // Refresh the access token if the status is "Unauthorized" (HTTP Status Code 401: Unauthorized)
                 // This will only be attempted once as refresh tokens are single use
                 case ResponseStatus.Unauthorized:
-                    response = await RetryExpiredTokenRequest<T>(request);
+                    response = await RetryExpiredTokenRequest<T>(request).ConfigureAwait(false);
                     break;
                 // Continue to retry the request if the status is "Pending" (HTTP Status Code 202: Approved)
                 // this will occur if a preview/thumbnail is not ready yet
                 case ResponseStatus.Pending:
-                    response = await ExecuteRequest<T>(request, queueRequest);
+                    response = await ExecuteRequest<T>(request, queueRequest).ConfigureAwait(false);
                     break;
             }
 
@@ -86,9 +86,9 @@ namespace Box.V2.Managers
         protected async Task<IBoxResponse<T>> RetryExpiredTokenRequest<T>(IBoxRequest request)
             where T : class
         {
-            OAuthSession newSession = await _auth.RefreshAccessTokenAsync(request.Authorization);
+            OAuthSession newSession = await _auth.RefreshAccessTokenAsync(request.Authorization).ConfigureAwait(false);
             AddAuthorization(request, newSession.AccessToken);
-            return await _service.ToResponseAsync<T>(request);
+            return await _service.ToResponseAsync<T>(request).ConfigureAwait(false);
         }
 
         protected void AddAuthorization(IBoxRequest request, string accessToken = null)

@@ -42,13 +42,11 @@ namespace Box.V2.Request
                 HttpCompletionOption.ResponseHeadersRead :
                 HttpCompletionOption.ResponseContentRead;
 
-#if DEBUG
             Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));//, RequestHeader: {1} , httpRequest.Headers.Select(i => string.Format("{0}:{1}", i.Key, i.Value)).Aggregate((i, j) => i + "," + j)));
-#endif
 
             try
             {
-                HttpResponseMessage response = await _client.SendAsync(httpRequest, completionOption);
+                HttpResponseMessage response = await _client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
 
                 BoxResponse<T> boxResponse = new BoxResponse<T>();
 
@@ -73,11 +71,11 @@ namespace Box.V2.Request
 
                 if (isStream && boxResponse.Status == ResponseStatus.Success)
                 {
-                    var resObj = await response.Content.ReadAsStreamAsync();
+                    var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                     boxResponse.ResponseObject = resObj as T;
                 }
                 else
-                    boxResponse.ContentString = await response.Content.ReadAsStringAsync();
+                    boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 return boxResponse;
             }

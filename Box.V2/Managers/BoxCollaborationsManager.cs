@@ -36,7 +36,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(collaborationRequest));
 
-            IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
+            IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -57,7 +57,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(collaborationRequest));
 
-            IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
+            IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -74,7 +74,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, id)
                 .Method(RequestMethod.Delete);
 
-            IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
+            IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
         }
@@ -92,7 +92,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, id)
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request);
+            IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }

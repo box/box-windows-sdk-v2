@@ -34,7 +34,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(commentRequest));
 
-            IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
+            IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -51,7 +51,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
+            IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -72,7 +72,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(commentsRequest));
 
-            IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
+            IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -90,7 +90,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
                 .Method(RequestMethod.Delete);
 
-            IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request);
+            IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request).ConfigureAwait(false);
             return response.Status == ResponseStatus.Success;
         }
     }

@@ -34,9 +34,9 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Param(ParamFields, fields);
-                
 
-            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -51,9 +51,9 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id));
-                
 
-            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
+
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -87,7 +87,7 @@ namespace Box.V2.Managers
                     FileName = fileRequest.Name
                 });
 
-            IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request);
+            IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
             // We can only upload one file at a time, so return the first entry
             return response.ResponseObject.Entries.FirstOrDefault();
@@ -118,7 +118,7 @@ namespace Box.V2.Managers
                     FileName = fileName
                 });
 
-            IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request);
+            IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
             // We can only upload one file at a time, so return the first entry
             return response.ResponseObject.Entries.FirstOrDefault();
@@ -137,7 +137,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.VersionsPathString, id))
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxFileVersion>> response = await ToResponseAsync<BoxCollection<BoxFileVersion>>(request);
+            IBoxResponse<BoxCollection<BoxFileVersion>> response = await ToResponseAsync<BoxCollection<BoxFileVersion>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -161,7 +161,7 @@ namespace Box.V2.Managers
 
             request.Payload = _converter.Serialize(fileRequest);
 
-            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -182,7 +182,7 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Delete)
                 .Header("If-Match", etag);
 
-            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
         }
@@ -204,7 +204,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(fileRequest));
 
-            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -226,7 +226,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }));
 
-            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -243,7 +243,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CommentsPathString, id))
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxComment>> response = await ToResponseAsync<BoxCollection<BoxComment>>(request);
+            IBoxResponse<BoxCollection<BoxComment>> response = await ToResponseAsync<BoxCollection<BoxComment>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -258,8 +258,9 @@ namespace Box.V2.Managers
         /// <param name="minWidth"></param>
         /// <param name="maxHeight"></param>
         /// <param name="maxWidth"></param>
+        /// <param name="throttle">Whether the requests will be throttled. Recommended to be left true to prevent spamming the server</param>
         /// <returns></returns>
-        public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null)
+        public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -269,7 +270,7 @@ namespace Box.V2.Managers
                 .Param("max_height", maxHeight.ToString())
                 .Param("max_width", maxWidth.ToString());
 
-            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request, true);
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request, throttle).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -287,7 +288,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(new Uri(string.Format("https://www.box.net/api/2.0/files/{0}/preview.png", id)))
                 .Param("page", page.ToString());
 
-            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request);
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
 
@@ -305,7 +306,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TrashPathString, id))
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -327,7 +328,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(fileRequest));
 
-            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -344,7 +345,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TrashPathString, id))
                 .Method(RequestMethod.Delete);
 
-            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request);
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
         }

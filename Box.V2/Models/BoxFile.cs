@@ -61,6 +61,6 @@ namespace Box.V2.Models
         /// The number of comments on a file
         /// </summary>
         [JsonProperty(PropertyName = FieldCommentCount)]
-        public string CommentCount { get; private set; }
+        public int CommentCount { get; private set; }
     }
 }

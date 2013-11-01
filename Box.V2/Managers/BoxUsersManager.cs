@@ -25,7 +25,7 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, "me")
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request);
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -43,7 +43,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(userRequest));
 
-            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request);
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }

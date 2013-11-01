@@ -59,10 +59,10 @@ namespace Box.V2.Auth
                                             .Payload("client_id", _config.ClientId)
                                             .Payload("client_secret", _config.ClientSecret);
 
-            IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest);
+            IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
             boxResponse.ParseResults(_converter);
 
-            using (await _mutex.LockAsync())
+            using (await _mutex.LockAsync().ConfigureAwait(false))
                 Session = boxResponse.ResponseObject;
 
             return boxResponse.ResponseObject;
@@ -72,13 +72,13 @@ namespace Box.V2.Auth
         {
             OAuthSession session;
 
-            using (await _mutex.LockAsync())
+            using (await _mutex.LockAsync().ConfigureAwait(false))
             {
                 if (_expiredTokens.Contains(accessToken))
                     session = Session;
                 else
                 {
-                    session = await ExchangeRefreshToken(Session.RefreshToken);
+                    session = await ExchangeRefreshToken(Session.RefreshToken).ConfigureAwait(false);
                     Session = session;
 
                     // Add the expired token to the list so subsequent calls will get new acces token
@@ -101,7 +101,7 @@ namespace Box.V2.Auth
                                             .Payload("client_id", _config.ClientId)
                                             .Payload("client_secret", _config.ClientSecret);
 
-            IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest);
+            IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
             boxResponse.ParseResults(_converter);
 
             // Return new session
@@ -112,7 +112,7 @@ namespace Box.V2.Auth
         {
             string token;
 
-            using (await _mutex.LockAsync())
+            using (await _mutex.LockAsync().ConfigureAwait(false))
                 token = Session.AccessToken;
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.RevokeEndpointString)
@@ -121,7 +121,7 @@ namespace Box.V2.Auth
                                             .Payload("client_secret", _config.ClientSecret)
                                             .Payload("refresh_token", token);
 
-            await _service.ToResponseAsync<OAuthSession>(boxRequest);
+            await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
         }
     }
 }

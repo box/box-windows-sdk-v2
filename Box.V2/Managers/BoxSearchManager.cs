@@ -35,7 +35,7 @@ namespace Box.V2.Managers
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request);
+            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
                     
             return response.ResponseObject;
         }
