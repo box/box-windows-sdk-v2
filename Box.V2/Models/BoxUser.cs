@@ -147,7 +147,7 @@ namespace Box.V2.Models
         /// Mini representation of this user’s enterprise, including the ID of its enterprise
         /// </summary>
         [JsonProperty(PropertyName = FieldEnterprise)]
-        public BoxEntity Enterprise { get; private set; }
+        public BoxEnterprise Enterprise { get; private set; }
 
     }
 }

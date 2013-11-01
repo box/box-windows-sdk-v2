@@ -42,6 +42,7 @@
     <Compile Include="Auth\AuthRepository.cs" />
     <Compile Include="BoxClient.cs" />
     <Compile Include="Converter\BoxItemConverter.cs" />
+    <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
