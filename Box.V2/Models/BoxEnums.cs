@@ -24,4 +24,22 @@ namespace Box.V2.Models
         not_synced,
         partially_synced
     }
+
+    /// <summary>
+    /// The way an item collection is ordered by
+    /// </summary>
+    public enum BoxSortBy
+    {
+        Type,
+        Name
+    }
+
+    /// <summary>
+    /// The sort direction of an item collection
+    /// </summary>
+    public enum BoxSortDirection
+    {
+        ASC,
+        DESC
+    }
 }

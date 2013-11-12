@@ -37,5 +37,10 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldHasCollaborations)]
         public bool? HasCollaborations { get; private set; }
 
+        /// <summary>
+        /// The available permissions on this folder
+        /// </summary>
+        [JsonProperty(PropertyName = FieldPermissions)]
+        public BoxFolderPermission Permissions { get; protected set; }
     }
 }

@@ -12,6 +12,7 @@ namespace Box.V2.Models
         public const string FieldEntries = "entries";
         public const string FieldOffset = "offset";
         public const string FieldLimit = "limit";
+        public const string FieldOrder = "order";
     }
     
     /// <summary>
@@ -32,6 +33,9 @@ namespace Box.V2.Models
 
         [JsonProperty(PropertyName = FieldLimit)]
         public int Limit { get; private set; }
+
+        [JsonProperty(PropertyName = FieldOrder)]
+        public List<BoxSortOrder> Order { get; private set; }
 
     }
 }

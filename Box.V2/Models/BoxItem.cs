@@ -22,6 +22,7 @@ namespace Box.V2.Models
         public const string FieldSharedLink = "shared_link";
         public const string FieldParent = "parent";
         public const string FieldItemStatus = "item_status";
+        public const string FieldPermissions = "permissions";
 
         /// <summary>
         /// A unique ID for use with the /events endpoint
@@ -108,5 +109,6 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldSharedLink)]
         public BoxSharedLink SharedLink { get; private set; }
+
     }
 }

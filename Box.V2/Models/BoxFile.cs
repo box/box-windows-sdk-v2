@@ -62,5 +62,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldCommentCount)]
         public int CommentCount { get; private set; }
+
+        /// <summary>
+        /// The available permissions on this file
+        /// </summary>
+        [JsonProperty(PropertyName = FieldPermissions)]
+        public BoxFilePermission Permissions { get; protected set; }
     }
 }

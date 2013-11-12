@@ -43,7 +43,11 @@
     <Compile Include="BoxClient.cs" />
     <Compile Include="Converter\BoxItemConverter.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
+    <Compile Include="Models\Permissions\BoxFilePermission.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
+    <Compile Include="Models\Permissions\BoxFolderPermission.cs" />
+    <Compile Include="Models\Permissions\BoxItemPermission.cs" />
+    <Compile Include="Models\BoxSortOrder.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
     <Compile Include="Wrappers\BoxResponse.cs" />
@@ -137,6 +141,7 @@
       <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\portable-net40+sl5+win8+wp8\System.Threading.Tasks.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
