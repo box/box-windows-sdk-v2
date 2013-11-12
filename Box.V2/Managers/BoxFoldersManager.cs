@@ -134,7 +134,7 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.Delete)
-                .Param("recursive", recursive.ToString());
+                .Param("recursive", recursive.ToString().ToLowerInvariant());
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
