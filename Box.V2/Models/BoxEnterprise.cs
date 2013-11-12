@@ -6,7 +6,7 @@ namespace Box.V2.Models
     /// <summary>
     /// Box mini representation of a enterprise
     /// </summary>
-    class BoxEnterprise : BoxEntity
+    public class BoxEnterprise : BoxEntity
     {
         public const string FieldName = "name";
 
