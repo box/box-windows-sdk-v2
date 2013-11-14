@@ -12,7 +12,7 @@ namespace Box.V2.Models.Request
     public class BoxGroupRequest
     {
         /// <summary>
-        /// The Entity's Id
+        /// The id of the group
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }

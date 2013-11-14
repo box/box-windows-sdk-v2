@@ -12,15 +12,28 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The class managing the Box API's Groups endpoint
+    /// </summary>
     public class BoxGroupsManager : BoxResourceManager
     {
+        /// <summary>
+        /// Create a new Boxgroupmanager object
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="service"></param>
+        /// <param name="converter"></param>
+        /// <param name="auth"></param>
         public BoxGroupsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth) 
             : base(config, service, converter, auth) { }
 
         /// <summary>
-        /// Returns all the groups for current user
+        /// Returns all the groups created by the current user
         /// </summary>
-        /// <returns>Groups that this user belongs to</returns>
+        /// <param name="limit">The number of results to return with this request. Refer to the Box API for defaults.</param>
+        /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
+        /// <param name="fields">The fields to return for this request.</param>
+        /// <returns>A collection of groups</returns>
         public async Task<BoxCollection<BoxGroup>> GetAllGroupsAsync(int? limit = null, int? offset = null, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.GroupsEndpointUri)
@@ -36,6 +49,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Returns the group with the specified id
         /// </summary>
+        /// <param name="id">The id of the group to return</param>
+        /// <param name="fields">The fields to return for this request.</param>
         /// <returns>Group with id='id'</returns>
         public async Task<BoxGroup> GetGroupAsync(string id, List<string> fields = null)
         {
@@ -91,8 +106,8 @@ namespace Box.V2.Managers
         /// Update an existing group
         /// </summary>
         /// <param name="id">Id of the group to update</param>
-        /// <param name="groupRequest">Request containing the update, e.g. update name</param>
-        /// <param name="fields"></param>
+        /// <param name="groupRequest">Request containing the update, e.g. updated name</param>
+        /// <param name="fields">Optional fields to return</param>
         /// <returns>The updated group</returns>
         public async Task<BoxGroup> UpdateAsync(string id, BoxGroupRequest groupRequest, List<string> fields = null)
         {
@@ -113,7 +128,7 @@ namespace Box.V2.Managers
         /// Add a user to a group
         /// </summary>
         /// <param name="membershipRequest">The request object that contains the user Id and group Id</param>
-        /// <param name="fields"></param>
+        /// <param name="fields">Optional fields to return</param>
         /// <returns>The group membership created</returns>
         public async Task<BoxGroupMembership> AddMemberToGroupAsync(BoxGroupMembershipRequest membershipRequest, List<string> fields = null) 
         {
@@ -152,9 +167,9 @@ namespace Box.V2.Managers
         /// Get the list of group memberships for a given group
         /// </summary>
         /// <param name="groupId">The id of the group to get the list of memberships for</param>
-        /// <param name="limit"></param>
-        /// <param name="offset"></param>
-        /// <param name="fields"></param>
+        /// <param name="limit">The number of results to return with this request. Refer to the Box API for defaults.</param>
+        /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
+        /// <param name="fields">The fields to return for this request.</param>
         /// <returns>A collection of group memberships for the specified group id</returns>
         public async Task<BoxCollection<BoxGroupMembership>> GetAllGroupMembershipsForGroupAsync(string groupId, int? limit = null, int? offset = null, List<string> fields = null)
         {
@@ -174,9 +189,9 @@ namespace Box.V2.Managers
         /// Get the list of group memberships for a given user
         /// </summary>
         /// <param name="userId">The id of the user to get the list of memberships for</param>
-        /// <param name="limit"></param>
-        /// <param name="offset"></param>
-        /// <param name="fields"></param>
+        /// <param name="limit">The number of results to return with this request. Refer to the Box API for defaults.</param>
+        /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
+        /// <param name="fields">The optional fields to return for this request.</param>
         /// <returns>A collection of group memberships for the specified user id</returns>
         public async Task<BoxCollection<BoxGroupMembership>> GetAllGroupMembershipsForUserAsync(string userId, int? limit = null, int? offset = null, List<string> fields = null)
         {
@@ -195,6 +210,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Returns the group membership with the specified id
         /// </summary>
+        /// <param name="id">The id of the group membership to return.</param>
+        /// <param name="fields">The fields to return for this request.</param>
         /// <returns>Group membership with id='id'</returns>
         public async Task<BoxGroupMembership> GetGroupMembershipAsync(string id, List<string> fields = null)
         {
@@ -211,9 +228,9 @@ namespace Box.V2.Managers
         /// <summary>
         /// Updates the specified group membership with the specified request
         /// </summary>
-        /// <param name="id">It of the group membership to update</param>
+        /// <param name="membershipId">It of the group membership to update</param>
         /// <param name="memRequest">The request specifying the update</param>
-        /// <param name="fields"></param>
+        /// <param name="fields">Optional fields to return</param>
         /// <returns>The updated group membership</returns>
         public async Task<BoxGroupMembership> UpdateGroupMembershipAsync(string membershipId, BoxGroupMembershipRequest memRequest, List<string> fields = null) 
         {

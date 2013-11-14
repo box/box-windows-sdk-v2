@@ -12,7 +12,7 @@ namespace Box.V2.Models.Request
     public class BoxGroupMembershipRequest
     {
         /// <summary>
-        /// The User to add to the group. Only the Id should be set for the specified user
+        /// The User to add to the group. Only the Id should be set for the user
         /// </summary>
         [JsonProperty(PropertyName = "user")]
         public BoxRequestEntity User { get; set; }

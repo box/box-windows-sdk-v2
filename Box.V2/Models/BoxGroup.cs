@@ -28,7 +28,7 @@ namespace Box.V2.Models
         public DateTime? CreatedAt { get; private set; }
 
         /// <summary>
-        /// When this group was last updated on the Box servers
+        /// When this group was last updated on Box's servers
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
         public DateTime? ModifiedAt { get; private set; }
