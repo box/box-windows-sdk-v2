@@ -42,8 +42,13 @@
     <Compile Include="Auth\AuthRepository.cs" />
     <Compile Include="BoxClient.cs" />
     <Compile Include="Converter\BoxItemConverter.cs" />
+    <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
+    <Compile Include="Models\BoxGroup.cs" />
+    <Compile Include="Models\BoxGroupMembership.cs" />
+    <Compile Include="Models\Request\BoxGroupMembershipRequest.cs" />
+    <Compile Include="Models\Request\BoxGroupRequest.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
     <Compile Include="Wrappers\BoxResponse.cs" />
@@ -101,6 +106,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

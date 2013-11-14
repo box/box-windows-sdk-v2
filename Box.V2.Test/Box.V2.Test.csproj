@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AuthRepositoryTest.cs" />
     <Compile Include="BoxFilesManagerTest.cs" />
+    <Compile Include="BoxGroupsManagerTest.cs" />
     <Compile Include="BoxResourceManagerTest.cs" />
     <Compile Include="BoxServiceTest.cs" />
     <Compile Include="BoxSearchManagerTest.cs" />

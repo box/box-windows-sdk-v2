@@ -33,6 +33,8 @@ namespace Box.V2.Config
         Uri SearchEndpointUri { get; }
         Uri UserEndpointUri { get; }
         Uri CollaborationsEndpointUri { get; }
+        Uri GroupsEndpointUri { get; }
+        Uri GroupMembershipEndpointUri { get; }
         
     }
 }
