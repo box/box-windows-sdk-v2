@@ -50,6 +50,7 @@ namespace Box.V2
             CollaborationsManager = new BoxCollaborationsManager(_config, _service, _converter, Auth);
             SearchManager = new BoxSearchManager(_config, _service, _converter, Auth);
             UsersManager = new BoxUsersManager(_config, _service, _converter, Auth);
+            GroupsManager = new BoxGroupsManager(_config, _service, _converter, Auth);
         }
         
         /// <summary>
@@ -81,6 +82,11 @@ namespace Box.V2
         /// The manager that represents the users endpoint
         /// </summary>
         public BoxUsersManager UsersManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the groups endpoint
+        /// </summary>
+        public BoxGroupsManager GroupsManager { get; private set; }
 
         /// <summary>
         /// The Auth repository that holds the auth session

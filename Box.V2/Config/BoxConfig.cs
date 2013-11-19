@@ -48,6 +48,8 @@ namespace Box.V2.Config
         public Uri SearchEndpointUri { get { return new Uri(Constants.SearchEndpointString); } }
         public Uri UserEndpointUri { get { return new Uri(Constants.UserEndpointString); } }
         public Uri CollaborationsEndpointUri { get { return new Uri(Constants.CollaborationsEndpointString); } }
+        public Uri GroupsEndpointUri { get { return new Uri(Constants.GroupsEndpointString); } }
+        public Uri GroupMembershipEndpointUri { get { return new Uri(Constants.GroupMembershipEndpointString); } }
     }
 
     public enum CompressionType

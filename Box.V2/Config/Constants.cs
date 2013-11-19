@@ -24,6 +24,8 @@ namespace Box.V2.Config
         public const string RevokeEndpointString = @"oauth2/revoke";
 
         public const string FoldersEndpointString = BoxApiUriString +  @"folders/";
+        public const string GroupsEndpointString = BoxApiUriString + @"groups/";
+        public const string GroupMembershipEndpointString = BoxApiUriString + @"group_memberships/";
         
         public const string FilesEndpointString = BoxApiUriString + @"files/";
         public const string FilesUploadEndpointString = BoxUploadApiUriString + @"files/content";
@@ -50,6 +52,7 @@ namespace Box.V2.Config
         public const string CollaborationsPathString = @"{0}/collaborations";
         public const string TrashItemsPathString = @"trash/items";
         public const string TrashFolderPathString = @"{0}/trash";
+        public const string GroupMembershipPathString = @"{0}/memberships";
 
         public const string ContentPathString = @"{0}/content";
     }
