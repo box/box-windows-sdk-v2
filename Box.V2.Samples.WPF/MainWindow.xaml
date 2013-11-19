@@ -1,0 +1,33 @@
+﻿<Window x:Class="Box.V2.Samples.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Box.V2.Samples.WPF"
+        xmlns:vm="clr-namespace:Box.V2.Samples.WPF.ViewModels"
+        Title="MainWindow" Height="900" Width="600"
+        Loaded="OnLoad"
+        DataContext="{Binding Main, Source={StaticResource locator}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>        
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="BOX WPF V2 SAMPLE" Width="200" FontWeight="Bold"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <ListBox Width="500" Height="500"
+                 ItemsSource="{Binding Items}"
+                 Margin="12"
+                 BorderThickness="0"    >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="10">
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <local:OAuth2Sample x:Name="oauth" Height="800" Width="400"/>
+    </Grid>
+</Window>
