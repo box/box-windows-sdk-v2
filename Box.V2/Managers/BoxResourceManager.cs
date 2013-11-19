@@ -14,6 +14,7 @@ namespace Box.V2.Managers
     public abstract class BoxResourceManager
     {
         protected const string ParamFields = "fields";
+        protected const string ParamVersion = "version";
 
         protected IBoxConfig _config;
         protected IBoxService _service;
