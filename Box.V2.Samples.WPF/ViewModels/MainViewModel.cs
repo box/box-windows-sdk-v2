@@ -1,13 +1,9 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Config;
-using Box.V2.Controls.WPF;
 using Box.V2.Exceptions;
 using Box.V2.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
