@@ -44,6 +44,7 @@
     <Compile Include="Converter\BoxItemConverter.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
+    <Compile Include="Models\BoxWebLink.cs" />
     <Compile Include="Models\Permissions\BoxFilePermission.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
     <Compile Include="Models\BoxGroup.cs" />

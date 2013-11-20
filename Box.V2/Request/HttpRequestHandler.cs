@@ -51,6 +51,7 @@ namespace Box.V2.Request
                 BoxResponse<T> boxResponse = new BoxResponse<T>();
 
                 // Translate the status codes that interest us 
+                boxResponse.StatusCode = response.StatusCode;
                 switch (response.StatusCode)
                 {
                     case HttpStatusCode.OK:
