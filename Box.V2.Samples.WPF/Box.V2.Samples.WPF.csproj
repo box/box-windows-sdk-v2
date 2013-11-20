@@ -52,6 +52,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\AsyncDelegateCommand.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
@@ -102,10 +103,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Box.V2.Controls.WPF\Box.V2.Controls.WPF.csproj">
-      <Project>{083db518-bc18-4f06-ad98-b306f2d1ffcf}</Project>
-      <Name>Box.V2.Controls.WPF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Box.V2\Box.V2.csproj">
       <Project>{740075f5-8b88-4b8a-a75a-564f66359607}</Project>
       <Name>Box.V2</Name>
