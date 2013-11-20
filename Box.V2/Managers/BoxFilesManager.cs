@@ -51,7 +51,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
-                .Param(ParamVersion, versionId);
+                .Param("version", versionId);
 
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
