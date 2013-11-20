@@ -1,0 +1,9 @@
+﻿<Application x:Class="Box.V2.Samples.WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml"
+             xmlns:vm="clr-namespace:Box.V2.Samples.WPF.ViewModels">
+    <Application.Resources>
+        <vm:ViewModelLocator x:Key="locator" />
+    </Application.Resources>
+</Application>
