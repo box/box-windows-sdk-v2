@@ -1,4 +1,5 @@
 ﻿
+using System.Net;
 namespace Box.V2
 {
     /// <summary>
@@ -25,7 +26,7 @@ namespace Box.V2
         /// <summary>
         /// Status code of the HTTP response
         /// </summary>
-        public int StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
 
         /// <summary>
         /// The error associated with an Error status

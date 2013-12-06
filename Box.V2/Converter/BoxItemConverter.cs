@@ -19,15 +19,12 @@ namespace Box.V2.Converter
             {
                 if (jObject[ItemType].ToString() == "folder")
                     return new BoxFolder();
-                else if (jObject[ItemType].ToString() == "file")
+                if (jObject[ItemType].ToString() == "file")
                     return new BoxFile();
-                else
-                    return new BoxItem();
+                if (jObject[ItemType].ToString() == "web_link")
+                    return new BoxWebLink();
             }
-            else
-            {
-                return new BoxFolder();
-            }
+            return new BoxItem();
         }
 
         private bool FieldExists(string fieldName, JObject jObject)

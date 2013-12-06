@@ -38,7 +38,7 @@ namespace Box.V2.Test.Integration
 
             /*** Act ***/
             for (int i = 0; i < numTasks; ++i)
-                 tasks.Add(_client.FilesManager.DownloadStreamAsync(FileId));
+                tasks.Add(_client.FilesManager.DownloadStreamAsync(FileId));
 
             await Task.WhenAll(tasks);
 
@@ -67,6 +67,18 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task GetSharedLink_ValidRequest_ValidSharedLink()
+        {
+            BoxSharedLinkRequest linkReq = new BoxSharedLinkRequest()
+            {
+                Access = BoxSharedLinkAccessType.open
+            };
+            
+            BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync("11999421592", linkReq);
+            Assert.AreEqual(BoxSharedLinkAccessType.open, fileLink.SharedLink.Access);
+        }
+
+        [TestMethod]
         public async Task FileWorkflow_ValidRequest_ValidResponse()
         {
             string fileName = "reimages.zip";
@@ -80,7 +92,8 @@ namespace Box.V2.Test.Integration
             BoxFile file;
             using (FileStream fs = new FileStream(filePath, FileMode.Open))
             {
-                BoxFileRequest req = new BoxFileRequest(){
+                BoxFileRequest req = new BoxFileRequest()
+                {
                     Name = "reimages.zip",
                     Parent = new BoxRequestEntity() { Id = "0" }
                 };
@@ -122,17 +135,17 @@ namespace Box.V2.Test.Integration
             BoxFile fileUpdate = await _client.FilesManager.UpdateInformationAsync(updateReq);
 
             Assert.AreEqual(file.Id, fileUpdate.Id);
-            Assert.AreEqual(updateName, fileUpdate.Name );
+            Assert.AreEqual(updateName, fileUpdate.Name);
             Assert.AreEqual(updateName, fileUpdate.Description);
 
             // Test create shared link
-            //BoxSharedLinkRequest linkReq = new BoxSharedLinkRequest()
-            //{
-            //    Access = BoxSharedLinkAccessType.open
-            //};
-            //BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync(newFile.Id, linkReq);
+            BoxSharedLinkRequest linkReq = new BoxSharedLinkRequest()
+            {
+                Access = BoxSharedLinkAccessType.open
+            };
+            BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync(newFile.Id, linkReq);
 
-            //Assert.AreEqual(BoxSharedLinkAccessType.open, fileLink.SharedLink.Access);
+            Assert.AreEqual(BoxSharedLinkAccessType.open, fileLink.SharedLink.Access);
 
             // Test copy a file
             string copyName = GetUniqueName();

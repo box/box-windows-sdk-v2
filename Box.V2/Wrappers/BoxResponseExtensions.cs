@@ -1,6 +1,8 @@
 ﻿using Box.V2.Converter;
 using Box.V2.Exceptions;
 using Box.V2.Services;
+using System;
+using System.Diagnostics;
 
 namespace Box.V2
 {
@@ -28,12 +30,19 @@ namespace Box.V2
                 case ResponseStatus.Error:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                     {
-                        response.Error = converter.Parse<BoxError>(response.ContentString);
-                        if (response.Error != null && !string.IsNullOrWhiteSpace(response.Error.Name))
-                            throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description));
-                        throw new BoxException(response.ContentString);
+                        try
+                        { 
+                            response.Error = converter.Parse<BoxError>(response.ContentString);
+                            
+                            if (response.Error != null && !string.IsNullOrWhiteSpace(response.Error.Name))
+                                throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description)) { StatusCode = response.StatusCode };
+                        }
+                        catch (Exception)
+                        {
+                            Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
+                        }
                     }
-                    break;
+                    throw new BoxException() { StatusCode = response.StatusCode };
             }
             return response;
         }

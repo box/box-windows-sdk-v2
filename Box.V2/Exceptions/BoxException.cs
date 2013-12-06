@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace Box.V2.Exceptions
@@ -25,5 +26,11 @@ namespace Box.V2.Exceptions
         /// <param name="message">The exception message</param>
         /// <param name="innerException">The inner exception to be wrapped</param>
         public BoxException(string message, Exception innerException) : base(message, innerException) { }
+
+        /// <summary>
+        /// Http Status code for the response
+        /// </summary>
+        public HttpStatusCode StatusCode { get; set; }
     }
 }
+
