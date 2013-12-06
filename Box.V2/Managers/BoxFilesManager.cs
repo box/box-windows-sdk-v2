@@ -222,7 +222,7 @@ namespace Box.V2.Managers
                 throw new ArgumentNullException("sharedLink.Access");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
-                .Method(RequestMethod.Post)
+                .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }));
 
