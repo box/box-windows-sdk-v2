@@ -302,16 +302,13 @@ namespace Box.V2.Managers
             BoxFilePreview filePreview = new BoxFilePreview();
             filePreview.CurrentPage = page;
             filePreview.ReturnedStatusCode = response.StatusCode;
-   
-            switch (response.StatusCode)
+
+            if (response.StatusCode == HttpStatusCode.OK)
             {
-                case HttpStatusCode.OK:
-                    filePreview.PreviewStream = response.ResponseObject;
-                    filePreview.TotalPages = response.BuildPagesCount();
-                    break;
-                default:
-                    break;
+                filePreview.PreviewStream = response.ResponseObject;
+                filePreview.TotalPages = response.BuildPagesCount();
             }
+
             return filePreview;
         }
 
