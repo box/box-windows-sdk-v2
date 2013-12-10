@@ -1,8 +1,12 @@
 ﻿using Box.V2.Converter;
 using Box.V2.Exceptions;
+using Box.V2.Models;
 using Box.V2.Services;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Box.V2
 {
@@ -45,6 +49,43 @@ namespace Box.V2
                     throw new BoxException() { StatusCode = response.StatusCode };
             }
             return response;
+        }
+
+
+        /// <summary>
+        /// Attempt to extract the number of pages in a preview from the HTTP response headers. The response contains a "Link" 
+        /// element in the header that includes a link to the last page of the preview. This method uses that information
+        /// to extract the total number of pages
+        /// </summary>
+        /// <param name="response">The http response that includes total page information in its header</param>
+        /// <returns>Total number of pages in the preview</returns>
+        internal static int BuildPagesCount<T>(this IBoxResponse<T> response) where T : class
+        {
+            int count = 1;
+            IEnumerable<string> values = new List<string>();
+
+            if (response.Headers.TryGetValues("Link", out values))
+            {
+                var links = values.First().Split(',');
+                var last = links.FirstOrDefault(x => x.ToUpperInvariant().Contains("REL=\"LAST\""));
+                if (last != null)
+                {
+                    string lastPageLink = last.Split(';')[0];
+
+                    Regex rgx = new Regex(@"page=[0-9]+", RegexOptions.IgnoreCase);
+                    MatchCollection matches = rgx.Matches(lastPageLink);
+
+                    if (matches.Count > 0)
+                    {
+                        try
+                        {
+                            count = Convert.ToInt32(matches[0].Value.Split('=')[1]);
+                        }
+                        catch (FormatException) { }
+                    }
+                }
+            }
+            return count;
         }
     }
 }

@@ -7,7 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Box.V2.Managers
@@ -283,15 +286,43 @@ namespace Box.V2.Managers
         /// <returns>A PNG of the preview</returns>
         public async Task<Stream> GetPreviewAsync(string id, int page)
         {
+            return (await GetPreview(id, page)).ResponseObject;
+        }
+
+        /// <summary>
+        /// Get the preview and return a BoxFilePreview response. 
+        /// </summary>
+        /// <param name="id">id of the file to return</param>
+        /// <param name="page">page number of the file</param>
+        /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
+        public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page)
+        {  
+            IBoxResponse<Stream> response = await GetPreview(id, page);
+
+            BoxFilePreview filePreview = new BoxFilePreview();
+            filePreview.CurrentPage = page;
+            filePreview.ReturnedStatusCode = response.StatusCode;
+   
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    filePreview.PreviewStream = response.ResponseObject;
+                    filePreview.TotalPages = response.BuildPagesCount();
+                    break;
+                default:
+                    break;
+            }
+            return filePreview;
+        }
+
+        private async Task<IBoxResponse<Stream>> GetPreview(string id, int page)
+        {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(new Uri(string.Format("https://www.box.net/api/2.0/files/{0}/preview.png", id)))
                 .Param("page", page.ToString());
 
-            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
-
+            return await ToResponseAsync<Stream>(request).ConfigureAwait(false);
         }
 
         /// <summary>

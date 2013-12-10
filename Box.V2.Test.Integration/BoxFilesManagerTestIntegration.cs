@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
 using Box.V2.Models;
+using System.Net;
 
 namespace Box.V2.Test.Integration
 {
@@ -14,10 +15,22 @@ namespace Box.V2.Test.Integration
 
         private const string savePath = @"C:\Users\btang\Downloads\{0}";
 
+        private const string MobileBoxerFileId = "8250445374";
+
         [TestMethod]
         public async Task GetInformation_Fields_ValidResponse()
         {
             var test = await _client.FilesManager.GetInformationAsync(FileId, new List<string> { BoxFile.FieldName, BoxFile.FieldModifiedAt, BoxFile.FieldOwnedBy });
+        }
+
+        [TestMethod]
+        public async Task GetStreamResponse()
+        {
+            var filePreview = await _client.FilesManager.GetFilePreviewAsync(MobileBoxerFileId, 1);
+
+            Assert.AreEqual(1, filePreview.CurrentPage);
+            Assert.AreEqual(4, filePreview.TotalPages);
+            Assert.AreEqual(HttpStatusCode.OK, filePreview.ReturnedStatusCode);
         }
 
 

@@ -49,6 +49,7 @@ namespace Box.V2.Request
                 HttpResponseMessage response = await _client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
 
                 BoxResponse<T> boxResponse = new BoxResponse<T>();
+                boxResponse.Headers = response.Headers;
 
                 // Translate the status codes that interest us 
                 boxResponse.StatusCode = response.StatusCode;
