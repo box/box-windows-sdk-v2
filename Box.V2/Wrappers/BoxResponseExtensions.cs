@@ -64,7 +64,7 @@ namespace Box.V2
             int count = 1;
             IEnumerable<string> values = new List<string>();
 
-            if (response.Headers.TryGetValues("Link", out values))
+            if (response.Headers.TryGetValues("link", out values)) // headers names are case-insensitve
             {
                 var links = values.First().Split(',');
                 var last = links.FirstOrDefault(x => x.ToUpperInvariant().Contains("REL=\"LAST\""));

@@ -295,9 +295,9 @@ namespace Box.V2.Managers
         /// <param name="id">id of the file to return</param>
         /// <param name="page">page number of the file</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
-        public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page)
+        public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null)
         {  
-            IBoxResponse<Stream> response = await GetPreview(id, page);
+            IBoxResponse<Stream> response = await GetPreview(id, page, maxWidth, minWidth, maxHeight, minHeight);
 
             BoxFilePreview filePreview = new BoxFilePreview();
             filePreview.CurrentPage = page;
@@ -312,12 +312,16 @@ namespace Box.V2.Managers
             return filePreview;
         }
 
-        private async Task<IBoxResponse<Stream>> GetPreview(string id, int page)
+        private async Task<IBoxResponse<Stream>> GetPreview(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(new Uri(string.Format("https://www.box.net/api/2.0/files/{0}/preview.png", id)))
-                .Param("page", page.ToString());
+                .Param("page", page.ToString())
+                .Param("max_width", maxWidth.ToString())
+				.Param("max_height", maxHeight.ToString())
+				.Param("min_width", minWidth.ToString())
+				.Param("min_height", minHeight.ToString());
 
             return await ToResponseAsync<Stream>(request).ConfigureAwait(false);
         }
