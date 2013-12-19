@@ -286,7 +286,7 @@ namespace Box.V2.Managers
         /// <returns>A PNG of the preview</returns>
         public async Task<Stream> GetPreviewAsync(string id, int page)
         {
-            return (await GetPreview(id, page)).ResponseObject;
+            return (await GetPreviewResponseAsync(id, page)).ResponseObject;
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace Box.V2.Managers
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null)
         {  
-            IBoxResponse<Stream> response = await GetPreview(id, page, maxWidth, minWidth, maxHeight, minHeight);
+            IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight);
 
             BoxFilePreview filePreview = new BoxFilePreview();
             filePreview.CurrentPage = page;
@@ -312,7 +312,7 @@ namespace Box.V2.Managers
             return filePreview;
         }
 
-        private async Task<IBoxResponse<Stream>> GetPreview(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null)
+        private async Task<IBoxResponse<Stream>> GetPreviewResponseAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
