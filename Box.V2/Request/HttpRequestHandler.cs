@@ -74,11 +74,12 @@ namespace Box.V2.Request
                 if (isStream && boxResponse.Status == ResponseStatus.Success)
                 {
                     var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                    boxResponse.ResponseObject = resObj as T;
+                    boxResponse.ResponseObject = resObj as T;             
                 }
                 else
+                {
                     boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
+                }
                 return boxResponse;
             }
             catch (Exception ex)

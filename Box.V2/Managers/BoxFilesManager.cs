@@ -305,7 +305,7 @@ namespace Box.V2.Managers
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                filePreview.PreviewStream = response.ResponseObject;
+                filePreview.PreviewStream = response.ResponseObject ;
                 filePreview.TotalPages = response.BuildPagesCount();
             }
 
@@ -316,7 +316,7 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(new Uri(string.Format("https://www.box.net/api/2.0/files/{0}/preview.png", id)))
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.PreviewPathString, id))
                 .Param("page", page.ToString())
                 .Param("max_width", maxWidth.ToString())
 				.Param("max_height", maxHeight.ToString())

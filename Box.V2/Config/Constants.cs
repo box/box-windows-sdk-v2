@@ -46,6 +46,7 @@ namespace Box.V2.Config
         public const string CopyPathString = @"{0}/copy";
         public const string CommentsPathString = @"{0}/comments";
         public const string ThumbnailPathString = @"{0}/thumbnail.png";
+        public const string PreviewPathString = @"{0}/preview.png";
         public const string TrashPathString = @"{0}/trash";
          
         public const string DiscussionsPathString = @"{0}/discussions";
