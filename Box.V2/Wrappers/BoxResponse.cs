@@ -1,5 +1,5 @@
-﻿
-using System.Net;
+﻿using System.Net;
+using System.Net.Http.Headers;
 namespace Box.V2
 {
     /// <summary>
@@ -33,6 +33,11 @@ namespace Box.V2
         /// This will be null in all other cases
         /// </summary>
         public BoxError Error { get; set; }
+
+        /// <summary>
+        /// Headers returned as part of the response
+        /// </summary>
+        public HttpResponseHeaders Headers { get; set; }
     }
 
     /// <summary>

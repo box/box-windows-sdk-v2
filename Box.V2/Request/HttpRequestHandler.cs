@@ -49,6 +49,7 @@ namespace Box.V2.Request
                 HttpResponseMessage response = await _client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
 
                 BoxResponse<T> boxResponse = new BoxResponse<T>();
+                boxResponse.Headers = response.Headers;
 
                 // Translate the status codes that interest us 
                 boxResponse.StatusCode = response.StatusCode;
@@ -73,11 +74,12 @@ namespace Box.V2.Request
                 if (isStream && boxResponse.Status == ResponseStatus.Success)
                 {
                     var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                    boxResponse.ResponseObject = resObj as T;
+                    boxResponse.ResponseObject = resObj as T;             
                 }
                 else
+                {
                     boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
+                }
                 return boxResponse;
             }
             catch (Exception ex)
