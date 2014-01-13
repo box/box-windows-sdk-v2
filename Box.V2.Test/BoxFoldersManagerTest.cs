@@ -289,7 +289,8 @@ namespace Box.V2.Test
             BoxFolderRequest folderReq = new BoxFolderRequest()
             {
                 Id = "fakeId",
-                Name = "New Folder Name!"
+                Name = "New Folder Name!",
+                FolderUploadEmail = new BoxEmailRequest() {  Acesss = "open" }
             };
 
             BoxFolder f = await _foldersManager.UpdateInformationAsync(folderReq);

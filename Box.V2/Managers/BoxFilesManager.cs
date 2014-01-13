@@ -108,7 +108,6 @@ namespace Box.V2.Managers
         public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null)
         {
             stream.ThrowIfNull("stream");
-            etag.ThrowIfNullOrWhiteSpace("etag");
             fileName.ThrowIfNullOrWhiteSpace("fileName");
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)))
@@ -176,10 +175,9 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="etag"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(string id, string etag)
+        public async Task<bool> DeleteAsync(string id, string etag=null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            etag.ThrowIfNullOrWhiteSpace("etag");
 
             BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, id)
                 .Method(RequestMethod.Delete)

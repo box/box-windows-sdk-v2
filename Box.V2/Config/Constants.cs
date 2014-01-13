@@ -12,11 +12,6 @@ namespace Box.V2.Config
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
 
-        //public const string BoxApiHostUriString = "https://btang.inside-box.net/api/";
-        //public const string BoxApiUriString = "https://btang.inside-box.net/api/2.0/";
-        //public const string BoxUploadApiUriString = "https://upload.btang.inside-box.net/api/2.0/";
-
-
         /*** API Endpoints ***/
         public const string AuthCodeString = @"oauth2/authorize";
         public const string AuthCodeEndpointString = BoxApiHostUriString + @"oauth2/authorize";
@@ -56,5 +51,12 @@ namespace Box.V2.Config
         public const string GroupMembershipPathString = @"{0}/memberships";
 
         public const string ContentPathString = @"{0}/content";
+
+        /*** Auth ***/
+
+        public const string AuthHeaderKey = "Authorization";
+        public const string V1AuthString = "BoxAuth api_key={0}&auth_token={1}";
+        public const string V2AuthString = "Bearer {0}";
+
     }
 }
