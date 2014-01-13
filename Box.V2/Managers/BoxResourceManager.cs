@@ -96,8 +96,8 @@ namespace Box.V2.Managers
             var auth = accessToken ?? _auth.Session.AccessToken;
 
             string authString = _auth.Session.AuthVersion == AuthVersion.V1 ? 
-                string.Format(CultureInfo.InvariantCulture, V1AuthString, _config.ClientId, auth) : 
-                string.Format(CultureInfo.InvariantCulture, V2AuthString, auth);
+                string.Format(CultureInfo.InvariantCulture, Constants.V1AuthString, _config.ClientId, auth) : 
+                string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth);
 
             StringBuilder sb = new StringBuilder(authString);
             
@@ -109,12 +109,9 @@ namespace Box.V2.Managers
                 string.Empty : 
                 string.Format("&device_name={0}", _config.DeviceName));
 
-            request.Header("Authorization", sb.ToString());
+            request.Header(Constants.AuthHeaderKey, sb.ToString());
         }
 
-        private string V1AuthString { get { return "BoxAuth api_key={0}&auth_token={1}"; } }
-
-        private string V2AuthString { get { return "Bearer {0}"; } }
 
     }
 }
