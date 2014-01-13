@@ -8,6 +8,6 @@ namespace Box.V2.Models
     public class BoxEmailRequest
     {
         [JsonProperty(PropertyName = "access")]
-        public string Acesss { get; set; }
+        public string Access { get; set; }
     }
 }
