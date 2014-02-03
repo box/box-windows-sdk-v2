@@ -58,5 +58,16 @@ namespace Box.V2.Config
         public const string V1AuthString = "BoxAuth api_key={0}&auth_token={1}";
         public const string V2AuthString = "Bearer {0}";
 
+        // Return types
+        public const string TypeFile = "file";
+        public const string TypeFolder = "folder";
+        public const string TypeComment = "comment";
+        public const string TypeWebLink = "web_link";
+        public const string TypeCollaboration = "collaboration";
+        public const string TypeFileVersion = "file_version";
+        public const string TypeGroup = "group";
+        public const string TypeGroupMembership = "group_membership";
+        public const string TypeUser = "user";
+        public const string TypeEnterprise = "enterprise";
     }
 }

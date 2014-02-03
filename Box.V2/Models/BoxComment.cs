@@ -11,9 +11,9 @@ namespace Box.V2.Models
         public const string FieldIsReplyComment = "is_reply_comment";
         public const string FieldMessage = "message";
         public const string FieldTaggedMessage = "tagged_message";
+        public const string FieldItem = "item";
         public const string FieldCreatedBy = "created_by";
         public const string FieldCreatedAt = "created_at";
-        public const string FieldItem = "item";
         public const string FieldModifiedAt = "modified_at";
 
         /// <summary>
@@ -40,13 +40,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedBy)]
         public BoxUser CreatedBy { get; set; }
-
         /// <summary>
         /// The time this comment was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
         public DateTime? CreatedAt { get; set; }
-
         /// <summary>
         /// The time this comment was last modified
         /// </summary>
