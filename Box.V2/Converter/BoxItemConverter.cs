@@ -1,4 +1,5 @@
-﻿using Box.V2.Models;
+﻿using Box.V2.Config;
+using Box.V2.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -9,24 +10,39 @@ using System.Text;
 
 namespace Box.V2.Converter
 {
-    internal class BoxItemConverter : JsonCreationConverter<BoxItem>
+    internal class BoxItemConverter : JsonCreationConverter<BoxEntity>
     {
         const string ItemType = "type";
 
-        protected override BoxItem Create(Type objectType, JObject jObject)
+        protected override BoxEntity Create(Type objectType, JObject jObject)
         {
             if (FieldExists(ItemType, jObject))
             {
-                if (jObject[ItemType].ToString() == "folder")
-                    return new BoxFolder();
-                if (jObject[ItemType].ToString() == "file")
-                    return new BoxFile();
-                if (jObject[ItemType].ToString() == "web_link")
-                    return new BoxWebLink();
-                if (jObject[ItemType].ToString() == "comment")
-                    return new BoxComment();
+                switch(jObject[ItemType].ToString())
+                {
+                    case Constants.TypeFile:
+                        return new BoxFile();
+                    case Constants.TypeFolder:
+                        return new BoxFolder();
+                    case Constants.TypeWebLink:
+                        return new BoxWebLink();
+                    case Constants.TypeComment:
+                        return new BoxComment();
+                    case Constants.TypeFileVersion:
+                        return new BoxFileVersion();
+                    case Constants.TypeGroup:
+                        return new BoxGroup();
+                    case Constants.TypeGroupMembership:
+                        return new BoxGroupMembership();
+                    case Constants.TypeUser:
+                        return new BoxUser();
+                    case Constants.TypeEnterprise:
+                        return new BoxEnterprise();
+                    case Constants.TypeCollaboration:
+                        return new BoxCollaboration();
+                }
             }
-            return new BoxItem();
+            return new BoxEntity();
         }
 
         private bool FieldExists(string fieldName, JObject jObject)
