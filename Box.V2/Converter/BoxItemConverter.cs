@@ -23,6 +23,8 @@ namespace Box.V2.Converter
                     return new BoxFile();
                 if (jObject[ItemType].ToString() == "web_link")
                     return new BoxWebLink();
+                if (jObject[ItemType].ToString() == "comment")
+                    return new BoxComment();
             }
             return new BoxItem();
         }
@@ -32,7 +34,7 @@ namespace Box.V2.Converter
             return jObject[fieldName] != null;
         }
     }
-
+    
     internal abstract class JsonCreationConverter<T> : JsonConverter
     {
         /// <summary>

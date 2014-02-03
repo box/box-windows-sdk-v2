@@ -4,6 +4,7 @@ using Box.V2.Converter;
 using Box.V2.Managers;
 using Box.V2.Request;
 using Box.V2.Services;
+using System;
 
 namespace Box.V2
 {
@@ -40,6 +41,32 @@ namespace Box.V2
             Auth = new AuthRepository(_config, _service, _converter, authSession);
 
             InitManagers();
+        }
+
+        /// <summary>
+        /// The Service that makes the HTTP requests
+        /// </summary>
+        protected IBoxService Service 
+        {
+            get { return _service; }
+            set { _service = value; }
+        }
+
+        /// <summary>
+        /// The converter used to convert Json into Box objects
+        /// </summary>
+        protected IBoxConverter Converter
+        {
+            get { return _converter; }
+            set { _converter = value; }
+        }
+        /// <summary>
+        /// The config that holds the config values.
+        /// </summary>
+        protected IBoxConfig Config
+        {
+            get { return _config; }
+            set { _config = value; }
         }
 
         private void InitManagers()
