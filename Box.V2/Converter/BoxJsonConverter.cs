@@ -16,8 +16,11 @@ namespace Box.V2.Converter
         /// </summary>
         public BoxJsonConverter()
         {
-            _settings = new JsonSerializerSettings();
-            _settings.NullValueHandling = NullValueHandling.Ignore;
+            _settings = new JsonSerializerSettings()
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                DateFormatString = "yyyy-MM-ddTHH:mm:sszzz"
+            };
         }
 
         /// <summary>
