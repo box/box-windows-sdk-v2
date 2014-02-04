@@ -14,9 +14,8 @@ namespace Box.V2
     /// </summary>
     public class BoxClient
     {
-        private IBoxConfig _config;
-        private IBoxService _service;
-        IBoxConverter _converter;
+        protected readonly IBoxService _service;
+        protected readonly IBoxConverter _converter;
 
         /// <summary>
         /// Instantiates a BoxClient with the provided config object
@@ -31,55 +30,34 @@ namespace Box.V2
         /// <param name="authSession">A fully authenticated auth session</param>
         public BoxClient(IBoxConfig boxConfig, OAuthSession authSession)
         {
-            _config = boxConfig;
+            Config = boxConfig;
             
             IRequestHandler handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
 
             _service = new BoxService(handler);
 
-            Auth = new AuthRepository(_config, _service, _converter, authSession);
+            Auth = new AuthRepository(Config, _service, _converter, authSession);
 
             InitManagers();
         }
 
-        /// <summary>
-        /// The Service that makes the HTTP requests
-        /// </summary>
-        protected IBoxService Service 
-        {
-            get { return _service; }
-            set { _service = value; }
-        }
-
-        /// <summary>
-        /// The converter used to convert Json into Box objects
-        /// </summary>
-        protected IBoxConverter Converter
-        {
-            get { return _converter; }
-            set { _converter = value; }
-        }
-        /// <summary>
-        /// The config that holds the config values.
-        /// </summary>
-        protected IBoxConfig Config
-        {
-            get { return _config; }
-            set { _config = value; }
-        }
-
         private void InitManagers()
         {
-            FoldersManager = new BoxFoldersManager(_config, _service, _converter, Auth);
-            FilesManager = new BoxFilesManager(_config, _service, _converter, Auth);
-            CommentsManager = new BoxCommentsManager(_config, _service, _converter, Auth);
-            CollaborationsManager = new BoxCollaborationsManager(_config, _service, _converter, Auth);
-            SearchManager = new BoxSearchManager(_config, _service, _converter, Auth);
-            UsersManager = new BoxUsersManager(_config, _service, _converter, Auth);
-            GroupsManager = new BoxGroupsManager(_config, _service, _converter, Auth);
+            FoldersManager = new BoxFoldersManager(Config, _service, _converter, Auth);
+            FilesManager = new BoxFilesManager(Config, _service, _converter, Auth);
+            CommentsManager = new BoxCommentsManager(Config, _service, _converter, Auth);
+            CollaborationsManager = new BoxCollaborationsManager(Config, _service, _converter, Auth);
+            SearchManager = new BoxSearchManager(Config, _service, _converter, Auth);
+            UsersManager = new BoxUsersManager(Config, _service, _converter, Auth);
+            GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth);
         }
-        
+
+        /// <summary>
+        /// The configuration parameters used by the Box Service
+        /// </summary>
+        public IBoxConfig Config { get; private set; }
+
         /// <summary>
         /// The manager that represents the files endpoint
         /// </summary>

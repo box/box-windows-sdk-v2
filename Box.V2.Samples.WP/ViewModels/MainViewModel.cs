@@ -23,6 +23,8 @@ using Box.V2.Config;
 #if WINDOWS_PHONE
 using System.Windows.Media.Imaging;
 using System.Threading;
+#else
+using Windows.Networking.BackgroundTransfer;
 #endif
 
 namespace Box.V2.Samples.ViewModels
@@ -217,6 +219,29 @@ namespace Box.V2.Samples.ViewModels
         }
 
 #if NETFX_CORE
+
+        internal async Task BackgroundDownload()
+        {
+            if (SelectedItem == null)
+                await new MessageDialog("No File Selected").ShowAsync();
+
+            FileSavePicker fileSavePicker = new FileSavePicker();
+            fileSavePicker.SuggestedFileName = SelectedItem.Name;
+            var ext = Path.GetExtension(SelectedItem.Name);
+            fileSavePicker.FileTypeChoices.Add(ext, new string[] { ext });
+            StorageFile saveFile = await fileSavePicker.PickSaveFileAsync();
+            if (saveFile == null)
+                return;
+
+            var bgDownloader = new BackgroundDownloader();
+            var test = Path.Combine(Config.FilesEndpointUri.ToString(), string.Format(Constants.ContentPathString, SelectedItem.Id));
+            bgDownloader.SetRequestHeader(Constants.AuthHeaderKey, string.Format(Constants.V2AuthString, Client.Auth.Session.AccessToken));
+            var download = bgDownloader.CreateDownload(new Uri(test), saveFile);
+
+            var testRes = await download.StartAsync();
+        }
+
+
         internal async Task Download()
         {
             if (SelectedItem == null)
