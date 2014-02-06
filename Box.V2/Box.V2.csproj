@@ -56,6 +56,9 @@
     <Compile Include="Models\Permissions\BoxFolderPermission.cs" />
     <Compile Include="Models\Permissions\BoxItemPermission.cs" />
     <Compile Include="Models\BoxSortOrder.cs" />
+    <Compile Include="Plugin\BoxResourcePlugins.cs" />
+    <Compile Include="Plugin\IBoxMetadataManager.cs" />
+    <Compile Include="Plugin\IResourcePlugin.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
     <Compile Include="Wrappers\BoxResponse.cs" />

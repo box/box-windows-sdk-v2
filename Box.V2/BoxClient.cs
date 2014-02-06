@@ -2,9 +2,11 @@
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Managers;
+using Box.V2.Plugins;
 using Box.V2.Request;
 using Box.V2.Services;
 using System;
+using System.Collections.Generic;
 
 namespace Box.V2
 {
@@ -16,6 +18,7 @@ namespace Box.V2
     {
         protected readonly IBoxService _service;
         protected readonly IBoxConverter _converter;
+        protected readonly IRequestHandler _handler;
 
         /// <summary>
         /// Instantiates a BoxClient with the provided config object
@@ -32,11 +35,9 @@ namespace Box.V2
         {
             Config = boxConfig;
             
-            IRequestHandler handler = new HttpRequestHandler();
+            _handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
-
-            _service = new BoxService(handler);
-
+            _service = new BoxService(_handler);
             Auth = new AuthRepository(Config, _service, _converter, authSession);
 
             InitManagers();
@@ -44,6 +45,7 @@ namespace Box.V2
 
         private void InitManagers()
         {
+            // Init Resource Managers
             FoldersManager = new BoxFoldersManager(Config, _service, _converter, Auth);
             FilesManager = new BoxFilesManager(Config, _service, _converter, Auth);
             CommentsManager = new BoxCommentsManager(Config, _service, _converter, Auth);
@@ -51,6 +53,21 @@ namespace Box.V2
             SearchManager = new BoxSearchManager(Config, _service, _converter, Auth);
             UsersManager = new BoxUsersManager(Config, _service, _converter, Auth);
             GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth);
+
+            // Init Resource Plugins Manager
+            ResourcePlugins = new BoxResourcePlugins();
+        }
+
+        /// <summary>
+        /// Adds additional resource managers/endpoints to the BoxClient.
+        /// This is meant to allow for the inclusion of beta APIs or unofficial endpoints
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public BoxClient AddResourcePlugin<T>() where T : BoxResourceManager
+        {
+            ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth));
+            return this;
         }
 
         /// <summary>
@@ -97,5 +114,11 @@ namespace Box.V2
         /// The Auth repository that holds the auth session
         /// </summary>
         public AuthRepository Auth { get; set; }
+
+        /// <summary>
+        /// Allows resource managers to be registered and retrieved as plugins
+        /// </summary>
+        public BoxResourcePlugins ResourcePlugins { get; private set; }
+
     }
 }
