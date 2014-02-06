@@ -8,12 +8,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace Box.V2
+namespace Box.V2.Extensions
 {
     /// <summary>
     /// Extends the BoxResponse class with convenience methods
     /// </summary>
-    internal static class BoxResponseExtensions
+    public static class BoxResponseExtensions
     {
         /// <summary>
         /// Parses the BoxResponse with the provided converter
@@ -59,7 +59,7 @@ namespace Box.V2
         /// </summary>
         /// <param name="response">The http response that includes total page information in its header</param>
         /// <returns>Total number of pages in the preview</returns>
-        internal static int BuildPagesCount<T>(this IBoxResponse<T> response) where T : class
+        public static int BuildPagesCount<T>(this IBoxResponse<T> response) where T : class
         {
             int count = 1;
             IEnumerable<string> values = new List<string>();

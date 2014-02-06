@@ -1,6 +1,7 @@
 ﻿using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Exceptions;
+using Box.V2.Extensions;
 using Box.V2.Services;
 using Nito.AsyncEx;
 using System;

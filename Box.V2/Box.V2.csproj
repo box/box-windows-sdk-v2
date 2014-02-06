@@ -42,6 +42,7 @@
     <Compile Include="Auth\AuthRepository.cs" />
     <Compile Include="BoxClient.cs" />
     <Compile Include="Converter\BoxItemConverter.cs" />
+    <Compile Include="Extensions\BoxExtensions.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxFilePreview.cs" />
@@ -58,7 +59,7 @@
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
     <Compile Include="Wrappers\BoxResponse.cs" />
-    <Compile Include="Wrappers\BoxResponseExtensions.cs" />
+    <Compile Include="Extensions\BoxResponseExtensions.cs" />
     <Compile Include="Wrappers\Contracts\IBoxResponse.cs" />
     <Compile Include="Wrappers\BoxFormPart.cs" />
     <Compile Include="Wrappers\Contracts\IBoxFormPart.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrappers\BoxRequest.cs" />
     <Compile Include="Wrappers\Contracts\IBoxRequest.cs" />
-    <Compile Include="Wrappers\BoxRequestExtensions.cs" />
+    <Compile Include="Extensions\BoxRequestExtensions.cs" />
     <Compile Include="Services\BoxService.cs" />
     <Compile Include="Request\HttpRequestHandler.cs" />
     <Compile Include="Services\IBoxService.cs" />

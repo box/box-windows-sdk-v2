@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Box.V2
 {
@@ -25,6 +26,9 @@ namespace Box.V2
             HttpHeaders = new Dictionary<string, string>();
             Parameters = new Dictionary<string, string>();
             PayloadParameters = new Dictionary<string, string>();
+
+            // Initialize Defaults
+            ContentEncoding = Encoding.UTF8;
         }
 
         public Uri Host { get; private set; }
@@ -38,6 +42,10 @@ namespace Box.V2
         public Dictionary<string, string> Parameters { get; private set; }
 
         public Dictionary<string, string> PayloadParameters { get; private set; }
+
+        public string ContentType { get; set; }
+
+        public Encoding ContentEncoding { get; set; }
 
         public Uri Uri { get { return new Uri(Host, Path); } }
 

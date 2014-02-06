@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Request
@@ -116,8 +117,11 @@ namespace Box.V2.Request
                     throw new InvalidOperationException("Http method not supported");
             }
 
-            httpRequest.Content = !string.IsNullOrWhiteSpace(request.Payload) ?
-                (HttpContent)new StringContent(request.Payload) :
+            // Set request content to string or form-data
+            httpRequest.Content = !string.IsNullOrWhiteSpace(request.Payload) ? 
+                string.IsNullOrEmpty(request.ContentType) ? // Check for custom content type
+                    (HttpContent)new StringContent(request.Payload) :
+                    (HttpContent)new StringContent(request.Payload, request.ContentEncoding, request.ContentType) :
                 (HttpContent)new FormUrlEncodedContent(request.PayloadParameters);
 
             return httpRequest;
