@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Box.V2</id>
-    <version>1.0.5</version>
+    <version>1.1.0</version>
     <title>Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
@@ -12,5 +12,8 @@
     <releaseNotes>Endpoint bug fixes</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>Box V2 SDK Collaboration Storage File Management</tags>
+    <dependencies>
+      <dependency id="Microsoft.Bcl.Async" version="1.0.16" />
+    </dependencies>
   </metadata>
 </package>
