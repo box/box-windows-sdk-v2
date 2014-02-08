@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Box.V2
 {
@@ -29,12 +30,22 @@ namespace Box.V2
         Dictionary<string, string> Parameters { get; }
 
         /// <summary>
-        /// Dictionary of parameters to be included in the POST payload
+        /// Dictionary of parameters to be included in the request payload
         /// </summary>
         Dictionary<string, string> PayloadParameters { get; }
 
         /// <summary>
-        /// The string payload to be included in the body of a POST
+        /// The Content Type of the Payload. The Content Type must be set here and not as part of the Header
+        /// </summary>
+        string ContentType { get; set; }
+
+        /// <summary>
+        /// The Encoding for the Payload
+        /// </summary>
+        Encoding ContentEncoding { get; set; }
+
+        /// <summary>
+        /// The string payload to be included in the body of a request
         /// </summary>
         string Payload { get; set;  }
 
