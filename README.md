@@ -7,7 +7,8 @@ Windows SDK for v2 of the Box API. The SDK is built upon the Portable Class Libr
 ###Prerequisites
 * Git  
 * Visual Studio 2012 w/ Update 2 CTP  
-* Windows Phone SDK 8.0
+* Windows Phone SDK 8.0 (if running Windows Phone samples)
+* Windows Store SDK (if running Windows Store samples)
 
 Quick Start
 -----------
