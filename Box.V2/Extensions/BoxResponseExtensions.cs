@@ -37,14 +37,17 @@ namespace Box.V2.Extensions
                         try
                         { 
                             response.Error = converter.Parse<BoxError>(response.ContentString);
-                            
-                            if (response.Error != null && !string.IsNullOrWhiteSpace(response.Error.Name))
-                                throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description)) { StatusCode = response.StatusCode };
                         }
                         catch (Exception)
                         {
                             Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
                         }
+
+                        // Throw formatted error if available
+                        if (response.Error != null && !string.IsNullOrWhiteSpace(response.Error.Name))
+                            throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description)) { StatusCode = response.StatusCode };
+                        // Throw error with full response if error object not available
+                        throw new BoxException(response.ContentString) { StatusCode = response.StatusCode };
                     }
                     throw new BoxException() { StatusCode = response.StatusCode };
             }
