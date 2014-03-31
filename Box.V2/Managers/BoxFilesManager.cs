@@ -180,7 +180,7 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.FilesUploadEndpointUri, id)
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Delete)
                 .Header("If-Match", etag);
 
