@@ -16,9 +16,8 @@ namespace Box.V2
     /// </summary>
     public class BoxClient
     {
-        protected IBoxService _service;
-        protected IBoxConverter _converter;
-        protected IRequestHandler _handler;
+        protected readonly IBoxService Service = new BoxService(new HttpRequestHandler());
+        protected readonly IBoxConverter Converter = new BoxJsonConverter();
 
         /// <summary>
         /// Instantiates a BoxClient with the provided config object
@@ -33,8 +32,9 @@ namespace Box.V2
         /// <param name="authSession">A fully authenticated auth session</param>
         public BoxClient(IBoxConfig boxConfig, OAuthSession authSession)
         {
-            Auth = new AuthRepository(Config, _service, _converter, authSession);
-            InitClient(boxConfig);
+            Config = boxConfig;
+            Auth = new AuthRepository(Config, Service, Converter, authSession);
+            InitManagers();
         }
 
         /// <summary>
@@ -44,31 +44,21 @@ namespace Box.V2
         /// <param name="authRepository">A custom auth token repository</param>
         public BoxClient(IBoxConfig boxConfig, IAuthRepository authRepository)
         {
-            Auth = authRepository;
-            InitClient(boxConfig);
-        }
-
-        private void InitClient(IBoxConfig boxConfig)
-        {
             Config = boxConfig;
-
-            _handler = new HttpRequestHandler();
-            _converter = new BoxJsonConverter();
-            _service = new BoxService(_handler);
-
+            Auth = authRepository;
             InitManagers();
         }
 
         private void InitManagers()
         {
             // Init Resource Managers
-            FoldersManager = new BoxFoldersManager(Config, _service, _converter, Auth);
-            FilesManager = new BoxFilesManager(Config, _service, _converter, Auth);
-            CommentsManager = new BoxCommentsManager(Config, _service, _converter, Auth);
-            CollaborationsManager = new BoxCollaborationsManager(Config, _service, _converter, Auth);
-            SearchManager = new BoxSearchManager(Config, _service, _converter, Auth);
-            UsersManager = new BoxUsersManager(Config, _service, _converter, Auth);
-            GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth);
+            FoldersManager = new BoxFoldersManager(Config, Service, Converter, Auth);
+            FilesManager = new BoxFilesManager(Config, Service, Converter, Auth);
+            CommentsManager = new BoxCommentsManager(Config, Service, Converter, Auth);
+            CollaborationsManager = new BoxCollaborationsManager(Config, Service, Converter, Auth);
+            SearchManager = new BoxSearchManager(Config, Service, Converter, Auth);
+            UsersManager = new BoxUsersManager(Config, Service, Converter, Auth);
+            GroupsManager = new BoxGroupsManager(Config, Service, Converter, Auth);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -82,7 +72,7 @@ namespace Box.V2
         /// <returns></returns>
         public BoxClient AddResourcePlugin<T>() where T : BoxResourceManager
         {
-            ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth));
+            ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, Service, Converter, Auth));
             return this;
         }
 
