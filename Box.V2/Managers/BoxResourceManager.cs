@@ -48,6 +48,7 @@ namespace Box.V2.Managers
         protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, bool queueRequest = false)
             where T : class
         {
+            AddDefaultHeaders(request);
             AddAuthorization(request);
             var response = await ExecuteRequest<T>(request, queueRequest).ConfigureAwait(false);
 
@@ -88,6 +89,7 @@ namespace Box.V2.Managers
             where T : class
         {
             OAuthSession newSession = await _auth.RefreshAccessTokenAsync(request.Authorization).ConfigureAwait(false);
+            AddDefaultHeaders(request);
             AddAuthorization(request, newSession.AccessToken);
             return await _service.ToResponseAsync<T>(request).ConfigureAwait(false);
         }
