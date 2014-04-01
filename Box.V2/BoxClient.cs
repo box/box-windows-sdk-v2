@@ -16,15 +16,15 @@ namespace Box.V2
     /// </summary>
     public class BoxClient
     {
-        protected IBoxService _service;
-        protected IBoxConverter _converter;
-        protected IRequestHandler _handler;
+        protected readonly IBoxService _service;
+        protected readonly IBoxConverter _converter;
+        protected readonly IRequestHandler _handler;
 
         /// <summary>
         /// Instantiates a BoxClient with the provided config object
         /// </summary>
         /// <param name="boxConfig">The config object to be used</param>
-        public BoxClient(IBoxConfig boxConfig) : this(boxConfig, (OAuthSession)null) { }
+        public BoxClient(IBoxConfig boxConfig) : this(boxConfig, null) { }
 
         /// <summary>
         /// Instantiates a BoxClient with the provided config object and auth session
@@ -33,28 +33,12 @@ namespace Box.V2
         /// <param name="authSession">A fully authenticated auth session</param>
         public BoxClient(IBoxConfig boxConfig, OAuthSession authSession)
         {
-            Auth = new AuthRepository(Config, _service, _converter, authSession);
-            InitClient(boxConfig);
-        }
-
-        /// <summary>
-        /// Instantiates a BoxClient with the provided config object and auth session
-        /// </summary>
-        /// <param name="boxConfig">The config object to be used</param>
-        /// <param name="authRepository">A custom auth token repository</param>
-        public BoxClient(IBoxConfig boxConfig, IAuthRepository authRepository)
-        {
-            Auth = authRepository;
-            InitClient(boxConfig);
-        }
-
-        private void InitClient(IBoxConfig boxConfig)
-        {
             Config = boxConfig;
-
+            
             _handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
             _service = new BoxService(_handler);
+            Auth = new AuthRepository(Config, _service, _converter, authSession);
 
             InitManagers();
         }
@@ -129,7 +113,7 @@ namespace Box.V2
         /// <summary>
         /// The Auth repository that holds the auth session
         /// </summary>
-        public IAuthRepository Auth { get; set; }
+        public AuthRepository Auth { get; set; }
 
         /// <summary>
         /// Allows resource managers to be registered and retrieved as plugins
