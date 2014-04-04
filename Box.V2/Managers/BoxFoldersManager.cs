@@ -209,11 +209,9 @@ namespace Box.V2.Managers
         /// retrieved using the limit and offset parameters.
         /// </summary>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
+        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, List<string> fields = null)
         {
-            id.ThrowIfNullOrWhiteSpace("id");
-
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, Constants.TrashItemsPathString)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
