@@ -223,6 +223,29 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Retrieves the files and/or folders that have been moved to the trash. Any attribute in the full files 
+        /// or folders objects can be passed in with the fields parameter to get specific attributes, and only those 
+        /// specific attributes back; otherwise, the mini format is returned for each item by default. Multiple 
+        /// attributes can be passed in separated by commas e.g. fields=name,created_at. Paginated results can be 
+        /// retrieved using the limit and offset parameters.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
+                .Param("limit", limit.ToString())
+                .Param("offset", offset.ToString())
+                .Param(ParamFields, fields);
+
+
+            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Restores an item that has been moved to the trash. Default behavior is to restore the item to the folder it was in 
         /// before it was moved to the trash. If that parent folder no longer exists or if there is now an item with the same 
         /// name in that parent folder, the new parent folder and/or new name will need to be included in the request.

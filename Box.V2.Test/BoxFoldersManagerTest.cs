@@ -368,7 +368,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            BoxCollection<BoxItem> i = await _foldersManager.GetTrashItemsAsync(10);
+            BoxCollection<BoxItem> i = await _foldersManager.GetTrashItemsAsync("fakeId", 10);
             BoxItem i1 = i.Entries.FirstOrDefault();
             BoxItem i2 = i.Entries.Skip(1).FirstOrDefault();
 
