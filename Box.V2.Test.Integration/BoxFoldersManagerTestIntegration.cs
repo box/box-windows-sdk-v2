@@ -43,6 +43,13 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task FolderGetTrashItems_LiveSession_ValidResponse()
+        {
+            var results = await _client.FoldersManager.GetTrashItemsAsync(10);
+            Assert.IsNotNull(results);
+        }
+
+        [TestMethod]
         public async Task FolderWorkflow_LiveSession_ValidResponse()
         {
             string testName = GetUniqueName();

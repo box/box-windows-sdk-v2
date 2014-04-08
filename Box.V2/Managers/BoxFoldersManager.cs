@@ -216,7 +216,6 @@ namespace Box.V2.Managers
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
 
-
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -230,15 +229,15 @@ namespace Box.V2.Managers
         /// retrieved using the limit and offset parameters.
         /// </summary>
         /// <returns></returns>
+        [Obsolete("This method will be removed in a future update. Please use the GetTrashItemsAsync(int, int, List<string>) overload")]
         public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.TrashFolderPathString, id))
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, Constants.TrashItemsPathString)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
-
 
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
 
