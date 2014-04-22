@@ -1,4 +1,6 @@
 ﻿using System;
+using Box.V2.Auth;
+using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
@@ -13,23 +15,62 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse()
         {
-            const int totalCount = 11;
-            const int numFiles = 9;
-            const int numFolders = 2;
+//<<<<<<< HEAD
+//            const int totalCount = 11;
+//            const int numFiles = 9;
+//            const int numFolders = 2;
 
-            BoxCollection<BoxItem> c = await _client.FoldersManager.GetFolderItemsAsync("0", 50, 0, new List<string>() { 
-                BoxItem.FieldName, 
-                BoxItem.FieldSize, 
-                BoxItem.FieldModifiedAt, 
+//            BoxCollection<BoxItem> c = await _client.FoldersManager.GetFolderItemsAsync("0", 50, 0, new List<string>() { 
+//                BoxItem.FieldName, 
+//                BoxItem.FieldSize, 
+//                BoxItem.FieldModifiedAt, 
+//=======
+//            await AssertFolderContents(_client);
+        }
+
+        [TestMethod]
+        public async Task GetFolder_LiveSession_ValidResponse_GzipCompression()
+        {
+            var boxConfig = new BoxConfig(ClientId, ClientSecret, RedirectUri){AcceptEncoding = CompressionType.gzip};
+            var boxClient = new BoxClient(boxConfig, _auth);
+            await AssertFolderContents(boxClient);
+        }
+
+        [TestMethod]
+        public async Task GetFolder_LiveSession_ValidResponse_DeflateCompression()
+        {
+            var boxConfig = new BoxConfig(ClientId, ClientSecret, RedirectUri) { AcceptEncoding = CompressionType.deflate };
+            var boxClient = new BoxClient(boxConfig, _auth);
+            await AssertFolderContents(boxClient);
+        }
+
+        private static async Task AssertFolderContents(BoxClient boxClient)
+        {
+            BoxFolder f = await boxClient.FoldersManager.GetItemsAsync("0", 100, 0, new List<string>()
+            {
+                BoxFolder.FieldName,
+                BoxFolder.FieldSize,
+                BoxFolder.FieldModifiedAt,
+                BoxFolder.FieldModifiedBy,
+                BoxFolder.FieldItemCollection,
+                BoxFolder.FieldHasCollaborations,
+                BoxFile.FieldCommentCount
+            });
+            BoxCollection<BoxItem> c = await boxClient.FoldersManager.GetFolderItemsAsync("0", 100, 0, new List<string>()
+            {
+                BoxItem.FieldName,
+                BoxItem.FieldSize,
+                BoxItem.FieldModifiedAt,
+//>>>>>>> Demonstrate bug in handling of compressed content
                 BoxItem.FieldModifiedBy,
                 BoxFolder.FieldItemCollection
             });
 
-            Assert.AreEqual(totalCount, c.TotalCount, "Incorrect total count");
-            Assert.AreEqual(totalCount, c.Entries.Count, "Incorrect number if items returned");
+            //Assert.AreEqual(totalCount, c.TotalCount, "Incorrect total count");
+            //Assert.AreEqual(totalCount, c.Entries.Count, "Incorrect number if items returned");
 
-            Assert.AreEqual(numFolders, c.Entries.Count(item => item is BoxFolder), "Wrong number of Folders");
-            Assert.AreEqual(numFiles, c.Entries.Count(item => item is BoxFile), "Wrong number of Files");
+            //Assert.AreEqual(numFolders, c.Entries.Count(item => item is BoxFolder), "Wrong number of Folders");
+            //Assert.AreEqual(numFiles, c.Entries.Count(item => item is BoxFile), "Wrong number of Files");
         }
 
         [TestMethod]
