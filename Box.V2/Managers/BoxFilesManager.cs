@@ -260,9 +260,11 @@ namespace Box.V2.Managers
         /// <param name="minWidth"></param>
         /// <param name="maxHeight"></param>
         /// <param name="maxWidth"></param>
+        /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
+        /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
         /// <param name="throttle">Whether the requests will be throttled. Recommended to be left true to prevent spamming the server</param>
         /// <returns></returns>
-        public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true)
+        public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true, bool handleRetry = true)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -274,6 +276,12 @@ namespace Box.V2.Managers
 
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request, throttle).ConfigureAwait(false);
 
+            while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
+            {
+                await TaskEx.Delay(GetTimeDelay(response.Headers));
+                response = await ToResponseAsync<Stream>(request, throttle).ConfigureAwait(false);
+            }
+
             return response.ResponseObject;
         }
 
@@ -282,10 +290,11 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="page"></param>
+        /// /// <param name="handleRetry"></param>
         /// <returns>A PNG of the preview</returns>
-        public async Task<Stream> GetPreviewAsync(string id, int page)
+        public async Task<Stream> GetPreviewAsync(string id, int page, bool handleRetry = true)
         {
-            return (await GetPreviewResponseAsync(id, page)).ResponseObject;
+            return (await GetPreviewResponseAsync(id, page, handleRetry: handleRetry)).ResponseObject;
         }
 
         /// <summary>
@@ -293,10 +302,12 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">id of the file to return</param>
         /// <param name="page">page number of the file</param>
+        /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
+        /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
-        public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null)
+        public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
         {  
-            IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight);
+            IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
 
             BoxFilePreview filePreview = new BoxFilePreview();
             filePreview.CurrentPage = page;
@@ -307,11 +318,11 @@ namespace Box.V2.Managers
                 filePreview.PreviewStream = response.ResponseObject ;
                 filePreview.TotalPages = response.BuildPagesCount();
             }
-
+           
             return filePreview;
         }
 
-        private async Task<IBoxResponse<Stream>> GetPreviewResponseAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null)
+        private async Task<IBoxResponse<Stream>> GetPreviewResponseAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -321,8 +332,31 @@ namespace Box.V2.Managers
 				.Param("max_height", maxHeight.ToString())
 				.Param("min_width", minWidth.ToString())
 				.Param("min_height", minHeight.ToString());
+            
+            var response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
-            return await ToResponseAsync<Stream>(request).ConfigureAwait(false);
+            while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
+            {
+                await TaskEx.Delay(GetTimeDelay(response.Headers));
+                response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Return the time to wait until retrying the call. If no RetryAfter value is specified in the header, use default value;
+        /// </summary>
+        private int GetTimeDelay(HttpResponseHeaders headers)
+        {
+            int? timeToWait = null;
+
+            if (headers != null && headers.RetryAfter != null)
+            {
+                timeToWait = Convert.ToInt16(headers.RetryAfter.ToString());
+            }
+
+            return timeToWait.HasValue ? timeToWait.Value * 1000 : Constants.DefaultRetryDelay;
         }
 
         /// <summary>
