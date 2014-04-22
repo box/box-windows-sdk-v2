@@ -20,7 +20,7 @@ namespace Box.V2.Request
         /// </summary>
         public HttpRequestHandler()
         {
-            _handler = new HttpClientHandler();
+            _handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
             _client = new HttpClient(_handler);
         }
 
