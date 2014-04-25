@@ -15,6 +15,19 @@ namespace Box.V2.Extensions
     /// </summary>
     public static class BoxResponseExtensions
     {
+	    /// <summary>
+        /// Parses the BoxResponse with the provided converter
+        /// </summary>
+        /// <typeparam name="T">The return type of the Box response</typeparam>
+        /// <param name="response">The response to parse</param>
+        /// <param name="converter">The converter to use for the conversion</param>
+        /// <returns></returns>
+        public static IBoxResponse<T> ApplyParseResults<T>(this IBoxResponse<T> response, IBoxConverter converter)
+            where T : class
+        {
+            return response.ParseResults(converter);
+        }
+	
         /// <summary>
         /// Parses the BoxResponse with the provided converter
         /// </summary>
