@@ -7,6 +7,7 @@ using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace Box.V2.Auth
         private List<string> _expiredTokens = new List<string>();
 
         private readonly AsyncLock _mutex = new AsyncLock();
+        public event EventHandler SessionInvalidated;
 
         /// <summary>
         /// Instantiates a new AuthRepository
@@ -103,10 +105,23 @@ namespace Box.V2.Auth
                                             .Payload("client_secret", _config.ClientSecret);
 
             IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
-            boxResponse.ParseResults(_converter);
+            if (boxResponse.Status == ResponseStatus.Success)
+            {
+                // Parse and return the new session
+                boxResponse.ParseResults(_converter);
+                return boxResponse.ResponseObject;
+            }
 
-            // Return new session
-            return boxResponse.ResponseObject;
+            // The session has been invalidated, notify subscribers
+            var handler = SessionInvalidated;
+            if (handler != null)
+                handler(this, new EventArgs());
+
+            // As well as the caller
+            throw new BoxSessionInvalidatedException()
+            {
+                StatusCode = boxResponse.StatusCode,
+            };
         }
 
         public async Task LogoutAsync()

@@ -349,14 +349,11 @@ namespace Box.V2.Managers
         /// </summary>
         private int GetTimeDelay(HttpResponseHeaders headers)
         {
-            int? timeToWait = null;
+            int timeToWait;
+            if (headers != null && headers.RetryAfter != null && int.TryParse(headers.RetryAfter.ToString(), out timeToWait))
+                return timeToWait * 1000;
 
-            if (headers != null && headers.RetryAfter != null)
-            {
-                timeToWait = Convert.ToInt16(headers.RetryAfter.ToString());
-            }
-
-            return timeToWait.HasValue ? timeToWait.Value * 1000 : Constants.DefaultRetryDelay;
+            return Constants.DefaultRetryDelay;
         }
 
         /// <summary>
