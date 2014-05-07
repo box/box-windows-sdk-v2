@@ -3,6 +3,7 @@ using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Services;
+using System;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,18 +63,11 @@ namespace Box.V2.Managers
                 await _service.EnqueueAsync<T>(request).ConfigureAwait(false) :
                 await _service.ToResponseAsync<T>(request).ConfigureAwait(false);
 
-            switch (response.Status)
+            if (response.Status == ResponseStatus.Unauthorized)
             {
                 // Refresh the access token if the status is "Unauthorized" (HTTP Status Code 401: Unauthorized)
                 // This will only be attempted once as refresh tokens are single use
-                case ResponseStatus.Unauthorized:
-                    response = await RetryExpiredTokenRequest<T>(request).ConfigureAwait(false);
-                    break;
-                // Continue to retry the request if the status is "Pending" (HTTP Status Code 202: Approved)
-                // this will occur if a preview/thumbnail is not ready yet
-                case ResponseStatus.Pending:
-                    response = await ExecuteRequest<T>(request, queueRequest).ConfigureAwait(false);
-                    break;
+                response = await RetryExpiredTokenRequest<T>(request).ConfigureAwait(false);
             }
 
             return response;

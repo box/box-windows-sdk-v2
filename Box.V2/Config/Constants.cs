@@ -53,7 +53,6 @@ namespace Box.V2.Config
         public const string ContentPathString = @"{0}/content";
 
         /*** Auth ***/
-
         public const string AuthHeaderKey = "Authorization";
         public const string V1AuthString = "BoxAuth api_key={0}&auth_token={1}";
         public const string V2AuthString = "Bearer {0}";
@@ -69,5 +68,8 @@ namespace Box.V2.Config
         public const string TypeGroupMembership = "group_membership";
         public const string TypeUser = "user";
         public const string TypeEnterprise = "enterprise";
+
+        //File Preview
+        public const int DefaultRetryDelay = 1000; // milliseconds
     }
 }

@@ -14,6 +14,12 @@ namespace Box.V2.Auth
         OAuthSession Session { get; }
 
         /// <summary>
+        /// Event for when the session is no longer valid and a new set of Access/Refresh tokens are required
+        /// </summary>
+        event EventHandler SessionInvalidated;
+
+
+        /// <summary>
         /// Performs the 2nd step of the OAuth2 workflow and exchanges the auth code
         /// for an Access and Refresh token
         /// </summary>
