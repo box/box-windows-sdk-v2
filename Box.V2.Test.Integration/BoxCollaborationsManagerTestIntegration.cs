@@ -8,29 +8,31 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public class BoxCollaborationsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
-        private const string folderId = "930744373";
-
         [TestMethod]
         public async Task CollaborationsWorkflow_LiveSession_ValidResponse()
         {
-            // Test Add Collaboration
+            const string folderId = "1927307787";
+
+            // Add Collaboration
             BoxCollaborationRequest addRequest = new BoxCollaborationRequest(){
-                Item = new BoxRequestEntity() {
+                Item = new BoxRequestEntity() 
+                {
                     Id = folderId,
                     Type = BoxType.folder
                 },
-                AccessibleBy = new BoxCollaborationUserRequest(){
-                    Login = "btang@box.com"
+                AccessibleBy = new BoxCollaborationUserRequest()
+                {
+                    Login = "BoxWinUser@box.com"
                 },
                 Role = "viewer"
             };
 
             BoxCollaboration collab =  await _client.CollaborationsManager.AddCollaborationAsync(addRequest);
 
-            Assert.AreEqual(folderId, collab.Item.Id);
-            Assert.AreEqual(BoxCollaborationRoles.Viewer, collab.Role);
+            Assert.AreEqual(folderId, collab.Item.Id, "Folder and collaboration folder id do not match");
+            Assert.AreEqual(BoxCollaborationRoles.Viewer, collab.Role, "Incorrect collaboration role");
 
-            // Test Edit Collaboration
+            // Edit Collaboration
             BoxCollaborationRequest editRequest = new BoxCollaborationRequest()
             {
                 Id = collab.Id,
@@ -39,11 +41,13 @@ namespace Box.V2.Test.Integration
 
             BoxCollaboration editCollab = await _client.CollaborationsManager.EditCollaborationAsync(editRequest);
 
-            Assert.AreEqual(collab.Id, editCollab.Id);
-            Assert.AreEqual(BoxCollaborationRoles.Editor, editCollab.Role);
+            Assert.AreEqual(collab.Id, editCollab.Id, "Id of original collaboration and updated collaboration do not match");
+            Assert.AreEqual(BoxCollaborationRoles.Editor, editCollab.Role, "Incorrect updated role");
 
             // Test Remove Collaboration
-            await _client.CollaborationsManager.RemoveCollaborationAsync(collab.Id);
+            bool success = await _client.CollaborationsManager.RemoveCollaborationAsync(collab.Id);
+
+            Assert.IsTrue(success, "Collaboration deletion was unsucessful");
         }
     }
 }
