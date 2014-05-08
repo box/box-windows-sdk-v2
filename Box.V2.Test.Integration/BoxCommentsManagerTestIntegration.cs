@@ -8,14 +8,11 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public class BoxCommentsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
-        private const string fileId = "7869094982";
-
         [TestMethod]
         public async Task CommentsWorkflow_LiveSession_ValidResponse()
         {
-
-            // Test adding a new comment
-            const string message = "this is a test";
+            const string fileId = "16894947279";
+            const string message = "this is a test Comment";
 
             BoxCommentRequest addReq = new BoxCommentRequest()
             {
@@ -29,20 +26,18 @@ namespace Box.V2.Test.Integration
             
             BoxComment c = await _client.CommentsManager.AddCommentAsync(addReq);
 
-            Assert.AreEqual(fileId, c.Item.Id);
-            Assert.AreEqual(BoxType.file.ToString(), c.Item.Type);
-            Assert.AreEqual(BoxType.comment.ToString(), c.Type);
-            Assert.AreEqual(message, c.Message);
-
-
-            // Test getting the comment information
+            Assert.AreEqual(fileId, c.Item.Id, "Comment was added to incorrect file");
+            Assert.AreEqual(BoxType.file.ToString(), c.Item.Type, "Comment was not added to a file");
+            Assert.AreEqual(BoxType.comment.ToString(), c.Type, "Returned object is not a comment");
+            Assert.AreEqual(message, c.Message, "Wrong comment added to file");
+            
+            // Get comment details
             BoxComment cInfo = await _client.CommentsManager.GetInformationAsync(c.Id);
 
-            Assert.AreEqual(c.Id, cInfo.Id);
-            Assert.AreEqual(BoxType.comment.ToString(), cInfo.Type);
-
-
-            // Test updating a message
+            Assert.AreEqual(c.Id, cInfo.Id, "two comment objects have different ids");
+            Assert.AreEqual(BoxType.comment.ToString(), cInfo.Type, "returned object is not a comment");
+            
+            // Update the comment
             const string updateMessage = "this is an updated test comment";
 
             BoxCommentRequest updateReq = new BoxCommentRequest()
@@ -52,14 +47,14 @@ namespace Box.V2.Test.Integration
 
             BoxComment cUpdate = await _client.CommentsManager.UpdateAsync(c.Id, updateReq);
 
-            Assert.AreEqual(c.Id, cUpdate.Id);
-            Assert.AreEqual(BoxType.comment.ToString(), cUpdate.Type);
-            Assert.AreEqual(updateMessage, cUpdate.Message);
+            Assert.AreEqual(c.Id, cUpdate.Id, "Wrong comment was updated");
+            Assert.AreEqual(BoxType.comment.ToString(), cUpdate.Type, "returned type of update is not a comment");
+            Assert.AreEqual(updateMessage, cUpdate.Message, "Comment was not updated with correct string");
 
-            // Test deleting a comment
+            // Deleting a comment
             bool success = await _client.CommentsManager.DeleteAsync(c.Id);
 
-            Assert.AreEqual(true, success);
+            Assert.AreEqual(true, success, "Unsuccessful comment delete");
         }
     }
 }
