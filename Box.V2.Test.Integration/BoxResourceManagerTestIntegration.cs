@@ -40,19 +40,19 @@ namespace Box.V2.Test.Integration
 
         #region Test Properties
 
-        private string _testFolderId = "0";
-        public string TestFolderId
-        {
-            get { return _testFolderId; }
-            set { _testFolderId = value; }
-        }
+        //private string _testFolderId = "0";
+        //public string TestFolderId
+        //{
+        //    get { return _testFolderId; }
+        //    set { _testFolderId = value; }
+        //}
 
-        private string _testFileId = "7869094982";
-        public string TestFileId
-        {
-            get { return _testFileId; }
-            set { _testFileId = value; }
-        }
+        //private string _testFileId = "7869094982";
+        //public string TestFileId
+        //{
+        //    get { return _testFileId; }
+        //    set { _testFileId = value; }
+        //}
 
 
         #endregion
