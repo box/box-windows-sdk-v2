@@ -57,10 +57,12 @@ namespace Box.V2.Auth
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
-                                            .Payload("grant_type", "authorization_code")
-                                            .Payload("code", authCode)
-                                            .Payload("client_id", _config.ClientId)
-                                            .Payload("client_secret", _config.ClientSecret);
+                                            .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.AuthorizationCode)
+                                            .Payload(Constants.RequestParameters.Code, authCode)
+                                            .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
+                                            .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
+                                            .Payload(Constants.RequestParameters.BoxDeviceId, _config.DeviceId)
+                                            .Payload(Constants.RequestParameters.BoxDeviceName, _config.DeviceName);
 
             IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
             boxResponse.ParseResults(_converter);
@@ -70,6 +72,7 @@ namespace Box.V2.Auth
 
             return boxResponse.ResponseObject;
         }
+
 
         public async Task<OAuthSession> RefreshAccessTokenAsync(string accessToken)
         {
@@ -99,10 +102,12 @@ namespace Box.V2.Auth
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
-                                            .Payload("grant_type", "refresh_token")
-                                            .Payload("refresh_token", refreshToken)
-                                            .Payload("client_id", _config.ClientId)
-                                            .Payload("client_secret", _config.ClientSecret);
+                                            .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.RefreshToken)
+                                            .Payload(Constants.RequestParameters.RefreshToken, refreshToken)
+                                            .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
+                                            .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
+                                            .Payload(Constants.RequestParameters.BoxDeviceId, _config.DeviceId)
+                                            .Payload(Constants.RequestParameters.BoxDeviceName, _config.DeviceName);
 
             IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
             if (boxResponse.Status == ResponseStatus.Success)
@@ -133,9 +138,9 @@ namespace Box.V2.Auth
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.RevokeEndpointString)
                                             .Method(RequestMethod.Post)
-                                            .Payload("client_id", _config.ClientId)
-                                            .Payload("client_secret", _config.ClientSecret)
-                                            .Payload("refresh_token", token);
+                                            .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
+                                            .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
+                                            .Payload(Constants.RequestParameters.Token, token);
 
             await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
         }

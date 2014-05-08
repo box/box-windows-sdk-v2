@@ -40,8 +40,8 @@ namespace Box.V2.Managers
         protected IBoxRequest AddDefaultHeaders(IBoxRequest request)
         {
             request
-                .Header("User-Agent", _config.UserAgent)
-                .Header("Accept-Encoding", _config.AcceptEncoding.ToString());
+                .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
+                .Header(Constants.RequestParameters.AcceptEncoding, _config.AcceptEncoding.ToString());
 
             return request;
         }
@@ -97,14 +97,17 @@ namespace Box.V2.Managers
                 string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth);
 
             StringBuilder sb = new StringBuilder(authString);
-            
-            // Device ID is required for accounts that have device pinning enabled
-            sb.Append(string.IsNullOrWhiteSpace(_config.DeviceId) ? 
-                string.Empty : 
-                string.Format("&device_id={0}", _config.DeviceId));
-            sb.Append(string.IsNullOrWhiteSpace(_config.DeviceName) ? 
-                string.Empty : 
-                string.Format("&device_name={0}", _config.DeviceName));
+
+            // Appending device_id is required for accounts that have device pinning enabled on V1 auth
+            if (_auth.Session.AuthVersion == AuthVersion.V1)
+            { 
+                sb.Append(string.IsNullOrWhiteSpace(_config.DeviceId) ? 
+                    string.Empty : 
+                    string.Format("&device_id={0}", _config.DeviceId));
+                sb.Append(string.IsNullOrWhiteSpace(_config.DeviceName) ? 
+                    string.Empty : 
+                    string.Format("&device_name={0}", _config.DeviceName));
+            }
 
             request.Header(Constants.AuthHeaderKey, sb.ToString());
         }

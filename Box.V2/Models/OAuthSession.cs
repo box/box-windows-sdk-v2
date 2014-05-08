@@ -34,6 +34,7 @@ namespace Box.V2.Auth
         /// <param name="expires_in"></param>
         /// <param name="token_type"></param>
         /// <param name="authVersion"></param>
+        [Obsolete("V1 auth will no longer be available after 6/14")]
         public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type, AuthVersion authVersion) 
         {
             AccessToken = access_token;
