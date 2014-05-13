@@ -64,5 +64,35 @@ namespace Box.V2.Test
             Assert.AreEqual("user", user.Type);
         }
 
+        [TestMethod]
+        public async Task GetEnterpriseUsers_ValidReponse()
+        {
+            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxUser>>(It.IsAny<IBoxRequest>()))
+           .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxUser>>>(new BoxResponse<BoxCollection<BoxUser>>()
+           {
+               Status = ResponseStatus.Success,
+               ContentString = "{\"total_count\":2,\"entries\":[{\"type\":\"user\",\"id\":\"1923882\",\"name\":\"Joey Burns\",\"role\":\"coadmin\"},{\"type\":\"user\",\"id\":\"23412412\",\"name\":\"John Covertino\",\"role\":\"coadmin\"}]}"
+           }));
+
+            BoxCollection<BoxUser> items = await _usersManager.GetEnterpriseUsersAsync();
+            Assert.AreEqual(items.TotalCount, 2);
+            Assert.AreEqual(items.Entries.Count(), 2);
+            Assert.AreEqual(items.Entries.First().Name, "Joey Burns");
+            Assert.AreEqual(items.Entries.Last().Name, "John Covertino");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public async Task GetEnterpriseUsers_LimitLow()
+        {
+            await _usersManager.GetEnterpriseUsersAsync("foo", 0, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public async Task GetEnterpriseUsers_LimitHigh()
+        {
+            await _usersManager.GetEnterpriseUsersAsync("foo", 0, 1001);
+        }
     }
 }
