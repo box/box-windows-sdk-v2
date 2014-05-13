@@ -113,7 +113,7 @@ namespace Box.V2
         /// <summary>
         /// The Auth repository that holds the auth session
         /// </summary>
-        public AuthRepository Auth { get; set; }
+        public IAuthRepository Auth { get; set; }
 
         /// <summary>
         /// Allows resource managers to be registered and retrieved as plugins
