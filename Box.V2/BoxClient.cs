@@ -43,6 +43,23 @@ namespace Box.V2
             InitManagers();
         }
 
+        /// <summary>
+        /// Initializes a new BoxClient with the provided config, converter, service and auth objects.
+        /// </summary>
+        /// <param name="boxConfig">The config object to use</param>
+        /// <param name="boxConverter">The box converter object to use</param>
+        /// <param name="boxService">The box service to use</param>
+        /// <param name="auth">The auth repository object to use</param>
+        public BoxClient(IBoxConfig boxConfig, IBoxConverter boxConverter, IBoxService boxService, IAuthRepository auth)
+        {
+            Config = boxConfig;
+            Auth = auth;
+            _converter = boxConverter;
+            _service = boxService;
+
+            InitManagers();
+        }
+
         private void InitManagers()
         {
             // Init Resource Managers
@@ -113,7 +130,7 @@ namespace Box.V2
         /// <summary>
         /// The Auth repository that holds the auth session
         /// </summary>
-        public IAuthRepository Auth { get; set; }
+        public IAuthRepository Auth { get; private set; }
 
         /// <summary>
         /// Allows resource managers to be registered and retrieved as plugins
