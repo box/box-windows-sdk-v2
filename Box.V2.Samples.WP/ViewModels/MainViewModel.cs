@@ -31,8 +31,8 @@ namespace Box.V2.Samples.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public const string ClientId = "YOUR_CLIENT_ID";
-        public const string ClientSecret = "YOUR_CLIENT_SECRET";
+        public const string ClientId = "5uzq9vy86dsefo8rpmd60ol1i0hu54qr";
+        public const string ClientSecret = "EPAjy3QrBczECOYDt2kXKBmjmJwcx6OE";
 
         public Uri RedirectUri = new Uri("https://boxsdk");
         public readonly int ItemLimit = 100;

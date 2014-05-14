@@ -12,8 +12,8 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public abstract class BoxResourceManagerTestIntegration
     {
-        public const string ClientId = "YOUR_CLIENT_ID";
-        public const string ClientSecret = "YOUR_CLIENT_SECRET";
+        public const string ClientId = "5uzq9vy86dsefo8rpmd60ol1i0hu54qr";
+        public const string ClientSecret = "EPAjy3QrBczECOYDt2kXKBmjmJwcx6OE";
 
         public Uri RedirectUri = new Uri("http://boxsdk");
 
@@ -25,7 +25,7 @@ namespace Box.V2.Test.Integration
 
         public BoxResourceManagerTestIntegration()
         {
-            _auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
+            _auth = new OAuthSession("vLiSG2rfGC65ibHGTvGN3rAkuBYqMF6W", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
             _parser = new BoxJsonConverter();
