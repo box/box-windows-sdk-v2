@@ -25,7 +25,7 @@ namespace Box.V2.Test.Integration
 
         public BoxResourceManagerTestIntegration()
         {
-            _auth = new OAuthSession("vLiSG2rfGC65ibHGTvGN3rAkuBYqMF6W", "YOUR_REFRESH_TOKEN", 3600, "bearer");
+            _auth = new OAuthSession("YOUR_AUTH_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
             _handler = new HttpRequestHandler();
             _parser = new BoxJsonConverter();
