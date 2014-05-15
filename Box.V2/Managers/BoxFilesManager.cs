@@ -132,7 +132,8 @@ namespace Box.V2.Managers
         /// <remarks>Versions are only tracked for Box users with premium accounts.</remarks>
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>A collection of versions other than the main version of the file. If a file has no other versions, an empty collection will be returned.
+        /// Note that if a file has a total of three versions, only the first two version will be returned.</returns>
         public async Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");

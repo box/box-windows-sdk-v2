@@ -11,191 +11,206 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public class BoxFilesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
-        private const string FileId = "8599229215";
+        [TestMethod]
+        public async Task GetStreamResponse()
+        {
+            const string pdfFileId = "16894929979";
+            const int totalPages = 227;
+            var filePreview = await _client.FilesManager.GetFilePreviewAsync(pdfFileId, 1);
 
-        private const string savePath = @"C:\Users\btang\Downloads\{0}";
-
-        private const string MobileBoxerFileId = "8250445374";
+            Assert.AreEqual(1, filePreview.CurrentPage, "Invalid current page");
+            Assert.AreEqual(totalPages, filePreview.TotalPages, "Invalid total pages");
+            Assert.AreEqual(HttpStatusCode.OK, filePreview.ReturnedStatusCode, "Invalid status code");
+        }
 
         [TestMethod]
         public async Task GetInformation_Fields_ValidResponse()
         {
-            var test = await _client.FilesManager.GetInformationAsync(FileId, new List<string> { BoxFile.FieldName, BoxFile.FieldModifiedAt, BoxFile.FieldOwnedBy });
+            const string fileId = "16894947279";
+            var file = await _client.FilesManager.GetInformationAsync(fileId, new List<string> { BoxFile.FieldName, BoxFile.FieldModifiedAt, BoxFile.FieldOwnedBy });
+
+            Assert.AreEqual(fileId, file.Id, "Incorrect file id");
+            Assert.IsNotNull(file.Name, "File Name is null");
+            Assert.IsNotNull(file.ModifiedAt, "ModifiedAt field is null");
+            Assert.IsNotNull(file.OwnedBy, "OwnedBy field is null");
         }
-
-        [TestMethod]
-        public async Task GetStreamResponse()
-        {
-            var filePreview = await _client.FilesManager.GetFilePreviewAsync(MobileBoxerFileId, 1);
-
-            Assert.AreEqual(1, filePreview.CurrentPage);
-            Assert.AreEqual(4, filePreview.TotalPages);
-            Assert.AreEqual(HttpStatusCode.OK, filePreview.ReturnedStatusCode);
-        }
-
 
         [TestMethod]
         public async Task Download_ValidRequest_ValidStream()
         {
-            var test = await _client.FilesManager.DownloadStreamAsync(FileId);
-        }
-
-        [TestMethod]
-        public async Task BatchDownload_ValidRequest_ValidResponse()
-        {
-            /*** Arrange ***/
-            List<Task<Stream>> tasks = new List<Task<Stream>>();
-
-            int size = 1420;
-            int numTasks = 50;
-
-            /*** Act ***/
-            for (int i = 0; i < numTasks; ++i)
-                tasks.Add(_client.FilesManager.DownloadStreamAsync(FileId));
-
-            await Task.WhenAll(tasks);
-
-            /*** Assert ***/
-            foreach (var t in tasks)
-            {
-                Assert.AreEqual(size, (await t).Length);
-            }
-        }
-
-        [TestMethod]
-        public async Task GetInformation_ValidRequest_ValidFile()
-        {
-            var f = await _client.FilesManager.GetInformationAsync(FileId);
-            Assert.AreEqual(FileId, f.Id);
+            const string fileId = "16894947279";
+            var responseStream = await _client.FilesManager.DownloadStreamAsync(fileId);
+            Assert.IsNotNull(responseStream, "Response stream is null");
         }
 
         [TestMethod]
         public async Task GetThumbnail_ValidRequest_ValidThumbnail()
         {
-            using (Stream stream = await _client.FilesManager.GetThumbnailAsync(FileId, 256, 256))
-            using (FileStream fs = new FileStream(string.Format(savePath, "thumb.png"), FileMode.OpenOrCreate))
+            const string fileId = "16894947279";
+
+            using (Stream stream = await _client.FilesManager.GetThumbnailAsync(fileId, 256, 256))
+            using (FileStream fs = new FileStream(string.Format(GetSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
             {
+                Assert.IsNotNull(stream, "Stream is Null");
+                
                 await stream.CopyToAsync(fs);
+
+                Assert.IsNotNull(fs, "FileStream is null");
             }
         }
+
 
         [TestMethod]
         public async Task GetSharedLink_ValidRequest_ValidSharedLink()
         {
+            string imageFileId1 = "16894947279";
+
             BoxSharedLinkRequest linkReq = new BoxSharedLinkRequest()
             {
                 Access = BoxSharedLinkAccessType.open
             };
-            
-            BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync("11999421592", linkReq);
+
+            BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync(imageFileId1, linkReq);
             Assert.AreEqual(BoxSharedLinkAccessType.open, fileLink.SharedLink.Access);
         }
-
+            
         [TestMethod]
         public async Task FileWorkflow_ValidRequest_ValidResponse()
         {
-            string fileName = "reimages.zip";
-            string saveName = "reimages2.zip";
+            //file Ids of the two files to download
+            string imageFileId1 = "16894947279";
+            string imageFileId2 = "16894946307";
+            
+            // paths to store the two downloaded files
+            var dlPath1 = string.Format(GetSaveFolderPath(), "thumbnail1.png");
+            var dlPath2 = string.Format(GetSaveFolderPath(), "thumbnail2.png");
 
+            //download 2 files
+            using (FileStream fs = new FileStream(dlPath1, FileMode.OpenOrCreate))
+            {
+                Stream stream = await _client.FilesManager.DownloadStreamAsync(imageFileId1);
+                await stream.CopyToAsync(fs);
+            }
 
-            string filePath = string.Format(savePath, fileName);
-            string dlPath = string.Format(savePath, saveName);
+            using (FileStream fs = new FileStream(dlPath2, FileMode.OpenOrCreate))
+            {
+                Stream stream = await _client.FilesManager.DownloadStreamAsync(imageFileId2);
+                await stream.CopyToAsync(fs);
+            }
 
-            // Test upload a file
+            // File name to use to upload files
+            string uploadFileName = "testUpload.png";
+
+            // Upload file at dlPath1
             BoxFile file;
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            using (FileStream fs = new FileStream(dlPath1, FileMode.Open))
             {
                 BoxFileRequest req = new BoxFileRequest()
                 {
-                    Name = "reimages.zip",
+                    Name = uploadFileName,
                     Parent = new BoxRequestEntity() { Id = "0" }
                 };
 
                 file = await _client.FilesManager.UploadAsync(req, fs);
             }
 
-            Assert.AreEqual(fileName, file.Name);
-            Assert.AreEqual("0", file.Parent.Id);
+            Assert.AreEqual(uploadFileName, file.Name, "Incorrect file name");
+            Assert.AreEqual("0", file.Parent.Id, "Incorrect destination folder");
 
-            // Test upload a new version
-            BoxFile newFile;
-            using (FileStream fs = new FileStream(filePath, FileMode.Open))
+            // Upload file at dlPath2 as new version of 'file'
+            BoxFile newFileVersion;
+            using (FileStream fs = new FileStream(dlPath2, FileMode.Open))
             {
-                newFile = await _client.FilesManager.UploadNewVersionAsync(fileName, file.Id, fs, file.ETag);
+                newFileVersion = await _client.FilesManager.UploadNewVersionAsync(uploadFileName, file.Id, fs, file.ETag);
             }
 
-            Assert.AreEqual(newFile.Name, fileName);
-            Assert.AreEqual(newFile.Parent.Id, "0");
+            Assert.AreEqual(newFileVersion.Name, uploadFileName);
+            Assert.AreEqual(newFileVersion.Parent.Id, "0");
 
-            // Test view file versions (Requires upgraded acct)
-            //BoxCollection<BoxFile> versions = await _client.FilesManager.ViewVersionsAsync(newFile.Id);
+            //View file versions (Requires upgraded acct)
+            BoxCollection<BoxFileVersion> fileVersions = await _client.FilesManager.ViewVersionsAsync(newFileVersion.Id);
 
-            //Assert.AreEqual(versions.TotalCount, 2);
-            //foreach (var f in versions.Entries)
-            //{
-            //    Assert.AreEqual(fileName, f.Name);
-            //    Assert.AreEqual("0", f.Parent.Id);
-            //}
+            Assert.AreEqual(fileVersions.TotalCount, 1, "Incorrect number of versions");
 
-            // Test update a file
+            foreach (var f in fileVersions.Entries)
+            {
+                Assert.AreEqual(uploadFileName, f.Name);
+            }
+
+            // Update the file name of a file
             string updateName = GetUniqueName();
+
             BoxFileRequest updateReq = new BoxFileRequest()
             {
                 Id = file.Id,
-                Name = updateName,
-                Description = updateName
+                Name = updateName
             };
             BoxFile fileUpdate = await _client.FilesManager.UpdateInformationAsync(updateReq);
 
-            Assert.AreEqual(file.Id, fileUpdate.Id);
-            Assert.AreEqual(updateName, fileUpdate.Name);
-            Assert.AreEqual(updateName, fileUpdate.Description);
+            Assert.AreEqual(file.Id, fileUpdate.Id, "File Ids are not the same");
+            Assert.AreEqual(updateName, fileUpdate.Name, "File Names are not the same");
 
             // Test create shared link
             BoxSharedLinkRequest linkReq = new BoxSharedLinkRequest()
             {
                 Access = BoxSharedLinkAccessType.open
             };
-            BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync(newFile.Id, linkReq);
+            BoxFile fileWithLink = await _client.FilesManager.CreateSharedLinkAsync(newFileVersion.Id, linkReq);
 
-            Assert.AreEqual(BoxSharedLinkAccessType.open, fileLink.SharedLink.Access);
+            Assert.AreEqual(BoxSharedLinkAccessType.open, fileWithLink.SharedLink.Access, "Incorrect access for shared link");
 
-            // Test copy a file
+            // Copy file in same folder
             string copyName = GetUniqueName();
             BoxFileRequest copyReq = new BoxFileRequest()
             {
-                Id = newFile.Id,
+                Id = fileWithLink.Id,
                 Name = copyName,
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
             BoxFile fileCopy = await _client.FilesManager.CopyAsync(copyReq);
 
-            Assert.AreEqual(fileCopy.Name, copyName);
-            Assert.AreEqual(fileCopy.Parent.Id, "0");
-
-            // Test download a file
-            using (FileStream fs = new FileStream(dlPath, FileMode.OpenOrCreate))
-            {
-                Stream stream = await _client.FilesManager.DownloadStreamAsync(file.Id);
-                await stream.CopyToAsync(fs);
-            }
+            Assert.AreEqual(fileCopy.Name, copyName, "Incorrect Name for copied file");
+            Assert.AreEqual(fileCopy.Parent.Id, "0", "Incorrect parent folder for copied file");
 
             // Test get file information
-            BoxFile fileInfo = await _client.FilesManager.GetInformationAsync(file.Id);
+            BoxFile fileInfo = await _client.FilesManager.GetInformationAsync(fileWithLink.Id);
 
-            Assert.AreEqual(updateName, fileInfo.Name);
-            Assert.AreEqual("0", file.Parent.Id);
+            Assert.AreEqual(updateName, fileWithLink.Name, "File name is incorrect");
+            Assert.AreEqual("0", fileWithLink.Parent.Id, "Parent folder is incorrect");
 
-            BoxFile newFileInfo = await _client.FilesManager.GetInformationAsync(newFile.Id);
-
-            Assert.AreEqual(updateName, newFileInfo.Name);
-            Assert.AreEqual("0", newFileInfo.Parent.Id);
-
-            // Test delete a file
+            // Delete both files
             await _client.FilesManager.DeleteAsync(fileCopy.Id, fileCopy.ETag);
-            await _client.FilesManager.DeleteAsync(newFile.Id, newFileInfo.ETag);
+            await _client.FilesManager.DeleteAsync(fileWithLink.Id, fileWithLink.ETag);
+        }
+        
+        //[TestMethod]
+        //public async Task BatchDownload_ValidRequest_ValidResponse()
+        //{
+        //    const string fileId = "16894947279";
 
+        //    /*** Arrange ***/
+        //    List<Task<Stream>> tasks = new List<Task<Stream>>();
 
+        //    int size = 1420;
+        //    int numTasks = 5;
+
+        //    /*** Act ***/
+        //    for (int i = 0; i < numTasks; ++i)
+        //        tasks.Add(_client.FilesManager.DownloadStreamAsync(fileId));
+
+        //    await Task.WhenAll(tasks);
+
+        //    /*** Assert ***/
+        //    foreach (var t in tasks)
+        //    {
+        //        Assert.AreEqual(size, (await t).Length);
+        //    }
+        //}
+
+        private string GetSaveFolderPath()
+        {
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            return Path.Combine(pathUser, "Downloads") + "\\{0}";
         }
     }
 }
