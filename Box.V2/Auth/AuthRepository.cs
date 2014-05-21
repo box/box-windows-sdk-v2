@@ -23,7 +23,16 @@ namespace Box.V2.Auth
         private List<string> _expiredTokens = new List<string>();
 
         private readonly AsyncLock _mutex = new AsyncLock();
+
+        /// <summary>
+        /// Fires when the authenticaiton session is invalidated
+        /// </summary>
         public event EventHandler SessionInvalidated;
+
+        /// <summary>
+        /// Fires when a new set of auth token and refresh token pair has been fetched
+        /// </summary>
+        public event EventHandler SessionRefreshed;
 
         /// <summary>
         /// Instantiates a new AuthRepository
@@ -68,7 +77,15 @@ namespace Box.V2.Auth
             boxResponse.ParseResults(_converter);
 
             using (await _mutex.LockAsync().ConfigureAwait(false))
+            {
                 Session = boxResponse.ResponseObject;
+                
+                var handler = SessionRefreshed;
+                if (handler != null)
+                {
+                    handler(this, new EventArgs());
+                }
+            }
 
             return boxResponse.ResponseObject;
         }
@@ -81,14 +98,26 @@ namespace Box.V2.Auth
             using (await _mutex.LockAsync().ConfigureAwait(false))
             {
                 if (_expiredTokens.Contains(accessToken))
+                {
                     session = Session;
+                }
                 else
                 {
+
+                    // Add the expired token to the list so subsequent calls will get new acces token. Add
+                    // token to the list before making the network call. This way, if refresh fails, subsequent calls
+                    // with the same refresh token will not attempt te call. 
+                    _expiredTokens.Add(accessToken);
+
                     session = await ExchangeRefreshToken(Session.RefreshToken).ConfigureAwait(false);
                     Session = session;
 
-                    // Add the expired token to the list so subsequent calls will get new acces token
-                    _expiredTokens.Add(accessToken);
+                    var handler = SessionRefreshed;
+                    if (handler != null)
+                    {
+                        handler(this, new EventArgs());
+                    }
+
                 }
             }
 
@@ -120,7 +149,9 @@ namespace Box.V2.Auth
             // The session has been invalidated, notify subscribers
             var handler = SessionInvalidated;
             if (handler != null)
+            {
                 handler(this, new EventArgs());
+            }
 
             // As well as the caller
             throw new BoxSessionInvalidatedException()
