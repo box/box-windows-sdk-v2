@@ -15,17 +15,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse()
         {
-//<<<<<<< HEAD
-//            const int totalCount = 11;
-//            const int numFiles = 9;
-//            const int numFolders = 2;
-
-//            BoxCollection<BoxItem> c = await _client.FoldersManager.GetFolderItemsAsync("0", 50, 0, new List<string>() { 
-//                BoxItem.FieldName, 
-//                BoxItem.FieldSize, 
-//                BoxItem.FieldModifiedAt, 
-//=======
-//            await AssertFolderContents(_client);
+            await AssertFolderContents(_client);
         }
 
         [TestMethod]
@@ -45,32 +35,22 @@ namespace Box.V2.Test.Integration
         }
 
         private static async Task AssertFolderContents(BoxClient boxClient)
-        {
-            BoxFolder f = await boxClient.FoldersManager.GetItemsAsync("0", 100, 0, new List<string>()
-            {
-                BoxFolder.FieldName,
-                BoxFolder.FieldSize,
-                BoxFolder.FieldModifiedAt,
-                BoxFolder.FieldModifiedBy,
-                BoxFolder.FieldItemCollection,
-                BoxFolder.FieldHasCollaborations,
-                BoxFile.FieldCommentCount
-            });
-            BoxCollection<BoxItem> c = await boxClient.FoldersManager.GetFolderItemsAsync("0", 100, 0, new List<string>()
-            {
-                BoxItem.FieldName,
-                BoxItem.FieldSize,
-                BoxItem.FieldModifiedAt,
-//>>>>>>> Demonstrate bug in handling of compressed content
-                BoxItem.FieldModifiedBy,
+{
+            const int totalCount = 11;
+            const int numFiles = 9;
+            const int numFolders = 2;
+
+            BoxCollection<BoxItem> c = await boxClient.FoldersManager.GetFolderItemsAsync("0", 50, 0, new List<string>() { 
+                BoxItem.FieldName, 
+                BoxItem.FieldSize, 
                 BoxFolder.FieldItemCollection
-            });
+             });
 
-            //Assert.AreEqual(totalCount, c.TotalCount, "Incorrect total count");
-            //Assert.AreEqual(totalCount, c.Entries.Count, "Incorrect number if items returned");
+            Assert.AreEqual(totalCount, c.TotalCount, "Incorrect total count");
+            Assert.AreEqual(totalCount, c.Entries.Count, "Incorrect number if items returned");
 
-            //Assert.AreEqual(numFolders, c.Entries.Count(item => item is BoxFolder), "Wrong number of Folders");
-            //Assert.AreEqual(numFiles, c.Entries.Count(item => item is BoxFile), "Wrong number of Files");
+            Assert.AreEqual(numFolders, c.Entries.Count(item => item is BoxFolder), "Wrong number of Folders");
+            Assert.AreEqual(numFiles, c.Entries.Count(item => item is BoxFile), "Wrong number of Files");
         }
 
         [TestMethod]
