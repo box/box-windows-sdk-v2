@@ -21,7 +21,8 @@ namespace Box.V2.Auth
         /// <summary>
         /// Fires when a new set of auth token and refresh token pair has been fetched
         /// </summary>
-        event EventHandler SessionRefreshed;
+        event EventHandler<SessionAuthenticatedEventArgs> SessionAuthenticated;
+
         
         /// <summary>
         /// Performs the 2nd step of the OAuth2 workflow and exchanges the auth code

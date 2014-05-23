@@ -46,6 +46,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Auth\AuthRepository.cs" />
+    <Compile Include="Auth\EventArgs\SessionAuthenticatedEventArgs.cs" />
     <Compile Include="BoxClient.cs" />
     <Compile Include="Converter\BoxItemConverter.cs" />
     <Compile Include="Exceptions\BoxAuthenticationFailedException.cs" />

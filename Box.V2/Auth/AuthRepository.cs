@@ -32,7 +32,7 @@ namespace Box.V2.Auth
         /// <summary>
         /// Fires when a new set of auth token and refresh token pair has been fetched
         /// </summary>
-        public event EventHandler SessionRefreshed;
+        public event EventHandler<SessionAuthenticatedEventArgs> SessionAuthenticated;
 
         /// <summary>
         /// Instantiates a new AuthRepository
@@ -80,10 +80,10 @@ namespace Box.V2.Auth
             {
                 Session = boxResponse.ResponseObject;
                 
-                var handler = SessionRefreshed;
+                var handler = SessionAuthenticated;
                 if (handler != null)
                 {
-                    handler(this, new EventArgs());
+                    handler(this, new SessionAuthenticatedEventArgs(Session));
                 }
             }
 
@@ -112,10 +112,10 @@ namespace Box.V2.Auth
                     session = await ExchangeRefreshToken(Session.RefreshToken).ConfigureAwait(false);
                     Session = session;
 
-                    var handler = SessionRefreshed;
+                    var handler = SessionAuthenticated;
                     if (handler != null)
                     {
-                        handler(this, new EventArgs());
+                        handler(this, new SessionAuthenticatedEventArgs(session));
                     }
 
                 }
