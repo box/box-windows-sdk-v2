@@ -103,17 +103,19 @@ namespace Box.V2.Managers
         /// This method is used to upload a new version of an existing file in a user’s account. Similar to regular file uploads, 
         /// these are performed as multipart form uploads An optional If-Match header can be included to ensure that client only 
         /// overwrites the file if it knows about the latest version. The filename on Box will remain the same as the previous version.
+        /// A proper timeout should be provided for large uploads
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="stream"></param>
         /// <param name="etag"></param>
+        /// <param name="timeout"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null)
+        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null, TimeSpan? timeout = null)
         {
             stream.ThrowIfNull("stream");
             fileName.ThrowIfNullOrWhiteSpace("fileName");
 
-            BoxMultiPartRequest request = new BoxMultiPartRequest(new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)))
+            BoxMultiPartRequest request = new BoxMultiPartRequest(new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId))) { Timeout = timeout }
                 .Header("If-Match", etag)
                 .Param(ParamFields, fields)
                 .FormPart(new BoxFileFormPart()
