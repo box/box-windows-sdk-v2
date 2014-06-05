@@ -63,13 +63,15 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Uploads a provided file to the target parent folder
-        /// If the file already exists, an error will be thrown
+        /// Uploads a provided file to the target parent folder 
+        /// If the file already exists, an error will be thrown.
+        /// A proper timeout should be provided for large uploads
         /// </summary>
         /// <param name="fileRequest"></param>
         /// <param name="stream"></param>
+        /// <param name="timeout"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null)
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null)
         {
             stream.ThrowIfNull("stream");
             fileRequest.ThrowIfNull("fileRequest")
@@ -77,7 +79,7 @@ namespace Box.V2.Managers
             fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
 
-            BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri)
+            BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri) { Timeout = timeout }
                 .Param(ParamFields, fields)
                 .FormPart(new BoxStringFormPart()
                 {

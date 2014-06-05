@@ -70,6 +70,11 @@ namespace Box.V2
         Uri Uri { get; }
 
         /// <summary>
+        /// Gets or Sets the timeout value used for the request
+        /// </summary>
+        TimeSpan? Timeout { get; set; }
+
+        /// <summary>
         /// Gets just the query string
         /// </summary>
         /// <returns></returns>

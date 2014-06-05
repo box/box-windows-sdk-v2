@@ -53,6 +53,8 @@ namespace Box.V2
 
         public string Authorization { get; set; }
 
+        public TimeSpan? Timeout { get; set; }
+
         /// <summary>
         /// Returns the full Uri including host, path, and querystring
         /// </summary>

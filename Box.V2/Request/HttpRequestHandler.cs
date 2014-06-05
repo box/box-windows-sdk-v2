@@ -12,18 +12,6 @@ namespace Box.V2.Request
 {
     public class HttpRequestHandler : IRequestHandler
     {
-        private static HttpClient _client;
-        private HttpClientHandler _handler;
-
-        /// <summary>
-        /// Instantiates a new HttpRequestHandler
-        /// </summary>
-        public HttpRequestHandler()
-        {
-            _handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
-            _client = new HttpClient(_handler);
-        }
-
         public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
             where T : class
         {
@@ -47,7 +35,8 @@ namespace Box.V2.Request
 
             try
             {
-                HttpResponseMessage response = await _client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
+                HttpClient client = CreateClient(request);
+                HttpResponseMessage response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
 
                 BoxResponse<T> boxResponse = new BoxResponse<T>();
                 boxResponse.Headers = response.Headers;
@@ -88,6 +77,16 @@ namespace Box.V2.Request
                 Debug.WriteLine(string.Format("Exception: {0}", ex.Message));
                 throw;
             }
+        }
+
+        private HttpClient CreateClient(IBoxRequest request)
+        {
+            HttpClientHandler handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
+            HttpClient client = new HttpClient(handler);
+            if (request.Timeout.HasValue)
+                client.Timeout = request.Timeout.Value;
+
+            return client;
         }
 
         private HttpRequestMessage BuildRequest(IBoxRequest request)
