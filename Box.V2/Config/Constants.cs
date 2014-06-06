@@ -14,19 +14,33 @@ namespace Box.V2.Config
 
         /*** API Endpoints ***/
         public const string AuthCodeString = @"oauth2/authorize";
-        public const string AuthCodeEndpointString = BoxApiHostUriString + @"oauth2/authorize";
         public const string AuthTokenEndpointString = @"oauth2/token";
         public const string RevokeEndpointString = @"oauth2/revoke";
-        public const string FoldersEndpointString = BoxApiUriString +  @"folders/";
-        public const string GroupsEndpointString = BoxApiUriString + @"groups/";
-        public const string GroupMembershipEndpointString = BoxApiUriString + @"group_memberships/";
-        public const string FilesEndpointString = BoxApiUriString + @"files/";
-        public const string FilesUploadEndpointString = BoxUploadApiUriString + @"files/content";
-        public const string FilesNewVersionEndpointString = BoxUploadApiUriString + @"files/{0}/content";
-        public const string CommentsEndpointString = BoxApiUriString + @"comments/";
-        public const string SearchEndpointString = BoxApiUriString + @"search";
-        public const string UserEndpointString = BoxApiUriString + @"users/";
-        public const string CollaborationsEndpointString = BoxApiUriString + @"collaborations/";
+
+        public const string FoldersString = @"folders/";
+        public const string GroupsString = @"groups/";
+        public const string GroupMembershipString = @"group_memberships/";
+        public const string FilesString = @"files/";
+        public const string FilesUploadString = @"files/content";
+        public const string FilesNewVersionString = @"files/{0}/content";
+        public const string CommentsString = @"comments/";
+        public const string SearchString = @"search";
+        public const string UserString = @"users/";
+        public const string CollaborationsString = @"collaborations/";
+
+        /*** API Full Endpoint Strings ***/
+        public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
+        public const string FoldersEndpointString = BoxApiUriString + FoldersString;
+        public const string GroupsEndpointString = BoxApiUriString + GroupsString;
+        public const string GroupMembershipEndpointString = BoxApiUriString + GroupMembershipString;
+        public const string FilesEndpointString = BoxApiUriString + FilesString;
+        public const string FilesUploadEndpointString = BoxUploadApiUriString + FilesUploadString;
+        public const string FilesNewVersionEndpointString = BoxUploadApiUriString + FilesNewVersionString;
+        public const string CommentsEndpointString = BoxApiUriString + CommentsString;
+        public const string SearchEndpointString = BoxApiUriString + SearchString;
+        public const string UserEndpointString = BoxApiUriString + UserString;
+        public const string CollaborationsEndpointString = BoxApiUriString + CollaborationsString;
+
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";

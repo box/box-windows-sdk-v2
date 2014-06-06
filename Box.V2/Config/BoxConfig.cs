@@ -21,14 +21,14 @@ namespace Box.V2.Config
             RedirectUri = redirectUri;
         }
 
-        public Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
-        public Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
-        public Uri BoxUploadApiUri { get { return new Uri(Constants.BoxUploadApiUriString); } }
+        public virtual Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
+        public virtual Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
+        public virtual Uri BoxUploadApiUri { get { return new Uri(Constants.BoxUploadApiUriString); } }
 
-        public string ClientId { get; private set; }
-        public string ConsumerKey { get; private set; }
-        public string ClientSecret { get; private set; }
-        public Uri RedirectUri { get; set; }
+        public virtual string ClientId { get; private set; }
+        public virtual string ConsumerKey { get; private set; }
+        public virtual string ClientSecret { get; private set; }
+        public virtual Uri RedirectUri { get; set; }
 
         public string DeviceId { get; set; }
         public string DeviceName { get; set; }
@@ -39,17 +39,18 @@ namespace Box.V2.Config
         /// </summary>
         public CompressionType? AcceptEncoding { get; set; }
 
-        public Uri AuthCodeUri { get { return new Uri(string.Format("{0}?response_type=code&client_id={1}&redirect_uri={2}", Constants.AuthCodeEndpointString, ClientId, RedirectUri)); } }
-            
-        public Uri FoldersEndpointUri { get { return new Uri(Constants.FoldersEndpointString); } }
-        public Uri FilesEndpointUri { get { return new Uri(Constants.FilesEndpointString); } }
-        public Uri FilesUploadEndpointUri { get { return new Uri(Constants.FilesUploadEndpointString); } }
-        public Uri CommentsEndpointUri { get { return new Uri(Constants.CommentsEndpointString); } }
-        public Uri SearchEndpointUri { get { return new Uri(Constants.SearchEndpointString); } }
-        public Uri UserEndpointUri { get { return new Uri(Constants.UserEndpointString); } }
-        public Uri CollaborationsEndpointUri { get { return new Uri(Constants.CollaborationsEndpointString); } }
-        public Uri GroupsEndpointUri { get { return new Uri(Constants.GroupsEndpointString); } }
-        public Uri GroupMembershipEndpointUri { get { return new Uri(Constants.GroupMembershipEndpointString); } }
+        public virtual Uri AuthCodeBaseUri { get { return new Uri(BoxApiHostUri, Constants.AuthCodeString); } }
+        public virtual Uri AuthCodeUri { get { return new Uri(AuthCodeBaseUri, string.Format("?response_type=code&client_id={0}&redirect_uri={1}", ClientId, RedirectUri)); } }
+        public virtual Uri FoldersEndpointUri { get { return new Uri(BoxApiUri, Constants.FoldersString); } }
+        public virtual Uri FilesEndpointUri { get { return new Uri(BoxApiUri, Constants.FilesString); } }
+        public virtual Uri FilesUploadEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesUploadString); } }
+        public virtual Uri FilesNewVersionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesNewVersionString); } }
+        public virtual Uri CommentsEndpointUri { get { return new Uri(BoxApiUri, Constants.CommentsString); } }
+        public virtual Uri SearchEndpointUri { get { return new Uri(BoxApiUri, Constants.SearchString); } }
+        public virtual Uri UserEndpointUri { get { return new Uri(BoxApiUri, Constants.UserString); } }
+        public virtual Uri CollaborationsEndpointUri { get { return new Uri(BoxApiUri, Constants.CollaborationsString); } }
+        public virtual Uri GroupsEndpointUri { get { return new Uri(BoxApiUri, Constants.GroupsString); } }
+        public virtual Uri GroupMembershipEndpointUri { get { return new Uri(BoxApiUri, Constants.GroupMembershipString); } }
     }
 
     public enum CompressionType
