@@ -50,12 +50,14 @@ namespace Box.V2
         /// <param name="boxConverter">The box converter object to use</param>
         /// <param name="boxService">The box service to use</param>
         /// <param name="auth">The auth repository object to use</param>
-        public BoxClient(IBoxConfig boxConfig, IBoxConverter boxConverter, IBoxService boxService, IAuthRepository auth)
+        public BoxClient(IBoxConfig boxConfig, IBoxConverter boxConverter, IRequestHandler requestHandler, IBoxService boxService, IAuthRepository auth)
         {
             Config = boxConfig;
-            Auth = auth;
+
+            _handler = requestHandler;
             _converter = boxConverter;
             _service = boxService;
+            Auth = auth;
 
             InitManagers();
         }

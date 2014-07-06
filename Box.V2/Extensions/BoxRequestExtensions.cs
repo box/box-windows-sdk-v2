@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Box.V2.Config;
+using System;
 using System.Collections.Generic;
 
 namespace Box.V2.Extensions
@@ -82,7 +83,7 @@ namespace Box.V2.Extensions
             accessToken.ThrowIfNullOrWhiteSpace("accessToken");
 
             request.Authorization = accessToken;
-            request.Header("Authorization", string.Format("Bearer {0}", accessToken));
+            request.Header(Constants.AuthHeaderKey, accessToken);
 
             return request;
         }

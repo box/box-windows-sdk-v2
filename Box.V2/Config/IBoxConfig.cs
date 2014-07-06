@@ -25,6 +25,7 @@ namespace Box.V2.Config
         /// </summary>
         CompressionType? AcceptEncoding { get; }
 
+        Uri AuthCodeBaseUri { get; }
         Uri AuthCodeUri { get; }
         Uri FoldersEndpointUri { get; }
         Uri FilesEndpointUri { get; }

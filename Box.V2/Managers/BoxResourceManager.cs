@@ -109,6 +109,7 @@ namespace Box.V2.Managers
                     string.Format("&device_name={0}", _config.DeviceName));
             }
 
+            request.Authorization = auth;
             request.Header(Constants.AuthHeaderKey, sb.ToString());
         }
 
