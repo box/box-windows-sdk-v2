@@ -74,5 +74,17 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Get all email aliases for a user
+        /// </summary>
+        /// <param name="userId">The ID of the user</param>
+        /// <returns>A collection of email aliases</returns>
+        public async Task<BoxCollection<BoxEmailAlias>> GetEmailAliasesAsync(string userId)
+        {
+            var request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.EmailAliasesPathString, userId));
+            var response = await ToResponseAsync<BoxCollection<BoxEmailAlias>>(request).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
     }
 }

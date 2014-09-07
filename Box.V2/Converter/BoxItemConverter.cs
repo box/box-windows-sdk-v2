@@ -40,6 +40,8 @@ namespace Box.V2.Converter
                         return new BoxEnterprise();
                     case Constants.TypeCollaboration:
                         return new BoxCollaboration();
+                    case Constants.TypeEmailAlias:
+                        return new BoxEmailAlias();
                 }
             }
             return new BoxEntity();

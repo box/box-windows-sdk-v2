@@ -29,5 +29,14 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(users.Entries.First().Name, "John Hoerr");
             Assert.AreEqual(users.Entries.First().Login, "jhoerr@iu.edu");
         }
+
+        [TestMethod]
+        public async Task EnterpriseUser_GetAliases_LiveSession_ValidResponse()
+        {
+            BoxCollection<BoxEmailAlias> aliases = await _client.UsersManager.GetEmailAliasesAsync("176915787");
+            Assert.AreEqual(aliases.TotalCount, 1);
+            Assert.AreEqual(aliases.Entries.First().Email, "jhoerr@indiana.edu");
+            Assert.AreEqual(aliases.Entries.First().IsConfirmed, true);
+        }
     }
 }
