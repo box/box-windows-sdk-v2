@@ -52,6 +52,7 @@
     <Compile Include="Exceptions\BoxAuthenticationFailedException.cs" />
     <Compile Include="Extensions\BoxExtensions.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
+    <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxFilePreview.cs" />
     <Compile Include="Models\BoxWebLink.cs" />
