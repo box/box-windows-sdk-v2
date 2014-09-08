@@ -82,6 +82,8 @@ namespace Box.V2.Managers
         /// <returns>A collection of email aliases</returns>
         public async Task<BoxCollection<BoxEmailAlias>> GetEmailAliasesAsync(string userId)
         {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+
             var request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.EmailAliasesPathString, userId));
             var response = await ToResponseAsync<BoxCollection<BoxEmailAlias>>(request).ConfigureAwait(false);
             return response.ResponseObject;
