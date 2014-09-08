@@ -51,5 +51,12 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(alias.Email, "jhoerr@iupui.edu");
             Assert.IsTrue(alias.IsConfirmed);
         }
+
+        [TestMethod]
+        public async Task EnterpriseUser_RemoveAlias_LiveSession_ValidResponse()
+        {
+            var success = await _client.UsersManager.RemoveEmailAliasAsync("176915787", "1210868");
+            Assert.IsTrue(success);
+        }
     }
 }

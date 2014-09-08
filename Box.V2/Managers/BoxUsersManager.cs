@@ -107,5 +107,23 @@ namespace Box.V2.Managers
             var response = await ToResponseAsync<BoxEmailAlias>(request).ConfigureAwait(false);
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Remove an email alias for a user
+        /// </summary>
+        /// <param name="userId">The id of the user with the alias</param>
+        /// <param name="emailAliasId">The id of the alias to remove</param>
+        /// <returns>A success flag</returns>
+        public async Task<bool> RemoveEmailAliasAsync(string userId, string emailAliasId)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+            emailAliasId.ThrowIfNullOrWhiteSpace("emailAliasId");
+
+            var request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.EmailAliasesDeletePathString, userId, emailAliasId))
+                .Method(RequestMethod.Delete);
+
+            var response = await ToResponseAsync<BoxEmailAlias>(request).ConfigureAwait(false);
+            return response.Status.Equals(ResponseStatus.Success);
+        }
     }
 }
