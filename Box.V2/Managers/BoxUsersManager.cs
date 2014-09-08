@@ -86,5 +86,24 @@ namespace Box.V2.Managers
             var response = await ToResponseAsync<BoxCollection<BoxEmailAlias>>(request).ConfigureAwait(false);
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Add a new email alias for a user
+        /// </summary>
+        /// <param name="emailAliasRequest">The ID of the user to alias and the email address to add</param>
+        /// <returns>A new email alias</returns>
+        public async Task<BoxEmailAlias> AddEmailAliasAsync(BoxEmailAliasRequest emailAliasRequest)
+        {
+            emailAliasRequest.Email.ThrowIfNullOrWhiteSpace("email");
+            emailAliasRequest.User.ThrowIfNull("user")
+                .Id.ThrowIfNullOrWhiteSpace("user.Id");
+
+            var request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.EmailAliasesPathString, emailAliasRequest.User.Id))
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(emailAliasRequest));
+
+            var response = await ToResponseAsync<BoxEmailAlias>(request).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="Models\BoxFileVersion.cs" />
     <Compile Include="Models\BoxGroup.cs" />
     <Compile Include="Models\BoxGroupMembership.cs" />
+    <Compile Include="Models\Request\BoxEmailAliasRequest.cs" />
     <Compile Include="Models\Request\BoxGroupMembershipRequest.cs" />
     <Compile Include="Models\Request\BoxGroupRequest.cs" />
     <Compile Include="Models\Permissions\BoxFolderPermission.cs" />
