@@ -22,7 +22,7 @@ namespace Box.V2.Extensions
         /// <param name="response">The response to parse</param>
         /// <param name="converter">The converter to use for the conversion</param>
         /// <returns></returns>
-        internal static IBoxResponse<T> ParseResults<T>(this IBoxResponse<T> response, IBoxConverter converter)
+        public static IBoxResponse<T> ParseResults<T>(this IBoxResponse<T> response, IBoxConverter converter)
             where T : class
         {
             switch (response.Status)
