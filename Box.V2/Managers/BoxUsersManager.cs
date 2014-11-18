@@ -74,5 +74,15 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        public async Task<BoxUser> GetEnterpriseUserAsync(string userId, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
     }
 }
