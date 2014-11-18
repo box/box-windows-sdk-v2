@@ -22,7 +22,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="commentRequest"></param>
         /// <returns></returns>
-        public async Task<BoxComment> AddCommentAsync(BoxCommentRequest commentRequest, List<string> fields = null)
+        public async Task<BoxComment> AddCommentAsync(BoxCommentRequest commentRequest, List<string> fields = null, string asUser = null)
         {
             commentRequest.ThrowIfNull("commentRequest")
                 .Item.ThrowIfNull("commentRequest.Item")
@@ -33,7 +33,9 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(commentRequest));
+                .Payload(_converter.Serialize(commentRequest))
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request).ConfigureAwait(false);
 
@@ -45,12 +47,14 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="commentRequest"></param>
         /// <returns></returns>
-        public async Task<BoxComment> GetInformationAsync(string id, List<string> fields = null)
+        public async Task<BoxComment> GetInformationAsync(string id, List<string> fields = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
-                .Param(ParamFields, fields);
+                .Param(ParamFields, fields)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request).ConfigureAwait(false);
 
@@ -62,7 +66,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<BoxComment> UpdateAsync(string id, BoxCommentRequest commentsRequest, List<string> fields = null)
+        public async Task<BoxComment> UpdateAsync(string id, BoxCommentRequest commentsRequest, List<string> fields = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
             commentsRequest.ThrowIfNull("commentsRequest")
@@ -71,7 +75,9 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(commentsRequest));
+                .Payload(_converter.Serialize(commentsRequest))
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request).ConfigureAwait(false);
 
@@ -84,12 +90,14 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="commentsRequest"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(string id, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
-                .Method(RequestMethod.Delete);
+                .Method(RequestMethod.Delete)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request).ConfigureAwait(false);
             return response.Status == ResponseStatus.Success;

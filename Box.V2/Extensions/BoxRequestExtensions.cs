@@ -35,6 +35,17 @@ namespace Box.V2.Extensions
             return request;
         }
 
+        public static T AsUser<T>(this T request, string userId) where T : IBoxRequest
+        {
+            // Don't add a parameter that does not have a value
+            if (string.IsNullOrWhiteSpace(userId))
+                return request;
+
+            request.HttpHeaders["As-User"] = userId;
+
+            return request;
+        }
+
         public static T Header<T>(this T request, string name, string value) where T : IBoxRequest
         {
             if (string.IsNullOrEmpty(name))

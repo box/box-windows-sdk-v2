@@ -32,12 +32,14 @@ namespace Box.V2.Managers
         /// <param name="limit">The number of items to return (default=100, max=1000)</param>
         /// <param name="offset">The item at which to begin the response (default=0)</param>
         /// <returns></returns>
-        public async Task<BoxFile> GetInformationAsync(string id, List<string> fields = null)
+        public async Task<BoxFile> GetInformationAsync(string id, List<string> fields = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
-                .Param(ParamFields, fields);
+                .Param(ParamFields, fields)
+                .AsUser(asUser)
+                ;
 
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
@@ -50,12 +52,14 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">Id of the file to download</param>
         /// <returns>MemoryStream of the requested file</returns>
-        public async Task<Stream> DownloadStreamAsync(string id, string versionId = null)
+        public async Task<Stream> DownloadStreamAsync(string id, string versionId = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
-                .Param("version", versionId);
+                .Param("version", versionId)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
@@ -71,7 +75,7 @@ namespace Box.V2.Managers
         /// <param name="stream"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null)
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null, string asUser = null)
         {
             stream.ThrowIfNull("stream");
             fileRequest.ThrowIfNull("fileRequest")
@@ -91,7 +95,9 @@ namespace Box.V2.Managers
                     Name = "file",
                     Value = stream,
                     FileName = fileRequest.Name
-                });
+                })
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
@@ -110,7 +116,7 @@ namespace Box.V2.Managers
         /// <param name="etag"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null, TimeSpan? timeout = null)
+        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null, TimeSpan? timeout = null, string asUser = null)
         {
             stream.ThrowIfNull("stream");
             fileName.ThrowIfNullOrWhiteSpace("fileName");
@@ -123,7 +129,9 @@ namespace Box.V2.Managers
                     Name = "filename",
                     Value = stream,
                     FileName = fileName
-                });
+                })
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
@@ -138,12 +146,14 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <returns>A collection of versions other than the main version of the file. If a file has no other versions, an empty collection will be returned.
         /// Note that if a file has a total of three versions, only the first two version will be returned.</returns>
-        public async Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, List<string> fields = null)
+        public async Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, List<string> fields = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.VersionsPathString, id))
-                .Param(ParamFields, fields);
+                .Param(ParamFields, fields)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxCollection<BoxFileVersion>> response = await ToResponseAsync<BoxCollection<BoxFileVersion>>(request).ConfigureAwait(false);
 
@@ -157,7 +167,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequest"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, List<string> fields = null)
+        public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, List<string> fields = null, string asUser = null)
         {
             fileRequest.ThrowIfNull("fileRequest")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
@@ -165,7 +175,9 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Put)
                 .Header("If-Match", etag)
-                .Param(ParamFields, fields);
+                .Param(ParamFields, fields)
+                .AsUser(asUser)
+                ;
 
             request.Payload = _converter.Serialize(fileRequest);
 
@@ -181,13 +193,15 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="etag"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(string id, string etag=null)
+        public async Task<bool> DeleteAsync(string id, string etag = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Delete)
-                .Header("If-Match", etag);
+                .Header("If-Match", etag)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -199,7 +213,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequest"></param>
         /// <returns></returns>
-        public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null)
+        public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null, string asUser = null)
         {
             fileRequest.ThrowIfNull("fileRequest")
                 .Name.ThrowIfNullOrWhiteSpace("fileRequest.Name");
@@ -209,7 +223,9 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CopyPathString, fileRequest.Id))
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(fileRequest));
+                .Payload(_converter.Serialize(fileRequest))
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -222,7 +238,7 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="sharedLinkRequest"></param>
         /// <returns></returns>
-        public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
+        public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
             if (!sharedLinkRequest.ThrowIfNull("sharedLinkRequest").Access.HasValue)
@@ -231,7 +247,9 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }));
+                .Payload(_converter.Serialize(new BoxItemRequest() { SharedLink = sharedLinkRequest }))
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -243,12 +261,14 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">The Id of the item the comments should be retrieved for</param>
         /// <returns>A Collection of comment objects are returned. If there are no comments on the file, an empty comments array is returned</returns>
-        public async Task<BoxCollection<BoxComment>> GetCommentsAsync(string id, List<string> fields = null)
+        public async Task<BoxCollection<BoxComment>> GetCommentsAsync(string id, List<string> fields = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CommentsPathString, id))
-                .Param(ParamFields, fields);
+                .Param(ParamFields, fields)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxCollection<BoxComment>> response = await ToResponseAsync<BoxCollection<BoxComment>>(request).ConfigureAwait(false);
 
@@ -269,7 +289,7 @@ namespace Box.V2.Managers
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
         /// <param name="throttle">Whether the requests will be throttled. Recommended to be left true to prevent spamming the server</param>
         /// <returns></returns>
-        public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true, bool handleRetry = true)
+        public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true, bool handleRetry = true, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -277,7 +297,9 @@ namespace Box.V2.Managers
                 .Param("min_height", minHeight.ToString())
                 .Param("min_width", minWidth.ToString())
                 .Param("max_height", maxHeight.ToString())
-                .Param("max_width", maxWidth.ToString());
+                .Param("max_width", maxWidth.ToString())
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request, throttle).ConfigureAwait(false);
 
@@ -297,9 +319,9 @@ namespace Box.V2.Managers
         /// <param name="page"></param>
         /// /// <param name="handleRetry"></param>
         /// <returns>A PNG of the preview</returns>
-        public async Task<Stream> GetPreviewAsync(string id, int page, bool handleRetry = true)
+        public async Task<Stream> GetPreviewAsync(string id, int page, bool handleRetry = true, string asUser = null)
         {
-            return (await GetPreviewResponseAsync(id, page, handleRetry: handleRetry)).ResponseObject;
+            return (await GetPreviewResponseAsync(id, page, handleRetry: handleRetry, asUser: asUser)).ResponseObject;
         }
 
         /// <summary>
@@ -310,9 +332,9 @@ namespace Box.V2.Managers
         /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
-        public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
+        public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true, string asUser = null)
         {  
-            IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
+            IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry, asUser);
 
             BoxFilePreview filePreview = new BoxFilePreview();
             filePreview.CurrentPage = page;
@@ -327,7 +349,7 @@ namespace Box.V2.Managers
             return filePreview;
         }
 
-        private async Task<IBoxResponse<Stream>> GetPreviewResponseAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
+        private async Task<IBoxResponse<Stream>> GetPreviewResponseAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -336,7 +358,9 @@ namespace Box.V2.Managers
                 .Param("max_width", maxWidth.ToString())
 				.Param("max_height", maxHeight.ToString())
 				.Param("min_width", minWidth.ToString())
-				.Param("min_height", minHeight.ToString());
+				.Param("min_height", minHeight.ToString())
+                .AsUser(asUser)
+                ;
             
             var response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
@@ -366,12 +390,14 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The full item will be returned, including information about when the it was moved to the trash.</returns>
-        public async Task<BoxFile> GetTrashedAsync(string id, List<string> fields = null)
+        public async Task<BoxFile> GetTrashedAsync(string id, List<string> fields = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TrashPathString, id))
-                .Param(ParamFields, fields);
+                .Param(ParamFields, fields)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -384,7 +410,7 @@ namespace Box.V2.Managers
         /// parent folder, the new parent folder and/or new name will need to be included in the request.
         /// </summary>
         /// <returns>The full item will be returned with a 201 Created status. By default it is restored to the parent folder it was in before it was trashed.</returns>
-        public async Task<BoxFile> RestoreTrashedAsync(BoxFileRequest fileRequest, List<string> fields = null)
+        public async Task<BoxFile> RestoreTrashedAsync(BoxFileRequest fileRequest, List<string> fields = null, string asUser = null)
         {
             fileRequest.ThrowIfNull("fileRequest")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
@@ -393,7 +419,9 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(fileRequest));
+                .Payload(_converter.Serialize(fileRequest))
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -405,12 +433,14 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>An empty 204 No Content response will be returned upon successful deletion</returns>
-        public async Task<bool> PurgeTrashedAsync(string id)
+        public async Task<bool> PurgeTrashedAsync(string id, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TrashPathString, id))
-                .Method(RequestMethod.Delete);
+                .Method(RequestMethod.Delete)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
