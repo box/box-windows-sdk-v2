@@ -335,5 +335,79 @@ namespace Box.V2.Test
             Assert.AreEqual(true, success);
         }
 
+        [TestMethod]
+        public async Task GetLockFile_ValidResponse_Success()
+        {
+            /*** Arrange ***/
+            string responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\", \"lock\": { \"type\": \"lock\", \"id\": \"14516545\", \"created_by\": { \"type\": \"user\", \"id\": \"13130406\", \"name\": \"I don't know gmail\", \"login\": \"idontknow@gmail.com\" }, \"created_at\": \"2014-05-29T18:03:04-07:00\", \"expires_at\": \"2014-05-30T19:03:04-07:00\", \"is_download_prevented\": true } } ";
+
+            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+
+            /*** Act ***/
+            BoxFileLock fileLock = await _filesManager.GetLockAsync("0");
+
+            /*** Assert ***/
+            Assert.IsNotNull(fileLock);
+            Assert.AreEqual(true, fileLock.IsDownloadPrevented);
+            Assert.AreEqual(new DateTime(2014, 5, 31, 4, 03, 04, DateTimeKind.Utc), fileLock.ExpiresAt);
+            Assert.AreEqual(new DateTime(2014, 5, 30, 3, 03, 04, DateTimeKind.Utc), fileLock.CreatedAt);
+            Assert.IsNotNull(fileLock.CreatedBy);
+            Assert.AreEqual("I don't know gmail", fileLock.CreatedBy.Name);
+            Assert.AreEqual("idontknow@gmail.com", fileLock.CreatedBy.Login);
+
+        }
+
+        [TestMethod]
+        public async Task UpdateFileLock_ValidResponse_ValidFile()
+        {
+            string responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\", \"lock\": { \"type\": \"lock\", \"id\": \"14516545\", \"created_by\": { \"type\": \"user\", \"id\": \"13130406\", \"name\": \"I don't know gmail\", \"login\": \"idontknow@gmail.com\" }, \"created_at\": \"2014-05-29T18:03:04-07:00\", \"expires_at\": \"2014-05-30T19:03:04-07:00\", \"is_download_prevented\": false } } ";
+            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            BoxFileLockRequest request = new BoxFileLockRequest();
+            request.Lock = new BoxFileLock();
+            request.Lock.IsDownloadPrevented = false;
+
+            BoxFileLock fileLock = await _filesManager.UpdateLockAsync(request, "0");
+
+            /*** Assert ***/
+            Assert.IsNotNull(fileLock);
+            Assert.AreEqual(false, fileLock.IsDownloadPrevented);
+            Assert.AreEqual(new DateTime(2014, 5, 31, 4, 03, 04, DateTimeKind.Utc), fileLock.ExpiresAt);
+            Assert.AreEqual(new DateTime(2014, 5, 30, 3, 03, 04, DateTimeKind.Utc), fileLock.CreatedAt);
+            Assert.IsNotNull(fileLock.CreatedBy);
+            Assert.AreEqual("I don't know gmail", fileLock.CreatedBy.Name);
+            Assert.AreEqual("idontknow@gmail.com", fileLock.CreatedBy.Login);
+        }
+
+        [TestMethod]
+        public async Task FileUnLock_ValidResponse()
+        {
+            string responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\" } ";
+            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            bool unlocked = await _filesManager.UnLock("0");
+
+            /*** Assert ***/
+            Assert.IsTrue(unlocked);
+        }
+
     }
 }
