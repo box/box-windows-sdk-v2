@@ -52,7 +52,7 @@ namespace Box.V2.Models
         /// The user who the collaboration applies to
         /// </summary>
         [JsonProperty(PropertyName = FieldAccessibleBy)]
-        public BoxUser AccessibleBy { get; set; }
+        public BoxEntity AccessibleBy { get; set; }
 
         /// <summary>
         /// The level of access this user has. Can be editor, viewer, previewer, uploader, previewer uploader, 

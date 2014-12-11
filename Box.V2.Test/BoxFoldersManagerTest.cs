@@ -352,8 +352,43 @@ namespace Box.V2.Test
             Assert.AreEqual("14176246", collab.Id);
             Assert.AreEqual("David Lee", collab.CreatedBy.Name);
             Assert.AreEqual("david@box.com", collab.CreatedBy.Login);
-            Assert.AreEqual("Simon Tan", collab.AccessibleBy.Name);
-            Assert.AreEqual("simon@box.net", collab.AccessibleBy.Login);
+            var user = collab.AccessibleBy as BoxUser;
+            Assert.AreEqual("Simon Tan", user.Name);
+            Assert.AreEqual("simon@box.net", user.Login);
+        }
+
+        [TestMethod]
+        public async Task GetFolderCollaborators_ValidResponseWithGroups_ValidCollaborators()
+        {
+            /*** Arrange ***/
+            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxCollaboration>>>(new BoxResponse<BoxCollection<BoxCollaboration>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = "{ \"total_count\": 2, \"entries\": [ { \"type\": \"collaboration\", \"id\": \"14176246\", \"created_by\": { \"type\": \"user\", \"id\": \"4276790\", \"name\": \"David Lee\", \"login\": \"david@box.com\" }, \"created_at\": \"2011-11-29T12:56:35-08:00\", \"modified_at\": \"2012-09-11T15:12:32-07:00\", \"expires_at\": null, \"status\": \"accepted\", \"accessible_by\": { \"type\": \"user\", \"id\": \"755492\", \"name\": \"Simon Tan\", \"login\": \"simon@box.net\" }, \"role\": \"editor\", \"acknowledged_at\": \"2011-11-29T12:59:40-08:00\", \"item\": null }, {\"type\": \"collaboration\",\"id\": \"88140750\",\"created_by\": null,\"created_at\": \"2014-12-10T18:58:47-08:00\",\"modified_at\": \"2014-12-10T18:58:47-08:00\",\"expires_at\": null,\"status\": \"accepted\",\"accessible_by\": {\"type\": \"group\",\"id\": \"293514\",\"name\": \"Test Group\"},\"role\": \"editor\",\"acknowledged_at\": \"2014-12-10T18:58:47-08:00\",\"item\": {\"type\": \"folder\",\"id\": \"1055358427\",\"sequence_id\": \"0\",\"etag\": \"0\",\"name\": \"Work\"}} ] }"
+                }));
+
+            /*** Act ***/
+            BoxCollection<BoxCollaboration> c = await _foldersManager.GetCollaborationsAsync("fakeId");
+            var collabs = c.Entries;
+            var collab1 = collabs[0];
+            var collab2 = collabs[1];
+
+            /*** Assert ***/
+            Assert.AreEqual(2, c.TotalCount);
+            Assert.AreEqual("collaboration", collab1.Type);
+            Assert.AreEqual("14176246", collab1.Id);
+            Assert.AreEqual("David Lee", collab1.CreatedBy.Name);
+            Assert.AreEqual("david@box.com", collab1.CreatedBy.Login);
+            var user = collab1.AccessibleBy as BoxUser;
+            Assert.AreEqual("Simon Tan", user.Name);
+            Assert.AreEqual("simon@box.net", user.Login);
+
+            Assert.AreEqual("collaboration", collab2.Type);
+            Assert.AreEqual("88140750", collab2.Id);
+            var group = collab2.AccessibleBy as BoxGroup;
+            Assert.AreEqual("293514", group.Id);
+            Assert.AreEqual("Test Group", group.Name);
         }
 
         [TestMethod]
