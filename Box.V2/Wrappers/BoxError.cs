@@ -37,4 +37,19 @@ namespace Box.V2
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
     }
+
+    /// <summary>
+    /// Box representation of an error that includes context info
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class BoxError<T> : BoxError
+        where T : class
+    {
+        /// <summary>
+        /// Gets or sets the context information.
+        /// </summary>
+        /// <value>The context information.</value>
+        [JsonProperty(PropertyName = "context_info")]
+        public BoxErrorContextInfo<T> ContextInfo { get; set; }
+    }
 }
