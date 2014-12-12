@@ -1,4 +1,6 @@
-﻿using Box.V2.Managers;
+﻿using Box.V2.Config;
+using Box.V2.Exceptions;
+using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -191,57 +193,64 @@ namespace Box.V2.Test
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
 
-            BoxFolder f = await _foldersManager.CreateAsync(folderReq);
-
-            Assert.AreEqual(f.Type, "folder");
-            Assert.AreEqual(f.Id, "11446498");
-            Assert.AreEqual(f.SequenceId, "1");
-            Assert.AreEqual(f.ETag, "1");
-            Assert.AreEqual(f.Name, "Pictures");
-            Assert.AreEqual(f.CreatedAt, DateTime.Parse("2012-12-12T10:53:43-08:00"));
-            Assert.AreEqual(f.ModifiedAt, DateTime.Parse("2012-12-12T11:15:04-08:00"));
-            Assert.AreEqual(f.Description, "Some pictures I took");
-            Assert.AreEqual(f.Size, 629644);
-            Assert.AreEqual(f.PathCollection.TotalCount, 1);
-            Assert.AreEqual(f.PathCollection.Entries.Count, 1);
-            Assert.AreEqual(f.PathCollection.Entries[0].Id, "0");
-            Assert.IsNull(f.PathCollection.Entries[0].SequenceId);
-            Assert.IsNull(f.PathCollection.Entries[0].ETag);
-            Assert.AreEqual(f.PathCollection.Entries[0].Name, "All Files");
-            Assert.AreEqual(f.CreatedBy.Type, "user");
-            Assert.AreEqual(f.CreatedBy.Id, "17738362");
-            Assert.AreEqual(f.CreatedBy.Name, "sean rose");
-            Assert.AreEqual(f.CreatedBy.Login, "sean@box.com");
-            Assert.AreEqual(f.ModifiedBy.Type, "user");
-            Assert.AreEqual(f.ModifiedBy.Id, "17738362");
-            Assert.AreEqual(f.ModifiedBy.Name, "sean rose");
-            Assert.AreEqual(f.ModifiedBy.Login, "sean@box.com");
-            Assert.AreEqual(f.OwnedBy.Type, "user");
-            Assert.AreEqual(f.OwnedBy.Id, "17738362");
-            Assert.AreEqual(f.OwnedBy.Name, "sean rose");
-            Assert.AreEqual(f.OwnedBy.Login, "sean@box.com");
-            Assert.AreEqual(f.SharedLink.Url, "https://www.box.com/s/vspke7y05sb214wjokpk");
-            Assert.AreEqual(f.SharedLink.DownloadUrl, "https://www.box.com/shared/static/vspke7y05sb214wjokpk");
-            Assert.AreEqual(f.SharedLink.VanityUrl, null);
-            Assert.IsFalse(f.SharedLink.IsPasswordEnabled);
-            Assert.IsNull(f.SharedLink.UnsharedAt);
-            Assert.AreEqual(f.SharedLink.DownloadCount, 0);
-            Assert.AreEqual(f.SharedLink.PreviewCount, 0);
-            Assert.AreEqual(f.SharedLink.Access, BoxSharedLinkAccessType.open);
-            Assert.IsTrue(f.SharedLink.Permissions.CanDownload);
-            Assert.IsTrue(f.SharedLink.Permissions.CanPreview);
-            Assert.AreEqual(f.FolderUploadEmail.Acesss, "open");
-            Assert.AreEqual(f.FolderUploadEmail.Address, "upload.Picture.k13sdz1@u.box.com");
-            Assert.AreEqual(f.Parent.Type, "folder");
-            Assert.AreEqual(f.Parent.Id, "0");
-            Assert.IsNull(f.Parent.SequenceId);
-            Assert.IsNull(f.Parent.ETag);
-            Assert.AreEqual(f.Parent.Name, "All Files");
-            Assert.AreEqual(f.ItemStatus, "active");
-            Assert.AreEqual(f.ItemCollection.TotalCount, 0);
-            Assert.AreEqual(f.ItemCollection.Entries.Count, 0);
-            //Assert.AreEqual(f.Offset, 0); // Need to add property
-            //Assert.AreEqual(f.Limit, 100); // Need to add property
+            try 
+            {
+                BoxFolder f = await _foldersManager.CreateAsync(folderReq);
+                throw new BoxException("Invalid error type returned");
+            }
+            catch (BoxConflictException<BoxFolder> ex)
+            {
+                Assert.AreEqual(Constants.ErrorCodes.Conflict, ex.Error.Code);
+                Assert.IsTrue(ex.Error is BoxConflictError<BoxFolder>);
+                BoxFolder f = ex.ConflictingItems.First();
+                Assert.AreEqual(f.Type, "folder");
+                Assert.AreEqual(f.Id, "11446498");
+                Assert.AreEqual(f.SequenceId, "1");
+                Assert.AreEqual(f.ETag, "1");
+                Assert.AreEqual(f.Name, "Pictures");
+                Assert.AreEqual(f.CreatedAt, DateTime.Parse("2012-12-12T10:53:43-08:00"));
+                Assert.AreEqual(f.ModifiedAt, DateTime.Parse("2012-12-12T11:15:04-08:00"));
+                Assert.AreEqual(f.Description, "Some pictures I took");
+                Assert.AreEqual(f.Size, 629644);
+                Assert.AreEqual(f.PathCollection.TotalCount, 1);
+                Assert.AreEqual(f.PathCollection.Entries.Count, 1);
+                Assert.AreEqual(f.PathCollection.Entries[0].Id, "0");
+                Assert.IsNull(f.PathCollection.Entries[0].SequenceId);
+                Assert.IsNull(f.PathCollection.Entries[0].ETag);
+                Assert.AreEqual(f.PathCollection.Entries[0].Name, "All Files");
+                Assert.AreEqual(f.CreatedBy.Type, "user");
+                Assert.AreEqual(f.CreatedBy.Id, "17738362");
+                Assert.AreEqual(f.CreatedBy.Name, "sean rose");
+                Assert.AreEqual(f.CreatedBy.Login, "sean@box.com");
+                Assert.AreEqual(f.ModifiedBy.Type, "user");
+                Assert.AreEqual(f.ModifiedBy.Id, "17738362");
+                Assert.AreEqual(f.ModifiedBy.Name, "sean rose");
+                Assert.AreEqual(f.ModifiedBy.Login, "sean@box.com");
+                Assert.AreEqual(f.OwnedBy.Type, "user");
+                Assert.AreEqual(f.OwnedBy.Id, "17738362");
+                Assert.AreEqual(f.OwnedBy.Name, "sean rose");
+                Assert.AreEqual(f.OwnedBy.Login, "sean@box.com");
+                Assert.AreEqual(f.SharedLink.Url, "https://www.box.com/s/vspke7y05sb214wjokpk");
+                Assert.AreEqual(f.SharedLink.DownloadUrl, "https://www.box.com/shared/static/vspke7y05sb214wjokpk");
+                Assert.AreEqual(f.SharedLink.VanityUrl, null);
+                Assert.IsFalse(f.SharedLink.IsPasswordEnabled);
+                Assert.IsNull(f.SharedLink.UnsharedAt);
+                Assert.AreEqual(f.SharedLink.DownloadCount, 0);
+                Assert.AreEqual(f.SharedLink.PreviewCount, 0);
+                Assert.AreEqual(f.SharedLink.Access, BoxSharedLinkAccessType.open);
+                Assert.IsTrue(f.SharedLink.Permissions.CanDownload);
+                Assert.IsTrue(f.SharedLink.Permissions.CanPreview);
+                Assert.AreEqual(f.FolderUploadEmail.Acesss, "open");
+                Assert.AreEqual(f.FolderUploadEmail.Address, "upload.Picture.k13sdz1@u.box.com");
+                Assert.AreEqual(f.Parent.Type, "folder");
+                Assert.AreEqual(f.Parent.Id, "0");
+                Assert.IsNull(f.Parent.SequenceId);
+                Assert.IsNull(f.Parent.ETag);
+                Assert.AreEqual(f.Parent.Name, "All Files");
+                Assert.AreEqual(f.ItemStatus, "active");
+                Assert.AreEqual(f.ItemCollection.TotalCount, 0);
+                Assert.AreEqual(f.ItemCollection.Entries.Count, 0);
+            }
         }
 
         [TestMethod]

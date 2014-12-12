@@ -73,29 +73,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize<BoxFolderRequest>(folderRequest));
 
-            IBoxResponse<BoxFolder> response = null;
-
-            try
-            {
-                 response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
-            }
-            catch (Box.V2.Exceptions.BoxException ex)
-            {
-                if (ex.StatusCode != System.Net.HttpStatusCode.Conflict)
-                {
-                    throw;
-                }
-
-                // Attempt to parse name conflict results
-                var errorResponse = _converter.Parse<BoxError<BoxFolder>>(ex.Message);
-
-                if (errorResponse.ContextInfo == null || errorResponse.ContextInfo.Conflicts == null || errorResponse.ContextInfo.Conflicts.Count == 0)
-                {
-                    throw;
-                }
-
-                return errorResponse.ContextInfo.Conflicts[0];
-            }
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
