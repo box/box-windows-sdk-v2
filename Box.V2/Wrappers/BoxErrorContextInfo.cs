@@ -1,19 +1,20 @@
 ﻿using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using Box.V2.Models;
 
 namespace Box.V2
 {
     /// <summary>
-    /// A Box representation of an error context.
+    /// A Box representation of a conflict error context.
     /// </summary>
-    /// <typeparam name="TModel">The type of the t model.</typeparam>
-    public class BoxErrorContextInfo<TModel> where TModel : class
+    /// <typeparam name="T">The type conflict</typeparam>
+    public class BoxConflictErrorContextInfo<T> where T : class
     {
         /// <summary>
         /// Gets or sets the conflicts.
         /// </summary>
         /// <value>The conflicts.</value>
         [JsonProperty(PropertyName = "conflicts")]
-        public Collection<TModel> Conflicts { get; set; }
+        public Collection<T> Conflicts { get; set; }
     }
 }
