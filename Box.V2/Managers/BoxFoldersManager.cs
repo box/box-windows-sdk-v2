@@ -75,7 +75,6 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
-
             return response.ResponseObject;
         }
 

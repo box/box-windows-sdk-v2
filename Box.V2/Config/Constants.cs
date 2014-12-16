@@ -95,5 +95,10 @@ namespace Box.V2.Config
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
         }
+
+        public static class ErrorCodes
+        {
+            public const string Conflict = "item_name_in_use";
+        }
     }
 }

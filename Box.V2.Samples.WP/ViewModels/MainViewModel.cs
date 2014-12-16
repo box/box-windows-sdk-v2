@@ -31,13 +31,15 @@ namespace Box.V2.Samples.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public const string ClientId = "YOUR_CLIENT_ID";
-        public const string ClientSecret = "YOUR_CLIENT_SECRET";
+        public const string ClientId = "pweqblqwil7cpmvgu45jaokt3qw77wbo";
+        public const string ClientSecret = "dTrKxu2JYDeYIyQKSKLDf57HVlWjvU10";
 
         public Uri RedirectUri = new Uri("https://boxsdk");
         public readonly int ItemLimit = 100;
 
-        public MainViewModel() : base() {
+        public MainViewModel()
+            : base()
+        {
             OAuthSession session = null;
 
             Config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
@@ -167,7 +169,7 @@ namespace Box.V2.Samples.ViewModels
                 }
             }
         }
-        
+
 
         #endregion
 
@@ -191,6 +193,16 @@ namespace Box.V2.Samples.ViewModels
             do
             {
                 folder = await Client.FoldersManager.GetItemsAsync(id, ItemLimit, itemCount);
+                BoxFolderRequest req = new BoxFolderRequest() { Parent = new BoxRequestEntity() { Id = "0" }, Name = "asdf" };
+                try
+                {
+                    var t1 = await Client.FoldersManager.CreateAsync(req);
+                    var t2 = await Client.FoldersManager.CreateAsync(req);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
                 IsLoading = false;
                 if (folder == null)
                 {
