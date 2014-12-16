@@ -148,6 +148,7 @@ namespace Box.V2.Auth
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
+                                            .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
                                             .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.AuthorizationCode)
                                             .Payload(Constants.RequestParameters.Code, authCode)
                                             .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
