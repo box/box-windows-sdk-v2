@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Box.V2.Models;
+using Newtonsoft.Json;
 
 namespace Box.V2
 {
@@ -36,5 +37,20 @@ namespace Box.V2
         /// </summary>
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
+    }
+
+    /// <summary>
+    /// Box representation of a conflict error that includes its context info
+    /// </summary>
+    /// <typeparam name="T">Type of item that is in conflict</typeparam>
+    public class BoxConflictError<T> : BoxError
+        where T : class
+    {
+        /// <summary>
+        /// Gets or sets the context information.
+        /// </summary>
+        /// <value>The context information.</value>
+        [JsonProperty(PropertyName = "context_info")]
+        public BoxConflictErrorContextInfo<T> ContextInfo { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Box.V2.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -28,9 +29,47 @@ namespace Box.V2.Exceptions
         public BoxException(string message, Exception innerException) : base(message, innerException) { }
 
         /// <summary>
+        /// Instantiates a new BoxException with the provided message and error object
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="error"></param>
+        public BoxException(string message, BoxError error) : base(message)
+        {
+            Error = error;
+        }
+
+        /// <summary>
         /// Http Status code for the response
         /// </summary>
         public HttpStatusCode StatusCode { get; set; }
+
+        /// <summary>
+        /// Error parsed from the message returned by the API
+        /// </summary>
+        public BoxError Error { get; set; }
+    }
+
+
+    public class BoxConflictException<T> : BoxException  
+        where T : class
+    {
+        private BoxConflictError<T> _conflictError;
+        private string p;
+        private BoxError boxError;
+        public BoxConflictException(string message, BoxConflictError<T> error) : base(message, error) 
+        { 
+            _conflictError = error;
+        }
+
+        public ICollection<T> ConflictingItems
+        {
+            get 
+            { 
+                return _conflictError != null && _conflictError.ContextInfo != null ?
+                    _conflictError.ContextInfo.Conflicts :
+                    null;
+            }
+        }
     }
 }
 

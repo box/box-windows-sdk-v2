@@ -25,31 +25,40 @@ namespace Box.V2.Extensions
         public static IBoxResponse<T> ParseResults<T>(this IBoxResponse<T> response, IBoxConverter converter)
             where T : class
         {
+            BoxException exToThrow = null;
+
             switch (response.Status)
             {
                 case ResponseStatus.Success:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                         response.ResponseObject = converter.Parse<T>(response.ContentString);
                     break;
-                case ResponseStatus.Error:
+                default:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                     {
                         try
-                        { 
-                            response.Error = converter.Parse<BoxError>(response.ContentString);
+                        {
+                            switch (response.StatusCode)
+                            {
+                                case System.Net.HttpStatusCode.Conflict:
+                                    BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
+                                    exToThrow = new BoxConflictException<T>(response.ContentString, error);
+                                    break;
+                                default:
+                                    response.Error = converter.Parse<BoxError>(response.ContentString);
+                                    break;
+                            }
                         }
                         catch (Exception)
                         {
                             Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
                         }
 
-                        // Throw formatted error if available
-                        if (response.Error != null && !string.IsNullOrWhiteSpace(response.Error.Name))
-                            throw new BoxException(string.Format("{0}: {1}", response.Error.Name, response.Error.Description)) { StatusCode = response.StatusCode };
-                        // Throw error with full response if error object not available
-                        throw new BoxException(response.ContentString) { StatusCode = response.StatusCode };
+                        throw exToThrow == null ?
+                            new BoxException(response.ContentString, response.Error) { StatusCode = response.StatusCode } :
+                            exToThrow;
                     }
-                    throw new BoxException() { StatusCode = response.StatusCode };
+                    throw new BoxException(response.ContentString) { StatusCode = response.StatusCode };
             }
             return response;
         }
