@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Box.V2.Models
 {
@@ -7,11 +8,11 @@ namespace Box.V2.Models
     /// </summary>
     public class BoxFolder : BoxItem
     {
-
         public const string FieldFolderUploadEmail = "folder_upload_email";
         public const string FieldItemCollection = "item_collection";
         public const string FieldSyncState = "sync_state";
         public const string FieldHasCollaborations = "has_collaborations";
+        public const string FieldAllowedInviteeRoles = "allowed_invitee_roles";
 
         /// <summary>
         /// The upload email address for this folder
@@ -42,5 +43,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldPermissions)]
         public BoxFolderPermission Permissions { get; protected set; }
+
+        /// <summary>
+        /// The available roles that can be used to invite people to the folder
+        /// WARNING: This property is still in development and may change!
+        /// </summary>
+        [JsonProperty(PropertyName = FieldAllowedInviteeRoles)]
+        public IList<string> AllowedInviteeRoles { get; protected set; }
     }
 }
