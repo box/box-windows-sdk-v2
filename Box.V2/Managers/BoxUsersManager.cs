@@ -74,5 +74,56 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Get all email aliases for a user
+        /// </summary>
+        /// <param name="userId">The ID of the user</param>
+        /// <returns>A collection of email aliases</returns>
+        public async Task<BoxCollection<BoxEmailAlias>> GetEmailAliasesAsync(string userId)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+
+            var request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.EmailAliasesPathString, userId));
+            var response = await ToResponseAsync<BoxCollection<BoxEmailAlias>>(request).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Add a new email alias for a user
+        /// </summary>
+        /// <param name="emailAliasRequest">The ID of the user to alias and the email address to add</param>
+        /// <returns>A new email alias</returns>
+        public async Task<BoxEmailAlias> AddEmailAliasAsync(BoxEmailAliasRequest emailAliasRequest)
+        {
+            emailAliasRequest.Email.ThrowIfNullOrWhiteSpace("email");
+            emailAliasRequest.User.ThrowIfNull("user")
+                .Id.ThrowIfNullOrWhiteSpace("user.Id");
+
+            var request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.EmailAliasesPathString, emailAliasRequest.User.Id))
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(emailAliasRequest));
+
+            var response = await ToResponseAsync<BoxEmailAlias>(request).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Remove an email alias for a user
+        /// </summary>
+        /// <param name="userId">The id of the user with the alias</param>
+        /// <param name="emailAliasId">The id of the alias to remove</param>
+        /// <returns>A success flag</returns>
+        public async Task<bool> RemoveEmailAliasAsync(string userId, string emailAliasId)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+            emailAliasId.ThrowIfNullOrWhiteSpace("emailAliasId");
+
+            var request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.EmailAliasesDeletePathString, userId, emailAliasId))
+                .Method(RequestMethod.Delete);
+
+            var response = await ToResponseAsync<BoxEmailAlias>(request).ConfigureAwait(false);
+            return response.Status.Equals(ResponseStatus.Success);
+        }
     }
 }

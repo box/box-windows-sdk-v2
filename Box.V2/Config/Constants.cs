@@ -56,6 +56,8 @@ namespace Box.V2.Config
         public const string TrashFolderPathString = @"{0}/trash";
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
+        public const string EmailAliasesPathString = @"{0}/email_aliases";
+        public const string EmailAliasesDeletePathString = @"{0}/email_aliases/{1}";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -73,6 +75,7 @@ namespace Box.V2.Config
         public const string TypeGroupMembership = "group_membership";
         public const string TypeUser = "user";
         public const string TypeEnterprise = "enterprise";
+        public const string TypeEmailAlias = "email_alias";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
