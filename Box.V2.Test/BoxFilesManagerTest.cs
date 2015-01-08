@@ -355,8 +355,8 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(fileLock);
             Assert.AreEqual(true, fileLock.IsDownloadPrevented);
-            Assert.AreEqual(new DateTime(2014, 5, 31, 4, 03, 04, DateTimeKind.Utc), fileLock.ExpiresAt);
-            Assert.AreEqual(new DateTime(2014, 5, 30, 3, 03, 04, DateTimeKind.Utc), fileLock.CreatedAt);
+            Assert.AreEqual(DateTime.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
+            Assert.AreEqual(DateTime.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
             Assert.IsNotNull(fileLock.CreatedBy);
             Assert.AreEqual("I don't know gmail", fileLock.CreatedBy.Name);
             Assert.AreEqual("idontknow@gmail.com", fileLock.CreatedBy.Login);
@@ -384,8 +384,8 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(fileLock);
             Assert.AreEqual(false, fileLock.IsDownloadPrevented);
-            Assert.AreEqual(new DateTime(2014, 5, 31, 4, 03, 04, DateTimeKind.Utc), fileLock.ExpiresAt);
-            Assert.AreEqual(new DateTime(2014, 5, 30, 3, 03, 04, DateTimeKind.Utc), fileLock.CreatedAt);
+            Assert.AreEqual(DateTime.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
+            Assert.AreEqual(DateTime.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
             Assert.IsNotNull(fileLock.CreatedBy);
             Assert.AreEqual("I don't know gmail", fileLock.CreatedBy.Name);
             Assert.AreEqual("idontknow@gmail.com", fileLock.CreatedBy.Login);
