@@ -73,6 +73,7 @@ namespace Box.V2.Config
         public const string TypeGroupMembership = "group_membership";
         public const string TypeUser = "user";
         public const string TypeEnterprise = "enterprise";
+        public const string TypeLock = "lock";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds

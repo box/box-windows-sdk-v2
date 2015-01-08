@@ -416,5 +416,58 @@ namespace Box.V2.Managers
 
             return response.Status == ResponseStatus.Success;
         }
+
+        /// <summary>
+        /// Gets a lock file object representation of the provided file Id
+        /// </summary>
+        /// <param name="id">Id of file information to retrieve</param>
+        /// <returns></returns>
+        public async Task<BoxFileLock> GetLockAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+                .Param(ParamFields, BoxFile.FieldLock);
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response.ResponseObject.Lock;
+        }
+
+        /// <summary>
+        /// Used to update the lock information on the file
+        /// </summary>
+        /// <param name="fileRequest"></param>
+        /// <returns></returns>
+        public async Task<BoxFileLock> UpdateLockAsync(BoxFileLockRequest lockFileRequest, string Id)
+        {
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, Id)
+                .Method(RequestMethod.Put)
+                .Param(ParamFields, "lock");
+
+            request.Payload = _converter.Serialize(lockFileRequest);
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response.ResponseObject.Lock;
+        }
+
+        /// <summary>
+        /// Remove a lock
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> UnLock(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+                .Method(RequestMethod.Put)
+                .Payload("{\"lock\":null}");
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
     }
 }

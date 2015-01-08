@@ -18,6 +18,7 @@ namespace Box.V2.Models
         public const string FieldContentModifiedAt = "content_modified_at";
         public const string FieldVersionNumber = "version_number";
         public const string FieldCommentCount = "comment_count";
+        public const string FieldLock = "lock";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -68,5 +69,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldPermissions)]
         public BoxFilePermission Permissions { get; protected set; }
+
+        /// <summary>
+        /// The available lock on this file
+        /// </summary>
+        [JsonProperty(PropertyName = FieldLock)]
+        public BoxFileLock Lock { get; protected set; }
+
     }
 }
