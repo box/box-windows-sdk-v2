@@ -43,7 +43,8 @@ namespace Box.V2.Managers
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userRequest.Id)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(userRequest));
+                .Payload(_converter.Serialize(userRequest))
+                .Method(RequestMethod.Put);
 
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
 
@@ -71,6 +72,25 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxUser>> response = await ToResponseAsync<BoxCollection<BoxUser>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Deletes an enterprise user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="notify">Determines if the destination user should receive email notification of the transfer.</param>
+        /// <param name="force">Whether or not the user should be deleted even if this user still own files.</param>
+        /// <returns></returns>
+        public async Task<BoxUser> DeleteEnterpirseUserAsync(string userId, bool notify, bool force)
+        {
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
+                .Param("notify", notify.ToString())
+                .Param("force", force.ToString())
+                .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
