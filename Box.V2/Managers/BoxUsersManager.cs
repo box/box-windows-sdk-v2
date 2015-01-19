@@ -83,7 +83,7 @@ namespace Box.V2.Managers
         /// <param name="notify">Determines if the destination user should receive email notification of the transfer.</param>
         /// <param name="force">Whether or not the user should be deleted even if this user still own files.</param>
         /// <returns></returns>
-        public async Task<BoxUser> DeleteEnterpirseUserAsync(string userId, bool notify, bool force)
+        public async Task<BoxUser> DeleteEnterpriseUserAsync(string userId, bool notify, bool force)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
                 .Param("notify", notify.ToString())
