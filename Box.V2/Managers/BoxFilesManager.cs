@@ -239,6 +239,24 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to delete the shared link for this particular file.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<BoxFile> DeleteSharedLinkAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+                .Method(RequestMethod.Put)
+                .Payload(_converter.Serialize(new BoxDeleteSharedLinkRequest()));
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Retrieves the comments on a particular file, if any exist.
         /// </summary>
         /// <param name="id">The Id of the item the comments should be retrieved for</param>
