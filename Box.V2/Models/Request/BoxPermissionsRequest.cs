@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 
 namespace Box.V2.Models
 {
@@ -12,12 +13,12 @@ namespace Box.V2.Models
         /// Whether this link allows downloads. Can only be used with Open and Company
         /// </summary>
         [JsonProperty(PropertyName = "can_download")]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public BoxPermissionType? Download { get; set; }
+        public bool Download { get; set; }
         
         /// <summary>
         /// Whether this link allows previews. Can only be used with Open and Company
         /// </summary>
+        [Obsolete("CanPreview is now deprecated in the API and cannot be altered. Results will always be true")]
         [JsonProperty(PropertyName = "can_preview")]
         [JsonConverter(typeof(StringEnumConverter))]
         public BoxPermissionType? Preview { get; set; }
