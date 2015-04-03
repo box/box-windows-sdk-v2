@@ -170,8 +170,6 @@ namespace Box.V2.Managers
         public async Task<BoxFolder> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            if (!sharedLinkRequest.ThrowIfNull("sharedLinkRequest").Access.HasValue)
-                throw new ArgumentNullException("sharedLinkRequest.Access");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.Put)
@@ -182,6 +180,24 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Used to delete the shared link for this particular folder. 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<BoxFolder> DeleteSharedLinkAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
+                .Method(RequestMethod.Put)
+                .Payload(_converter.Serialize(new BoxDeleteSharedLinkRequest()));
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
 
         /// <summary>
         /// Use this to get a list of all the collaborations on a folder i.e. all of the users that have access to that folder.
