@@ -123,5 +123,63 @@ namespace Box.V2.Test.Integration
             await _client.FoldersManager.DeleteAsync(f.Id, true);
             await _client.FoldersManager.DeleteAsync(f2.Id, true);
         }
+
+        [TestMethod]
+        public async Task FolderSharedLink_CreateAndDelete_ValidResponse()
+        {
+            string testName = GetUniqueName();
+
+            // Test Create Folder
+            BoxFolderRequest folderReq = new BoxFolderRequest()
+            {
+                Name = testName,
+                Parent = new BoxRequestEntity() { Id = "0" }
+            };
+
+            BoxFolder f = await _client.FoldersManager.CreateAsync(folderReq);
+            Assert.IsNotNull(f, "Folder was not created");
+            Assert.AreEqual(testName, f.Name, "Folder with incorrect name was created");
+
+            BoxSharedLinkRequest sharedLinkReq = new BoxSharedLinkRequest()
+            {
+                Access = BoxSharedLinkAccessType.open,
+                Permissions = new BoxPermissionsRequest
+                {
+                    Download = true,
+                }
+            };
+
+            BoxFolder sl = await _client.FoldersManager.CreateSharedLinkAsync(f.Id, sharedLinkReq);
+            Assert.AreEqual(sl.Id, f.Id);
+            Assert.IsNotNull(sl.SharedLink);
+            Assert.AreEqual(sl.SharedLink.Access, BoxSharedLinkAccessType.open);
+            Assert.IsNotNull(sl.SharedLink.Permissions);
+            Assert.AreEqual(sl.SharedLink.Permissions.CanDownload, true);
+
+
+            sharedLinkReq = new BoxSharedLinkRequest()
+            {
+                Access = null,
+                Permissions = new BoxPermissionsRequest
+                {
+                    Download = false,
+                }
+            };
+
+            sl = await _client.FoldersManager.CreateSharedLinkAsync(f.Id, sharedLinkReq);
+            Assert.AreEqual(sl.Id, f.Id);
+            Assert.IsNotNull(sl.SharedLink);
+            Assert.AreEqual(sl.SharedLink.Access, BoxSharedLinkAccessType.open);
+            Assert.IsNotNull(sl.SharedLink.Permissions);
+            Assert.AreEqual(sl.SharedLink.Permissions.CanDownload, false);
+
+            sl = await _client.FoldersManager.DeleteSharedLinkAsync(f.Id);
+            Assert.AreEqual(sl.Id, f.Id);
+            Assert.IsNull(sl.SharedLink);
+
+            //Clean up - Delete Test Folders
+            await _client.FoldersManager.DeleteAsync(f.Id, true);
+        }
     }
+
 }
