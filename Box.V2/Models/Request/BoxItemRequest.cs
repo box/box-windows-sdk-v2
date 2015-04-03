@@ -30,5 +30,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "shared_link")]
         public BoxSharedLinkRequest SharedLink { get; set; }
+
+        /// <summary>
+        /// Tags associated with the file
+        /// </summary>
+        [JsonProperty(PropertyName = "tags")]
+        public string[] Tags { get; set; }
     }
 }
