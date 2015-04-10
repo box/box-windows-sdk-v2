@@ -10,9 +10,9 @@ namespace Box.V2.Models
     public class BoxSharedLinkRequest
     {
         /// <summary>
-        /// The level of access required for this shared link. Can be open, company, collaborators
+        /// The level of access required for this shared link. Can be open, company, collaborators, or null which will be the default value
         /// </summary>
-        [JsonProperty(PropertyName = "access")]
+        [JsonProperty(PropertyName = "access", NullValueHandling = NullValueHandling.Include)]
         [JsonConverter(typeof(StringEnumConverter))]
         public BoxSharedLinkAccessType? Access { get; set; }
 
