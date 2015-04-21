@@ -125,6 +125,11 @@ Documentation
 -------------
 Documentation of all classes and methods are provided through the standard ```<summary></summary>``` xml tags. The easiest way to view these is through Visual Studio's built in "Object Browser" (VIEW -> Object Browser, or CTRL+W, J). 
 
+Other Resources
+-------------
+- Nuget Package: https://www.nuget.org/packages/Box.V2/
+- Box Windows SDK Video Tutorial: https://developers.box.com/box-windows-sdk-tutorial/
+
 Known Issues
 ------------
 Windows 8 Sample OAuth2 uses desktop login screen instead of mobile. Pending fix from platform team.
