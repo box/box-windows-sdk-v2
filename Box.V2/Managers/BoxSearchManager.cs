@@ -26,7 +26,7 @@ namespace Box.V2.Managers
         /// <param name="limit"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxItem>> SearchAsync(string keyword, int limit, int offset = 0, List<string> fields = null)
+        public async Task<BoxCollection<BoxItem>> SearchAsync(string keyword, int limit, int offset = 0, List<string> fields = null, string asUser = null)
         {
             keyword.ThrowIfNullOrWhiteSpace("keyword");
 
@@ -34,7 +34,9 @@ namespace Box.V2.Managers
                 .Param("query", keyword)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
-                .Param(ParamFields, fields);
+                .Param(ParamFields, fields)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
                     

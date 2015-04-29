@@ -25,7 +25,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="collaborationRequest"></param>
         /// <returns></returns>
-        public async Task<BoxCollaboration> AddCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null)
+        public async Task<BoxCollaboration> AddCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null, string asUser = null)
         {
             collaborationRequest.ThrowIfNull("collaborationRequest")
                 .Item.ThrowIfNull("collaborationRequest.Item")
@@ -35,7 +35,9 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri)
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(collaborationRequest));
+                .Payload(_converter.Serialize(collaborationRequest))
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request).ConfigureAwait(false);
 
@@ -48,7 +50,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="collaborationRequest"></param>
         /// <returns></returns>
-        public async Task<BoxCollaboration> EditCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null)
+        public async Task<BoxCollaboration> EditCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null, string asUser = null)
         {
             collaborationRequest.ThrowIfNull("collaborationRequest")
                 .Id.ThrowIfNullOrWhiteSpace("collaborationRequest.Id");
@@ -56,7 +58,9 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, collaborationRequest.Id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(collaborationRequest));
+                .Payload(_converter.Serialize(collaborationRequest))
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request).ConfigureAwait(false);
 
@@ -68,12 +72,14 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<bool> RemoveCollaborationAsync(string id)
+        public async Task<bool> RemoveCollaborationAsync(string id, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, id)
-                .Method(RequestMethod.Delete);
+                .Method(RequestMethod.Delete)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request).ConfigureAwait(false);
 
@@ -86,12 +92,14 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="collaborationRequest"></param>
         /// <returns></returns>
-        public async Task<BoxCollaboration> GetCollaborationAsync(string id, List<string> fields = null)
+        public async Task<BoxCollaboration> GetCollaborationAsync(string id, List<string> fields = null, string asUser = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, id)
-                .Param(ParamFields, fields);
+                .Param(ParamFields, fields)
+                .AsUser(asUser)
+                ;
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request).ConfigureAwait(false);
 
