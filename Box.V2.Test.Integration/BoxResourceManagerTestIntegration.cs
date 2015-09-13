@@ -15,6 +15,10 @@ namespace Box.V2.Test.Integration
         public const string ClientId = "YOUR_CLIENT_ID";
         public const string ClientSecret = "YOUR_CLIENT_SECRET";
 
+        public const string EnterpriseId = "YOUR_ENTERPRISE_ID";
+        public const string PrivateKey = "YOUR_PRIVATE_KEY";
+        public const string PrivateKeyPassword = "YOUR_PRIVATE_KEY_PASSWORD";
+
         public Uri RedirectUri = new Uri("http://boxsdk");
 
         protected OAuthSession _auth;
@@ -22,6 +26,9 @@ namespace Box.V2.Test.Integration
         protected IBoxConfig _config;
         protected IRequestHandler _handler;
         protected IBoxConverter _parser;
+
+        protected BoxClient _boxDeveloperEditionClient;
+        protected IBoxConfig _boxDeveloperEditionConfig;
 
         public BoxResourceManagerTestIntegration()
         {
@@ -31,6 +38,9 @@ namespace Box.V2.Test.Integration
             _parser = new BoxJsonConverter();
             _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
             _client = new BoxClient(_config, _auth);
+
+            _boxDeveloperEditionConfig = new BoxConfig(EnterpriseId, "enterprise", ClientId, ClientSecret, PrivateKey, PrivateKeyPassword);
+            _boxDeveloperEditionClient = new BoxClient(_boxDeveloperEditionConfig);
         }
 
         protected string GetUniqueName()
