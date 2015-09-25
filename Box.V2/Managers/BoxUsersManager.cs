@@ -16,7 +16,9 @@ namespace Box.V2.Managers
     public class BoxUsersManager : BoxResourceManager
     {
         public BoxUsersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
-            : base(config, service, converter, auth) { }
+            : base(config, service, converter, auth)
+        {
+        }
 
         /// <summary>
         /// Retrieves information about the user who is currently logged in i.e. the user for whom this auth token was generated.
@@ -51,7 +53,6 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-
         /// <summary>
         /// Get information about users in an enterprise. This method only works for enterprise admins.
         /// </summary>
@@ -61,9 +62,10 @@ namespace Box.V2.Managers
         /// <param name="fields">The fields to populate for each returned user</param>
         /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
-        public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null, uint offset= 0, uint limit = 100, List<string> fields = null)
+        public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null, uint offset = 0, uint limit = 100, List<string> fields = null)
         {
-            if (limit == 0 || limit > 1000) throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
+            if (limit == 0 || limit > 1000)
+                throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
 
             BoxRequest request = new BoxRequest(_config.UserEndpointUri)
                 .Param("filter_term", filterTerm)

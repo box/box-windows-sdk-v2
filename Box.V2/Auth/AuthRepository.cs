@@ -12,6 +12,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto;
+using System.IO;
+
 namespace Box.V2.Auth
 {
     /// <summary>
@@ -43,7 +49,10 @@ namespace Box.V2.Auth
         /// <param name="boxConfig">The Box configuration that should be used</param>
         /// <param name="boxService">The Box service that will be used to make the requests</param>
         /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
-        public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, IBoxConverter converter) : this(boxConfig, boxService, converter, null) { }
+        public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, IBoxConverter converter)
+            : this(boxConfig, boxService, converter, null)
+        {
+        }
 
         /// <summary>
         /// Instantiates a new AuthRepository
@@ -86,6 +95,35 @@ namespace Box.V2.Auth
             return session;
         }
 
+        public virtual async Task<OAuthSession> AuthenticateBoxDeveloperEditionAsync()
+        {
+            string assertion = JWTConstructAssertion();
+
+            BoxRequest boxRequest = new BoxRequest(_config.BoxApiDeveloperEditionTokenUri)
+                .Method(RequestMethod.Post)
+                .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
+                .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.JWT)
+                .Payload(Constants.RequestParameters.Assertion, assertion)
+                .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
+                .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
+                .Payload(Constants.RequestParameters.BoxDeviceId, _config.DeviceId)
+                .Payload(Constants.RequestParameters.BoxDeviceName, _config.DeviceName);
+
+            IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
+            boxResponse.ParseResults(_converter);
+
+            var session = boxResponse.ResponseObject;
+
+            using (await _mutex.LockAsync().ConfigureAwait(false))
+            {
+                Session = session;
+
+                OnSessionAuthenticated(session);
+            }
+
+            return session;
+        }
+
         /// <summary>
         /// Refreshes the session by exchanging the access token for a new Access/Refresh token pair. In general,
         /// this method should not need to be called explicitly, as an automatic refresh is invoked when the SDK 
@@ -109,7 +147,16 @@ namespace Box.V2.Auth
                     // with the same refresh token will not attempt te call. 
                     _expiredTokens.Add(accessToken);
 
-                    session = await ExchangeRefreshToken(Session.RefreshToken).ConfigureAwait(false);
+                    // if Box Developer Edition
+                    if (_config.EntityId && _config.EntityType)
+                    {
+                        session = await AuthenticateBoxDeveloperEditionAsync();
+                    }
+                    else
+                    {
+                        session = await ExchangeRefreshToken(Session.RefreshToken).ConfigureAwait(false);
+                    }
+
                     Session = session;
 
                     OnSessionAuthenticated(session);
@@ -135,7 +182,6 @@ namespace Box.V2.Auth
 
         #endregion
 
-
         /// <summary>
         /// Performs the authentication request using the provided auth code
         /// </summary>
@@ -147,14 +193,14 @@ namespace Box.V2.Auth
                 throw new ArgumentException("Auth code cannot be null or empty", "authCode");
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
-                                            .Method(RequestMethod.Post)
-                                            .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
-                                            .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.AuthorizationCode)
-                                            .Payload(Constants.RequestParameters.Code, authCode)
-                                            .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
-                                            .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
-                                            .Payload(Constants.RequestParameters.BoxDeviceId, _config.DeviceId)
-                                            .Payload(Constants.RequestParameters.BoxDeviceName, _config.DeviceName);
+                .Method(RequestMethod.Post)
+                .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
+                .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.AuthorizationCode)
+                .Payload(Constants.RequestParameters.Code, authCode)
+                .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
+                .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
+                .Payload(Constants.RequestParameters.BoxDeviceId, _config.DeviceId)
+                .Payload(Constants.RequestParameters.BoxDeviceName, _config.DeviceName);
 
             IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
             boxResponse.ParseResults(_converter);
@@ -173,13 +219,13 @@ namespace Box.V2.Auth
                 throw new ArgumentException("Refresh token cannot be null or empty", "refreshToken");
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
-                                            .Method(RequestMethod.Post)
-                                            .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.RefreshToken)
-                                            .Payload(Constants.RequestParameters.RefreshToken, refreshToken)
-                                            .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
-                                            .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
-                                            .Payload(Constants.RequestParameters.BoxDeviceId, _config.DeviceId)
-                                            .Payload(Constants.RequestParameters.BoxDeviceName, _config.DeviceName);
+                .Method(RequestMethod.Post)
+                .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.RefreshToken)
+                .Payload(Constants.RequestParameters.RefreshToken, refreshToken)
+                .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
+                .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
+                .Payload(Constants.RequestParameters.BoxDeviceId, _config.DeviceId)
+                .Payload(Constants.RequestParameters.BoxDeviceName, _config.DeviceName);
 
             IBoxResponse<OAuthSession> boxResponse = await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
             if (boxResponse.Status == ResponseStatus.Success)
@@ -210,12 +256,61 @@ namespace Box.V2.Auth
                 throw new ArgumentException("Access token cannot be null or empty", "accessToken");
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.RevokeEndpointString)
-                                            .Method(RequestMethod.Post)
-                                            .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
-                                            .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
-                                            .Payload(Constants.RequestParameters.Token, accessToken);
+                .Method(RequestMethod.Post)
+                .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
+                .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
+                .Payload(Constants.RequestParameters.Token, accessToken);
 
             await _service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
+        }
+
+        protected string JWTConstructAssertion()
+        {
+            var expires = Convert.ToInt64((new DateTime(1970, 1, 1)).AddSeconds(30));
+
+            var payload = new Dictionary<string, object>()
+            {
+                { "sub", _config.EntityId },
+                { "box_sub_type", _config.EntityType },
+                { "jti", Convert.ToBase64String(System.Guid.NewGuid().ToByteArray()) },
+                { "iss", _config.ClientId },
+                { "aud", _config.BoxApiDeveloperEditionTokenUri },
+                { "exp", expires }
+            };
+
+            var pwf = (new PEMPasswordFinder(_config.PrivateKeyPassword));
+            AsymmetricCipherKeyPair key;
+            using (var reader = new StringReader(this._config.PrivateKey))
+            {
+                var pemReader = new PemReader(reader, pwf);
+                key = (AsymmetricCipherKeyPair)pemReader.ReadObject();
+            }
+
+            var rsa = Org.BouncyCastle.Security.DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
+
+            return Jose.JWT.Encode(payload, rsa, Jose.JwsAlgorithm.RS256);
+        }
+
+        protected string JWTConstructAssertionOld()
+        {
+            byte[] randomNumber = new byte[64];
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(randomNumber);
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim("sub", _config.EntityId),
+                new Claim("box_sub_type", _config.EntityType),
+                new Claim("jti", Convert.ToBase64String(randomNumber)),
+            };
+
+            var token = new JwtSecurityToken(issuer: _cpnfig.clientId, audience: _config.BoxApiDeveloperEditionTokenUri, claims: claims, expires: DateTime.UtcNow.AddSeconds(30),
+                            signingCredentials: this.credentials);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
         }
 
         /// <summary>
@@ -242,6 +337,20 @@ namespace Box.V2.Auth
                 handler(this, new SessionAuthenticatedEventArgs(session));
             }
         }
+    }
 
+    class PEMPasswordFinder : IPasswordFinder
+    {
+        private string pword;
+
+        public PEMPasswordFinder(string password)
+        {
+            pword = password;
+        }
+
+        public char[] GetPassword()
+        {
+            return pword.ToCharArray();
+        }
     }
 }

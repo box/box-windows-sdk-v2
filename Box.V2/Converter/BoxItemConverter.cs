@@ -18,7 +18,7 @@ namespace Box.V2.Converter
         {
             if (FieldExists(ItemType, jObject))
             {
-                switch(jObject[ItemType].ToString())
+                switch (jObject[ItemType].ToString())
                 {
                     case Constants.TypeFile:
                         return new BoxFile();
@@ -52,7 +52,7 @@ namespace Box.V2.Converter
             return jObject[fieldName] != null;
         }
     }
-    
+
     internal abstract class JsonCreationConverter<T> : JsonConverter
     {
         /// <summary>

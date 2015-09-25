@@ -9,6 +9,7 @@ namespace Box.V2.Config
     {
         /*** Base API URIs ***/
         public const string BoxApiHostUriString = "https://app.box.com/api/";
+        public const string BoxApiDeveloperEditionTokenUriString = "https://api.box.com/oauth2/token";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
 
@@ -76,11 +77,13 @@ namespace Box.V2.Config
         public const string TypeLock = "lock";
 
         /*** File Preview ***/
-        public const int DefaultRetryDelay = 1000; // milliseconds
+        public const int DefaultRetryDelay = 1000;
+        // milliseconds
 
         public static class RequestParameters
         {
             /*** Keys ***/
+            public const string Assertion = "assertion";
             public const string GrantType = "grant_type";
             public const string Code = "code";
             public const string ClientId = "client_id";
@@ -95,6 +98,7 @@ namespace Box.V2.Config
             /*** Values ***/
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
+            public const string JWT = "urn:ietf:params:oauth:grant-type:jwt-bearer";
         }
 
         public static class ErrorCodes
