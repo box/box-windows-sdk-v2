@@ -50,11 +50,11 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">Id of the file to download</param>
         /// <returns>MemoryStream of the requested file</returns>
-        public async Task<Stream> DownloadStreamAsync(string id, string versionId = null)
+        public async Task<Stream> DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id))
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id)) { Timeout = timeout }
                 .Param("version", versionId);
 
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
