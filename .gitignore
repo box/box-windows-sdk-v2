@@ -97,6 +97,9 @@ publish/
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
 packages/
 
+#JWT keys
+*.pem
+
 # Windows Azure Build Output
 csx
 *.build.csdef
