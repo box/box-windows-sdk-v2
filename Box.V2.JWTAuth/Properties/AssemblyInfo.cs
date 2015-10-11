@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Box.V2.PlatformEdition")]
+[assembly: AssemblyTitle("Box.V2.JWTAuth")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Box.V2.PlatformEdition")]
+[assembly: AssemblyProduct("Box.V2.JWTAuth")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("80766078-6ee4-4ebb-ba37-7a51be651487")]
+[assembly: Guid("05b4a5a3-36cb-42bc-856d-ecb13a4651e0")]
 
 // Version information for an assembly consists of the following four values:
 //

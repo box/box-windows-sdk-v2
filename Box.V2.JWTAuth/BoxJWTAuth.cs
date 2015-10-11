@@ -3,16 +3,12 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Box.V2.PlatformEdition
+namespace Box.V2.JWTAuth
 {
-    public class BoxPlatformEdition
+    public class BoxJWTAuth
     {
         const string JWT_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer";
 
@@ -34,22 +30,14 @@ namespace Box.V2.PlatformEdition
 
             string token = JWT.Encode(payload, rsa, JwsAlgorithm.RS256);
 
-            return "token";
+            return token;
         }
     }
 
     class PEMPasswordFinder : IPasswordFinder
     {
         private string pword;
-
-        public PEMPasswordFinder(string password)
-        {
-            pword = password;
-        }
-
-        public char[] GetPassword()
-        {
-            return pword.ToCharArray();
-        }
+        public PEMPasswordFinder(string password){pword = password;}
+        public char[] GetPassword(){return pword.ToCharArray();}
     }
 }
