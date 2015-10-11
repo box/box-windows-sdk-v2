@@ -96,5 +96,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "is_password_reset_required")]
         public bool? IsPasswordResetRequired { get; set; }
+
+        /// <summary>
+        /// Whether or not the user is an App User (platform)
+        /// </summary>
+        [JsonProperty(PropertyName = "is_platform_access_only")]
+        public bool? IsPlatformAccessOnly { get; set; }
     }
 }

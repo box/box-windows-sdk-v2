@@ -19,6 +19,8 @@ namespace Box.V2.JWTAuth
         const string ENTERPRISE_SUB_TYPE = "enterprise";
         const string USER_SUB_TYPE = "user";
 
+        readonly DateTime UNIX_EPOCH = new DateTime(1970, 1, 1);
+
         private readonly string enterpriseId;
         private readonly string clientId;
         private readonly string clientSecret;
@@ -65,7 +67,7 @@ namespace Box.V2.JWTAuth
                 rng.GetBytes(randomNumber);
             }
 
-            Int32 expiresInUnixTimestamp = (Int32)(DateTime.UtcNow.AddSeconds(10).Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            Int32 expiresInUnixTimestamp = (Int32)(DateTime.UtcNow.AddSeconds(10).Subtract(UNIX_EPOCH)).TotalSeconds;
 
             var payload = new Dictionary<string, object>()
             {
@@ -77,11 +79,7 @@ namespace Box.V2.JWTAuth
                 { "exp", expiresInUnixTimestamp }
             };
 
-            var headers = new Dictionary<string, object>();
-            if (publicKeyId != null)
-            {
-                headers.Add("kid", publicKeyId);
-            }
+            var headers = new Dictionary<string, object>() { { "kid", publicKeyId } };
 
             string assertion = JWT.Encode(payload, this.credentials, JwsAlgorithm.RS256, extraHeaders: headers);
             return assertion;
