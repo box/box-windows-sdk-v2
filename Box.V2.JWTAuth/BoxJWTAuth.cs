@@ -1,4 +1,6 @@
-﻿using Jose;
+﻿using Box.V2.Auth;
+using Box.V2.Config;
+using Jose;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
@@ -18,6 +20,7 @@ namespace Box.V2.JWTAuth
         const string JWT_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer";
         const string ENTERPRISE_SUB_TYPE = "enterprise";
         const string USER_SUB_TYPE = "user";
+        const string TOKEN_TYPE = "bearer";
 
         readonly DateTime UNIX_EPOCH = new DateTime(1970, 1, 1);
 
@@ -43,7 +46,21 @@ namespace Box.V2.JWTAuth
             this.credentials = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
         }
 
-        public string EnterpriseToken()
+        public BoxClient AdminClient()
+        {
+            return AdminClient(AdminToken());
+        }
+
+        public BoxClient AdminClient(string adminToken)
+        {
+            var config = new BoxConfig(this.clientId, this.clientSecret, new Uri("http://localhost"));
+            var adminSession = new OAuthSession(adminToken, null, 0, TOKEN_TYPE);
+            var adminClient = new BoxClient(config, adminSession);
+
+            return adminClient;
+        }
+
+        public string AdminToken()
         {
             var assertion = ConstructJWTAssertion(this.enterpriseId, ENTERPRISE_SUB_TYPE);
 

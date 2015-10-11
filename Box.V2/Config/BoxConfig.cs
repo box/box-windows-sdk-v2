@@ -13,7 +13,7 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="clientId"></param>
         /// <param name="clientSecret"></param>
-        /// <param name="redirectUriString"></param>
+        /// <param name="redirectUri"></param>
         public BoxConfig(string clientId, string clientSecret, Uri redirectUri)
         {
             ClientId = clientId;
