@@ -49,6 +49,8 @@ namespace Box.V2.Managers
         /// Returns the stream of the requested file
         /// </summary>
         /// <param name="id">Id of the file to download</param>
+        /// <param name="versionId"></param>
+        /// <param name="timeout"></param>
         /// <returns>MemoryStream of the requested file</returns>
         public async Task<Stream> DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null)
         {
@@ -69,6 +71,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequest"></param>
         /// <param name="stream"></param>
+        /// <param name="fields"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
         public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null)
