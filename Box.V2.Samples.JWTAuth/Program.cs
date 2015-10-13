@@ -4,6 +4,7 @@ using Box.V2.Models;
 using System;
 using System.Configuration;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Box.V2.Samples.JWTAuth
@@ -15,7 +16,6 @@ namespace Box.V2.Samples.JWTAuth
         static readonly string ENTERPRISE_ID = ConfigurationManager.AppSettings["boxEnterpriseId"];
         static readonly string JWT_PRIVATE_KEY_PASSWORD = ConfigurationManager.AppSettings["boxPrivateKeyPassword"];
         static readonly string JWT_PUBLIC_KEY_ID = ConfigurationManager.AppSettings["boxPublicKeyId"];
-        static readonly string REFRESH_TOKEN = "NOT_NEEDED_BUT_MUST_BE_PRESENT";
 
         static void Main(string[] args)
         {
@@ -42,7 +42,7 @@ namespace Box.V2.Samples.JWTAuth
 
             Console.WriteLine("Admin root folder items");
             var items = await adminClient.FoldersManager.GetFolderItemsAsync("0", 500);
-            items.Entries.ForEach(i => Console.WriteLine("\t{0}",i.Name));
+            items.Entries.ForEach(i => Console.WriteLine("\t{0}", i.Name));
             Console.WriteLine();
 
             var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };

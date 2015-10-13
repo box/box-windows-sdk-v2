@@ -1,5 +1,7 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Config;
+using Box.V2.Converter;
+using Box.V2.Exceptions;
 using Jose;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Crypto;
@@ -115,10 +117,19 @@ namespace Box.V2.JWTAuth
             request.AddParameter("assertion", assertion);
 
             var response = client.Execute(request);
-            var content = response.Content;
 
-            dynamic parsed_content = JObject.Parse(content);
-            return parsed_content;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var content = response.Content;
+                dynamic parsed_content = JObject.Parse(content);
+                return parsed_content;
+            }
+            else
+            {
+                var converter = new BoxJsonConverter();
+                var error = converter.Parse<BoxError>(response.Content);
+                throw new BoxException(response.StatusDescription, error);
+            }
         }
     }
 
