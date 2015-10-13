@@ -42,16 +42,18 @@ namespace Box.V2.JWTAuth
 
         public BoxClient AdminClient(string adminToken)
         {
-            var adminSession = new OAuthSession(adminToken, null, 0, TOKEN_TYPE);
-            var adminClient = new BoxClient(this.boxConfig, adminSession);
+            var adminSession = this.Session(adminToken);
+            var authRepo = new JWTAuthRepository(adminSession, this);
+            var adminClient = new BoxClient(this.boxConfig, authRepo);
 
             return adminClient;
         }
 
         public BoxClient UserClient(string userToken, string userId)
         {
-            var userSession = new OAuthSession(userToken, null, 0, TOKEN_TYPE);
-            var userClient = new BoxClient(this.boxConfig, userSession);
+            var userSession = this.Session(userToken);
+            var authRepo = new JWTAuthRepository(userSession, this, userId);
+            var userClient = new BoxClient(this.boxConfig, authRepo);
 
             return userClient;
         }
@@ -70,6 +72,11 @@ namespace Box.V2.JWTAuth
 
             var result = JWTAuthPost(assertion);
             return result.access_token;
+        }
+
+        public OAuthSession Session(string token)
+        {
+            return new OAuthSession(token, null, 0, TOKEN_TYPE);
         }
 
         private string ConstructJWTAssertion(string sub, string boxSubType)
