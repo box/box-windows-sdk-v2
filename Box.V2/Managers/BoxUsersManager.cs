@@ -32,6 +32,10 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Create a new Box Enterprise user.
+        /// </summary>
+        /// <returns></returns>
         public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userRequest.Id)
