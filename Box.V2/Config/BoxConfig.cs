@@ -21,6 +21,28 @@ namespace Box.V2.Config
             RedirectUri = redirectUri;
         }
 
+        /// <summary>
+        /// Instantiates a Box config for use with JWT authentication
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="clientSecret"></param>
+        /// <param name="enterpriseId"></param>
+        /// <param name="jwtPrivateKey"></param>
+        /// <param name="jwtPrivateKeyPassword"></param>
+        /// <param name="jwtPublicKeyId"></param>
+        public BoxConfig(string clientId, string clientSecret, string enterpriseId, 
+            string jwtPrivateKey, string jwtPrivateKeyPassword, string jwtPublicKeyId)
+        {
+            ClientId = clientId;
+            ClientSecret = clientSecret;
+            EnterpriseId = enterpriseId;
+            JWTPrivateKey = jwtPrivateKey;
+            JWTPrivateKeyPassword = jwtPrivateKeyPassword;
+            JWTPublicKeyId = jwtPublicKeyId;
+        }
+
+
+
         public virtual Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
         public virtual Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
         public virtual Uri BoxUploadApiUri { get { return new Uri(Constants.BoxUploadApiUriString); } }
@@ -29,6 +51,11 @@ namespace Box.V2.Config
         public virtual string ConsumerKey { get; private set; }
         public virtual string ClientSecret { get; private set; }
         public virtual Uri RedirectUri { get; set; }
+
+        public string EnterpriseId { get; private set; }
+        public string JWTPrivateKey { get; private set; }
+        public string JWTPrivateKeyPassword { get; private set; }
+        public string JWTPublicKeyId { get; private set; }
 
         public string DeviceId { get; set; }
         public string DeviceName { get; set; }

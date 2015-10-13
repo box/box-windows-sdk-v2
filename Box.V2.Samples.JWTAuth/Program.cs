@@ -1,4 +1,5 @@
-﻿using Box.V2.JWTAuth;
+﻿using Box.V2.Config;
+using Box.V2.JWTAuth;
 using Box.V2.Models;
 using System;
 using System.Configuration;
@@ -30,7 +31,8 @@ namespace Box.V2.Samples.JWTAuth
         {
             var privateKey = File.ReadAllText("private_key.pem");
 
-            var boxJWT = new BoxJWTAuth(ENTERPRISE_ID, CLIENT_ID, CLIENT_SECRET, privateKey, JWT_PRIVATE_KEY_PASSWORD, JWT_PUBLIC_KEY_ID);
+            var boxConfig = new BoxConfig(CLIENT_ID, CLIENT_SECRET, ENTERPRISE_ID, privateKey, JWT_PRIVATE_KEY_PASSWORD, JWT_PUBLIC_KEY_ID);
+            var boxJWT = new BoxJWTAuth(boxConfig);
 
             var adminToken = boxJWT.AdminToken();
             Console.WriteLine(adminToken);

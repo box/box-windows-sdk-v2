@@ -24,59 +24,41 @@ namespace Box.V2.JWTAuth
 
         readonly DateTime UNIX_EPOCH = new DateTime(1970, 1, 1);
 
-        private readonly string enterpriseId;
-        private readonly string clientId;
-        private readonly string clientSecret;
-        private readonly string publicKeyId;
+        private readonly IBoxConfig boxConfig;
         private readonly RSA credentials;
 
-        public BoxJWTAuth(string enterpriseId, string clientId, string clientSecret, string privateKey, string privateKeyPassword, string publicKeyId)
+        public BoxJWTAuth(IBoxConfig boxConfig)
         {
-            this.enterpriseId = enterpriseId;
-            this.clientId = clientId;
-            this.clientSecret = clientSecret;
-            this.publicKeyId = publicKeyId;
+            this.boxConfig = boxConfig;
 
-            var pwf = new PEMPasswordFinder(privateKeyPassword);
+            var pwf = new PEMPasswordFinder(this.boxConfig.JWTPrivateKeyPassword);
             AsymmetricCipherKeyPair key;
-            using (var reader = new StringReader(privateKey))
+            using (var reader = new StringReader(this.boxConfig.JWTPrivateKey))
             {
                 key = (AsymmetricCipherKeyPair)new PemReader(reader, pwf).ReadObject();
             }
             this.credentials = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
         }
 
-        //public BoxClient AdminClient()
-        //{
-        //    return AdminClient(AdminToken());
-        //}
-
         public BoxClient AdminClient(string adminToken)
         {
-            var config = new BoxConfig(this.clientId, this.clientSecret, new Uri("http://localhost"));
             var adminSession = new OAuthSession(adminToken, null, 0, TOKEN_TYPE);
-            var adminClient = new BoxClient(config, adminSession);
+            var adminClient = new BoxClient(this.boxConfig, adminSession);
 
             return adminClient;
         }
 
-        //public BoxClient UserClient(string userId)
-        //{
-        //    return UserClient(UserToken(userId), userId);
-        //}
-
         public BoxClient UserClient(string userToken, string userId)
         {
-            var config = new BoxConfig(this.clientId, this.clientSecret, new Uri("http://localhost"));
             var userSession = new OAuthSession(userToken, null, 0, TOKEN_TYPE);
-            var userClient = new BoxClient(config, userSession);
+            var userClient = new BoxClient(this.boxConfig, userSession);
 
             return userClient;
         }
 
         public string AdminToken()
         {
-            var assertion = ConstructJWTAssertion(this.enterpriseId, ENTERPRISE_SUB_TYPE);
+            var assertion = ConstructJWTAssertion(this.boxConfig.EnterpriseId, ENTERPRISE_SUB_TYPE);
 
             var result = JWTAuthPost(assertion);
             return result.access_token;
@@ -102,7 +84,7 @@ namespace Box.V2.JWTAuth
 
             var payload = new Dictionary<string, object>()
             {
-                { "iss", clientId },
+                { "iss", this.boxConfig.ClientId },
                 { "sub", sub },
                 { "box_sub_type", boxSubType },
                 { "aud", AUTH_URL },
@@ -110,7 +92,7 @@ namespace Box.V2.JWTAuth
                 { "exp", expiresInUnixTimestamp }
             };
 
-            var headers = new Dictionary<string, object>() { { "kid", publicKeyId } };
+            var headers = new Dictionary<string, object>() { { "kid", this.boxConfig.JWTPublicKeyId } };
 
             string assertion = JWT.Encode(payload, this.credentials, JwsAlgorithm.RS256, extraHeaders: headers);
             return assertion;
@@ -121,8 +103,8 @@ namespace Box.V2.JWTAuth
             var client = new RestClient(AUTH_URL);
             var request = new RestRequest(Method.POST);
             request.AddParameter("grant_type", JWT_GRANT_TYPE);
-            request.AddParameter("client_id", this.clientId);
-            request.AddParameter("client_secret", this.clientSecret);
+            request.AddParameter("client_id", this.boxConfig.ClientId);
+            request.AddParameter("client_secret", this.boxConfig.ClientSecret);
             request.AddParameter("assertion", assertion);
 
             var response = client.Execute(request);

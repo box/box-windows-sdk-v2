@@ -16,6 +16,11 @@ namespace Box.V2.Config
         string ClientSecret { get; }
         Uri RedirectUri { get; }
 
+        string EnterpriseId { get; }
+        string JWTPrivateKey { get; }
+        string JWTPrivateKeyPassword { get; }
+        string JWTPublicKeyId { get; }
+
         string DeviceId { get; set; }
         string DeviceName { get; set; }
         string UserAgent { get; set; }
