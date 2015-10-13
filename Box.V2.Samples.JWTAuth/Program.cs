@@ -1,4 +1,5 @@
 ﻿using Box.V2.JWTAuth;
+using Box.V2.Models;
 using System;
 using System.Configuration;
 using System.IO;
@@ -35,9 +36,6 @@ namespace Box.V2.Samples.JWTAuth
             Console.WriteLine(adminToken);
             Console.WriteLine();
 
-            //var config = new BoxConfig(CLIENT_ID, CLIENT_SECRET, new Uri("http://localhost"));
-            //var adminSession = new OAuthSession(adminToken, REFRESH_TOKEN, 3600, "bearer");
-            //var adminClient = new BoxClient(config, adminSession);
             var adminClient = boxJWT.AdminClient(adminToken);
 
             Console.WriteLine("Admin root folder items");
@@ -45,22 +43,21 @@ namespace Box.V2.Samples.JWTAuth
             items.Entries.ForEach(i => Console.WriteLine("\t{0}",i.Name));
             Console.WriteLine();
 
-            //var userRequest = new BoxUserRequest() { Name = "app user", IsPlatformAccessOnly = true };
-            //var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
-            //var userToken = boxJWT.UserToken(appUser.Id);
-            //var userSession = new OAuthSession(userToken, REFRESH_TOKEN, 3600, "bearer");
-            //var userClient = new BoxClient(config, userSession);
-            //Console.WriteLine("Created App User");
+            var userRequest = new BoxUserRequest() { Name = "app user", IsPlatformAccessOnly = true };
+            var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
+            var userToken = boxJWT.UserToken(appUser.Id);
+            var userClient = boxJWT.UserClient(userToken, appUser.Id);
+            Console.WriteLine("Created App User");
 
-            //var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();
-            //Console.WriteLine("\nApp User Details:");
-            //Console.WriteLine("\tId: {0}", userDetails.Id);
-            //Console.WriteLine("\tName: {0}", userDetails.Name);
-            //Console.WriteLine("\tStatus: {0}", userDetails.Status);
-            //Console.WriteLine();
+            var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();
+            Console.WriteLine("\nApp User Details:");
+            Console.WriteLine("\tId: {0}", userDetails.Id);
+            Console.WriteLine("\tName: {0}", userDetails.Name);
+            Console.WriteLine("\tStatus: {0}", userDetails.Status);
+            Console.WriteLine();
 
-            //await adminClient.UsersManager.DeleteEnterpriseUserAsync(appUser.Id, false, true);
-            //Console.WriteLine("Deleted App User");
+            await adminClient.UsersManager.DeleteEnterpriseUserAsync(appUser.Id, false, true);
+            Console.WriteLine("Deleted App User");
         }
     }
 }

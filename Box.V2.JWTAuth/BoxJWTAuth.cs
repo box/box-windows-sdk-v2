@@ -46,10 +46,10 @@ namespace Box.V2.JWTAuth
             this.credentials = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
         }
 
-        public BoxClient AdminClient()
-        {
-            return AdminClient(AdminToken());
-        }
+        //public BoxClient AdminClient()
+        //{
+        //    return AdminClient(AdminToken());
+        //}
 
         public BoxClient AdminClient(string adminToken)
         {
@@ -58,6 +58,20 @@ namespace Box.V2.JWTAuth
             var adminClient = new BoxClient(config, adminSession);
 
             return adminClient;
+        }
+
+        //public BoxClient UserClient(string userId)
+        //{
+        //    return UserClient(UserToken(userId), userId);
+        //}
+
+        public BoxClient UserClient(string userToken, string userId)
+        {
+            var config = new BoxConfig(this.clientId, this.clientSecret, new Uri("http://localhost"));
+            var userSession = new OAuthSession(userToken, null, 0, TOKEN_TYPE);
+            var userClient = new BoxClient(config, userSession);
+
+            return userClient;
         }
 
         public string AdminToken()
