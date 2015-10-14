@@ -19,6 +19,7 @@ namespace Box.V2.Models
         public const string FieldVersionNumber = "version_number";
         public const string FieldCommentCount = "comment_count";
         public const string FieldLock = "lock";
+        public const string FieldExpiringEmbedLink = "expiring_embed_link";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -75,6 +76,9 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldLock)]
         public BoxFileLock Lock { get; protected set; }
+
+        [JsonProperty(PropertyName = FieldExpiringEmbedLink)]
+        public BoxExpiringEmbedLink ExpiringEmbedLink { get; protected set; }
 
     }
 }

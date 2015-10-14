@@ -42,7 +42,16 @@ namespace Box.V2.Samples.JWTAuth
 
             Console.WriteLine("Admin root folder items");
             var items = await adminClient.FoldersManager.GetFolderItemsAsync("0", 500);
-            items.Entries.ForEach(i => Console.WriteLine("\t{0}", i.Name));
+            items.Entries.ForEach(i => 
+            {
+                Console.WriteLine("\t{0}", i.Name);
+                if (i.Type == "file")
+                {
+                    var preview_link = adminClient.FilesManager.GetPreviewLinkAsync(i.Id).Result;
+                    Console.WriteLine("\tPreview Link: {0}", preview_link.ToString());
+                    Console.WriteLine();
+                }   
+            });
             Console.WriteLine();
 
             var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
