@@ -45,12 +45,12 @@ namespace Box.V2.Samples.JWTAuth
             items.Entries.ForEach(i => 
             {
                 Console.WriteLine("\t{0}", i.Name);
-                if (i.Type == "file")
-                {
-                    var preview_link = adminClient.FilesManager.GetPreviewLinkAsync(i.Id).Result;
-                    Console.WriteLine("\tPreview Link: {0}", preview_link.ToString());
-                    Console.WriteLine();
-                }   
+                //if (i.Type == "file")
+                //{
+                //    var preview_link = adminClient.FilesManager.GetPreviewLinkAsync(i.Id).Result;
+                //    Console.WriteLine("\tPreview Link: {0}", preview_link.ToString());
+                //    Console.WriteLine();
+                //}   
             });
             Console.WriteLine();
 
