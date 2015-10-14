@@ -33,6 +33,22 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Create a new Box Enterprise user.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userRequest.Id)
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(userRequest))
+                .Method(RequestMethod.Post);
+
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Used to edit the settings and information about a user. This method only works for enterprise admins. To roll a user out 
         /// of the enterprise (and convert them to a standalone free user), update the special enterprise attribute to be null
         /// </summary>

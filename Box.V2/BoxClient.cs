@@ -24,7 +24,17 @@ namespace Box.V2
         /// Instantiates a BoxClient with the provided config object
         /// </summary>
         /// <param name="boxConfig">The config object to be used</param>
-        public BoxClient(IBoxConfig boxConfig) : this(boxConfig, null) { }
+        public BoxClient(IBoxConfig boxConfig)
+        {
+            Config = boxConfig;
+
+            _handler = new HttpRequestHandler();
+            _converter = new BoxJsonConverter();
+            _service = new BoxService(_handler);
+            Auth = new AuthRepository(Config, _service, _converter, null);
+
+            InitManagers();
+        }
 
         /// <summary>
         /// Instantiates a BoxClient with the provided config object and auth session
@@ -44,10 +54,28 @@ namespace Box.V2
         }
 
         /// <summary>
+        /// Instantiates a BoxClient that uses JWT authentication
+        /// </summary>
+        /// <param name="boxConfig">The config object to be used</param>
+        /// <param name="authRepository">An IAuthRepository that knows how to retrieve new tokens using JWT</param>
+        public BoxClient(IBoxConfig boxConfig, IAuthRepository authRepository)
+        {
+            Config = boxConfig;
+
+            _handler = new HttpRequestHandler();
+            _converter = new BoxJsonConverter();
+            _service = new BoxService(_handler);
+            Auth = authRepository;
+
+            InitManagers();
+        }
+
+        /// <summary>
         /// Initializes a new BoxClient with the provided config, converter, service and auth objects.
         /// </summary>
         /// <param name="boxConfig">The config object to use</param>
         /// <param name="boxConverter">The box converter object to use</param>
+        /// <param name="requestHandler">The box request handler to use</param>
         /// <param name="boxService">The box service to use</param>
         /// <param name="auth">The auth repository object to use</param>
         public BoxClient(IBoxConfig boxConfig, IBoxConverter boxConverter, IRequestHandler requestHandler, IBoxService boxService, IAuthRepository auth)
