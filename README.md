@@ -3,28 +3,69 @@
 Box Windows V2 SDK
 ==================
 
-Windows SDK for v2 of the Box API. The SDK is built upon the Portable Class Library and targets the following frameworks: .NET for Windows Store apps, .NET Framework 4.0.3 and higher, Silverlight 4 and higher, Windows Phone 7.5 and higher.
+Windows SDK for v2 of the Box API. The SDK is built upon the Portable Class Library and targets the following frameworks: .NET Framework 4.0.3 and higher, .NET for Windows Store apps, Silverlight 4 and higher, Windows Phone 7.5 and higher.
 
 
 ###Prerequisites
-* Git  
-* Visual Studio 2012 w/ Update 2 CTP  
+* Visual Studio 2012 w/ Update 2 CTP (or higher)
 * Windows Phone SDK 8.0 (if running Windows Phone samples)
 * Windows Store SDK (if running Windows Store samples)
 
 Quick Start
 -----------
 
-### Configuration
+### Installation
+Install the core SDK using Nuget
+```bash
+PM> Install-Package Box.V2
+```
+For use with Box Platform Developer or Box Platform Enterprise, also install JWT support using Nuget
+```bash
+PM> Install-Package Box.V2.JWTAuth
+```
 
+If you haven't already created an app in Box go to https://developers.box.com/ and click 'Sign Up'
+
+### Using with Box Platform Developer or Box Platform Enterprise
+
+#### Configure
+```c#
+var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_id>);
+var boxJWT = new BoxJWTAuth(boxConfig);
+```
+
+#### Authenticate
+```c#
+var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
+var adminClient = boxJWT.AdminClient(adminToken);
+
+//for example, get the admin's root folder items
+var items = await adminClient.FoldersManager.GetFolderItemsAsync("0", 500);
+```
+#### Create an App User
+```c#
+//NOTE: you must set IsPlatformAccessOnly=true for an App User
+var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
+var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
+
+//get a user client
+var userToken = boxJWT.UserToken(appUser.Id); //valid for 60 minutes so should be cached and re-used
+var userClient = boxJWT.UserClient(userToken, appUser.Id);
+
+//for example, look up the app user's details
+var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();
+```
+
+### Using with OAuth2
+
+#### Configure
 Set your configuration parameters and initialize the client:
 ```c#
 var config = new BoxConfig(<Client_Id>, <Client_Secret>, "https://boxsdk");
 var client = new BoxClient(config);
 ```
-If you dont' have a client id or client secret, you can get one here: https://app.box.com/developers/services
 
-### Authenticate
+#### Authenticate
 Bundled with the SDK are sample applications for both Windows 8 and Windows Phone which include sample OAuth2 Workflows. The authentication workflow is a 2-step process that first retrieves an Auth Code and then exchanges it for an Access/Refresh Token
 
 *Windows 8*
@@ -52,8 +93,8 @@ Alternatively, a completely custom OAuth2 authentication process can be used in 
 OAuthSession session = // Create session from custom implementation
 var client = new BoxClient(config, session);
 ```
-
-### Get Folder Items
+### Some Examples
+#### Get Folder Items
 ```c#
 // Get root folder with default properties
 BoxFolder f = await client.FoldersManager.GetItemsAsync("0", 50, 0);
@@ -67,12 +108,12 @@ BoxFolder f = await client.FoldersManager.GetItemsAsync("0", 50, 0, new List<str
 });
 ```
 
-### Get File Information
+#### Get File Information
 ```c#
 BoxFile f = await client.FilesManager.GetInformationAsync(fileId);
 ```
 
-### Update a Files Information
+#### Update a Files Information
 ```c#
 // Create request object with new property values
 BoxFileRequest request = new BoxFileRequest()
@@ -85,7 +126,7 @@ BoxFile f = await client.FilesManager.UpdateInformationAsync(request );
 ```
 
 
-### Upload a New File
+#### Upload a New File
 ```c#
 // Create request object with name and parent folder the file should be uploaded to
 BoxFileRequest req = new BoxFileRequest()
@@ -96,7 +137,7 @@ BoxFileRequest req = new BoxFileRequest()
 BoxFile f = await client.FilesManager.UploadAsync(request, stream);
 ```
 
-### Download a File
+#### Download a File
 ```c#
 Stream stream = await client.FilesManager.DownloadStreamAsync(fileId);
 ```
@@ -127,7 +168,8 @@ Documentation of all classes and methods are provided through the standard ```<s
 
 Other Resources
 -------------
-- Nuget Package: https://www.nuget.org/packages/Box.V2/
+- Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2/
+- JWT Support Nuget Package: https://www.nuget.org/packages/Box.V2.JWTAuth/
 - Box Windows SDK Video Tutorial: https://developers.box.com/box-windows-sdk-tutorial/
 
 Known Issues
