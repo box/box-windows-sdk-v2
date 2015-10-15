@@ -89,12 +89,15 @@ namespace Box.V2.Config
             public const string BoxDeviceId = "box_device_id";
             public const string BoxDeviceName = "box_device_name";
 
+            public const string Assertion = "assertion";
+
             public const string UserAgent = "User-Agent";
             public const string AcceptEncoding = "Accept-Encoding";
 
             /*** Values ***/
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
+            public const string JWTAuthorizationCode = "urn:ietf:params:oauth:grant-type:jwt-bearer";
         }
 
         public static class ErrorCodes

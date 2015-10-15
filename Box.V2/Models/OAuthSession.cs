@@ -12,6 +12,7 @@ namespace Box.V2.Auth
         private const string FieldRefreshToken = "refresh_token";
         private const string FieldExpiresIn = "expires_in";
         private const string FieldTokenType = "token_type";
+        private const string FieldRestrictedTo = "restricted_to";
 
         /// <summary>
         /// Instantiates a new OAuth 2 session. This is primarily used if you are developing a custom
@@ -70,6 +71,9 @@ namespace Box.V2.Auth
         /// </summary>
         [JsonProperty(PropertyName = FieldTokenType)]
         public string TokenType { get; private set; }
+
+        [JsonProperty(PropertyName = FieldRestrictedTo)]
+        public string[] RestrictedTo { get; private set; }
 
         /// <summary>
         /// Read-only property to provide support for legacy V1 authentication

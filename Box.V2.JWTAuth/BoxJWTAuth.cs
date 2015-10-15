@@ -1,14 +1,14 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
-using Box.V2.Exceptions;
+using Box.V2.Extensions;
+using Box.V2.Request;
+using Box.V2.Services;
 using Jose;
-using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +19,6 @@ namespace Box.V2.JWTAuth
     public class BoxJWTAuth
     {
         const string AUTH_URL = "https://api.box.com/oauth2/token";
-        const string JWT_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:jwt-bearer";
         const string ENTERPRISE_SUB_TYPE = "enterprise";
         const string USER_SUB_TYPE = "user";
         const string TOKEN_TYPE = "bearer";
@@ -63,22 +62,20 @@ namespace Box.V2.JWTAuth
         public string AdminToken()
         {
             var assertion = ConstructJWTAssertion(this.boxConfig.EnterpriseId, ENTERPRISE_SUB_TYPE);
-
             var result = JWTAuthPost(assertion);
-            return result.access_token;
+            return result.AccessToken;
         }
 
         public string UserToken(string userId)
         {
             var assertion = ConstructJWTAssertion(userId, USER_SUB_TYPE);
-
             var result = JWTAuthPost(assertion);
-            return result.access_token;
+            return result.AccessToken;
         }
 
         public OAuthSession Session(string token)
         {
-            return new OAuthSession(token, null, 0, TOKEN_TYPE);
+            return new OAuthSession(token, null, 3600, TOKEN_TYPE);
         }
 
         private string ConstructJWTAssertion(string sub, string boxSubType)
@@ -107,29 +104,24 @@ namespace Box.V2.JWTAuth
             return assertion;
         }
 
-        private dynamic JWTAuthPost(string assertion)
+        private OAuthSession JWTAuthPost(string assertion)
         {
-            var client = new RestClient(AUTH_URL);
-            var request = new RestRequest(Method.POST);
-            request.AddParameter("grant_type", JWT_GRANT_TYPE);
-            request.AddParameter("client_id", this.boxConfig.ClientId);
-            request.AddParameter("client_secret", this.boxConfig.ClientSecret);
-            request.AddParameter("assertion", assertion);
+            BoxRequest boxRequest = new BoxRequest(this.boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString)
+                                            .Method(RequestMethod.Post)
+                                            .Header(Constants.RequestParameters.UserAgent, this.boxConfig.UserAgent)
+                                            .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.JWTAuthorizationCode)
+                                            .Payload(Constants.RequestParameters.Assertion, assertion)
+                                            .Payload(Constants.RequestParameters.ClientId, this.boxConfig.ClientId)
+                                            .Payload(Constants.RequestParameters.ClientSecret, this.boxConfig.ClientSecret);
 
-            var response = client.Execute(request);
+            var handler = new HttpRequestHandler();
+            var converter = new BoxJsonConverter();
+            var service = new BoxService(handler);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                var content = response.Content;
-                dynamic parsed_content = JObject.Parse(content);
-                return parsed_content;
-            }
-            else
-            {
-                var converter = new BoxJsonConverter();
-                var error = converter.Parse<BoxError>(response.Content);
-                throw new BoxException(response.StatusDescription, error);
-            }
+            IBoxResponse<OAuthSession> boxResponse = service.ToResponseAsync<OAuthSession>(boxRequest).Result;
+            boxResponse.ParseResults(converter);
+
+            return boxResponse.ResponseObject;
         }
     }
 
