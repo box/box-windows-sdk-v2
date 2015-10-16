@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Box.V2.JWTAuth</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>JWT Auth for Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Support library that provides JWT authentication for the Windows SDK for V2 of the Box API.</description>
-    <releaseNotes>Initial release</releaseNotes>
+    <description>Support library that provides JWT authentication for Box Windows SDK V2. Requires Box Windows SDK V2 2.3.0 or higher.</description>
+    <releaseNotes>Removed dependency on RestSharp; now uses Box.V2 request method</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Box V2 SDK Collaboration Storage File Management JWT AppUsers</tags>
   </metadata>
