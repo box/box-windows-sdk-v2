@@ -52,6 +52,7 @@
     <Compile Include="Exceptions\BoxAuthenticationFailedException.cs" />
     <Compile Include="Extensions\BoxExtensions.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
+    <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />
     <Compile Include="Models\BoxFileLock.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Models\Permissions\BoxFolderPermission.cs" />
     <Compile Include="Models\Permissions\BoxItemPermission.cs" />
     <Compile Include="Models\BoxSortOrder.cs" />
+    <Compile Include="Models\Request\BoxRetentionPolicyRequest.cs" />
     <Compile Include="Plugin\BoxResourcePlugins.cs" />
     <Compile Include="Plugin\IBoxMetadataManager.cs" />
     <Compile Include="Plugin\IResourcePlugin.cs" />

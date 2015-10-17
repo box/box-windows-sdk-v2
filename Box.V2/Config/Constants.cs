@@ -27,6 +27,7 @@ namespace Box.V2.Config
         public const string SearchString = @"search";
         public const string UserString = @"users/";
         public const string CollaborationsString = @"collaborations/";
+        public const string RetentionPoliciesString = @"retention_policies/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;

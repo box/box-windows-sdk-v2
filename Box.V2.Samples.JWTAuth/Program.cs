@@ -1,6 +1,7 @@
 ﻿using Box.V2.Config;
 using Box.V2.JWTAuth;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 using System;
 using System.Configuration;
 using System.IO;
@@ -42,34 +43,32 @@ namespace Box.V2.Samples.JWTAuth
 
             Console.WriteLine("Admin root folder items");
             var items = await adminClient.FoldersManager.GetFolderItemsAsync("0", 500);
-            items.Entries.ForEach(i => 
-            {
-                Console.WriteLine("\t{0}", i.Name);
-                //if (i.Type == "file")
-                //{
-                //    var preview_link = adminClient.FilesManager.GetPreviewLinkAsync(i.Id).Result;
-                //    Console.WriteLine("\tPreview Link: {0}", preview_link.ToString());
-                //    Console.WriteLine();
-                //}   
-            });
+            items.Entries.ForEach(i => Console.WriteLine("\t{0}", i.Name));
             Console.WriteLine();
 
-            var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
-            var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
-            Console.WriteLine("Created App User");
+            var policyRequest = new BoxRetentionPolicyRequest() { PolicyName = "test policy",
+                PolicyType = "finite",
+                RetentionLength = 30,
+                DispositionAction = "permanently_delete" };
 
-            var userToken = boxJWT.UserToken(appUser.Id);
-            var userClient = boxJWT.UserClient(userToken, appUser.Id);
+            var policy = await adminClient.RetentionPoliciesManager.CreateRetentionPolicyAsync(policyRequest);
 
-            var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();
-            Console.WriteLine("\nApp User Details:");
-            Console.WriteLine("\tId: {0}", userDetails.Id);
-            Console.WriteLine("\tName: {0}", userDetails.Name);
-            Console.WriteLine("\tStatus: {0}", userDetails.Status);
-            Console.WriteLine();
+            //var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
+            //var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
+            //Console.WriteLine("Created App User");
 
-            await adminClient.UsersManager.DeleteEnterpriseUserAsync(appUser.Id, false, true);
-            Console.WriteLine("Deleted App User");
+            //var userToken = boxJWT.UserToken(appUser.Id);
+            //var userClient = boxJWT.UserClient(userToken, appUser.Id);
+
+            //var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();
+            //Console.WriteLine("\nApp User Details:");
+            //Console.WriteLine("\tId: {0}", userDetails.Id);
+            //Console.WriteLine("\tName: {0}", userDetails.Name);
+            //Console.WriteLine("\tStatus: {0}", userDetails.Status);
+            //Console.WriteLine();
+
+            //await adminClient.UsersManager.DeleteEnterpriseUserAsync(appUser.Id, false, true);
+            //Console.WriteLine("Deleted App User");
         }
     }
 }
