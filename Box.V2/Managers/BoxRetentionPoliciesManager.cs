@@ -6,6 +6,7 @@ using Box.V2.Models.Request;
 using Box.V2.Extensions;
 using Box.V2.Services;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Box.V2.Managers
 {
@@ -15,7 +16,7 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth) { }
 
         /// <summary>
-        /// Used to create a new retention policy.
+        /// Used to create a new retention policy
         /// </summary>
         /// <param name="retentionPolicyRequest"></param>
         /// <returns></returns>
@@ -24,6 +25,24 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri)
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize(retentionPolicyRequest));
+
+            IBoxResponse<BoxRetentionPolicy> response = await ToResponseAsync<BoxRetentionPolicy>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to retrieve information about a retention policy
+        /// </summary>
+        /// <param name="id">ID of the retention policy</param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<BoxRetentionPolicy> GetRetentionPolicyAsync(string id, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri, id)
+                .Param(ParamFields, fields);
 
             IBoxResponse<BoxRetentionPolicy> response = await ToResponseAsync<BoxRetentionPolicy>(request).ConfigureAwait(false);
 
