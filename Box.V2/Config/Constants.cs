@@ -68,6 +68,7 @@ namespace Box.V2.Config
         public const string TypeFolder = "folder";
         public const string TypeComment = "comment";
         public const string TypeWebLink = "web_link";
+        public const string TypeRetentionPolicy = "retention_policy";
         public const string TypeCollaboration = "collaboration";
         public const string TypeFileVersion = "file_version";
         public const string TypeGroup = "group";

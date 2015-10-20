@@ -26,6 +26,8 @@ namespace Box.V2.Converter
                         return new BoxFolder();
                     case Constants.TypeWebLink:
                         return new BoxWebLink();
+                    case Constants.TypeRetentionPolicy:
+                        return new BoxRetentionPolicy();
                     case Constants.TypeComment:
                         return new BoxComment();
                     case Constants.TypeFileVersion:
