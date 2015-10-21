@@ -70,5 +70,38 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Retrieves all of the retention policies for the given enterprise.
+        /// </summary>
+        /// <param name="policyName">A name to filter the retention policies by. A trailing partial match search is performed.</param>
+        /// <param name="policyType">A policy type to filter the retention policies by.</param>
+        /// <param name="createdByUserId">A user id to filter the retention policies by.</param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<BoxCollection<BoxRetentionPolicy>> GetRetentionPolicies(string policyName = null, string policyType = null, string createdByUserId = null, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri)
+                .Param("policy_name", policyName)
+                .Param("policy_type", policyType)
+                .Param("created_by_user_id", createdByUserId)
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxCollection<BoxRetentionPolicy>> response = await ToResponseAsync<BoxCollection<BoxRetentionPolicy>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+
+        public async Task<BoxCollection<BoxRetentionPolicyAssignment>> GetRetentionPolicyAssignments(string retentionPolicyId, string type = null, string createdByUserId = null, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri, string.Format(Constants.RetentionPolicyAssignmentsString, retentionPolicyId))
+                .Param("type", type)
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxCollection<BoxRetentionPolicyAssignment>> response = await ToResponseAsync<BoxCollection<BoxRetentionPolicyAssignment>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
     }
 }

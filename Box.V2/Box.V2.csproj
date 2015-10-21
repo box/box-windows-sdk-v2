@@ -58,7 +58,7 @@
     <Compile Include="Models\BoxFileLock.cs" />
     <Compile Include="Models\BoxFilePreview.cs" />
     <Compile Include="Models\BoxFileVersionRetention.cs" />
-    <Compile Include="Models\BoxRetentionAssignment.cs" />
+    <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
     <Compile Include="Models\BoxRetentionPolicy.cs" />
     <Compile Include="Models\BoxWebLink.cs" />
     <Compile Include="Models\Permissions\BoxFilePermission.cs" />

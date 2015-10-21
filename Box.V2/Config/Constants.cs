@@ -57,6 +57,7 @@ namespace Box.V2.Config
         public const string TrashFolderPathString = @"{0}/trash";
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
+        public const string RetentionPolicyAssignmentsString = @"{0}/assignments";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
