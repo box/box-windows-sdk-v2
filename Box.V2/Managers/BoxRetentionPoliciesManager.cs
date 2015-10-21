@@ -49,5 +49,26 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Used to update a retention policy.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="retentionPolicyRequest"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<BoxRetentionPolicy> UpdateRetentionPolicyAsync(string id, BoxRetentionPolicyRequest retentionPolicyRequest, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri, id)
+                .Method(RequestMethod.Put)
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize<BoxRetentionPolicyRequest>(retentionPolicyRequest));
+
+            IBoxResponse<BoxRetentionPolicy> response = await ToResponseAsync<BoxRetentionPolicy>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
     }
 }

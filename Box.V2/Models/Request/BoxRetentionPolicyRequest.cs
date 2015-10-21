@@ -34,5 +34,11 @@ namespace Box.V2.Models.Request
         /// </summary>
         [JsonProperty(PropertyName = "disposition_action")]
         public string DispositionAction { get; set; }
+
+        /// <summary>
+        /// Used to retire a retention policy if status is set to retired. If not retiring a policy, do not include or set to null.
+        /// </summary>
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
     }
 }
