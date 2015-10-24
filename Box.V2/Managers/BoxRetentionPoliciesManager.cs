@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The class managing the Box API's Retention Policies endpoint
+    /// </summary>
     public class BoxRetentionPoliciesManager : BoxResourceManager
     {
         public BoxRetentionPoliciesManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
@@ -91,14 +94,32 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-
-        public async Task<BoxCollection<BoxRetentionPolicyAssignment>> GetRetentionPolicyAssignments(string retentionPolicyId, string type = null, string createdByUserId = null, List<string> fields = null)
+        /// <summary>
+        /// Returns a list of all retention policy assignments associated with a specified retention policy.
+        /// </summary>
+        /// <param name="retentionPolicyId">ID of the retention policy</param>
+        /// <param name="type">The type of the retention policy assignment to retrieve. Can either be folder or enterprise.</param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<BoxCollection<BoxRetentionPolicyAssignment>> GetRetentionPolicyAssignments(string retentionPolicyId, string type = null, List<string> fields = null)
         {
-            BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri, string.Format(Constants.RetentionPolicyAssignmentsString, retentionPolicyId))
+            BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri, string.Format(Constants.RetentionPolicyAssignmentsEndpointString, retentionPolicyId))
                 .Param("type", type)
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxRetentionPolicyAssignment>> response = await ToResponseAsync<BoxCollection<BoxRetentionPolicyAssignment>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        public async Task<BoxRetentionPolicyAssignment> CreateRetentionPolicyAssignment(BoxRetentionPolicyAssignmentRequest policyAssignmentRequest, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri)
+                .Method(RequestMethod.Post)
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize<BoxRetentionPolicyAssignmentRequest>(policyAssignmentRequest));
+
+            IBoxResponse<BoxRetentionPolicyAssignment> response = await ToResponseAsync<BoxRetentionPolicyAssignment>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }

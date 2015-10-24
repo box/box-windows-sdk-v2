@@ -21,6 +21,7 @@ namespace Box.V2.Models
         /// For file is 'file'
         /// For folders is ‘folder'
         /// For collaborations is 'collaboration'
+        /// For enterprise is 'enterprise'
         /// </summary>
         [JsonProperty(PropertyName = FieldType)]
         public string Type { get; private set; }

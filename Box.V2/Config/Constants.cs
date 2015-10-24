@@ -28,6 +28,7 @@ namespace Box.V2.Config
         public const string UserString = @"users/";
         public const string CollaborationsString = @"collaborations/";
         public const string RetentionPoliciesString = @"retention_policies/";
+        public const string RetentionPolicyAssignmentsString = @"retention_policy_assignments/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -57,7 +58,7 @@ namespace Box.V2.Config
         public const string TrashFolderPathString = @"{0}/trash";
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
-        public const string RetentionPolicyAssignmentsString = @"{0}/assignments";
+        public const string RetentionPolicyAssignmentsEndpointString = @"{0}/assignments";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
