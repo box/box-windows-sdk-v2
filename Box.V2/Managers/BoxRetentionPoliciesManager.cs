@@ -112,6 +112,12 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Creates a retention policy assignment that associates a retention policy with either a folder or an enterprise
+        /// </summary>
+        /// <param name="policyAssignmentRequest"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
         public async Task<BoxRetentionPolicyAssignment> CreateRetentionPolicyAssignment(BoxRetentionPolicyAssignmentRequest policyAssignmentRequest, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri)
@@ -124,5 +130,20 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Used to retrieve information about a retention policy assignment.
+        /// </summary>
+        /// <param name="retentionPolicyAssignmentId"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<BoxRetentionPolicyAssignment> GetRetentionPolicyAssignment(string retentionPolicyAssignmentId, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri, retentionPolicyAssignmentId)
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxRetentionPolicyAssignment> response = await ToResponseAsync<BoxRetentionPolicyAssignment>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
     }
 }

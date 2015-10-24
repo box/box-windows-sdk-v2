@@ -28,6 +28,8 @@ namespace Box.V2.Converter
                         return new BoxWebLink();
                     case Constants.TypeRetentionPolicy:
                         return new BoxRetentionPolicy();
+                    case Constants.TypeRetentionPolicyAssignment:
+                        return new BoxRetentionPolicyAssignment();
                     case Constants.TypeComment:
                         return new BoxComment();
                     case Constants.TypeFileVersion:

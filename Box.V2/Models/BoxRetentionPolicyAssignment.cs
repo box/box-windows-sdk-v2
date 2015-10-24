@@ -6,7 +6,7 @@ namespace Box.V2.Models
     /// <summary>
     /// Box representation of a retention assignment
     /// </summary>
-    public class BoxRetentionPolicyAssignment
+    public class BoxRetentionPolicyAssignment : BoxEntity
     {
         public const string FieldRetentionPolicy = "retention_policy";
         public const string FieldAssignedTo = "assigned_to";
