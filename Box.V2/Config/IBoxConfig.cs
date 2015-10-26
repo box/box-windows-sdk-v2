@@ -43,6 +43,7 @@ namespace Box.V2.Config
         Uri GroupMembershipEndpointUri { get; }
         Uri RetentionPoliciesEndpointUri { get; }
         Uri RetentionPolicyAssignmentsUri { get; }
+        Uri FileVersionRetentionsUri { get; }
         
     }
 }

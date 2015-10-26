@@ -30,6 +30,8 @@ namespace Box.V2.Converter
                         return new BoxRetentionPolicy();
                     case Constants.TypeRetentionPolicyAssignment:
                         return new BoxRetentionPolicyAssignment();
+                    case Constants.TypeFileVersionRetention:
+                        return new BoxFileVersionRetention();
                     case Constants.TypeComment:
                         return new BoxComment();
                     case Constants.TypeFileVersion:

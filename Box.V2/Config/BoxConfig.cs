@@ -80,6 +80,7 @@ namespace Box.V2.Config
         public virtual Uri GroupMembershipEndpointUri { get { return new Uri(BoxApiUri, Constants.GroupMembershipString); } }
         public virtual Uri RetentionPoliciesEndpointUri {  get { return new Uri(BoxApiUri, Constants.RetentionPoliciesString); } }
         public virtual Uri RetentionPolicyAssignmentsUri {  get { return new Uri(BoxApiUri, Constants.RetentionPolicyAssignmentsString); } }
+        public virtual Uri FileVersionRetentionsUri { get { return new Uri(BoxApiUri, Constants.FileVersionRetentionsString); } }
     }
 
     public enum CompressionType

@@ -29,6 +29,7 @@ namespace Box.V2.Config
         public const string CollaborationsString = @"collaborations/";
         public const string RetentionPoliciesString = @"retention_policies/";
         public const string RetentionPolicyAssignmentsString = @"retention_policy_assignments/";
+        public const string FileVersionRetentionsString = @"file_version_retentions";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -72,6 +73,7 @@ namespace Box.V2.Config
         public const string TypeWebLink = "web_link";
         public const string TypeRetentionPolicy = "retention_policy";
         public const string TypeRetentionPolicyAssignment = "retention_policy_assignment";
+        public const string TypeFileVersionRetention = "file_version_retention";
         public const string TypeCollaboration = "collaboration";
         public const string TypeFileVersion = "file_version";
         public const string TypeGroup = "group";

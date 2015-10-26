@@ -38,5 +38,7 @@ public enum BoxType
     comment,
     folder,
     retention_policy,
-    enterprise
+    enterprise,
+    user,
+    group
 }

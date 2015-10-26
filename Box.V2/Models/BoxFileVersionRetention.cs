@@ -6,7 +6,7 @@ namespace Box.V2.Models
     /// <summary>
     /// Box representation of a file version retention
     /// </summary>
-    public class BoxFileVersionRetention
+    public class BoxFileVersionRetention : BoxEntity
     {
         public const string FieldFileVersion = "file_version";
         public const string FieldFile = "file";

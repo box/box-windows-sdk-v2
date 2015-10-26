@@ -145,5 +145,38 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Retrieves all file version retentions for the given enterprise.
+        /// </summary>
+        /// <param name="fileVersonRetentionRequest"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<BoxFileVersionRetentionCollection> GetFileVersionRetentions(BoxFileVersionRetentionRequest fileVersonRetentionRequest, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)
+                .Payload(_converter.Serialize(fileVersonRetentionRequest))
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxFileVersionRetentionCollection> response = await ToResponseAsync<BoxFileVersionRetentionCollection>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to retrieve information about a file version retention
+        /// </summary>
+        /// <param name="fileVersionRetentionId"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<BoxFileVersionRetention> GetFileVersionRetention(string fileVersionRetentionId, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri, fileVersionRetentionId)
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxFileVersionRetention> response = await ToResponseAsync<BoxFileVersionRetention>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
     }
 }
