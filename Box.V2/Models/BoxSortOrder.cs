@@ -15,7 +15,7 @@ namespace Box.V2.Models
         public BoxSortDirection Direction { get; private set; }
     }
 
-    public class BoxFileVersionRetentionSortOrder
+    public class BoxSortOrderUsingSortField
     {
         [JsonProperty(PropertyName = "sort")]
         public string Sort { get; private set; }

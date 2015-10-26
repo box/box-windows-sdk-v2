@@ -39,13 +39,13 @@ namespace Box.V2.Models
 
     }
 
-    public class BoxFileVersionRetentionCollection : BoxCollection
+    public class BoxCollectionSingleSortOrder<T> : BoxCollection
     {
         [JsonProperty(PropertyName = FieldTotalCount)]
         public int TotalCount { get; private set; }
 
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<BoxFileVersionRetention> Entries { get; private set; }
+        public List<T> Entries { get; private set; }
 
         [JsonProperty(PropertyName = FieldOffset)]
         public int Offset { get; private set; }
@@ -54,6 +54,6 @@ namespace Box.V2.Models
         public int Limit { get; private set; }
 
         [JsonProperty(PropertyName = FieldOrder)]
-        public BoxFileVersionRetentionSortOrder Order { get; private set; }
+        public BoxSortOrderUsingSortField Order { get; private set; }
     }
 }

@@ -154,13 +154,13 @@ namespace Box.V2.Managers
         /// <param name="fileVersonRetentionRequest"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async Task<BoxFileVersionRetentionCollection> GetFileVersionRetentions(BoxFileVersionRetentionRequest fileVersonRetentionRequest, List<string> fields = null)
+        public async Task<BoxCollectionSingleSortOrder<BoxFileVersionRetention>> GetFileVersionRetentions(BoxFileVersionRetentionRequest fileVersonRetentionRequest, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)
                 .Payload(_converter.Serialize(fileVersonRetentionRequest))
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxFileVersionRetentionCollection> response = await ToResponseAsync<BoxFileVersionRetentionCollection>(request).ConfigureAwait(false);
+            IBoxResponse<BoxCollectionSingleSortOrder<BoxFileVersionRetention>> response = await ToResponseAsync<BoxCollectionSingleSortOrder<BoxFileVersionRetention>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
