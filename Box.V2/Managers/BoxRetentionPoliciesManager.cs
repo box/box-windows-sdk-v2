@@ -151,13 +151,13 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves all file version retentions for the given enterprise.
         /// </summary>
-        /// <param name="fileVersonRetentionRequest"></param>
+        /// <param name="fileVersionRetentionRequest"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async Task<BoxCollectionSingleSortOrder<BoxFileVersionRetention>> GetFileVersionRetentions(BoxFileVersionRetentionRequest fileVersonRetentionRequest, List<string> fields = null)
+        public async Task<BoxCollectionSingleSortOrder<BoxFileVersionRetention>> GetFileVersionRetentions(BoxFileVersionRetentionRequest fileVersionRetentionRequest, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)
-                .Payload(_converter.Serialize(fileVersonRetentionRequest))
+                .Payload(_converter.Serialize(fileVersionRetentionRequest))
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollectionSingleSortOrder<BoxFileVersionRetention>> response = await ToResponseAsync<BoxCollectionSingleSortOrder<BoxFileVersionRetention>>(request).ConfigureAwait(false);
