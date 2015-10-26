@@ -14,6 +14,12 @@ namespace Box.V2.Models
         public string Enterprise { get; set; }
 
         /// <summary>
+        /// The email address this user uses to login.
+        /// </summary>
+        [JsonProperty(PropertyName = "login")]
+        public string Login { get; set; }
+
+        /// <summary>
         /// The name of this user
         /// </summary>
         [JsonProperty(PropertyName = "name")]
@@ -71,7 +77,7 @@ namespace Box.V2.Models
         /// Whether this user can see other enterprise users in its contact list
         /// </summary>
         [JsonProperty(PropertyName = "can_see_managed_users")]
-        public bool CanSeeManagedUsers { get; set; }
+        public bool? CanSeeManagedUsers { get; set; }
 
         /// <summary>
         /// Can be active or inactive

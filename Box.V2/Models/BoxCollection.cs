@@ -38,4 +38,22 @@ namespace Box.V2.Models
         public List<BoxSortOrder> Order { get; private set; }
 
     }
+
+    public class BoxFileVersionRetentionCollection : BoxCollection
+    {
+        [JsonProperty(PropertyName = FieldTotalCount)]
+        public int TotalCount { get; private set; }
+
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<BoxFileVersionRetention> Entries { get; private set; }
+
+        [JsonProperty(PropertyName = FieldOffset)]
+        public int Offset { get; private set; }
+
+        [JsonProperty(PropertyName = FieldLimit)]
+        public int Limit { get; private set; }
+
+        [JsonProperty(PropertyName = FieldOrder)]
+        public BoxFileVersionRetentionSortOrder Order { get; private set; }
+    }
 }

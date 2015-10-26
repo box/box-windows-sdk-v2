@@ -28,6 +28,7 @@ namespace Box.V2.Models
         public const string FieldIsExemptFromDeviceLimits = "is_exempt_from_device_limits";
         public const string FieldIsExemptFromLoginVerification = "is_exempt_from_login_verification";
         public const string FieldEnterprise = "enterprise";
+        public const string FieldIsPlatformAccessOnly = "is_platform_access_only";
 
         /// <summary>
         /// The name of this user
@@ -148,6 +149,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldEnterprise)]
         public BoxEnterprise Enterprise { get; private set; }
+
+        /// <summary>
+        /// Whether or not the user is an App User (platform)
+        /// </summary>
+        [JsonProperty(PropertyName = FieldIsPlatformAccessOnly)]
+        public bool? IsPlatformAccessOnly { get; private set; }
 
     }
 }

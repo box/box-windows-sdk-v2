@@ -100,6 +100,7 @@ namespace Box.V2
             SearchManager = new BoxSearchManager(Config, _service, _converter, Auth);
             UsersManager = new BoxUsersManager(Config, _service, _converter, Auth);
             GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth);
+            RetentionPoliciesManager = new BoxRetentionPoliciesManager(Config, _service, _converter, Auth);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -156,6 +157,11 @@ namespace Box.V2
         /// The manager that represents the groups endpoint
         /// </summary>
         public BoxGroupsManager GroupsManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the retention policies endpoint
+        /// </summary>
+        public BoxRetentionPoliciesManager RetentionPoliciesManager { get; private set; }
 
         /// <summary>
         /// The Auth repository that holds the auth session

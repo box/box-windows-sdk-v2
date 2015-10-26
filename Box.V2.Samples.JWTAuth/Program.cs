@@ -2,9 +2,9 @@
 using Box.V2.JWTAuth;
 using Box.V2.Models;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Box.V2.Samples.JWTAuth
@@ -42,7 +42,7 @@ namespace Box.V2.Samples.JWTAuth
 
             Console.WriteLine("Admin root folder items");
             var items = await adminClient.FoldersManager.GetFolderItemsAsync("0", 500);
-            items.Entries.ForEach(i => 
+            items.Entries.ForEach(i =>
             {
                 Console.WriteLine("\t{0}", i.Name);
                 //if (i.Type == "file")
