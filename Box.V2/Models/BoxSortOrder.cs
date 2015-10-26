@@ -11,16 +11,11 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = "by")]
         public BoxSortBy By { get; private set; }
 
-        [JsonProperty(PropertyName = "direction")]
-        public BoxSortDirection Direction { get; private set; }
-    }
-
-    public class BoxSortOrderUsingSortField
-    {
         [JsonProperty(PropertyName = "sort")]
         public string Sort { get; private set; }
 
         [JsonProperty(PropertyName = "direction")]
         public BoxSortDirection Direction { get; private set; }
     }
+
 }

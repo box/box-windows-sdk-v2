@@ -54,6 +54,6 @@ namespace Box.V2.Models
         public int Limit { get; private set; }
 
         [JsonProperty(PropertyName = FieldOrder)]
-        public BoxSortOrderUsingSortField Order { get; private set; }
+        public BoxSortOrder Order { get; private set; }
     }
 }
