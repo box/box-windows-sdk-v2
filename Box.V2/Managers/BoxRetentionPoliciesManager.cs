@@ -11,7 +11,9 @@ using System.Collections.Generic;
 namespace Box.V2.Managers
 {
     /// <summary>
-    /// The class managing the Box API's Retention Policies endpoint
+    /// The class managing the Box API's Retention Policies endpoint.
+    /// Retention Management is a feature of the Box Governance package, which can be added on to any Business Plus or Enterprise account.
+    /// To use this feature, you must have the manage retention policies scope enabled for your API key via your application management console.
     /// </summary>
     public class BoxRetentionPoliciesManager : BoxResourceManager
     {
