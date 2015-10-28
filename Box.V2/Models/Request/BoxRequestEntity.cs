@@ -40,5 +40,6 @@ public enum BoxType
     retention_policy,
     enterprise,
     user,
-    group
+    group,
+    web_link
 }

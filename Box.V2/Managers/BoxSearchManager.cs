@@ -4,13 +4,14 @@ using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
     /// <summary>
-    /// The manager that represents all of the Search endpoints
+    /// The manager that represents the search endpoint
     /// </summary>
     public class BoxSearchManager : BoxResourceManager
     {
@@ -18,20 +19,48 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth) { }
 
 
-        /// <summary>
-        /// Returns a collection of search results that match the keyword, if there are are no matching search results
-        /// an empty collection will be returned
-        /// </summary>
-        /// <param name="keyword"></param>
-        /// <param name="limit"></param>
-        /// <param name="offset"></param>
-        /// <returns></returns>
-        public async Task<BoxCollection<BoxItem>> SearchAsync(string keyword, int limit, int offset = 0, List<string> fields = null)
+
+        public async Task<BoxCollection<BoxItem>> SearchAsync(string keyword = null,
+                                                                int limit = 30,
+                                                                int offset = 0,
+                                                                List<string> fields = null,
+                                                                string scope = null,
+                                                                List<string> fileExtensions = null,
+                                                                DateTime? createdAtRangeFromDate = null,
+                                                                DateTime? createdAtRangeToDate = null,
+                                                                DateTime? updatedAtRangeFromDate = null,
+                                                                DateTime? updatedAtRangeToDate = null,
+                                                                int? sizeRangeLowerBoundBytes = null,
+                                                                int? sizeRangeUpperBoundBytes = null,
+                                                                List<string> ownerUserIds = null,
+                                                                List<string> ancestorFolderIds = null,
+                                                                List<string> contentTypes = null,
+                                                                string type = null,
+                                                                string trashContent = null  )
+                                                             
         {
             keyword.ThrowIfNullOrWhiteSpace("keyword");
 
+            //build the created_at_range field
+            var createdAtRangeString = BuildDateRangeField(createdAtRangeFromDate, createdAtRangeToDate);
+
+            //build the updated_at_range field
+            var updatedAtRangeString = BuildDateRangeField(updatedAtRangeFromDate, updatedAtRangeToDate);
+
+            //build the size_range field
+            var sizeRangeString = BuildSizeRangeField(sizeRangeLowerBoundBytes, sizeRangeUpperBoundBytes);
+
             BoxRequest request = new BoxRequest(_config.SearchEndpointUri)
                 .Param("query", keyword)
+                .Param("scope", scope)
+                .Param("file_extensions", fileExtensions)
+                .Param("created_at_range", createdAtRangeString)
+                .Param("updated_at_range", updatedAtRangeString)
+                .Param("size_range", sizeRangeString)
+                .Param("owner_user_ids", ownerUserIds)
+                .Param("content_types", contentTypes)
+                .Param("type", type)
+                .Param("trash_content", trashContent)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
@@ -41,5 +70,28 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        private string BuildDateRangeField(DateTime? from, DateTime? to)
+        {
+            var fromString = from.HasValue ? from.Value.ToString(Constants.RFC3339DateFormat) : String.Empty;
+            var toString = to.HasValue ? to.Value.ToString(Constants.RFC3339DateFormat) : String.Empty;
+
+            return BuildRangeString(fromString, toString);
+        }
+
+        private string BuildSizeRangeField(int? lowerBoundBytes, int? upperBoundBytes)
+        {
+            var lowerBoundString = lowerBoundBytes.HasValue ? lowerBoundBytes.Value.ToString() : String.Empty;
+            var upperBoundString = upperBoundBytes.HasValue ? upperBoundBytes.Value.ToString() : String.Empty;
+
+            return BuildRangeString(lowerBoundString, upperBoundString);
+        }
+
+        private string BuildRangeString(string from, string to)
+        {
+            var rangeString = String.Format("{0},{1}", from, to);
+            if (rangeString == ",") rangeString = null;
+
+            return rangeString;
+        }
     }
 }
