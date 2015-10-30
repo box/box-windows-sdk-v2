@@ -3,6 +3,7 @@ using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 using Box.V2.Services;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,29 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth) { }
 
 
-
-        public async Task<BoxCollection<BoxItem>> SearchAsync(string keyword = null,
+        /// <summary>
+        /// Search for items that are accessible by a single user or an entire enterprise.
+        /// </summary>
+        /// <param name="keyword">The string to search for; can be matched against item names, descriptions, text content of a file, and other fields of the different item types.</param>
+        /// <param name="limit">Number of search results to return</param>
+        /// <param name="offset">The search result at which to start the response</param>
+        /// <param name="fields"></param>
+        /// <param name="scope">The scope for which you want to limit your search to. Can be user_content for a search limited to only the current user or enterprise_content for the entire enterprise. To enable the enterprise_content scope for an administrator, please contact Box.</param>
+        /// <param name="fileExtensions">Limit searches to specific file extensions like pdf,png,doc</param>
+        /// <param name="createdAtRangeFromDate">The from date for when the item was created</param>
+        /// <param name="createdAtRangeToDate">The to date for when the item was created</param>
+        /// <param name="updatedAtRangeFromDate">The from date for when the item was last updated</param>
+        /// <param name="updatedAtRangeToDate">The to date for when the item was last updated</param>
+        /// <param name="sizeRangeLowerBoundBytes">The lower bound of the file size range in bytes</param>
+        /// <param name="sizeRangeUpperBoundBytes">The upper bound of the file size range in bytes</param>
+        /// <param name="ownerUserIds">Search by item owners</param>
+        /// <param name="ancestorFolderIds">Limit searches to specific parent folders</param>
+        /// <param name="contentTypes">Limit searches to specific Box designated content types. Can be name, description, file_content, comments, or tags.</param>
+        /// <param name="type">The type you want to return in your search. Can be file, folder, or web_link</param>
+        /// <param name="trashContent">Allows you to search within the trash. Can be trashed_only or non_trashed_only. Searches without this parameter default to non_trashed_only</param>
+        /// <param name="mdFilters">Filters for a specific metadata template for files with metadata object associations. NOTE: For searches with the mdfilters param, a query string is not required. Currenly only one BoxMetadataFilterRequest element is allowed.</param>
+        /// <returns></returns>
+        public async Task<BoxCollection<BoxItem>> SearchAsync(  string keyword = null,
                                                                 int limit = 30,
                                                                 int offset = 0,
                                                                 List<string> fields = null,
@@ -36,18 +58,17 @@ namespace Box.V2.Managers
                                                                 List<string> ancestorFolderIds = null,
                                                                 List<string> contentTypes = null,
                                                                 string type = null,
-                                                                string trashContent = null  )
+                                                                string trashContent = null,
+                                                                List<BoxMetadataFilterRequest> mdFilters = null)
                                                              
         {
-            keyword.ThrowIfNullOrWhiteSpace("keyword");
 
-            //build the created_at_range field
+            string mdFiltersString = null;
+            if (mdFilters!=null)
+                mdFiltersString = _converter.Serialize(mdFilters);
+
             var createdAtRangeString = BuildDateRangeField(createdAtRangeFromDate, createdAtRangeToDate);
-
-            //build the updated_at_range field
             var updatedAtRangeString = BuildDateRangeField(updatedAtRangeFromDate, updatedAtRangeToDate);
-
-            //build the size_range field
             var sizeRangeString = BuildSizeRangeField(sizeRangeLowerBoundBytes, sizeRangeUpperBoundBytes);
 
             BoxRequest request = new BoxRequest(_config.SearchEndpointUri)
@@ -58,9 +79,11 @@ namespace Box.V2.Managers
                 .Param("updated_at_range", updatedAtRangeString)
                 .Param("size_range", sizeRangeString)
                 .Param("owner_user_ids", ownerUserIds)
+                .Param("ancestorFolderIds", ancestorFolderIds)
                 .Param("content_types", contentTypes)
                 .Param("type", type)
                 .Param("trash_content", trashContent)
+                .Param("mdfilters", mdFiltersString)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
