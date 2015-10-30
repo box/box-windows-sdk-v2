@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Box.V2</id>
-    <version>2.4.0</version>
+    <version>2.5.0</version>
     <title>Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is built upon the Portable Class Library and targets the following frameworks: .NET for Windows Store apps, .NET Framework 4.0, Silverlight 4 and higher, Windows Phone 7.5 and higher</description>
-    <releaseNotes>Partial support for retention policies; bug fix for creating an enterprise user</releaseNotes>
+    <releaseNotes>Added support for all advanced search parameters, including searching with metadata</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>Box V2 SDK Collaboration Storage File Management</tags>
   </metadata>
