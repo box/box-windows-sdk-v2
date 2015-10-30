@@ -37,11 +37,15 @@ namespace Box.V2.Managers
             _auth = auth;
         }
 
-        protected IBoxRequest AddDefaultHeaders(IBoxRequest request)
+        protected IBoxRequest AddDefaultHeaders(IBoxRequest request, string asUser = null)
         {
             request
                 .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
                 .Header(Constants.RequestParameters.AcceptEncoding, _config.AcceptEncoding.ToString());
+
+            if (!string.IsNullOrEmpty(asUser))
+                request
+                    .Header(Constants.RequestParameters.AsUser, asUser);
 
             return request;
         }
@@ -49,7 +53,13 @@ namespace Box.V2.Managers
         protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, bool queueRequest = false)
             where T : class
         {
-            AddDefaultHeaders(request);
+            return await ToResponseAsync<T>(request, null, queueRequest);
+        }
+
+        protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, string asUser, bool queueRequest = false)
+            where T : class
+        {
+            AddDefaultHeaders(request, asUser);
             AddAuthorization(request);
             var response = await ExecuteRequest<T>(request, queueRequest).ConfigureAwait(false);
 
