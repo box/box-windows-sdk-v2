@@ -142,6 +142,25 @@ BoxFile f = await client.FilesManager.UploadAsync(request, stream);
 Stream stream = await client.FilesManager.DownloadStreamAsync(fileId);
 ```
 
+#### Search using Metadata
+```c#
+var filter = new 
+{ 
+	someKey = "blah", 
+	expiresOn = new {gt = new DateTime(2015,1,1), lt = new DateTime(2015, 9, 1)}
+};
+
+var mdFilter = new BoxMetadataFilterRequest() 
+{ 
+	TemplateKey = "yourTemplate", 
+	Scope = "enterprise", 
+	Filters = filter 
+};
+
+//currently only one BoxMetadataFilterRequest element is supported; in the future multiple will be supported (hence the List)
+var results = await client.SearchManager.SearchAsync(mdFilters: new List<BoxMetadataFilterRequest>() { mdFilter });
+```
+
 File/Folder Picker
 ------------------
 The Box Windows SDK includes a user control that allows developers an easy way to drop in a file and or folder picker in just one line of code
