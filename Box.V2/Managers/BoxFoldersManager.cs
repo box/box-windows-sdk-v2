@@ -47,6 +47,15 @@ namespace Box.V2.Managers
             return await GetFolderItemsAsync(id, null, limit, offset, fields);
         }
 
+        /// <summary>
+        /// Retrieves the files and/or folders contained in the provided folder id as a given user.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="asUser"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
         public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, string asUser, int limit, int offset = 0, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
