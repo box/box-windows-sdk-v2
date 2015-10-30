@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Box.V2.Config;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,7 @@ namespace Box.V2.Converter
             _settings = new JsonSerializerSettings()
             {
                 NullValueHandling = NullValueHandling.Ignore,
-                DateFormatString = "yyyy-MM-ddTHH:mm:sszzz"
+                DateFormatString = Constants.RFC3339DateFormat
             };
         }
 

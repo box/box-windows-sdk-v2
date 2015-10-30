@@ -85,6 +85,9 @@ namespace Box.V2.Config
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
 
+        /*** Date Format ***/
+        public const string RFC3339DateFormat = "yyyy-MM-ddTHH:mm:sszzz";
+
         public static class RequestParameters
         {
             /*** Keys ***/
