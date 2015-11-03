@@ -101,6 +101,11 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<BoxFolder> GetInformationAsync(string id, List<string> fields = null)
         {
+            return await GetInformationAsync(id, null, fields);
+        }
+
+        public async Task<BoxFolder> GetInformationAsync(string id, string asUser, List<string> fields = null)
+        {
             id.ThrowIfNullOrWhiteSpace("id");
 
             string accessToken = _auth.Session.AccessToken;
@@ -109,7 +114,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields);
 
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request, asUser).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
