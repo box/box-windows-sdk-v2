@@ -64,7 +64,7 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-        public async Task<Uri> DownloadUrlAsync(string id, string versionId = null)
+        public async Task<Uri> GetDownloadUriAsync(string id, string versionId = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 

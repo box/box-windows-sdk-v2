@@ -58,6 +58,9 @@ namespace Box.V2.Request
                     case HttpStatusCode.Unauthorized:
                         boxResponse.Status = ResponseStatus.Unauthorized;
                         break;
+                    case HttpStatusCode.Forbidden:
+                        boxResponse.Status = ResponseStatus.Forbidden;
+                        break;
                     default:
                         boxResponse.Status = ResponseStatus.Error;
                         break;
