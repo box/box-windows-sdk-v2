@@ -49,6 +49,7 @@ namespace Box.V2.Request
                     case HttpStatusCode.OK:
                     case HttpStatusCode.Created:
                     case HttpStatusCode.NoContent:
+                    case HttpStatusCode.Found:
                         boxResponse.Status = ResponseStatus.Success;
                         break;
                     case HttpStatusCode.Accepted:
@@ -56,9 +57,6 @@ namespace Box.V2.Request
                         break;
                     case HttpStatusCode.Unauthorized:
                         boxResponse.Status = ResponseStatus.Unauthorized;
-                        break;
-                    case HttpStatusCode.Found:
-                        boxResponse.Status = ResponseStatus.Found;
                         break;
                     default:
                         boxResponse.Status = ResponseStatus.Error;
