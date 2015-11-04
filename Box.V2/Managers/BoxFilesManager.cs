@@ -64,6 +64,19 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        public async Task<Uri> DownloadUrlAsync(string id, string versionId = null, TimeSpan? timeout = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id)) { Timeout = timeout, FollowRedirect = false }
+                .Param("version", versionId);
+
+            IBoxResponse<Object> response = await ToResponseAsync<Object>(request).ConfigureAwait(false);
+            var locationUri = response.Headers.Location;
+
+            return response.Headers.Location;
+        }
+
         /// <summary>
         /// Uploads a provided file to the target parent folder 
         /// If the file already exists, an error will be thrown.

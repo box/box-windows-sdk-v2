@@ -75,9 +75,16 @@ namespace Box.V2
         TimeSpan? Timeout { get; set; }
 
         /// <summary>
+        /// Gets or Sets whether or not to follow an HTTP redirect
+        /// </summary>
+        bool FollowRedirect { get; set; }
+
+        /// <summary>
         /// Gets just the query string
         /// </summary>
         /// <returns></returns>
         string GetQueryString();
+
+        
     }
 }

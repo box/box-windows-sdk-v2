@@ -36,6 +36,7 @@ namespace Box.V2.Request
             try
             {
                 HttpClient client = CreateClient(request);
+
                 HttpResponseMessage response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
 
                 BoxResponse<T> boxResponse = new BoxResponse<T>();
@@ -55,6 +56,9 @@ namespace Box.V2.Request
                         break;
                     case HttpStatusCode.Unauthorized:
                         boxResponse.Status = ResponseStatus.Unauthorized;
+                        break;
+                    case HttpStatusCode.Found:
+                        boxResponse.Status = ResponseStatus.Found;
                         break;
                     default:
                         boxResponse.Status = ResponseStatus.Error;
@@ -82,7 +86,10 @@ namespace Box.V2.Request
         private HttpClient CreateClient(IBoxRequest request)
         {
             HttpClientHandler handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
+            handler.AllowAutoRedirect = request.FollowRedirect;
+
             HttpClient client = new HttpClient(handler);
+            
             if (request.Timeout.HasValue)
                 client.Timeout = request.Timeout.Value;
 

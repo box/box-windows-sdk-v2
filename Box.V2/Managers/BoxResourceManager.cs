@@ -33,7 +33,7 @@ namespace Box.V2.Managers
         {
             _config = config;
             _service = service;
-            _converter = converter; 
+            _converter = converter;
             _auth = auth;
         }
 
