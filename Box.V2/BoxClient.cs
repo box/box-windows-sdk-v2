@@ -19,14 +19,18 @@ namespace Box.V2
         protected readonly IBoxService _service;
         protected readonly IBoxConverter _converter;
         protected readonly IRequestHandler _handler;
+        protected readonly string _asUser;
 
         /// <summary>
         /// Instantiates a BoxClient with the provided config object
         /// </summary>
         /// <param name="boxConfig">The config object to be used</param>
-        public BoxClient(IBoxConfig boxConfig)
+        /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
+        public BoxClient(IBoxConfig boxConfig, string asUser = null)
         {
             Config = boxConfig;
+
+            _asUser = asUser;
 
             _handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
@@ -41,10 +45,13 @@ namespace Box.V2
         /// </summary>
         /// <param name="boxConfig">The config object to be used</param>
         /// <param name="authSession">A fully authenticated auth session</param>
-        public BoxClient(IBoxConfig boxConfig, OAuthSession authSession)
+        /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
+        public BoxClient(IBoxConfig boxConfig, OAuthSession authSession, string asUser = null)
         {
             Config = boxConfig;
-            
+
+            _asUser = asUser;
+
             _handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
             _service = new BoxService(_handler);
@@ -58,9 +65,12 @@ namespace Box.V2
         /// </summary>
         /// <param name="boxConfig">The config object to be used</param>
         /// <param name="authRepository">An IAuthRepository that knows how to retrieve new tokens using JWT</param>
-        public BoxClient(IBoxConfig boxConfig, IAuthRepository authRepository)
+        /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
+        public BoxClient(IBoxConfig boxConfig, IAuthRepository authRepository, string asUser = null)
         {
             Config = boxConfig;
+
+            _asUser = asUser;
 
             _handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
@@ -78,9 +88,12 @@ namespace Box.V2
         /// <param name="requestHandler">The box request handler to use</param>
         /// <param name="boxService">The box service to use</param>
         /// <param name="auth">The auth repository object to use</param>
-        public BoxClient(IBoxConfig boxConfig, IBoxConverter boxConverter, IRequestHandler requestHandler, IBoxService boxService, IAuthRepository auth)
+        /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
+        public BoxClient(IBoxConfig boxConfig, IBoxConverter boxConverter, IRequestHandler requestHandler, IBoxService boxService, IAuthRepository auth, string asUser = null)
         {
             Config = boxConfig;
+
+            _asUser = asUser;
 
             _handler = requestHandler;
             _converter = boxConverter;
@@ -93,14 +106,14 @@ namespace Box.V2
         private void InitManagers()
         {
             // Init Resource Managers
-            FoldersManager = new BoxFoldersManager(Config, _service, _converter, Auth);
-            FilesManager = new BoxFilesManager(Config, _service, _converter, Auth);
-            CommentsManager = new BoxCommentsManager(Config, _service, _converter, Auth);
-            CollaborationsManager = new BoxCollaborationsManager(Config, _service, _converter, Auth);
-            SearchManager = new BoxSearchManager(Config, _service, _converter, Auth);
-            UsersManager = new BoxUsersManager(Config, _service, _converter, Auth);
-            GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth);
-            RetentionPoliciesManager = new BoxRetentionPoliciesManager(Config, _service, _converter, Auth);
+            FoldersManager = new BoxFoldersManager(Config, _service, _converter, Auth, _asUser);
+            FilesManager = new BoxFilesManager(Config, _service, _converter, Auth, _asUser);
+            CommentsManager = new BoxCommentsManager(Config, _service, _converter, Auth, _asUser);
+            CollaborationsManager = new BoxCollaborationsManager(Config, _service, _converter, Auth, _asUser);
+            SearchManager = new BoxSearchManager(Config, _service, _converter, Auth, _asUser);
+            UsersManager = new BoxUsersManager(Config, _service, _converter, Auth, _asUser);
+            GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth, _asUser);
+            RetentionPoliciesManager = new BoxRetentionPoliciesManager(Config, _service, _converter, Auth, _asUser);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -114,7 +127,7 @@ namespace Box.V2
         /// <returns></returns>
         public BoxClient AddResourcePlugin<T>() where T : BoxResourceManager
         {
-            ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth));
+            ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth, _asUser));
             return this;
         }
 

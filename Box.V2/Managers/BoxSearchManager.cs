@@ -16,8 +16,8 @@ namespace Box.V2.Managers
     /// </summary>
     public class BoxSearchManager : BoxResourceManager
     {
-        public BoxSearchManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
-            : base(config, service, converter, auth) { }
+        public BoxSearchManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null)
+            : base(config, service, converter, auth, asUser) { }
 
 
         /// <summary>
