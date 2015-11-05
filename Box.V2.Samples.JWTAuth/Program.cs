@@ -11,6 +11,7 @@ namespace Box.V2.Samples.JWTAuth
 {
     class Program
     {
+        // modify the app.config file to reflect your Box app config values
         static readonly string CLIENT_ID = ConfigurationManager.AppSettings["boxClientId"];
         static readonly string CLIENT_SECRET = ConfigurationManager.AppSettings["boxClientSecret"];
         static readonly string ENTERPRISE_ID = ConfigurationManager.AppSettings["boxEnterpriseId"];
@@ -29,6 +30,7 @@ namespace Box.V2.Samples.JWTAuth
 
         static async Task MainAsync()
         {
+            // rename the private_key.pem.example to private_key.pem and put your JWT private key in the file
             var privateKey = File.ReadAllText("private_key.pem");
 
             var boxConfig = new BoxConfig(CLIENT_ID, CLIENT_SECRET, ENTERPRISE_ID, privateKey, JWT_PRIVATE_KEY_PASSWORD, JWT_PUBLIC_KEY_ID);
