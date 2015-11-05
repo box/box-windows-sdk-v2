@@ -103,6 +103,7 @@ namespace Box.V2.Config
 
             public const string UserAgent = "User-Agent";
             public const string AcceptEncoding = "Accept-Encoding";
+            public const string AsUser = "As-User";
 
             public const string AsUser = "As-User";
 

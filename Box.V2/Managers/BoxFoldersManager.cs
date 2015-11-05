@@ -44,6 +44,20 @@ namespace Box.V2.Managers
         /// <param name="offset"></param>
         public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
         {
+            return await GetFolderItemsAsync(id, null, limit, offset, fields);
+        }
+
+        /// <summary>
+        /// Retrieves the files and/or folders contained in the provided folder id as a given user.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="asUser"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, string asUser, int limit, int offset = 0, List<string> fields = null)
+        {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.ItemsPathString, id))
@@ -51,10 +65,11 @@ namespace Box.V2.Managers
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
+            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request, asUser).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
+
 
         /// <summary>
         /// Used to create a new empty folder. The new folder will be created inside of the specified parent folder
@@ -86,6 +101,11 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<BoxFolder> GetInformationAsync(string id, List<string> fields = null)
         {
+            return await GetInformationAsync(id, null, fields);
+        }
+
+        public async Task<BoxFolder> GetInformationAsync(string id, string asUser, List<string> fields = null)
+        {
             id.ThrowIfNullOrWhiteSpace("id");
 
             string accessToken = _auth.Session.AccessToken;
@@ -94,7 +114,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields);
 
 
-            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request, asUser).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
