@@ -3,8 +3,11 @@
 Box Windows V2 SDK
 ==================
 
-Windows SDK for v2 of the Box API. The SDK is built upon the Portable Class Library and targets the following frameworks: .NET Framework 4.0.3 and higher, .NET for Windows Store apps, Silverlight 4 and higher, Windows Phone 7.5 and higher.
-
+Windows .NET SDK for V2 of the Box API that is usable from the following frameworks: 
+* .NET Framework 4.0.3 and higher
+* .NET for Windows Store apps
+* Silverlight 4 and higher
+* Windows Phone 7.5 and higher
 
 ###Prerequisites
 * Visual Studio 2012 w/ Update 2 CTP (or higher)
@@ -87,7 +90,9 @@ oAuth2Sample.AuthCodeReceived += async (s, e) =>
 oauth.GetAuthCode(config.AuthCodeUri, config.RedirectUri);
 ```
 
-Alternatively, a completely custom OAuth2 authentication process can be used in place of the provided workflows. In this scenario, a fully formed OAuthSession object will be passed in when instantiating the BoxClient.
+*Other (ASP.NET)*
+
+Alternatively, a completely custom OAuth2 authentication process can be used in place of the provided workflows, for example, in a custom web application. In this scenario, a fully formed OAuthSession object should be passed in when instantiating the BoxClient. 
 
 ```c#
 OAuthSession session = // Create session from custom implementation
