@@ -21,6 +21,7 @@ namespace Box.V2.Managers
         protected IBoxService _service;
         protected IBoxConverter _converter;
         protected IAuthRepository _auth;
+        protected string _asUser;
 
         /// <summary>
         /// Instantiates the base class for the Box resource managers
@@ -29,12 +30,13 @@ namespace Box.V2.Managers
         /// <param name="service"></param>
         /// <param name="converter"></param>
         /// <param name="auth"></param>
-        public BoxResourceManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
+        public BoxResourceManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser)
         {
             _config = config;
             _service = service;
-            _converter = converter; 
+            _converter = converter;
             _auth = auth;
+            _asUser = asUser;
         }
 
         protected IBoxRequest AddDefaultHeaders(IBoxRequest request)
@@ -42,6 +44,9 @@ namespace Box.V2.Managers
             request
                 .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
                 .Header(Constants.RequestParameters.AcceptEncoding, _config.AcceptEncoding.ToString());
+            
+            if (!String.IsNullOrWhiteSpace(_asUser))
+                request.Header(Constants.RequestParameters.AsUser, _asUser);
 
             return request;
         }

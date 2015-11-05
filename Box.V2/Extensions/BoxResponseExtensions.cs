@@ -33,6 +33,17 @@ namespace Box.V2.Extensions
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                         response.ResponseObject = converter.Parse<T>(response.ContentString);
                     break;
+                case ResponseStatus.Forbidden:
+                    var errorMsg = response.Headers.WwwAuthenticate.FirstOrDefault();
+                    if (errorMsg != null)
+                    {
+                        var err = new BoxError() { Code = response.StatusCode.ToString(), Description = "Forbidden", Message = errorMsg.ToString() };
+                        throw new BoxException(err.Message, err);
+                    }
+                    else
+                    {
+                        throw new BoxException("Forbidden");
+                    }
                 default:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                     {

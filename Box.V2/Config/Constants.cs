@@ -104,6 +104,8 @@ namespace Box.V2.Config
             public const string UserAgent = "User-Agent";
             public const string AcceptEncoding = "Accept-Encoding";
 
+            public const string AsUser = "As-User";
+
             /*** Values ***/
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";

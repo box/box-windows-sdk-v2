@@ -22,8 +22,8 @@ namespace Box.V2.Managers
     /// </summary>
     public class BoxFilesManager : BoxResourceManager
     {
-        public BoxFilesManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth)
-            : base(config, service, converter, auth) { }
+        public BoxFilesManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null)
+            : base(config, service, converter, auth, asUser) { }
 
         /// <summary>
         /// Gets a file object representation of the provided file Id
@@ -62,6 +62,25 @@ namespace Box.V2.Managers
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Retrieves the temporary direct Uri to a file (valid for 15 minutes). This is typically used to send as a redirect to a browser to make the browser download the file directly from Box.
+        /// </summary>
+        /// <param name="id">Id of the file</param>
+        /// <param name="versionId">Version of the file</param>
+        /// <returns></returns>
+        public async Task<Uri> GetDownloadUriAsync(string id, string versionId = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id)) { FollowRedirect = false }
+                .Param("version", versionId);
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+            var locationUri = response.Headers.Location;
+
+            return locationUri;
         }
 
         /// <summary>

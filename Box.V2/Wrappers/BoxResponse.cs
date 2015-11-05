@@ -49,6 +49,8 @@ namespace Box.V2
         Success,
         Pending,
         Error,
-        Unauthorized
+        Unauthorized,
+        Found,
+        Forbidden
     }
 }
