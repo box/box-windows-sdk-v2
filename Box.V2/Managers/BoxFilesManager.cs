@@ -64,6 +64,12 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Retrieves the temporary direct Uri to a file (valid for 15 minutes). This is typically used to send as a redirect to a browser to make the browser download the file directly from Box.
+        /// </summary>
+        /// <param name="id">Id of the file</param>
+        /// <param name="versionId">Version of the file</param>
+        /// <returns></returns>
         public async Task<Uri> GetDownloadUriAsync(string id, string versionId = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
