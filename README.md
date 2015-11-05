@@ -61,7 +61,7 @@ var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync()
 #### Configure
 Set your configuration parameters and initialize the client:
 ```c#
-var config = new BoxConfig(<Client_Id>, <Client_Secret>, "https://boxsdk");
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri>);
 var client = new BoxClient(config);
 ```
 
@@ -97,15 +97,7 @@ var client = new BoxClient(config, session);
 #### Get Folder Items
 ```c#
 // Get root folder with default properties
-BoxFolder f = await client.FoldersManager.GetItemsAsync("0", 50, 0);
-
-// Get root folder with specific properties
-BoxFolder f = await client.FoldersManager.GetItemsAsync("0", 50, 0, new List<string>() { 
-  BoxFolder.FieldModifiedAt,
-        BoxItem.FieldName, 
-	BoxFolder.FieldItemCollection, 
-        BoxFolder.FieldPathCollection
-});
+var items = await client.FoldersManager.GetFolderItemsAsync("0", 500);
 ```
 
 #### Get File Information
@@ -142,6 +134,12 @@ BoxFile f = await client.FilesManager.UploadAsync(request, stream);
 Stream stream = await client.FilesManager.DownloadStreamAsync(fileId);
 ```
 
+#### Get Temporary Download Uri for a file
+This method will retrieve a temporary (15 minute) Uri for a file that can be used, for example, to send as a redirect to a browser, causing the browser to download the file directly from Box.
+```c#
+var downloadUri = await client.FilesManager.GetDownloadUriAsync(fileId);
+```
+
 #### Search using Metadata
 ```c#
 var filter = new 
@@ -159,6 +157,19 @@ var mdFilter = new BoxMetadataFilterRequest()
 
 //currently only one BoxMetadataFilterRequest element is supported; in the future multiple will be supported (hence the List)
 var results = await client.SearchManager.SearchAsync(mdFilters: new List<BoxMetadataFilterRequest>() { mdFilter });
+```
+
+#### Make API calls with As-User
+If you have an admin token with appropriate permissions, you can make API calls in the context of a managed user. In order to do this you must request Box.com to activate As-User functionality for your API key (see developer site for instructions). 
+```c#
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri);
+var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
+
+var userId = "12345678"
+var userClient = new BoxClient(config, auth, asUser: userId);
+
+//returns root folder items for the user with ID '12345678'
+var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
 ```
 
 File/Folder Picker
