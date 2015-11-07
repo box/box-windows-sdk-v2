@@ -4,14 +4,15 @@ using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Request;
 using Box.V2.Services;
-using Jose;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens;
 using System.IO;
+using System.Security.Claims;
 using System.Security.Cryptography;
 
 namespace Box.V2.JWTAuth
@@ -26,7 +27,7 @@ namespace Box.V2.JWTAuth
         readonly DateTime UNIX_EPOCH = new DateTime(1970, 1, 1);
 
         private readonly IBoxConfig boxConfig;
-        private readonly RSA credentials;
+        private readonly SigningCredentials credentials;
 
         public BoxJWTAuth(IBoxConfig boxConfig)
         {
@@ -38,7 +39,9 @@ namespace Box.V2.JWTAuth
             {
                 key = (AsymmetricCipherKeyPair)new PemReader(reader, pwf).ReadObject();
             }
-            this.credentials = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
+            var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
+
+            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
         }
 
         public BoxClient AdminClient(string adminToken)
@@ -86,21 +89,21 @@ namespace Box.V2.JWTAuth
                 rng.GetBytes(randomNumber);
             }
 
-            Int32 expiresInUnixTimestamp = (Int32)(DateTime.UtcNow.AddSeconds(10).Subtract(UNIX_EPOCH)).TotalSeconds;
-
-            var payload = new Dictionary<string, object>()
-            {
-                { "iss", this.boxConfig.ClientId },
-                { "sub", sub },
-                { "box_sub_type", boxSubType },
-                { "aud", AUTH_URL },
-                { "jti", Convert.ToBase64String(randomNumber) },
-                { "exp", expiresInUnixTimestamp }
+            var claims = new List<Claim>{
+                new Claim("sub", sub),
+                new Claim("box_sub_type", boxSubType),
+                new Claim("jti", Convert.ToBase64String(randomNumber)),
             };
 
-            var headers = new Dictionary<string, object>() { { "kid", this.boxConfig.JWTPublicKeyId } };
+            var payload = new JwtPayload(this.boxConfig.ClientId, AUTH_URL, claims, null, DateTime.UtcNow.AddSeconds(30));
 
-            string assertion = JWT.Encode(payload, this.credentials, JwsAlgorithm.RS256, extraHeaders: headers);
+            var header = new JwtHeader(signingCredentials: this.credentials);
+            if (this.boxConfig.JWTPublicKeyId != null)
+                header.Add("kid", this.boxConfig.JWTPublicKeyId);
+
+            var token = new JwtSecurityToken(header, payload);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            string assertion = tokenHandler.WriteToken(token);
             return assertion;
         }
 
