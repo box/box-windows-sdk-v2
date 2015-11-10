@@ -65,7 +65,7 @@ namespace Box.V2.Models
         /// The user’s total available space amount in byte. A value of -1 grants unlimited storage.
         /// </summary>
         [JsonProperty(PropertyName = "space_amount")]
-        public double SpaceAmount { get; set; }
+        public double? SpaceAmount { get; set; }
 
         /// <summary>
         /// An array of key/value pairs set by the user’s admin
