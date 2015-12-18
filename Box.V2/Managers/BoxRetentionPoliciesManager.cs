@@ -83,7 +83,7 @@ namespace Box.V2.Managers
         /// <param name="createdByUserId">A user id to filter the retention policies by.</param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxRetentionPolicy>> GetRetentionPolicies(string policyName = null, string policyType = null, string createdByUserId = null, List<string> fields = null)
+        public async Task<BoxCollection<BoxRetentionPolicy>> GetRetentionPoliciesAsync(string policyName = null, string policyType = null, string createdByUserId = null, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri)
                 .Param("policy_name", policyName)
@@ -103,7 +103,7 @@ namespace Box.V2.Managers
         /// <param name="type">The type of the retention policy assignment to retrieve. Can either be folder or enterprise.</param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxRetentionPolicyAssignment>> GetRetentionPolicyAssignments(string retentionPolicyId, string type = null, List<string> fields = null)
+        public async Task<BoxCollection<BoxRetentionPolicyAssignment>> GetRetentionPolicyAssignmentsAsync(string retentionPolicyId, string type = null, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri, string.Format(Constants.RetentionPolicyAssignmentsEndpointString, retentionPolicyId))
                 .Param("type", type)
@@ -120,7 +120,7 @@ namespace Box.V2.Managers
         /// <param name="policyAssignmentRequest"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async Task<BoxRetentionPolicyAssignment> CreateRetentionPolicyAssignment(BoxRetentionPolicyAssignmentRequest policyAssignmentRequest, List<string> fields = null)
+        public async Task<BoxRetentionPolicyAssignment> CreateRetentionPolicyAssignmentAsync(BoxRetentionPolicyAssignmentRequest policyAssignmentRequest, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri)
                 .Method(RequestMethod.Post)
@@ -138,7 +138,7 @@ namespace Box.V2.Managers
         /// <param name="retentionPolicyAssignmentId"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async Task<BoxRetentionPolicyAssignment> GetRetentionPolicyAssignment(string retentionPolicyAssignmentId, List<string> fields = null)
+        public async Task<BoxRetentionPolicyAssignment> GetRetentionPolicyAssignmentAsync(string retentionPolicyAssignmentId, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri, retentionPolicyAssignmentId)
                 .Param(ParamFields, fields);
@@ -165,7 +165,7 @@ namespace Box.V2.Managers
         ///// <param name="fileVersionRetentionRequest"></param>
         ///// <param name="fields"></param>
         ///// <returns></returns>
-        //public async Task<BoxCollectionSingleSortOrder<BoxFileVersionRetention>> GetFileVersionRetentions(BoxFileVersionRetentionRequest fileVersionRetentionRequest, List<string> fields = null)
+        //public async Task<BoxCollectionSingleSortOrder<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(BoxFileVersionRetentionRequest fileVersionRetentionRequest, List<string> fields = null)
         //{
         //    BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)
         //        .Payload(_converter.Serialize(fileVersionRetentionRequest))
@@ -182,7 +182,7 @@ namespace Box.V2.Managers
         ///// <param name="fileVersionRetentionId"></param>
         ///// <param name="fields"></param>
         ///// <returns></returns>
-        //public async Task<BoxFileVersionRetention> GetFileVersionRetention(string fileVersionRetentionId, List<string> fields = null)
+        //public async Task<BoxFileVersionRetention> GetFileVersionRetentionAsync(string fileVersionRetentionId, List<string> fields = null)
         //{
         //    BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri, fileVersionRetentionId)
         //        .Param(ParamFields, fields);
