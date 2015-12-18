@@ -27,7 +27,7 @@ namespace Box.V2.Models.Request
         /// The retention_length is the amount of time, in days, to apply the retention policy to the selected content in days. Do not specify for indefinite policies. Required for finite policies.
         /// </summary>
         [JsonProperty(PropertyName = "retention_length")]
-        public int RetentionLength { get; set; }
+        public int? RetentionLength { get; set; }
 
         /// <summary>
         /// If creating a finite policy, the disposition action can be permanently_delete or remove_retention. For indefinite policies, disposition action must be remove_retention.

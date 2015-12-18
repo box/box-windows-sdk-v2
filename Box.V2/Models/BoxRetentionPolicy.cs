@@ -33,7 +33,7 @@ namespace Box.V2.Models
         /// The length of the retention policy. This length specifies the duration in days that the retention policy will be active for after being assigned to content.
         /// </summary>
         [JsonProperty(PropertyName = FieldRetentionLength)]
-        public int RetentionLength { get; set; }
+        public string RetentionLength { get; set; }
 
         /// <summary>
         /// The disposition action of the retention policy. This action can be permanently_delete, which will cause the content retained by the policy to be permanently deleted, or remove_retention, which will lift the retention policy from the content, allowing it to be deleted by users, once the retention policy time period has passed.
