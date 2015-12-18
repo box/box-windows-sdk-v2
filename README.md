@@ -33,7 +33,7 @@ If you haven't already created an app in Box go to https://developers.box.com/ a
 
 #### Configure
 ```c#
-var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_id>);
+var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
 var boxJWT = new BoxJWTAuth(boxConfig);
 ```
 
