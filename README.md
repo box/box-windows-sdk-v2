@@ -41,10 +41,8 @@ var boxJWT = new BoxJWTAuth(boxConfig);
 ```c#
 var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
 var adminClient = boxJWT.AdminClient(adminToken);
-
-//for example, get the admin's root folder items
-var items = await adminClient.FoldersManager.GetFolderItemsAsync("0", 500);
 ```
+
 #### Create an App User
 ```c#
 //NOTE: you must set IsPlatformAccessOnly=true for an App User
