@@ -44,6 +44,7 @@ namespace Box.V2.Config
         Uri RetentionPoliciesEndpointUri { get; }
         Uri RetentionPolicyAssignmentsUri { get; }
         Uri FileVersionRetentionsUri { get; }
+        Uri EventsUri { get; }
         
     }
 }

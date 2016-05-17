@@ -111,6 +111,7 @@ namespace Box.V2
             CommentsManager = new BoxCommentsManager(Config, _service, _converter, Auth, _asUser);
             CollaborationsManager = new BoxCollaborationsManager(Config, _service, _converter, Auth, _asUser);
             SearchManager = new BoxSearchManager(Config, _service, _converter, Auth, _asUser);
+            EventsManager = new BoxEventsManager(Config, _service, _converter, Auth, _asUser);
             UsersManager = new BoxUsersManager(Config, _service, _converter, Auth, _asUser);
             GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth, _asUser);
             RetentionPoliciesManager = new BoxRetentionPoliciesManager(Config, _service, _converter, Auth, _asUser);
@@ -160,6 +161,11 @@ namespace Box.V2
         /// The manager that represents the search endpoint
         /// </summary>
         public BoxSearchManager SearchManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the events endpoint
+        /// </summary>
+        public BoxEventsManager EventsManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the users endpoint
