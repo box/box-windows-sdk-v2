@@ -57,6 +57,7 @@
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />
+    <Compile Include="Models\BoxFileEventSource.cs" />
     <Compile Include="Models\BoxFileLock.cs" />
     <Compile Include="Models\BoxFilePreview.cs" />
     <Compile Include="Models\BoxFileVersionRetention.cs" />

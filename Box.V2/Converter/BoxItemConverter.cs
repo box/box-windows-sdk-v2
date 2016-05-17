@@ -13,6 +13,7 @@ namespace Box.V2.Converter
     internal class BoxItemConverter : JsonCreationConverter<BoxEntity>
     {
         const string ItemType = "type";
+        const string EventSourceItemType = "item_type";
 
         protected override BoxEntity Create(Type objectType, JObject jObject)
         {
@@ -48,6 +49,15 @@ namespace Box.V2.Converter
                         return new BoxCollaboration();
                     case Constants.TypeLock:
                         return new BoxFileLock();
+                }
+            }
+            //There is an inconsistency in the events API where file sources have slightly different field names
+            else if (FieldExists(EventSourceItemType, jObject))
+            {
+                switch (jObject[EventSourceItemType].ToString())
+                {
+                    case Constants.TypeFile:
+                        return new BoxFileEventSource();
                 }
             }
             return new BoxEntity();
