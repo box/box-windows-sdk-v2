@@ -14,6 +14,13 @@ namespace Box.V2.Models
         public const string FieldLimit = "limit";
         public const string FieldOrder = "order";
     }
+
+    public abstract class BoxEventCollection
+    {
+        public const string FieldChunkSize = "chunk_size";
+        public const string FieldNextStreamPosition = "next_stream_position";
+        public const string FieldEntries = "entries";
+    }
     
     /// <summary>
     /// Box representation of a collection
@@ -55,5 +62,17 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldOrder)]
         public BoxSortOrder Order { get; private set; }
 
+    }
+
+    public class BoxEventCollection<T> : BoxEventCollection where T: BoxEnterpriseEvent
+    {
+        [JsonProperty(PropertyName = FieldChunkSize)]
+        public int ChunkSize { get; private set; }
+
+        [JsonProperty(PropertyName = FieldNextStreamPosition)]
+        public string NextStreamPosition { get; private set; }
+
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; private set; }
     }
 }

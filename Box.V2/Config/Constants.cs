@@ -30,6 +30,7 @@ namespace Box.V2.Config
         public const string RetentionPoliciesString = @"retention_policies/";
         public const string RetentionPolicyAssignmentsString = @"retention_policy_assignments/";
         public const string FileVersionRetentionsString = @"file_version_retentions";
+        public const string EventsString = @"events";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -43,6 +44,7 @@ namespace Box.V2.Config
         public const string SearchEndpointString = BoxApiUriString + SearchString;
         public const string UserEndpointString = BoxApiUriString + UserString;
         public const string CollaborationsEndpointString = BoxApiUriString + CollaborationsString;
+        public const string EventsEndpointString = BoxApiUriString + EventsString;
 
 
         /*** Endpoint Paths ***/
