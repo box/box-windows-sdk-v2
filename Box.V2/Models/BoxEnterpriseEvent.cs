@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Models
 {
@@ -67,11 +65,14 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldSessionId)]
         public string SessionId { get; private set; }
 
-        ///// <summary>
-        ///// The additional details of the event
-        ///// </summary>
-        //[JsonProperty(PropertyName = FieldAdditionalDetails)]
-        //public string AdditionalDetails { get; private set; }
+        /// <summary>
+        /// The additional details of the event
+        /// <para>
+        /// NOTE: Box returns a variety of differing data for this field with no type indicator so this is being parsed to a Dictionary
+        /// </para>
+        /// </summary>
+        [JsonProperty(PropertyName = FieldAdditionalDetails)]
+        public Dictionary<string,string> AdditionalDetails { get; private set; }
 
     }
 }
