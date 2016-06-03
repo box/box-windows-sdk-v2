@@ -62,6 +62,7 @@ namespace Box.V2.Config
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
         public const string RetentionPolicyAssignmentsEndpointString = @"{0}/assignments";
+        public const string MetadataPathString = "{0}/metadata/{1}/{2}";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -112,6 +113,7 @@ namespace Box.V2.Config
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
             public const string JWTAuthorizationCode = "urn:ietf:params:oauth:grant-type:jwt-bearer";
+            public const string ContentTypeJson = "application/json"; 
         }
 
         public static class ErrorCodes
