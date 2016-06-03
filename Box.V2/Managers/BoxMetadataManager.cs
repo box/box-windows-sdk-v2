@@ -19,14 +19,43 @@ namespace Box.V2.Managers
         public BoxMetadataManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null)
             : base(config, service, converter, auth, asUser) { }
 
+        public async Task<Dictionary<string, object>> GetFileMetadataAsync(string fileId, string scope, string template)
+        {
+            return await GetMetadata(_config.FilesEndpointUri, fileId, scope, template);
+        }
+
+        public async Task<Dictionary<string, object>> GetFolderMetadataAsync(string folderId, string scope, string template)
+        {
+            return await GetMetadata(_config.FoldersEndpointUri, folderId, scope, template);
+        }
+
+        public async Task<Dictionary<string, object>> CreateFileMetadataAsync(string fileId, Dictionary<string, object> metadata, string scope, string template)
+        {
+            return await CreateMetadata(_config.FilesEndpointUri, fileId, metadata, scope, template);
+        }
+
         public async Task<Dictionary<string,object>> CreateFolderMetadataAsync(string folderId, Dictionary<string,object> metadata, string scope, string template)
         {
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.MetadataPathString, folderId, scope, template))
+            return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template);
+        }
+
+
+
+        private async Task<Dictionary<string, object>> CreateMetadata(Uri hostUri, string id, Dictionary<string, object> metadata, string scope, string template)
+        {
+            BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template))
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize(metadata));
 
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
+            IBoxResponse<Dictionary<string, object>> response = await ToResponseAsync<Dictionary<string, object>>(request).ConfigureAwait(false);
 
+            return response.ResponseObject;
+        }
+
+        private async Task<Dictionary<string, object>> GetMetadata(Uri hostUri, string id, string scope, string template)
+        {
+            BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template));
             IBoxResponse<Dictionary<string, object>> response = await ToResponseAsync<Dictionary<string, object>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
