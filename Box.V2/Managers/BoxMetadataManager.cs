@@ -19,6 +19,14 @@ namespace Box.V2.Managers
         public BoxMetadataManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null)
             : base(config, service, converter, auth, asUser) { }
 
+        public async Task<BoxMetadataTemplateCollection<Dictionary<string, object>>> GetAllFileMetadataTemplatesAsync(string fileId)
+        {
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.AllFileMetadataPathString, fileId));
+            IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>> response = await ToResponseAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
         public async Task<Dictionary<string, object>> GetFileMetadataAsync(string fileId, string scope, string template)
         {
             return await GetMetadata(_config.FilesEndpointUri, fileId, scope, template);
@@ -48,7 +56,6 @@ namespace Box.V2.Managers
         {
             return await DeleteMetadata(_config.FoldersEndpointUri, folderId, scope, template);
         }
-
 
 
         private async Task<Dictionary<string, object>> CreateMetadata(Uri hostUri, string id, Dictionary<string, object> metadata, string scope, string template)

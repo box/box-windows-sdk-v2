@@ -21,6 +21,11 @@ namespace Box.V2.Models
         public const string FieldNextStreamPosition = "next_stream_position";
         public const string FieldEntries = "entries";
     }
+
+    public abstract class BoxMetadataTemplateCollection
+    {
+        public const string FieldEntries = "entries";
+    }
     
     /// <summary>
     /// Box representation of a collection
@@ -72,6 +77,12 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldNextStreamPosition)]
         public string NextStreamPosition { get; private set; }
 
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; private set; }
+    }
+
+    public class BoxMetadataTemplateCollection<T> : BoxMetadataTemplateCollection where T: Dictionary<string,object>
+    {
         [JsonProperty(PropertyName = FieldEntries)]
         public List<T> Entries { get; private set; }
     }

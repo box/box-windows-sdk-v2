@@ -62,7 +62,8 @@ namespace Box.V2.Config
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
         public const string RetentionPolicyAssignmentsEndpointString = @"{0}/assignments";
-        public const string MetadataPathString = "{0}/metadata/{1}/{2}";
+        public const string MetadataPathString = @"{0}/metadata/{1}/{2}";
+        public const string AllFileMetadataPathString = @"{0}/metadata";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
