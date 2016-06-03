@@ -39,6 +39,16 @@ namespace Box.V2.Managers
             return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template);
         }
 
+        public async Task<bool> DeleteFileMetadataAsync(string fileId, string scope, string template)
+        {
+            return await DeleteMetadata(_config.FilesEndpointUri, fileId, scope, template);
+        }
+
+        public async Task<bool> DeleteFolderMetadataAsync(string folderId, string scope, string template)
+        {
+            return await DeleteMetadata(_config.FoldersEndpointUri, folderId, scope, template);
+        }
+
 
 
         private async Task<Dictionary<string, object>> CreateMetadata(Uri hostUri, string id, Dictionary<string, object> metadata, string scope, string template)
@@ -59,6 +69,16 @@ namespace Box.V2.Managers
             IBoxResponse<Dictionary<string, object>> response = await ToResponseAsync<Dictionary<string, object>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
+        }
+
+        private async Task<bool> DeleteMetadata(Uri hostUri, string id, string scope, string template)
+        {
+            BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template))
+                .Method(RequestMethod.Delete);
+
+            IBoxResponse<Dictionary<string, object>> response = await ToResponseAsync<Dictionary<string, object>>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
         }
     }
 }
