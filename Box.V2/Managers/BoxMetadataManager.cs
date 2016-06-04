@@ -67,6 +67,22 @@ namespace Box.V2.Managers
             return await DeleteMetadata(_config.FoldersEndpointUri, folderId, scope, template);
         }
 
+        public async Task<BoxMetadataTemplate> GetMetadataTemplate(string scope, string template)
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template));
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        public async Task<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> GetEnterpriseMetadataAsync(string scope="enterprise")
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.EnterpriseMetadataTemplatesPathString, scope));
+            IBoxResponse<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> response = await ToResponseAsync<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
 
         private async Task<Dictionary<string, object>> UpdateMetadata(Uri hostUri, string id, List<BoxMetadataUpdate> updates, string scope, string template)
         {

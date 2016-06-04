@@ -85,6 +85,7 @@ namespace Box.V2.Config
         public virtual Uri RetentionPolicyAssignmentsUri {  get { return new Uri(BoxApiUri, Constants.RetentionPolicyAssignmentsString); } }
         public virtual Uri FileVersionRetentionsUri { get { return new Uri(BoxApiUri, Constants.FileVersionRetentionsString); } }
         public virtual Uri EventsUri { get { return new Uri(BoxApiUri, Constants.EventsString); } }
+        public virtual Uri MetadataTemplatesUri { get { return new Uri(BoxApiUri, Constants.MetadataTemplatesString); } }
     }
 
     public enum CompressionType

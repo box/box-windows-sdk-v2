@@ -26,6 +26,12 @@ namespace Box.V2.Models
     {
         public const string FieldEntries = "entries";
     }
+
+    public abstract class BoxEnterpriseMetadataTemplateCollection
+    {
+        public const string FieldEntries = "entries";
+        public const string FieldTotalCount = "total_count";
+    }
     
     /// <summary>
     /// Box representation of a collection
@@ -85,5 +91,14 @@ namespace Box.V2.Models
     {
         [JsonProperty(PropertyName = FieldEntries)]
         public List<T> Entries { get; private set; }
+    }
+
+    public class BoxEnterpriseMetadataTemplateCollection<T> : BoxEnterpriseMetadataTemplateCollection where T : BoxMetadataTemplate
+    {
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; private set; }
+
+        [JsonProperty(PropertyName = FieldTotalCount)]
+        public int TotalCount { get; private set; }
     }
 }

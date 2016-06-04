@@ -45,6 +45,7 @@ namespace Box.V2.Config
         Uri RetentionPolicyAssignmentsUri { get; }
         Uri FileVersionRetentionsUri { get; }
         Uri EventsUri { get; }
+        Uri MetadataTemplatesUri { get; }
         
     }
 }
