@@ -47,6 +47,16 @@ namespace Box.V2.Managers
             return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template);
         }
 
+        public async Task<Dictionary<string, object>> UpdateFileMetadataAsync(string fileId, List<BoxMetadataUpdate> updates, string scope, string template)
+        {
+            return await UpdateMetadata(_config.FilesEndpointUri, fileId, updates, scope, template);
+        }
+
+        public async Task<Dictionary<string, object>> UpdateFolderMetadataAsync(string folderId, List<BoxMetadataUpdate> updates, string scope, string template)
+        {
+            return await UpdateMetadata(_config.FoldersEndpointUri, folderId, updates, scope, template);
+        }
+
         public async Task<bool> DeleteFileMetadataAsync(string fileId, string scope, string template)
         {
             return await DeleteMetadata(_config.FilesEndpointUri, fileId, scope, template);
@@ -57,6 +67,18 @@ namespace Box.V2.Managers
             return await DeleteMetadata(_config.FoldersEndpointUri, folderId, scope, template);
         }
 
+
+        private async Task<Dictionary<string, object>> UpdateMetadata(Uri hostUri, string id, List<BoxMetadataUpdate> updates, string scope, string template)
+        {
+            BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template))
+                .Method(RequestMethod.Put)
+                .Payload(_converter.Serialize(updates));
+
+            request.ContentType = Constants.RequestParameters.ContentTypeJsonPatch;
+            IBoxResponse<Dictionary<string, object>> response = await ToResponseAsync<Dictionary<string, object>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
 
         private async Task<Dictionary<string, object>> CreateMetadata(Uri hostUri, string id, Dictionary<string, object> metadata, string scope, string template)
         {

@@ -114,7 +114,8 @@ namespace Box.V2.Config
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
             public const string JWTAuthorizationCode = "urn:ietf:params:oauth:grant-type:jwt-bearer";
-            public const string ContentTypeJson = "application/json"; 
+            public const string ContentTypeJson = "application/json";
+            public const string ContentTypeJsonPatch = "application/json-patch+json";
         }
 
         public static class ErrorCodes
