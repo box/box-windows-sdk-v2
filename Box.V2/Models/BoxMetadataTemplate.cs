@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Box representation of a metadata template
+    /// </summary>
     public class BoxMetadataTemplate
     {
         public const string FieldTemplateKey = "templateKey";
@@ -25,6 +28,9 @@ namespace Box.V2.Models
         public List<BoxMetadataTemplateField> Fields { get; private set; }
     }
 
+    /// <summary>
+    /// Box representation of a metadata template field
+    /// </summary>
     public class BoxMetadataTemplateField
     {
         public const string FieldType = "type";
@@ -41,10 +47,16 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldDisplayName)]
         public string DisplayName { get; private set; }
 
+        /// <summary>
+        /// For fields of type enum this contains the option values
+        /// </summary>
         [JsonProperty(PropertyName = FieldOptions)]
         public List<BoxMetadataTemplateFieldOption> Options { get; private set; }
     }
 
+    /// <summary>
+    /// Box representation of a metadata template field option
+    /// </summary>
     public class BoxMetadataTemplateFieldOption
     {
         public const string FieldKey = "key";
