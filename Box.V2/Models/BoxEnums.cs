@@ -42,4 +42,17 @@ namespace Box.V2.Models
         ASC,
         DESC
     }
+
+    /// <summary>
+    /// The operation type for a metadata update
+    /// </summary>
+    public enum MetadataUpdateOp
+    {
+        add,
+        replace,
+        remove,
+        test,
+        move,
+        copy
+    }
 }

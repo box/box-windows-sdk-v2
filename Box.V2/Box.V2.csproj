@@ -53,6 +53,7 @@
     <Compile Include="Extensions\BoxExtensions.cs" />
     <Compile Include="Managers\BoxEventsManager.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
+    <Compile Include="Managers\BoxMetadataManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
@@ -61,6 +62,8 @@
     <Compile Include="Models\BoxFileLock.cs" />
     <Compile Include="Models\BoxFilePreview.cs" />
     <Compile Include="Models\BoxFileVersionRetention.cs" />
+    <Compile Include="Models\BoxMetadataTemplate.cs" />
+    <Compile Include="Models\BoxMetadataUpdate.cs" />
     <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
     <Compile Include="Models\BoxRetentionPolicy.cs" />
     <Compile Include="Models\BoxWebLink.cs" />

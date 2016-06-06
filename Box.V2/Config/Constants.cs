@@ -31,6 +31,7 @@ namespace Box.V2.Config
         public const string RetentionPolicyAssignmentsString = @"retention_policy_assignments/";
         public const string FileVersionRetentionsString = @"file_version_retentions";
         public const string EventsString = @"events";
+        public const string MetadataTemplatesString = @"metadata_templates/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -45,6 +46,7 @@ namespace Box.V2.Config
         public const string UserEndpointString = BoxApiUriString + UserString;
         public const string CollaborationsEndpointString = BoxApiUriString + CollaborationsString;
         public const string EventsEndpointString = BoxApiUriString + EventsString;
+        public const string MetadataTemplatesEndpointString = BoxApiUriString + MetadataTemplatesString;
 
 
         /*** Endpoint Paths ***/
@@ -62,6 +64,10 @@ namespace Box.V2.Config
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
         public const string RetentionPolicyAssignmentsEndpointString = @"{0}/assignments";
+        public const string MetadataPathString = @"{0}/metadata/{1}/{2}";
+        public const string AllFileMetadataPathString = @"{0}/metadata";
+        public const string MetadataTemplatesPathString = @"{0}/{1}/schema";
+        public const string EnterpriseMetadataTemplatesPathString = @"{0}";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -112,6 +118,8 @@ namespace Box.V2.Config
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
             public const string JWTAuthorizationCode = "urn:ietf:params:oauth:grant-type:jwt-bearer";
+            public const string ContentTypeJson = "application/json";
+            public const string ContentTypeJsonPatch = "application/json-patch+json";
         }
 
         public static class ErrorCodes
