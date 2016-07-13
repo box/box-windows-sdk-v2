@@ -26,6 +26,7 @@ namespace Box.V2.Config
         public const string CommentsString = @"comments/";
         public const string SearchString = @"search";
         public const string UserString = @"users/";
+        public const string InviteString = @"invites/";
         public const string CollaborationsString = @"collaborations/";
         public const string RetentionPoliciesString = @"retention_policies/";
         public const string RetentionPolicyAssignmentsString = @"retention_policy_assignments/";
@@ -87,6 +88,7 @@ namespace Box.V2.Config
         public const string TypeGroup = "group";
         public const string TypeGroupMembership = "group_membership";
         public const string TypeUser = "user";
+        public const string TypeInvite = "invite";
         public const string TypeEnterprise = "enterprise";
         public const string TypeLock = "lock";
 

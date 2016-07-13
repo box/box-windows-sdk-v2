@@ -38,6 +38,7 @@ namespace Box.V2.Config
         Uri CommentsEndpointUri { get; }
         Uri SearchEndpointUri { get; }
         Uri UserEndpointUri { get; }
+        Uri InviteEndpointUri { get; }
         Uri CollaborationsEndpointUri { get; }
         Uri GroupsEndpointUri { get; }
         Uri GroupMembershipEndpointUri { get; }
