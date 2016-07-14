@@ -27,6 +27,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "permissions")]
         public BoxPermissionsRequest Permissions { get; set; }
+
+        /// <summary>
+        /// The password to require before viewing this link
+        /// </summary>
+        [JsonProperty(PropertyName = "password")]
+        public string Password { get; set; }
     }
 }
 
