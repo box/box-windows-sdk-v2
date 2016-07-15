@@ -79,7 +79,7 @@ namespace Box.V2.Managers
                 .Param("updated_at_range", updatedAtRangeString)
                 .Param("size_range", sizeRangeString)
                 .Param("owner_user_ids", ownerUserIds)
-                .Param("ancestorFolderIds", ancestorFolderIds)
+                .Param("ancestor_folder_ids", ancestorFolderIds)
                 .Param("content_types", contentTypes)
                 .Param("type", type)
                 .Param("trash_content", trashContent)
