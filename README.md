@@ -27,7 +27,7 @@ For use with Box Platform Developer or Box Platform Enterprise, also install JWT
 PM> Install-Package Box.V2.JWTAuth
 ```
 
-If you haven't already created an app in Box go to https://developers.box.com/ and click 'Sign Up'
+If you haven't already created an app in Box go to https://developer.box.com/ and click 'Sign Up'
 
 ### Using with Box Platform Developer or Box Platform Enterprise
 
@@ -203,7 +203,7 @@ Other Resources
 -------------
 - Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2/
 - JWT Support Nuget Package: https://www.nuget.org/packages/Box.V2.JWTAuth/
-- Box Windows SDK Video Tutorial: https://developers.box.com/box-windows-sdk-tutorial/
+- Box Windows SDK Video Tutorial: https://youtu.be/hqko0hxbaXU
 
 Known Issues
 ------------
