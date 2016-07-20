@@ -40,6 +40,11 @@ namespace Box.V2.Extensions
                         var err = new BoxError() { Code = response.StatusCode.ToString(), Description = "Forbidden", Message = errorMsg.ToString() };
                         throw new BoxException(err.Message, err);
                     }
+                    else if (!string.IsNullOrWhiteSpace(response.ContentString))
+                    {
+                        response.Error = converter.Parse<BoxError>(response.ContentString);
+                        throw new BoxException(response.ContentString, response.Error) {StatusCode = response.StatusCode};
+                    }
                     else
                     {
                         throw new BoxException("Forbidden");
