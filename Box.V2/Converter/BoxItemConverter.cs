@@ -49,6 +49,8 @@ namespace Box.V2.Converter
                         return new BoxCollaboration();
                     case Constants.TypeLock:
                         return new BoxFileLock();
+                    case Constants.TypeInvite:
+                        return new BoxUserInvite();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names

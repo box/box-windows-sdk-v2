@@ -78,6 +78,7 @@ namespace Box.V2.Config
         public virtual Uri CommentsEndpointUri { get { return new Uri(BoxApiUri, Constants.CommentsString); } }
         public virtual Uri SearchEndpointUri { get { return new Uri(BoxApiUri, Constants.SearchString); } }
         public virtual Uri UserEndpointUri { get { return new Uri(BoxApiUri, Constants.UserString); } }
+        public virtual Uri InviteEndpointUri { get { return new Uri(BoxApiUri, Constants.InviteString); } }
         public virtual Uri CollaborationsEndpointUri { get { return new Uri(BoxApiUri, Constants.CollaborationsString); } }
         public virtual Uri GroupsEndpointUri { get { return new Uri(BoxApiUri, Constants.GroupsString); } }
         public virtual Uri GroupMembershipEndpointUri { get { return new Uri(BoxApiUri, Constants.GroupMembershipString); } }

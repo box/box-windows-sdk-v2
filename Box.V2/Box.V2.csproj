@@ -66,11 +66,13 @@
     <Compile Include="Models\BoxMetadataUpdate.cs" />
     <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
     <Compile Include="Models\BoxRetentionPolicy.cs" />
+    <Compile Include="Models\BoxUserInvite.cs" />
     <Compile Include="Models\BoxWebLink.cs" />
     <Compile Include="Models\Permissions\BoxFilePermission.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
     <Compile Include="Models\BoxGroup.cs" />
     <Compile Include="Models\BoxGroupMembership.cs" />
+    <Compile Include="Models\Request\BoxActionableByRequest.cs" />
     <Compile Include="Models\Request\BoxFileLockRequest.cs" />
     <Compile Include="Models\Request\BoxDeleteSharedLinkRequest.cs" />
     <Compile Include="Models\Request\BoxFileVersionRetentionRequest.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Models\Request\BoxMetadataFilterRequest.cs" />
     <Compile Include="Models\Request\BoxRetentionPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxRetentionPolicyRequest.cs" />
+    <Compile Include="Models\Request\BoxUserInviteRequest.cs" />
     <Compile Include="Plugin\BoxResourcePlugins.cs" />
     <Compile Include="Plugin\IBoxMetadataManager.cs" />
     <Compile Include="Plugin\IResourcePlugin.cs" />

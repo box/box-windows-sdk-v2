@@ -65,6 +65,55 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        public async Task InviteUser_ValidResponse_ValidUser()
+        {
+            /*** Arrange ***/
+            string responseString = "{ \"type\":\"invite\",\"id\":\"238632\",\"invited_to\":{ \"type\":\"enterprise\",\"id\":\"42500\",\"name\":\"Blosser Account\"},\"actionable_by\":{ \"type\":\"user\",\"id\":\"229667663\",\"name\":\"Lleyton Hewitt\",\"login\":\"freeuser@box.com\"},\"invited_by\":{ \"type\":\"user\",\"id\":\"10523870\",\"name\":\"Ted Blosser\",\"login\":\"ted@box.com\"},\"status\":\"pending\",\"created_at\":\"2014-12-23T12:55:53-08:00\",\"modified_at\":\"2014-12-23T12:55:53-08:00\"}";
+            _handler.Setup(h => h.ExecuteAsync<BoxUserInvite>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUserInvite>>(new BoxResponse<BoxUserInvite>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            BoxUserInviteRequest userInviteRequest = new BoxUserInviteRequest()
+            {
+                Enterprise = new BoxRequestEntity()
+                {
+                    Id = "42500"
+                },
+                ActionableBy = new BoxActionableByRequest()
+                {
+                    Login = "freeuser@box.com"
+                }
+            };
+            BoxUserInvite userInvite = await _usersManager.InviteUserToEnterpriseAsync(userInviteRequest);
+
+            /*** Assert ***/
+            Assert.AreEqual("freeuser@box.com", userInvite.ActionableBy.Login);
+        }
+
+        [TestMethod]
+        public async Task GetUserInvite_ValidResponse_ValidUser()
+        {
+            /*** Arrange ***/
+            string responseString = "{ \"type\":\"invite\",\"id\":\"238632\",\"invited_to\":{ \"type\":\"enterprise\",\"id\":\"42500\",\"name\":\"Blosser Account\"},\"actionable_by\":{ \"type\":\"user\",\"id\":\"229667663\",\"name\":\"Lleyton Hewitt\",\"login\":\"freeuser@box.com\"},\"invited_by\":{ \"type\":\"user\",\"id\":\"10523870\",\"name\":\"Ted Blosser\",\"login\":\"ted@box.com\"},\"status\":\"pending\",\"created_at\":\"2014-12-23T12:55:53-08:00\",\"modified_at\":\"2014-12-23T12:55:53-08:00\"}";
+            _handler.Setup(h => h.ExecuteAsync<BoxUserInvite>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUserInvite>>(new BoxResponse<BoxUserInvite>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            BoxUserInvite userInvite = await _usersManager.GetUserInviteAsync("1234");
+
+            /*** Assert ***/
+            Assert.AreEqual("freeuser@box.com", userInvite.ActionableBy.Login);
+        }
+
+        [TestMethod]
         public async Task GetEnterpriseUsers_ValidReponse()
         {
             _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxUser>>(It.IsAny<IBoxRequest>()))

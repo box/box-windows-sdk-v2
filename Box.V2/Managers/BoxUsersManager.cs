@@ -77,7 +77,7 @@ namespace Box.V2.Managers
         /// <param name="fields">The fields to populate for each returned user</param>
         /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
-        public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null, uint offset= 0, uint limit = 100, List<string> fields = null)
+        public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null, uint offset = 0, uint limit = 100, List<string> fields = null)
         {
             if (limit == 0 || limit > 1000) throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
 
@@ -107,6 +107,38 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Delete);
 
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Invites an existing user to join an Enterprise. The existing user cannot be part of another Enterprise and must already have a Box account.
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        public async Task<BoxUserInvite> InviteUserToEnterpriseAsync(BoxUserInviteRequest userInviteRequest, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.InviteEndpointUri)
+            .Param(ParamFields, fields)
+            .Payload(_converter.Serialize(userInviteRequest))
+            .Method(RequestMethod.Post);
+
+            IBoxResponse<BoxUserInvite> response = await ToResponseAsync<BoxUserInvite>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Returns information about an existing user invitation.
+        /// </summary>
+        /// <param name="inviteId">The ID associated with the user invitiation</param>
+        /// <returns></returns>
+        public async Task<BoxUserInvite> GetUserInviteAsync(string inviteId, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.InviteEndpointUri, inviteId)
+            .Param(ParamFields, fields);
+
+            IBoxResponse<BoxUserInvite> response = await ToResponseAsync<BoxUserInvite>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
