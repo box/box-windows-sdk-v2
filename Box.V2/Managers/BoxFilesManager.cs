@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Managers
@@ -81,6 +82,17 @@ namespace Box.V2.Managers
             return locationUri;
         }
 
+        private string HexStringFromBytes(byte[] bytes)
+        {
+            var sb = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                var hex = b.ToString("x2");
+                sb.Append(hex);
+            }
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Uploads a provided file to the target parent folder 
         /// If the file already exists, an error will be thrown.
@@ -90,8 +102,9 @@ namespace Box.V2.Managers
         /// <param name="stream"></param>
         /// <param name="fields"></param>
         /// <param name="timeout"></param>
+        /// <param name="contentMD5"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null)
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null)
         {
             stream.ThrowIfNull("stream");
             fileRequest.ThrowIfNull("fileRequest")
@@ -112,6 +125,11 @@ namespace Box.V2.Managers
                     Value = stream,
                     FileName = fileRequest.Name
                 });
+
+            if (contentMD5 != null)
+            {
+                request.Header(Constants.RequestParameters.ContentMD5, HexStringFromBytes(contentMD5));
+            }
 
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 

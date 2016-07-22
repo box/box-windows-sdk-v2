@@ -116,6 +116,8 @@ namespace Box.V2.Config
 
             public const string AsUser = "As-User";
 
+            public const string ContentMD5 = "Content-MD5";
+
             /*** Values ***/
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
