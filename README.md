@@ -120,7 +120,6 @@ BoxFileRequest request = new BoxFileRequest()
 BoxFile f = await client.FilesManager.UpdateInformationAsync(request );
 ```
 
-
 #### Upload a New File
 ```c#
 BoxFile newFile;
@@ -154,6 +153,39 @@ using (SHA1 sha1 = SHA1.Create())
 	byte[] md5Bytes = sha1.ComputeHash(fs);
 	
 	newFile = await client.FilesManager.UploadAsync(req, stream, contentMD5: md5Bytes);
+}
+```
+
+#### Perform Preflight Check for a new file upload
+```c#
+try
+{
+	var req = new BoxPreflightCheckRequest() { Name = "example.pdf", 
+											   Parent = new BoxRequestEntity() { Id = "0" },
+											   Size = 10000 //set the size if known, otherwise don't set (i.e. for a stream)
+											 };
+											 
+	//exception will be thrown if name collision or storage limit would be exceeded by upload									 
+	await userClient.FilesManager.PreflightCheck(req);
+}
+catch (BoxException bex)
+{
+	//Handle error
+}
+```
+
+#### Perform Preflight Check for a new version of file
+```c#
+try
+{
+	var req = new BoxPreflightCheckRequest() { Size=10926 };
+	
+	//exception will be thrown if storage limit would be exceeded by uploading new version of file
+    await userClient.FilesManager.PreflightCheckNewVersion(newFile.Id, req);									 
+}
+catch (BoxException bex)
+{
+	//Handle error
 }
 ```
 
