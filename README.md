@@ -123,13 +123,38 @@ BoxFile f = await client.FilesManager.UpdateInformationAsync(request );
 
 #### Upload a New File
 ```c#
+BoxFile newFile;
+
 // Create request object with name and parent folder the file should be uploaded to
-BoxFileRequest req = new BoxFileRequest()
+using (FileStream stream = new FileStream(@"C:\\example.pdf", FileMode.Open))
 {
-	Name = "NewFile",
-	Parent = new BoxRequestEntity() { Id = "0" }
-};
-BoxFile f = await client.FilesManager.UploadAsync(request, stream);
+	BoxFileRequest req = new BoxFileRequest()
+	{
+		Name = "example.pdf",
+		Parent = new BoxRequestEntity() { Id = "0" }
+	};
+	newFile = await client.FilesManager.UploadAsync(request, stream);
+}
+```
+
+#### Upload a New File with Content MD5 hash
+```c#
+BoxFile newFile;
+
+// Create request object with name and parent folder the file should be uploaded to
+using (FileStream stream = new FileStream(@"C:\\example.pdf", FileMode.Open))
+using (SHA1 sha1 = SHA1.Create())
+{
+	BoxFileRequest req = new BoxFileRequest()
+	{
+		Name = "example.pdf",
+		Parent = new BoxRequestEntity() { Id = "0" }
+	};
+	
+	byte[] md5Bytes = sha1.ComputeHash(fs);
+	
+	newFile = await client.FilesManager.UploadAsync(request, stream, contentMD5: md5Bytes);
+}
 ```
 
 #### Download a File

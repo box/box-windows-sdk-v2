@@ -103,14 +103,18 @@ namespace Box.V2.Managers
         /// <param name="fields"></param>
         /// <param name="timeout"></param>
         /// <param name="contentMD5"></param>
+        /// <param name="setStreamPositionToZero"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null)
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null, bool setStreamPositionToZero = true)
         {
             stream.ThrowIfNull("stream");
             fileRequest.ThrowIfNull("fileRequest")
                 .Name.ThrowIfNullOrWhiteSpace("filedRequest.Name");
             fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
+
+            if (setStreamPositionToZero)
+                stream.Position = 0;
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri) { Timeout = timeout }
                 .Param(ParamFields, fields)
@@ -127,9 +131,7 @@ namespace Box.V2.Managers
                 });
 
             if (contentMD5 != null)
-            {
                 request.Header(Constants.RequestParameters.ContentMD5, HexStringFromBytes(contentMD5));
-            }
 
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
@@ -144,14 +146,21 @@ namespace Box.V2.Managers
         /// A proper timeout should be provided for large uploads
         /// </summary>
         /// <param name="fileName"></param>
+        /// <param name="fileId"
         /// <param name="stream"></param>
         /// <param name="etag"></param>
+        /// <param name="fields"></param>
         /// <param name="timeout"></param>
+        /// <param name="contentMD5"></param>
+        /// <param name="setStreamPositionToZero"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null, TimeSpan? timeout = null)
+        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null, bool setStreamPositionToZero = true)
         {
             stream.ThrowIfNull("stream");
             fileName.ThrowIfNullOrWhiteSpace("fileName");
+
+            if (setStreamPositionToZero)
+                stream.Position = 0;
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId))) { Timeout = timeout }
                 .Header("If-Match", etag)
@@ -162,6 +171,9 @@ namespace Box.V2.Managers
                     Value = stream,
                     FileName = fileName
                 });
+
+            if (contentMD5 != null)
+                request.Header(Constants.RequestParameters.ContentMD5, HexStringFromBytes(contentMD5));
 
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
