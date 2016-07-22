@@ -42,6 +42,7 @@ namespace Box.V2.Config
         public const string FilesEndpointString = BoxApiUriString + FilesString;
         public const string FilesUploadEndpointString = BoxUploadApiUriString + FilesUploadString;
         public const string FilesNewVersionEndpointString = BoxUploadApiUriString + FilesNewVersionString;
+        public const string FilesPreflightCheckNewVersionString = BoxApiUriString + FilesNewVersionString;
         public const string CommentsEndpointString = BoxApiUriString + CommentsString;
         public const string SearchEndpointString = BoxApiUriString + SearchString;
         public const string UserEndpointString = BoxApiUriString + UserString;
@@ -115,6 +116,8 @@ namespace Box.V2.Config
             public const string AcceptEncoding = "Accept-Encoding";
 
             public const string AsUser = "As-User";
+
+            public const string ContentMD5 = "Content-MD5";
 
             /*** Values ***/
             public const string RefreshToken = "refresh_token";

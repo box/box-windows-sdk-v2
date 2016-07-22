@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Managers
@@ -82,6 +83,47 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Verify that a file will be accepted by Box before you send all the bytes over the wire.
+        /// </summary>
+        /// <param name="preflightCheckRequest"></param>
+        /// <returns></returns>
+        public async Task PreflightCheck(BoxPreflightCheckRequest preflightCheckRequest)
+        {
+            preflightCheckRequest.ThrowIfNull("preflightCheckRequest")
+                .Name.ThrowIfNullOrWhiteSpace("preflightCheckRequest.Name");
+            preflightCheckRequest.Parent.ThrowIfNull("preflightCheckRequest.Parent")
+                .Id.ThrowIfNullOrWhiteSpace("preflightCheckRequest.Parent.Id");
+
+            BoxRequest request = new BoxRequest(_config.FilesPreflightCheckUri)
+                .Method(RequestMethod.Options);
+
+            request.Payload = _converter.Serialize(preflightCheckRequest);
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            IBoxResponse<BoxEntity> response = await ToResponseAsync<BoxEntity>(request).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Verify that a new version of a file will be accepted by Box before you send all the bytes over the wire.
+        /// </summary>
+        /// <param name="fileId"></param>
+        /// <param name="preflightCheckRequest"></param>
+        /// <returns></returns>
+        public async Task PreflightCheckNewVersion(string fileId, BoxPreflightCheckRequest preflightCheckRequest)
+        {
+            if (preflightCheckRequest.Size <= 0)
+                throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
+            
+            BoxRequest request = new BoxRequest(new Uri(string.Format(Constants.FilesPreflightCheckNewVersionString, fileId)))
+                .Method(RequestMethod.Options);
+
+            request.Payload = _converter.Serialize(preflightCheckRequest);
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            IBoxResponse<BoxEntity> response = await ToResponseAsync<BoxEntity>(request).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Uploads a provided file to the target parent folder 
         /// If the file already exists, an error will be thrown.
         /// A proper timeout should be provided for large uploads
@@ -90,14 +132,19 @@ namespace Box.V2.Managers
         /// <param name="stream"></param>
         /// <param name="fields"></param>
         /// <param name="timeout"></param>
+        /// <param name="contentMD5"></param>
+        /// <param name="setStreamPositionToZero"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null)
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null, bool setStreamPositionToZero = true)
         {
             stream.ThrowIfNull("stream");
             fileRequest.ThrowIfNull("fileRequest")
                 .Name.ThrowIfNullOrWhiteSpace("filedRequest.Name");
             fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
+
+            if (setStreamPositionToZero)
+                stream.Position = 0;
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri) { Timeout = timeout }
                 .Param(ParamFields, fields)
@@ -113,6 +160,9 @@ namespace Box.V2.Managers
                     FileName = fileRequest.Name
                 });
 
+            if (contentMD5 != null)
+                request.Header(Constants.RequestParameters.ContentMD5, HexStringFromBytes(contentMD5));
+
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
             // We can only upload one file at a time, so return the first entry
@@ -126,14 +176,21 @@ namespace Box.V2.Managers
         /// A proper timeout should be provided for large uploads
         /// </summary>
         /// <param name="fileName"></param>
+        /// <param name="fileId"
         /// <param name="stream"></param>
         /// <param name="etag"></param>
+        /// <param name="fields"></param>
         /// <param name="timeout"></param>
+        /// <param name="contentMD5"></param>
+        /// <param name="setStreamPositionToZero"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null, TimeSpan? timeout = null)
+        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null, bool setStreamPositionToZero = true)
         {
             stream.ThrowIfNull("stream");
             fileName.ThrowIfNullOrWhiteSpace("fileName");
+
+            if (setStreamPositionToZero)
+                stream.Position = 0;
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId))) { Timeout = timeout }
                 .Header("If-Match", etag)
@@ -145,10 +202,24 @@ namespace Box.V2.Managers
                     FileName = fileName
                 });
 
+            if (contentMD5 != null)
+                request.Header(Constants.RequestParameters.ContentMD5, HexStringFromBytes(contentMD5));
+
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
             // We can only upload one file at a time, so return the first entry
             return response.ResponseObject.Entries.FirstOrDefault();
+        }
+
+        private string HexStringFromBytes(byte[] bytes)
+        {
+            var sb = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                var hex = b.ToString("x2");
+                sb.Append(hex);
+            }
+            return sb.ToString();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Box.V2.Config;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -24,7 +25,16 @@ namespace Box.V2.Request
 
             // Add headers
             foreach (var kvp in request.HttpHeaders)
-                httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
+            {
+                if (kvp.Key == Constants.RequestParameters.ContentMD5)
+                {
+                    httpRequest.Content.Headers.Add(kvp.Key, kvp.Value);
+                } else
+                {
+                    httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
+                }       
+            }
+                
 
             // If we are retrieving a stream, we should return without reading the entire response
             HttpCompletionOption completionOption = isStream ?
