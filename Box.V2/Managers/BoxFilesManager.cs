@@ -82,15 +82,45 @@ namespace Box.V2.Managers
             return locationUri;
         }
 
-        private string HexStringFromBytes(byte[] bytes)
+        /// <summary>
+        /// Verify that a file will be accepted by Box before you send all the bytes over the wire.
+        /// </summary>
+        /// <param name="preflightCheckRequest"></param>
+        /// <returns></returns>
+        public async Task PreflightCheck(BoxPreflightCheckRequest preflightCheckRequest)
         {
-            var sb = new StringBuilder();
-            foreach (byte b in bytes)
-            {
-                var hex = b.ToString("x2");
-                sb.Append(hex);
-            }
-            return sb.ToString();
+            preflightCheckRequest.ThrowIfNull("preflightCheckRequest")
+                .Name.ThrowIfNullOrWhiteSpace("preflightCheckRequest.Name");
+            preflightCheckRequest.Parent.ThrowIfNull("preflightCheckRequest.Parent")
+                .Id.ThrowIfNullOrWhiteSpace("preflightCheckRequest.Parent.Id");
+
+            BoxRequest request = new BoxRequest(_config.FilesPreflightCheckUri)
+                .Method(RequestMethod.Options);
+
+            request.Payload = _converter.Serialize(preflightCheckRequest);
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            IBoxResponse<BoxEntity> response = await ToResponseAsync<BoxEntity>(request).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Verify that a new version of a file will be accepted by Box before you send all the bytes over the wire.
+        /// </summary>
+        /// <param name="fileId"></param>
+        /// <param name="preflightCheckRequest"></param>
+        /// <returns></returns>
+        public async Task PreflightCheckNewVersion(string fileId, BoxPreflightCheckRequest preflightCheckRequest)
+        {
+            if (preflightCheckRequest.Size <= 0)
+                throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
+            
+            BoxRequest request = new BoxRequest(new Uri(string.Format(Constants.FilesPreflightCheckNewVersionString, fileId)))
+                .Method(RequestMethod.Options);
+
+            request.Payload = _converter.Serialize(preflightCheckRequest);
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            IBoxResponse<BoxEntity> response = await ToResponseAsync<BoxEntity>(request).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -179,6 +209,17 @@ namespace Box.V2.Managers
 
             // We can only upload one file at a time, so return the first entry
             return response.ResponseObject.Entries.FirstOrDefault();
+        }
+
+        private string HexStringFromBytes(byte[] bytes)
+        {
+            var sb = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                var hex = b.ToString("x2");
+                sb.Append(hex);
+            }
+            return sb.ToString();
         }
 
         /// <summary>

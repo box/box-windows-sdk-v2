@@ -74,7 +74,9 @@ namespace Box.V2.Config
         public virtual Uri FoldersEndpointUri { get { return new Uri(BoxApiUri, Constants.FoldersString); } }
         public virtual Uri FilesEndpointUri { get { return new Uri(BoxApiUri, Constants.FilesString); } }
         public virtual Uri FilesUploadEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesUploadString); } }
-        public virtual Uri FilesNewVersionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesNewVersionString); } }
+        //public virtual Uri FilesNewVersionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesNewVersionString); } }
+        public virtual Uri FilesPreflightCheckUri { get { return new Uri(BoxApiUri, Constants.FilesUploadString); } }
+        //public virtual Uri FilesPreflightCheckNewVersionUri { get { return new Uri(BoxApiUri, Constants.FilesNewVersionString); } }
         public virtual Uri CommentsEndpointUri { get { return new Uri(BoxApiUri, Constants.CommentsString); } }
         public virtual Uri SearchEndpointUri { get { return new Uri(BoxApiUri, Constants.SearchString); } }
         public virtual Uri UserEndpointUri { get { return new Uri(BoxApiUri, Constants.UserString); } }

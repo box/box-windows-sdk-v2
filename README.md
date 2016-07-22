@@ -181,7 +181,7 @@ try
 	var req = new BoxPreflightCheckRequest() { Size=10926 };
 	
 	//exception will be thrown if storage limit would be exceeded by uploading new version of file
-    await userClient.FilesManager.PreflightCheckNewVersion(newFile.Id, req);									 
+    await userClient.FilesManager.PreflightCheckNewVersion(existingFile.Id, req);									 
 }
 catch (BoxException bex)
 {
