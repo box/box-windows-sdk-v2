@@ -133,7 +133,7 @@ using (FileStream stream = new FileStream(@"C:\\example.pdf", FileMode.Open))
 		Name = "example.pdf",
 		Parent = new BoxRequestEntity() { Id = "0" }
 	};
-	newFile = await client.FilesManager.UploadAsync(request, stream);
+	newFile = await client.FilesManager.UploadAsync(req, stream);
 }
 ```
 
@@ -153,7 +153,7 @@ using (SHA1 sha1 = SHA1.Create())
 	
 	byte[] md5Bytes = sha1.ComputeHash(fs);
 	
-	newFile = await client.FilesManager.UploadAsync(request, stream, contentMD5: md5Bytes);
+	newFile = await client.FilesManager.UploadAsync(req, stream, contentMD5: md5Bytes);
 }
 ```
 
