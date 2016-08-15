@@ -193,6 +193,7 @@ namespace Box.V2.Managers
         /// <param name="timeout"></param>
         /// <param name="contentMD5"></param>
         /// <param name="setStreamPositionToZero"></param>
+        /// <param name="uploadUri"></param>
         /// <returns></returns>
         public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, 
                                                          string etag = null, List<string> fields = null, 
