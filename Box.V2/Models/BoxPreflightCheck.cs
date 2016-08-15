@@ -15,7 +15,7 @@ namespace Box.V2.Models
         public const string FieldUploadToken = "upload_token";
 
         /// <summary>
-        /// The upload URL to optionally use when uploading the file (e.g. when upload acceleration is enabled for your Enterprise).
+        /// The upload URL to optionally use when uploading the file
         /// </summary>
         [JsonProperty(PropertyName = FieldUploadUrl)]
         public string UploadUrl { get; private set; }
