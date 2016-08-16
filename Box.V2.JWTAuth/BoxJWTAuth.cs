@@ -44,11 +44,11 @@ namespace Box.V2.JWTAuth
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
         }
 
-        public BoxClient AdminClient(string adminToken)
+        public BoxClient AdminClient(string adminToken, string asUser = null, bool? suppressNotifications = null)
         {
             var adminSession = this.Session(adminToken);
             var authRepo = new JWTAuthRepository(adminSession, this);
-            var adminClient = new BoxClient(this.boxConfig, authRepo);
+            var adminClient = new BoxClient(this.boxConfig, authRepo, asUser: asUser, suppressNotifications: suppressNotifications);
 
             return adminClient;
         }
