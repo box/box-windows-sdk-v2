@@ -24,8 +24,10 @@ namespace Box.V2.Managers
         /// Either an email address or a user ID can be used to create the collaboration.
         /// </summary>
         /// <param name="collaborationRequest"></param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="notify">Determines if the user, (or all the users in the group) should receive email notification of the collaboration.</param>
         /// <returns></returns>
-        public async Task<BoxCollaboration> AddCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null)
+        public async Task<BoxCollaboration> AddCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null, bool? notify = null)
         {
             collaborationRequest.ThrowIfNull("collaborationRequest")
                 .Item.ThrowIfNull("collaborationRequest.Item")
@@ -36,6 +38,12 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(collaborationRequest));
+
+            if (notify.HasValue)
+            {
+                var value = notify.Value ? "true" : "false";
+                request.Param("notify", value);
+            }
 
             IBoxResponse<BoxCollaboration> response = await ToResponseAsync<BoxCollaboration>(request).ConfigureAwait(false);
 
