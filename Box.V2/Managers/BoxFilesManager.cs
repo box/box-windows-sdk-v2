@@ -87,7 +87,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="preflightCheckRequest"></param>
         /// <returns></returns>
-        public async Task PreflightCheck(BoxPreflightCheckRequest preflightCheckRequest)
+        public async Task<BoxPreflightCheck> PreflightCheck(BoxPreflightCheckRequest preflightCheckRequest)
         {
             preflightCheckRequest.ThrowIfNull("preflightCheckRequest")
                 .Name.ThrowIfNullOrWhiteSpace("preflightCheckRequest.Name");
@@ -100,7 +100,9 @@ namespace Box.V2.Managers
             request.Payload = _converter.Serialize(preflightCheckRequest);
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
-            IBoxResponse<BoxEntity> response = await ToResponseAsync<BoxEntity>(request).ConfigureAwait(false);
+            IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
         }
 
         /// <summary>
@@ -109,7 +111,7 @@ namespace Box.V2.Managers
         /// <param name="fileId"></param>
         /// <param name="preflightCheckRequest"></param>
         /// <returns></returns>
-        public async Task PreflightCheckNewVersion(string fileId, BoxPreflightCheckRequest preflightCheckRequest)
+        public async Task<BoxPreflightCheck> PreflightCheckNewVersion(string fileId, BoxPreflightCheckRequest preflightCheckRequest)
         {
             if (preflightCheckRequest.Size <= 0)
                 throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
@@ -120,7 +122,9 @@ namespace Box.V2.Managers
             request.Payload = _converter.Serialize(preflightCheckRequest);
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
-            IBoxResponse<BoxEntity> response = await ToResponseAsync<BoxEntity>(request).ConfigureAwait(false);
+            IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
         }
 
         /// <summary>
@@ -134,8 +138,12 @@ namespace Box.V2.Managers
         /// <param name="timeout"></param>
         /// <param name="contentMD5"></param>
         /// <param name="setStreamPositionToZero"></param>
+        /// <param name="uploadUri"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null, bool setStreamPositionToZero = true)
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, 
+                                                TimeSpan? timeout = null, byte[] contentMD5 = null, 
+                                                bool setStreamPositionToZero = true,
+                                                Uri uploadUri = null)
         {
             stream.ThrowIfNull("stream");
             fileRequest.ThrowIfNull("fileRequest")
@@ -146,7 +154,9 @@ namespace Box.V2.Managers
             if (setStreamPositionToZero)
                 stream.Position = 0;
 
-            BoxMultiPartRequest request = new BoxMultiPartRequest(_config.FilesUploadEndpointUri) { Timeout = timeout }
+            uploadUri = uploadUri == null ? _config.FilesUploadEndpointUri : uploadUri;
+
+            BoxMultiPartRequest request = new BoxMultiPartRequest(uploadUri) { Timeout = timeout }
                 .Param(ParamFields, fields)
                 .FormPart(new BoxStringFormPart()
                 {
@@ -183,8 +193,13 @@ namespace Box.V2.Managers
         /// <param name="timeout"></param>
         /// <param name="contentMD5"></param>
         /// <param name="setStreamPositionToZero"></param>
+        /// <param name="uploadUri"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, List<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null, bool setStreamPositionToZero = true)
+        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, 
+                                                         string etag = null, List<string> fields = null, 
+                                                         TimeSpan? timeout = null, byte[] contentMD5 = null, 
+                                                         bool setStreamPositionToZero = true,
+                                                         Uri uploadUri = null)
         {
             stream.ThrowIfNull("stream");
             fileName.ThrowIfNullOrWhiteSpace("fileName");
@@ -192,7 +207,9 @@ namespace Box.V2.Managers
             if (setStreamPositionToZero)
                 stream.Position = 0;
 
-            BoxMultiPartRequest request = new BoxMultiPartRequest(new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId))) { Timeout = timeout }
+            uploadUri = uploadUri == null ? new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)) : uploadUri;
+
+            BoxMultiPartRequest request = new BoxMultiPartRequest(uploadUri) { Timeout = timeout }
                 .Header("If-Match", etag)
                 .Param(ParamFields, fields)
                 .FormPart(new BoxFileFormPart()
