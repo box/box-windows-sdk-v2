@@ -19,8 +19,8 @@ namespace Box.V2.Managers
     /// </summary>
     public class BoxMetadataManager : BoxResourceManager
     {
-        public BoxMetadataManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null)
-            : base(config, service, converter, auth, asUser) { }
+        public BoxMetadataManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
+            : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
         /// Used to retrieve the metadata template instance for a corresponding Box file.

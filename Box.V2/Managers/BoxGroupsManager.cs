@@ -25,8 +25,8 @@ namespace Box.V2.Managers
         /// <param name="service"></param>
         /// <param name="converter"></param>
         /// <param name="auth"></param>
-        public BoxGroupsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null) 
-            : base(config, service, converter, auth, asUser) { }
+        public BoxGroupsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null) 
+            : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
         /// Returns all the groups created by the current user

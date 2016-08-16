@@ -15,8 +15,8 @@ namespace Box.V2.Managers
     /// </summary>
     public class BoxUsersManager : BoxResourceManager
     {
-        public BoxUsersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null)
-            : base(config, service, converter, auth, asUser) { }
+        public BoxUsersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
+            : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
         /// Retrieves information about the user who is currently logged in i.e. the user for whom this auth token was generated.

@@ -117,6 +117,8 @@ namespace Box.V2.Config
 
             public const string AsUser = "As-User";
 
+            public const string BoxNotifications = "Box-Notifications";
+
             public const string ContentMD5 = "Content-MD5";
 
             /*** Values ***/
