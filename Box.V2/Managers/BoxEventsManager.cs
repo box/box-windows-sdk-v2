@@ -17,8 +17,8 @@ namespace Box.V2.Managers
     {
         public const string ENTERPRISE_EVENTS_STREAM_TYPE = "admin_logs";
 
-        public BoxEventsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null)
-            : base(config, service, converter, auth, asUser) { }
+        public BoxEventsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
+            : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
         /// Retrieve a chunk of Enterprise Events.  You must be using a token that is scoped to admin level in order to use this endpoint.

@@ -22,6 +22,7 @@ namespace Box.V2.Managers
         protected IBoxConverter _converter;
         protected IAuthRepository _auth;
         protected string _asUser;
+        protected bool? _suppressNotifications;
 
         /// <summary>
         /// Instantiates the base class for the Box resource managers
@@ -30,13 +31,14 @@ namespace Box.V2.Managers
         /// <param name="service"></param>
         /// <param name="converter"></param>
         /// <param name="auth"></param>
-        public BoxResourceManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser)
+        public BoxResourceManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser, bool? suppressNotifications)
         {
             _config = config;
             _service = service;
             _converter = converter;
             _auth = auth;
             _asUser = asUser;
+            _suppressNotifications = suppressNotifications;
         }
 
         protected IBoxRequest AddDefaultHeaders(IBoxRequest request)
@@ -47,6 +49,9 @@ namespace Box.V2.Managers
             
             if (!String.IsNullOrWhiteSpace(_asUser))
                 request.Header(Constants.RequestParameters.AsUser, _asUser);
+
+            if (_suppressNotifications.HasValue && _suppressNotifications.Value)
+                request.Header(Constants.RequestParameters.BoxNotifications, "off");
 
             return request;
         }

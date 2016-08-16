@@ -12,8 +12,8 @@ namespace Box.V2.Managers
 {
     public class BoxFoldersManager : BoxResourceManager
     {
-        public BoxFoldersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null)
-            : base(config, service, converter, auth, asUser) { }
+        public BoxFoldersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
+            : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
         /// Retrieves the files and/or folders contained in the provided folder id
