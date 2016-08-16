@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is built upon the Portable Class Library and targets the following frameworks: .NET for Windows Store apps, .NET Framework 4.0, Silverlight 4 and higher, Windows Phone 7.5 and higher</description>
-    <releaseNotes>Adds support for accessing data returned by pre-flight checks. Adds support for specifying 'notify' query parameter when creating a collaboration.</releaseNotes>
+    <releaseNotes>Adds support for accessing data returned by pre-flight checks. Adds support for specifying 'notify' query parameter when creating a collaboration. Adds support for suppressing notifications.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>
