@@ -55,6 +55,7 @@
     <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Managers\BoxMetadataManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
+    <Compile Include="Managers\BoxWebhooksManager.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
     <Compile Include="Models\BoxRetentionPolicy.cs" />
     <Compile Include="Models\BoxUserInvite.cs" />
+    <Compile Include="Models\BoxWebhook.cs" />
     <Compile Include="Models\BoxWebLink.cs" />
     <Compile Include="Models\Permissions\BoxFilePermission.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Models\Request\BoxRetentionPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxRetentionPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxUserInviteRequest.cs" />
+    <Compile Include="Models\Request\BoxWebhookRequest.cs" />
     <Compile Include="Plugin\BoxResourcePlugins.cs" />
     <Compile Include="Plugin\IBoxMetadataManager.cs" />
     <Compile Include="Plugin\IResourcePlugin.cs" />

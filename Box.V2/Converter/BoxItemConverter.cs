@@ -51,6 +51,8 @@ namespace Box.V2.Converter
                         return new BoxFileLock();
                     case Constants.TypeInvite:
                         return new BoxUserInvite();
+                    case Constants.TypeWebhook:
+                        return new BoxWebhook();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names
