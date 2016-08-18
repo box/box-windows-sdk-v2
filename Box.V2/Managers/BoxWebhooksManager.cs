@@ -49,5 +49,17 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        public async Task<bool> DeleteWebhookAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.WebhooksUri, id)
+                .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxWebhook> response = await ToResponseAsync<BoxWebhook>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
     }
 }
