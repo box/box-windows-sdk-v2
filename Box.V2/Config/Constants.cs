@@ -33,7 +33,7 @@ namespace Box.V2.Config
         public const string FileVersionRetentionsString = @"file_version_retentions";
         public const string EventsString = @"events";
         public const string MetadataTemplatesString = @"metadata_templates/";
-        public const string WebhooksString = @"webhooks";
+        public const string WebhooksString = @"webhooks/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
