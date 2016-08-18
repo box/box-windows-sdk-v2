@@ -125,6 +125,7 @@ namespace Box.V2
             GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             RetentionPoliciesManager = new BoxRetentionPoliciesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             MetadataManager = new BoxMetadataManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            WebhooksManager = new BoxWebhooksManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -196,6 +197,11 @@ namespace Box.V2
         /// The manager that represents the file and folder metadata endpoint
         /// </summary>
         public BoxMetadataManager MetadataManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the webhooks V2 endpoint
+        /// </summary>
+        public BoxWebhooksManager WebhooksManager { get; private set; }
 
         /// <summary>
         /// The Auth repository that holds the auth session

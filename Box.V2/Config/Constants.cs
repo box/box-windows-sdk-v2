@@ -33,6 +33,7 @@ namespace Box.V2.Config
         public const string FileVersionRetentionsString = @"file_version_retentions";
         public const string EventsString = @"events";
         public const string MetadataTemplatesString = @"metadata_templates/";
+        public const string WebhooksString = @"webhooks/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -92,6 +93,7 @@ namespace Box.V2.Config
         public const string TypeInvite = "invite";
         public const string TypeEnterprise = "enterprise";
         public const string TypeLock = "lock";
+        public const string TypeWebhook = "webhook";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds

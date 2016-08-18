@@ -22,6 +22,13 @@ namespace Box.V2.Models
         public const string FieldEntries = "entries";
     }
 
+    public abstract class BoxWebhookCollection
+    {
+        public const string FieldLimit = "limit";
+        public const string FieldNextMarker = "next_marker";
+        public const string FieldEntries = "entries";
+    }
+
     public abstract class BoxMetadataTemplateCollection
     {
         public const string FieldEntries = "entries";
@@ -83,6 +90,27 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldNextStreamPosition)]
         public string NextStreamPosition { get; private set; }
 
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; private set; }
+    }
+
+    public class BoxWebhookCollection<T> : BoxWebhookCollection where T : BoxWebhook
+    {
+        /// <summary>
+        /// Max number of webhooks returned
+        /// </summary>
+        [JsonProperty(PropertyName = FieldLimit)]
+        public int Limit { get; private set; }
+
+        /// <summary>
+        /// Marker to use for next request for webhooks. Will be null if no more webhooks.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldNextMarker)]
+        public string NextMarker { get; private set; }
+
+        /// <summary>
+        /// List of webhooks returned
+        /// </summary>
         [JsonProperty(PropertyName = FieldEntries)]
         public List<T> Entries { get; private set; }
     }
