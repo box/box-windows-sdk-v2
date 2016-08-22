@@ -115,7 +115,7 @@ namespace Box.V2.Managers
         {
             if (preflightCheckRequest.Size <= 0)
                 throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
-            
+
             BoxRequest request = new BoxRequest(new Uri(string.Format(Constants.FilesPreflightCheckNewVersionString, fileId)))
                 .Method(RequestMethod.Options);
 
@@ -140,8 +140,8 @@ namespace Box.V2.Managers
         /// <param name="setStreamPositionToZero"></param>
         /// <param name="uploadUri"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, 
-                                                TimeSpan? timeout = null, byte[] contentMD5 = null, 
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null,
+                                                TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                 bool setStreamPositionToZero = true,
                                                 Uri uploadUri = null)
         {
@@ -195,9 +195,9 @@ namespace Box.V2.Managers
         /// <param name="setStreamPositionToZero"></param>
         /// <param name="uploadUri"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, 
-                                                         string etag = null, List<string> fields = null, 
-                                                         TimeSpan? timeout = null, byte[] contentMD5 = null, 
+        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream,
+                                                         string etag = null, List<string> fields = null,
+                                                         TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                          bool setStreamPositionToZero = true,
                                                          Uri uploadUri = null)
         {
@@ -289,7 +289,7 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="etag"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(string id, string etag=null)
+        public async Task<bool> DeleteAsync(string id, string etag = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -353,7 +353,7 @@ namespace Box.V2.Managers
         public async Task<BoxFile> DeleteSharedLinkAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            
+
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Payload(_converter.Serialize(new BoxDeleteSharedLinkRequest()));
@@ -419,7 +419,7 @@ namespace Box.V2.Managers
         /// Gets a preview link (URI) for a file that is valid for 60 seconds
         /// </summary>
         /// <param name="id">Id of the file</param>
-        /// <returns></returns>
+        /// <returns>Preview link (URI) for a file that is valid for 60 seconds</returns>
         public async Task<Uri> GetPreviewLinkAsync(string id)
         {
             var fields = new List<string>() { "expiring_embed_link" };
@@ -448,7 +448,7 @@ namespace Box.V2.Managers
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
-        {  
+        {
             IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
 
             BoxFilePreview filePreview = new BoxFilePreview();
@@ -457,10 +457,10 @@ namespace Box.V2.Managers
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                filePreview.PreviewStream = response.ResponseObject ;
+                filePreview.PreviewStream = response.ResponseObject;
                 filePreview.TotalPages = response.BuildPagesCount();
             }
-           
+
             return filePreview;
         }
 
@@ -471,10 +471,10 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.PreviewPathString, id))
                 .Param("page", page.ToString())
                 .Param("max_width", maxWidth.ToString())
-				.Param("max_height", maxHeight.ToString())
-				.Param("min_width", minWidth.ToString())
-				.Param("min_height", minHeight.ToString());
-            
+                .Param("max_height", maxHeight.ToString())
+                .Param("min_width", minWidth.ToString())
+                .Param("min_height", minHeight.ToString());
+
             var response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
