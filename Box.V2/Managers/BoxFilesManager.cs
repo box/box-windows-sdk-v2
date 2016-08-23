@@ -286,9 +286,9 @@ namespace Box.V2.Managers
         /// Discards a file to the trash. The etag of the file can be included as an ‘If-Match’ header to prevent race conditions.
         /// <remarks>Depending on the enterprise settings for this user, the item will either be actually deleted from Box or moved to the trash.</remarks>
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="etag"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of the file</param>
+        /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
+        /// <returns>True - if file is deleted</returns>
         public async Task<bool> DeleteAsync(string id, string etag = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -607,6 +607,12 @@ namespace Box.V2.Managers
             return response.Status == ResponseStatus.Success;
         }
 
+        /// <summary>
+        /// Retrieves all of the tasks for given file.
+        /// </summary>
+        /// <param name="id">The Id of the file the tasks should be retrieved for</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A collection of mini task objects is returned. If there are no tasks, an empty collection will be returned.</returns>
         public async Task<BoxCollection<BoxTask>> GetFileTasks(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
