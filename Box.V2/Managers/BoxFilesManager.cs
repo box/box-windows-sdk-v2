@@ -606,5 +606,18 @@ namespace Box.V2.Managers
 
             return response.Status == ResponseStatus.Success;
         }
+
+        public async Task<BoxCollection<BoxTask>> GetFileTasks(string id, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TasksPathString, id))
+                .Param(ParamFields, fields);
+
+
+            IBoxResponse<BoxCollection<BoxTask>> response = await ToResponseAsync<BoxCollection<BoxTask>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
     }
 }
