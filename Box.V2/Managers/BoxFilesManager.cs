@@ -512,7 +512,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves an item that has been moved to the trash.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Id of the file</param>
         /// <returns>The full item will be returned, including information about when the it was moved to the trash.</returns>
         public async Task<BoxFile> GetTrashedAsync(string id, List<string> fields = null)
         {
