@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -488,7 +489,36 @@ namespace Box.V2.Test
 
         }
 
-       
-      
+        [TestMethod]
+        public async Task GetThumbnail_ValidResponse_ValidStream()
+        {
+            using (FileStream thumb = new FileStream(string.Format(GetSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
+            {
+                /*** Arrange ***/
+
+                _handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
+
+                    .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
+                    {
+                        Status = ResponseStatus.Success,
+                        ResponseObject = thumb
+
+                    }));
+
+                /*** Act ***/
+                Stream result = await _filesManager.GetThumbnailAsync("34122832467");
+
+                /*** Assert ***/
+
+                Assert.IsNotNull(result, "Stream is Null");
+
+            }
+        }
+        private string GetSaveFolderPath()
+        {
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            return Path.Combine(pathUser, "Downloads") + "\\{0}";
+        }
+
     }
 }
