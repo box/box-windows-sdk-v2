@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -376,19 +377,22 @@ namespace Box.V2.Test
         public async Task UpdateFileLock_ValidResponse_ValidFile()
         {
             string responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\", \"lock\": { \"type\": \"lock\", \"id\": \"14516545\", \"created_by\": { \"type\": \"user\", \"id\": \"13130406\", \"name\": \"I don't know gmail\", \"login\": \"idontknow@gmail.com\" }, \"created_at\": \"2014-05-29T18:03:04-07:00\", \"expires_at\": \"2014-05-30T19:03:04-07:00\", \"is_download_prevented\": false } } ";
+            IBoxRequest boxRequest = null;
             _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
-                }));
+                }))
+                 .Callback<IBoxRequest>(r => boxRequest = r); 
 
             /*** Act ***/
             BoxFileLockRequest request = new BoxFileLockRequest();
             request.Lock = new BoxFileLock();
             request.Lock.IsDownloadPrevented = false;
-
-            BoxFileLock fileLock = await _filesManager.UpdateLockAsync(request, "0");
+            request.Lock.LockType = BoxFileLock.LockTypes.Lock;
+            
+            BoxFileLock fileLock = await _filesManager.UpdateLockAsync(request, "7435988481");
 
             /*** Assert ***/
             Assert.IsNotNull(fileLock);
@@ -518,6 +522,34 @@ namespace Box.V2.Test
         {
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             return Path.Combine(pathUser, "Downloads") + "\\{0}";
+        }
+        [TestMethod]
+        public async Task GetDownloadUri_ValidResponse_ValidUrl()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+
+            Uri location = new Uri("http://dl.boxcloud.com");
+            HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+            headers.Location = location;
+            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+
+                .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString,
+                    Headers = headers
+
+                }));
+
+            /*** Act ***/
+            Uri result = await _filesManager.GetDownloadUriAsync("34122832467");
+
+            /*** Assert ***/
+
+            Assert.AreEqual(location, result);
+
+
         }
 
     }

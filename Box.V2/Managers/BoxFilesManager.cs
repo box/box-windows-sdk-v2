@@ -583,13 +583,18 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to update the lock information on the file
+        /// To lock and unlock files, set or clear the lock properties on the file.
         /// </summary>
-        /// <param name="fileRequest"></param>
-        /// <returns></returns>
-        public async Task<BoxFileLock> UpdateLockAsync(BoxFileLockRequest lockFileRequest, string Id)
+        /// <param name="lockFileRequest">Request contains Lock object for setting of lock properties such as ExpiresAt - the time the lock expires, IsDownloadPrevented - whether or not the file can be downloaded while locked. </param>
+        /// <param name="id">Id of the file</param>
+        /// <returns>Returns information about locked file</returns>
+        public async Task<BoxFileLock> UpdateLockAsync(BoxFileLockRequest lockFileRequest, string id)
         {
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, Id)
+            lockFileRequest.ThrowIfNull("lockFileRequest");
+            lockFileRequest.Lock.ThrowIfNull("lockFileRequest.Lock");
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, "lock");
 
