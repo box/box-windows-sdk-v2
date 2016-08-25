@@ -315,7 +315,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a copy of a file in another folder. The original version of the file will not be altered.
         /// </summary>
-        /// <param name="fileRequest"></param>
+        /// <param name="fileRequest">Request data</param>
         /// <returns></returns>
         public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null)
         {
