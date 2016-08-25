@@ -25,19 +25,17 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
-        /// Gets a file object representation of the provided file Id
+        /// Retrieves metadata about file.
         /// </summary>
-        /// <param name="id">Id of file information to retrieve</param>
-        /// <param name="limit">The number of items to return (default=100, max=1000)</param>
-        /// <param name="offset">The item at which to begin the response (default=0)</param>
-        /// <returns></returns>
+        /// <param name="id">Id of file information to retrieve.</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
         public async Task<BoxFile> GetInformationAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Param(ParamFields, fields);
-
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -273,19 +271,30 @@ namespace Box.V2.Managers
         /// and creating a shared link for the file. To move a file, change the ID of its parent folder. An optional etag
         /// can be included to ensure that client only updates the file if it knows about the latest version.
         /// </summary>
-        /// <param name="fileRequest"></param>
-        /// <returns></returns>
-        public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, List<string> fields = null)
+        /// <param name="id">Id of the file.</param>
+        /// <param name="fileRequest">Specifies file update data which contains:
+        /// fileRequest.Name - The new name for the file.
+        /// fileRequest.Description - The new description for the file.
+        /// fileRequest.Parent.Id -  The ID of the parent folder.
+        /// filerequest.SharedLink.Access - The level of access required for this shared link. Can be open, company, collaborators.
+        /// filerequest.SharedLink.UnsharedAt -  The day that this link should be disabled at. Timestamps are rounded off to the given day.
+        /// filerequest.SharedLink.Permissions.Download - Whether this link allows downloads.
+        /// filerequest.SharedLink.Permissions.Preview - Whether this link allows previews.
+        /// fileRequest.Tags - All tags attached to this file. To add/remove a tag to/from a file, you can first get the file’s current tags (be sure to specify ?fields=tags, since the tags field is not returned by default); then modify the list as required; and finally, set the file’s entire list of tags.
+        /// </param>
+        /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
+        /// <param name="fields">Fields which shall be returned in result.</param>
+        /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
+        public async Task<BoxFile> UpdateInformationAsync(string id, BoxFileRequest fileRequest, string etag = null, List<string> fields = null)
         {
-            fileRequest.ThrowIfNull("fileRequest")
-                .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
+            id.ThrowIfNullOrWhiteSpace("id");
+            fileRequest.ThrowIfNull("fileRequest");            
 
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Header("If-Match", etag)
-                .Param(ParamFields, fields);
-
-            request.Payload = _converter.Serialize(fileRequest);
+                .Param(ParamFields, fields)
+                .Payload(_converter.Serialize(fileRequest));
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -346,17 +355,14 @@ namespace Box.V2.Managers
         /// Used to create a shared link for this particular file. Please see here for more information on the permissions available for shared links. 
         /// </summary>
         /// <param name="id">The ID of file.</param>
-        /// <param name="sharedLinkRequest">Shared link request data.</param>
-        /// <param name="fields">Filds which shall be returned in result.</param>
-        /// <remarks>
-        /// sharedLinkRequest shall contain:
+        /// <param name="sharedLinkRequest">Shared link request data which shall contain:
         /// sharedLinkRequest.Access - The level of access required for this shared link. Can be open, company, collaborators, or null to get default share level.
         /// sharedLinkRequest.UnsharedAt - The day that this link should be disabled at. Timestamps are rounded off to the given day. This field can only be set if the user is not a free user.
         /// sharedLinkRequest.Password - The password to require before viewing this link.
         /// sharedLinkRequest.Permissions.Download - Whether this link allows downloads.
         /// sharedLinkRequest.Permissions.Preview - Whether this link allows previewing. Can only be used with open and company.
-        /// sharedLinkRequest.EffectiveAccess - The access level set by the enterprise administrator. This will override any previous access levels set for the shared link and prevent any less-restrictive access levels to be set.
-        /// </remarks>
+        /// sharedLinkRequest.EffectiveAccess - The access level set by the enterprise administrator. This will override any previous access levels set for the shared link and prevent any less-restrictive access levels to be set.</param>
+        /// <param name="fields">Filds which shall be returned in result.</param>        
         /// <returns>A full file object containing the updated shared link is returned if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
         {

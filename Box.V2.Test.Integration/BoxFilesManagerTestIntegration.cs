@@ -142,10 +142,9 @@ namespace Box.V2.Test.Integration
 
             BoxFileRequest updateReq = new BoxFileRequest()
             {
-                Id = file.Id,
                 Name = updateName
             };
-            BoxFile fileUpdate = await _client.FilesManager.UpdateInformationAsync(updateReq);
+            BoxFile fileUpdate = await _client.FilesManager.UpdateInformationAsync(file.Id, updateReq);
 
             Assert.AreEqual(file.Id, fileUpdate.Id, "File Ids are not the same");
             Assert.AreEqual(updateName, fileUpdate.Name, "File Names are not the same");
