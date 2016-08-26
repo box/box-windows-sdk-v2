@@ -91,14 +91,25 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Verify that a file will be accepted by Box before you send all the bytes over the wire.
+        /// The Pre-flight check API will verify that a file will be accepted by Box before you send all the bytes over the wire. It can be used for both first-time uploads, and uploading new versions of an existing file.
         /// </summary>
-        /// <param name="preflightCheckRequest"></param>
-        /// <returns></returns>
-        public async Task<BoxPreflightCheck> PreflightCheck(BoxPreflightCheckRequest preflightCheckRequest)
+        /// <remarks>
+        /// Preflight checks verify all permissions as if the file was actually uploaded including:
+        /// Folder upload permission
+        /// File name collisions
+        /// file size caps
+        /// folder and file name restrictions*
+        /// folder and account storage quota
+        /// </remarks>
+        /// <param name="preflightCheckRequest">Fill required inputs: Name - The name of the file to be uploaded, Parent.Id - The ID of the parent folder.,
+        /// Size - The size of the file in bytes. Specify 0 for unknown file-sizes
+        /// </param>
+        /// <returns>If true is returned if the upload would be successful. An error is thrown when any of the preflight conditions are not met.</returns>
+        public async Task<bool> PreflightCheck(BoxPreflightCheckRequest preflightCheckRequest)
         {
             preflightCheckRequest.ThrowIfNull("preflightCheckRequest")
                 .Name.ThrowIfNullOrWhiteSpace("preflightCheckRequest.Name");
+           
             preflightCheckRequest.Parent.ThrowIfNull("preflightCheckRequest.Parent")
                 .Id.ThrowIfNullOrWhiteSpace("preflightCheckRequest.Parent.Id");
 
@@ -110,29 +121,7 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
 
-            return response.ResponseObject;
-        }
-
-        /// <summary>
-        /// Verify that a new version of a file will be accepted by Box before you send all the bytes over the wire.
-        /// </summary>
-        /// <param name="fileId"></param>
-        /// <param name="preflightCheckRequest"></param>
-        /// <returns></returns>
-        public async Task<BoxPreflightCheck> PreflightCheckNewVersion(string fileId, BoxPreflightCheckRequest preflightCheckRequest)
-        {
-            if (preflightCheckRequest.Size <= 0)
-                throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
-
-            BoxRequest request = new BoxRequest(new Uri(string.Format(Constants.FilesPreflightCheckNewVersionString, fileId)))
-                .Method(RequestMethod.Options);
-
-            request.Payload = _converter.Serialize(preflightCheckRequest);
-            request.ContentType = Constants.RequestParameters.ContentTypeJson;
-
-            IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            return response.Status == ResponseStatus.Success;
         }
 
         /// <summary>
