@@ -2,15 +2,15 @@
 <package >
   <metadata>
     <id>Box.V2</id>
-    <version>2.11.0</version>
+    <version>2.12.0</version>
     <title>Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is built upon the Portable Class Library and targets the following frameworks: .NET for Windows Store apps, .NET Framework 4.0, Silverlight 4 and higher, Windows Phone 7.5 and higher</description>
-    <releaseNotes>Adds support for accessing data returned by pre-flight checks. Adds support for specifying 'notify' query parameter when creating a collaboration. Adds support for suppressing notifications.</releaseNotes>
-    <copyright>Copyright 2015</copyright>
+    <releaseNotes>Adds support for catching conflict exceptions properly when performing a BoxPreflightCheckRequest.  Adds support for Box Webhooks V2.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>
 </package>

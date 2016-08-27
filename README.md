@@ -168,9 +168,13 @@ try
 	//exception will be thrown if name collision or storage limit would be exceeded by upload									 
 	await userClient.FilesManager.PreflightCheck(req);
 }
+catch (BoxPreflightCheckConflictException<BoxFile> bex)
+{
+	//Handle file name collision error	
+}
 catch (BoxException bex)
 {
-	//Handle error
+	//Handle storage limit error 
 }
 ```
 
@@ -185,7 +189,7 @@ try
 }
 catch (BoxException bex)
 {
-	//Handle error
+	//Handle storage limit error
 }
 ```
 
