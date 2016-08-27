@@ -57,15 +57,23 @@ namespace Box.V2.Extensions
                             switch (response.StatusCode)
                             {
                                 case System.Net.HttpStatusCode.Conflict:
-                                    BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
-                                    exToThrow = new BoxConflictException<T>(response.ContentString, error);
+                                    if (response is IBoxResponse<BoxPreflightCheck>)
+                                    {
+                                        BoxPreflightCheckConflictError<BoxFile> err = converter.Parse<BoxPreflightCheckConflictError<BoxFile>>(response.ContentString);
+                                        exToThrow = new BoxPreflightCheckConflictException<BoxFile>(response.ContentString, err);
+                                    } else
+                                    {
+                                        BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
+                                        exToThrow = new BoxConflictException<T>(response.ContentString, error);
+                                    }
+                                  
                                     break;
                                 default:
                                     response.Error = converter.Parse<BoxError>(response.ContentString);
                                     break;
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                             Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
                         }
