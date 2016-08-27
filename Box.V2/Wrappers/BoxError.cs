@@ -53,4 +53,19 @@ namespace Box.V2
         [JsonProperty(PropertyName = "context_info")]
         public BoxConflictErrorContextInfo<T> ContextInfo { get; set; }
     }
+
+    /// <summary>
+    /// Box representation of a preflight check conflict error that includes its context info
+    /// </summary>
+    /// <typeparam name="T">Type of item that is in conflict</typeparam>
+    public class BoxPreflightCheckConflictError<T> : BoxError
+        where T : class
+    {
+        /// <summary>
+        /// Gets or sets the context information.
+        /// </summary>
+        /// <value>The context information.</value>
+        [JsonProperty(PropertyName = "context_info")]
+        public BoxPreflightCheckConflictErrorContextInfo<T> ContextInfo { get; set; }
+    }
 }
