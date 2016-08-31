@@ -315,16 +315,24 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a copy of a file in another folder. The original version of the file will not be altered.
         /// </summary>
-        /// <param name="fileRequest"></param>
-        /// <returns></returns>
-        public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null)
+        /// <param name="fileId">The ID of source file.</param>
+        /// <param name="folderId">The ID of destianation folder.</param>
+        /// <param name="name">An optional new name for the file. Default value is null.</param>
+        /// <param name="fields">Fields which shall be returned in result.</param>
+        /// <returns>A full file object is returned if the ID is valid and if the update is successful. 
+        /// Errors can be thrown if the destination folder is invalid or if a file-name collision occurs. </returns>
+        public async Task<BoxFile> CopyAsync(string fileId, string folderId, string name = null, List<string> fields = null)
         {
-            fileRequest.ThrowIfNull("fileRequest")
-                .Name.ThrowIfNullOrWhiteSpace("fileRequest.Name");
-            fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
-                .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
+            fileId.ThrowIfNullOrWhiteSpace("fileId");
+            folderId.ThrowIfNullOrWhiteSpace("folderId");
 
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CopyPathString, fileRequest.Id))
+            BoxFileRequest fileRequest = new BoxFileRequest()
+            {
+                Name = name,
+                Parent = new BoxRequestEntity() { Id = folderId }
+            };
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CopyPathString, fileId))
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(fileRequest));
@@ -337,9 +345,19 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a shared link for this particular file. Please see here for more information on the permissions available for shared links. 
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="sharedLinkRequest"></param>
-        /// <returns></returns>
+        /// <param name="id">The ID of file.</param>
+        /// <param name="sharedLinkRequest">Shared link request data.</param>
+        /// <param name="fields">Filds which shall be returned in result.</param>
+        /// <remarks>
+        /// sharedLinkRequest shall contain:
+        /// sharedLinkRequest.Access - The level of access required for this shared link. Can be open, company, collaborators, or null to get default share level.
+        /// sharedLinkRequest.UnsharedAt - The day that this link should be disabled at. Timestamps are rounded off to the given day. This field can only be set if the user is not a free user.
+        /// sharedLinkRequest.Password - The password to require before viewing this link.
+        /// sharedLinkRequest.Permissions.Download - Whether this link allows downloads.
+        /// sharedLinkRequest.Permissions.Preview - Whether this link allows previewing. Can only be used with open and company.
+        /// sharedLinkRequest.EffectiveAccess - The access level set by the enterprise administrator. This will override any previous access levels set for the shared link and prevent any less-restrictive access levels to be set.
+        /// </remarks>
+        /// <returns>A full file object containing the updated shared link is returned if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");

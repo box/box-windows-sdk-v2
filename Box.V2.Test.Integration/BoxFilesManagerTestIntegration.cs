@@ -167,7 +167,7 @@ namespace Box.V2.Test.Integration
                 Name = copyName,
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
-            BoxFile fileCopy = await _client.FilesManager.CopyAsync(copyReq);
+            BoxFile fileCopy = await _client.FilesManager.CopyAsync(fileWithLink.Id, "0", copyName);
 
             Assert.AreEqual(fileCopy.Name, copyName, "Incorrect Name for copied file");
             Assert.AreEqual(fileCopy.Parent.Id, "0", "Incorrect parent folder for copied file");
