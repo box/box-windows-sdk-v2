@@ -31,10 +31,10 @@ If you haven't already created an app in Box go to https://developer.box.com/ an
 
 ### Authentication
 
-#### Using a Developer Token
+#### Using a Developer Token (generate one in your app admin console; they last for 60 minutes)
 ```c#
 var config = new BoxConfig(<Client_Id>, <Client_Secret>, new Uri("http://localhost"));
-var session = new OAuthSession(DEVELOPER_TOKEN, "NOT_NEEDED", 3600, "bearer");
+var session = new OAuthSession(<Developer_Token>, "NOT_NEEDED", 3600, "bearer");
 client = new BoxClient(config, session);
 ```
 
