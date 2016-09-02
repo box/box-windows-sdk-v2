@@ -29,6 +29,13 @@ PM> Install-Package Box.V2.JWTAuth
 
 If you haven't already created an app in Box go to https://developer.box.com/ and click 'Sign Up'
 
+### Using a Developer Token
+```c#
+var config = new BoxConfig(CLIENT_ID, CLIENT_SECRET, new Uri("http://localhost"));
+var session = new OAuthSession(DEVELOPER_TOKEN, "NOT_NEEDED", 3600, "bearer");
+client = new BoxClient(config, session);
+```
+
 ### Using with Box Platform Developer or Box Platform Enterprise
 
 #### Configure
