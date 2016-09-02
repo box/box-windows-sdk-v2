@@ -29,28 +29,30 @@ PM> Install-Package Box.V2.JWTAuth
 
 If you haven't already created an app in Box go to https://developer.box.com/ and click 'Sign Up'
 
-### Using a Developer Token
+### Authentication
+
+#### Using a Developer Token
 ```c#
-var config = new BoxConfig(CLIENT_ID, CLIENT_SECRET, new Uri("http://localhost"));
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, new Uri("http://localhost"));
 var session = new OAuthSession(DEVELOPER_TOKEN, "NOT_NEEDED", 3600, "bearer");
 client = new BoxClient(config, session);
 ```
 
-### Using with Box Platform Developer or Box Platform Enterprise
+#### Using with Box Platform Developer or Box Platform Enterprise
 
-#### Configure
+##### Configure
 ```c#
 var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
 var boxJWT = new BoxJWTAuth(boxConfig);
 ```
 
-#### Authenticate
+##### Authenticate
 ```c#
 var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
 var adminClient = boxJWT.AdminClient(adminToken);
 ```
 
-#### Create an App User
+##### Create an App User
 ```c#
 //NOTE: you must set IsPlatformAccessOnly=true for an App User
 var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
@@ -64,16 +66,16 @@ var userClient = boxJWT.UserClient(userToken, appUser.Id);
 var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();
 ```
 
-### Using with OAuth2
+#### Using with OAuth2
 
-#### Configure
+##### Configure
 Set your configuration parameters and initialize the client:
 ```c#
 var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri>);
 var client = new BoxClient(config);
 ```
 
-#### Authenticate
+##### Authenticate
 Bundled with the SDK are sample applications for both Windows 8 and Windows Phone which include sample OAuth2 Workflows. The authentication workflow is a 2-step process that first retrieves an Auth Code and then exchanges it for an Access/Refresh Token
 
 *Windows 8*
@@ -103,7 +105,7 @@ Alternatively, a completely custom OAuth2 authentication process can be used in 
 OAuthSession session = // Create session from custom implementation
 var client = new BoxClient(config, session);
 ```
-### Some Examples
+### Examples
 #### Get Folder Items
 ```c#
 // Get root folder with default properties
