@@ -65,9 +65,17 @@ namespace Box.V2
         {
             get
             {
-                return new Uri(Uri,
-                    Parameters.Count == 0 ? string.Empty :
-                    string.Format("?{0}", GetQueryString()));
+                var existingQuery = Uri.Query;
+                string newQuery;
+                if (String.IsNullOrWhiteSpace(existingQuery))
+                {
+                    newQuery = Parameters.Count == 0 ? string.Empty : string.Format("?{0}", GetQueryString());
+                } else
+                {
+                    newQuery = Parameters.Count == 0 ? existingQuery : string.Format("{0}&{1}", existingQuery, GetQueryString());
+                }
+
+                return new Uri(Uri, newQuery);
             }
         }
 
