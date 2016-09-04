@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
 
 namespace Box.V2.Test
 {
@@ -415,6 +416,34 @@ namespace Box.V2.Test
 
             /*** Assert ***/
             Assert.IsTrue(unlocked);
+        }
+        [TestMethod]
+        public async Task GetDownloadUri_ValidResponse_ValidUrl()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+
+            Uri location = new Uri("http://dl.boxcloud.com");
+            HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+            headers.Location = location;
+            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+
+                .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString,
+                    Headers = headers
+
+                }));
+
+            /*** Act ***/
+            Uri result = await _filesManager.GetDownloadUriAsync("34122832467");
+
+            /*** Assert ***/
+
+            Assert.AreEqual(location, result);
+
+
         }
     }
 }
