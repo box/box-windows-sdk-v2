@@ -64,18 +64,28 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Retrieves the temporary direct Uri to a file (valid for 15 minutes). This is typically used to send as a redirect to a browser to make the browser download the file directly from Box.
+        /// Retrieves the actual data of the file. An optional version parameter can be set to download a previous version of the file.
         /// </summary>
         /// <param name="id">Id of the file</param>
-        /// <param name="versionId">Version of the file</param>
-        /// <returns></returns>
-        public async Task<Uri> GetDownloadUriAsync(string id, string versionId = null)
+        /// <param name="versionId">The ID specific version of this file to download.</param>
+        /// <param name="range">The range value in bytes</param>
+        /// <param name="boxAPI">The shared link for this item.</param>
+        /// <returns>If the file is available to be downloaded, the response is a URL at dl.boxcloud.com.</returns>
+        public async Task<Uri> GetDownloadUriAsync(string id, string versionId = null,
+            BoxRangeRequest range = null, string boxAPI = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id)) { FollowRedirect = false }
                 .Param("version", versionId);
-
+            if (range != null)
+            {
+                request.Param("bytes", string.Format("{0}-{1}", range.StartRange, range.EndRange));
+            }
+            if (!string.IsNullOrEmpty(boxAPI))
+            {
+                request.Param("shared_link", boxAPI);
+            }
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
             var locationUri = response.Headers.Location;
 
