@@ -193,12 +193,13 @@ namespace Box.V2.Managers
         /// <param name="timeout">Optional timeout for response</param>
         /// <param name="contentMD5">The SHA1 hash of the file</param>
         /// <param name="setStreamPositionToZero">Set position for input stream to 0</param>
+        /// <param name="uploadUri">Optional url for uploading file</param>
         /// <returns>A full file object is returned</returns>
         public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream,
                                                          string etag = null, List<string> fields = null,
                                                          TimeSpan? timeout = null, byte[] contentMD5 = null,
-                                                         bool setStreamPositionToZero = true
-                                                         )
+                                                         bool setStreamPositionToZero = true,
+                                                         Uri uploadUri = null)
         {
             stream.ThrowIfNull("stream");
             fileName.ThrowIfNullOrWhiteSpace("fileName");
@@ -206,7 +207,7 @@ namespace Box.V2.Managers
             if (setStreamPositionToZero)
                 stream.Position = 0;
 
-            Uri uploadUri = new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId));
+            uploadUri = uploadUri == null ? new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)) : uploadUri;
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(uploadUri) { Timeout = timeout }
                 .Header("If-Match", etag)
