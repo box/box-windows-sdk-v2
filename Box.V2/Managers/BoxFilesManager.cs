@@ -286,9 +286,9 @@ namespace Box.V2.Managers
         /// Discards a file to the trash. The etag of the file can be included as an ‘If-Match’ header to prevent race conditions.
         /// <remarks>Depending on the enterprise settings for this user, the item will either be actually deleted from Box or moved to the trash.</remarks>
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="etag"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of the file</param>
+        /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
+        /// <returns>True - if file is deleted</returns>
         public async Task<bool> DeleteAsync(string id, string etag=null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
