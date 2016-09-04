@@ -328,17 +328,14 @@ namespace Box.V2.Managers
         /// Used to create a shared link for this particular file. Please see here for more information on the permissions available for shared links. 
         /// </summary>
         /// <param name="id">The ID of file.</param>
-        /// <param name="sharedLinkRequest">Shared link request data.</param>
-        /// <param name="fields">Filds which shall be returned in result.</param>
-        /// <remarks>
-        /// sharedLinkRequest shall contain:
+        /// <param name="sharedLinkRequest">Shared link request data which shall contain:
         /// sharedLinkRequest.Access - The level of access required for this shared link. Can be open, company, collaborators, or null to get default share level.
         /// sharedLinkRequest.UnsharedAt - The day that this link should be disabled at. Timestamps are rounded off to the given day. This field can only be set if the user is not a free user.
         /// sharedLinkRequest.Password - The password to require before viewing this link.
         /// sharedLinkRequest.Permissions.Download - Whether this link allows downloads.
         /// sharedLinkRequest.Permissions.Preview - Whether this link allows previewing. Can only be used with open and company.
-        /// sharedLinkRequest.EffectiveAccess - The access level set by the enterprise administrator. This will override any previous access levels set for the shared link and prevent any less-restrictive access levels to be set.
-        /// </remarks>
+        /// sharedLinkRequest.EffectiveAccess - The access level set by the enterprise administrator. This will override any previous access levels set for the shared link and prevent any less-restrictive access levels to be set.</param>
+        /// <param name="fields">Filds which shall be returned in result.</param>        
         /// <returns>A full file object containing the updated shared link is returned if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
         {
