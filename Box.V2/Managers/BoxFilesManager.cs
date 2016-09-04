@@ -305,12 +305,18 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a copy of a file in another folder. The original version of the file will not be altered.
         /// </summary>
-        /// <param name="fileRequest"></param>
-        /// <returns></returns>
+        /// <param name="fileRequest">
+        /// fileRequest.Id - The ID of source file
+        /// fileRequest.Name - An optional new name for the file. Default value is null,
+        /// fileRequest.Parent.Id - The ID of destianation folder,
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full file object is returned if the ID is valid and if the update is successful. 
+        /// Errors can be thrown if the destination folder is invalid or if a file-name collision occurs. </returns>
         public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null)
         {
-            fileRequest.ThrowIfNull("fileRequest")
-                .Name.ThrowIfNullOrWhiteSpace("fileRequest.Name");
+            
+            fileRequest.Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
             fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
 

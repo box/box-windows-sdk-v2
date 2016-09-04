@@ -189,6 +189,7 @@ namespace Box.V2.Test
 
             BoxFileRequest request = new BoxFileRequest()
             {
+                Id="5000948880",
                 Name = "test",
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
