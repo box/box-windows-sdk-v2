@@ -381,19 +381,20 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Retrieves a thumbnail, or smaller image representation, of this file. Sizes of 32x32, 64x64, 128x128, and 256x256 can be returned. 
-        /// Currently thumbnails are only available in .png format and will only be generated for
-        /// <see cref="http://en.wikipedia.org/wiki/Image_file_formats"/>
+        /// Retrieves a thumbnail, or smaller image representation, of this file. Sizes of 32x32,
+        ///64x64, 128x128, and 256x256 can be returned in the .png format and sizes of 32x32, 94x94, 160x160, and 320x320 can be returned in the .jpg format.
+        /// Thumbnails can be generated for the image and video file formats listed here.
+        /// <see cref="http://community.box.com/t5/Managing-Your-Content/What-file-types-are-supported-by-Box-s-Content-Preview/ta-p/327"/>
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="minHeight"></param>
-        /// <param name="minWidth"></param>
-        /// <param name="maxHeight"></param>
-        /// <param name="maxWidth"></param>
+        /// <param name="id">Id of the file</param>
+        /// <param name="minHeight">The minimum height of the thumbnail</param>
+        /// <param name="minWidth">The minimum width of the thumbnail</param>
+        /// <param name="maxHeight">The maximum height of the thumbnail</param>
+        /// <param name="maxWidth">The maximum width of the thumbnail</param>
         /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
         /// <param name="throttle">Whether the requests will be throttled. Recommended to be left true to prevent spamming the server</param>
-        /// <returns></returns>
+        /// <returns>Contents of thumbnail</returns>
         public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true, bool handleRetry = true)
         {
             id.ThrowIfNullOrWhiteSpace("id");

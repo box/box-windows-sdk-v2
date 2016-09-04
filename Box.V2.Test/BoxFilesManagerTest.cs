@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Box.V2.Test
 {
@@ -415,6 +416,37 @@ namespace Box.V2.Test
 
             /*** Assert ***/
             Assert.IsTrue(unlocked);
+        }
+
+        [TestMethod]
+        public async Task GetThumbnail_ValidResponse_ValidStream()
+        {
+            using (FileStream thumb = new FileStream(string.Format(getSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
+            {
+                /*** Arrange ***/
+
+                _handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
+
+                    .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
+                    {
+                        Status = ResponseStatus.Success,
+                        ResponseObject = thumb
+
+                    }));
+
+                /*** Act ***/
+                Stream result = await _filesManager.GetThumbnailAsync("34122832467");
+
+                /*** Assert ***/
+
+                Assert.IsNotNull(result, "Stream is Null");
+
+            }
+        }
+        private string getSaveFolderPath()
+        {
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            return Path.Combine(pathUser, "Downloads") + "\\{0}";
         }
     }
 }
