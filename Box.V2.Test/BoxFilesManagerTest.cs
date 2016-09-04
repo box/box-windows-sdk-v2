@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using System.IO;
 
 namespace Box.V2.Test
 {
@@ -415,6 +417,50 @@ namespace Box.V2.Test
 
             /*** Assert ***/
             Assert.IsTrue(unlocked);
+        }
+
+        [TestMethod]
+        public async Task DownloadStream_ValidResponse_ValidStream()
+        {
+
+            using (FileStream exampleFile = new FileStream(string.Format(getSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
+            {
+                /*** Arrange ***/
+                Uri location = new Uri("http://dl.boxcloud.com");
+                HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+                headers.Location = location;
+                _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+
+                    .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                    {
+                        Status = ResponseStatus.Success,
+                        Headers = headers
+
+                    }));
+                IBoxRequest boxRequest = null;
+                _handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
+
+                   .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
+                   {
+                       Status = ResponseStatus.Success,
+                       ResponseObject = exampleFile
+
+                   }))
+                   .Callback<IBoxRequest>(r => boxRequest = r); ;
+
+                /*** Act ***/
+                Stream result = await _filesManager.DownloadStreamAsync("34122832467");
+
+                /*** Assert ***/
+
+                Assert.IsNotNull(result, "Stream is Null");
+
+            }
+        }
+        private string getSaveFolderPath()
+        {
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            return Path.Combine(pathUser, "Downloads") + "\\{0}";
         }
     }
 }
