@@ -5,6 +5,7 @@ using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,14 +24,23 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetFolderItems_ValidResponse_ValidFolder()
         {
+            IBoxRequest boxRequest = null;
+            /*** Arrange ***/
             _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
                     {
                         Status = ResponseStatus.Success,
                         ContentString = "{\"total_count\":24,\"entries\":[{\"type\":\"folder\",\"id\":\"192429928\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"Stephen Curry Three Pointers\"},{\"type\":\"file\",\"id\":\"818853862\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Warriors.jpg\"}],\"offset\":0,\"limit\":2,\"order\":[{\"by\":\"type\",\"direction\":\"ASC\"},{\"by\":\"name\",\"direction\":\"ASC\"}]}"
-                    }));
+                    }))
+                    .Callback<IBoxRequest>(r => boxRequest = r);
 
-            BoxCollection<BoxItem> items = await _foldersManager.GetFolderItemsAsync("0", 2);
+            /*** Act ***/
+            BoxCollection<BoxItem> items = await _foldersManager.GetFolderItemsAsync("0", 2, 3, new List<string>() { "field1", "field2" });
+
+            /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(_FoldersUri + "0/items?limit=2&offset=3&fields=field1,field2", boxRequest.AbsoluteUri.AbsoluteUri);
 
             Assert.AreEqual(items.TotalCount, 24);
             Assert.AreEqual(items.Entries.Count, 2);
@@ -46,11 +56,10 @@ namespace Box.V2.Test
             Assert.AreEqual(items.Entries[1].Name, "Warriors.jpg");
             Assert.AreEqual(items.Offset, 0);
             Assert.AreEqual(items.Limit, 2);
-            //Assert.AreEqual(f.Offset, "0"); // Need to add property
-            //Assert.AreEqual(f.Order[0].By, "type"); // Need to add property
-            //Assert.AreEqual(f.Order[0].Direction, "ASC"); // Need to add property
-            //Assert.AreEqual(f.Order[1].By, "name"); // Need to add property
-            //Assert.AreEqual(f.Order[1].Direction, "ASC"); // Need to add property
+            Assert.AreEqual(items.Order[0].By, BoxSortBy.Type);
+            Assert.AreEqual(items.Order[0].Direction, BoxSortDirection.ASC); 
+            Assert.AreEqual(items.Order[1].By, BoxSortBy.Name); 
+            Assert.AreEqual(items.Order[1].Direction, BoxSortDirection.ASC);
         }
 
         [TestMethod]
