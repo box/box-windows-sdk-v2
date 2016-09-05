@@ -367,6 +367,7 @@ namespace Box.V2.Managers
         /// Retrieves the comments on a particular file, if any exist.
         /// </summary>
         /// <param name="id">The Id of the item the comments should be retrieved for</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A Collection of comment objects are returned. If there are no comments on the file, an empty comments array is returned</returns>
         public async Task<BoxCollection<BoxComment>> GetCommentsAsync(string id, List<string> fields = null)
         {
