@@ -551,5 +551,26 @@ namespace Box.V2.Test
             Assert.AreEqual("1", f.ETag);
             Assert.AreEqual("heloo world", f.Name);
         }
+        [TestMethod]
+        public async Task DeleteFolder_ValidResponse_FolderDeleted()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            bool result = await _foldersManager.DeleteAsync("34122832467");
+
+            /*** Assert ***/
+
+            Assert.AreEqual(true, result);
+
+
+        }
     }
 }

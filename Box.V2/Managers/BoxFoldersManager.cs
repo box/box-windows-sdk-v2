@@ -125,13 +125,17 @@ namespace Box.V2.Managers
         /// inside of them. An optional If-Match header can be included to ensure that client only deletes the folder 
         /// if it knows about the latest version.
         /// </summary>
-        /// <returns></returns>
-        public async Task<bool> DeleteAsync(string id, bool recursive = false)
+        /// <param name="id">Id of the folder</param>
+        /// <param name="recursive">Whether to delete this folder if it has items inside of it.</param>
+        /// <param name="etag">This is in the ‘etag’ field of the folder object</param>
+        /// <returns>True will be returned upon successful deletion</returns>
+        public async Task<bool> DeleteAsync(string id, bool recursive = false, string etag = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.Delete)
+                .Header("If-Match", etag)
                 .Param("recursive", recursive.ToString().ToLowerInvariant());
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
