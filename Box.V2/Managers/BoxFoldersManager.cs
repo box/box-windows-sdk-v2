@@ -102,7 +102,13 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a copy of a folder in another folder. The original version of the folder will not be altered.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="folderRequest">
+        /// folderRequest.Id - Id of the file
+        /// folderRequest.Parent.Id - The ID of the destination folder
+        /// folderRequest.Name - An optional new name for the folder.
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full folder object is returned if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFolder> CopyAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
