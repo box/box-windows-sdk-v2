@@ -33,6 +33,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "password")]
         public string Password { get; set; }
+
+        /// <summary>
+        /// The <see cref="https://community.box.com/t5/For-Admins/Admin-Console-Shared-Link-Settings/ta-p/204">access level set by the enterprise administrator</see>. This will override any previous access levels set for the shared link and prevent any less-restrictive access levels to be set.
+        /// </summary>
+        [JsonProperty(PropertyName = "effective_access")]
+        public string EffectiveAccess { get; set; }
     }
 }
 

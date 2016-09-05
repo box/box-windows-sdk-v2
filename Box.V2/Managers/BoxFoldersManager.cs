@@ -162,11 +162,14 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to create a shared link for this particular folder. Please see here for more information on the 
+        /// Used to create a shared link for this particular folder. Please see <see href="https://community.box.com/t5/Collaboration-and-Sharing/Shared-Links-Overview-And-FAQs/ta-p/142">here</see> for more information on the 
         /// permissions available for shared links. In order to disable a shared link, send this same type of PUT 
         /// request with the value of shared_link set to null, i.e. {"shared_link": null}
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Id of the folder</param>
+        /// <param name="sharedLinkRequest"></param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full folder object containing the updated shared link is returned if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFolder> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
