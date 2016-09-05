@@ -202,14 +202,21 @@ namespace Box.V2.Managers
         /// <summary>
         /// Use this to get a list of all the collaborations on a folder i.e. all of the users that have access to that folder.
         /// </summary>
-        /// <returns></returns>
-        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, List<string> fields = null)
+        /// <param name="id">Folder id.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="limit">The maximum number of items to return in a page. The default is 100 and the max is 1000.</param>
+        /// <param name="offset">The item at which to begin the response.</param>
+        /// <returns>A collection of collaboration objects are returned. If there are no collaborations on this folder, an empty collection will be returned.</returns>
+        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, List<string> fields = null, int limit = 100, int offset = 0)
         {
             id.ThrowIfNullOrWhiteSpace("id");
+            limit.ThrowIfHigherThan(1000, "limit");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CollaborationsPathString, id))
+                .Method(RequestMethod.Get)
+                .Param("limit", limit.ToString())
+                .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
-
 
             IBoxResponse<BoxCollection<BoxCollaboration>> response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request).ConfigureAwait(false);
 
