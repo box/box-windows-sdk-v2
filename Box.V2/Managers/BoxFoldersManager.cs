@@ -83,16 +83,17 @@ namespace Box.V2.Managers
         /// as well as the files and folders contained in it. The root folder of a Box account is always 
         /// represented by the id “0″.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">The folder id</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full folder object is returned, including the most current information available about it. 
+        /// An 404 error is thrown if the folder does not exist or a 4xx if the user does not have access to it.</returns>
         public async Task<BoxFolder> GetInformationAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            string accessToken = _auth.Session.AccessToken;
-
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
+                .Method(RequestMethod.Get)
                 .Param(ParamFields, fields);
-
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
