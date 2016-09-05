@@ -275,10 +275,7 @@ namespace Box.V2.Managers
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
-            folderRequest.Name.ThrowIfNullOrWhiteSpace("folderRequest.Name");
-            folderRequest.Parent.ThrowIfNull("folderRequest.Parent")
-                .Id.ThrowIfNullOrWhiteSpace("folderRequest.Parent.Id");
-
+            
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
                     .Method(RequestMethod.Post)
                     .Param(ParamFields, fields);
