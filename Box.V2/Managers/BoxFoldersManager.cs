@@ -303,7 +303,9 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves a folder that has been moved to the trash.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Id of the Folder</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>The full folder will be returned, including information about when the it was moved to the trash</returns>
         public async Task<BoxFolder> GetTrashedFolderAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
