@@ -563,6 +563,50 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        public async Task GetTrashItems_ValidResponse_ValidCountAndEntries()
+        {
+            /*** Arrange ***/
+            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = @"{
+                                            ""total_count"": 49542,
+                                            ""entries"": [
+                                                {
+                                                    ""type"": ""file"",
+                                                    ""id"": ""2701979016"",
+                                                    ""sequence_id"": ""1"",
+                                                    ""etag"": ""1"",
+                                                    ""sha1"": ""9d976863fc849f6061ecf9736710bd9c2bce488c"",
+                                                    ""name"": ""file Tue Jul 24 145436 2012KWPX5S.csv""
+                                                },
+                                                {
+                                                    ""type"": ""file"",
+                                                    ""id"": ""2698211586"",
+                                                    ""sequence_id"": ""1"",
+                                                    ""etag"": ""1"",
+                                                    ""sha1"": ""09b0e2e9760caf7448c702db34ea001f356f1197"",
+                                                    ""name"": ""file Tue Jul 24 010055 20129Z6GS3.csv""
+                                                }
+                                            ],
+                                            ""offset"": 0,
+                                            ""limit"": 2
+                                        }"
+                }));
+
+            /***Act ***/
+            BoxCollection<BoxItem> result = await _foldersManager.GetTrashItemsAsync(2, 0);
+
+            /*** Assert ***/
+            Assert.AreEqual(49542, result.TotalCount);
+            Assert.AreEqual("file Tue Jul 24 145436 2012KWPX5S.csv", result.Entries[0].Name);
+            Assert.AreEqual("file Tue Jul 24 010055 20129Z6GS3.csv", result.Entries[1].Name);
+            Assert.AreEqual("2701979016", result.Entries[0].Id);
+            Assert.AreEqual("2698211586", result.Entries[1].Id);
+        }
+
+        [TestMethod]
         public async Task PurgeTrashedFolder_ValidResponse_FolderDeleted()
         {
             /*** Arrange ***/

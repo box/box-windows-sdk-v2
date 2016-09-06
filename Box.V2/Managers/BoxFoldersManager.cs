@@ -230,7 +230,10 @@ namespace Box.V2.Managers
         /// attributes can be passed in separated by commas e.g. fields=name,created_at. Paginated results can be 
         /// retrieved using the limit and offset parameters.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="limit">The maximum number of items to return</param>
+        /// <param name="offset">The maximum number of items to return</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
         public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, Constants.TrashItemsPathString)
@@ -250,7 +253,11 @@ namespace Box.V2.Managers
         /// attributes can be passed in separated by commas e.g. fields=name,created_at. Paginated results can be 
         /// retrieved using the limit and offset parameters.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">This param is not used in implementation</param>
+        /// <param name="limit">The maximum number of items to return</param>
+        /// <param name="offset">The maximum number of items to return</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
         [Obsolete("This method will be removed in a future update. Please use the GetTrashItemsAsync(int, int, List<string>) overload")]
         public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
         {
