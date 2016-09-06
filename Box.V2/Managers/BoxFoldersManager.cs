@@ -264,7 +264,13 @@ namespace Box.V2.Managers
         /// before it was moved to the trash. If that parent folder no longer exists or if there is now an item with the same 
         /// name in that parent folder, the new parent folder and/or new name will need to be included in the request.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="folderRequest">
+        /// folderRequest.Id - Id of the folder
+        /// folderRequest.Parent.Id - The id of the new parent folder
+        /// folderRequest.Name - The new name for this item
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>The full item will be returned if success. By default it is restored to the parent folder it was in before it was trashed.</returns>
         public async Task<BoxFolder> RestoreTrashedFolderAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
