@@ -140,21 +140,54 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to update information about the folder. To move a folder, update the ID of its parent. To enable an 
-        /// email address that can be used to upload files to this folder, update the folder_upload_email attribute. 
-        /// An optional If-Match header can be included to ensure that client only updates the folder if it knows 
-        /// about the latest version.
+        /// Used to update information about the folder. To move a folder, update the ID of its parent. To enable an email address that can 
+        /// be used to upload files to this folder, update the folder_upload_email attribute. An optional If-Match header can be included to 
+        /// ensure that client only updates the folder if it knows about the latest version.
         /// </summary>
-        /// <returns></returns>
-        public async Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest, List<string> fields = null)
+        /// <param name="folderRequest">Folder update data which contais:
+        /// folderRequest.Id - The folder id
+        /// folderRequest.Name - The name of the folder
+        /// folderRequest.Description - The description of the folder
+        /// folderRequest.Parent - The parent folder of this file
+        /// folderRequest.FolderUploadEmail - The email-to-upload address for this folder. Set to “null” to disable or set access to "open" 
+        /// to enable.
+        /// folderRequest.FolderUploadEmail.Access - Can be open or collaborators
+        /// folderRequest.OwnedBy - The user who owns the folder. Only used when moving a collaborated folder that you are not the owner of 
+        /// to a folder you are the owner of. Not a substitute for changing folder owners, please reference collaborations to accomplish 
+        /// folder ownership changes.
+        /// folderRequest.OwnedBy.Id - The ID of the user, should be your own user ID.
+        /// folderRequest.SharedLink - An object representing this item’s shared link and associated permissions
+        /// folderRequest.SharedLink.UnsharedAt - The day that this link should be disabled at. RFC-3339 valid date-timestamps are rounded 
+        /// off to the given day.
+        /// folderRequest.SharedLink.Permissions - The set of permissions that apply to this link
+        /// folderRequest.SharedLink.Permissions.Download  - Whether this link allows downloads
+        /// folderRequest.SharedLink.Permissions.Preview - Whether this link allows previews.
+        /// folderRequest.SyncState - Whether Box Sync clients will sync this folder. Values of synced or not_synced can be sent, while 
+        /// partially_synced may also be returned.
+        /// folderRequest.Tags - All tags attached to this folder. To add/remove a tag to/from a folder, you can first get the folder’s current 
+        /// tags (be sure to specify ?fields=tags, since the tags field is not returned by default); then modify the list as required; and 
+        /// finally, set the folder’s entire list of tags.
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="etag">The ‘etag’ field of the folder object</param>
+        /// <returns>The updated folder is returned if the name is valid. Errors generally occur only if there is a name collision.</returns>
+        public async Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest, List<string> fields = null, string etag = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
 
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
+            string folderId = folderRequest.Id;
+            // id shall be not par of request body used only as url parameter
+            folderRequest.Id = null;
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderId)
+                    .Method(RequestMethod.Put)
+                    .Header("If-Match", etag)
                     .Param(ParamFields, fields)
-                    .Payload(_converter.Serialize(folderRequest))
-                    .Method(RequestMethod.Put);
+                    .Payload(_converter.Serialize(folderRequest));
+
+            // Return id back to avoid modification of input argument from callers point of view
+            folderRequest.Id = folderId;
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
