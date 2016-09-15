@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Box.V2.Models;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Box.V2.Auth
 {
@@ -71,9 +73,15 @@ namespace Box.V2.Auth
         /// </summary>
         [JsonProperty(PropertyName = FieldTokenType)]
         public string TokenType { get; private set; }
-
+   
+        /// <summary>
+        /// Gets the restricted to.
+        /// </summary>
+        /// <value>
+        /// The restricted to.
+        /// </value>
         [JsonProperty(PropertyName = FieldRestrictedTo)]
-        public string[] RestrictedTo { get; private set; }
+        public List<BoxRestrictedTo> RestrictedTo { get; private set; }
 
         /// <summary>
         /// Read-only property to provide support for legacy V1 authentication

@@ -11,8 +11,11 @@ namespace Box.V2.Config
         public const string BoxApiHostUriString = "https://app.box.com/api/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
+        
 
         /*** API Endpoints ***/
+        public const string TransactionalEndpointString = @"/api/oauth2/token";
+
         public const string AuthCodeString = @"oauth2/authorize";
         public const string AuthTokenEndpointString = @"oauth2/token";
         public const string RevokeEndpointString = @"oauth2/revoke";
@@ -129,6 +132,15 @@ namespace Box.V2.Config
             public const string JWTAuthorizationCode = "urn:ietf:params:oauth:grant-type:jwt-bearer";
             public const string ContentTypeJson = "application/json";
             public const string ContentTypeJsonPatch = "application/json-patch+json";
+
+            public const string SubjectToken = "subject_token";
+            public const string SubjectTokenType = "subject_token_type";
+            public const string SubjectTokenTypeValue = "urn:ietf:params:oauth:token-type:access_token";
+            public const string Scope = "scope";
+            public const string ScopeDefaultValue = "item_preview";
+            public const string Resource = "resource";
+            public const string TransactionalGrantTypeValue = "urn:ietf:params:oauth:grant-type:token-exchange";
+
         }
 
         public static class ErrorCodes
