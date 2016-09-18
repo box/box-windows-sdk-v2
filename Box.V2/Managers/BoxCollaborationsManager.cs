@@ -74,8 +74,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to delete a single collaboration.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of the collaboration object</param>
+        /// <returns>True is returned if the ID is valid, and the user has permissions to remove the collaboration.</returns>
         public async Task<bool> RemoveCollaborationAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
