@@ -55,6 +55,7 @@
     <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Managers\BoxMetadataManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
+    <Compile Include="Managers\BoxSharedItemsManager.cs" />
     <Compile Include="Managers\BoxWebhooksManager.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />

@@ -50,6 +50,13 @@ namespace Box.V2.Config
         Uri EventsUri { get; }
         Uri MetadataTemplatesUri { get; }
         Uri WebhooksUri { get; }
+        /// <summary>
+        /// Gets the shared items endpoint URI.
+        /// </summary>
+        /// <value>
+        /// The shared items endpoint URI.
+        /// </value>
+        Uri SharedItemsEndpointUri { get; }
         
     }
 }

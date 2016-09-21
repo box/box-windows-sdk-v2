@@ -90,6 +90,13 @@ namespace Box.V2.Config
         public virtual Uri EventsUri { get { return new Uri(BoxApiUri, Constants.EventsString); } }
         public virtual Uri MetadataTemplatesUri { get { return new Uri(BoxApiUri, Constants.MetadataTemplatesString); } }
         public virtual Uri WebhooksUri { get { return new Uri(BoxApiUri, Constants.WebhooksString); } }
+        /// <summary>
+        /// Gets the shared items endpoint URI.
+        /// </summary>
+        /// <value>
+        /// The shared items endpoint URI.
+        /// </value>
+        public virtual Uri SharedItemsEndpointUri { get { return new Uri(BoxApiUri, Constants.SharedItems); } }
     }
 
     public enum CompressionType
