@@ -292,7 +292,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Permanently deletes an item that is in the trash. The item will no longer exist in Box. This action cannot be undone.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Id of the folder</param>
+        /// <returns>True will be returned upon successful deletion</returns>
         public async Task<bool> PurgeTrashedFolderAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
