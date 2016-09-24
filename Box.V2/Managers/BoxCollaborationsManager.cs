@@ -90,10 +90,11 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// /// Used to get information about a single collaboration. A complete list of the user’s pending collaborations can also be retrieved.
-        /// <see cref="http://developers.box.com/docs/#collaborations-get-pending-collaborations"/>
+        /// <see cref="https://docs.box.com/reference#page-get-pending-collaborations"/>
         /// </summary>
-        /// <param name="collaborationRequest"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of the collaboration object</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A collection of pending collaboration objects are returned. If the user has no pending collaborations, the collection will be empty.</returns>
         public async Task<BoxCollaboration> GetCollaborationAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
