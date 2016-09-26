@@ -549,7 +549,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Permanently deletes an item that is in the trash. The item will no longer exist in Box. This action cannot be undone.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Id of the file</param>
         /// <returns>An empty 204 No Content response will be returned upon successful deletion</returns>
         public async Task<bool> PurgeTrashedAsync(string id)
         {
