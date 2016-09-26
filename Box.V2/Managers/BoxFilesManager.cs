@@ -426,7 +426,7 @@ namespace Box.V2.Managers
         /// Gets a preview link (URI) for a file that is valid for 60 seconds
         /// </summary>
         /// <param name="id">Id of the file</param>
-        /// <returns></returns>
+        /// <returns>Preview link (URI) for a file that is valid for 60 seconds</returns>
         public async Task<Uri> GetPreviewLinkAsync(string id)
         {
             var fields = new List<string>() { "expiring_embed_link" };
