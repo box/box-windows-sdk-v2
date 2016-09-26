@@ -185,19 +185,19 @@ namespace Box.V2.Managers
         /// overwrites the file if it knows about the latest version. The filename on Box will remain the same as the previous version.
         /// A proper timeout should be provided for large uploads
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="fileId"
-        /// <param name="stream"></param>
-        /// <param name="etag"></param>
-        /// <param name="fields"></param>
-        /// <param name="timeout"></param>
-        /// <param name="contentMD5"></param>
-        /// <param name="setStreamPositionToZero"></param>
-        /// <param name="uploadUri"></param>
-        /// <returns></returns>
-        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream, 
-                                                         string etag = null, List<string> fields = null, 
-                                                         TimeSpan? timeout = null, byte[] contentMD5 = null, 
+        /// <param name="fileName">Name of the file</param>
+        /// <param name="fileId">Id of the updated file</param>
+        /// <param name="stream">Stream of uploading file</param>
+        /// <param name="etag">Etag field of the file object</param>
+        /// <param name="fields">Fields which shall be returned in result</param>
+        /// <param name="timeout">Optional timeout for response</param>
+        /// <param name="contentMD5">The SHA1 hash of the file</param>
+        /// <param name="setStreamPositionToZero">Set position for input stream to 0</param>
+        /// <param name="uploadUri">Optional url for uploading file</param>
+        /// <returns>A full file object is returned</returns>
+        public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream,
+                                                         string etag = null, List<string> fields = null,
+                                                         TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                          bool setStreamPositionToZero = true,
                                                          Uri uploadUri = null)
         {
