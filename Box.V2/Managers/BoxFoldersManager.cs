@@ -59,8 +59,12 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a new empty folder. The new folder will be created inside of the specified parent folder
         /// </summary>
-        /// <param name="folder"></param>
-        /// <returns></returns>
+        /// <param name="folderRequest">
+        /// folderRequest.Name - The desired name for the folder
+        /// folderRequest.Parent.Id -  The ID of the parent folder
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full folder object is returned if the parent folder ID is valid and if no name collisions occur.</returns>
         public async Task<BoxFolder> CreateAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
