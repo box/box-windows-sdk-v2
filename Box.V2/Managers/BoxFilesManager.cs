@@ -527,6 +527,8 @@ namespace Box.V2.Managers
         /// it was moved to the trash. If that parent folder no longer exists or if there is now an item with the same name in that 
         /// parent folder, the new parent folder and/or new name will need to be included in the request.
         /// </summary>
+        /// <param name="fileRequest">Fill required inputs: Name  - The new name for this item, Id - id of the file. Optional input: Parent - The new parent folder for this item </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>The full item will be returned with a 201 Created status. By default it is restored to the parent folder it was in before it was trashed.</returns>
         public async Task<BoxFile> RestoreTrashedAsync(BoxFileRequest fileRequest, List<string> fields = null)
         {
