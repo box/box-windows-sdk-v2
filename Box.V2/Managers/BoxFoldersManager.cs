@@ -15,6 +15,8 @@ namespace Box.V2.Managers
         public BoxFoldersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
+        private const int MaximumLimitValue = 1000;
+
         /// <summary>
         /// Retrieves the files and/or folders contained in the provided folder id
         /// </summary>
@@ -51,10 +53,10 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A collection of items contained in the folder is returned. An error is thrown if the folder does not exist,
         /// or if any of the parameters are invalid.</returns>
-        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit=100, int offset = 0, List<string> fields = null)
+        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit = 100, int offset = 0, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            limit.ThrowIfHigherThan(1000, "limit");
+            limit.ThrowIfHigherThan(MaximumLimitValue, "limit");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.ItemsPathString, id))
                 .Method(RequestMethod.Get)
