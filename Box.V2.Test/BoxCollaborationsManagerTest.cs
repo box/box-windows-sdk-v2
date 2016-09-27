@@ -108,7 +108,28 @@ namespace Box.V2.Test
             Assert.AreEqual("sean@box.com", collab.CreatedBy.Login);
         }
 
+        [TestMethod]
+        public async Task DeleteCollaboration_ValidResponse_CollaborationDeleted()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            _handler.Setup(h => h.ExecuteAsync<BoxCollaboration>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollaboration>>(new BoxResponse<BoxCollaboration>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
 
+            /*** Act ***/
+            bool result = await _collaborationsManager.RemoveCollaborationAsync("34122832467");
+
+            /*** Assert ***/
+
+            Assert.AreEqual(true, result);
+
+
+        }
 
     }
+
 }
