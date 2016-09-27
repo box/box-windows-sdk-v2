@@ -9,7 +9,7 @@ namespace Box.V2.Models
     {
 
         /// <summary>
-        /// An email address (does not need to be a Box user)
+        /// An email address (does not need to be a Box user). Omit if this is a group, or if you include the userID above.
         /// </summary>
         [JsonProperty(PropertyName = "login")]
         public string Login { get; set; }
