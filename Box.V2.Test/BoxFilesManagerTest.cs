@@ -389,7 +389,7 @@ namespace Box.V2.Test
             BoxFileLockRequest request = new BoxFileLockRequest();
             request.Lock = new BoxFileLock();
             request.Lock.IsDownloadPrevented = false;
-            request.Lock.LockType = BoxFileLock.LockTypes.Lock;
+            request.Lock.Type = BoxFileLock.LockTypes.Lock;
 
             BoxFileLock fileLock = await _filesManager.UpdateLockAsync(request, "7435988481");
 

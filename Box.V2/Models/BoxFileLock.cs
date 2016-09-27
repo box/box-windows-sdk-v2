@@ -16,7 +16,7 @@ namespace Box.V2.Models
         public const string FieldCreatedBy = "created_by";
         public const string FieldExpiresAt = "expires_at";
         public const string FieldIsDownloadPrevented = "is_download_prevented";
-        public const string FieldLockType = "type";
+        public const string FieldType = "type";
         /// <summary>
         /// Operation type lock or unlock
         /// </summary>
@@ -57,8 +57,8 @@ namespace Box.V2.Models
         /// <summary>
         /// Can be lock or unlock.
         /// </summary>
-        [JsonProperty(PropertyName = FieldLockType)]
+        [JsonProperty(PropertyName = FieldType)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public LockTypes LockType { get; set; }
+        public new LockTypes Type { get; set; }
     }
 }
