@@ -23,7 +23,7 @@ namespace Box.V2.Managers
         /// Initializes a new instance of the <see cref="BoxSharedItemsManager"/> class.
         /// </summary>
         /// <param name="config">The config object to use</param>
-        /// <param name="service">The box service to use</param>
+        /// <param name="service">The Box service object</param>
         /// <param name="converter">The box converter object to use</param>
         /// <param name="auth">The auth repository object to use</param>
         /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
@@ -39,7 +39,7 @@ namespace Box.V2.Managers
         public async Task<BoxItem> SharedItemsAsync(string sharedLink)
         {
             sharedLink.ThrowIfNullOrWhiteSpace("sharedLink");
-            BoxRequest request = new BoxRequest(_config.SharedItemsEndpointUri, null)
+            BoxRequest request = new BoxRequest(_config.SharedItemsUri, null)
                  .Header("BoxApi", string.Format("shared_link={0}", sharedLink));
             IBoxResponse<BoxItem> response = await ToResponseAsync<BoxItem>(request).ConfigureAwait(false);
             return response.ResponseObject;

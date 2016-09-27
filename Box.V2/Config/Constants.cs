@@ -37,7 +37,7 @@ namespace Box.V2.Config
         /// <summary>
         /// The shared items constant
         /// </summary>
-        public const string SharedItems = @"shared_items";
+        public const string SharedItemsString = @"shared_items";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;

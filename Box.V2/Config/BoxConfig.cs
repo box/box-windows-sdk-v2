@@ -96,7 +96,7 @@ namespace Box.V2.Config
         /// <value>
         /// The shared items endpoint URI.
         /// </value>
-        public virtual Uri SharedItemsEndpointUri { get { return new Uri(BoxApiUri, Constants.SharedItems); } }
+        public virtual Uri SharedItemsUri { get { return new Uri(BoxApiUri, Constants.SharedItemsString); } }
     }
 
     public enum CompressionType
