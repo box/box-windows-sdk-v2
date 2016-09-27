@@ -17,7 +17,6 @@ namespace Box.V2.Models
         /// <summary>
         /// Whether the item can be previewed or not
         /// </summary>
-        [Obsolete("CanPreview is now deprecated in the API and will always return true.")]
         [JsonProperty("can_preview")]
         public bool CanPreview { get; set; }
     }

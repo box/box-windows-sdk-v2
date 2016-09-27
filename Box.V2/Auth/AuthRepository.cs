@@ -70,8 +70,8 @@ namespace Box.V2.Auth
         /// <summary>
         /// Authenticates the session by exchanging the provided auth code for a Access/Refresh token pair
         /// </summary>
-        /// <param name="authCode"></param>
-        /// <returns></returns>
+        /// <param name="authCode">Authorization Code. The authorization code is only valid for 30 seconds.</param>
+        /// <returns>The session of the Box Client after authentification</returns>
         public virtual async Task<OAuthSession> AuthenticateAsync(string authCode)
         {
             OAuthSession session = await ExchangeAuthCode(authCode);
@@ -91,8 +91,8 @@ namespace Box.V2.Auth
         /// this method should not need to be called explicitly, as an automatic refresh is invoked when the SDK 
         /// detects that the tokens have expired. 
         /// </summary>
-        /// <param name="accessToken"></param>
-        /// <returns></returns>
+        /// <param name="accessToken">The access token is what’s needed to sign your API requests to Box</param>
+        /// <returns>Refreshed session of Box Client</returns>
         public virtual async Task<OAuthSession> RefreshAccessTokenAsync(string accessToken)
         {
             OAuthSession session;
@@ -122,7 +122,6 @@ namespace Box.V2.Auth
         /// <summary>
         /// Logs the current session out by invalidating the current Access/Refresh tokens
         /// </summary>
-        /// <returns></returns>
         public virtual async Task LogoutAsync()
         {
             string token;
@@ -139,8 +138,8 @@ namespace Box.V2.Auth
         /// <summary>
         /// Performs the authentication request using the provided auth code
         /// </summary>
-        /// <param name="authCode"></param>
-        /// <returns></returns>
+        /// <param name="authCode">Authorization Code. The authorization code is only valid for 30 seconds.</param>
+        /// <returns>The current session after exchange Authorization Code</returns>
         protected async Task<OAuthSession> ExchangeAuthCode(string authCode)
         {
             if (string.IsNullOrWhiteSpace(authCode))
@@ -165,8 +164,8 @@ namespace Box.V2.Auth
         /// <summary>
         /// Performs the refresh request using the provided refresh token
         /// </summary>
-        /// <param name="refreshToken"></param>
-        /// <returns></returns>
+        /// <param name="refreshToken">Refresh token used to exchange for a new access token. Each refresh_token is valid for one use in 60 days. Every time you get a new access_token by using a refresh_token, we reset your timer for the 60 day period and hand you a new refresh_token</param>
+        /// <returns>Refreshed Box Client session</returns>
         protected async Task<OAuthSession> ExchangeRefreshToken(string refreshToken)
         {
             if (string.IsNullOrWhiteSpace(refreshToken))
@@ -202,8 +201,7 @@ namespace Box.V2.Auth
         /// <summary>
         /// Performs the revoke request using the provided access token. This will invalidate both the access and refresh tokens
         /// </summary>
-        /// <param name="accessToken"></param>
-        /// <returns></returns>
+        /// <param name="accessToken">The access token which want to invalidate</param>
         protected async Task InvalidateTokens(string accessToken)
         {
             if (string.IsNullOrWhiteSpace(accessToken))
@@ -233,7 +231,7 @@ namespace Box.V2.Auth
         /// <summary>
         /// Allows sub classes to invoke the SessionAuthenticated event
         /// </summary>
-        /// <param name="e"></param>
+        ///<param name="session">Authenticated session</param>
         protected void OnSessionAuthenticated(OAuthSession session)
         {
             var handler = SessionAuthenticated;
