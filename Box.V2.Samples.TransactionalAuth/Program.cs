@@ -31,7 +31,6 @@ namespace Box.V2.Samples.TransactionalAuth
             string fileId = Console.ReadLine();
             Task t = MainAsync(fileId, usePT.Key == ConsoleKey.Y);
             t.Wait();
-
             Console.WriteLine();
             Console.Write("Press return to exit...");
             Console.ReadLine();
@@ -39,7 +38,6 @@ namespace Box.V2.Samples.TransactionalAuth
         }
         private static async Task MainAsync(string fileId, bool usePrimaryToken)
         {
-
             string resource = string.Format("https://api.box.com/2.0/files/{0}", fileId);
             var boxTransactional = new BoxTransactionalAuth();
             string token = usePrimaryToken ? PRIMARY_TOKEN : SECONDARY_TOKEN;
@@ -49,10 +47,6 @@ namespace Box.V2.Samples.TransactionalAuth
             {
                 Console.WriteLine(string.Format("File name is {0} ", fileInfo.Name));
             }
-
-
-
-
         }
     }
 }

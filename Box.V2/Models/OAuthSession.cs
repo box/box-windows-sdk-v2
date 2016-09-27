@@ -81,7 +81,7 @@ namespace Box.V2.Auth
         /// The restricted to.
         /// </value>
         [JsonProperty(PropertyName = FieldRestrictedTo)]
-        public List<BoxRestrictedTo> RestrictedTo { get; private set; }
+        public string[] RestrictedTo { get; private set; }
 
         /// <summary>
         /// Read-only property to provide support for legacy V1 authentication
