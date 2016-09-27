@@ -111,10 +111,8 @@ namespace Box.V2.Managers
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
             IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
-            if (response.ResponseObject != null)
-            {
-                response.ResponseObject.Success = response.Status == ResponseStatus.Success;
-            }
+            response.ResponseObject.Success = response.Status == ResponseStatus.Success;
+            
             return response.ResponseObject;
         }
 
