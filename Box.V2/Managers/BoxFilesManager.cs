@@ -60,7 +60,6 @@ namespace Box.V2.Managers
             };
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
             return response.ResponseObject;
-
         }
 
         /// <summary>
