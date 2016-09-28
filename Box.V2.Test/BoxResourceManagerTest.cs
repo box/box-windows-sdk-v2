@@ -23,6 +23,8 @@ namespace Box.V2.Test
         protected AuthRepository _authRepository;
 
         protected Uri _baseUri = new Uri(Constants.BoxApiUriString);
+        protected Uri _FoldersUri = new Uri(Constants.FoldersEndpointString);
+        protected Uri _FilesUri = new Uri(Constants.FilesEndpointString);
 
         public BoxResourceManagerTest()
         {
@@ -31,6 +33,10 @@ namespace Box.V2.Test
             _handler = new Mock<IRequestHandler>();
             _service = new BoxService(_handler.Object);
             _config = new Mock<IBoxConfig>();
+            _config.SetupGet(x => x.CollaborationsEndpointUri).Returns(new Uri(Constants.CollaborationsEndpointString));
+            _config.SetupGet(x => x.FoldersEndpointUri).Returns(_FoldersUri);
+
+            _config.SetupGet(x => x.FilesEndpointUri).Returns(_FilesUri);
 
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
