@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Box.V2.Test
 {
@@ -39,6 +40,22 @@ namespace Box.V2.Test
             _config.SetupGet(x => x.FilesEndpointUri).Returns(_FilesUri);
 
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
+        }
+
+        public static T CreateInstanceNonPublicConstructor<T>()
+        {
+            Type[] pTypes = new Type[0];
+
+            ConstructorInfo[] c = typeof(T).GetConstructors
+                (BindingFlags.NonPublic | BindingFlags.Instance
+                );
+
+            T inst =
+                (T)c[0].Invoke(BindingFlags.NonPublic,
+                               null,
+                               null,
+                               System.Threading.Thread.CurrentThread.CurrentCulture);
+            return inst;
         }
     }
 }
