@@ -25,19 +25,17 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
-        /// Gets a file object representation of the provided file Id
+        /// Retrieves metadata about file.
         /// </summary>
-        /// <param name="id">Id of file information to retrieve</param>
-        /// <param name="limit">The number of items to return (default=100, max=1000)</param>
-        /// <param name="offset">The item at which to begin the response (default=0)</param>
-        /// <returns></returns>
+        /// <param name="id">Id of file information to retrieve.</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
         public async Task<BoxFile> GetInformationAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Param(ParamFields, fields);
-
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
