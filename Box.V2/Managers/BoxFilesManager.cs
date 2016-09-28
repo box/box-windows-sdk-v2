@@ -320,8 +320,12 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CopyPathString, fileRequest.Id))
                 .Method(RequestMethod.Post)
-                .Param(ParamFields, fields)
-                .Payload(_converter.Serialize(fileRequest));
+                .Param(ParamFields, fields);
+
+            // Id shall be used only to fill url part. Not part of request body.
+            fileRequest.Id = null;
+
+            request.Payload(_converter.Serialize(fileRequest));
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
