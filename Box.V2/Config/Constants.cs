@@ -131,6 +131,9 @@ namespace Box.V2.Config
             public const string JWTAuthorizationCode = "urn:ietf:params:oauth:grant-type:jwt-bearer";
             public const string ContentTypeJson = "application/json";
             public const string ContentTypeJsonPatch = "application/json-patch+json";
+
+            public const string Status = "status";
+            public const string Pending = "pending";
         }
 
         public static class ErrorCodes
