@@ -12,6 +12,8 @@ namespace Box.V2.Managers
 {
     public class BoxFoldersManager : BoxResourceManager
     {
+        private const int MaximumLimitValue = 1000;
+
         public BoxFoldersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
@@ -210,7 +212,7 @@ namespace Box.V2.Managers
         public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, List<string> fields = null, int limit = 100, int offset = 0)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            limit.ThrowIfHigherThan(1000, "limit");
+            limit.ThrowIfHigherThan(MaximumLimitValue, "limit");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.CollaborationsPathString, id))
                 .Method(RequestMethod.Get)
