@@ -178,7 +178,13 @@ namespace Box.V2.Managers
         /// request with the value of shared_link set to null, i.e. {"shared_link": null}
         /// </summary>
         /// <param name="id">Id of the folder</param>
-        /// <param name="sharedLinkRequest"></param>
+        /// <param name="sharedLinkRequest">
+        /// sharedLinkRequest.Access - The level of access required for this shared link. Can be open, company, collaborators, or null to get default share level.
+        /// sharedLinkRequest.UnsharedAt - The day that this link should be disabled at. Timestamps are rounded off to the given day. This field can only be set if the user is not a free user.
+        /// sharedLinkRequest.Password - Requiring a password before viewing a shared link.
+        /// sharedLinkRequest.Permissions - The set of permissions that apply to this link
+        /// sharedLinkRequest.EffectiveAccess - The access level set by the enterprise administrator. This will override any previous access levels set for the shared link and prevent any less-restrictive access levels to be set.
+        /// </param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A full folder object containing the updated shared link is returned if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFolder> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
