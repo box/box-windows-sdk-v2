@@ -235,7 +235,7 @@ namespace Box.V2.Managers
         /// retrieved using the limit and offset parameters.
         /// </summary>
         /// <param name="limit">The maximum number of items to return</param>
-        /// <param name="offset">The maximum number of items to return</param>
+        /// <param name="offset">The item at which to begin the response</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
         public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, List<string> fields = null)
@@ -259,7 +259,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">This param is not used in implementation</param>
         /// <param name="limit">The maximum number of items to return</param>
-        /// <param name="offset">The maximum number of items to return</param>
+        /// <param name="offset">The item at which to begin the response</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
         [Obsolete("This method will be removed in a future update. Please use the GetTrashItemsAsync(int, int, List<string>) overload")]
