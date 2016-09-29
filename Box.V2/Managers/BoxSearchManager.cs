@@ -63,7 +63,6 @@ namespace Box.V2.Managers
                                                              
         {
 
-            keyword.ThrowIfNullOrWhiteSpace("keyword");
             string mdFiltersString = null;
             if (mdFilters!=null)
                 mdFiltersString = _converter.Serialize(mdFilters);
