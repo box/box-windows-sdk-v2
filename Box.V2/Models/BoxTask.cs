@@ -17,7 +17,7 @@ namespace Box.V2.Models
         public string DueAt { get; private set; }
 
         /// <summary>
-        /// 
+        /// Mini file object. The file associated with this task
         /// </summary>
         [JsonProperty(PropertyName = FieldItem)]
         public BoxItem Item { get; private set; }
