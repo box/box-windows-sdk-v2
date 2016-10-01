@@ -13,6 +13,9 @@ namespace Box.V2.Request
 {
     public class HttpRequestHandler : IRequestHandler
     {
+        //TODO: Make this configurable
+        public const int MaxRetry = 10;
+
         public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
             where T : class
         {
@@ -24,24 +27,23 @@ namespace Box.V2.Request
                 int attempts = 0;
                 BoxResponse<T> boxResponse = null;
 
-                while (attempts < 10) // For now only 10 retries
+                while (attempts < MaxRetry)
                 {
                     HttpRequestMessage httpRequest = request.GetType() == typeof(BoxMultiPartRequest) ?
                                                 BuildMultiPartRequest(request as BoxMultiPartRequest) :
                                                 BuildRequest(request);
 
-            // Add headers
-            foreach (var kvp in request.HttpHeaders)
-            {
-                if (kvp.Key == Constants.RequestParameters.ContentMD5)
-                {
-                    httpRequest.Content.Headers.Add(kvp.Key, kvp.Value);
-                } else
-                {
-                    httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
-                }       
-            }
-                
+                    // Add headers
+                    foreach (var kvp in request.HttpHeaders)
+                    {
+                        if (kvp.Key == Constants.RequestParameters.ContentMD5)
+                        {
+                            httpRequest.Content.Headers.Add(kvp.Key, kvp.Value);
+                        } else
+                        {
+                            httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
+                        }       
+                    }
 
                     // If we are retrieving a stream, we should return without reading the entire response
                     HttpCompletionOption completionOption = isStream ?
