@@ -27,23 +27,32 @@ For use with Box Platform Developer or Box Platform Enterprise, also install JWT
 PM> Install-Package Box.V2.JWTAuth
 ```
 
-If you haven't already created an app in Box go to https://developers.box.com/ and click 'Sign Up'
+If you haven't already created an app in Box go to https://developer.box.com/ and click 'Sign Up'
 
-### Using with Box Platform Developer or Box Platform Enterprise
+### Authentication
 
-#### Configure
+#### Using a Developer Token (generate one in your app admin console; they last for 60 minutes)
+```c#
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, new Uri("http://localhost"));
+var session = new OAuthSession(<Developer_Token>, "NOT_NEEDED", 3600, "bearer");
+client = new BoxClient(config, session);
+```
+
+#### Using with Box Platform Developer or Box Platform Enterprise
+
+##### Configure
 ```c#
 var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
 var boxJWT = new BoxJWTAuth(boxConfig);
 ```
 
-#### Authenticate
+##### Authenticate
 ```c#
 var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
 var adminClient = boxJWT.AdminClient(adminToken);
 ```
 
-#### Create an App User
+##### Create an App User
 ```c#
 //NOTE: you must set IsPlatformAccessOnly=true for an App User
 var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
@@ -57,16 +66,16 @@ var userClient = boxJWT.UserClient(userToken, appUser.Id);
 var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();
 ```
 
-### Using with OAuth2
+#### Using with OAuth2
 
-#### Configure
+##### Configure
 Set your configuration parameters and initialize the client:
 ```c#
 var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri>);
 var client = new BoxClient(config);
 ```
 
-#### Authenticate
+##### Authenticate
 Bundled with the SDK are sample applications for both Windows 8 and Windows Phone which include sample OAuth2 Workflows. The authentication workflow is a 2-step process that first retrieves an Auth Code and then exchanges it for an Access/Refresh Token
 
 *Windows 8*
@@ -96,7 +105,7 @@ Alternatively, a completely custom OAuth2 authentication process can be used in 
 OAuthSession session = // Create session from custom implementation
 var client = new BoxClient(config, session);
 ```
-### Some Examples
+### Examples
 #### Get Folder Items
 ```c#
 // Get root folder with default properties
@@ -120,16 +129,77 @@ BoxFileRequest request = new BoxFileRequest()
 BoxFile f = await client.FilesManager.UpdateInformationAsync(request );
 ```
 
-
 #### Upload a New File
 ```c#
+BoxFile newFile;
+
 // Create request object with name and parent folder the file should be uploaded to
-BoxFileRequest req = new BoxFileRequest()
+using (FileStream stream = new FileStream(@"C:\\example.pdf", FileMode.Open))
 {
-	Name = "NewFile",
-	Parent = new BoxRequestEntity() { Id = "0" }
-};
-BoxFile f = await client.FilesManager.UploadAsync(request, stream);
+	BoxFileRequest req = new BoxFileRequest()
+	{
+		Name = "example.pdf",
+		Parent = new BoxRequestEntity() { Id = "0" }
+	};
+	newFile = await client.FilesManager.UploadAsync(req, stream);
+}
+```
+
+#### Upload a New File with Content MD5 hash
+```c#
+BoxFile newFile;
+
+// Create request object with name and parent folder the file should be uploaded to
+using (FileStream stream = new FileStream(@"C:\\example.pdf", FileMode.Open))
+using (SHA1 sha1 = SHA1.Create())
+{
+	BoxFileRequest req = new BoxFileRequest()
+	{
+		Name = "example.pdf",
+		Parent = new BoxRequestEntity() { Id = "0" }
+	};
+	
+	byte[] md5Bytes = sha1.ComputeHash(fs);
+	
+	newFile = await client.FilesManager.UploadAsync(req, stream, contentMD5: md5Bytes);
+}
+```
+
+#### Perform Preflight Check for a new file upload
+```c#
+try
+{
+	var req = new BoxPreflightCheckRequest() { Name = "example.pdf", 
+											   Parent = new BoxRequestEntity() { Id = "0" },
+											   Size = 10000 //set the size if known, otherwise don't set (i.e. for a stream)
+											 };
+											 
+	//exception will be thrown if name collision or storage limit would be exceeded by upload									 
+	await userClient.FilesManager.PreflightCheck(req);
+}
+catch (BoxPreflightCheckConflictException<BoxFile> bex)
+{
+	//Handle file name collision error	
+}
+catch (BoxException bex)
+{
+	//Handle storage limit error 
+}
+```
+
+#### Perform Preflight Check for a new version of file
+```c#
+try
+{
+	var req = new BoxPreflightCheckRequest() { Size=10926 };
+	
+	//exception will be thrown if storage limit would be exceeded by uploading new version of file
+    await userClient.FilesManager.PreflightCheckNewVersion(existingFile.Id, req);									 
+}
+catch (BoxException bex)
+{
+	//Handle storage limit error
+}
 ```
 
 #### Download a File
@@ -175,6 +245,15 @@ var userClient = new BoxClient(config, auth, asUser: userId);
 var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
 ```
 
+#### Suppressing Notifications
+If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
+```c#
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri);
+var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
+
+var adminClient = new BoxClient(config, auth, suppressNotifications: true);
+```
+
 File/Folder Picker
 ------------------
 The Box Windows SDK includes a user control that allows developers an easy way to drop in a file and or folder picker in just one line of code
@@ -203,7 +282,7 @@ Other Resources
 -------------
 - Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2/
 - JWT Support Nuget Package: https://www.nuget.org/packages/Box.V2.JWTAuth/
-- Box Windows SDK Video Tutorial: https://developers.box.com/box-windows-sdk-tutorial/
+- Box Windows SDK Video Tutorial: https://youtu.be/hqko0hxbaXU
 
 Known Issues
 ------------

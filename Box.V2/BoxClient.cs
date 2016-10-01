@@ -20,17 +20,20 @@ namespace Box.V2
         protected readonly IBoxConverter _converter;
         protected readonly IRequestHandler _handler;
         protected readonly string _asUser;
+        protected readonly bool? _suppressNotifications;
 
         /// <summary>
         /// Instantiates a BoxClient with the provided config object
         /// </summary>
         /// <param name="boxConfig">The config object to be used</param>
         /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
-        public BoxClient(IBoxConfig boxConfig, string asUser = null)
+        /// <param name="suppressNotifications">Whether or not to suppress both email and webhook notifications. Typically used for administrative API calls. Your application must have “Manage an Enterprise” scope, and the user making the API calls is a co-admin with the correct "Edit settings for your company" permission.</param>
+        public BoxClient(IBoxConfig boxConfig, string asUser = null, bool? suppressNotifications = null)
         {
             Config = boxConfig;
 
             _asUser = asUser;
+            _suppressNotifications = suppressNotifications;
 
             _handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
@@ -46,11 +49,13 @@ namespace Box.V2
         /// <param name="boxConfig">The config object to be used</param>
         /// <param name="authSession">A fully authenticated auth session</param>
         /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
-        public BoxClient(IBoxConfig boxConfig, OAuthSession authSession, string asUser = null)
+        /// <param name="suppressNotifications">Whether or not to suppress both email and webhook notifications. Typically used for administrative API calls. Your application must have “Manage an Enterprise” scope, and the user making the API calls is a co-admin with the correct "Edit settings for your company" permission.</param>
+        public BoxClient(IBoxConfig boxConfig, OAuthSession authSession, string asUser = null, bool? suppressNotifications = null)
         {
             Config = boxConfig;
 
             _asUser = asUser;
+            _suppressNotifications = suppressNotifications;
 
             _handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
@@ -66,11 +71,13 @@ namespace Box.V2
         /// <param name="boxConfig">The config object to be used</param>
         /// <param name="authRepository">An IAuthRepository that knows how to retrieve new tokens using JWT</param>
         /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
-        public BoxClient(IBoxConfig boxConfig, IAuthRepository authRepository, string asUser = null)
+        /// <param name="suppressNotifications">Whether or not to suppress both email and webhook notifications. Typically used for administrative API calls. Your application must have “Manage an Enterprise” scope, and the user making the API calls is a co-admin with the correct "Edit settings for your company" permission.</param>
+        public BoxClient(IBoxConfig boxConfig, IAuthRepository authRepository, string asUser = null, bool? suppressNotifications = null)
         {
             Config = boxConfig;
 
             _asUser = asUser;
+            _suppressNotifications = suppressNotifications;
 
             _handler = new HttpRequestHandler();
             _converter = new BoxJsonConverter();
@@ -89,11 +96,13 @@ namespace Box.V2
         /// <param name="boxService">The box service to use</param>
         /// <param name="auth">The auth repository object to use</param>
         /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
-        public BoxClient(IBoxConfig boxConfig, IBoxConverter boxConverter, IRequestHandler requestHandler, IBoxService boxService, IAuthRepository auth, string asUser = null)
+        /// <param name="suppressNotifications">Whether or not to suppress both email and webhook notifications. Typically used for administrative API calls. Your application must have “Manage an Enterprise” scope, and the user making the API calls is a co-admin with the correct "Edit settings for your company" permission.</param>
+        public BoxClient(IBoxConfig boxConfig, IBoxConverter boxConverter, IRequestHandler requestHandler, IBoxService boxService, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
         {
             Config = boxConfig;
 
             _asUser = asUser;
+            _suppressNotifications = suppressNotifications;
 
             _handler = requestHandler;
             _converter = boxConverter;
@@ -106,14 +115,17 @@ namespace Box.V2
         private void InitManagers()
         {
             // Init Resource Managers
-            FoldersManager = new BoxFoldersManager(Config, _service, _converter, Auth, _asUser);
-            FilesManager = new BoxFilesManager(Config, _service, _converter, Auth, _asUser);
-            CommentsManager = new BoxCommentsManager(Config, _service, _converter, Auth, _asUser);
-            CollaborationsManager = new BoxCollaborationsManager(Config, _service, _converter, Auth, _asUser);
-            SearchManager = new BoxSearchManager(Config, _service, _converter, Auth, _asUser);
-            UsersManager = new BoxUsersManager(Config, _service, _converter, Auth, _asUser);
-            GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth, _asUser);
-            RetentionPoliciesManager = new BoxRetentionPoliciesManager(Config, _service, _converter, Auth, _asUser);
+            FoldersManager = new BoxFoldersManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            FilesManager = new BoxFilesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            CommentsManager = new BoxCommentsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            CollaborationsManager = new BoxCollaborationsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            SearchManager = new BoxSearchManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            EventsManager = new BoxEventsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            UsersManager = new BoxUsersManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            GroupsManager = new BoxGroupsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            RetentionPoliciesManager = new BoxRetentionPoliciesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            MetadataManager = new BoxMetadataManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            WebhooksManager = new BoxWebhooksManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -127,7 +139,7 @@ namespace Box.V2
         /// <returns></returns>
         public BoxClient AddResourcePlugin<T>() where T : BoxResourceManager
         {
-            ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth, _asUser));
+            ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth, _asUser, _suppressNotifications));
             return this;
         }
 
@@ -162,6 +174,11 @@ namespace Box.V2
         public BoxSearchManager SearchManager { get; private set; }
 
         /// <summary>
+        /// The manager that represents the events endpoint
+        /// </summary>
+        public BoxEventsManager EventsManager { get; private set; }
+
+        /// <summary>
         /// The manager that represents the users endpoint
         /// </summary>
         public BoxUsersManager UsersManager { get; private set; }
@@ -175,6 +192,16 @@ namespace Box.V2
         /// The manager that represents the retention policies endpoint
         /// </summary>
         public BoxRetentionPoliciesManager RetentionPoliciesManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the file and folder metadata endpoint
+        /// </summary>
+        public BoxMetadataManager MetadataManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the webhooks V2 endpoint
+        /// </summary>
+        public BoxWebhooksManager WebhooksManager { get; private set; }
 
         /// <summary>
         /// The Auth repository that holds the auth session

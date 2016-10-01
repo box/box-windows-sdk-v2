@@ -54,8 +54,7 @@ namespace Box.V2.Exceptions
         where T : class
     {
         private BoxConflictError<T> _conflictError;
-        private string p;
-        private BoxError boxError;
+
         public BoxConflictException(string message, BoxConflictError<T> error) : base(message, error) 
         { 
             _conflictError = error;
@@ -67,6 +66,27 @@ namespace Box.V2.Exceptions
             { 
                 return _conflictError != null && _conflictError.ContextInfo != null ?
                     _conflictError.ContextInfo.Conflicts :
+                    null;
+            }
+        }
+    }
+
+    public class BoxPreflightCheckConflictException<T> : BoxException
+        where T : class
+    {
+        private BoxPreflightCheckConflictError<T> _conflictError;
+
+        public BoxPreflightCheckConflictException(string message, BoxPreflightCheckConflictError<T> error) : base(message, error)
+        {
+            _conflictError = error;
+        }
+
+        public T ConflictingItem
+        {
+            get
+            {
+                return _conflictError != null && _conflictError.ContextInfo != null ?
+                    _conflictError.ContextInfo.Conflict :
                     null;
             }
         }

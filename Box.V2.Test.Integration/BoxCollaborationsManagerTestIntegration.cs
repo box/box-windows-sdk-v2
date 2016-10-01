@@ -27,7 +27,7 @@ namespace Box.V2.Test.Integration
                 Role = "viewer"
             };
 
-            BoxCollaboration collab =  await _client.CollaborationsManager.AddCollaborationAsync(addRequest);
+            BoxCollaboration collab =  await _client.CollaborationsManager.AddCollaborationAsync(addRequest, notify: false);
 
             Assert.AreEqual(folderId, collab.Item.Id, "Folder and collaboration folder id do not match");
             Assert.AreEqual(BoxCollaborationRoles.Viewer, collab.Role, "Incorrect collaboration role");

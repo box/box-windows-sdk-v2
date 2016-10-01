@@ -40,6 +40,11 @@ namespace Box.V2.Extensions
                         var err = new BoxError() { Code = response.StatusCode.ToString(), Description = "Forbidden", Message = errorMsg.ToString() };
                         throw new BoxException(err.Message, err);
                     }
+                    else if (!string.IsNullOrWhiteSpace(response.ContentString))
+                    {
+                        response.Error = converter.Parse<BoxError>(response.ContentString);
+                        throw new BoxException(response.ContentString, response.Error) {StatusCode = response.StatusCode};
+                    }
                     else
                     {
                         throw new BoxException("Forbidden");
@@ -52,15 +57,23 @@ namespace Box.V2.Extensions
                             switch (response.StatusCode)
                             {
                                 case System.Net.HttpStatusCode.Conflict:
-                                    BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
-                                    exToThrow = new BoxConflictException<T>(response.ContentString, error);
+                                    if (response is IBoxResponse<BoxPreflightCheck>)
+                                    {
+                                        BoxPreflightCheckConflictError<BoxFile> err = converter.Parse<BoxPreflightCheckConflictError<BoxFile>>(response.ContentString);
+                                        exToThrow = new BoxPreflightCheckConflictException<BoxFile>(response.ContentString, err);
+                                    } else
+                                    {
+                                        BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
+                                        exToThrow = new BoxConflictException<T>(response.ContentString, error);
+                                    }
+                                  
                                     break;
                                 default:
                                     response.Error = converter.Parse<BoxError>(response.ContentString);
                                     break;
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
                             Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
                         }

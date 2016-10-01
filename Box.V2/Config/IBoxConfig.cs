@@ -35,15 +35,21 @@ namespace Box.V2.Config
         Uri FoldersEndpointUri { get; }
         Uri FilesEndpointUri { get; }
         Uri FilesUploadEndpointUri { get; }
+        Uri FilesPreflightCheckUri { get; }
+        //Uri FilesPreflightCheckNewVersionUri { get; }
         Uri CommentsEndpointUri { get; }
         Uri SearchEndpointUri { get; }
         Uri UserEndpointUri { get; }
+        Uri InviteEndpointUri { get; }
         Uri CollaborationsEndpointUri { get; }
         Uri GroupsEndpointUri { get; }
         Uri GroupMembershipEndpointUri { get; }
         Uri RetentionPoliciesEndpointUri { get; }
         Uri RetentionPolicyAssignmentsUri { get; }
         Uri FileVersionRetentionsUri { get; }
+        Uri EventsUri { get; }
+        Uri MetadataTemplatesUri { get; }
+        Uri WebhooksUri { get; }
         
     }
 }

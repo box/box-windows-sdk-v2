@@ -7,6 +7,7 @@ namespace Box.V2.Config
 {
     public class BoxConfig : IBoxConfig
     {
+        private const string DefaultUserAgent = "Box Windows SDK v2.12.1";
 
         /// <summary>
         /// Instantiates a Box config with all of the standard defaults
@@ -19,6 +20,7 @@ namespace Box.V2.Config
             ClientId = clientId;
             ClientSecret = clientSecret;
             RedirectUri = redirectUri;
+            UserAgent = DefaultUserAgent;
         }
 
         /// <summary>
@@ -39,6 +41,7 @@ namespace Box.V2.Config
             JWTPrivateKey = jwtPrivateKey;
             JWTPrivateKeyPassword = jwtPrivateKeyPassword;
             JWTPublicKeyId = jwtPublicKeyId;
+            UserAgent = DefaultUserAgent;
         }
 
 
@@ -71,16 +74,22 @@ namespace Box.V2.Config
         public virtual Uri FoldersEndpointUri { get { return new Uri(BoxApiUri, Constants.FoldersString); } }
         public virtual Uri FilesEndpointUri { get { return new Uri(BoxApiUri, Constants.FilesString); } }
         public virtual Uri FilesUploadEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesUploadString); } }
-        public virtual Uri FilesNewVersionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesNewVersionString); } }
+        //public virtual Uri FilesNewVersionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesNewVersionString); } }
+        public virtual Uri FilesPreflightCheckUri { get { return new Uri(BoxApiUri, Constants.FilesUploadString); } }
+        //public virtual Uri FilesPreflightCheckNewVersionUri { get { return new Uri(BoxApiUri, Constants.FilesNewVersionString); } }
         public virtual Uri CommentsEndpointUri { get { return new Uri(BoxApiUri, Constants.CommentsString); } }
         public virtual Uri SearchEndpointUri { get { return new Uri(BoxApiUri, Constants.SearchString); } }
         public virtual Uri UserEndpointUri { get { return new Uri(BoxApiUri, Constants.UserString); } }
+        public virtual Uri InviteEndpointUri { get { return new Uri(BoxApiUri, Constants.InviteString); } }
         public virtual Uri CollaborationsEndpointUri { get { return new Uri(BoxApiUri, Constants.CollaborationsString); } }
         public virtual Uri GroupsEndpointUri { get { return new Uri(BoxApiUri, Constants.GroupsString); } }
         public virtual Uri GroupMembershipEndpointUri { get { return new Uri(BoxApiUri, Constants.GroupMembershipString); } }
         public virtual Uri RetentionPoliciesEndpointUri {  get { return new Uri(BoxApiUri, Constants.RetentionPoliciesString); } }
         public virtual Uri RetentionPolicyAssignmentsUri {  get { return new Uri(BoxApiUri, Constants.RetentionPolicyAssignmentsString); } }
         public virtual Uri FileVersionRetentionsUri { get { return new Uri(BoxApiUri, Constants.FileVersionRetentionsString); } }
+        public virtual Uri EventsUri { get { return new Uri(BoxApiUri, Constants.EventsString); } }
+        public virtual Uri MetadataTemplatesUri { get { return new Uri(BoxApiUri, Constants.MetadataTemplatesString); } }
+        public virtual Uri WebhooksUri { get { return new Uri(BoxApiUri, Constants.WebhooksString); } }
     }
 
     public enum CompressionType

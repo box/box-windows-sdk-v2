@@ -14,8 +14,8 @@ namespace Box.V2.Managers
 {
     public class BoxCommentsManager : BoxResourceManager
     {
-        public BoxCommentsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null)
-            : base(config, service, converter, auth, asUser) { }
+        public BoxCommentsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
+            : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
         /// Used to add a comment by the user to a specific file, discussion, or comment (i.e. as a reply comment).

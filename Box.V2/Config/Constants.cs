@@ -26,10 +26,14 @@ namespace Box.V2.Config
         public const string CommentsString = @"comments/";
         public const string SearchString = @"search";
         public const string UserString = @"users/";
+        public const string InviteString = @"invites/";
         public const string CollaborationsString = @"collaborations/";
         public const string RetentionPoliciesString = @"retention_policies/";
         public const string RetentionPolicyAssignmentsString = @"retention_policy_assignments/";
         public const string FileVersionRetentionsString = @"file_version_retentions";
+        public const string EventsString = @"events";
+        public const string MetadataTemplatesString = @"metadata_templates/";
+        public const string WebhooksString = @"webhooks/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -39,10 +43,13 @@ namespace Box.V2.Config
         public const string FilesEndpointString = BoxApiUriString + FilesString;
         public const string FilesUploadEndpointString = BoxUploadApiUriString + FilesUploadString;
         public const string FilesNewVersionEndpointString = BoxUploadApiUriString + FilesNewVersionString;
+        public const string FilesPreflightCheckNewVersionString = BoxApiUriString + FilesNewVersionString;
         public const string CommentsEndpointString = BoxApiUriString + CommentsString;
         public const string SearchEndpointString = BoxApiUriString + SearchString;
         public const string UserEndpointString = BoxApiUriString + UserString;
         public const string CollaborationsEndpointString = BoxApiUriString + CollaborationsString;
+        public const string EventsEndpointString = BoxApiUriString + EventsString;
+        public const string MetadataTemplatesEndpointString = BoxApiUriString + MetadataTemplatesString;
 
 
         /*** Endpoint Paths ***/
@@ -60,6 +67,10 @@ namespace Box.V2.Config
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
         public const string RetentionPolicyAssignmentsEndpointString = @"{0}/assignments";
+        public const string MetadataPathString = @"{0}/metadata/{1}/{2}";
+        public const string AllFileMetadataPathString = @"{0}/metadata";
+        public const string MetadataTemplatesPathString = @"{0}/{1}/schema";
+        public const string EnterpriseMetadataTemplatesPathString = @"{0}";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -79,8 +90,10 @@ namespace Box.V2.Config
         public const string TypeGroup = "group";
         public const string TypeGroupMembership = "group_membership";
         public const string TypeUser = "user";
+        public const string TypeInvite = "invite";
         public const string TypeEnterprise = "enterprise";
         public const string TypeLock = "lock";
+        public const string TypeWebhook = "webhook";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
@@ -106,10 +119,19 @@ namespace Box.V2.Config
 
             public const string AsUser = "As-User";
 
+            public const string BoxNotifications = "Box-Notifications";
+
+            public const string ContentMD5 = "Content-MD5";
+
             /*** Values ***/
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
             public const string JWTAuthorizationCode = "urn:ietf:params:oauth:grant-type:jwt-bearer";
+            public const string ContentTypeJson = "application/json";
+            public const string ContentTypeJsonPatch = "application/json-patch+json";
+
+            public const string Status = "status";
+            public const string Pending = "pending";
         }
 
         public static class ErrorCodes
