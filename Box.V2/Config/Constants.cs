@@ -141,6 +141,9 @@ namespace Box.V2.Config
             public const string Resource = "resource";
             public const string TransactionalGrantTypeValue = "urn:ietf:params:oauth:grant-type:token-exchange";
 
+
+            public const string Status = "status";
+            public const string Pending = "pending";
         }
 
         public static class ErrorCodes

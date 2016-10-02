@@ -17,6 +17,12 @@ using System.Security.Cryptography;
 
 namespace Box.V2.JWTAuth
 {
+    ///<summary>
+    /// Box’s new authentication model allows applications to authenticate directly to Box using a JSON Web Token (JWT) signed with an RSA key. This authentication method is meant for server-to-server applications and replaces the first leg of the standard 3-legged OAuth 2.0 process in which users grant an application authorization to access the their Box account
+    ///</summary>
+    ///<remarks>
+    ///https://docs.box.com/docs/getting-started-box-platform
+    ///</remarks>
     public class BoxJWTAuth
     {
         const string AUTH_URL = "https://api.box.com/oauth2/token";
@@ -28,7 +34,10 @@ namespace Box.V2.JWTAuth
 
         private readonly IBoxConfig boxConfig;
         private readonly SigningCredentials credentials;
-
+        /// <summary>
+        /// Constructor for JWT authetication
+        /// </summary>
+        /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
         public BoxJWTAuth(IBoxConfig boxConfig)
         {
             this.boxConfig = boxConfig;
@@ -43,7 +52,13 @@ namespace Box.V2.JWTAuth
 
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
         }
-
+        /// <summary>
+        /// Create admin BoxClient by admin access token
+        /// </summary>
+        /// <param name="adminToken">Admin access token</param>
+        /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
+        /// <param name="suppressNotifications">Whether or not to suppress both email and webhook notifications. Typically used for administrative API calls. Your application must have “Manage an Enterprise” scope, and the user making the API calls is a co-admin with the correct "Edit settings for your company" permission.</param>
+        /// <returns>BoxClient that uses JWT authentication</returns>
         public BoxClient AdminClient(string adminToken, string asUser = null, bool? suppressNotifications = null)
         {
             var adminSession = this.Session(adminToken);
@@ -52,7 +67,12 @@ namespace Box.V2.JWTAuth
 
             return adminClient;
         }
-
+        /// <summary>
+        /// Create user BoxClient by user access token
+        /// </summary>
+        /// <param name="userToken">User access token</param>
+        /// <param name="userId">Id of the user</param>
+        /// <returns>BoxClient that uses JWT authentication</returns>
         public BoxClient UserClient(string userToken, string userId)
         {
             var userSession = this.Session(userToken);
@@ -61,21 +81,32 @@ namespace Box.V2.JWTAuth
 
             return userClient;
         }
-
+        /// <summary>
+        /// Get admin token by posting data to auth url
+        /// </summary>
+        /// <returns>Admin token</returns>
         public string AdminToken()
         {
             var assertion = ConstructJWTAssertion(this.boxConfig.EnterpriseId, ENTERPRISE_SUB_TYPE);
             var result = JWTAuthPost(assertion);
             return result.AccessToken;
         }
-
+        /// <summary>
+        /// Once you have created an App User, you can request a User Access Token via the App Auth feature, which will return the OAuth 2.0 access token for the specified App User.
+        /// </summary>
+        /// <param name="userId">Id of the user</param>
+        /// <returns>User token</returns>
         public string UserToken(string userId)
         {
             var assertion = ConstructJWTAssertion(userId, USER_SUB_TYPE);
             var result = JWTAuthPost(assertion);
             return result.AccessToken;
         }
-
+        /// <summary>
+        /// Create OAuth session from token
+        /// </summary>
+        /// <param name="token">Access token creating by method UserToken, or AdminToken</param>
+        /// <returns>OAuth session</returns>
         public OAuthSession Session(string token)
         {
             return new OAuthSession(token, null, 3600, TOKEN_TYPE);
@@ -131,7 +162,7 @@ namespace Box.V2.JWTAuth
     class PEMPasswordFinder : IPasswordFinder
     {
         private string pword;
-        public PEMPasswordFinder(string password){pword = password;}
-        public char[] GetPassword(){return pword.ToCharArray();}
+        public PEMPasswordFinder(string password) { pword = password; }
+        public char[] GetPassword() { return pword.ToCharArray(); }
     }
 }
