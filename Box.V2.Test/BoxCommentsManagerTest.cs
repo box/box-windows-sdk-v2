@@ -97,5 +97,23 @@ namespace Box.V2.Test
             Assert.AreEqual("These tigers are cool!", c.Message);
         }
 
+        [TestMethod]
+        public async Task DeleteComment_ValidResponse_CommentDeleted()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            _handler.Setup(h => h.ExecuteAsync<BoxComment>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxComment>>(new BoxResponse<BoxComment>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            bool result = await _commentsManager.DeleteAsync("191969");
+
+            /*** Assert ***/
+            Assert.AreEqual(true, result);
+        }
     }
 }
