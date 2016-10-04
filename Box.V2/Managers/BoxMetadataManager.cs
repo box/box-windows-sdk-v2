@@ -172,14 +172,8 @@ namespace Box.V2.Managers
         {
             foreach (BoxMetadataUpdate update in updates)
             {
-                if (update.Op == null)
-                {
-                    throw new ArgumentException("Operation type must be add, replace, remove , test, move, or copy.", "Op");
-                }
-                if (string.IsNullOrEmpty(update.Path))
-                {
-                    throw new ArgumentException("Path is required", "Path");
-                }
+                update.Path.ThrowIfNullOrWhiteSpace("Path");
+                update.Op.ThrowIfNullEnum("Op");
             }
             BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template))
                 .Method(RequestMethod.Put)

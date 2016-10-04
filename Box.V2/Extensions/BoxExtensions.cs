@@ -34,5 +34,13 @@ namespace Box.V2.Extensions
 
             return value;
         }
+
+        internal static T? ThrowIfNullEnum<T>(this T? param, string name)  where T : struct
+        {
+            if (param == null)
+                throw new ArgumentNullException(name);
+
+            return param;
+        }
     }
 }
