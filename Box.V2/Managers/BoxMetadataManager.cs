@@ -170,6 +170,17 @@ namespace Box.V2.Managers
 
         private async Task<Dictionary<string, object>> UpdateMetadata(Uri hostUri, string id, List<BoxMetadataUpdate> updates, string scope, string template)
         {
+            foreach (BoxMetadataUpdate update in updates)
+            {
+                if (update.Op == null)
+                {
+                    throw new ArgumentException("Operation type must be add, replace, remove , test, move, or copy.", "Op");
+                }
+                if (string.IsNullOrEmpty(update.Path))
+                {
+                    throw new ArgumentException("Path is required", "Path");
+                }
+            }
             BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template))
                 .Method(RequestMethod.Put)
                 .Payload(_converter.Serialize(updates));
@@ -194,7 +205,8 @@ namespace Box.V2.Managers
 
         private async Task<Dictionary<string, object>> GetMetadata(Uri hostUri, string id, string scope, string template)
         {
-            BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template));
+            BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template))
+                .Method(RequestMethod.Get);
             IBoxResponse<Dictionary<string, object>> response = await ToResponseAsync<Dictionary<string, object>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;

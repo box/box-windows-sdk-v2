@@ -2,6 +2,8 @@
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +41,7 @@ namespace Box.V2.Test
                                             ""$template"": ""marketingCollateral"",
                                             ""$scope"": ""enterprise_12345""
                                         }";
-            
+
             IBoxRequest boxRequest = null;
             _handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
@@ -61,6 +63,13 @@ namespace Box.V2.Test
             Dictionary<string, object> metadata = await _metadataManager.CreateFileMetadataAsync("5010739061", inputMetadata, "enterprise", "marketingCollateral");
 
             /*** Assert ***/
+            /***request***/
+            Dictionary<string, object> payLoad = JsonConvert.DeserializeObject<Dictionary<string, object>>(boxRequest.Payload);
+            foreach (string key in inputMetadata.Keys)
+            {
+                Assert.AreEqual(inputMetadata[key], payLoad[key]);
+            }
+            /***response***/
             Assert.AreEqual(inputMetadata["audience1"], metadata["audience1"]);
             Assert.AreEqual(inputMetadata["documentType"], metadata["documentType"]);
             Assert.AreEqual(inputMetadata["competitiveDocument"], metadata["competitiveDocument"]);
@@ -88,7 +97,7 @@ namespace Box.V2.Test
                                         ""$template"": ""marketingCollateral"",
                                         ""$scope"": ""enterprise_12345""
                                     }";
-            
+
             IBoxRequest boxRequest = null;
             _handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
@@ -101,6 +110,9 @@ namespace Box.V2.Test
             Dictionary<string, object> metadata = await _metadataManager.GetFileMetadataAsync("5010739061", "enterprise", "bandInfo");
 
             /*** Assert ***/
+            /*** Request ***/
+            Assert.AreEqual(string.Format("{0}/metadata/{1}/{2}","5010739061", "enterprise", "bandInfo"), boxRequest.Path);
+            /*** Response ***/
             Assert.AreEqual("internal", metadata["audience1"]);
             Assert.AreEqual("Q1 plans", metadata["documentType"]);
             Assert.AreEqual("no", metadata["competitiveDocument"]);
@@ -151,7 +163,7 @@ namespace Box.V2.Test
                                         ],
                                         ""limit"": 100
                                     }";
-            
+
             IBoxRequest boxRequest = null;
             _handler.Setup(h => h.ExecuteAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>>>(new BoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>>()
@@ -163,7 +175,9 @@ namespace Box.V2.Test
             /*** Act ***/
             BoxMetadataTemplateCollection<Dictionary<string, object>> result = await _metadataManager.GetAllFileMetadataTemplatesAsync("5010739061");
 
-            /*** Assert ***/
+            /*** Request ***/
+            Assert.AreEqual(string.Format("{0}/metadata", "5010739061"), boxRequest.Path);
+            /*** Response ***/
             Assert.AreEqual("Init", result.Entries[0]["currentDocumentStage"]);
             Assert.AreEqual("50ba0dba-0f89-4395-b867-3e057c1f6ed9", result.Entries[0]["$id"]);
             Assert.AreEqual("file_5010739061", result.Entries[1]["$parent"]);
@@ -192,7 +206,7 @@ namespace Box.V2.Test
                                         ""$template"": ""marketingCollateral"",
                                         ""$scope"": ""enterprise_12345""
                                     }";
-            
+
             IBoxRequest boxRequest = null;
             _handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
@@ -249,7 +263,7 @@ namespace Box.V2.Test
                 {
                     Op = MetadataUpdateOp.move,
                     From = "/currentState",
-                    Value = "/previousState"
+                    Path = "/previousState"
                 },
                 new BoxMetadataUpdate()
                 {
@@ -261,6 +275,14 @@ namespace Box.V2.Test
             Dictionary<string, object> result = await _metadataManager.UpdateFileMetadataAsync("5010739061", updates, "enterprise", "marketingCollateral");
 
             /*** Assert ***/
+            /***request***/
+            List<BoxMetadataUpdate> payLoad = JsonConvert.DeserializeObject<List<BoxMetadataUpdate>>(boxRequest.Payload);
+            for (int i = 0; i < payLoad.Count; i++)
+            {
+                Assert.AreEqual(updates[i].Op, payLoad[i].Op);
+                Assert.AreEqual(updates[i].Path, payLoad[i].Path);
+            }
+            /***response***/
             Assert.AreEqual("internal", result["audience1"]);
             Assert.AreEqual("Q1 plans", result["documentType"]);
             Assert.AreEqual((long)1, result["$version"]);
