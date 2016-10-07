@@ -21,7 +21,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves information about the user who is currently logged in i.e. the user for whom this auth token was generated.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns a single complete user object.</returns>
         public async Task<BoxUser> GetCurrentUserInformationAsync(List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, "me")
@@ -33,9 +34,11 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Create a new Box Enterprise user.
+        /// Used to provision a new user in an enterprise. This method only works for enterprise admins.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="userRequest">User data. Login and Name is required.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns the user object for the newly created user.</returns>
         public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userRequest.Id)
@@ -93,12 +96,12 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Deletes an enterprise user
+        /// Deletes a user in an enterprise account.
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="userId">Id of the user.</param>
         /// <param name="notify">Determines if the destination user should receive email notification of the transfer.</param>
         /// <param name="force">Whether or not the user should be deleted even if this user still own files.</param>
-        /// <returns></returns>
+        /// <returns>Null, if user is deleted.</returns>
         public async Task<BoxUser> DeleteEnterpriseUserAsync(string userId, bool notify, bool force)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
@@ -141,6 +144,43 @@ namespace Box.V2.Managers
             IBoxResponse<BoxUserInvite> response = await ToResponseAsync<BoxUserInvite>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to convert one of the user’s confirmed email aliases into the user’s primary login.
+        /// </summary>
+        /// <param name="userId">Id of the user.</param>
+        /// <param name="login">The email alias to become the primary email.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>If the user_id is valid and the email address is a confirmed email alias, the updated user object will be returned.</returns>
+        public async Task<BoxUser> ChangeUsersLoginAsync(string userId, string login, List<string> fields = null)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+            login.ThrowIfNullOrWhiteSpace("login");
+
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
+            .Param(ParamFields, fields)
+            .Payload(_converter.Serialize(new BoxUserRequest() { Login = login }))
+            .Method(RequestMethod.Put);
+
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+        /// <summary>
+        /// Removes an email alias from a user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="emailAliasId">The email alias identifier.</param>
+        /// <returns>True, if the user has permission to remove this email alias.</returns>
+        public async Task<bool> DeleteEmailAliasAsync(string userId, string emailAliasId)
+        {
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format("{0}/email_aliases/{1}", userId, emailAliasId))
+                .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
         }
     }
 }

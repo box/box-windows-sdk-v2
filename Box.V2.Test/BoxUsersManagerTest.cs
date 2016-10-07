@@ -2,6 +2,7 @@
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,6 +143,171 @@ namespace Box.V2.Test
         public async Task GetEnterpriseUsers_LimitHigh()
         {
             await _usersManager.GetEnterpriseUsersAsync("foo", 0, 1001);
+        }
+
+        [TestMethod]
+        public async Task ChangeUsersLogin_ValidReponse()
+        {
+            /*** Arrange ***/
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+           .Returns(() => Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+           {
+               Status = ResponseStatus.Success,
+               ContentString = "{\"type\":\"user\",\"id\":\"18180156\",\"name\":\"Dan Glover\",\"login\":\"dglover2@box.com\",\"created_at\":\"2012-09-13T10:19:51-07:00\",\"modified_at\":\"2012-09-21T10:24:51-07:00\",\"role\":\"user\",\"language\":\"en\",\"space_amount\":5368709120,\"space_used\":0,\"max_upload_size\":1073741824,\"tracking_codes\":[],\"can_see_managed_users\":false,\"is_sync_enabled\":false,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"\",\"address\":\"\",\"avatar_url\":\"\"}"
+           }))
+           .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxUser result = await _usersManager.ChangeUsersLoginAsync("userId", "userLogin");
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
+            Assert.AreEqual(_UserUri + "userId", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.IsNotNull(boxRequest.Payload);
+            Assert.IsTrue(AreJsonStringsEqual("{\"login\":\"userLogin\"}", boxRequest.Payload));
+
+            // Response check
+            Assert.AreEqual("user", result.Type);
+            Assert.AreEqual("18180156", result.Id);
+            Assert.AreEqual("Dan Glover", result.Name);
+            Assert.AreEqual("dglover2@box.com", result.Login);
+            Assert.AreEqual(DateTime.Parse("2012-09-13T10:19:51-07:00"), result.CreatedAt);
+            Assert.AreEqual("user", result.Role);
+            Assert.AreEqual("en", result.Language);
+            Assert.AreEqual(5368709120, result.SpaceAmount);
+            Assert.AreEqual(0, result.SpaceUsed);
+            Assert.AreEqual(1073741824, result.MaxUploadSize);
+            Assert.AreEqual(0, result.TrackingCodes.Length);
+            Assert.AreEqual(false, result.CanSeeManagedUsers);
+            Assert.AreEqual(false, result.IsSyncEnabled);
+            Assert.AreEqual("active", result.Status);
+            Assert.IsTrue(string.IsNullOrEmpty(result.JobTitle));
+            Assert.IsTrue(string.IsNullOrEmpty(result.Phone));
+            Assert.IsTrue(string.IsNullOrEmpty(result.Address));
+            Assert.IsTrue(string.IsNullOrEmpty(result.AvatarUrl));
+
+        }
+
+        [TestMethod]
+        public async Task CreateEnterpriseUser_ValidReponse()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"type\": \"user\", \"id\": \"187273718\", \"name\": \"Ned Stark\",  \"login\": \"eddard@box.com\",  \"created_at\": \"2012-11-15T16:34:28-08:00\", \"modified_at\": \"2012-11-15T16:34:29-08:00\", \"role\": \"user\", \"language\": \"en\", \"space_amount\": 5368709120, \"space_used\": 0, \"max_upload_size\": 2147483648, \"tracking_codes\": [], \"can_see_managed_users\": true, \"is_sync_enabled\": true, \"status\": \"active\", \"job_title\": \"\", \"phone\": \"555-555-5555\", \"address\": \"555 Box Lane\", \"avatar_url\": \"https://www.box.com/api/avatar/large/187273718\", \"is_exempt_from_device_limits\": false,\"is_exempt_from_login_verification\": false }";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+           .Returns(() => Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+           {
+               Status = ResponseStatus.Success,
+               ContentString = responseString
+           }))
+           .Callback<IBoxRequest>(r => boxRequest = r);
+
+            BoxUserRequest userRequest = new BoxUserRequest()
+            {
+                Login = "eddard@box.com",
+                Name = "Ned Stark",
+                Role = "user",
+                Language = "en",
+                IsSyncEnabled = true,
+                Phone = "555-555-5555",
+                Address = "555 Box Lane",
+            };
+
+            /*** Act ***/
+            BoxUser result = await _usersManager.CreateEnterpriseUserAsync(userRequest);
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(_UserUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.IsNotNull(boxRequest.Payload);
+            BoxUserRequest payload = JsonConvert.DeserializeObject<BoxUserRequest>(boxRequest.Payload);
+            Assert.AreEqual(userRequest.Login, payload.Login);
+            Assert.AreEqual(userRequest.Name, payload.Name);
+            Assert.AreEqual(userRequest.IsSyncEnabled, payload.IsSyncEnabled);
+            Assert.AreEqual(userRequest.Phone, payload.Phone);
+            Assert.AreEqual(userRequest.Address, payload.Address);
+
+            // Response check
+            Assert.AreEqual("user", result.Type);
+            Assert.AreEqual("187273718", result.Id);
+            Assert.AreEqual("Ned Stark", result.Name);
+            Assert.AreEqual("eddard@box.com", result.Login);
+            Assert.AreEqual(DateTime.Parse("2012-11-15T16:34:28-08:00"), result.CreatedAt);
+            Assert.AreEqual("user", result.Role);
+            Assert.AreEqual("en", result.Language);
+            Assert.AreEqual(5368709120, result.SpaceAmount);
+            Assert.AreEqual(0, result.SpaceUsed);
+            Assert.AreEqual(2147483648, result.MaxUploadSize);
+            Assert.AreEqual(0, result.TrackingCodes.Length);
+            Assert.AreEqual(true, result.CanSeeManagedUsers);
+            Assert.AreEqual(true, result.IsSyncEnabled);
+            Assert.AreEqual("active", result.Status);
+            Assert.IsTrue(string.IsNullOrEmpty(result.JobTitle));
+            Assert.AreEqual("555-555-5555", result.Phone);
+            Assert.AreEqual("555 Box Lane", result.Address);
+            Assert.AreEqual("https://www.box.com/api/avatar/large/187273718", result.AvatarUrl);
+
+        }
+
+        [TestMethod]
+        public async Task DeleteEnterpriseUser_ValidReponse()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+           .Returns(() => Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+           {
+               Status = ResponseStatus.Success,
+               ContentString = responseString
+           }))
+           .Callback<IBoxRequest>(r => boxRequest = r);
+
+            BoxUser result = await _usersManager.DeleteEnterpriseUserAsync("userid", true, false);
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(_UserUri + "userid" + "?notify=True&force=False", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            // Response check
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public async Task DeleteEmailAliasAsync_ValidReponse()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+           .Returns(() => Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+           {
+               Status = ResponseStatus.Success,
+               ContentString = responseString
+           }))
+           .Callback<IBoxRequest>(r => boxRequest = r);
+
+            bool result = await _usersManager.DeleteEmailAliasAsync("userid", "aliasid");
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(_UserUri + "userid/email_aliases/aliasid", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            // Response check
+            Assert.AreEqual(true, result);
         }
     }
 }
