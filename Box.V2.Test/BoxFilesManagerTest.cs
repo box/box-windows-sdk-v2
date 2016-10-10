@@ -427,6 +427,27 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        public async Task DeleteFile_ValidResponse_FileDeleted()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            bool result = await _filesManager.DeleteAsync("34122832467");
+
+            /*** Assert ***/
+
+            Assert.AreEqual(true, result);
+
+
+        }
+        [TestMethod]
         public async Task DownloadStream_ValidResponse_ValidStream()
         {
 
