@@ -13,7 +13,7 @@ namespace Box.V2.Extensions
         /// <typeparam name="T">Type of the object being checked</typeparam>
         /// <param name="param"></param>
         /// <param name="name"></param>
-        internal static T ThrowIfNull<T>(this T param, string name) where T : class
+        internal static T ThrowIfNull<T>(this T param, string name) 
         {
             if (param == null)
                 throw new ArgumentNullException(name);
@@ -33,14 +33,6 @@ namespace Box.V2.Extensions
                 throw new ArgumentException("Required field cannot be null or whitespace", name);
 
             return value;
-        }
-
-        internal static T? ThrowIfNullEnum<T>(this T? param, string name)  where T : struct
-        {
-            if (param == null)
-                throw new ArgumentNullException(name);
-
-            return param;
         }
     }
 }
