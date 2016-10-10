@@ -25,19 +25,17 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
-        /// Gets a file object representation of the provided file Id
+        /// Retrieves metadata about file.
         /// </summary>
-        /// <param name="id">Id of file information to retrieve</param>
-        /// <param name="limit">The number of items to return (default=100, max=1000)</param>
-        /// <param name="offset">The item at which to begin the response (default=0)</param>
-        /// <returns></returns>
+        /// <param name="id">Id of file information to retrieve.</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
         public async Task<BoxFile> GetInformationAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Param(ParamFields, fields);
-
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -48,18 +46,17 @@ namespace Box.V2.Managers
         /// Returns the stream of the requested file
         /// </summary>
         /// <param name="id">Id of the file to download</param>
-        /// <param name="versionId"></param>
-        /// <param name="timeout"></param>
+        /// <param name="versionId">The ID specific version of this file to download.</param>
+        /// <param name="timeout">Optional timeout for response</param>
         /// <returns>MemoryStream of the requested file</returns>
         public async Task<Stream> DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null)
         {
-            id.ThrowIfNullOrWhiteSpace("id");
-
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id)) { Timeout = timeout }
-                .Param("version", versionId);
-
+            var uri = await GetDownloadUriAsync(id, versionId);
+            BoxRequest request = new BoxRequest(uri)
+            {
+                Timeout = timeout
+            };
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
-
             return response.ResponseObject;
         }
 
@@ -624,6 +621,24 @@ namespace Box.V2.Managers
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
+        /// Retrieves all of the tasks for given file.
+        /// </summary>
+        /// <param name="id">Id of the file</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A collection of mini task objects is returned. If there are no tasks, an empty collection will be returned.</returns>
+        public async Task<BoxCollection<BoxTask>> GetFileTasks(string id, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TasksPathString, id))
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxCollection<BoxTask>> response = await ToResponseAsync<BoxCollection<BoxTask>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
         }
     }
 }
