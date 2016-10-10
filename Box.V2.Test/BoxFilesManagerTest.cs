@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using System.IO;
 
 namespace Box.V2.Test
 {
@@ -25,17 +27,23 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-02-04T16:57:52-08:00\", \"content_modified_at\": \"2013-02-04T16:57:52-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] }";
+            IBoxRequest boxRequest = null;
             _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
-                }));
+                })).Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
             BoxFile f = await _filesManager.GetInformationAsync("fakeId");
 
             /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(_FilesUri + "fakeId", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.IsNull(boxRequest.Payload);
+
             Assert.AreEqual("5000948880", f.Id);
             Assert.AreEqual("3", f.SequenceId);
             Assert.AreEqual("tigers.jpeg", f.Name);
@@ -416,6 +424,100 @@ namespace Box.V2.Test
 
             /*** Assert ***/
             Assert.IsTrue(unlocked);
+        }
+
+        [TestMethod]
+        public async Task DownloadStream_ValidResponse_ValidStream()
+        {
+
+            using (FileStream exampleFile = new FileStream(string.Format(getSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
+            {
+                /*** Arrange ***/
+                Uri location = new Uri("http://dl.boxcloud.com");
+                HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+                headers.Location = location;
+                _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+
+                    .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                    {
+                        Status = ResponseStatus.Success,
+                        Headers = headers
+
+                    }));
+                IBoxRequest boxRequest = null;
+                _handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
+
+                   .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
+                   {
+                       Status = ResponseStatus.Success,
+                       ResponseObject = exampleFile
+
+                   }))
+                   .Callback<IBoxRequest>(r => boxRequest = r); ;
+
+                /*** Act ***/
+                Stream result = await _filesManager.DownloadStreamAsync("34122832467");
+
+                /*** Assert ***/
+
+                Assert.IsNotNull(result, "Stream is Null");
+
+            }
+        }
+        private string getSaveFolderPath()
+        {
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            return Path.Combine(pathUser, "Downloads") + "\\{0}";
+        }
+        [TestMethod]
+        public async Task GetEmbedLink_ValidResponse_ValidEmbedLink()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"type\": \"file\",\"id\": \"34122832467\", \"etag\": \"1\", \"expiring_embed_link\": { \"url\": \"https://app.box.com/preview/expiring_embed/gvoct6FE!Qz2rDeyxCiHsYpvlnR7JJ0SCfFM2M4YiX9cIwrSo4LOYQgxyP3rzoYuMmXg96mTAidqjPuRH7HFXMWgXEEm5LTi1EDlfBocS-iRfHpc5ZeYrAZpA5B8C0Obzkr4bUoF6wGq8BZ1noN_txyZUU1nLDNuL_u0rsImWhPAZlvgt7662F9lZSQ8nw6zKaRWGyqmj06PnxewCx0EQD3padm6VYkfHE2N20gb5rw1D0a7aaRJZzEijb2ICLItqfMlZ5vBe7zGdEn3agDzZP7JlID3FYdPTITsegB10gKLgSp_AJJ9QAfDv8mzi0bGv1ZmAU1FoVLpGC0XI0UKy3N795rZBtjLlTNcuxapbHkUCoKcgdfmHEn5NRQ3tmw7hiBfnX8o-Au34ttW9ntPspdAQHL6xPzQC4OutWZDozsA5P9sGlI-sC3VC2-WXsbXSedemubVd5vWzpVZtKRlb0gpuXsnDPXnMxSH7_jT4KSLhC8b5kEMPNo33FjEJl5pwS_o_6K0awUdRpEQIxM9CC3pBUZK5ooAc5X5zxo_2FBr1xq1p_kSbt4TVnNeohiLIu38TQysSb7CMR7JRhDDZhMMwAUc0wdSszELgL053lJlPeoiaLA49rAGP_B3BVuwFAFEl696w7UMx5NKu1mA0IOn9pDebzbhTl5HuUvBAHROc1Ocjb28Svyotik1IkPIw_1R33ZyAMvEFyzIygqBj8WedQeSK38iXvF2UXvkAf9kevOdnpwsKYiJtcxeJhFm7LUVKDTufuzuGRw-T7cPtbg..\" } }";
+            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            Uri embedLinkUrl = await _filesManager.GetPreviewLinkAsync("fakeId");
+
+            /*** Assert ***/
+
+            Assert.IsNotNull(embedLinkUrl);
+
+
+        }
+        [TestMethod]
+        public async Task GetFileTasks_ValidResponse_ValidTasks()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"total_count\": 1, \"entries\": [{\"type\": \"task\", \"id\": \"1786931\",\"item\": {\"type\": \"file\",\"id\": \"7026335894\", \"sequence_id\": \"6\", \"etag\": \"6\", \"sha1\": \"81cc829fb8366fcfc108aa6c5a9bde01a6a10c16\",\"name\": \"API - Persist On-Behalf-Of information.docx\" }, \"due_at\": null }   ] }";
+            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxTask>>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxTask>>>(new BoxResponse<BoxCollection<BoxTask>>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = responseString
+                 }));
+
+            /*** Act ***/
+            BoxCollection<BoxTask> tasks = await _filesManager.GetFileTasks("fakeId");
+
+            /*** Assert ***/
+
+            BoxTask task = tasks.Entries.FirstOrDefault();
+
+            /*** Assert ***/
+            Assert.AreEqual(1, tasks.TotalCount);
+            Assert.AreEqual("1786931", task.Id);
+            Assert.AreEqual("task", task.Type);
+            Assert.AreEqual("API - Persist On-Behalf-Of information.docx", task.Item.Name);
+            Assert.AreEqual("7026335894", task.Item.Id);
+
+
+
         }
     }
 }
