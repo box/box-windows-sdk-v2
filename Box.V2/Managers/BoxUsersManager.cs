@@ -116,11 +116,23 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// Invites an existing user to join an Enterprise. The existing user cannot be part of another Enterprise and must already have a Box account.
+        /// Once invited, the user will receive an email and prompt to accept the invitation within the Box web application. This method requires the "Manage An Enterprise" scope for the enterprise, which can be enabled within your developer console.
         /// </summary>
-        /// <returns></returns>
-        /// 
+        /// <param name="userInviteRequest">
+        /// userInviteRequest.Enterprise (Required) - The enterprise the user will be invited to.
+        /// userInviteRequest.Enterprise.Id (Required) - The enterprise ID.
+        /// userInviteRequest.ActionableBy (Required)- The user that will receive the invitation.
+        /// userInviteRequest.ActionableBy.Login (Required)- The login of the user that will receive the invitation.
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>A new invite object will be returned if successful.</returns>
         public async Task<BoxUserInvite> InviteUserToEnterpriseAsync(BoxUserInviteRequest userInviteRequest, List<string> fields = null)
         {
+            userInviteRequest.ThrowIfNull("userInviteRequest")
+                .Enterprise.ThrowIfNull("Enterprise").Id.ThrowIfNullOrWhiteSpace("userInviteRequest.Enterprise.Id");
+            userInviteRequest.ActionableBy.ThrowIfNull("userInviteRequest.ActionableBy")
+               .Login.ThrowIfNullOrWhiteSpace("userInviteRequest.ActionableBy.Login");
+
             BoxRequest request = new BoxRequest(_config.InviteEndpointUri)
             .Param(ParamFields, fields)
             .Payload(_converter.Serialize(userInviteRequest))
@@ -181,6 +193,19 @@ namespace Box.V2.Managers
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
+        }
+        /// <summary>
+        /// Retrieves information about a user in the enterprise. Requires enterprise administration authorization.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Returns a single complete user object.</returns>
+        public async Task<BoxUser> GetUserInformationAsync(string userId)
+        {
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId);
+
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
         }
     }
 }

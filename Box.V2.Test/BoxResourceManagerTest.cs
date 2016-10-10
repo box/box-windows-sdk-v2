@@ -29,6 +29,7 @@ namespace Box.V2.Test
         protected Uri _FoldersUri = new Uri(Constants.FoldersEndpointString);
         protected Uri _FilesUri = new Uri(Constants.FilesEndpointString);
         protected Uri _UserUri = new Uri(Constants.UserEndpointString);
+        protected Uri _InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
 
         public BoxResourceManagerTest()
         {
@@ -41,6 +42,7 @@ namespace Box.V2.Test
             _config.SetupGet(x => x.FoldersEndpointUri).Returns(_FoldersUri);
             _config.SetupGet(x => x.FilesEndpointUri).Returns(_FilesUri);
             _config.SetupGet(x => x.UserEndpointUri).Returns(_UserUri);
+            _config.SetupGet(x => x.InviteEndpointUri).Returns(_InviteUri);
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
 

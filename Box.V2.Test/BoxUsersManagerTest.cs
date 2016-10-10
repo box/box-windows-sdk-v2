@@ -70,12 +70,14 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{ \"type\":\"invite\",\"id\":\"238632\",\"invited_to\":{ \"type\":\"enterprise\",\"id\":\"42500\",\"name\":\"Blosser Account\"},\"actionable_by\":{ \"type\":\"user\",\"id\":\"229667663\",\"name\":\"Lleyton Hewitt\",\"login\":\"freeuser@box.com\"},\"invited_by\":{ \"type\":\"user\",\"id\":\"10523870\",\"name\":\"Ted Blosser\",\"login\":\"ted@box.com\"},\"status\":\"pending\",\"created_at\":\"2014-12-23T12:55:53-08:00\",\"modified_at\":\"2014-12-23T12:55:53-08:00\"}";
+            IBoxRequest boxRequest = null;
             _handler.Setup(h => h.ExecuteAsync<BoxUserInvite>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUserInvite>>(new BoxResponse<BoxUserInvite>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
-                }));
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
             BoxUserInviteRequest userInviteRequest = new BoxUserInviteRequest()
@@ -92,6 +94,17 @@ namespace Box.V2.Test
             BoxUserInvite userInvite = await _usersManager.InviteUserToEnterpriseAsync(userInviteRequest);
 
             /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(_InviteUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            BoxUserInviteRequest payload = JsonConvert.DeserializeObject<BoxUserInviteRequest>(boxRequest.Payload);
+            Assert.AreEqual(userInviteRequest.Enterprise.Id, payload.Enterprise.Id);
+            Assert.AreEqual(userInviteRequest.ActionableBy.Login, payload.ActionableBy.Login);
+
+            //Response check
+            Assert.AreEqual("238632", userInvite.Id);
             Assert.AreEqual("freeuser@box.com", userInvite.ActionableBy.Login);
         }
 
@@ -308,6 +321,35 @@ namespace Box.V2.Test
 
             // Response check
             Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public async Task GetUserInformationByUserId_ValidResponse_ValidUser()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"type\": \"user\", \"id\": \"10543463\", \"name\": \"Arielle Frey\", \"login\": \"ariellefrey@box.com\", \"created_at\": \"2011-01-07T12:37:09-08:00\", \"modified_at\": \"2014-05-30T10:39:47-07:00\", \"language\": \"en\", \"timezone\": \"America/Los_Angeles\", \"space_amount\": 10737418240,\"space_used\":558732,\"max_upload_size\": 5368709120,\"status\": \"active\",\"job_title\": \"\",\"phone\": \"\",\"address\": \"\",\"avatar_url\":\"https://blosserdemoaccount.app.box.com/api/avatar/large/10543465\"}";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r); 
+
+            /*** Act ***/
+            BoxUser user = await _usersManager.GetUserInformationAsync("10543463");
+
+            /*** Assert ***/
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(_UserUri + "10543463", boxRequest.AbsoluteUri.AbsoluteUri);
+            // Response check
+            Assert.AreEqual("10543463", user.Id);
+            Assert.AreEqual("Arielle Frey", user.Name);
+            Assert.AreEqual("ariellefrey@box.com", user.Login);
+            Assert.AreEqual("user", user.Type);
         }
     }
 }
