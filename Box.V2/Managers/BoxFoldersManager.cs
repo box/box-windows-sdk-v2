@@ -59,8 +59,12 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a new empty folder. The new folder will be created inside of the specified parent folder
         /// </summary>
-        /// <param name="folder"></param>
-        /// <returns></returns>
+        /// <param name="folderRequest">
+        /// folderRequest.Name - The desired name for the folder
+        /// folderRequest.Parent.Id -  The ID of the parent folder
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full folder object is returned if the parent folder ID is valid and if no name collisions occur.</returns>
         public async Task<BoxFolder> CreateAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
@@ -83,16 +87,17 @@ namespace Box.V2.Managers
         /// as well as the files and folders contained in it. The root folder of a Box account is always 
         /// represented by the id “0″.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">The folder id</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full folder object is returned, including the most current information available about it. 
+        /// An 404 error is thrown if the folder does not exist or a 4xx if the user does not have access to it.</returns>
         public async Task<BoxFolder> GetInformationAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            string accessToken = _auth.Session.AccessToken;
-
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
+                .Method(RequestMethod.Get)
                 .Param(ParamFields, fields);
-
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
@@ -102,7 +107,13 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a copy of a folder in another folder. The original version of the folder will not be altered.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="folderRequest">
+        /// folderRequest.Id - Id of the file
+        /// folderRequest.Parent.Id - The ID of the destination folder
+        /// folderRequest.Name - An optional new name for the folder.
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A full folder object is returned if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFolder> CopyAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
@@ -125,13 +136,17 @@ namespace Box.V2.Managers
         /// inside of them. An optional If-Match header can be included to ensure that client only deletes the folder 
         /// if it knows about the latest version.
         /// </summary>
-        /// <returns></returns>
-        public async Task<bool> DeleteAsync(string id, bool recursive = false)
+        /// <param name="id">Id of the folder</param>
+        /// <param name="recursive">Whether to delete this folder if it has items inside of it.</param>
+        /// <param name="etag">This is in the ‘etag’ field of the folder object</param>
+        /// <returns>True will be returned upon successful deletion</returns>
+        public async Task<bool> DeleteAsync(string id, bool recursive = false, string etag = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.Delete)
+                .Header("If-Match", etag)
                 .Param("recursive", recursive.ToString().ToLowerInvariant());
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
@@ -286,7 +301,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Permanently deletes an item that is in the trash. The item will no longer exist in Box. This action cannot be undone.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Id of the folder</param>
+        /// <returns>True will be returned upon successful deletion</returns>
         public async Task<bool> PurgeTrashedFolderAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -303,7 +319,9 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves a folder that has been moved to the trash.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">Id of the Folder</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>The full folder will be returned, including information about when the it was moved to the trash</returns>
         public async Task<BoxFolder> GetTrashedFolderAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
