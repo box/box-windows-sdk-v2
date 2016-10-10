@@ -490,5 +490,34 @@ namespace Box.V2.Test
 
 
         }
+        [TestMethod]
+        public async Task GetFileTasks_ValidResponse_ValidTasks()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"total_count\": 1, \"entries\": [{\"type\": \"task\", \"id\": \"1786931\",\"item\": {\"type\": \"file\",\"id\": \"7026335894\", \"sequence_id\": \"6\", \"etag\": \"6\", \"sha1\": \"81cc829fb8366fcfc108aa6c5a9bde01a6a10c16\",\"name\": \"API - Persist On-Behalf-Of information.docx\" }, \"due_at\": null }   ] }";
+            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxTask>>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxTask>>>(new BoxResponse<BoxCollection<BoxTask>>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = responseString
+                 }));
+
+            /*** Act ***/
+            BoxCollection<BoxTask> tasks = await _filesManager.GetFileTasks("fakeId");
+
+            /*** Assert ***/
+
+            BoxTask task = tasks.Entries.FirstOrDefault();
+
+            /*** Assert ***/
+            Assert.AreEqual(1, tasks.TotalCount);
+            Assert.AreEqual("1786931", task.Id);
+            Assert.AreEqual("task", task.Type);
+            Assert.AreEqual("API - Persist On-Behalf-Of information.docx", task.Item.Name);
+            Assert.AreEqual("7026335894", task.Item.Id);
+
+
+
+        }
     }
 }
