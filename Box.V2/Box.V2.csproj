@@ -56,6 +56,7 @@
     <Compile Include="Managers\BoxMetadataManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\BoxWebhooksManager.cs" />
+    <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Models\BoxGroup.cs" />
     <Compile Include="Models\BoxGroupMembership.cs" />
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
+    <Compile Include="Models\Request\BoxEmailAliasRequest.cs" />
     <Compile Include="Models\Request\BoxFileLockRequest.cs" />
     <Compile Include="Models\Request\BoxDeleteSharedLinkRequest.cs" />
     <Compile Include="Models\Request\BoxFileVersionRetentionRequest.cs" />
