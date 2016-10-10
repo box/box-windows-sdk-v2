@@ -290,14 +290,18 @@ namespace Box.V2.Managers
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
-            folderRequest.Parent.ThrowIfNull("folderRequest.Parent")
-                .Id.ThrowIfNullOrWhiteSpace("folderRequest.Parent.Id");
-
+            
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
                     .Method(RequestMethod.Post)
-                    .Param(ParamFields, fields)
-                    .Payload(_converter.Serialize(folderRequest));
+                    .Param(ParamFields, fields);
 
+            // ID shall not be used in request body it is used only as url attribute
+            string oldId = folderRequest.Id;
+            folderRequest.Id = null;
+
+            request.Payload(_converter.Serialize(folderRequest));
+
+            folderRequest.Id = oldId;
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
