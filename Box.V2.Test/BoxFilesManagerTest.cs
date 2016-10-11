@@ -430,6 +430,36 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        public async Task PreflightCheck_ValidResponse_ValidStatus()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            _handler.Setup(h => h.ExecuteAsync<BoxPreflightCheck>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxPreflightCheck>>(new BoxResponse<BoxPreflightCheck>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString,
+                    ResponseObject = new BoxPreflightCheck()
+                }));
+
+            /*** Act ***/
+            BoxPreflightCheck result = await _filesManager.PreflightCheck(new BoxPreflightCheckRequest()
+            {
+                Name = "Wolves owners.ppt",
+                Parent = new BoxRequestEntity()
+                {
+                    Id = "1523432"
+                },
+                Size = 15243
+            });
+
+            /*** Assert ***/
+
+            Assert.AreEqual(true, result.Success);
+
+
+        }
+        [TestMethod]
         public async Task DeleteFile_ValidResponse_FileDeleted()
         {
             /*** Arrange ***/
