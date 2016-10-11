@@ -5,6 +5,8 @@ using Box.V2.Managers;
 using Box.V2.Request;
 using Box.V2.Services;
 using Moq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +58,13 @@ namespace Box.V2.Test
                                null,
                                System.Threading.Thread.CurrentThread.CurrentCulture);
             return inst;
+        }
+        public static bool AreJsonStringsEqual(string sourceJsonString, string targetJsonString)
+        {
+            JObject sourceJObject = JsonConvert.DeserializeObject<JObject>(sourceJsonString);
+            JObject targetJObject = JsonConvert.DeserializeObject<JObject>(targetJsonString);
+
+            return JToken.DeepEquals(sourceJObject, targetJObject);
         }
     }
 }
