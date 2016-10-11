@@ -11,7 +11,9 @@ namespace Box.V2.Models
     /// </summary>
     public class BoxPreflightCheck
     {
+        [Obsolete]
         public const string FieldUploadUrl = "upload_url";
+        [Obsolete]
         public const string FieldUploadToken = "upload_token";
 
         /// <summary>
@@ -43,6 +45,6 @@ namespace Box.V2.Models
         /// <summary>
         /// True if the upload would be successful;
         /// </summary>
-        public bool Success;
+        public bool Success { get; set; }
     }
 }
