@@ -45,7 +45,6 @@ namespace Box.V2.Test
             _config.SetupGet(x => x.InviteEndpointUri).Returns(_InviteUri);
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
-
         public static T CreateInstanceNonPublicConstructor<T>()
         {
             Type[] pTypes = new Type[0];

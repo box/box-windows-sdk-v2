@@ -12,7 +12,7 @@ namespace Box.V2.Models
     public class BoxFileLockRequest
     {
         /// <summary>
-        /// An object representing this item's shared link and associated permissions
+        /// The lock object
         /// </summary>
         [JsonProperty(PropertyName = "lock")]
         public BoxFileLock Lock { get; set; }
