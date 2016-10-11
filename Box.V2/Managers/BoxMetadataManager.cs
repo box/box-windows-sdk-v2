@@ -28,7 +28,7 @@ namespace Box.V2.Managers
         /// <param name="fileId">Id of file</param>
         /// <param name="scope">Scope name. Currently, the only scopes supported are enterprise and global</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns></returns>
+        /// <returns>An instance of the template that includes key:value pairs defined by a user or application</returns>
         public async Task<Dictionary<string, object>> GetFileMetadataAsync(string fileId, string scope, string template)
         {
             return await GetMetadata(_config.FilesEndpointUri, fileId, scope, template);
@@ -53,7 +53,7 @@ namespace Box.V2.Managers
         /// <param name="metadata">Metadata to create</param>
         /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns></returns>
+        /// <returns>An instance of the template that includes key:value pairs defined by a user or application</returns>
         public async Task<Dictionary<string, object>> CreateFileMetadataAsync(string fileId, Dictionary<string, object> metadata, string scope, string template)
         {
             return await CreateMetadata(_config.FilesEndpointUri, fileId, metadata, scope, template);
@@ -67,7 +67,7 @@ namespace Box.V2.Managers
         /// <param name="scope">Scope name. Currently, only the enterprise scope is supported</param>
         /// <param name="template">Metadata template name</param>
         /// <returns></returns>
-        public async Task<Dictionary<string,object>> CreateFolderMetadataAsync(string folderId, Dictionary<string,object> metadata, string scope, string template)
+        public async Task<Dictionary<string, object>> CreateFolderMetadataAsync(string folderId, Dictionary<string, object> metadata, string scope, string template)
         {
             return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template);
         }
@@ -79,7 +79,7 @@ namespace Box.V2.Managers
         /// <param name="updates">Metadata updates to apply</param>
         /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns></returns>
+        /// <returns>An instance of the template that includes key:value pairs defined by a user or application.</returns>
         public async Task<Dictionary<string, object>> UpdateFileMetadataAsync(string fileId, List<BoxMetadataUpdate> updates, string scope, string template)
         {
             return await UpdateMetadata(_config.FilesEndpointUri, fileId, updates, scope, template);
@@ -140,7 +140,7 @@ namespace Box.V2.Managers
         /// Used to retrieve all metadata associated with a given file
         /// </summary>
         /// <param name="fileId">Id of file</param>
-        /// <returns></returns>
+        /// <returns>Collection of metadata instances associated with the file.</returns>
         public async Task<BoxMetadataTemplateCollection<Dictionary<string, object>>> GetAllFileMetadataTemplatesAsync(string fileId)
         {
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.AllFileMetadataPathString, fileId));
@@ -154,7 +154,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global</param>
         /// <returns></returns>
-        public async Task<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> GetEnterpriseMetadataAsync(string scope="enterprise")
+        public async Task<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> GetEnterpriseMetadataAsync(string scope = "enterprise")
         {
             BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.EnterpriseMetadataTemplatesPathString, scope));
             IBoxResponse<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> response = await ToResponseAsync<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>>(request).ConfigureAwait(false);
@@ -170,6 +170,11 @@ namespace Box.V2.Managers
 
         private async Task<Dictionary<string, object>> UpdateMetadata(Uri hostUri, string id, List<BoxMetadataUpdate> updates, string scope, string template)
         {
+            foreach (BoxMetadataUpdate update in updates)
+            {
+                update.Path.ThrowIfNullOrWhiteSpace("Path");
+                update.Op.ThrowIfNullEnum("Op");
+            }
             BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template))
                 .Method(RequestMethod.Put)
                 .Payload(_converter.Serialize(updates));
@@ -194,7 +199,8 @@ namespace Box.V2.Managers
 
         private async Task<Dictionary<string, object>> GetMetadata(Uri hostUri, string id, string scope, string template)
         {
-            BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template));
+            BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template))
+                .Method(RequestMethod.Get);
             IBoxResponse<Dictionary<string, object>> response = await ToResponseAsync<Dictionary<string, object>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;

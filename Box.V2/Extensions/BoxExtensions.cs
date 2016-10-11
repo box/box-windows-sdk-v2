@@ -13,6 +13,7 @@ namespace Box.V2.Extensions
         /// <typeparam name="T">Type of the object being checked</typeparam>
         /// <param name="param">Object being checked</param>
         /// <param name="name">Object name</param>
+		/// <returns>Param object if valid</returns>
         internal static T ThrowIfNull<T>(this T param, string name) where T : class
         {
             if (param == null)
@@ -28,7 +29,7 @@ namespace Box.V2.Extensions
         /// </summary>
         /// <param name="value">String being checked</param>
         /// <param name="name">String object name</param>
-        /// <returns></returns>
+        /// <returns>Input value if valid</returns>
         internal static string ThrowIfNullOrWhiteSpace(this string value, string name)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -45,7 +46,7 @@ namespace Box.V2.Extensions
         /// <param name="value">Number being checked</param>
         /// <param name="limit">Number maximum limit value</param>
         /// <param name="name">Number object name</param>
-        /// <returns></returns>
+        /// <returns>Input value if valid</returns>
         internal static int ThrowIfHigherThan(this int value, int limit, string name)
         {
             if (value > limit)
@@ -54,6 +55,14 @@ namespace Box.V2.Extensions
             }
 
             return value;
+        }
+
+        internal static T? ThrowIfNullEnum<T>(this T? param, string name) where T : struct
+        {
+            if (param == null)
+                throw new ArgumentNullException(name);
+
+            return param;
         }
     }
 }
