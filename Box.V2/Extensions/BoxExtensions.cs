@@ -55,5 +55,22 @@ namespace Box.V2.Extensions
 
             return value;
         }
+
+        /// <summary>
+        /// Checks if nulable enum  has value
+        /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="param">checked value</param>
+        /// <param name="name">Value name</param>
+        /// <returns>Input value if valid</returns>
+        internal static T? ThrowIfNullEnum<T>(this T? param, string name) where T : struct
+        {
+            if (param == null)
+            {
+                throw new ArgumentNullException(name);
+            }
+
+            return param;
+        }
     }
 }
