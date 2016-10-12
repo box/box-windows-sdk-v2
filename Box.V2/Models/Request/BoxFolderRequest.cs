@@ -24,7 +24,7 @@ namespace Box.V2.Models
         /// to accomplish folder ownership changes.
         /// </summary>
         [JsonProperty(PropertyName = "owned_by")]
-        public BoxRequestEntity OwnedBy { get; private set; }
+        public BoxRequestEntity OwnedBy { get; set; }
 
         /// <summary>
         /// Whether Box Sync clients will sync this folder. Values of synced or not_synced can be sent, while partially_synced may also be returned.
