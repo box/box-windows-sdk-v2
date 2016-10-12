@@ -42,7 +42,10 @@ namespace Box.V2.Managers
         /// <returns>Returns the user object for the newly created user.</returns>
         public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, List<string> fields = null)
         {
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userRequest.Id)
+            userRequest.ThrowIfNull("userRequest").Login.ThrowIfNull("userRequest.Login");
+            userRequest.Name.ThrowIfNull("userRequest.Name");
+
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, "")
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(userRequest))
                 .Method(RequestMethod.Post);
@@ -191,7 +194,7 @@ namespace Box.V2.Managers
         /// <returns>True, if the user has permission to remove this email alias.</returns>
         public async Task<bool> DeleteEmailAliasAsync(string userId, string emailAliasId)
         {
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format("{0}/email_aliases/{1}", userId, emailAliasId))
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.DeleteEmailAliasPathString, userId, emailAliasId))
                 .Method(RequestMethod.Delete);
 
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);

@@ -75,6 +75,7 @@ namespace Box.V2.Config
         public const string UserEmailAliasesPathString = @"{0}/email_aliases/";
         public const string MoveUserFolderPathString = @"{0}/folders/{1}";
         public const string GroupMembershipForUserPathString = @"{0}/memberships";
+        public const string DeleteEmailAliasPathString = "{0}/email_aliases/{1}";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
