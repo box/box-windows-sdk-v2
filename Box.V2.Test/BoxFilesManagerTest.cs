@@ -402,19 +402,22 @@ namespace Box.V2.Test
         public async Task UpdateFileLock_ValidResponse_ValidFile()
         {
             string responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\", \"lock\": { \"type\": \"lock\", \"id\": \"14516545\", \"created_by\": { \"type\": \"user\", \"id\": \"13130406\", \"name\": \"I don't know gmail\", \"login\": \"idontknow@gmail.com\" }, \"created_at\": \"2014-05-29T18:03:04-07:00\", \"expires_at\": \"2014-05-30T19:03:04-07:00\", \"is_download_prevented\": false } } ";
+            IBoxRequest boxRequest = null;
             _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
-                }));
+                }))
+                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
             BoxFileLockRequest request = new BoxFileLockRequest();
             request.Lock = new BoxFileLock();
             request.Lock.IsDownloadPrevented = false;
+            request.Lock.Type = BoxFileLock.LockTypes.Lock;
 
-            BoxFileLock fileLock = await _filesManager.UpdateLockAsync(request, "0");
+            BoxFileLock fileLock = await _filesManager.UpdateLockAsync(request, "7435988481");
 
             /*** Assert ***/
             Assert.IsNotNull(fileLock);
@@ -444,6 +447,57 @@ namespace Box.V2.Test
             Assert.IsTrue(unlocked);
         }
 
+        [TestMethod]
+        public async Task PreflightCheck_ValidResponse_ValidStatus()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            _handler.Setup(h => h.ExecuteAsync<BoxPreflightCheck>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxPreflightCheck>>(new BoxResponse<BoxPreflightCheck>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString,
+                    ResponseObject = new BoxPreflightCheck()
+                }));
+
+            /*** Act ***/
+            BoxPreflightCheck result = await _filesManager.PreflightCheck(new BoxPreflightCheckRequest()
+            {
+                Name = "Wolves owners.ppt",
+                Parent = new BoxRequestEntity()
+                {
+                    Id = "1523432"
+                },
+                Size = 15243
+            });
+
+            /*** Assert ***/
+
+            Assert.AreEqual(true, result.Success);
+
+
+        }
+        [TestMethod]
+        public async Task DeleteFile_ValidResponse_FileDeleted()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            bool result = await _filesManager.DeleteAsync("34122832467");
+
+            /*** Assert ***/
+
+            Assert.AreEqual(true, result);
+
+
+        }
         [TestMethod]
         public async Task DownloadStream_ValidResponse_ValidStream()
         {
