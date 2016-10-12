@@ -75,6 +75,8 @@ namespace Box.V2.Config
         public const string AllFileMetadataPathString = @"{0}/metadata";
         public const string MetadataTemplatesPathString = @"{0}/{1}/schema";
         public const string EnterpriseMetadataTemplatesPathString = @"{0}";
+        public const string TasksPathString = @"{0}/tasks";
+        public const string UserEmailAliasesPathString = @"{0}/email_aliases/";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -98,6 +100,8 @@ namespace Box.V2.Config
         public const string TypeEnterprise = "enterprise";
         public const string TypeLock = "lock";
         public const string TypeWebhook = "webhook";
+        public const string TypeTask = "task";
+        public const string TypeEmailAlias = "email_alias";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
@@ -133,6 +137,9 @@ namespace Box.V2.Config
             public const string JWTAuthorizationCode = "urn:ietf:params:oauth:grant-type:jwt-bearer";
             public const string ContentTypeJson = "application/json";
             public const string ContentTypeJsonPatch = "application/json-patch+json";
+
+            public const string Status = "status";
+            public const string Pending = "pending";
         }
 
         public static class ErrorCodes

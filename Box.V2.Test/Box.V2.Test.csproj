@@ -68,6 +68,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BoxMetadataManagerTest.cs" />
     <Compile Include="BoxSharedItemsManagerTest.cs" />
     <Compile Include="BoxResourcePluginsTest.cs" />
     <Compile Include="AuthRepositoryTest.cs" />

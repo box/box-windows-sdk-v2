@@ -113,5 +113,20 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+        /// <summary>
+        /// Used to retrieve all pending collaboration invites for this user.
+        /// </summary>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A collection of pending collaboration objects are returned. If the user has no pending collaborations, the collection will be empty.</returns>
+        public async Task<BoxCollection<BoxCollaboration>> GetPendingCollaborationAsync(List<string> fields = null)
+        {
+           
+            BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, null)
+               .Param(Constants.RequestParameters.Status, Constants.RequestParameters.Pending)
+               .Param(ParamFields, fields);
+
+            IBoxResponse<BoxCollection<BoxCollaboration>> response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
     }
 }
