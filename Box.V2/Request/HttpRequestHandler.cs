@@ -156,6 +156,10 @@ namespace Box.V2.Request
             var stringParts = request.Parts.Where(p => p.GetType() == typeof(BoxStringFormPart))
                 .Select(p => p as BoxStringFormPart);
 
+            // Create the string part
+            foreach (var sp in stringParts)
+                multiPart.Add(new StringContent(sp.Value), ForceQuotesOnParam(sp.Name));
+
             // Create the file part
             StreamContent fileContent = new StreamContent(filePart.Value);
             fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
@@ -164,10 +168,6 @@ namespace Box.V2.Request
                 FileName = ForceQuotesOnParam(filePart.FileName)
             };
             multiPart.Add(fileContent);
-
-            // Create the string part
-            foreach (var sp in stringParts)
-                multiPart.Add(new StringContent(sp.Value), ForceQuotesOnParam(sp.Name));
 
             httpRequest.Content = multiPart;
 
