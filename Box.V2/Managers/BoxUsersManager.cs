@@ -7,6 +7,7 @@ using Box.V2.Models;
 using Box.V2.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Box.V2.Models.Request;
 
 namespace Box.V2.Managers
 {
@@ -139,6 +140,43 @@ namespace Box.V2.Managers
             .Param(ParamFields, fields);
 
             IBoxResponse<BoxUserInvite> response = await ToResponseAsync<BoxUserInvite>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Retrieves all email aliases for this user. The collection of email aliases does not include the primary login for the user.
+        /// </summary>
+        /// <param name="userId">The user ID (required).</param>
+        /// <returns>If the userId is valid a collection of email aliases will be returned.</returns>
+        public async Task<BoxCollection<BoxEmailAlias>> GetEmailAliasesAsync(string userId)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.UserEmailAliasesPathString, userId)).
+                Method(RequestMethod.Get);
+
+            IBoxResponse<BoxCollection<BoxEmailAlias>> response = await ToResponseAsync<BoxCollection<BoxEmailAlias>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Adds a new email alias to the given user’s account.
+        /// </summary>
+        /// <param name="userId">The user ID (required).</param>
+        /// <param name="email">The email address to add to the account as an alias (required).</param>
+        /// <returns>Returns the newly created email_alias object. Errors will be thrown if the user_id is not valid or the particular user’s email alias cannot be modified.</returns>
+        public async Task<BoxEmailAlias> AddEmailAliasesAsync(string userId, string email)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+            email.ThrowIfNullOrWhiteSpace("emailAlias");
+
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.UserEmailAliasesPathString, userId)).
+                Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(new BoxEmailAliasRequest() { Email = email }));
+
+            IBoxResponse<BoxEmailAlias> response = await ToResponseAsync<BoxEmailAlias>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }

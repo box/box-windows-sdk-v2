@@ -80,10 +80,20 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Verify that a file will be accepted by Box before you send all the bytes over the wire.
+        /// The Pre-flight check API will verify that a file will be accepted by Box before you send all the bytes over the wire. It can be used for both first-time uploads, and uploading new versions of an existing file.
         /// </summary>
-        /// <param name="preflightCheckRequest"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Preflight checks verify all permissions as if the file was actually uploaded including:
+        /// Folder upload permission
+        /// File name collisions
+        /// file size caps
+        /// folder and file name restrictions*
+        /// folder and account storage quota
+        /// </remarks>
+        /// <param name="preflightCheckRequest">Fill required inputs: Name - The name of the file to be uploaded, Parent.Id - The ID of the parent folder.,
+        /// Size - The size of the file in bytes. Specify 0 for unknown file-sizes
+        /// </param>
+        /// <returns>If true is returned if the upload would be successful. An error is thrown when any of the preflight conditions are not met.</returns>
         public async Task<BoxPreflightCheck> PreflightCheck(BoxPreflightCheckRequest preflightCheckRequest)
         {
             preflightCheckRequest.ThrowIfNull("preflightCheckRequest")
@@ -98,7 +108,8 @@ namespace Box.V2.Managers
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
             IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
-
+            response.ResponseObject.Success = response.Status == ResponseStatus.Success;
+            
             return response.ResponseObject;
         }
 
@@ -283,9 +294,9 @@ namespace Box.V2.Managers
         /// Discards a file to the trash. The etag of the file can be included as an ‘If-Match’ header to prevent race conditions.
         /// <remarks>Depending on the enterprise settings for this user, the item will either be actually deleted from Box or moved to the trash.</remarks>
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="etag"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of the file</param>
+        /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
+        /// <returns>True - if file is deleted</returns>
         public async Task<bool> DeleteAsync(string id, string etag=null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -579,13 +590,18 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to update the lock information on the file
+        /// To lock and unlock files, set or clear the lock properties on the file.
         /// </summary>
-        /// <param name="fileRequest"></param>
-        /// <returns></returns>
-        public async Task<BoxFileLock> UpdateLockAsync(BoxFileLockRequest lockFileRequest, string Id)
+        /// <param name="lockFileRequest">Request contains Lock object for setting of lock properties such as ExpiresAt - the time the lock expires, IsDownloadPrevented - whether or not the file can be downloaded while locked. </param>
+        /// <param name="id">Id of the file</param>
+        /// <returns>Returns information about locked file</returns>
+        public async Task<BoxFileLock> UpdateLockAsync(BoxFileLockRequest lockFileRequest, string id)
         {
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, Id)
+            lockFileRequest.ThrowIfNull("lockFileRequest");
+            lockFileRequest.Lock.ThrowIfNull("lockFileRequest.Lock");
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, "lock");
 
@@ -612,6 +628,24 @@ namespace Box.V2.Managers
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
+        /// Retrieves all of the tasks for given file.
+        /// </summary>
+        /// <param name="id">Id of the file</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A collection of mini task objects is returned. If there are no tasks, an empty collection will be returned.</returns>
+        public async Task<BoxCollection<BoxTask>> GetFileTasks(string id, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.TasksPathString, id))
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxCollection<BoxTask>> response = await ToResponseAsync<BoxCollection<BoxTask>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
         }
     }
 }
