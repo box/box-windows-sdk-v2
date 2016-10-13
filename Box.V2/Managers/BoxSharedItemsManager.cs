@@ -35,12 +35,13 @@ namespace Box.V2.Managers
         /// Shared items are any files or folders that are represented by a shared link. Shared items are different from other API resources in that a shared resource doesn’t necessarily have to be in the account of the user accessing it. The actual shared link itself is used along with a normal access token.
         /// </summary>
         /// <param name="sharedLink">The shared link for this item.</param>
+        /// <param name="sharedLinkPassword"></param>
         /// <returns>A full file or folder object is returned if the shared link is valid and the user has access to it. An error may be returned if the link is invalid, if a password is required, or if the user does not have access to the file.</returns>
-        public async Task<BoxItem> SharedItemsAsync(string sharedLink)
+        public async Task<BoxItem> SharedItemsAsync(string sharedLink, string sharedLinkPassword=null)
         {
             sharedLink.ThrowIfNullOrWhiteSpace("sharedLink");
             BoxRequest request = new BoxRequest(_config.SharedItemsUri, null)
-                 .Header("BoxApi", string.Format("shared_link={0}", sharedLink));
+                .Header("BoxApi", string.Format("shared_link={0}{1}", sharedLink, (string.IsNullOrEmpty(sharedLinkPassword) ? "" : ("&shared_link_password=" + sharedLinkPassword))));
             IBoxResponse<BoxItem> response = await ToResponseAsync<BoxItem>(request).ConfigureAwait(false);
             return response.ResponseObject;
         }
