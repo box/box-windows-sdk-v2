@@ -109,7 +109,7 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
             response.ResponseObject.Success = response.Status == ResponseStatus.Success;
-            
+
             return response.ResponseObject;
         }
 
@@ -123,7 +123,7 @@ namespace Box.V2.Managers
         {
             if (preflightCheckRequest.Size <= 0)
                 throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
-            
+
             BoxRequest request = new BoxRequest(new Uri(string.Format(Constants.FilesPreflightCheckNewVersionString, fileId)))
                 .Method(RequestMethod.Options);
 
@@ -148,8 +148,8 @@ namespace Box.V2.Managers
         /// <param name="setStreamPositionToZero"></param>
         /// <param name="uploadUri"></param>
         /// <returns></returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, 
-                                                TimeSpan? timeout = null, byte[] contentMD5 = null, 
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null,
+                                                TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                 bool setStreamPositionToZero = true,
                                                 Uri uploadUri = null)
         {
@@ -297,7 +297,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the file</param>
         /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
         /// <returns>True - if file is deleted</returns>
-        public async Task<bool> DeleteAsync(string id, string etag=null)
+        public async Task<bool> DeleteAsync(string id, string etag = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -323,7 +323,7 @@ namespace Box.V2.Managers
         /// Errors can be thrown if the destination folder is invalid or if a file-name collision occurs. </returns>
         public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null)
         {
-            
+
             fileRequest.Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
             fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
@@ -367,7 +367,7 @@ namespace Box.V2.Managers
         public async Task<BoxFile> DeleteSharedLinkAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            
+
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Payload(_converter.Serialize(new BoxDeleteSharedLinkRequest()));
@@ -463,7 +463,7 @@ namespace Box.V2.Managers
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
-        {  
+        {
             IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
 
             BoxFilePreview filePreview = new BoxFilePreview();
@@ -472,10 +472,10 @@ namespace Box.V2.Managers
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                filePreview.PreviewStream = response.ResponseObject ;
+                filePreview.PreviewStream = response.ResponseObject;
                 filePreview.TotalPages = response.BuildPagesCount();
             }
-           
+
             return filePreview;
         }
 
@@ -486,10 +486,10 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.PreviewPathString, id))
                 .Param("page", page.ToString())
                 .Param("max_width", maxWidth.ToString())
-				.Param("max_height", maxHeight.ToString())
-				.Param("min_width", minWidth.ToString())
-				.Param("min_height", minHeight.ToString());
-            
+                .Param("max_height", maxHeight.ToString())
+                .Param("min_width", minWidth.ToString())
+                .Param("min_height", minHeight.ToString());
+
             var response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
@@ -643,6 +643,53 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxTask>> response = await ToResponseAsync<BoxCollection<BoxTask>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Discards a specific file version to the trash.
+        /// </summary>
+        /// <param name="id">Id of the file (Required).</param>
+        /// <param name="versionId">Id of the version (Required).</param>
+        /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
+        /// <returns>True, if version is deleted..</returns>
+        public async Task<bool> DeleteOldVersionAsync(string id, string versionId, string etag = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            versionId.ThrowIfNullOrWhiteSpace("versionId");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.DeleteOldVersionPathString, id, versionId))
+                .Method(RequestMethod.Delete)
+                .Header("If-Match", etag);
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
+        /// If there are previous versions of this file, this method can be used to promote one of the older versions to the top of the stack. 
+        /// This actually mints a copy of the old version and puts it on the top of the versions stack. 
+        /// The file will have the exact same contents, the same SHA1/etag, and the same name as the original. 
+        /// Other properties such as comments do not get updated to their former values.
+        /// </summary>
+        /// <param name="id">Id of the file (Required).</param>
+        /// <param name="versionId">Id of the version (Required).</param>
+        /// <returns>The newly promoted file_version object is returned</returns>
+        public async Task<BoxFileVersion> PromoteVersionAsync(string id, string versionId)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            versionId.ThrowIfNullOrWhiteSpace("versionId");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.PromoteVersionPathString, id))
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(new BoxPromoteVersionRequest()
+                    {
+                        Id = versionId
+                    }));
+
+            IBoxResponse<BoxFileVersion> response = await ToResponseAsync<BoxFileVersion>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
