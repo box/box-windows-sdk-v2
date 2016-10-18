@@ -661,7 +661,7 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.DeleteOldVersionPathString, id, versionId))
                 .Method(RequestMethod.Delete)
-                .Header("If-Match", etag);
+                .Header(Constants.RequestParameters.IfMatch, etag);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 

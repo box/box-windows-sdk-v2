@@ -138,6 +138,8 @@ namespace Box.V2.Config
 
             public const string Status = "status";
             public const string Pending = "pending";
+
+            public const string IfMatch = "If-Match";
         }
 
         public static class ErrorCodes
