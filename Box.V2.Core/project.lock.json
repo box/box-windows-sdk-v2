@@ -183,20 +183,47 @@
           "lib/netstandard1.0/Newtonsoft.Json.dll": {}
         }
       },
-      "Nito.AsyncEx.Core/1.0.0-rc2-001": {
+      "Nito.AsyncEx.Coordination/1.0.1": {
         "type": "package",
         "dependencies": {
-          "NETStandard.Library": "1.5.0-rc2-24027",
-          "System.ComponentModel.EventBasedAsync": "4.0.11-beta-23516",
-          "System.Linq.Expressions": "4.0.11-rc2-24027",
-          "System.Threading.Thread": "4.0.0-rc2-24027",
-          "System.Threading.ThreadPool": "4.0.10-rc2-24027"
+          "Nito.AsyncEx.Tasks": "1.0.0",
+          "Nito.Collections.Deque": "1.0.0",
+          "System.Runtime": "4.1.0",
+          "System.Threading": "4.0.11",
+          "System.Threading.Tasks": "4.0.11"
         },
         "compile": {
-          "lib/netstandard1.5/Nito.AsyncEx.dll": {}
+          "lib/netstandard1.3/Nito.AsyncEx.Coordination.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.5/Nito.AsyncEx.dll": {}
+          "lib/netstandard1.3/Nito.AsyncEx.Coordination.dll": {}
+        }
+      },
+      "Nito.AsyncEx.Tasks/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Threading": "4.0.11",
+          "System.Threading.Tasks": "4.0.11"
+        },
+        "compile": {
+          "lib/netstandard1.3/Nito.AsyncEx.Tasks.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Nito.AsyncEx.Tasks.dll": {}
+        }
+      },
+      "Nito.Collections.Deque/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.Runtime": "4.1.0"
+        },
+        "compile": {
+          "lib/netstandard1.0/Nito.Collections.Deque.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Nito.Collections.Deque.dll": {}
         }
       },
       "Portable.BouncyCastle/1.8.1": {
@@ -318,21 +345,6 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Collections.Concurrent.dll": {}
-        }
-      },
-      "System.ComponentModel.EventBasedAsync/4.0.11-beta-23516": {
-        "type": "package",
-        "dependencies": {
-          "System.Resources.ResourceManager": "4.0.0",
-          "System.Runtime": "4.0.20",
-          "System.Threading": "4.0.10",
-          "System.Threading.Tasks": "4.0.10"
-        },
-        "compile": {
-          "ref/dotnet5.4/System.ComponentModel.EventBasedAsync.dll": {}
-        },
-        "runtime": {
-          "lib/dotnet5.4/System.ComponentModel.EventBasedAsync.dll": {}
         }
       },
       "System.Console/4.0.0": {
@@ -1058,31 +1070,6 @@
           "lib/netstandard1.0/System.Threading.Tasks.Extensions.dll": {}
         }
       },
-      "System.Threading.Thread/4.0.0-rc2-24027": {
-        "type": "package",
-        "dependencies": {
-          "System.Runtime": "4.1.0-rc2-24027"
-        },
-        "compile": {
-          "ref/netstandard1.3/System.Threading.Thread.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Threading.Thread.dll": {}
-        }
-      },
-      "System.Threading.ThreadPool/4.0.10-rc2-24027": {
-        "type": "package",
-        "dependencies": {
-          "System.Runtime": "4.1.0-rc2-24027",
-          "System.Runtime.Handles": "4.0.1-rc2-24027"
-        },
-        "compile": {
-          "ref/netstandard1.3/System.Threading.ThreadPool.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Threading.ThreadPool.dll": {}
-        }
-      },
       "System.Threading.Timer/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -1326,15 +1313,43 @@
         "tools/install.ps1"
       ]
     },
-    "Nito.AsyncEx.Core/1.0.0-rc2-001": {
-      "sha512": "DDNu0CS7n1NsmHiP4DU9+PLLcovpESGkN0DRh1U28qlG4Ip2eq1zaQMHrSYKrOAtNCJQ6iW/P9gaeH44ut9LOw==",
+    "Nito.AsyncEx.Coordination/1.0.1": {
+      "sha512": "IjHRHKdmyDvoT/lGa607QrIQftZjPg5RhL11DzRANmRzRN7os2nwExniDz/MpGqwDDyjnOf4HHL+FTJ1lItHSg==",
       "type": "package",
-      "path": "Nito.AsyncEx.Core/1.0.0-rc2-001",
+      "path": "Nito.AsyncEx.Coordination/1.0.1",
       "files": [
-        "Nito.AsyncEx.Core.1.0.0-rc2-001.nupkg.sha512",
-        "Nito.AsyncEx.Core.nuspec",
-        "lib/net451/Nito.AsyncEx.dll",
-        "lib/netstandard1.5/Nito.AsyncEx.dll"
+        "Nito.AsyncEx.Coordination.1.0.1.nupkg.sha512",
+        "Nito.AsyncEx.Coordination.nuspec",
+        "lib/net46/Nito.AsyncEx.Coordination.dll",
+        "lib/net46/Nito.AsyncEx.Coordination.xml",
+        "lib/netstandard1.3/Nito.AsyncEx.Coordination.dll",
+        "lib/netstandard1.3/Nito.AsyncEx.Coordination.xml"
+      ]
+    },
+    "Nito.AsyncEx.Tasks/1.0.0": {
+      "sha512": "W0WFBiRIdZGld0Ew0WzUrt/rj8KoaZdkkt5XzNnVlrL2p1L+XgIg6GM9FtzpBoyr2oKij3CwSaJdAGQeaAR34Q==",
+      "type": "package",
+      "path": "Nito.AsyncEx.Tasks/1.0.0",
+      "files": [
+        "Nito.AsyncEx.Tasks.1.0.0.nupkg.sha512",
+        "Nito.AsyncEx.Tasks.nuspec",
+        "lib/net46/Nito.AsyncEx.Tasks.dll",
+        "lib/net46/Nito.AsyncEx.Tasks.xml",
+        "lib/netstandard1.3/Nito.AsyncEx.Tasks.dll",
+        "lib/netstandard1.3/Nito.AsyncEx.Tasks.xml"
+      ]
+    },
+    "Nito.Collections.Deque/1.0.0": {
+      "sha512": "2ny5gBj0foXRqxQMlHBFhhc2tSzHQmcLEa8zh7XD6xI0D31KTLae3ivjikjzUkHS+sAP6rHjWmNu5a+79Dln4w==",
+      "type": "package",
+      "path": "Nito.Collections.Deque/1.0.0",
+      "files": [
+        "Nito.Collections.Deque.1.0.0.nupkg.sha512",
+        "Nito.Collections.Deque.nuspec",
+        "lib/netstandard1.0/Nito.Collections.Deque.dll",
+        "lib/netstandard1.0/Nito.Collections.Deque.xml",
+        "lib/portable45-net45+win8+wp8+wpa81/Nito.Collections.Deque.dll",
+        "lib/portable45-net45+win8+wp8+wpa81/Nito.Collections.Deque.xml"
       ]
     },
     "Portable.BouncyCastle/1.8.1": {
@@ -1615,66 +1630,6 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
-      ]
-    },
-    "System.ComponentModel.EventBasedAsync/4.0.11-beta-23516": {
-      "sha512": "Kzq1npy0fgUG5YE/pFoqhga1XleXZtj16qZnzNCa7z9lhS8IByfDGT1xH5jJ8ndyBiF4Dv9GE1P8gs4mLOHjgw==",
-      "type": "package",
-      "path": "System.ComponentModel.EventBasedAsync/4.0.11-beta-23516",
-      "files": [
-        "System.ComponentModel.EventBasedAsync.4.0.11-beta-23516.nupkg.sha512",
-        "System.ComponentModel.EventBasedAsync.nuspec",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/dotnet5.4/System.ComponentModel.EventBasedAsync.dll",
-        "lib/net45/_._",
-        "lib/netcore50/System.ComponentModel.EventBasedAsync.dll",
-        "lib/win8/_._",
-        "lib/wp80/_._",
-        "lib/wpa81/_._",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/dotnet5.1/System.ComponentModel.EventBasedAsync.dll",
-        "ref/dotnet5.1/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.1/de/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.1/es/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.1/fr/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.1/it/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.1/ja/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.1/ko/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.1/ru/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.1/zh-hans/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.1/zh-hant/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/System.ComponentModel.EventBasedAsync.dll",
-        "ref/dotnet5.4/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/de/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/es/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/fr/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/it/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/ja/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/ko/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/ru/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/zh-hans/System.ComponentModel.EventBasedAsync.xml",
-        "ref/dotnet5.4/zh-hant/System.ComponentModel.EventBasedAsync.xml",
-        "ref/net45/_._",
-        "ref/netcore50/System.ComponentModel.EventBasedAsync.dll",
-        "ref/netcore50/System.ComponentModel.EventBasedAsync.xml",
-        "ref/netcore50/de/System.ComponentModel.EventBasedAsync.xml",
-        "ref/netcore50/es/System.ComponentModel.EventBasedAsync.xml",
-        "ref/netcore50/fr/System.ComponentModel.EventBasedAsync.xml",
-        "ref/netcore50/it/System.ComponentModel.EventBasedAsync.xml",
-        "ref/netcore50/ja/System.ComponentModel.EventBasedAsync.xml",
-        "ref/netcore50/ko/System.ComponentModel.EventBasedAsync.xml",
-        "ref/netcore50/ru/System.ComponentModel.EventBasedAsync.xml",
-        "ref/netcore50/zh-hans/System.ComponentModel.EventBasedAsync.xml",
-        "ref/netcore50/zh-hant/System.ComponentModel.EventBasedAsync.xml",
-        "ref/win8/_._",
-        "ref/wp80/_._",
-        "ref/wpa81/_._",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._"
       ]
     },
     "System.Console/4.0.0": {
@@ -4275,82 +4230,6 @@
         "lib/portable-net45+win8+wp8+wpa81/System.Threading.Tasks.Extensions.xml"
       ]
     },
-    "System.Threading.Thread/4.0.0-rc2-24027": {
-      "sha512": "pb71GbyEOz4LIVFjssvJ+xXRXA7dye0TuRfW/H9ocfyHensQCWZIeo89Z4rEqbK+3/mE3avAsCpBYenwop0hQA==",
-      "type": "package",
-      "path": "System.Threading.Thread/4.0.0-rc2-24027",
-      "files": [
-        "System.Threading.Thread.4.0.0-rc2-24027.nupkg.sha512",
-        "System.Threading.Thread.nuspec",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/System.Threading.Thread.dll",
-        "lib/netcore50/_._",
-        "lib/netstandard1.3/System.Threading.Thread.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net46/System.Threading.Thread.dll",
-        "ref/netstandard1.3/System.Threading.Thread.dll",
-        "ref/netstandard1.3/System.Threading.Thread.xml",
-        "ref/netstandard1.3/de/System.Threading.Thread.xml",
-        "ref/netstandard1.3/es/System.Threading.Thread.xml",
-        "ref/netstandard1.3/fr/System.Threading.Thread.xml",
-        "ref/netstandard1.3/it/System.Threading.Thread.xml",
-        "ref/netstandard1.3/ja/System.Threading.Thread.xml",
-        "ref/netstandard1.3/ko/System.Threading.Thread.xml",
-        "ref/netstandard1.3/ru/System.Threading.Thread.xml",
-        "ref/netstandard1.3/zh-hans/System.Threading.Thread.xml",
-        "ref/netstandard1.3/zh-hant/System.Threading.Thread.xml",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._"
-      ]
-    },
-    "System.Threading.ThreadPool/4.0.10-rc2-24027": {
-      "sha512": "MyuiERgONOnLCD45PQ1rTHYEv6R/2RL1/LxmqJh5/MXYBeh7o8B3VrXlMuxpTZwKg4pbQbLe5uWIueoPwyq8IA==",
-      "type": "package",
-      "path": "System.Threading.ThreadPool/4.0.10-rc2-24027",
-      "files": [
-        "System.Threading.ThreadPool.4.0.10-rc2-24027.nupkg.sha512",
-        "System.Threading.ThreadPool.nuspec",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/System.Threading.ThreadPool.dll",
-        "lib/netcore50/_._",
-        "lib/netstandard1.3/System.Threading.ThreadPool.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net46/System.Threading.ThreadPool.dll",
-        "ref/netstandard1.3/System.Threading.ThreadPool.dll",
-        "ref/netstandard1.3/System.Threading.ThreadPool.xml",
-        "ref/netstandard1.3/de/System.Threading.ThreadPool.xml",
-        "ref/netstandard1.3/es/System.Threading.ThreadPool.xml",
-        "ref/netstandard1.3/fr/System.Threading.ThreadPool.xml",
-        "ref/netstandard1.3/it/System.Threading.ThreadPool.xml",
-        "ref/netstandard1.3/ja/System.Threading.ThreadPool.xml",
-        "ref/netstandard1.3/ko/System.Threading.ThreadPool.xml",
-        "ref/netstandard1.3/ru/System.Threading.ThreadPool.xml",
-        "ref/netstandard1.3/zh-hans/System.Threading.ThreadPool.xml",
-        "ref/netstandard1.3/zh-hant/System.Threading.ThreadPool.xml",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._"
-      ]
-    },
     "System.Threading.Timer/4.0.1": {
       "sha512": "saGfUV8uqVW6LeURiqxcGhZ24PzuRNaUBtbhVeuUAvky1naH395A/1nY0P2bWvrw/BreRtIB/EzTDkGBpqCwEw==",
       "type": "package",
@@ -4545,7 +4424,7 @@
     "": [
       "NETStandard.Library >= 1.6.0",
       "Newtonsoft.Json >= 9.0.1",
-      "Nito.AsyncEx.Core >= 1.0.0-rc2-001",
+      "Nito.AsyncEx.Coordination >= 1.0.1",
       "Portable.BouncyCastle >= 1.8.1",
       "System.IdentityModel.Tokens.Jwt >= 5.0.0",
       "System.Security.Cryptography.Algorithms >= 4.2.0"
