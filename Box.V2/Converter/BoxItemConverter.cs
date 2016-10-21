@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if !NET40
+using System.Reflection;
+#endif
 
 namespace Box.V2.Converter
 {
@@ -104,7 +107,11 @@ namespace Box.V2.Converter
 
         public override bool CanConvert(Type objectType)
         {
+#if NET40
             return typeof(T).IsAssignableFrom(objectType);
+#else
+            return typeof(T).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo());
+#endif
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

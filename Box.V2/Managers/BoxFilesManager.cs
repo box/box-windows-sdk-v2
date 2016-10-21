@@ -431,7 +431,11 @@ namespace Box.V2.Managers
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
             {
+#if NET40
                 await TaskEx.Delay(GetTimeDelay(response.Headers));
+#else
+                await Task.Delay(GetTimeDelay(response.Headers));
+#endif
                 response = await ToResponseAsync<Stream>(request, throttle).ConfigureAwait(false);
             }
 
@@ -502,7 +506,11 @@ namespace Box.V2.Managers
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
             {
+#if NET40
                 await TaskEx.Delay(GetTimeDelay(response.Headers));
+#else
+                await Task.Delay(GetTimeDelay(response.Headers));
+#endif
                 response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
             }
 
