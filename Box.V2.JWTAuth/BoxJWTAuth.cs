@@ -18,7 +18,7 @@ using System.Security.Cryptography;
 namespace Box.V2.JWTAuth
 {
     ///<summary>
-    /// Box’s new authentication model allows applications to authenticate directly to Box using a JSON Web Token (JWT) signed with an RSA key. This authentication method is meant for server-to-server applications and replaces the first leg of the standard 3-legged OAuth 2.0 process in which users grant an application authorization to access the their Box account
+    /// Box’s new authentication model allows applications to authenticate directly to Box using a JSON Web Token (JWT) signed with an RSA key. This authentication method is meant for server-to-server applications and replaces the first leg of the standard 3-legged OAuth 2.0 process in which users grant an application authorization to access their Box account.
     ///</summary>
     ///<remarks>
     ///https://docs.box.com/docs/getting-started-box-platform
@@ -35,7 +35,7 @@ namespace Box.V2.JWTAuth
         private readonly IBoxConfig boxConfig;
         private readonly SigningCredentials credentials;
         /// <summary>
-        /// Constructor for JWT authetication
+        /// Constructor for JWT authentication
         /// </summary>
         /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
         public BoxJWTAuth(IBoxConfig boxConfig)
@@ -53,7 +53,7 @@ namespace Box.V2.JWTAuth
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
         }
         /// <summary>
-        /// Create admin BoxClient by admin access token
+        /// Create admin BoxClient using an admin access token
         /// </summary>
         /// <param name="adminToken">Admin access token</param>
         /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
@@ -68,7 +68,7 @@ namespace Box.V2.JWTAuth
             return adminClient;
         }
         /// <summary>
-        /// Create user BoxClient by user access token
+        /// Create user BoxClient using a user access token
         /// </summary>
         /// <param name="userToken">User access token</param>
         /// <param name="userId">Id of the user</param>
@@ -105,7 +105,7 @@ namespace Box.V2.JWTAuth
         /// <summary>
         /// Create OAuth session from token
         /// </summary>
-        /// <param name="token">Access token creating by method UserToken, or AdminToken</param>
+        /// <param name="token">Access token created by method UserToken, or AdminToken</param>
         /// <returns>OAuth session</returns>
         public OAuthSession Session(string token)
         {
