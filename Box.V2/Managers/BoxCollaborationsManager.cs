@@ -96,7 +96,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// /// Used to get information about a single collaboration. A complete list of the user’s pending collaborations can also be retrieved.
+        /// Used to get information about a single collaboration. A complete list of the user’s pending collaborations can also be retrieved.
         /// <see cref="https://docs.box.com/reference#page-get-pending-collaborations"/>
         /// </summary>
         /// <param name="id">Id of the collaboration object</param>
@@ -114,7 +114,7 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
         /// <summary>
-        /// Used to retrieve all pending collaboration invites for this user.
+        /// Used to retrieve all pending collaboration invites for this user (with user being determined by access token or As-User header value).
         /// </summary>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A collection of pending collaboration objects are returned. If the user has no pending collaborations, the collection will be empty.</returns>

@@ -84,13 +84,12 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// Retrieves the full metadata about a folder, including information about when it was last updated 
-        /// as well as the files and folders contained in it. The root folder of a Box account is always 
-        /// represented by the id “0″.
+        /// as well as the files and folders contained in it. To retrieve information about the root folder of a Box account use the id “0″.
         /// </summary>
         /// <param name="id">The folder id</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A full folder object is returned, including the most current information available about it. 
-        /// An 404 error is thrown if the folder does not exist or a 4xx if the user does not have access to it.</returns>
+        /// An exception is thrown if the folder does not exist or if the user does not have access to it.</returns>
         public async Task<BoxFolder> GetInformationAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -299,7 +298,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Permanently deletes an item that is in the trash. The item will no longer exist in Box. This action cannot be undone.
+        /// Permanently deletes a folder that is in the trash. The folder will no longer exist in Box. This action cannot be undone.
         /// </summary>
         /// <param name="id">Id of the folder</param>
         /// <returns>True will be returned upon successful deletion</returns>
@@ -321,7 +320,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">Id of the Folder</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
-        /// <returns>The full folder will be returned, including information about when the it was moved to the trash</returns>
+        /// <returns>The full folder will be returned, including information about when it was moved to the trash</returns>
         public async Task<BoxFolder> GetTrashedFolderAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");

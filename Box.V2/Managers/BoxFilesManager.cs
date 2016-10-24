@@ -25,9 +25,9 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
-        /// Retrieves metadata about file.
+        /// Retrieves information about a file.
         /// </summary>
-        /// <param name="id">Id of file information to retrieve.</param>
+        /// <param name="id">Id of file</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
         public async Task<BoxFile> GetInformationAsync(string id, List<string> fields = null)
@@ -51,11 +51,11 @@ namespace Box.V2.Managers
         /// <returns>MemoryStream of the requested file</returns>
         public async Task<Stream> DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null)
         {
-            var uri = await GetDownloadUriAsync(id, versionId);
-            BoxRequest request = new BoxRequest(uri)
-            {
-                Timeout = timeout
-            };
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id)) { Timeout = timeout }
+                .Param("version", versionId);
+
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
             return response.ResponseObject;
         }
@@ -80,7 +80,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// The Pre-flight check API will verify that a file will be accepted by Box before you send all the bytes over the wire. It can be used for both first-time uploads, and uploading new versions of an existing file.
+        /// Verify that a file will be accepted by Box before you send all the bytes over the wire.
         /// </summary>
         /// <remarks>
         /// Preflight checks verify all permissions as if the file was actually uploaded including:
@@ -93,7 +93,7 @@ namespace Box.V2.Managers
         /// <param name="preflightCheckRequest">Fill required inputs: Name - The name of the file to be uploaded, Parent.Id - The ID of the parent folder.,
         /// Size - The size of the file in bytes. Specify 0 for unknown file-sizes
         /// </param>
-        /// <returns>If true is returned if the upload would be successful. An error is thrown when any of the preflight conditions are not met.</returns>
+        /// <returns>Returns a BoxPreflightCheck object if successful, otherwise an error is thrown when any of the preflight conditions are not met.</returns>
         public async Task<BoxPreflightCheck> PreflightCheck(BoxPreflightCheckRequest preflightCheckRequest)
         {
             preflightCheckRequest.ThrowIfNull("preflightCheckRequest")
@@ -131,6 +131,7 @@ namespace Box.V2.Managers
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
             IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
+            response.ResponseObject.Success = response.Status == ResponseStatus.Success;
 
             return response.ResponseObject;
         }
@@ -189,12 +190,13 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// This method is used to upload a new version of an existing file in a user’s account. Similar to regular file uploads, 
-        /// these are performed as multipart form uploads An optional If-Match header can be included to ensure that client only 
+        /// these are performed as multipart form uploads. An optional If-Match header can be included to ensure that client only 
         /// overwrites the file if it knows about the latest version. The filename on Box will remain the same as the previous version.
-        /// A proper timeout should be provided for large uploads
+        /// To update the file’s name, you can specify a new name for the file using the fileName parameter.
+        /// A proper timeout should be provided for large uploads.
         /// </summary>
         /// <param name="fileName">Name of the file</param>
-        /// <param name="fileId">Id of the updated file</param>
+        /// <param name="fileId">Id of the file to upload a new version to</param>
         /// <param name="stream">Stream of uploading file</param>
         /// <param name="etag">Etag field of the file object</param>
         /// <param name="fields">Fields which shall be returned in result</param>
@@ -209,8 +211,9 @@ namespace Box.V2.Managers
                                                          bool setStreamPositionToZero = true,
                                                          Uri uploadUri = null)
         {
-            stream.ThrowIfNull("stream");
             fileName.ThrowIfNullOrWhiteSpace("fileName");
+            fileId.ThrowIfNullOrWhiteSpace("fileId");
+            stream.ThrowIfNull("stream");
 
             if (setStreamPositionToZero)
                 stream.Position = 0;
@@ -292,11 +295,11 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// Discards a file to the trash. The etag of the file can be included as an ‘If-Match’ header to prevent race conditions.
-        /// <remarks>Depending on the enterprise settings for this user, the item will either be actually deleted from Box or moved to the trash.</remarks>
+        /// <remarks>Depending on the enterprise settings for this user, the item will either be immediately and permanently deleted from Box or moved to the trash.</remarks>
         /// </summary>
         /// <param name="id">Id of the file</param>
         /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
-        /// <returns>True - if file is deleted</returns>
+        /// <returns>True if file is deleted, false otherwise.</returns>
         public async Task<bool> DeleteAsync(string id, string etag=null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -316,14 +319,14 @@ namespace Box.V2.Managers
         /// <param name="fileRequest">
         /// fileRequest.Id - The ID of source file
         /// fileRequest.Name - An optional new name for the file. Default value is null,
-        /// fileRequest.Parent.Id - The ID of destianation folder,
+        /// fileRequest.Parent.Id - The ID of destination folder,
         /// </param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A full file object is returned if the ID is valid and if the update is successful. 
         /// Errors can be thrown if the destination folder is invalid or if a file-name collision occurs. </returns>
         public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null)
         {
-            
+            fileRequest.ThrowIfNull("fileRequest");
             fileRequest.Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
             fileRequest.Parent.ThrowIfNull("fileRequest.Parent")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
@@ -517,6 +520,7 @@ namespace Box.V2.Managers
         /// Retrieves an item that has been moved to the trash.
         /// </summary>
         /// <param name="id">Id of the file</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>The full item will be returned, including information about when the it was moved to the trash.</returns>
         public async Task<BoxFile> GetTrashedAsync(string id, List<string> fields = null)
         {
@@ -558,7 +562,7 @@ namespace Box.V2.Managers
         /// Permanently deletes an item that is in the trash. The item will no longer exist in Box. This action cannot be undone.
         /// </summary>
         /// <param name="id">Id of the file</param>
-        /// <returns>An empty 204 No Content response will be returned upon successful deletion</returns>
+        /// <returns>Returns true upon successful deletion, false otherwise.</returns>
         public async Task<bool> PurgeTrashedAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -572,7 +576,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Gets a lock file object representation of the provided file Id
+        /// Gets a lock file object representation of the lock on the provided file Id (if a lock exists, otherwise returns null)
         /// </summary>
         /// <param name="id">Id of file information to retrieve</param>
         /// <returns></returns>
@@ -589,7 +593,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// To lock and unlock files, set or clear the lock properties on the file.
+        /// Used to update the lock information on the file (for example, ExpiresAt or IsDownloadPrevented.
         /// </summary>
         /// <param name="lockFileRequest">Request contains Lock object for setting of lock properties such as ExpiresAt - the time the lock expires, IsDownloadPrevented - whether or not the file can be downloaded while locked. </param>
         /// <param name="id">Id of the file</param>
@@ -597,18 +601,28 @@ namespace Box.V2.Managers
         public async Task<BoxFileLock> UpdateLockAsync(BoxFileLockRequest lockFileRequest, string id)
         {
             lockFileRequest.ThrowIfNull("lockFileRequest");
-            lockFileRequest.Lock.ThrowIfNull("lockFileRequest.Lock");
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
-                .Param(ParamFields, "lock");
+                .Param(ParamFields, BoxFile.FieldLock);
 
             request.Payload = _converter.Serialize(lockFileRequest);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             return response.ResponseObject.Lock;
+        }
+
+        /// <summary>
+        /// Used to create a lock on the file.
+        /// </summary>
+        /// <param name="lockFileRequest">Request contains Lock object for setting of lock properties such as ExpiresAt - the time the lock expires, IsDownloadPrevented - whether or not the file can be downloaded while locked. </param>
+        /// <param name="id">Id of the file</param>
+        /// <returns>Returns information about locked file</returns>
+        public async Task<BoxFileLock> LockAsync(BoxFileLockRequest lockFileRequest, string id)
+        {
+            return await UpdateLockAsync(lockFileRequest, id);
         }
 
         /// <summary>
