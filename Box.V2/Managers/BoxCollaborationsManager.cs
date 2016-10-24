@@ -58,11 +58,17 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to edit an existing collaboration. Descriptions of the various roles can be found 
-        /// <see cref="https://support.box.com/entries/20366031-what-are-the-different-collaboration-permissions-and-what-access-do-they-provide"/>
+        /// Used to edit an existing collaboration. Descriptions of the various roles can be found here
         /// </summary>
-        /// <param name="collaborationRequest"></param>
-        /// <returns></returns>
+        /// <param name="collaborationRequest">
+        /// collaborationRequest.Id (Required) - Id of the collaboration object
+        /// collaborationRequest.Role (Required) - The access level of this collaboration
+        /// collaborationRequest.Status - Whether this collaboration has been accepted
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>The updated collaboration object is returned. If the role is changed to owner, the collaboration is deleted with a new one created for the previous owner and a 204 is returned.
+        /// Errors may occur if the IDs are invalid or if the user does not have permissions to edit the collaboration.
+        /// </returns>
         public async Task<BoxCollaboration> EditCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null)
         {
             collaborationRequest.ThrowIfNull("collaborationRequest")
