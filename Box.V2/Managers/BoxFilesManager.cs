@@ -335,6 +335,7 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Post)
                 .Param(ParamFields, fields);
 
+            fileRequest.Id = null; //file Id was used as a query parameter in this case
             request.Payload(_converter.Serialize(fileRequest));
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
