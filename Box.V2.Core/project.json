@@ -10,8 +10,7 @@
     "System.Security.Cryptography.Algorithms": "4.2.0"
   },
   "frameworks": {
-    // Needs at least 1.3 to support System.HTTP, Task.Delay, IsAssignableFrom
-    // Nito
+    // Needs at least 1.3 to support System.HTTP, Task.Delay, IsAssignableFrom, Nito
     "netstandard1.3": {
       "imports": "dnxcore50"
     }
@@ -19,7 +18,7 @@
   "buildOptions": {
     "xmlDoc": false,
     "compile": [
-      "../Box.V2/BoxClient.cs",
+      "../Box.V2/BoxClient.cs", // source files are referencing directly from Box.V2
       "../Box.V2/Auth/AuthRepository.cs",
       "../Box.V2/Auth/EventArgs/SessionAuthenticatedEventArgs.cs",
       "../Box.V2/Converter/BoxItemConverter.cs",
