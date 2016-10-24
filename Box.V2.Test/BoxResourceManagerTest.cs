@@ -26,8 +26,9 @@ namespace Box.V2.Test
         protected AuthRepository _authRepository;
 
         protected Uri _baseUri = new Uri(Constants.BoxApiUriString);
-        protected Uri _FoldersUri = new Uri(Constants.FoldersEndpointString);
         protected Uri _FilesUri = new Uri(Constants.FilesEndpointString);
+        protected Uri _FoldersUri = new Uri(Constants.FoldersEndpointString);
+        
         protected Uri _usersUri = new Uri(Constants.UserEndpointString);
 
         public BoxResourceManagerTest()

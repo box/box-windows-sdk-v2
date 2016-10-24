@@ -274,8 +274,21 @@ namespace Box.V2.Managers
         /// and creating a shared link for the file. To move a file, change the ID of its parent folder. An optional etag
         /// can be included to ensure that client only updates the file if it knows about the latest version.
         /// </summary>
-        /// <param name="fileRequest"></param>
-        /// <returns></returns>
+        /// <param name="fileRequest">Specifies file update data which contains:
+        /// fileRequest.Id - Id of the file.
+        /// fileRequest.Name - The new name for the file.
+        /// fileRequest.Description - The new description for the file.
+        /// fileRequest.Parent.Id -  The ID of the parent folder.
+        /// filerequest.SharedLink.Access - The level of access required for this shared link. Can be open, company, collaborators.
+        /// filerequest.SharedLink.UnsharedAt -  The day that this link should be disabled at. Timestamps are rounded off to the given day.
+        /// filerequest.SharedLink.Permissions.Download - Whether this link allows downloads.
+        /// filerequest.SharedLink.Permissions.Preview - Whether this link allows previews.
+        /// fileRequest.Tags - All tags attached to this file. To add/remove a tag to/from a file, you can first get the file’s current tags (be sure to specify ?fields=tags, since the tags field is not returned by default); then modify the list as required; and finally, set the file’s entire list of tags.
+        /// </param>
+        /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
+        /// <param name="fields">Fields which shall be returned in result.</param>
+        /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
+
         public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, List<string> fields = null)
         {
             fileRequest.ThrowIfNull("fileRequest")
@@ -285,6 +298,9 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Put)
                 .Header("If-Match", etag)
                 .Param(ParamFields, fields);
+
+            // Id shall not be send in request body, used only to fill url.
+            fileRequest.Id = null;
 
             request.Payload = _converter.Serialize(fileRequest);
 
