@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.Models;
 using Box.V2.Auth;
+using System.Diagnostics;
 
 namespace Box.V2.Core.Sample
 {
@@ -23,21 +24,19 @@ namespace Box.V2.Core.Sample
 
         private async Task ExecuteMainAsync()
         {
-            var accessToken = "";
             Console.WriteLine("Access token: ");
-            accessToken = Console.ReadLine();
+            var accessToken = Console.ReadLine();
 
             Console.WriteLine("Remote file name: ");
-            var fileName = "";
-            fileName = Console.ReadLine();
+            var fileName = Console.ReadLine();
 
             Console.WriteLine("Local file path: ");
-            var localFilePath = "";
-            localFilePath = Console.ReadLine();
+            var localFilePath = Console.ReadLine();
 
             Console.WriteLine("Parent folder Id: ");
-            var parentFolderId = "";
-            parentFolderId = Console.ReadLine();
+            var parentFolderId = Console.ReadLine();
+
+            var timer = Stopwatch.StartNew();
 
             var auth = new OAuthSession(accessToken, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
@@ -53,8 +52,8 @@ namespace Box.V2.Core.Sample
 
             var bFile = await client.FilesManager.UploadAsync(fileRequest, file);
 
-            Console.WriteLine(localFilePath + " uploaded to folder: " + parentFolderId + " as file: " + bFile.Id);
-            Console.ReadLine();
+            Console.WriteLine("{0} uploaded to folder: {1} as file: {2}",localFilePath, parentFolderId, bFile.Id);
+            Console.WriteLine("Time spend : {0} ms", timer.ElapsedMilliseconds);
         }
     }
 }
