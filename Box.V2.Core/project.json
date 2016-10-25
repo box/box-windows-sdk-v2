@@ -11,14 +11,15 @@
   },
   "frameworks": {
     // Needs at least 1.3 to support System.HTTP, Task.Delay, IsAssignableFrom, Nito
-    "netstandard1.3": {
+    // Nedds at least 1.4 for JWTAuth
+    "netstandard1.4": {
       "imports": "dnxcore50"
     }
   },
   "buildOptions": {
     "xmlDoc": false,
     "compile": [
-      "../Box.V2/BoxClient.cs", // source files are referencing directly from Box.V2
+      "../Box.V2/BoxClient.cs",
       "../Box.V2/Auth/AuthRepository.cs",
       "../Box.V2/Auth/EventArgs/SessionAuthenticatedEventArgs.cs",
       "../Box.V2/Converter/BoxItemConverter.cs",
@@ -122,10 +123,11 @@
       "../Box.V2/Services/IBoxService.cs",
       "../Box.V2/Request/IRequestHandler.cs",
       "../Box.V2/Converter/IBoxConverter.cs",
-      "../Box.V2/Converter/BoxJsonConverter.cs"// ,
+      "../Box.V2/Converter/BoxJsonConverter.cs",
       // JWTAuth
-      // "../Box.V2.JWTAuth/BoxJWTAuth.cs",
-      // "../Box.V2.JWTAuth/JWTAuthRepository.cs"
+      "../Box.V2.JWTAuth/BoxJWTAuth.cs",
+      "../Box.V2.JWTAuth/JWTAuthRepository.cs"
+      // "DotNetUtilities.cs"
     ]
   }
 }
