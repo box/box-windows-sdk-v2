@@ -21,11 +21,7 @@ namespace Box.V2.JWTAuth
             parameters.DQ = ConvertRsaParametersField(rsaKey.DQ, parameters.Q.Length);
             parameters.InverseQ = ConvertRsaParametersField(rsaKey.QInv, parameters.Q.Length);
 
-            var cspParameters = new CspParameters
-                                {
-                                    KeyContainerName = String.Format("BouncyCastle-{0}", Guid.NewGuid())
-                                };
-            var cryptoServiceProvider = new RSACryptoServiceProvider(cspParameters);
+            var cryptoServiceProvider = RSA.Create();
             cryptoServiceProvider.ImportParameters(parameters);
             return cryptoServiceProvider;
         }
