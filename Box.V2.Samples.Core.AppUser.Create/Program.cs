@@ -2,10 +2,8 @@
 using Box.V2.JWTAuth;
 using Box.V2.Models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Box.V2.Samples.Core.AppUser.Create
@@ -33,8 +31,6 @@ namespace Box.V2.Samples.Core.AppUser.Create
             var adminToken = session.AdminToken();
             var client = session.AdminClient(adminToken);
 
-            // TODO disabled it since it will try to delete the admin as well
-            // await DeleteUsersAsync(client);
             var user = await CreateNewUser(client);
             Console.WriteLine("New app user created with Id = {0}", user.Id);
 
@@ -73,13 +69,6 @@ namespace Box.V2.Samples.Core.AppUser.Create
             return userClient.FoldersManager.CreateAsync(folderRequest);
         }
 
-        private static async Task DeleteUsersAsync(BoxClient client)
-        {
-            var users = await client.UsersManager.GetEnterpriseUsersAsync();
-            var deletions = users.Entries.Select(x => client.UsersManager.DeleteEnterpriseUserAsync(x.Id, false, true));
-            await Task.WhenAll(deletions);
-        }
-
         private static Task<BoxUser> CreateNewUser(BoxClient client)
         {
             var userRequest = new BoxUserRequest
@@ -93,21 +82,29 @@ namespace Box.V2.Samples.Core.AppUser.Create
         private static BoxConfig ConfigureBoxApi()
         {
             // can be obtained from Box developer portal at application info page
-            var clientId = "tksevv53giq7b79xpxgxi1m7yfa74c47";
-            var clientSecret = "fq8xeB4PIAALKsHNe47pxV2sppEjPg4A";
+
+            Console.WriteLine("Client Id: ");
+            var clientId = Console.ReadLine();
+
+            Console.WriteLine("Client secret: ");
+            var clientSecret = Console.ReadLine();
 
             // RSA private key
-            // Public key should be enabled for application
-            var privateKey = File.ReadAllText("private_key.pem");
+            Console.WriteLine("Private key file path: ");
+            var privateKeyPath = Console.ReadLine();
+            var privateKey = File.ReadAllText(privateKeyPath);
 
             // secret used to generate RSA keypair
-            var rsaSecret = "temp1234";
+            Console.WriteLine("Private key secret: ");
+            var rsaSecret = Console.ReadLine();
 
             // can be obtained from administration console
-            var enterpriseId = "753393";
+            Console.WriteLine("Enterprise Id: ");
+            var enterpriseId = Console.ReadLine();
 
             // can be obtained at application info page
-            var publicKeyId = "ewbt0nyl";
+            Console.WriteLine("Public key Id: ");
+            var publicKeyId = Console.ReadLine();
 
             return new BoxConfig(clientId, clientSecret, enterpriseId, privateKey, rsaSecret, publicKeyId);
         }
