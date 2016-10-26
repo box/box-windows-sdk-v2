@@ -40,6 +40,7 @@ namespace Box.V2.Test
             _config.SetupGet(x => x.CollaborationsEndpointUri).Returns(new Uri(Constants.CollaborationsEndpointString));
             _config.SetupGet(x => x.FoldersEndpointUri).Returns(_FoldersUri);
             _config.SetupGet(x => x.FilesEndpointUri).Returns(_FilesUri);
+            _config.SetupGet(x => x.FoldersEndpointUri).Returns(_FoldersUri);
             _config.SetupGet(x => x.UserEndpointUri).Returns(_usersUri);
 
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
@@ -66,6 +67,14 @@ namespace Box.V2.Test
                                System.Threading.Thread.CurrentThread.CurrentCulture);
             return inst;
         }
+        public static bool AreJsonStringsEqual(string sourceJsonString, string targetJsonString)
+        {
+            JObject sourceJObject = JsonConvert.DeserializeObject<JObject>(sourceJsonString);
+            JObject targetJObject = JsonConvert.DeserializeObject<JObject>(targetJsonString);
+
+            return JToken.DeepEquals(sourceJObject, targetJObject);
+        }
+
     }
 
 }

@@ -285,19 +285,29 @@ namespace Box.V2.Managers
         /// before it was moved to the trash. If that parent folder no longer exists or if there is now an item with the same 
         /// name in that parent folder, the new parent folder and/or new name will need to be included in the request.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="folderRequest">
+        /// folderRequest.Id - Id of the folder
+        /// folderRequest.Parent.Id - The id of the new parent folder
+        /// folderRequest.Name - The new name for this item
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>The full item will be returned if success. By default it is restored to the parent folder it was in before it was trashed.</returns>
         public async Task<BoxFolder> RestoreTrashedFolderAsync(BoxFolderRequest folderRequest, List<string> fields = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
-            folderRequest.Parent.ThrowIfNull("folderRequest.Parent")
-                .Id.ThrowIfNullOrWhiteSpace("folderRequest.Parent.Id");
-
+            
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
                     .Method(RequestMethod.Post)
-                    .Param(ParamFields, fields)
-                    .Payload(_converter.Serialize(folderRequest));
+                    .Param(ParamFields, fields);
 
+            // ID shall not be used in request body it is used only as url attribute
+            string oldId = folderRequest.Id;
+            folderRequest.Id = null;
+
+            request.Payload(_converter.Serialize(folderRequest));
+
+            folderRequest.Id = oldId;
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 

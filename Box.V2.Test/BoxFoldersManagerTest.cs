@@ -514,24 +514,34 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task RestoreTrashedFolder_ValidResponse_ValidFolder()
         {
+            IBoxRequest boxRequest = null;
+
             /*** Arrange ***/
             _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{ \"type\": \"folder\", \"id\": \"588970022\", \"sequence_id\": \"2\", \"etag\": \"2\", \"name\": \"heloo world\", \"created_at\": \"2013-01-15T16:15:27-08:00\", \"modified_at\": \"2013-02-07T13:26:00-08:00\", \"description\": \"\", \"size\": 0, \"path_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" } ] }, \"created_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-01-15T16:15:27-08:00\", \"content_modified_at\": \"2013-02-07T13:26:00-08:00\", \"owned_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"shared_link\": null, \"folder_upload_email\": null, \"parent\": { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, \"item_status\": \"active\" }"
-                }));
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r); ;
 
             /*** Act ***/
             BoxFolderRequest folderReq = new BoxFolderRequest()
             {
                 Id = "fakeId",
+                Name = "fakeName",
                 Parent = new BoxRequestEntity() { Id = "fakeId" }
             };
 
-            BoxFolder f = await _foldersManager.RestoreTrashedFolderAsync(folderReq);
+            BoxFolder f = await _foldersManager.RestoreTrashedFolderAsync(folderReq, new List<string>() { "field1", "field2" });
 
             /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(_FoldersUri + "fakeId?fields=field1,field2", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.IsTrue(AreJsonStringsEqual(
+               "{\"parent\":{\"id\":\"fakeId\"},\"name\":\"fakeName\"}",
+               boxRequest.Payload));
 
             Assert.AreEqual("folder", f.Type);
             Assert.AreEqual("588970022", f.Id);
