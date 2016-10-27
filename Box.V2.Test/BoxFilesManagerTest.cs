@@ -68,13 +68,19 @@ namespace Box.V2.Test
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r as BoxMultiPartRequest);
 
+            var createdAt = new DateTime(2016, 8, 27);
+            var modifiedAt = new DateTime(2016, 8, 28);
+
             var fakeFileRequest = new BoxFileRequest()
             {
                 Name = "test.txt",
-                ContentCreatedAt = new DateTime(2016, 8, 27),
-                ContentModifiedAt = new DateTime(2016, 8, 28),
+                ContentCreatedAt = createdAt,
+                ContentModifiedAt = modifiedAt,
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
+
+            var createdAtString = createdAt.ToString("yyyy-MM-ddTHH:mm:sszzz");
+            var modifiedAtString = modifiedAt.ToString("yyyy-MM-ddTHH:mm:sszzz");
 
             var fakeStream = new Mock<System.IO.Stream>();
 
@@ -89,7 +95,7 @@ namespace Box.V2.Test
             Assert.AreEqual("attributes", boxRequest.Parts[0].Name);
             Assert.IsNotNull(boxRequest.Parts[0] as BoxStringFormPart);
             Assert.IsTrue(AreJsonStringsEqual(
-                "{\"content_created_at\":\"2016-08-27T00:00:00+02:00\",\"content_modified_at\":\"2016-08-28T00:00:00+02:00\",\"parent\":{\"id\":\"0\"},\"name\":\"test.txt\"}",
+                "{\"content_created_at\":\"" + createdAtString + "\",\"content_modified_at\":\"" + modifiedAtString + "\",\"parent\":{\"id\":\"0\"},\"name\":\"test.txt\"}",
                 (boxRequest.Parts[0] as BoxStringFormPart).Value));
             Assert.AreEqual("file", boxRequest.Parts[1].Name);
             Assert.IsNotNull(boxRequest.Parts[1] as BoxFileFormPart);
