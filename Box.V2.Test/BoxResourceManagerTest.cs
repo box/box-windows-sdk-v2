@@ -16,7 +16,7 @@ using System.Reflection;
 
 namespace Box.V2.Test
 {
-    public abstract class BoxResourceManagerTest
+    public abstract class BoxResourceManagerTest 
     {
 
         protected IBoxConverter _converter;
@@ -47,14 +47,6 @@ namespace Box.V2.Test
             _config.SetupGet(x => x.FilesUploadEndpointUri).Returns(_FilesUploadUri);
 
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
-        }
-
-        public static bool AreJsonStringsEqual(string sourceJsonString, string targetJsonString)
-        {
-            JObject sourceJObject = JsonConvert.DeserializeObject<JObject>(sourceJsonString);
-            JObject targetJObject = JsonConvert.DeserializeObject<JObject>(targetJsonString);
-
-            return JToken.DeepEquals(sourceJObject, targetJObject);
         }
 
         public static string HexStringFromBytes(byte[] bytes)

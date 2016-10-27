@@ -173,7 +173,7 @@ namespace Box.V2.Managers
             foreach (BoxMetadataUpdate update in updates)
             {
                 update.Path.ThrowIfNullOrWhiteSpace("Path");
-                update.Op.ThrowIfNull("Op");
+                update.Op.ThrowIfNullEnum("Op");
             }
             BoxRequest request = new BoxRequest(hostUri, string.Format(Constants.MetadataPathString, id, scope, template))
                 .Method(RequestMethod.Put)
