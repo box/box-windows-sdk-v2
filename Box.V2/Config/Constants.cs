@@ -34,6 +34,10 @@ namespace Box.V2.Config
         public const string EventsString = @"events";
         public const string MetadataTemplatesString = @"metadata_templates/";
         public const string WebhooksString = @"webhooks/";
+        /// <summary>
+        /// The shared items constant
+        /// </summary>
+        public const string SharedItemsString = @"shared_items";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;

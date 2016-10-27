@@ -427,7 +427,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxEmailAlias emailALias = await _usersManager.AddEmailAliasesAsync("1234", "mail@server.com");
+            BoxEmailAlias emailALias = await _usersManager.AddEmailAliasAsync("1234", "mail@server.com");
 
             /*** Assert ***/
             // request

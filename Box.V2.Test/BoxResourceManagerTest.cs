@@ -5,6 +5,8 @@ using Box.V2.Managers;
 using Box.V2.Request;
 using Box.V2.Services;
 using Moq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,7 @@ namespace Box.V2.Test
 
         protected Uri _baseUri = new Uri(Constants.BoxApiUriString);
         protected Uri _FoldersUri = new Uri(Constants.FoldersEndpointString);
+        protected Uri _FilesUploadUri = new Uri(Constants.FilesUploadEndpointString);
         protected Uri _FilesUri = new Uri(Constants.FilesEndpointString);
         protected Uri _UserUri = new Uri(Constants.UserEndpointString);
         protected Uri _InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
@@ -41,9 +44,28 @@ namespace Box.V2.Test
             _config.SetupGet(x => x.CollaborationsEndpointUri).Returns(new Uri(Constants.CollaborationsEndpointString));
             _config.SetupGet(x => x.FoldersEndpointUri).Returns(_FoldersUri);
             _config.SetupGet(x => x.FilesEndpointUri).Returns(_FilesUri);
-            _config.SetupGet(x => x.UserEndpointUri).Returns(_UserUri);
-            _config.SetupGet(x => x.InviteEndpointUri).Returns(_InviteUri);
+            _config.SetupGet(x => x.FilesUploadEndpointUri).Returns(_FilesUploadUri);
+
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
+        }
+
+        public static bool AreJsonStringsEqual(string sourceJsonString, string targetJsonString)
+        {
+            JObject sourceJObject = JsonConvert.DeserializeObject<JObject>(sourceJsonString);
+            JObject targetJObject = JsonConvert.DeserializeObject<JObject>(targetJsonString);
+
+            return JToken.DeepEquals(sourceJObject, targetJObject);
+        }
+
+        public static string HexStringFromBytes(byte[] bytes)
+        {
+            var sb = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                var hex = b.ToString("x2");
+                sb.Append(hex);
+            }
+            return sb.ToString();
         }
         public static T CreateInstanceNonPublicConstructor<T>()
         {
@@ -60,12 +82,6 @@ namespace Box.V2.Test
                                System.Threading.Thread.CurrentThread.CurrentCulture);
             return inst;
         }
-        public static bool AreJsonStringsEqual(string sourceJsonString, string targetJsonString)
-        {
-            JObject sourceJObject = JsonConvert.DeserializeObject<JObject>(sourceJsonString);
-            JObject targetJObject = JsonConvert.DeserializeObject<JObject>(targetJsonString);
-
-            return JToken.DeepEquals(sourceJObject, targetJObject);
-        }
     }
+
 }

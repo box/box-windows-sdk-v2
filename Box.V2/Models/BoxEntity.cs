@@ -12,16 +12,13 @@ namespace Box.V2.Models
         private const string FieldId = "id";
 
         /// <summary>
-        /// The folder’s ID
+        /// The item’s ID
         /// </summary>
         [JsonProperty(PropertyName = FieldId)]
         public string Id { get; private set; }
 
         /// <summary>
-        /// For file is 'file'
-        /// For folders is ‘folder'
-        /// For collaborations is 'collaboration'
-        /// For enterprise is 'enterprise'
+        /// The type of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldType)]
         public string Type { get; private set; }
