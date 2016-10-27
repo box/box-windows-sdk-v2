@@ -28,7 +28,7 @@ namespace Box.V2.Managers
         /// <param name="fileId">Id of file</param>
         /// <param name="scope">Scope name. Currently, the only scopes supported are enterprise and global</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns>An instance of the template that includes key:value pairs defined by a user or application</returns>
+        /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> GetFileMetadataAsync(string fileId, string scope, string template)
         {
             return await GetMetadata(_config.FilesEndpointUri, fileId, scope, template);
@@ -40,7 +40,7 @@ namespace Box.V2.Managers
         /// <param name="folderId">Id of folder</param>
         /// <param name="scope">Scope name. Currently, only the enterprise scope is supported</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns></returns>
+        /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> GetFolderMetadataAsync(string folderId, string scope, string template)
         {
             return await GetMetadata(_config.FoldersEndpointUri, folderId, scope, template);
@@ -53,7 +53,7 @@ namespace Box.V2.Managers
         /// <param name="metadata">Metadata to create</param>
         /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns>An instance of the template that includes key:value pairs defined by a user or application</returns>
+        /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> CreateFileMetadataAsync(string fileId, Dictionary<string, object> metadata, string scope, string template)
         {
             return await CreateMetadata(_config.FilesEndpointUri, fileId, metadata, scope, template);
@@ -79,7 +79,7 @@ namespace Box.V2.Managers
         /// <param name="updates">Metadata updates to apply</param>
         /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns>An instance of the template that includes key:value pairs defined by a user or application.</returns>
+        /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> UpdateFileMetadataAsync(string fileId, List<BoxMetadataUpdate> updates, string scope, string template)
         {
             return await UpdateMetadata(_config.FilesEndpointUri, fileId, updates, scope, template);
@@ -92,7 +92,7 @@ namespace Box.V2.Managers
         /// <param name="updates">Metadata updates to apply</param>
         /// <param name="scope">Scope name. Currently, only the enterprise scope is supported</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns></returns>
+        /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> UpdateFolderMetadataAsync(string folderId, List<BoxMetadataUpdate> updates, string scope, string template)
         {
             return await UpdateMetadata(_config.FoldersEndpointUri, folderId, updates, scope, template);
@@ -104,7 +104,7 @@ namespace Box.V2.Managers
         /// <param name="fileId">Id of file</param>
         /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns></returns>
+        /// <returns>True if successful, false otherwise.</returns>
         public async Task<bool> DeleteFileMetadataAsync(string fileId, string scope, string template)
         {
             return await DeleteMetadata(_config.FilesEndpointUri, fileId, scope, template);
@@ -131,7 +131,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="scope">Scope name. Currently, the only scopes supported are enterprise and global</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns></returns>
+        /// <returns>Returns the schema for the specified metadata template.</returns>
         public async Task<BoxMetadataTemplate> GetMetadataTemplate(string scope, string template)
         {
             BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template));
@@ -157,7 +157,7 @@ namespace Box.V2.Managers
         /// Used to retrieve all metadata templates within a user's enterprise. Currently only the enterprise scope is supported.
         /// </summary>
         /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global</param>
-        /// <returns></returns>
+        /// <returns>Collection of enterprise metadata instances associated with the file.</returns>
         public async Task<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> GetEnterpriseMetadataAsync(string scope = "enterprise")
         {
             BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.EnterpriseMetadataTemplatesPathString, scope));
