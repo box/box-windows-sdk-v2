@@ -11,7 +11,6 @@ namespace Box.V2.Models
     /// </summary>
     public class BoxPreflightCheck
     {
-        [Obsolete]
         public const string FieldUploadUrl = "upload_url";
         [Obsolete]
         public const string FieldUploadToken = "upload_token";
@@ -26,7 +25,6 @@ namespace Box.V2.Models
         /// <summary>
         /// Convenience method to create Uri instance from UploadUrl string value
         /// </summary>
-        [Obsolete]
         public Uri UploadUri
         {
             get

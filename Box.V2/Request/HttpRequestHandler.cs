@@ -156,7 +156,7 @@ namespace Box.V2.Request
             var stringParts = request.Parts.Where(p => p.GetType() == typeof(BoxStringFormPart))
                 .Select(p => p as BoxStringFormPart);
 
-            // Create the string part
+            // Create the string parts
             foreach (var sp in stringParts)
                 multiPart.Add(new StringContent(sp.Value), ForceQuotesOnParam(sp.Name));
 
