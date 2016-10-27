@@ -34,6 +34,10 @@ namespace Box.V2.Config
         public const string EventsString = @"events";
         public const string MetadataTemplatesString = @"metadata_templates/";
         public const string WebhooksString = @"webhooks/";
+        /// <summary>
+        /// The shared items constant
+        /// </summary>
+        public const string SharedItemsString = @"shared_items";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -71,6 +75,8 @@ namespace Box.V2.Config
         public const string AllFileMetadataPathString = @"{0}/metadata";
         public const string MetadataTemplatesPathString = @"{0}/{1}/schema";
         public const string EnterpriseMetadataTemplatesPathString = @"{0}";
+        public const string TasksPathString = @"{0}/tasks";
+        public const string UserEmailAliasesPathString = @"{0}/email_aliases/";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -94,6 +100,8 @@ namespace Box.V2.Config
         public const string TypeEnterprise = "enterprise";
         public const string TypeLock = "lock";
         public const string TypeWebhook = "webhook";
+        public const string TypeTask = "task";
+        public const string TypeEmailAlias = "email_alias";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds

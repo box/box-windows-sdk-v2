@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models
 {
@@ -39,5 +40,6 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldIsDownloadPrevented)]
         public bool IsDownloadPrevented { get; set; }
+
     }
 }

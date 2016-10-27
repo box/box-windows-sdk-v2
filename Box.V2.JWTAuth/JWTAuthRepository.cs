@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Box.V2.JWTAuth
 {
     /// <summary>
-    /// JWT auth respository used in AdminClient aor UserClient
+    /// JWT auth repository used by an AdminClient or UserClient
     /// </summary>
     public class JWTAuthRepository : IAuthRepository
     {
@@ -16,18 +16,22 @@ namespace Box.V2.JWTAuth
         /// OAuth session
         /// </summary>
         public OAuthSession Session { get; private set; }
+
         /// <summary>
         /// Box Authentication using a JSON Web Token (JWT)
         /// </summary>
         public BoxJWTAuth BoxJWTAuth { get; private set; }
+
         /// <summary>
         /// Id of the user
         /// </summary>
         public string UserId { get; private set; }
+
         /// <summary>
         /// Event fired after authetication
         /// </summary>
         public event EventHandler<SessionAuthenticatedEventArgs> SessionAuthenticated;
+
         /// <summary>
         /// Event fired when session is invalidated 
         /// </summary>
@@ -46,7 +50,7 @@ namespace Box.V2.JWTAuth
             this.UserId = userId;
         }
         /// <summary>
-        /// Not used for this type of authentification
+        /// Not used for this type of authentication
         /// </summary>
         /// <param name="authCode"></param>
         /// <returns></returns>
@@ -55,7 +59,7 @@ namespace Box.V2.JWTAuth
             throw new NotImplementedException();
         }
         /// <summary>
-        /// Not used for this type of authetification
+        /// Not used for this type of authentication
         /// </summary>
         /// <returns></returns>
         public Task LogoutAsync()
@@ -64,7 +68,7 @@ namespace Box.V2.JWTAuth
         }
 
         /// <summary>
-        /// Recreate session 
+        /// Retrieves a new access token using BoxJWTAuth 
         /// </summary>
         /// <param name="accessToken">This input is not used. Could be set to null</param>
         /// <returns>OAuth session</returns>

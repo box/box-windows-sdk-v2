@@ -19,7 +19,7 @@ namespace Box.V2.Converter
         {
             if (FieldExists(ItemType, jObject))
             {
-                switch(jObject[ItemType].ToString())
+                switch (jObject[ItemType].ToString())
                 {
                     case Constants.TypeFile:
                         return new BoxFile();
@@ -53,6 +53,10 @@ namespace Box.V2.Converter
                         return new BoxUserInvite();
                     case Constants.TypeWebhook:
                         return new BoxWebhook();
+                    case Constants.TypeTask:
+                        return new BoxTask();
+                    case Constants.TypeEmailAlias:
+                        return new BoxEmailAlias();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names
@@ -72,7 +76,7 @@ namespace Box.V2.Converter
             return jObject[fieldName] != null;
         }
     }
-    
+
     internal abstract class JsonCreationConverter<T> : JsonConverter
     {
         /// <summary>
