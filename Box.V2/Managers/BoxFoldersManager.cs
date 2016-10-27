@@ -15,6 +15,8 @@ namespace Box.V2.Managers
         public BoxFoldersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
+        private const int MaximumLimitValue = 1000;
+
         /// <summary>
         /// Retrieves the files and/or folders contained in the provided folder id
         /// </summary>
@@ -37,16 +39,27 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Retrieves the files and/or folders contained in the provided folder id
+        /// Retrieves the files and/or folders contained within this folder without any other metadata about the folder. 
+        /// Any attribute in the full files or folders objects can be passed in with the fields parameter to get specific attributes,
+        /// and only those specific attributes back; otherwise, the mini format is returned for each item by default. 
+        /// Multiple attributes can be passed in separated by commas e.g. fields=name,created_at. 
+        /// Paginated results can be retrieved using the limit and offset parameters.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="limit"></param>
-        /// <param name="offset"></param>
-        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
+        /// <param name="id">The folder id</param>
+        /// <param name="limit">The maximum number of items to return in a page. The default is 100 and the max is 1000.</param>
+        /// <param name="offset">The offset at which to begin the response. An offset of value of 0 will start at the beginning of 
+        /// the folder-listing. Note: If there are hidden items in your previous response, your next offset should be = offset + limit,
+        /// not the # of records you received back. The default is 0.</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>A collection of items contained in the folder is returned. An error is thrown if the folder does not exist,
+        /// or if any of the parameters are invalid.</returns>
+        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit = 100, int offset = 0, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
+            limit.ThrowIfHigherThan(MaximumLimitValue, "limit");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.ItemsPathString, id))
+                .Method(RequestMethod.Get)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
