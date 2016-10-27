@@ -82,14 +82,5 @@ namespace Box.V2.Test
                                System.Threading.Thread.CurrentThread.CurrentCulture);
             return inst;
         }
-        public static bool AreJsonStringsEqual(string sourceJsonString, string targetJsonString)
-        {
-            JObject sourceJObject = JsonConvert.DeserializeObject<JObject>(sourceJsonString);
-            JObject targetJObject = JsonConvert.DeserializeObject<JObject>(targetJsonString);
-
-            return JToken.DeepEquals(sourceJObject, targetJObject);
-        }
-
     }
-
 }
