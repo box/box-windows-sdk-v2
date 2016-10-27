@@ -13,7 +13,7 @@ namespace Box.V2.Extensions
         /// <typeparam name="T">Type of the object being checked</typeparam>
         /// <param name="param">Object being checked</param>
         /// <param name="name">Object name</param>
-		/// <returns>Param object if valid</returns>
+        /// <returns>Param object if valid</returns>
         internal static T ThrowIfNull<T>(this T param, string name)
         {
             if (param == null)
