@@ -12,14 +12,12 @@ namespace Box.V2.Models
     public class BoxPreflightCheck
     {
         public const string FieldUploadUrl = "upload_url";
-        [Obsolete]
         public const string FieldUploadToken = "upload_token";
 
         /// <summary>
         /// The upload URL to optionally use when uploading the file
         /// </summary>
         [JsonProperty(PropertyName = FieldUploadUrl)]
-        [Obsolete]
         public string UploadUrl { get; private set; }
 
         /// <summary>
@@ -37,7 +35,6 @@ namespace Box.V2.Models
         /// Currently not used.
         /// </summary>
         [JsonProperty(PropertyName = FieldUploadToken)]
-        [Obsolete]
         public string UploadToken { get; private set; }
 
         /// <summary>

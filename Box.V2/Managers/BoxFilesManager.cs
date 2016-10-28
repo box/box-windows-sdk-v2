@@ -90,7 +90,9 @@ namespace Box.V2.Managers
         /// folder and file name restrictions*
         /// folder and account storage quota
         /// </remarks>
-        /// <param name="preflightCheckRequest">Fill required inputs: Name - The name of the file to be uploaded, Parent.Id - The ID of the parent folder.,
+        /// <param name="preflightCheckRequest">Fill required inputs: 
+        /// Name - The name of the file to be uploaded, 
+        /// Parent.Id - The ID of the parent folder,
         /// Size - The size of the file in bytes. Specify 0 for unknown file-sizes
         /// </param>
         /// <returns>Returns a BoxPreflightCheck object if successful, otherwise an error is thrown when any of the preflight conditions are not met.</returns>
@@ -109,7 +111,7 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
             response.ResponseObject.Success = response.Status == ResponseStatus.Success;
-            
+
             return response.ResponseObject;
         }
 
@@ -123,7 +125,7 @@ namespace Box.V2.Managers
         {
             if (preflightCheckRequest.Size <= 0)
                 throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
-            
+
             BoxRequest request = new BoxRequest(new Uri(string.Format(Constants.FilesPreflightCheckNewVersionString, fileId)))
                 .Method(RequestMethod.Options);
 
@@ -156,8 +158,8 @@ namespace Box.V2.Managers
         /// <param name="setStreamPositionToZero">Set position for input stream to 0</param>
         /// <param name="uploadUri">Uri where file shall to be uloaded. Configured upload endpoint uri is used if not specified.</param>
         /// <returns>A full file object is returned inside of a collection if the ID is valid and if the update is successful.</returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, 
-                                                TimeSpan? timeout = null, byte[] contentMD5 = null, 
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null,
+                                                TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                 bool setStreamPositionToZero = true,
                                                 Uri uploadUri = null)
         {
@@ -307,7 +309,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the file</param>
         /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
         /// <returns>True if file is deleted, false otherwise.</returns>
-        public async Task<bool> DeleteAsync(string id, string etag=null)
+        public async Task<bool> DeleteAsync(string id, string etag = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -379,7 +381,7 @@ namespace Box.V2.Managers
         public async Task<BoxFile> DeleteSharedLinkAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            
+
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Payload(_converter.Serialize(new BoxDeleteSharedLinkRequest()));
@@ -477,7 +479,7 @@ namespace Box.V2.Managers
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
-        {  
+        {
             IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
 
             BoxFilePreview filePreview = new BoxFilePreview();
@@ -486,10 +488,10 @@ namespace Box.V2.Managers
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                filePreview.PreviewStream = response.ResponseObject ;
+                filePreview.PreviewStream = response.ResponseObject;
                 filePreview.TotalPages = response.BuildPagesCount();
             }
-           
+
             return filePreview;
         }
 
@@ -500,10 +502,10 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.PreviewPathString, id))
                 .Param("page", page.ToString())
                 .Param("max_width", maxWidth.ToString())
-				.Param("max_height", maxHeight.ToString())
-				.Param("min_width", minWidth.ToString())
-				.Param("min_height", minHeight.ToString());
-            
+                .Param("max_height", maxHeight.ToString())
+                .Param("min_width", minWidth.ToString())
+                .Param("min_height", minHeight.ToString());
+
             var response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
@@ -606,7 +608,9 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to update the lock information on the file (for example, ExpiresAt or IsDownloadPrevented.
         /// </summary>
-        /// <param name="lockFileRequest">Request contains Lock object for setting of lock properties such as ExpiresAt - the time the lock expires, IsDownloadPrevented - whether or not the file can be downloaded while locked. </param>
+        /// <param name="lockFileRequest">Request contains Lock object for setting of lock properties such as 
+        /// ExpiresAt - the time the lock expires, 
+        /// IsDownloadPrevented - whether or not the file can be downloaded while locked. </param>
         /// <param name="id">Id of the file</param>
         /// <returns>Returns information about locked file</returns>
         public async Task<BoxFileLock> UpdateLockAsync(BoxFileLockRequest lockFileRequest, string id)
