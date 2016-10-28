@@ -69,6 +69,9 @@ namespace Box.V2.Managers
         /// <returns>An instance of the template that includes key:value pairs defined by a user or application.</returns>
         public async Task<Dictionary<string, object>> CreateFolderMetadataAsync(string folderId, Dictionary<string, object> metadata, string scope, string template)
         {
+            folderId.ThrowIfNullOrWhiteSpace("folderId");
+            scope.ThrowIfNullOrWhiteSpace("scope");
+            template.ThrowIfNullOrWhiteSpace("template");
             return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template);
         }
 
