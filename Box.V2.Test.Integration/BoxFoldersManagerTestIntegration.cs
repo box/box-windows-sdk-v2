@@ -99,7 +99,7 @@ namespace Box.V2.Test.Integration
                 Id = f.Id,
                 Name = newTestname,
                 SyncState = BoxSyncStateType.not_synced,
-                FolderUploadEmail = new BoxEmailRequest { Access = BoxEmailRequestAccessType.open }
+                FolderUploadEmail = new BoxEmailRequest { Access = "open" }
             };
 
             BoxFolder uf = await _client.FoldersManager.UpdateInformationAsync(updateReq);

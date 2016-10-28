@@ -28,7 +28,7 @@ namespace Box.V2.Auth
         private readonly AsyncLock _mutex = new AsyncLock();
 
         /// <summary>
-        /// Fires when the authenticaiton session is invalidated
+        /// Fires when the authentication session is invalidated
         /// </summary>
         public event EventHandler SessionInvalidated;
 
@@ -91,7 +91,7 @@ namespace Box.V2.Auth
         /// this method should not need to be called explicitly, as an automatic refresh is invoked when the SDK 
         /// detects that the tokens have expired. 
         /// </summary>
-        /// <param name="accessToken">The access token is what’s needed to sign your API requests to Box</param>
+        /// <param name="accessToken">The access token to refresh</param>
         /// <returns>Refreshed session of Box Client</returns>
         public virtual async Task<OAuthSession> RefreshAccessTokenAsync(string accessToken)
         {
@@ -106,7 +106,7 @@ namespace Box.V2.Auth
                 {
                     // Add the expired token to the list so subsequent calls will get new acces token. Add
                     // token to the list before making the network call. This way, if refresh fails, subsequent calls
-                    // with the same refresh token will not attempt te call. 
+                    // with the same refresh token will not attempt the call. 
                     _expiredTokens.Add(accessToken);
 
                     session = await ExchangeRefreshToken(Session.RefreshToken).ConfigureAwait(false);
@@ -139,7 +139,7 @@ namespace Box.V2.Auth
         /// Performs the authentication request using the provided auth code
         /// </summary>
         /// <param name="authCode">Authorization Code. The authorization code is only valid for 30 seconds.</param>
-        /// <returns>The current session after exchange Authorization Code</returns>
+        /// <returns>The current session after exchanging Authorization Code</returns>
         protected async Task<OAuthSession> ExchangeAuthCode(string authCode)
         {
             if (string.IsNullOrWhiteSpace(authCode))
@@ -201,7 +201,7 @@ namespace Box.V2.Auth
         /// <summary>
         /// Performs the revoke request using the provided access token. This will invalidate both the access and refresh tokens
         /// </summary>
-        /// <param name="accessToken">The access token which want to invalidate</param>
+        /// <param name="accessToken">The access token to invalidate</param>
         protected async Task InvalidateTokens(string accessToken)
         {
             if (string.IsNullOrWhiteSpace(accessToken))

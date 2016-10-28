@@ -12,7 +12,6 @@ namespace Box.V2.Models
         /// The level of access required for this folder upload email. Can be open or collaborators, or null which will be the default value
         /// </summary>
         [JsonProperty(PropertyName = "access")]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public BoxEmailRequestAccessType? Access { get; set; }
+        public string Access { get; set; }
     }
 }
