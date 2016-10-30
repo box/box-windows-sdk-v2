@@ -68,19 +68,13 @@ namespace Box.V2.Test
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r as BoxMultiPartRequest);
 
-            var createdAt = new DateTime(2016, 8, 27);
-            var modifiedAt = new DateTime(2016, 8, 28);
-
             var fakeFileRequest = new BoxFileRequest()
             {
                 Name = "test.txt",
-                ContentCreatedAt = createdAt,
-                ContentModifiedAt = modifiedAt,
+                ContentCreatedAt = new DateTime(2016, 8, 27),
+                ContentModifiedAt = new DateTime(2016, 8, 28),
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
-
-            var createdAtString = createdAt.ToString("yyyy-MM-ddTHH:mm:sszzz");
-            var modifiedAtString = modifiedAt.ToString("yyyy-MM-ddTHH:mm:sszzz");
 
             var fakeStream = new Mock<System.IO.Stream>();
 
@@ -94,9 +88,17 @@ namespace Box.V2.Test
             Assert.AreEqual(2, boxRequest.Parts.Count);
             Assert.AreEqual("attributes", boxRequest.Parts[0].Name);
             Assert.IsNotNull(boxRequest.Parts[0] as BoxStringFormPart);
+
+            StringBuilder builder = new StringBuilder();
+            builder.Append("{\"content_created_at\":\"");
+            builder.AppendFormat("{0}", fakeFileRequest.ContentCreatedAt.Value.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'sszzzz"));
+            builder.Append("\",\"content_modified_at\":\"");
+            builder.AppendFormat("{0}", fakeFileRequest.ContentModifiedAt.Value.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'sszzzz"));
+            builder.Append("\",\"parent\":{\"id\":\"0\"},\"name\":\"test.txt\"}");
             Assert.IsTrue(AreJsonStringsEqual(
-                "{\"content_created_at\":\"" + createdAtString + "\",\"content_modified_at\":\"" + modifiedAtString + "\",\"parent\":{\"id\":\"0\"},\"name\":\"test.txt\"}",
-                (boxRequest.Parts[0] as BoxStringFormPart).Value));
+                                                builder.ToString(),
+                                                (boxRequest.Parts[0] as BoxStringFormPart).Value));
+
             Assert.AreEqual("file", boxRequest.Parts[1].Name);
             Assert.IsNotNull(boxRequest.Parts[1] as BoxFileFormPart);
             Assert.AreEqual("test.txt", (boxRequest.Parts[1] as BoxFileFormPart).FileName);
