@@ -11,12 +11,14 @@ namespace Box.V2.Extensions
         /// Checks if the object is null 
         /// </summary>
         /// <typeparam name="T">Type of the object being checked</typeparam>
-        /// <param name="param"></param>
-        /// <param name="name"></param>
-        internal static T ThrowIfNull<T>(this T param, string name) 
+        /// <param name="param">Object being checked</param>
+        /// <param name="name">Object name</param>
+        internal static T ThrowIfNull<T>(this T param, string name)
         {
             if (param == null)
+            {
                 throw new ArgumentNullException(name);
+            }
 
             return param;
         }
@@ -24,13 +26,32 @@ namespace Box.V2.Extensions
         /// <summary>
         /// Checks if a string is null or whitespace
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="name"></param>
+        /// <param name="value">String being checked</param>
+        /// <param name="name">String object name</param>
         /// <returns></returns>
         internal static string ThrowIfNullOrWhiteSpace(this string value, string name)
         {
             if (string.IsNullOrWhiteSpace(value))
+            {
                 throw new ArgumentException("Required field cannot be null or whitespace", name);
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Checks if a number is higher than limit
+        /// </summary>
+        /// <param name="value">Number being checked</param>
+        /// <param name="limit">Number maximum limit value</param>
+        /// <param name="name">Number object name</param>
+        /// <returns></returns>
+        internal static int ThrowIfHigherThan(this int value, int limit, string name)
+        {
+            if (value > limit)
+            {
+                throw new ArgumentException(string.Format("Required field cannot be higher than {0}", name, limit));
+            }
 
             return value;
         }

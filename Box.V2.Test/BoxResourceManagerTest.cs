@@ -16,7 +16,7 @@ using System.Reflection;
 
 namespace Box.V2.Test
 {
-    public abstract class BoxResourceManagerTest
+    public abstract class BoxResourceManagerTest 
     {
 
         protected IBoxConverter _converter;

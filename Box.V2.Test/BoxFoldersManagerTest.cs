@@ -423,19 +423,25 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetFolderCollaborators_ValidResponse_ValidCollaborators()
         {
+            IBoxRequest boxRequest = null;
             /*** Arrange ***/
             _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxCollaboration>>>(new BoxResponse<BoxCollection<BoxCollaboration>>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"collaboration\", \"id\": \"14176246\", \"created_by\": { \"type\": \"user\", \"id\": \"4276790\", \"name\": \"David Lee\", \"login\": \"david@box.com\" }, \"created_at\": \"2011-11-29T12:56:35-08:00\", \"modified_at\": \"2012-09-11T15:12:32-07:00\", \"expires_at\": null, \"status\": \"accepted\", \"accessible_by\": { \"type\": \"user\", \"id\": \"755492\", \"name\": \"Simon Tan\", \"login\": \"simon@box.net\" }, \"role\": \"editor\", \"acknowledged_at\": \"2011-11-29T12:59:40-08:00\", \"item\": null } ] }"
-                }));
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
             BoxCollection<BoxCollaboration> c = await _foldersManager.GetCollaborationsAsync("fakeId");
             BoxCollaboration collab = c.Entries.FirstOrDefault();
 
             /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(_FoldersUri + "fakeId/collaborations?limit=100&offset=0", boxRequest.AbsoluteUri.AbsoluteUri);
+            
             Assert.AreEqual(1, c.TotalCount);
             Assert.AreEqual("collaboration", collab.Type);
             Assert.AreEqual("14176246", collab.Id);
@@ -449,21 +455,27 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetFolderCollaborators_ValidResponseWithGroups_ValidCollaborators()
         {
+            IBoxRequest boxRequest = null;
             /*** Arrange ***/
             _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxCollaboration>>>(new BoxResponse<BoxCollection<BoxCollaboration>>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{ \"total_count\": 2, \"entries\": [ { \"type\": \"collaboration\", \"id\": \"14176246\", \"created_by\": { \"type\": \"user\", \"id\": \"4276790\", \"name\": \"David Lee\", \"login\": \"david@box.com\" }, \"created_at\": \"2011-11-29T12:56:35-08:00\", \"modified_at\": \"2012-09-11T15:12:32-07:00\", \"expires_at\": null, \"status\": \"accepted\", \"accessible_by\": { \"type\": \"user\", \"id\": \"755492\", \"name\": \"Simon Tan\", \"login\": \"simon@box.net\" }, \"role\": \"editor\", \"acknowledged_at\": \"2011-11-29T12:59:40-08:00\", \"item\": null }, {\"type\": \"collaboration\",\"id\": \"88140750\",\"created_by\": null,\"created_at\": \"2014-12-10T18:58:47-08:00\",\"modified_at\": \"2014-12-10T18:58:47-08:00\",\"expires_at\": null,\"status\": \"accepted\",\"accessible_by\": {\"type\": \"group\",\"id\": \"293514\",\"name\": \"Test Group\"},\"role\": \"editor\",\"acknowledged_at\": \"2014-12-10T18:58:47-08:00\",\"item\": {\"type\": \"folder\",\"id\": \"1055358427\",\"sequence_id\": \"0\",\"etag\": \"0\",\"name\": \"Work\"}} ] }"
-                }));
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r); ;
 
             /*** Act ***/
-            BoxCollection<BoxCollaboration> c = await _foldersManager.GetCollaborationsAsync("fakeId");
+            BoxCollection<BoxCollaboration> c = await _foldersManager.GetCollaborationsAsync("fakeId", new List<string>() { "field1", "field2" }, 20, 5);
             var collabs = c.Entries;
             var collab1 = collabs[0];
             var collab2 = collabs[1];
 
             /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(_FoldersUri + "fakeId/collaborations?limit=20&offset=5&fields=field1,field2", boxRequest.AbsoluteUri.AbsoluteUri);
+
             Assert.AreEqual(2, c.TotalCount);
             Assert.AreEqual("collaboration", collab1.Type);
             Assert.AreEqual("14176246", collab1.Id);
