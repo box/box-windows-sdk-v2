@@ -38,6 +38,10 @@ namespace Box.V2.Config
         /// The shared items constant
         /// </summary>
         public const string SharedItemsString = @"shared_items";
+        /// <summary>
+        /// The collections endpoint constant
+        /// </summary>
+        public const string CollectionsString = @"collections/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -54,6 +58,7 @@ namespace Box.V2.Config
         public const string CollaborationsEndpointString = BoxApiUriString + CollaborationsString;
         public const string EventsEndpointString = BoxApiUriString + EventsString;
         public const string MetadataTemplatesEndpointString = BoxApiUriString + MetadataTemplatesString;
+        public const string CollectionsEndpointString = BoxApiUriString + CollectionsString;
 
 
         /*** Endpoint Paths ***/
@@ -102,6 +107,7 @@ namespace Box.V2.Config
         public const string TypeWebhook = "webhook";
         public const string TypeTask = "task";
         public const string TypeEmailAlias = "email_alias";
+        public const string TypeCollection = "collection";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
