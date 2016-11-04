@@ -55,4 +55,15 @@ namespace Box.V2.Models
         move,
         copy
     }
+
+    /// <summary>
+    /// Resulution state of task assignment
+    /// </summary>
+    public enum ResolutionStateType
+    {
+        completed,
+        incomplete,
+        approved,
+        rejected
+    }
 }
