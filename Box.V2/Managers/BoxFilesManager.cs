@@ -137,9 +137,9 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Uploads a provided file to the target parent folder 
+        /// Uploads a provided file to the target parent folder.
         /// If the file already exists, an error will be thrown.
-        /// A proper timeout should be provided for large uploads
+        /// A proper timeout should be provided for large uploads.
         /// </summary>
         /// <param name="fileRequest">Upload file data.
         /// Mandatory fields:
@@ -147,14 +147,14 @@ namespace Box.V2.Managers
         /// fileRequest.Parent.Id - Designates folder_id of parent object. Use 0 for the root folder.
         /// Optional fields:
         /// fileRequest.ContentCreatedAt - time when the file was created.
-        /// fileRequest.ContentModifiedAt - time hwne the contents of a file were last modified.
+        /// fileRequest.ContentModifiedAt - time when the contents of a file were last modified.
         /// </param>
         /// <param name="stream">Stream of uploading file.</param>
         /// <param name="fields">Fields which shall be returned in result</param>
-        /// <param name="timeout">Optional timeout for response</param>
+        /// <param name="timeout">Timeout for response</param>
         /// <param name="contentMD5">The SHA1 hash of the file</param>
         /// <param name="setStreamPositionToZero">Set position for input stream to 0</param>
-        /// <param name="uploadUri">Uri where file shall to be uloaded. Configured upload endpoint uri is used if not specified.</param>
+        /// <param name="uploadUri">Uri to use for upload. Default upload endpoint URI is used if not specified.</param>
         /// <returns>A full file object is returned inside of a collection if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, 
                                                 TimeSpan? timeout = null, byte[] contentMD5 = null, 
