@@ -63,8 +63,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves the temporary direct Uri to a file (valid for 15 minutes). This is typically used to send as a redirect to a browser to make the browser download the file directly from Box.
         /// </summary>
-        /// <param name="id">Id of the file</param>
-        /// <param name="versionId">Version of the file</param>
+        /// <param name="id">Id of the file.</param>
+        /// <param name="versionId">Version of the file.</param>
         /// <returns></returns>
         public async Task<Uri> GetDownloadUriAsync(string id, string versionId = null)
         {
@@ -107,7 +107,7 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
             response.ResponseObject.Success = response.Status == ResponseStatus.Success;
-            
+
             return response.ResponseObject;
         }
 
@@ -121,7 +121,7 @@ namespace Box.V2.Managers
         {
             if (preflightCheckRequest.Size <= 0)
                 throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
-            
+
             BoxRequest request = new BoxRequest(new Uri(string.Format(Constants.FilesPreflightCheckNewVersionString, fileId)))
                 .Method(RequestMethod.Options);
 
@@ -147,8 +147,8 @@ namespace Box.V2.Managers
         /// <param name="setStreamPositionToZero">Set position for input stream to 0.</param>
         /// <param name="uploadUri">Uri to use for upload. Default upload endpoint URI is used if not specified.</param>
         /// <returns>A full file object is returned inside of a collection if the ID is valid and if the update is successful.</returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, 
-                                                TimeSpan? timeout = null, byte[] contentMD5 = null, 
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null,
+                                                TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                 bool setStreamPositionToZero = true,
                                                 Uri uploadUri = null)
         {
@@ -196,7 +196,7 @@ namespace Box.V2.Managers
         /// <param name="fileName">Name of the file.</param>
         /// <param name="fileId">Id of the file to upload a new version to.</param>
         /// <param name="stream">Stream of the uploading file.</param>
-        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header</param>
+        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header.</param>
         /// <param name="fields">Fields which shall be returned in result.</param>
         /// <param name="timeout">Optional timeout for response.</param>
         /// <param name="contentMD5">The SHA1 hash of the file.</param>
@@ -219,7 +219,7 @@ namespace Box.V2.Managers
             uploadUri = uploadUri == null ? new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)) : uploadUri;
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(uploadUri) { Timeout = timeout }
-                .Header("If-Match", etag)
+                .Header(Constants.RequestParameters.IfMatch, etag)
                 .Param(ParamFields, fields)
                 .FormPart(new BoxFileFormPart()
                 {
@@ -274,7 +274,7 @@ namespace Box.V2.Managers
         /// can be included to ensure that client only updates the file if it knows about the latest version.
         /// </summary>
         /// <param name="fileRequest">BoxFileRequest object.</param>
-        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header</param>
+        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The complete BoxFile object.</returns>
         public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, List<string> fields = null)
@@ -284,7 +284,7 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Put)
-                .Header("If-Match", etag)
+                .Header(Constants.RequestParameters.IfMatch, etag)
                 .Param(ParamFields, fields);
 
             request.Payload = _converter.Serialize(fileRequest);
@@ -299,15 +299,15 @@ namespace Box.V2.Managers
         /// <remarks>Depending on the enterprise settings for this user, the item will either be immediately and permanently deleted from Box or moved to the trash.</remarks>
         /// </summary>
         /// <param name="id">Id of the file.</param>
-        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header</param>
+        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header.</param>
         /// <returns>True if file is deleted, false otherwise.</returns>
-        public async Task<bool> DeleteAsync(string id, string etag=null)
+        public async Task<bool> DeleteAsync(string id, string etag = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Delete)
-                .Header("If-Match", etag);
+                .Header(Constants.RequestParameters.IfMatch, etag);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -373,7 +373,7 @@ namespace Box.V2.Managers
         public async Task<BoxFile> DeleteSharedLinkAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            
+
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Payload(_converter.Serialize(new BoxDeleteSharedLinkRequest()));
@@ -465,13 +465,13 @@ namespace Box.V2.Managers
         /// <summary>
         /// Get the preview and return a BoxFilePreview response. 
         /// </summary>
-        /// <param name="id">id of the file to return</param>
-        /// <param name="page">page number of the file</param>
+        /// <param name="id">id of the file to return.</param>
+        /// <param name="page">page number of the file.</param>
         /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
-        /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
+        /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay.</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
-        {  
+        {
             IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
 
             BoxFilePreview filePreview = new BoxFilePreview();
@@ -480,10 +480,10 @@ namespace Box.V2.Managers
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                filePreview.PreviewStream = response.ResponseObject ;
+                filePreview.PreviewStream = response.ResponseObject;
                 filePreview.TotalPages = response.BuildPagesCount();
             }
-           
+
             return filePreview;
         }
 
@@ -494,10 +494,10 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.PreviewPathString, id))
                 .Param("page", page.ToString())
                 .Param("max_width", maxWidth.ToString())
-				.Param("max_height", maxHeight.ToString())
-				.Param("min_width", minWidth.ToString())
-				.Param("min_height", minHeight.ToString());
-            
+                .Param("max_height", maxHeight.ToString())
+                .Param("min_width", minWidth.ToString())
+                .Param("min_height", minHeight.ToString());
+
             var response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
@@ -623,7 +623,7 @@ namespace Box.V2.Managers
         /// Used to create a lock on the file.
         /// </summary>
         /// <param name="lockFileRequest">Request contains Lock object for setting of lock properties such as ExpiresAt - the time the lock expires, IsDownloadPrevented - whether or not the file can be downloaded while locked. </param>
-        /// <param name="id">Id of the file</param>
+        /// <param name="id">Id of the file.</param>
         /// <returns>Returns information about locked file</returns>
         public async Task<BoxFileLock> LockAsync(BoxFileLockRequest lockFileRequest, string id)
         {
@@ -662,6 +662,53 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxTask>> response = await ToResponseAsync<BoxCollection<BoxTask>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Discards a specific file version to the trash.
+        /// </summary>
+        /// <param name="id">Id of the file (Required).</param>
+        /// <param name="versionId">Id of the version (Required).</param>
+        /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
+        /// <returns>True, if version is deleted.</returns>
+        public async Task<bool> DeleteOldVersionAsync(string id, string versionId, string etag = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            versionId.ThrowIfNullOrWhiteSpace("versionId");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.DeleteOldVersionPathString, id, versionId))
+                .Method(RequestMethod.Delete)
+                .Header(Constants.RequestParameters.IfMatch, etag);
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
+        /// If there are previous versions of this file, this method can be used to promote one of the older versions to the top of the stack. 
+        /// This actually mints a copy of the old version and puts it on the top of the versions stack. 
+        /// The file will have the exact same contents, the same SHA1/etag, and the same name as the promoted version. 
+        /// Other properties such as comments do not get updated to their former values.
+        /// </summary>
+        /// <param name="id">Id of the file (Required).</param>
+        /// <param name="versionId">Id of the version (Required).</param>
+        /// <returns>The newly promoted file_version object is returned</returns>
+        public async Task<BoxFileVersion> PromoteVersionAsync(string id, string versionId)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            versionId.ThrowIfNullOrWhiteSpace("versionId");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.PromoteVersionPathString, id))
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(new BoxPromoteVersionRequest()
+                    {
+                        Id = versionId
+                    }));
+
+            IBoxResponse<BoxFileVersion> response = await ToResponseAsync<BoxFileVersion>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
