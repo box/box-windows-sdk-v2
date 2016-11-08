@@ -20,15 +20,24 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to add a comment by the user to a specific file, discussion, or comment (i.e. as a reply comment).
         /// </summary>
-        /// <param name="commentRequest"></param>
-        /// <returns></returns>
+        /// <param name="commentRequest">
+        /// commentRequest.Item (Required) - The item that this comment will be placed on.
+        /// commentRequest.Item.Id (Required) -  The type of the item that this comment will be placed on. Can be file or comment.
+        /// commentRequest.Item.Type (Required) -  The type of the item that this comment will be placed on. Can be file or comment.
+        /// commentRequest.Message - The text body of the comment.
+        /// commentRequest.TaggedMessage - The text body of the comment, including @[userid:Username] somewhere in the message to mention the user, which will send them a direct email, letting them know they’ve been mentioned in a comment.
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>The new comment object is returned.</returns>
         public async Task<BoxComment> AddCommentAsync(BoxCommentRequest commentRequest, List<string> fields = null)
         {
             commentRequest.ThrowIfNull("commentRequest")
                 .Item.ThrowIfNull("commentRequest.Item")
                 .Id.ThrowIfNullOrWhiteSpace("commentRequest.Item.Id");
             if (commentRequest.Item.Type == null)
+            {
                 throw new ArgumentNullException("commentRequest.Item.Type");
+            }
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri)
                 .Method(RequestMethod.Post)
@@ -41,15 +50,17 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// A full comment object is returned is the ID is valid and if the user has access to the comment.
+        /// Used to retrieve the message and metadata about a specific comment. Information about the user who created the comment is also included.
         /// </summary>
-        /// <param name="commentRequest"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of the comment.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>A full comment object is returned is the ID is valid and if the user has access to the comment.</returns>
         public async Task<BoxComment> GetInformationAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, id)
+                .Method(RequestMethod.Get)
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxComment> response = await ToResponseAsync<BoxComment>(request).ConfigureAwait(false);
@@ -60,8 +71,10 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to update the message of the comment.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of the comment.</param>
+        /// <param name="commentsRequest">commentsRequest.Message (Required) - The desired text for the comment message.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>The full updated comment object is returned if the ID is valid and if the user has access to the comment.</returns>
         public async Task<BoxComment> UpdateAsync(string id, BoxCommentRequest commentsRequest, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -81,9 +94,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Permanently deletes a comment.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="commentsRequest"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of the comment.</param>
+        /// <returns>True is returned to confirm deletion of the comment.</returns>
         public async Task<bool> DeleteAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
