@@ -272,9 +272,313 @@ namespace Box.V2.Test
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
             Assert.AreEqual(taskAssignmentsUri + "2698512", boxRequest.AbsoluteUri.AbsoluteUri);
-          
+
             //Response check
             Assert.AreEqual(true, result);
+
+
+        }
+
+        [TestMethod]
+        public async Task CreateTask_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""type"": ""task"",
+                                        ""id"": ""1839355"",
+                                        ""item"": {
+                                            ""type"": ""file"",
+                                            ""id"": ""7287087200"",
+                                            ""sequence_id"": ""0"",
+                                            ""etag"": ""0"",
+                                            ""sha1"": ""0bbd79a105c504f99573e3799756debba4c760cd"",
+                                            ""name"": ""box-logo.png""
+                                        },
+                                        ""due_at"": ""2014-04-03T11:09:43-07:00"",
+                                        ""action"": ""review"",
+                                        ""message"": ""REVIEW PLZ K THX"",
+                                        ""task_assignment_collection"": {
+                                            ""total_count"": 0,
+                                            ""entries"": []
+                                        },
+                                        ""is_completed"": false,
+                                        ""created_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""11993747"",
+                                            ""name"": ""sean"",
+                                            ""login"": ""sean@box.com""
+                                        },
+                                        ""created_at"": ""2013-04-03T11:12:54-07:00""
+                                    }";
+            IBoxRequest boxRequest = null;
+            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            _handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxTaskCreateRequest taskCreateRequest = new BoxTaskCreateRequest()
+            {
+                Item = new BoxRequestEntity()
+                {
+                    Id = "7287087200",
+                    Type = BoxType.file
+                },
+                Message = "REVIEW PLZ K THX"
+            };
+            BoxTask result = await _tasksManager.CreateTaskAsync(taskCreateRequest);
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(tasksUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            BoxTaskCreateRequest payload = JsonConvert.DeserializeObject<BoxTaskCreateRequest>(boxRequest.Payload);
+            Assert.AreEqual(taskCreateRequest.Item.Id, payload.Item.Id);
+            Assert.AreEqual(taskCreateRequest.Item.Type, payload.Item.Type);
+            Assert.AreEqual(taskCreateRequest.Message, payload.Message);
+
+            //Response check
+            Assert.AreEqual("1839355", result.Id);
+            Assert.AreEqual("task", result.Type);
+            Assert.AreEqual("7287087200", result.Item.Id);
+            Assert.AreEqual("file", result.Item.Type);
+            Assert.AreEqual("0", result.Item.ETag);
+            Assert.AreEqual("REVIEW PLZ K THX", result.Message);
+            Assert.AreEqual(false, result.IsCompleted);
+            Assert.AreEqual("11993747", result.CreatedBy.Id);
+            Assert.AreEqual("sean@box.com", result.CreatedBy.Login);
+            Assert.AreEqual(0, result.TaskAssignments.TotalCount);
+
+        }
+
+        [TestMethod]
+        public async Task UpdateTask_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""type"": ""task"",
+                                        ""id"": ""1839355"",
+                                        ""item"": {
+                                            ""type"": ""file"",
+                                            ""id"": ""7287087200"",
+                                            ""sequence_id"": ""0"",
+                                            ""etag"": ""0"",
+                                            ""sha1"": ""0bbd79a105c504f99573e3799756debba4c760cd"",
+                                            ""name"": ""box-logo.png""
+                                        },
+                                        ""due_at"": ""2014-04-03T11:09:43-07:00"",
+                                        ""action"": ""review"",
+                                        ""message"": ""REVIEW PLZ K THX"",
+                                        ""task_assignment_collection"": {
+                                            ""total_count"": 0,
+                                            ""entries"": []
+                                        },
+                                        ""is_completed"": false,
+                                        ""created_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""11993747"",
+                                            ""name"": ""sean"",
+                                            ""login"": ""sean@box.com""
+                                        },
+                                        ""created_at"": ""2013-04-03T11:12:54-07:00""
+                                    }";
+            IBoxRequest boxRequest = null;
+            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            _handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxTaskUpdateRequest taskUpdateRequest = new BoxTaskUpdateRequest()
+            {
+                Message = "REVIEW PLZ K THX"
+            };
+            BoxTask result = await _tasksManager.UpdateTaskAsync("1839355", taskUpdateRequest);
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(tasksUri + "1839355", boxRequest.AbsoluteUri.AbsoluteUri);
+            BoxTaskUpdateRequest payload = JsonConvert.DeserializeObject<BoxTaskUpdateRequest>(boxRequest.Payload);
+            Assert.AreEqual(taskUpdateRequest.Message, payload.Message);
+
+            //Response check
+            Assert.AreEqual("1839355", result.Id);
+            Assert.AreEqual("task", result.Type);
+            Assert.AreEqual("7287087200", result.Item.Id);
+            Assert.AreEqual("file", result.Item.Type);
+            Assert.AreEqual("0", result.Item.ETag);
+            Assert.AreEqual("REVIEW PLZ K THX", result.Message);
+            Assert.AreEqual(false, result.IsCompleted);
+            Assert.AreEqual("11993747", result.CreatedBy.Id);
+            Assert.AreEqual("sean@box.com", result.CreatedBy.Login);
+            Assert.AreEqual(0, result.TaskAssignments.TotalCount);
+
+        }
+
+        [TestMethod]
+        public async Task DeleteTask_TaskDeleted()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            IBoxRequest boxRequest = null;
+            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            _handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            bool result = await _tasksManager.DeleteTaskAsync("1839355");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(tasksUri + "1839355", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual(true, result);
+
+
+        }
+
+        [TestMethod]
+        public async Task GetTask_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""type"": ""task"",
+                                        ""id"": ""1839355"",
+                                        ""item"": {
+                                            ""type"": ""file"",
+                                            ""id"": ""7287087200"",
+                                            ""sequence_id"": ""0"",
+                                            ""etag"": ""0"",
+                                            ""sha1"": ""0bbd79a105c504f99573e3799756debba4c760cd"",
+                                            ""name"": ""box-logo.png""
+                                        },
+                                        ""due_at"": ""2014-04-03T11:09:43-07:00"",
+                                        ""action"": ""review"",
+                                        ""message"": ""REVIEW PLZ K THX"",
+                                        ""task_assignment_collection"": {
+                                            ""total_count"": 0,
+                                            ""entries"": []
+                                        },
+                                        ""is_completed"": false,
+                                        ""created_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""11993747"",
+                                            ""name"": ""sean"",
+                                            ""login"": ""sean@box.com""
+                                        },
+                                        ""created_at"": ""2013-04-03T11:12:54-07:00""
+                                    }";
+            IBoxRequest boxRequest = null;
+            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            _handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            BoxTask result = await _tasksManager.GetTaskAsync("1839355");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(tasksUri + "1839355", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual("1839355", result.Id);
+            Assert.AreEqual("task", result.Type);
+            Assert.AreEqual("7287087200", result.Item.Id);
+            Assert.AreEqual("file", result.Item.Type);
+            Assert.AreEqual("0", result.Item.ETag);
+            Assert.AreEqual("REVIEW PLZ K THX", result.Message);
+            Assert.AreEqual(false, result.IsCompleted);
+            Assert.AreEqual("11993747", result.CreatedBy.Id);
+            Assert.AreEqual("sean@box.com", result.CreatedBy.Login);
+            Assert.AreEqual(0, result.TaskAssignments.TotalCount);
+
+        }
+
+        [TestMethod]
+        public async Task GetAssignments_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""total_count"": 1,
+                                        ""entries"": [
+                                            {
+                                                ""type"": ""task_assignment"",
+                                                ""id"": ""2485961"",
+                                                ""item"": {
+                                                    ""type"": ""file"",
+                                                    ""id"": ""7287087200"",
+                                                    ""sequence_id"": ""0"",
+                                                    ""etag"": ""0"",
+                                                    ""sha1"": ""0bbd79a105c504f99573e3799756debba4c760cd"",
+                                                    ""name"": ""box-logo.png""
+                                                },
+                                                ""assigned_to"": {
+                                                    ""type"": ""user"",
+                                                    ""id"": ""193425559"",
+                                                    ""name"": ""Rhaegar Targaryen"",
+                                                    ""login"": ""rhaegar@box.com""
+                                                }
+                                            }
+                                        ]
+                                    }";
+            IBoxRequest boxRequest = null;
+            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxTaskAssignment>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxTaskAssignment>>>(new BoxResponse<BoxCollection<BoxTaskAssignment>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            BoxCollection<BoxTaskAssignment> result = await _tasksManager.GetAssignmentsAsync("1839355");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(tasksUri + string.Format(Constants.TaskAssignmentsPathString, "1839355"), boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual(1, result.TotalCount);
+            Assert.AreEqual("2485961", result.Entries[0].Id);
+            Assert.AreEqual("193425559", result.Entries[0].AssignedTo.Id);
+            Assert.AreEqual("rhaegar@box.com", result.Entries[0].AssignedTo.Login);
+            Assert.AreEqual("task_assignment", result.Entries[0].Type);
+            Assert.AreEqual("file", result.Entries[0].Item.Type);
+            Assert.AreEqual("7287087200", result.Entries[0].Item.Id);
+            Assert.AreEqual("box-logo.png", result.Entries[0].Item.Name);
+
 
 
         }

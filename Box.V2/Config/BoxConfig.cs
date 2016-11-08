@@ -104,6 +104,8 @@ namespace Box.V2.Config
         /// The task assignments endpoint URI.
         /// </value>
         public virtual Uri TaskAssignmentsEndpointUri { get { return new Uri(BoxApiUri, Constants.TaskAssignmentsString); } }
+
+        public virtual Uri TasksEndpointUri { get { return new Uri(BoxApiUri, Constants.TasksString); } }
     }
 
     public enum CompressionType

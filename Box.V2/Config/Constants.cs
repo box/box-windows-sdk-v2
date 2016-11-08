@@ -39,6 +39,7 @@ namespace Box.V2.Config
         /// </summary>
         public const string SharedItemsString = @"shared_items";
         public const string TaskAssignmentsString = @"task_assignments/";
+        public const string TasksString = @"tasks/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -56,6 +57,7 @@ namespace Box.V2.Config
         public const string EventsEndpointString = BoxApiUriString + EventsString;
         public const string MetadataTemplatesEndpointString = BoxApiUriString + MetadataTemplatesString;
         public const string TaskAssignmentsEndpointString = BoxApiUriString + TaskAssignmentsString;
+        public const string TasksEndpointString = BoxApiUriString + TasksString;
 
 
         /*** Endpoint Paths ***/
@@ -79,6 +81,7 @@ namespace Box.V2.Config
         public const string EnterpriseMetadataTemplatesPathString = @"{0}";
         public const string TasksPathString = @"{0}/tasks";
         public const string UserEmailAliasesPathString = @"{0}/email_aliases/";
+        public const string TaskAssignmentsPathString = @"{0}/assignments";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";

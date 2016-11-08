@@ -97,6 +97,8 @@
     <Compile Include="Models\Request\BoxRetentionPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxRetentionPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxTaskAssignmentRequest.cs" />
+    <Compile Include="Models\Request\BoxTaskUpdateRequest.cs" />
+    <Compile Include="Models\Request\BoxTaskCreateRequest.cs" />
     <Compile Include="Models\Request\BoxTaskRequest.cs" />
     <Compile Include="Models\Request\BoxUserInviteRequest.cs" />
     <Compile Include="Models\Request\BoxWebhookRequest.cs" />

@@ -103,5 +103,109 @@ namespace Box.V2.Managers
 
             return response.Status == ResponseStatus.Success;
         }
+
+        /// <summary>
+        /// Used to create a single task for single user on a single file.
+        /// </summary>
+        /// <param name="taskCreateRequest">The task create request.
+        /// taskCreateRequest.Item.Id - The ID of the item this task is for,
+        /// taskCreateRequest.Item.Type - The type of the item this task is for (currently only file is supported),
+        /// taskCreateRequest.Message - An optional message to include with the task,
+        /// taskCreateRequest.DueAt - The day at which this task is due.
+        /// </param>
+        /// <returns>A new task object will be returned upon success.</returns>
+        public async Task<BoxTask> CreateTaskAsync(BoxTaskCreateRequest taskCreateRequest)
+        {
+            taskCreateRequest.ThrowIfNull("taskCreateRequest")
+                .Item.ThrowIfNull("taskCreateRequest.Item")
+                .Id.ThrowIfNullOrWhiteSpace("taskCreateRequest.Item.Id");
+            taskCreateRequest.Item.Type.ThrowIfNull("taskCreateRequest.Item.Type");
+            if (taskCreateRequest.Item.Type != BoxType.file)
+            {
+                throw new ArgumentException("Currently only file is supported", "taskCreateRequest.Item.Type");
+            }
+            BoxRequest request = new BoxRequest(_config.TasksEndpointUri)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(taskCreateRequest));
+
+            IBoxResponse<BoxTask> response = await ToResponseAsync<BoxTask>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Updates a specific task.
+        /// </summary>
+        /// <param name="taskId">Id of the task.</param>
+        /// <param name="taskUpdateRequest">The task update request.
+        /// taskUpdateRequest.Action - The action the task assignee will be prompted to do. Can be review.,
+        /// taskUpdateRequest.Message - An optional message to include with the task,
+        /// taskUpdateRequest.DueAt - The day at which this task is due.
+        /// </param>
+        /// <returns>The updated task object will be returned upon success.</returns>
+        public async Task<BoxTask> UpdateTaskAsync(string taskId, BoxTaskUpdateRequest taskUpdateRequest)
+        {
+            taskUpdateRequest.ThrowIfNull("taskUpdateRequest");
+
+            BoxRequest request = new BoxRequest(_config.TasksEndpointUri, taskId)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(taskUpdateRequest));
+
+            IBoxResponse<BoxTask> response = await ToResponseAsync<BoxTask>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Permanently deletes a specific task..
+        /// </summary>
+        /// <param name="taskId">Id of the task.</param>
+        /// <returns>True will be returned upon success.</returns>
+        public async Task<bool> DeleteTaskAsync(string taskId)
+        {
+            taskId.ThrowIfNull("taskId");
+
+            BoxRequest request = new BoxRequest(_config.TasksEndpointUri, taskId)
+                .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxTaskAssignment> response = await ToResponseAsync<BoxTaskAssignment>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
+        /// Fetches a specific task.
+        /// </summary>
+        /// <param name="taskId">Id of the task.</param>
+        /// <returns>The specified task object will be returned upon success.</returns>
+        public async Task<BoxTask> GetTaskAsync(string taskId)
+        {
+            taskId.ThrowIfNull("taskId");
+
+            BoxRequest request = new BoxRequest(_config.TasksEndpointUri, taskId)
+                .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxTask> response = await ToResponseAsync<BoxTask>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Retrieves all of the assignments for a given task.
+        /// </summary>
+        /// <param name="taskId">Id of the task.</param>
+        /// <returns>A collection of task assignment mini objects will be returned upon success.</returns>
+        public async Task<BoxCollection<BoxTaskAssignment>> GetAssignmentsAsync(string taskId)
+        {
+            taskId.ThrowIfNull("taskId");
+
+            BoxRequest request = new BoxRequest(_config.TasksEndpointUri, string.Format(Constants.TaskAssignmentsPathString, taskId))
+                .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxCollection<BoxTaskAssignment>> response = await ToResponseAsync<BoxCollection<BoxTaskAssignment>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
     }
 }
