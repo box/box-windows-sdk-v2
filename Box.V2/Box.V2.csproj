@@ -90,6 +90,7 @@
     <Compile Include="Models\BoxSortOrder.cs" />
     <Compile Include="Models\Request\BoxMetadataFilterRequest.cs" />
     <Compile Include="Models\Request\BoxPreflightCheckRequest.cs" />
+    <Compile Include="Models\Request\BoxRangeRequest.cs" />
     <Compile Include="Models\Request\BoxRetentionPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxRetentionPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxUserInviteRequest.cs" />
