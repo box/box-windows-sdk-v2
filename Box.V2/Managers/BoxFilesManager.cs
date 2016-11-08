@@ -48,7 +48,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the file to download.</param>
         /// <param name="versionId">The ID specific version of this file to download.</param>
         /// <param name="timeout">Optional timeout for response.</param>
-        /// <returns>MemoryStream of the requested file.</returns>
+        /// <returns>Stream of the requested file.</returns>
         public async Task<Stream> DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -351,9 +351,9 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a shared link for this particular file. Please see here for more information on the permissions available for shared links. 
         /// </summary>
-        /// <param name="id">Id of the file</param>
-        /// <param name="sharedLinkRequest">BoxSharedLinkRequest object</param>
-        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="id">Id of the file.</param>
+        /// <param name="sharedLinkRequest">BoxSharedLinkRequest object.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A full file object containing the updated shared link is returned
         /// if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
@@ -419,10 +419,10 @@ namespace Box.V2.Managers
         /// <param name="minWidth">The minimum width of the thumbnail.</param>
         /// <param name="maxHeight">The maximum height of the thumbnail.</param>
         /// <param name="maxWidth">The maximum width of the thumbnail.</param>
-        /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
+        /// <param name="handleRetry">Specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay.</param>
         /// <param name="throttle">Whether the requests will be throttled. Recommended to be left true to prevent spamming the server.</param>
-        /// <returns>Contents of thumbnail.</returns>
+        /// <returns>Contents of thumbnail as Stream.</returns>
         public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true, bool handleRetry = true)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -659,7 +659,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">Id of the file.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
-        /// <returns>A collection of mini task objects is returned. If there are no tasks, an empty collection will be returned.</returns>
+        /// <returns>A collection of task objects is returned. If there are no tasks, an empty collection will be returned.</returns>
         public async Task<BoxCollection<BoxTask>> GetFileTasks(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
