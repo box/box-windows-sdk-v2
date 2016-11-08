@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BoxCollectionsManagerTestIntegration.cs" />
     <Compile Include="BoxFilesManagerTestIntegration.cs" />
     <Compile Include="BoxFoldersManagerTestIntegration.cs" />
     <Compile Include="BoxResourceManagerTestIntegration.cs" />
