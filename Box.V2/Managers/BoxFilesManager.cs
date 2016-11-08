@@ -27,8 +27,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves information about a file.
         /// </summary>
-        /// <param name="id">Id of file</param>
-        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="id">Id of the file.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
         public async Task<BoxFile> GetInformationAsync(string id, List<string> fields = null)
         {
@@ -43,12 +43,12 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Returns the stream of the requested file
+        /// Returns the stream of the requested file.
         /// </summary>
-        /// <param name="id">Id of the file to download</param>
+        /// <param name="id">Id of the file to download.</param>
         /// <param name="versionId">The ID specific version of this file to download.</param>
-        /// <param name="timeout">Optional timeout for response</param>
-        /// <returns>MemoryStream of the requested file</returns>
+        /// <param name="timeout">Optional timeout for response.</param>
+        /// <returns>Stream of the requested file.</returns>
         public async Task<Stream> DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -304,7 +304,7 @@ namespace Box.V2.Managers
         /// Discards a file to the trash. The etag of the file can be included as an ‘If-Match’ header to prevent race conditions.
         /// <remarks>Depending on the enterprise settings for this user, the item will either be immediately and permanently deleted from Box or moved to the trash.</remarks>
         /// </summary>
-        /// <param name="id">Id of the file</param>
+        /// <param name="id">Id of the file.</param>
         /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
         /// <returns>True if file is deleted, false otherwise.</returns>
         public async Task<bool> DeleteAsync(string id, string etag=null)
@@ -323,14 +323,12 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a copy of a file in another folder. The original version of the file will not be altered.
         /// </summary>
-        /// <param name="fileRequest">
-        /// fileRequest.Id - The ID of source file
-        /// fileRequest.Name - An optional new name for the file. Default value is null,
-        /// fileRequest.Parent.Id - The ID of destination folder,
-        /// </param>
-        /// <param name="fields">Attribute(s) to include in the response</param>
-        /// <returns>A full file object is returned if the ID is valid and if the update is successful. 
-        /// Errors can be thrown if the destination folder is invalid or if a file-name collision occurs. </returns>
+        /// <param name="fileRequest">BoxFileRequest object.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>
+        /// A full file object is returned if the ID is valid and if the update is successful. 
+        /// Errors can be thrown if the destination folder is invalid or if a file-name collision occurs. 
+        /// </returns>
         public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null)
         {
             fileRequest.ThrowIfNull("fileRequest");
@@ -353,9 +351,11 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a shared link for this particular file. Please see here for more information on the permissions available for shared links. 
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="sharedLinkRequest"></param>
-        /// <returns></returns>
+        /// <param name="id">Id of the file.</param>
+        /// <param name="sharedLinkRequest">BoxSharedLinkRequest object.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>A full file object containing the updated shared link is returned
+        /// if the ID is valid and if the update is successful.</returns>
         public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -392,9 +392,9 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves the comments on a particular file, if any exist.
         /// </summary>
-        /// <param name="id">The Id of the item the comments should be retrieved for</param>
-        /// <param name="fields">Attribute(s) to include in the response</param>
-        /// <returns>A Collection of comment objects are returned. If there are no comments on the file, an empty comments array is returned</returns>
+        /// <param name="id">The Id of the item that the comments should be retrieved for.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>A Collection of comment objects are returned. If there are no comments on the file, an empty comments array is returned.</returns>
         public async Task<BoxCollection<BoxComment>> GetCommentsAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -414,15 +414,15 @@ namespace Box.V2.Managers
         /// Thumbnails can be generated for the image and video file formats listed here.
         /// <see cref="http://community.box.com/t5/Managing-Your-Content/What-file-types-are-supported-by-Box-s-Content-Preview/ta-p/327"/>
         /// </summary>
-        /// <param name="id">Id of the file</param>
-        /// <param name="minHeight">The minimum height of the thumbnail</param>
-        /// <param name="minWidth">The minimum width of the thumbnail</param>
-        /// <param name="maxHeight">The maximum height of the thumbnail</param>
-        /// <param name="maxWidth">The maximum width of the thumbnail</param>
-        /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
-        /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
-        /// <param name="throttle">Whether the requests will be throttled. Recommended to be left true to prevent spamming the server</param>
-        /// <returns>Contents of thumbnail</returns>
+        /// <param name="id">Id of the file.</param>
+        /// <param name="minHeight">The minimum height of the thumbnail.</param>
+        /// <param name="minWidth">The minimum width of the thumbnail.</param>
+        /// <param name="maxHeight">The maximum height of the thumbnail.</param>
+        /// <param name="maxWidth">The maximum width of the thumbnail.</param>
+        /// <param name="handleRetry">Specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
+        /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay.</param>
+        /// <param name="throttle">Whether the requests will be throttled. Recommended to be left true to prevent spamming the server.</param>
+        /// <returns>Contents of thumbnail as Stream.</returns>
         public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true, bool handleRetry = true)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -445,10 +445,10 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Gets a preview link (URI) for a file that is valid for 60 seconds
+        /// Gets a preview link (URI) for a file that is valid for 60 seconds.
         /// </summary>
-        /// <param name="id">Id of the file</param>
-        /// <returns>Preview link (URI) for a file that is valid for 60 seconds</returns>
+        /// <param name="id">Id of the file.</param>
+        /// <returns>Preview link (URI) for a file that is valid for 60 seconds.</returns>
         public async Task<Uri> GetPreviewLinkAsync(string id)
         {
             var fields = new List<string>() { "expiring_embed_link" };
@@ -657,9 +657,9 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves all of the tasks for given file.
         /// </summary>
-        /// <param name="id">Id of the file</param>
-        /// <param name="fields">Attribute(s) to include in the response</param>
-        /// <returns>A collection of mini task objects is returned. If there are no tasks, an empty collection will be returned.</returns>
+        /// <param name="id">Id of the file.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>A collection of task objects is returned. If there are no tasks, an empty collection will be returned.</returns>
         public async Task<BoxCollection<BoxTask>> GetFileTasks(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
