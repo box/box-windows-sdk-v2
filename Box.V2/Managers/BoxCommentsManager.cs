@@ -20,13 +20,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to add a comment by the user to a specific file, discussion, or comment (i.e. as a reply comment).
         /// </summary>
-        /// <param name="commentRequest">
-        /// commentRequest.Item (Required) - The item that this comment will be placed on.
-        /// commentRequest.Item.Id (Required) -  The type of the item that this comment will be placed on. Can be file or comment.
-        /// commentRequest.Item.Type (Required) -  The type of the item that this comment will be placed on. Can be file or comment.
-        /// commentRequest.Message - The text body of the comment.
-        /// commentRequest.TaggedMessage - The text body of the comment, including @[userid:Username] somewhere in the message to mention the user, which will send them a direct email, letting them know they’ve been mentioned in a comment.
-        /// </param>
+        /// <param name="commentRequest">BoxCommentRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The new comment object is returned.</returns>
         public async Task<BoxComment> AddCommentAsync(BoxCommentRequest commentRequest, List<string> fields = null)
