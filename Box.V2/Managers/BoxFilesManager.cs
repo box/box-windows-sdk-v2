@@ -196,7 +196,7 @@ namespace Box.V2.Managers
         /// <param name="fileName">Name of the file.</param>
         /// <param name="fileId">Id of the file to upload a new version to.</param>
         /// <param name="stream">Stream of the uploading file.</param>
-        /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
+        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header</param>
         /// <param name="fields">Fields which shall be returned in result.</param>
         /// <param name="timeout">Optional timeout for response.</param>
         /// <param name="contentMD5">The SHA1 hash of the file.</param>
