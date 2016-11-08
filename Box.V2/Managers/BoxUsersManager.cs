@@ -7,6 +7,7 @@ using Box.V2.Models;
 using Box.V2.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Box.V2.Models.Request;
 
 namespace Box.V2.Managers
 {
@@ -21,7 +22,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves information about the user who is currently logged in i.e. the user for whom this auth token was generated.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns a single complete user object.</returns>
         public async Task<BoxUser> GetCurrentUserInformationAsync(List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, "me")
@@ -33,12 +35,17 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Create a new Box Enterprise user.
+        /// Used to provision a new user in an enterprise. This method only works for enterprise admins.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="userRequest">User data. Login and Name is required.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns the user object for the newly created user.</returns>
         public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, List<string> fields = null)
         {
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userRequest.Id)
+            userRequest.ThrowIfNull("userRequest").Login.ThrowIfNull("userRequest.Login");
+            userRequest.Name.ThrowIfNull("userRequest.Name");
+
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, "")
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(userRequest))
                 .Method(RequestMethod.Post);
@@ -50,13 +57,16 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// Used to edit the settings and information about a user. This method only works for enterprise admins. To roll a user out 
-        /// of the enterprise (and convert them to a standalone free user), update the special enterprise attribute to be null
+        /// of the enterprise (and convert them to a standalone free user), update the special enterprise attribute to be null.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="userRequest"></param>
-        /// <returns></returns>
+        /// <param name="userRequest">userRequest.Id (Required) - id of the user. 
+        /// For futher description see class BoxUserRequest.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns the user object for the updated user. Errors may be thrown when the fields are invalid or this API call is made from a non-admin account.</returns>
         public async Task<BoxUser> UpdateUserInformationAsync(BoxUserRequest userRequest, List<string> fields = null)
         {
+            userRequest.ThrowIfNull("userRequest")
+                .Id.ThrowIfNullOrWhiteSpace("userRequest.Id");
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userRequest.Id)
                 .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(userRequest))
@@ -93,12 +103,12 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Deletes an enterprise user
+        /// Deletes a user in an enterprise account.
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="userId">Id of the user.</param>
         /// <param name="notify">Determines if the destination user should receive email notification of the transfer.</param>
         /// <param name="force">Whether or not the user should be deleted even if this user still own files.</param>
-        /// <returns></returns>
+        /// <returns>Null, if user is deleted.</returns>
         public async Task<BoxUser> DeleteEnterpriseUserAsync(string userId, bool notify, bool force)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
@@ -113,11 +123,23 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// Invites an existing user to join an Enterprise. The existing user cannot be part of another Enterprise and must already have a Box account.
+        /// Once invited, the user will receive an email and prompt to accept the invitation within the Box web application. This method requires the "Manage An Enterprise" scope for the enterprise, which can be enabled within your developer console.
         /// </summary>
-        /// <returns></returns>
-        /// 
+        /// <param name="userInviteRequest">
+        /// userInviteRequest.Enterprise (Required) - The enterprise the user will be invited to.
+        /// userInviteRequest.Enterprise.Id (Required) - The enterprise ID.
+        /// userInviteRequest.ActionableBy (Required)- The user that will receive the invitation.
+        /// userInviteRequest.ActionableBy.Login (Required)- The login of the user that will receive the invitation.
+        /// </param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>A new invite object will be returned if successful.</returns>
         public async Task<BoxUserInvite> InviteUserToEnterpriseAsync(BoxUserInviteRequest userInviteRequest, List<string> fields = null)
         {
+            userInviteRequest.ThrowIfNull("userInviteRequest")
+                .Enterprise.ThrowIfNull("Enterprise").Id.ThrowIfNullOrWhiteSpace("userInviteRequest.Enterprise.Id");
+            userInviteRequest.ActionableBy.ThrowIfNull("userInviteRequest.ActionableBy")
+               .Login.ThrowIfNullOrWhiteSpace("userInviteRequest.ActionableBy.Login");
+
             BoxRequest request = new BoxRequest(_config.InviteEndpointUri)
             .Param(ParamFields, fields)
             .Payload(_converter.Serialize(userInviteRequest))
@@ -139,6 +161,56 @@ namespace Box.V2.Managers
             .Param(ParamFields, fields);
 
             IBoxResponse<BoxUserInvite> response = await ToResponseAsync<BoxUserInvite>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to convert one of the user’s confirmed email aliases into the user’s primary login.
+        /// </summary>
+        /// <param name="userId">Id of the user.</param>
+        /// <param name="login">The email alias to become the primary email.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>If the user_id is valid and the email address is a confirmed email alias, the updated user object will be returned.</returns>
+        public async Task<BoxUser> ChangeUsersLoginAsync(string userId, string login, List<string> fields = null)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+            login.ThrowIfNullOrWhiteSpace("login");
+
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
+            .Param(ParamFields, fields)
+            .Payload(_converter.Serialize(new BoxUserRequest() { Login = login }))
+            .Method(RequestMethod.Put);
+
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+        /// <summary>
+        /// Removes an email alias from a user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="emailAliasId">The email alias identifier.</param>
+        /// <returns>True, if the user has permission to remove this email alias.</returns>
+        public async Task<bool> DeleteEmailAliasAsync(string userId, string emailAliasId)
+        {
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.DeleteEmailAliasPathString, userId, emailAliasId))
+                .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+        /// <summary>
+        /// Retrieves information about a user in the enterprise. Requires enterprise administration authorization.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Returns a single complete user object.</returns>
+        public async Task<BoxUser> GetUserInformationAsync(string userId)
+        {
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId);
+
+            IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
@@ -176,6 +248,59 @@ namespace Box.V2.Managers
                 .Payload(_converter.Serialize(new BoxEmailAliasRequest() { Email = email }));
 
             IBoxResponse<BoxEmailAlias> response = await ToResponseAsync<BoxEmailAlias>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+        /// <summary>
+        /// Moves all of the owned content from within one user’s folder into a new folder in another user’s account. 
+        /// You can move folders across users as long as the you have administrative permissions and the ‘source’ user owns the folders. 
+        /// To move everything from the root folder, use “0” which always represents the root folder of a Box account.
+        /// </summary>
+        /// <param name="userId">Id of the user.</param>
+        /// <param name="ownedByUserId">The ID of the user who the folder will be transferred to.</param>
+        /// <param name="folderId">Currently only moving of the root folder (0) is supported.</param>
+        /// <param name="notify">Determines if the destination user should receive email notification of the transfer..</param>
+        /// <returns>Returns the information for the newly created destination folder.. An error is thrown if you do not have the necessary permissions to move the folder.</returns>
+        public async Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+            ownedByUserId.ThrowIfNullOrWhiteSpace("ownedByUserId");
+            folderId.ThrowIfNullOrWhiteSpace("folderId");
+
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.MoveUserFolderPathString, userId, folderId))
+                .Param("notify", notify.ToString())
+                .Payload(_converter.Serialize(new BoxMoveUserFolderRequest()
+                {
+                    OwnedBy = new BoxUserRequest()
+                    {
+                        Id = ownedByUserId
+                    }
+                }))
+                .Method(RequestMethod.Put);
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+        /// <summary>
+        /// Retrieves all of the group memberships for a given user. 
+        /// Note this is only available to group admins. 
+        /// To retrieve group memberships for the user making the API request, use the users/me/memberships endpoint.
+        /// </summary>
+        /// <param name="userId">Id of the user.</param>
+        /// <param name="offset">The item at which to begin the response.</param>
+        /// <param name="limit">Default is 100. Max is 1000.</param>
+        /// <returns>A collection of group membership objects will be returned upon success.</returns>
+        public async Task<BoxCollection<BoxGroupMembership>> GetMembershipsForUserAsync(string userId, uint offset = 0, uint limit = 100)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.GroupMembershipForUserPathString, userId))
+                .Param("offset", offset.ToString())
+                .Param("limit", limit.ToString())
+                .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxCollection<BoxGroupMembership>> response = await ToResponseAsync<BoxCollection<BoxGroupMembership>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
