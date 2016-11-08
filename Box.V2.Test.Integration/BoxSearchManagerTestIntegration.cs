@@ -4,6 +4,8 @@ using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using Box.V2.Models.Request;
+using Box.V2.Exceptions;
 
 namespace Box.V2.Test.Integration
 {
@@ -27,7 +29,18 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        public async Task SearchAdvanced_LiveSession_ValidResponse()
+        public async Task SearchKeyword_LiveSession_EmptyResult()
+        {
+            const string keyword = "NonExistentKeyWord";
+
+            BoxCollection<BoxItem> results = await _client.SearchManager.SearchAsync(keyword, 200);
+
+            Assert.IsNotNull(results, "Search results are null");
+            Assert.AreEqual(0, results.Entries.Count, "Incorrect number of search results");
+        }
+
+        [TestMethod]
+        public async Task SearchAdvanced_LiveSession()
         {
             const string keyword = "IMG";
 
@@ -114,14 +127,25 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        public async Task SearchKeyword_LiveSession_EmptyResult()
+        public async Task SearchMetadata_LiveSession()
         {
-            const string keyword = "NonExistentKeyWord";
+            var filter = new
+            {
+                attr1 = "blah",
+                attr2 = new { gt = 5, lt = 5 },
+                attr3 = new { gt = new DateTime(2016, 10, 1).ToUniversalTime().ToString("o"), lt = new DateTime(2016, 11, 5).ToUniversalTime().ToString("o") },
+                attr4 = "value1"
+            };
 
-            BoxCollection<BoxItem> results = await _client.SearchManager.SearchAsync(keyword, 200);
+            var mdFilter = new BoxMetadataFilterRequest()
+            {
+                TemplateKey = "testtemplate",
+                Scope = "enterprise",
+                Filters = filter
+            };
 
-            Assert.IsNotNull(results, "Search results are null");
-            Assert.AreEqual(0, results.Entries.Count, "Incorrect number of search results");
+            var results = await _client.SearchManager.SearchAsync(mdFilters: new List<BoxMetadataFilterRequest>() { mdFilter });
+            Assert.AreEqual(1, results.Entries.Count, "Incorrect number of search results using metadata search");
         }
     }
 }
