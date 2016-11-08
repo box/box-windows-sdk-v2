@@ -148,7 +148,7 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.Delete)
-                .Header("If-Match", etag)
+                .Header(Constants.RequestParameters.IfMatch, etag)
                 .Param("recursive", recursive.ToString().ToLowerInvariant());
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
@@ -172,7 +172,7 @@ namespace Box.V2.Managers
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
-                    .Header("If-Match", etag)
+                    .Header(Constants.RequestParameters.IfMatch, etag)
                     .Param(ParamFields, fields)
                     .Payload(_converter.Serialize(folderRequest))
                     .Method(RequestMethod.Put);

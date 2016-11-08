@@ -63,8 +63,8 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieves the temporary direct Uri to a file (valid for 15 minutes). This is typically used to send as a redirect to a browser to make the browser download the file directly from Box.
         /// </summary>
-        /// <param name="id">Id of the file</param>
-        /// <param name="versionId">Version of the file</param>
+        /// <param name="id">Id of the file.</param>
+        /// <param name="versionId">Version of the file.</param>
         /// <returns></returns>
         public async Task<Uri> GetDownloadUriAsync(string id, string versionId = null)
         {
@@ -196,7 +196,7 @@ namespace Box.V2.Managers
         /// <param name="fileName">Name of the file.</param>
         /// <param name="fileId">Id of the file to upload a new version to.</param>
         /// <param name="stream">Stream of the uploading file.</param>
-        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header</param>
+        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header.</param>
         /// <param name="fields">Fields which shall be returned in result.</param>
         /// <param name="timeout">Optional timeout for response.</param>
         /// <param name="contentMD5">The SHA1 hash of the file.</param>
@@ -219,7 +219,7 @@ namespace Box.V2.Managers
             uploadUri = uploadUri == null ? new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)) : uploadUri;
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(uploadUri) { Timeout = timeout }
-                .Header("If-Match", etag)
+                .Header(Constants.RequestParameters.IfMatch, etag)
                 .Param(ParamFields, fields)
                 .FormPart(new BoxFileFormPart()
                 {
@@ -274,7 +274,7 @@ namespace Box.V2.Managers
         /// can be included to ensure that client only updates the file if it knows about the latest version.
         /// </summary>
         /// <param name="fileRequest">BoxFileRequest object.</param>
-        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header</param>
+        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The complete BoxFile object.</returns>
         public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, List<string> fields = null)
@@ -284,7 +284,7 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Put)
-                .Header("If-Match", etag)
+                .Header(Constants.RequestParameters.IfMatch, etag)
                 .Param(ParamFields, fields);
 
             request.Payload = _converter.Serialize(fileRequest);
@@ -299,7 +299,7 @@ namespace Box.V2.Managers
         /// <remarks>Depending on the enterprise settings for this user, the item will either be immediately and permanently deleted from Box or moved to the trash.</remarks>
         /// </summary>
         /// <param name="id">Id of the file.</param>
-        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header</param>
+        /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header.</param>
         /// <returns>True if file is deleted, false otherwise.</returns>
         public async Task<bool> DeleteAsync(string id, string etag = null)
         {
@@ -307,7 +307,7 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Delete)
-                .Header("If-Match", etag);
+                .Header(Constants.RequestParameters.IfMatch, etag);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -465,10 +465,10 @@ namespace Box.V2.Managers
         /// <summary>
         /// Get the preview and return a BoxFilePreview response. 
         /// </summary>
-        /// <param name="id">id of the file to return</param>
-        /// <param name="page">page number of the file</param>
+        /// <param name="id">id of the file to return.</param>
+        /// <param name="page">page number of the file.</param>
         /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
-        /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
+        /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay.</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
         {
@@ -623,7 +623,7 @@ namespace Box.V2.Managers
         /// Used to create a lock on the file.
         /// </summary>
         /// <param name="lockFileRequest">Request contains Lock object for setting of lock properties such as ExpiresAt - the time the lock expires, IsDownloadPrevented - whether or not the file can be downloaded while locked. </param>
-        /// <param name="id">Id of the file</param>
+        /// <param name="id">Id of the file.</param>
         /// <returns>Returns information about locked file</returns>
         public async Task<BoxFileLock> LockAsync(BoxFileLockRequest lockFileRequest, string id)
         {
