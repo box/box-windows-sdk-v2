@@ -57,6 +57,13 @@ namespace Box.V2.Config
         /// The shared items endpoint URI.
         /// </value>
         Uri SharedItemsUri { get; }
+        /// <summary>
+        /// Gets the collections endpoint URI.
+        /// </summary>
+        /// <value>
+        /// The collections endpoint URI.
+        /// </value>
+        Uri CollectionsEndpointUri { get; }
         
     }
 }
