@@ -16,11 +16,11 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxCollectionsManagerTest : BoxResourceManagerTest
     {
-        protected BoxCollectionsManager _colectionsManager;
+        protected BoxCollectionsManager _collectionsManager;
 
         public BoxCollectionsManagerTest()
         {
-            _colectionsManager = new BoxCollectionsManager(_config.Object, _service, _converter, _authRepository);
+            _collectionsManager = new BoxCollectionsManager(_config.Object, _service, _converter, _authRepository);
         }
         [TestMethod]
         public async Task CreateOrDeleteCollectionsForFolder_ValidResponse()
@@ -128,7 +128,7 @@ namespace Box.V2.Test
                         }
                 }
             };
-            BoxFolder result = await _colectionsManager.CreateOrDeleteCollectionsForFolderAsync("11446498", collectionsRequest);
+            BoxFolder result = await _collectionsManager.CreateOrDeleteCollectionsForFolderAsync("11446498", collectionsRequest);
 
             /*** Assert ***/
             //Request check
@@ -246,7 +246,7 @@ namespace Box.V2.Test
                         }
                 }
             };
-            BoxFile result = await _colectionsManager.CreateOrDeleteCollectionsForFileAsync("5000948880", collectionsRequest);
+            BoxFile result = await _collectionsManager.CreateOrDeleteCollectionsForFileAsync("5000948880", collectionsRequest);
 
             /*** Assert ***/
             //Request check
@@ -294,7 +294,7 @@ namespace Box.V2.Test
 
             /*** Act ***/
 
-            BoxCollection<BoxCollectionItem> result = await _colectionsManager.GetCollectionsAsync();
+            BoxCollection<BoxCollectionItem> result = await _collectionsManager.GetCollectionsAsync();
 
             /*** Assert ***/
 
@@ -354,7 +354,7 @@ namespace Box.V2.Test
 
             /*** Act ***/
 
-            BoxCollection<BoxItem> result = await _colectionsManager.GetCollectionItemsAsync("405151", 2);
+            BoxCollection<BoxItem> result = await _collectionsManager.GetCollectionItemsAsync("405151", 2);
 
             /*** Assert ***/
 
