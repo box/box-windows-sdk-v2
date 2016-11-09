@@ -39,6 +39,10 @@ namespace Box.V2.Config
         /// </summary>
         public const string SharedItemsString = @"shared_items";
         public const string TaskAssignmentsString = @"task_assignments/";
+        /// <summary>
+        /// The collections endpoint constant
+        /// </summary>
+        public const string CollectionsString = @"collections/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -56,6 +60,7 @@ namespace Box.V2.Config
         public const string EventsEndpointString = BoxApiUriString + EventsString;
         public const string MetadataTemplatesEndpointString = BoxApiUriString + MetadataTemplatesString;
         public const string TaskAssignmentsEndpointString = BoxApiUriString + TaskAssignmentsString;
+        public const string CollectionsEndpointString = BoxApiUriString + CollectionsString;
 
 
         /*** Endpoint Paths ***/
@@ -79,6 +84,8 @@ namespace Box.V2.Config
         public const string EnterpriseMetadataTemplatesPathString = @"{0}";
         public const string TasksPathString = @"{0}/tasks";
         public const string UserEmailAliasesPathString = @"{0}/email_aliases/";
+        public const string DeleteOldVersionPathString = @"{0}/versions/{1}";
+        public const string PromoteVersionPathString = @"{0}/versions/current";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -105,6 +112,7 @@ namespace Box.V2.Config
         public const string TypeTask = "task";
         public const string TypeEmailAlias = "email_alias";
         public const string TypeTaskAssignment = "task_assignment";
+        public const string TypeCollection = "collection";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
@@ -143,6 +151,8 @@ namespace Box.V2.Config
 
             public const string Status = "status";
             public const string Pending = "pending";
+
+            public const string IfMatch = "If-Match";
         }
 
         public static class ErrorCodes

@@ -59,6 +59,8 @@ namespace Box.V2.Converter
                         return new BoxEmailAlias();
                     case Constants.TypeTaskAssignment:
                         return new BoxTaskAssignment();
+                    case Constants.TypeCollection:
+                        return new BoxCollectionItem();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names

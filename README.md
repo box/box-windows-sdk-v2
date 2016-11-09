@@ -218,7 +218,10 @@ var downloadUri = await client.FilesManager.GetDownloadUriAsync(fileId);
 var filter = new 
 { 
 	someKey = "blah", 
-	expiresOn = new {gt = new DateTime(2015,1,1), lt = new DateTime(2015, 9, 1)}
+	expiresOn = new {gt = new DateTime(2015,1,1).ToUniversalTime().ToString("o"), 
+			 lt = new DateTime(2015,9,1).ToUniversalTime().ToString("o")},
+	count = new {gt = 5, lt = 10},
+	option = "value1"
 };
 
 var mdFilter = new BoxMetadataFilterRequest() 
