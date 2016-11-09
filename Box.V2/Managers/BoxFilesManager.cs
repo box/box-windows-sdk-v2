@@ -109,7 +109,7 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxPreflightCheck> response = await ToResponseAsync<BoxPreflightCheck>(request).ConfigureAwait(false);
             response.ResponseObject.Success = response.Status == ResponseStatus.Success;
-            
+
             return response.ResponseObject;
         }
 
@@ -123,7 +123,7 @@ namespace Box.V2.Managers
         {
             if (preflightCheckRequest.Size <= 0)
                 throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
-            
+
             BoxRequest request = new BoxRequest(new Uri(string.Format(Constants.FilesPreflightCheckNewVersionString, fileId)))
                 .Method(RequestMethod.Options);
 
@@ -156,8 +156,8 @@ namespace Box.V2.Managers
         /// <param name="setStreamPositionToZero">Set position for input stream to 0</param>
         /// <param name="uploadUri">Uri to use for upload. Default upload endpoint URI is used if not specified.</param>
         /// <returns>A full file object is returned inside of a collection if the ID is valid and if the update is successful.</returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null, 
-                                                TimeSpan? timeout = null, byte[] contentMD5 = null, 
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null,
+                                                TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                 bool setStreamPositionToZero = true,
                                                 Uri uploadUri = null)
         {
@@ -307,7 +307,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the file.</param>
         /// <param name="etag">The etag of the file. This is in the ‘etag’ field of the file object.</param>
         /// <returns>True if file is deleted, false otherwise.</returns>
-        public async Task<bool> DeleteAsync(string id, string etag=null)
+        public async Task<bool> DeleteAsync(string id, string etag = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -379,7 +379,7 @@ namespace Box.V2.Managers
         public async Task<BoxFile> DeleteSharedLinkAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            
+
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Payload(_converter.Serialize(new BoxDeleteSharedLinkRequest()));
@@ -477,7 +477,7 @@ namespace Box.V2.Managers
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
-        {  
+        {
             IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
 
             BoxFilePreview filePreview = new BoxFilePreview();
@@ -486,10 +486,10 @@ namespace Box.V2.Managers
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                filePreview.PreviewStream = response.ResponseObject ;
+                filePreview.PreviewStream = response.ResponseObject;
                 filePreview.TotalPages = response.BuildPagesCount();
             }
-           
+
             return filePreview;
         }
 
@@ -500,10 +500,10 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.PreviewPathString, id))
                 .Param("page", page.ToString())
                 .Param("max_width", maxWidth.ToString())
-				.Param("max_height", maxHeight.ToString())
-				.Param("min_width", minWidth.ToString())
-				.Param("min_height", minHeight.ToString());
-            
+                .Param("max_height", maxHeight.ToString())
+                .Param("min_width", minWidth.ToString())
+                .Param("min_height", minHeight.ToString());
+
             var response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
@@ -670,6 +670,81 @@ namespace Box.V2.Managers
             IBoxResponse<BoxCollection<BoxTask>> response = await ToResponseAsync<BoxCollection<BoxTask>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to retrieve the watermark for a corresponding Box file.
+        /// </summary>
+        /// <param name="id">Id of the file.</param>
+        /// <returns>An object containing information about the watermark associated for this file. If the file does not have a watermark applied to it than return null</returns>
+        public async Task<BoxWatermark> GetWatermarkAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.WatermarkPathString, id))
+               .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
+            if (response.Status == ResponseStatus.Success)
+            {
+                return response.ResponseObject.Watermark;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Used to apply or update the watermark for a corresponding Box file.
+        /// </summary>
+        /// <param name="id">Id of the file.</param>
+        /// <param name="applyWatermarkRequest">The apply watermark request. Can be null, for using default values - imprint="default" </param>
+        /// <returns>An object containing information about the watermark associated for this file.</returns>
+        public async Task<BoxWatermark> ApplyWatermarkAsync(string id, BoxApplyWatermarkRequest applyWatermarkRequest = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            if (applyWatermarkRequest == null)
+            {
+                applyWatermarkRequest = new BoxApplyWatermarkRequest();
+            }
+            applyWatermarkRequest.Watermark.ThrowIfNull("applyWatermarkRequest.Watermark");
+            if (applyWatermarkRequest.Watermark.Imprint != BoxWatermarkRequest.DefaultImprintString)
+            {
+                throw new ArgumentException("Currently, the value must be \"default\", as custom watermarks is not yet supported.", "applyWatermarkRequest.Watermark.Imprint");
+            }
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.WatermarkPathString, id))
+               .Method(RequestMethod.Put)
+               .Payload(_converter.Serialize(applyWatermarkRequest));
+
+            IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
+
+            if (response.Status == ResponseStatus.Success)
+            {
+                return response.ResponseObject.Watermark;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Used to remove the watermark for a corresponding Box file.
+        /// </summary>
+        /// <param name="id">Id of the file.</param>
+        /// <returns>True to confirm the watermark has been removed. If the file did not have a watermark applied to it, than False will be returned.</returns>
+        public async Task<bool> RemoveWatermarkAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.WatermarkPathString, id))
+               .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
         }
     }
 }

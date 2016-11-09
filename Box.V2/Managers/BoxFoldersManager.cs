@@ -358,5 +358,80 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Used to retrieve the watermark for a corresponding Box folder.
+        /// </summary>
+        /// <param name="id">Id of the folder.</param>
+        /// <returns>An object containing information about the watermark associated for this folder. If the folder does not have a watermark applied to it than return null</returns>
+        public async Task<BoxWatermark> GetWatermarkAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.WatermarkPathString, id))
+               .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
+            if (response.Status == ResponseStatus.Success)
+            {
+                return response.ResponseObject.Watermark;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Used to apply or update the watermark for a corresponding Box folder.
+        /// </summary>
+        /// <param name="id">Id of the folder.</param>
+        /// <param name="applyWatermarkRequest">The apply watermark request. Can be null, for using default values - imprint="default" </param>
+        /// <returns>An object containing information about the watermark associated for this folder.</returns>
+        public async Task<BoxWatermark> ApplyWatermarkAsync(string id, BoxApplyWatermarkRequest applyWatermarkRequest = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            if (applyWatermarkRequest == null)
+            {
+                applyWatermarkRequest = new BoxApplyWatermarkRequest();
+            }
+            applyWatermarkRequest.Watermark.ThrowIfNull("applyWatermarkRequest.Watermark");
+            if (applyWatermarkRequest.Watermark.Imprint != BoxWatermarkRequest.DefaultImprintString)
+            {
+                throw new ArgumentException("Currently, the value must be \"default\", as custom watermarks is not yet supported.", "applyWatermarkRequest.Watermark.Imprint");
+            }
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.WatermarkPathString, id))
+               .Method(RequestMethod.Put)
+               .Payload(_converter.Serialize(applyWatermarkRequest));
+
+            IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
+
+            if (response.Status == ResponseStatus.Success)
+            {
+                return response.ResponseObject.Watermark;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Used to remove the watermark for a corresponding Box folder.
+        /// </summary>
+        /// <param name="id">Id of the folder.</param>
+        /// <returns>True to confirm the watermark has been removed. If the folder did not have a watermark applied to it, than False will be returned.</returns>
+        public async Task<bool> RemoveWatermarkAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.WatermarkPathString, id))
+               .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
     }
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Box.V2.Test
 {
@@ -579,7 +580,7 @@ namespace Box.V2.Test
 
             }
         }
-       
+
         [TestMethod]
         public async Task GetEmbedLink_ValidResponse_ValidEmbedLink()
         {
@@ -629,6 +630,102 @@ namespace Box.V2.Test
 
 
 
+        }
+
+        [TestMethod]
+        public async Task GetWatermarkForFile_ValidResponse_ValidWatermark()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                          ""watermark"": {
+                                            ""created_at"": ""2016-10-31T15:33:33-07:00"",
+                                            ""modified_at"": ""2016-10-31T15:33:33-07:00""
+                                          }
+                                       }";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxWatermark result = await _filesManager.GetWatermarkAsync("5010739069");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(_FilesUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+        }
+
+        [TestMethod]
+        public async Task ApplyWatermarkToFile_ValidResponse_ValidWatermark()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                          ""watermark"": {
+                                            ""created_at"": ""2016-10-31T15:33:33-07:00"",
+                                            ""modified_at"": ""2016-10-31T15:33:33-07:00""
+                                          }
+                                       }";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxWatermark result = await _filesManager.ApplyWatermarkAsync("5010739069");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
+            Assert.AreEqual(_FilesUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
+            BoxApplyWatermarkRequest payload = JsonConvert.DeserializeObject<BoxApplyWatermarkRequest>(boxRequest.Payload);
+            Assert.AreEqual("default", payload.Watermark.Imprint);
+
+            //Response check
+            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+        }
+
+        [TestMethod]
+        public async Task RemoveWatermarkFromFile_ValidResponse_RemovedWatermark()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            bool result = await _filesManager.RemoveWatermarkAsync("5010739069");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(_FilesUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual(true, result);
+           
         }
     }
 }
