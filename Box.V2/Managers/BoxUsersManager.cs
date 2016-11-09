@@ -37,7 +37,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to provision a new user in an enterprise. This method only works for enterprise admins.
         /// </summary>
-        /// <param name="userRequest">User data. Login and Name is required.</param>
+        /// <param name="userRequest">BoxUserRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns the user object for the newly created user.</returns>
         public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, List<string> fields = null)
@@ -59,8 +59,7 @@ namespace Box.V2.Managers
         /// Used to edit the settings and information about a user. This method only works for enterprise admins. To roll a user out 
         /// of the enterprise (and convert them to a standalone free user), update the special enterprise attribute to be null.
         /// </summary>
-        /// <param name="userRequest">userRequest.Id (Required) - id of the user. 
-        /// For futher description see class BoxUserRequest.</param>
+        /// <param name="userRequest">BoxUserRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns the user object for the updated user. Errors may be thrown when the fields are invalid or this API call is made from a non-admin account.</returns>
         public async Task<BoxUser> UpdateUserInformationAsync(BoxUserRequest userRequest, List<string> fields = null)
@@ -77,15 +76,14 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-
         /// <summary>
         /// Get information about users in an enterprise. This method only works for enterprise admins.
         /// </summary>
-        /// <param name="filterTerm">Filter the results to only users starting with this value in either the name or the login</param>
+        /// <param name="filterTerm">Filter the results to only users starting with this value in either the name or the login.</param>
         /// <param name="offset">The record at which to start. (default: 0)</param>
         /// <param name="limit">The number of records to return. (min: 1; default: 100; max: 1000)</param>
-        /// <param name="fields">The fields to populate for each returned user</param>
-        /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria</returns>
+        /// <param name="fields">The fields to populate for each returned user.</param>
+        /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
         public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null, uint offset = 0, uint limit = 100, List<string> fields = null)
         {
@@ -123,14 +121,10 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// Invites an existing user to join an Enterprise. The existing user cannot be part of another Enterprise and must already have a Box account.
-        /// Once invited, the user will receive an email and prompt to accept the invitation within the Box web application. This method requires the "Manage An Enterprise" scope for the enterprise, which can be enabled within your developer console.
+        /// Once invited, the user will receive an email and prompt to accept the invitation within the Box web application. 
+        /// This method requires the "Manage An Enterprise" scope for the enterprise, which can be enabled within your developer console.
         /// </summary>
-        /// <param name="userInviteRequest">
-        /// userInviteRequest.Enterprise (Required) - The enterprise the user will be invited to.
-        /// userInviteRequest.Enterprise.Id (Required) - The enterprise ID.
-        /// userInviteRequest.ActionableBy (Required)- The user that will receive the invitation.
-        /// userInviteRequest.ActionableBy.Login (Required)- The login of the user that will receive the invitation.
-        /// </param>
+        /// <param name="userInviteRequest">BoxUserInviteRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A new invite object will be returned if successful.</returns>
         public async Task<BoxUserInvite> InviteUserToEnterpriseAsync(BoxUserInviteRequest userInviteRequest, List<string> fields = null)
@@ -153,8 +147,9 @@ namespace Box.V2.Managers
         /// <summary>
         /// Returns information about an existing user invitation.
         /// </summary>
-        /// <param name="inviteId">The ID associated with the user invitiation</param>
-        /// <returns></returns>
+        /// <param name="inviteId">The ID associated with the user invitiation.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>The complete user invite information.</returns>
         public async Task<BoxUserInvite> GetUserInviteAsync(string inviteId, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.InviteEndpointUri, inviteId)
@@ -186,6 +181,7 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
         /// <summary>
         /// Removes an email alias from a user.
         /// </summary>
@@ -201,11 +197,12 @@ namespace Box.V2.Managers
 
             return response.Status == ResponseStatus.Success;
         }
+
         /// <summary>
         /// Retrieves information about a user in the enterprise. Requires enterprise administration authorization.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <returns>Returns a single complete user object.</returns>
+        /// <returns>Returns the complete user object.</returns>
         public async Task<BoxUser> GetUserInformationAsync(string userId)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId);
@@ -251,6 +248,7 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
         /// <summary>
         /// Moves all of the owned content from within one user’s folder into a new folder in another user’s account. 
         /// You can move folders across users as long as the you have administrative permissions and the ‘source’ user owns the folders. 
@@ -259,8 +257,8 @@ namespace Box.V2.Managers
         /// <param name="userId">Id of the user.</param>
         /// <param name="ownedByUserId">The ID of the user who the folder will be transferred to.</param>
         /// <param name="folderId">Currently only moving of the root folder (0) is supported.</param>
-        /// <param name="notify">Determines if the destination user should receive email notification of the transfer..</param>
-        /// <returns>Returns the information for the newly created destination folder.. An error is thrown if you do not have the necessary permissions to move the folder.</returns>
+        /// <param name="notify">Determines if the destination user should receive email notification of the transfer.</param>
+        /// <returns>Returns the information for the newly created destination folder. An error is thrown if you do not have the necessary permissions to move the folder.</returns>
         public async Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
@@ -282,6 +280,7 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
         /// <summary>
         /// Retrieves all of the group memberships for a given user. 
         /// Note this is only available to group admins. 
