@@ -21,7 +21,7 @@ namespace Box.V2.Models
         public BoxCollaborationUserRequest AccessibleBy { get; set; }
 
         /// <summary>
-        /// The access level of this collaboration
+        /// The access level of this collaboration. Can be editor, viewer, previewer, uploader, previewer uploader, viewer uploader, co-owner, or owner
         /// </summary>
         [JsonProperty(PropertyName = "role")]
         public string Role { get; set; }
@@ -43,5 +43,6 @@ namespace Box.V2.Models
         public const string PreviewerUploader = "previewer uploader";
         public const string ViewerUploader = "viewer uploader";
         public const string CoOwner = "co-owner";
+        public const string Owner = "owner";
     }
 }

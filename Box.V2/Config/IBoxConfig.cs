@@ -66,6 +66,13 @@ namespace Box.V2.Config
         Uri TaskAssignmentsEndpointUri { get; }
 
         Uri TasksEndpointUri { get; }
+        /// <summary>
+        /// Gets the collections endpoint URI.
+        /// </summary>
+        /// <value>
+        /// The collections endpoint URI.
+        /// </value>
+        Uri CollectionsEndpointUri { get; }
         
     }
 }

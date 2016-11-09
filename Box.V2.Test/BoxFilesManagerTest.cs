@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Box.V2.Test
 {
@@ -629,6 +630,68 @@ namespace Box.V2.Test
 
 
 
+        }
+
+        [TestMethod]
+        public async Task DeleteOldVersion_ValidReponse()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+           .Returns(() => Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+           {
+               Status = ResponseStatus.Success,
+               ContentString = responseString
+           }))
+           .Callback<IBoxRequest>(r => boxRequest = r);
+
+            bool result = await _filesManager.DeleteOldVersionAsync("fileid", "versionid");
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(_FilesUri + "fileid/versions/versionid", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            // Response check
+            Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public async Task PromoteVersion_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"type\":\"file_version\",\"id\":\"871399\",\"sha1\":\"12039d6dd9a7e6eefc78846802e\",\"name\":\"Stark Family Lineage.doc\",\"size\":11,\"created_at\":\"2013-11-20T13:20:50-08:00\",\"modified_at\":\"2013-11-20T13:26:48-08:00\",\"modified_by\":{\"type\":\"user\",\"id\":\"13711334\",\"name\":\"Eddard Stark\",\"login\":\"ned@winterfell.com\"}}";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxFileVersion>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxFileVersion>>(new BoxResponse<BoxFileVersion>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = responseString
+                 }))
+                 .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxFileVersion result = await _filesManager.PromoteVersionAsync("fileid", "871399");
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(_FilesUri + "fileid/versions/current", boxRequest.AbsoluteUri.AbsoluteUri);
+            BoxPromoteVersionRequest payload = JsonConvert.DeserializeObject<BoxPromoteVersionRequest>(boxRequest.Payload);
+            Assert.AreEqual("871399", payload.Id);
+            Assert.AreEqual("file_version", payload.Type);
+
+            // Response check
+            Assert.AreEqual("871399", result.Id);
+            Assert.AreEqual("file_version", result.Type);
+            Assert.AreEqual("Stark Family Lineage.doc", result.Name);
+            Assert.AreEqual(DateTime.Parse("2013-11-20T13:20:50-08:00"), result.CreatedAt);
+            Assert.AreEqual(DateTime.Parse("2013-11-20T13:26:48-08:00"), result.ModifiedAt);
         }
     }
 }
