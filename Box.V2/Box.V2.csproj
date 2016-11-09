@@ -51,12 +51,14 @@
     <Compile Include="Converter\BoxItemConverter.cs" />
     <Compile Include="Exceptions\BoxAuthenticationFailedException.cs" />
     <Compile Include="Extensions\BoxExtensions.cs" />
+    <Compile Include="Managers\BoxCollectionsManager.cs" />
     <Compile Include="Managers\BoxEventsManager.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Managers\BoxMetadataManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\BoxSharedItemsManager.cs" />
     <Compile Include="Managers\BoxWebhooksManager.cs" />
+    <Compile Include="Models\BoxCollectionItem.cs" />
     <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Models\BoxGroupMembership.cs" />
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
     <Compile Include="Models\Request\BoxApplyWatermarkRequest.cs" />
+    <Compile Include="Models\Request\BoxCollectionsRequest.cs" />
     <Compile Include="Models\Request\BoxEmailAliasRequest.cs" />
     <Compile Include="Models\Request\BoxFileLockRequest.cs" />
     <Compile Include="Models\Request\BoxDeleteSharedLinkRequest.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="Models\BoxSortOrder.cs" />
     <Compile Include="Models\Request\BoxMetadataFilterRequest.cs" />
     <Compile Include="Models\Request\BoxPreflightCheckRequest.cs" />
+    <Compile Include="Models\Request\BoxPromoteVersionRequest.cs" />
     <Compile Include="Models\Request\BoxRetentionPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxRetentionPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxUserInviteRequest.cs" />

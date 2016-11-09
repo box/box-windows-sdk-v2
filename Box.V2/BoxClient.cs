@@ -127,6 +127,7 @@ namespace Box.V2
             MetadataManager = new BoxMetadataManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             WebhooksManager = new BoxWebhooksManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             SharedItemsManager = new BoxSharedItemsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            CollectionsManager = new BoxCollectionsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
         }
@@ -217,6 +218,11 @@ namespace Box.V2
         /// The manager that represents the shared items endpoint
         /// </summary>
         public BoxSharedItemsManager SharedItemsManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the collections endpoint
+        /// </summary>
+        public BoxCollectionsManager CollectionsManager { get; private set; }
 
     }
 }
