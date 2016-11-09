@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents all of the comment endpoints
+    /// </summary>
     public class BoxCommentsManager : BoxResourceManager
     {
         public BoxCommentsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
@@ -66,7 +69,7 @@ namespace Box.V2.Managers
         /// Used to update the message of the comment.
         /// </summary>
         /// <param name="id">Id of the comment.</param>
-        /// <param name="commentsRequest">commentsRequest.Message (Required) - The desired text for the comment message.</param>
+        /// <param name="commentsRequest">BoxCommentsRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The full updated comment object is returned if the ID is valid and if the user has access to the comment.</returns>
         public async Task<BoxComment> UpdateAsync(string id, BoxCommentRequest commentsRequest, List<string> fields = null)

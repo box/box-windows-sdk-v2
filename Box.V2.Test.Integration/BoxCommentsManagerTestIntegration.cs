@@ -14,6 +14,7 @@ namespace Box.V2.Test.Integration
             const string fileId = "16894947279";
             const string message = "this is a test Comment";
 
+            // Create a comment with message
             BoxCommentRequest addReq = new BoxCommentRequest()
             {
                 Message = message,
@@ -30,7 +31,27 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(BoxType.file.ToString(), c.Item.Type, "Comment was not added to a file");
             Assert.AreEqual(BoxType.comment.ToString(), c.Type, "Returned object is not a comment");
             Assert.AreEqual(message, c.Message, "Wrong comment added to file");
-            
+
+            // Create a comment with tagged message
+            var messageWithTag = "this is an tagged @[215917383:DisplayName] test comment";
+
+            BoxCommentRequest addReqWithTag = new BoxCommentRequest()
+            {
+                Message = messageWithTag,
+                Item = new BoxRequestEntity()
+                {
+                    Id = fileId,
+                    Type = BoxType.file
+                }
+            };
+
+            BoxComment cWithTag = await _client.CommentsManager.AddCommentAsync(addReqWithTag);
+
+            Assert.AreEqual(fileId, cWithTag.Item.Id, "Comment was added to incorrect file");
+            Assert.AreEqual(BoxType.file.ToString(), cWithTag.Item.Type, "Comment was not added to a file");
+            Assert.AreEqual(BoxType.comment.ToString(), cWithTag.Type, "Returned object is not a comment");
+            Assert.AreEqual(messageWithTag, cWithTag.Message, "Wrong comment added to file");
+
             // Get comment details
             BoxComment cInfo = await _client.CommentsManager.GetInformationAsync(c.Id);
 
