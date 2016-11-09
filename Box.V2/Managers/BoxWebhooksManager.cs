@@ -2,14 +2,20 @@
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Models;
-using Box.V2.Models.Request;
 using Box.V2.Services;
 using Box.V2.Extensions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Text;
+using System.Security.Cryptography;
+using System;
+using System.Linq;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents the webhooks V2 endpoints.
+    /// </summary>
     public class BoxWebhooksManager : BoxResourceManager
     {
         public BoxWebhooksManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
@@ -17,10 +23,10 @@ namespace Box.V2.Managers
 
 
         /// <summary>
-        /// Create a new webhook
+        /// Create a new webhook.
         /// </summary>
-        /// <param name="webhookRequest"></param>
-        /// <returns></returns>
+        /// <param name="webhookRequest">BoxWebhookRequest object.</param>
+        /// <returns>Returns a webhook object if creation succeeds.</returns>
         public async Task<BoxWebhook> CreateWebhookAsync(BoxWebhookRequest webhookRequest)
         {
             BoxRequest request = new BoxRequest(_config.WebhooksUri)
@@ -33,10 +39,10 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Get a webhook
+        /// Get a webhook.
         /// </summary>
-        /// <param name="id">webhook id</param>
-        /// <returns></returns>
+        /// <param name="id">Webhook id.</param>
+        /// <returns>Returns a webhook object.</returns>
         public async Task<BoxWebhook> GetWebhookAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -49,10 +55,10 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Update a webhook
+        /// Update a webhook.
         /// </summary>
-        /// <param name="webhookRequest"></param>
-        /// <returns></returns>
+        /// <param name="webhookRequest">BoxWebhookRequest object.</param>
+        /// <returns>Returns the updated webhook object.</returns>
         public async Task<BoxWebhook> UpdateWebhookAsync(BoxWebhookRequest webhookRequest)
         {
             webhookRequest.ThrowIfNull("webhookRequest")
@@ -68,10 +74,10 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Delete a webhook
+        /// Delete a webhook.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Webhook id.</param>
+        /// <returns>Returns true if deleted successfully.</returns>
         public async Task<bool> DeleteWebhookAsync(string id)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -85,11 +91,11 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Fetch all defined webhooks for the requesting application and user
+        /// Fetch all defined webhooks for the requesting application and user.
         /// </summary>
         /// <param name="limit">Optional. Defaults to 100, max of 200.</param>
         /// <param name="nextMarker">Optional. Used to indicate starting point for next batch of webhooks.</param>
-        /// <returns></returns>
+        /// <returns>Returns all defined webhooks for the requesting application and user, up to the limit.</returns>
         public async Task<BoxWebhookCollection<BoxWebhook>> GetWebhooksAsync (int limit = 100, string nextMarker = null)
         {
             BoxRequest request = new BoxRequest(_config.WebhooksUri)
@@ -104,7 +110,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Convenience method to automatically fetch all webhooks for the requesting application and user using auto-pagination.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns all defined webhooks for the requesting application and user.</returns>
         public async Task<List<BoxWebhook>> GetAllWebhooksAsync()
         {
             string nextMarker = null;
@@ -119,6 +125,45 @@ namespace Box.V2.Managers
             } while (!string.IsNullOrWhiteSpace(nextMarker));
 
             return webhooks;
+        }
+
+        /// <summary>
+        /// Used to validate an incoming webhook by computing cryptographic digests of the notification's payload and comparing them
+        /// to the digests computed by Box and placed in the BOX-SIGNATURE-PRIMARY and BOX-SIGNATURE-SECONDARY request headers.
+        /// 
+        /// For more information about validating webhooks see  <see cref="https://docs.box.com/reference#signatures"/>
+        /// </summary>
+        /// <param name="deliveryTimestamp">Value in BOX-DELIVERY-TIMESTAMP header.</param>
+        /// <param name="signaturePrimary">Value in BOX-SIGNATURE-PRIMARY header.</param>
+        /// <param name="signatureSecondary">Value in BOX-SIGNATURE-SECONDARY header.</param>
+        /// <param name="payload">Body of the incoming webhook request.</param>
+        /// <param name="primaryWebhookKey">Primary webhook signature key.</param>
+        /// <param name="secondaryWebhookKey">Secondary webhook signature key.</param>
+        /// <returns>Returns true if at least one of the two webhook signatures match the computed signature.</returns>
+        public static bool VerifyWebhook(string deliveryTimestamp, string signaturePrimary, string signatureSecondary, string payload, 
+                                         string primaryWebhookKey, string secondaryWebhookKey)
+        {
+            var primaryKeyBytes = Encoding.UTF8.GetBytes(primaryWebhookKey);
+            var secondaryKeyBytes = Encoding.UTF8.GetBytes(secondaryWebhookKey);
+            var bodyBytes = Encoding.UTF8.GetBytes(payload);
+            var allBytes = bodyBytes.Concat(Encoding.UTF8.GetBytes(deliveryTimestamp)).ToArray();
+            using (var hmacsha256Primary = new HMACSHA256(primaryKeyBytes))
+            using (var hmacsha256Secondary = new HMACSHA256(secondaryKeyBytes))
+            {
+                byte[] hashBytes = hmacsha256Primary.ComputeHash(allBytes);
+                var hashPrimary = Convert.ToBase64String(hashBytes);
+
+                hashBytes = hmacsha256Secondary.ComputeHash(allBytes);
+                var hashSecondary = Convert.ToBase64String(hashBytes);
+
+                if (hashPrimary != signaturePrimary && hashSecondary != signatureSecondary)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
         }
     }
 }
