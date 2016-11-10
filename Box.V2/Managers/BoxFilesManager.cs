@@ -693,19 +693,15 @@ namespace Box.V2.Managers
         /// Used to apply or update the watermark for a corresponding Box file.
         /// </summary>
         /// <param name="id">Id of the file.</param>
-        /// <param name="applyWatermarkRequest">The apply watermark request. Can be null, for using default values - imprint="default" </param>
+        /// <param name="applyWatermarkRequest">BoxApplyWatermarkRequest object. Can be null, for using default values - imprint="default" </param>
         /// <returns>An object containing information about the watermark associated for this file.</returns>
         public async Task<BoxWatermark> ApplyWatermarkAsync(string id, BoxApplyWatermarkRequest applyWatermarkRequest = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
+
             if (applyWatermarkRequest == null)
             {
-                applyWatermarkRequest = new BoxApplyWatermarkRequest();
-            }
-            applyWatermarkRequest.Watermark.ThrowIfNull("applyWatermarkRequest.Watermark");
-            if (applyWatermarkRequest.Watermark.Imprint != BoxWatermarkRequest.DefaultImprintString)
-            {
-                throw new ArgumentException("Currently, the value must be \"default\", as custom watermarks is not yet supported.", "applyWatermarkRequest.Watermark.Imprint");
+                applyWatermarkRequest = new BoxApplyWatermarkRequest() { Watermark = new BoxWatermarkRequest() { Imprint = "default" } };
             }
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.WatermarkPathString, id))

@@ -35,7 +35,7 @@ namespace Box.V2.Test.Integration
         }
 
         private static async Task AssertFolderContents(BoxClient boxClient)
-{
+        {
             const int totalCount = 11;
             const int numFiles = 9;
             const int numFolders = 2;
@@ -58,6 +58,22 @@ namespace Box.V2.Test.Integration
         {
             var results = await _client.FoldersManager.GetTrashItemsAsync(10);
             Assert.IsNotNull(results);
+        }
+
+        [TestMethod]
+        public async Task Watermark_CRUD()
+        {
+            const string folderId = "1927308583";
+
+            var watermark = await _client.FoldersManager.ApplyWatermarkAsync(folderId);
+            Assert.IsNotNull(watermark, "Failed to apply watermark to folder");
+
+            var fetchedWatermark = await _client.FoldersManager.GetWatermarkAsync(folderId);
+            Assert.IsNotNull(fetchedWatermark, "Failed to fetch watermark of folder");
+
+            var result = await _client.FoldersManager.RemoveWatermarkAsync(folderId);
+            Assert.IsTrue(result, "Failed to remove watermark from folder");
+
         }
 
         [TestMethod]

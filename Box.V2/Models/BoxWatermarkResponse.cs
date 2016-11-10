@@ -9,6 +9,7 @@ namespace Box.V2.Models
     public class BoxWatermarkResponse : BoxEntity
     {
         public const string FieldWatermark = "watermark";
+
         /// <summary>
         /// Watermark wrapper
         /// </summary>
