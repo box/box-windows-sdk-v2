@@ -89,6 +89,7 @@ namespace Box.V2.Config
         public virtual Uri FileVersionRetentionsUri { get { return new Uri(BoxApiUri, Constants.FileVersionRetentionsString); } }
         public virtual Uri EventsUri { get { return new Uri(BoxApiUri, Constants.EventsString); } }
         public virtual Uri MetadataTemplatesUri { get { return new Uri(BoxApiUri, Constants.MetadataTemplatesString); } }
+        public virtual Uri CreateMetadataTemplateUri { get { return new Uri(BoxApiUri, Constants.CreateMetadataTemplateString); } }
         public virtual Uri WebhooksUri { get { return new Uri(BoxApiUri, Constants.WebhooksString); } }
         /// <summary>
         /// Gets the shared items endpoint URI.
