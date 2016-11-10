@@ -64,6 +64,11 @@ namespace Box.V2.Config
         /// The collections endpoint URI.
         /// </value>
         Uri CollectionsEndpointUri { get; }
+        /// <summary>
+        /// Gets the web links endpoint URI.
+        /// </summary>
+        Uri WebLinksEndpointUri { get; }
+
         
     }
 }
