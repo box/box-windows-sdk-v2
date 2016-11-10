@@ -62,7 +62,7 @@ namespace Box.V2.Models
         public const string FieldKey = "key";
 
         [JsonProperty(PropertyName = FieldKey)]
-        public string Key { get; private set; }
+        public string Key { get; set; }
     }
 
 }

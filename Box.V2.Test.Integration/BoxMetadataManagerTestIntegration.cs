@@ -109,11 +109,22 @@ namespace Box.V2.Test.Integration
         {
             var templateKey = "template-" + Guid.NewGuid().ToString().Replace("-","").Substring(0,8);
 
-            var field1 = new BoxMetadataTemplateField() { Key = "attr1", DisplayName = "attr one", Type = "string" };
-            var fields = new List<BoxMetadataTemplateField>() { field1 };
+            var field1 = new BoxMetadataTemplateField() { Key = "attr1", DisplayName = "a string", Type = "string" };
+            var field2 = new BoxMetadataTemplateField() { Key = "attr2", DisplayName = "a float", Type = "float" };
+            var field3 = new BoxMetadataTemplateField() { Key = "attr3", DisplayName = "a date", Type = "date" };
+            var options = new List<BoxMetadataTemplateFieldOption>() { new BoxMetadataTemplateFieldOption() { Key = "value1" }, new BoxMetadataTemplateFieldOption() { Key = "value2" } };
+            var field4 = new BoxMetadataTemplateField() { Key = "attr4", DisplayName = "a enum", Type = "enum", Options= options };
+            var fields = new List<BoxMetadataTemplateField>() { field1, field2, field3, field4 };
             var templateToCreate = new BoxMetadataTemplate() { TemplateKey = templateKey, DisplayName=templateKey, Fields=fields, Scope=SCOPE };
             var createdTemplate = await _client.MetadataManager.CreateMetadataTemplate(templateToCreate);
             Assert.AreEqual(createdTemplate.TemplateKey, templateKey, "Failed to create metadata template");
+            Assert.AreEqual(createdTemplate.Fields.Count, 4, "Failed to create metadata template");
+            Assert.AreEqual(createdTemplate.Fields.First(f => f.Key == "attr1").Type, "string");
+            Assert.AreEqual(createdTemplate.Fields.First(f => f.Key == "attr2").Type, "float");
+            Assert.AreEqual(createdTemplate.Fields.First(f => f.Key == "attr3").Type, "date");
+            Assert.AreEqual(createdTemplate.Fields.First(f => f.Key == "attr4").Type, "enum");
+            Assert.AreEqual(createdTemplate.Fields.First(f => f.Key == "attr4").Options.Count, 2);
+
         }
     }
 }
