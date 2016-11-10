@@ -50,7 +50,7 @@ namespace Box.V2.Test.Integration
 
             //delete metadata
             var result = await _client.MetadataManager.DeleteFileMetadataAsync(FILE_ID, SCOPE, TEMPLATE_KEY);
-
+            Assert.IsTrue(result, "Failed to delete file metadata");
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace Box.V2.Test.Integration
 
             //delete metadata
             var result = await _client.MetadataManager.DeleteFolderMetadataAsync(FOLDER_ID, SCOPE, TEMPLATE_KEY);
-
+            Assert.IsTrue(result, "Failed to delete folder metadata");
         }
 
         [TestMethod]
@@ -134,36 +134,42 @@ namespace Box.V2.Test.Integration
             var update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.addField, Data = newField };
             var updates = new List<BoxMetadataTemplateUpdate>() { update };
             var updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+            Assert.IsTrue(updatedTemplate.Fields.Any(f => f.Key == "attr5"), "addField operation failed on metadata update");
 
             //editField operation
             var fieldUpdate = new BoxMetadataTemplateField() { DisplayName = "a string edited"};
             update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.editField, FieldKey="attr1", Data = fieldUpdate };
             updates = new List<BoxMetadataTemplateUpdate>() { update };
             updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+            Assert.IsTrue(updatedTemplate.Fields.Single(f => f.Key == "attr1").DisplayName == "a string edited", "editField operation failed on metadata update");
 
             //editTemplate operation
             var templateUpdate = new BoxMetadataTemplate() { DisplayName = "new display name" };
             update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.editTemplate, Data = templateUpdate };
             updates = new List<BoxMetadataTemplateUpdate>() { update };
             updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+            Assert.IsTrue(updatedTemplate.DisplayName == "new display name", "editTemplate operation failed on metadata update");
 
             //addEnumOption operation
             var newValue = new BoxMetadataTemplateFieldOption() { Key = "value3" };
             update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.addEnumOption, FieldKey = "attr4", Data = newValue };
             updates = new List<BoxMetadataTemplateUpdate>() { update };
             updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+            Assert.IsTrue(updatedTemplate.Fields.Single(f => f.Key == "attr4").Options.Count == 3, "addEnumOption operation failed on metadata update");
 
             //reorderEnumOptions operation
             var newValueOrder = new List<string>() { "value2", "value1", "value3" };
             update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.reorderEnumOptions, FieldKey = "attr4", EnumOptionKeys = newValueOrder };
             updates = new List<BoxMetadataTemplateUpdate>() { update };
             updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+            Assert.IsTrue(updatedTemplate.Fields.Single(f => f.Key == "attr4").Options[0].Key == "value2", "reorderEnumOptions operation failed on metadata update");
 
             //reorderFields operation
             var newFieldOrder = new List<string>() { "attr5", "attr4", "attr3", "attr2", "attr1" };
             update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.reorderFields, FieldKeys=newFieldOrder };
             updates = new List<BoxMetadataTemplateUpdate>() { update };
             updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+            Assert.IsTrue(updatedTemplate.Fields[0].Key == "attr5", "reorderFields operation failed on metadata update");
 
         }
 

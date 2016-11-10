@@ -154,6 +154,13 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Used to update the schema of an existing template.
+        /// </summary>
+        /// <param name="metadataTemplateUpdate">BoxMetadataTemplateUpdate object</param>
+        /// <param name="scope">Scope name. Currently, the only scopes supported are enterprise and global</param>
+        /// <param name="template">Metadata template name</param>
+        /// <returns></returns>
         public async Task<BoxMetadataTemplate> UpdateMetadataTemplate(List<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)
         {
             BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template))
