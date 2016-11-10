@@ -16,16 +16,16 @@ namespace Box.V2.Models
         public const string FieldFields = "fields";
 
         [JsonProperty(PropertyName = FieldTemplateKey)]
-        public string TemplateKey { get; private set; }
+        public string TemplateKey { get; set; }
 
         [JsonProperty(PropertyName = FieldScope)]
-        public string Scope { get; private set; }
+        public string Scope { get; set; }
 
         [JsonProperty(PropertyName = FieldDisplayName)]
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; set; }
 
         [JsonProperty(PropertyName = FieldFields)]
-        public List<BoxMetadataTemplateField> Fields { get; private set; }
+        public List<BoxMetadataTemplateField> Fields { get; set; }
     }
 
     /// <summary>
@@ -39,19 +39,19 @@ namespace Box.V2.Models
         public const string FieldOptions = "options";
 
         [JsonProperty(PropertyName = FieldType)]
-        public string Type { get; private set; }
+        public string Type { get; set; }
 
         [JsonProperty(PropertyName = FieldKey)]
-        public string Key { get; private set; }
+        public string Key { get; set; }
 
         [JsonProperty(PropertyName = FieldDisplayName)]
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; set; }
 
         /// <summary>
         /// For fields of type enum this contains the option values
         /// </summary>
         [JsonProperty(PropertyName = FieldOptions)]
-        public List<BoxMetadataTemplateFieldOption> Options { get; private set; }
+        public List<BoxMetadataTemplateFieldOption> Options { get; set; }
     }
 
     /// <summary>

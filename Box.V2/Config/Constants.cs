@@ -33,6 +33,7 @@ namespace Box.V2.Config
         public const string FileVersionRetentionsString = @"file_version_retentions";
         public const string EventsString = @"events";
         public const string MetadataTemplatesString = @"metadata_templates/";
+        public const string CreateMetadataTemplateString = @"metadata_templates/schema";
         public const string WebhooksString = @"webhooks/";
         /// <summary>
         /// The shared items constant

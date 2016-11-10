@@ -137,6 +137,24 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to create a new metadata template with the specified schema.
+        /// </summary>
+        /// <param name="template">BoxMetadataTemplate object</param>
+        /// <returns>The schema representing the metadata template created.</returns>
+        public async Task<BoxMetadataTemplate> CreateMetadataTemplate(BoxMetadataTemplate template)
+        {
+            BoxRequest request = new BoxRequest(_config.CreateMetadataTemplateUri)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(template));
+
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Used to retrieve all metadata associated with a given file
         /// </summary>
         /// <param name="fileId">Id of file</param>

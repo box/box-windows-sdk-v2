@@ -103,5 +103,17 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(template.TemplateKey, TEMPLATE_KEY, "Failed to get metadata template");
             Assert.AreEqual(template.Fields.Count, 4, "Failed to get metadata template");
         }
+
+        [TestMethod]
+        public async Task Metadata_CreateTemplate_LiveSession()
+        {
+            var templateKey = "template-" + Guid.NewGuid().ToString().Replace("-","").Substring(0,8);
+
+            var field1 = new BoxMetadataTemplateField() { Key = "attr1", DisplayName = "attr one", Type = "string" };
+            var fields = new List<BoxMetadataTemplateField>() { field1 };
+            var templateToCreate = new BoxMetadataTemplate() { TemplateKey = templateKey, DisplayName=templateKey, Fields=fields, Scope=SCOPE };
+            var createdTemplate = await _client.MetadataManager.CreateMetadataTemplate(templateToCreate);
+            Assert.AreEqual(createdTemplate.TemplateKey, templateKey, "Failed to create metadata template");
+        }
     }
 }

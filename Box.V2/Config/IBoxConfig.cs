@@ -49,6 +49,7 @@ namespace Box.V2.Config
         Uri FileVersionRetentionsUri { get; }
         Uri EventsUri { get; }
         Uri MetadataTemplatesUri { get; }
+        Uri CreateMetadataTemplateUri { get; }
         Uri WebhooksUri { get; }
         /// <summary>
         /// Gets the shared items endpoint URI.
