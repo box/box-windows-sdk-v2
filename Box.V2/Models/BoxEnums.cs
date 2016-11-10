@@ -55,4 +55,17 @@ namespace Box.V2.Models
         move,
         copy
     }
+
+    /// <summary>
+    /// The operation type for a metadata template update
+    /// </summary>
+    public enum MetadataTemplateUpdateOp
+    {
+        addEnumOption,
+        addField,
+        editField,
+        editTemplate,
+        reorderEnumOptions,
+        reorderFields
+    }
 }

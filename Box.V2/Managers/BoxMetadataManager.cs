@@ -154,6 +154,17 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        public async Task<BoxMetadataTemplate> UpdateMetadataTemplate(List<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template))
+                .Method(RequestMethod.Put)
+                .Payload(_converter.Serialize(metadataTemplateUpdate));
+
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
         /// <summary>
         /// Used to retrieve all metadata associated with a given file
         /// </summary>

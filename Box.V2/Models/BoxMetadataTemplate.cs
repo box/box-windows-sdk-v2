@@ -56,6 +56,7 @@ namespace Box.V2.Models
         public const string FieldKey = "key";
         public const string FieldDisplayName = "displayName";
         public const string FieldOptions = "options";
+        public const string FieldHidden = "hidden";
 
         /// <summary>
         /// The data type of the field's value. Currently, there are four attributes supported by templates: string, enum, float, and date (RFC 3339).
@@ -74,6 +75,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldDisplayName)]
         public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Whether this field is hidden in the UI. Defaults to false.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldHidden)]
+        public bool? Hidden { get; set; }
 
         /// <summary>
         /// For fields of type enum this contains the option values

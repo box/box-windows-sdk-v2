@@ -108,23 +108,76 @@ namespace Box.V2.Test.Integration
         public async Task Metadata_CreateTemplate_LiveSession()
         {
             var templateKey = "template-" + Guid.NewGuid().ToString().Replace("-","").Substring(0,8);
+            var createdTemplate = await createTestTemplate(templateKey);
 
-            var field1 = new BoxMetadataTemplateField() { Key = "attr1", DisplayName = "a string", Type = "string" };
-            var field2 = new BoxMetadataTemplateField() { Key = "attr2", DisplayName = "a float", Type = "float" };
-            var field3 = new BoxMetadataTemplateField() { Key = "attr3", DisplayName = "a date", Type = "date" };
-            var options = new List<BoxMetadataTemplateFieldOption>() { new BoxMetadataTemplateFieldOption() { Key = "value1" }, new BoxMetadataTemplateFieldOption() { Key = "value2" } };
-            var field4 = new BoxMetadataTemplateField() { Key = "attr4", DisplayName = "a enum", Type = "enum", Options= options };
-            var fields = new List<BoxMetadataTemplateField>() { field1, field2, field3, field4 };
-            var templateToCreate = new BoxMetadataTemplate() { TemplateKey = templateKey, DisplayName=templateKey, Fields=fields, Hidden=true, Scope=SCOPE };
-            var createdTemplate = await _client.MetadataManager.CreateMetadataTemplate(templateToCreate);
             Assert.AreEqual(templateKey, createdTemplate.TemplateKey, "Failed to create metadata template");
             Assert.AreEqual(4, createdTemplate.Fields.Count, "Failed to create metadata template");
             Assert.AreEqual("string", createdTemplate.Fields.First(f => f.Key == "attr1").Type, "Failed to create metadata template");
+            Assert.IsTrue(createdTemplate.Fields.First(f => f.Key == "attr1").Hidden.Value, "Failed to create metadata template");
             Assert.AreEqual("float", createdTemplate.Fields.First(f => f.Key == "attr2").Type, "Failed to create metadata template");
+            Assert.IsFalse(createdTemplate.Fields.First(f => f.Key == "attr2").Hidden.Value, "Failed to create metadata template");
             Assert.AreEqual("date", createdTemplate.Fields.First(f => f.Key == "attr3").Type, "Failed to create metadata template");
             Assert.AreEqual("enum", createdTemplate.Fields.First(f => f.Key == "attr4").Type, "Failed to create metadata template");
             Assert.AreEqual(2, createdTemplate.Fields.First(f => f.Key == "attr4").Options.Count, "Failed to create metadata template");
+            Assert.IsTrue(createdTemplate.Hidden.Value, "Failed to create metadata template");
 
+        }
+
+        [TestMethod]
+        public async Task Metadata_UpdateTemplate_LiveSession()
+        {
+            var templateKey = "template-" + Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8);
+            var createdTemplate = await createTestTemplate(templateKey);
+
+            //addField operation
+            var newField = new BoxMetadataTemplateField() { Key = "attr5", DisplayName = "a string", Type = "string" };
+            var update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.addField, Data = newField };
+            var updates = new List<BoxMetadataTemplateUpdate>() { update };
+            var updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+
+            //editField operation
+            var fieldUpdate = new BoxMetadataTemplateField() { DisplayName = "a string edited"};
+            update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.editField, FieldKey="attr1", Data = fieldUpdate };
+            updates = new List<BoxMetadataTemplateUpdate>() { update };
+            updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+
+            //editTemplate operation
+            var templateUpdate = new BoxMetadataTemplate() { DisplayName = "new display name" };
+            update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.editTemplate, Data = templateUpdate };
+            updates = new List<BoxMetadataTemplateUpdate>() { update };
+            updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+
+            //addEnumOption operation
+            var newValue = new BoxMetadataTemplateFieldOption() { Key = "value3" };
+            update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.addEnumOption, FieldKey = "attr4", Data = newValue };
+            updates = new List<BoxMetadataTemplateUpdate>() { update };
+            updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+
+            //reorderEnumOptions operation
+            var newValueOrder = new List<string>() { "value2", "value1", "value3" };
+            update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.reorderEnumOptions, FieldKey = "attr4", EnumOptionKeys = newValueOrder };
+            updates = new List<BoxMetadataTemplateUpdate>() { update };
+            updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+
+            //reorderFields operation
+            var newFieldOrder = new List<string>() { "attr5", "attr4", "attr3", "attr2", "attr1" };
+            update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.reorderFields, FieldKeys=newFieldOrder };
+            updates = new List<BoxMetadataTemplateUpdate>() { update };
+            updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+
+        }
+
+        private async Task<BoxMetadataTemplate> createTestTemplate(string templateKey)
+        {
+            var field1 = new BoxMetadataTemplateField() { Key = "attr1", DisplayName = "a string", Type = "string", Hidden = true };
+            var field2 = new BoxMetadataTemplateField() { Key = "attr2", DisplayName = "a float", Type = "float" };
+            var field3 = new BoxMetadataTemplateField() { Key = "attr3", DisplayName = "a date", Type = "date" };
+            var options = new List<BoxMetadataTemplateFieldOption>() { new BoxMetadataTemplateFieldOption() { Key = "value1" }, new BoxMetadataTemplateFieldOption() { Key = "value2" } };
+            var field4 = new BoxMetadataTemplateField() { Key = "attr4", DisplayName = "a enum", Type = "enum", Options = options };
+            var fields = new List<BoxMetadataTemplateField>() { field1, field2, field3, field4 };
+            var templateToCreate = new BoxMetadataTemplate() { TemplateKey = templateKey, DisplayName = templateKey, Fields = fields, Hidden = true, Scope = SCOPE };
+            var createdTemplate = await _client.MetadataManager.CreateMetadataTemplate(templateToCreate);
+            return createdTemplate;
         }
     }
 }
