@@ -61,7 +61,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        public async Task Watermark_CRUD()
+        public async Task Watermark_Folders_CRUD()
         {
             const string folderId = "1927308583";
 

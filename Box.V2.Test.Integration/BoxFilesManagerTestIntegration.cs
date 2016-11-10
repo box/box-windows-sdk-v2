@@ -75,7 +75,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        public async Task Watermark_CRUD()
+        public async Task Watermark_Files_CRUD()
         {
             const string fileId = "16894944949";
 

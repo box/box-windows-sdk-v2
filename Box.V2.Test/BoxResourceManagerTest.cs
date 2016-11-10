@@ -45,6 +45,8 @@ namespace Box.V2.Test
             _config.SetupGet(x => x.FoldersEndpointUri).Returns(_FoldersUri);
             _config.SetupGet(x => x.FilesEndpointUri).Returns(_FilesUri);
             _config.SetupGet(x => x.FilesUploadEndpointUri).Returns(_FilesUploadUri);
+            _config.SetupGet(x => x.UserEndpointUri).Returns(_UserUri);
+            _config.SetupGet(x => x.InviteEndpointUri).Returns(_InviteUri);
 
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
