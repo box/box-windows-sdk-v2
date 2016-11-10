@@ -57,6 +57,17 @@ namespace Box.V2.Models
     }
 
     /// <summary>
+    /// Resulution state of task assignment
+    /// </summary>
+    public enum ResolutionStateType
+    {
+        completed,
+        incomplete,
+        approved,
+        rejected
+    }
+
+    /// <summary>
     /// The operation type for a metadata template update
     /// </summary>
     public enum MetadataTemplateUpdateOp

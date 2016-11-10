@@ -59,6 +59,15 @@ namespace Box.V2.Config
         /// </value>
         Uri SharedItemsUri { get; }
         /// <summary>
+        /// Gets the task assignments endpoint URI.
+        /// </summary>
+        /// <value>
+        /// The task assignments endpoint URI.
+        /// </value>
+        Uri TaskAssignmentsEndpointUri { get; }
+
+        Uri TasksEndpointUri { get; }
+        /// <summary>
         /// Gets the collections endpoint URI.
         /// </summary>
         /// <value>

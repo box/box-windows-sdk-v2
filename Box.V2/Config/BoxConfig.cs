@@ -99,6 +99,15 @@ namespace Box.V2.Config
         /// </value>
         public virtual Uri SharedItemsUri { get { return new Uri(BoxApiUri, Constants.SharedItemsString); } }
         /// <summary>
+        /// Gets the task assignments endpoint URI.
+        /// </summary>
+        /// <value>
+        /// The task assignments endpoint URI.
+        /// </value>
+        public virtual Uri TaskAssignmentsEndpointUri { get { return new Uri(BoxApiUri, Constants.TaskAssignmentsString); } }
+
+        public virtual Uri TasksEndpointUri { get { return new Uri(BoxApiUri, Constants.TasksString); } }
+        /// <summary>
         /// Gets the collections endpoint URI.
         /// </summary>
         /// <value>

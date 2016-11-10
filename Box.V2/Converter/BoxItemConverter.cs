@@ -57,6 +57,8 @@ namespace Box.V2.Converter
                         return new BoxTask();
                     case Constants.TypeEmailAlias:
                         return new BoxEmailAlias();
+                    case Constants.TypeTaskAssignment:
+                        return new BoxTaskAssignment();
                     case Constants.TypeCollection:
                         return new BoxCollectionItem();
                 }
