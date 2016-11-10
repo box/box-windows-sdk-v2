@@ -23,11 +23,11 @@ namespace Box.V2.Managers
         /// <summary>
         /// Retrieve a chunk of Enterprise Events.  You must be using a token that is scoped to admin level in order to use this endpoint.
         /// </summary>
-        /// <param name="limit">Limits the number of events returned (defaults to 500)</param>
+        /// <param name="limit">Limits the number of events returned (defaults to 500).</param>
         /// <param name="streamPosition">The starting position for fetching the events. This is used in combination with the limit to determine which events to return to the caller. Use the results from the next_stream_position of your last call to get the next set of events.</param>
-        /// <param name="eventTypes">events to filter by</param>
-        /// <param name="createdAfter">A lower bound on the timestamp of the events returned</param>
-        /// <param name="createdBefore">An upper bound on the timestamp of the events returned</param>
+        /// <param name="eventTypes">Events to filter by.</param>
+        /// <param name="createdAfter">A lower bound on the timestamp of the events returned.</param>
+        /// <param name="createdBefore">An upper bound on the timestamp of the events returned.</param>
         /// <returns></returns>
         public async Task<BoxEventCollection<BoxEnterpriseEvent>> EnterpriseEventsAsync(int limit = 500,
                                                                         string streamPosition = null,

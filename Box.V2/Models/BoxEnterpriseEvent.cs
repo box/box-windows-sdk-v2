@@ -72,7 +72,7 @@ namespace Box.V2.Models
         /// </para>
         /// </summary>
         [JsonProperty(PropertyName = FieldAdditionalDetails)]
-        public Dictionary<string,string> AdditionalDetails { get; private set; }
+        public Dictionary<string,object> AdditionalDetails { get; private set; }
 
     }
 }
