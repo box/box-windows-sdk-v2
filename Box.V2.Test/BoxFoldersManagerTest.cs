@@ -4,6 +4,7 @@ using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -194,7 +195,7 @@ namespace Box.V2.Test
                 Parent = new BoxRequestEntity() { Id = "0" }
             };
 
-            try 
+            try
             {
                 BoxFolder f = await _foldersManager.CreateAsync(folderReq);
                 throw new BoxException("Invalid error type returned");
@@ -330,7 +331,7 @@ namespace Box.V2.Test
             Assert.AreEqual((f.ItemCollection.Entries[0] as BoxFile).Sha1, "134b65991ed521fcfe4724b7d814ab8ded5185dc");
             Assert.AreEqual(f.ItemCollection.Entries[0].Name, "tigers.jpeg");
             Assert.AreEqual(f.ItemCollection.Offset, 0);
-            Assert.AreEqual(f.ItemCollection.Limit, 100); 
+            Assert.AreEqual(f.ItemCollection.Limit, 100);
 
 
         }
@@ -379,7 +380,7 @@ namespace Box.V2.Test
             {
                 Id = "fakeId",
                 Name = "New Folder Name!",
-                FolderUploadEmail = new BoxEmailRequest() {  Access = "open" }
+                FolderUploadEmail = new BoxEmailRequest() { Access = "open" }
             };
 
             BoxFolder f = await _foldersManager.UpdateInformationAsync(folderReq);
@@ -656,6 +657,102 @@ namespace Box.V2.Test
 
             Assert.AreEqual(true, result);
 
+
+        }
+
+        [TestMethod]
+        public async Task GetWatermarkForFolder_ValidResponse_ValidWatermark()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                          ""watermark"": {
+                                            ""created_at"": ""2016-10-31T15:33:33-07:00"",
+                                            ""modified_at"": ""2016-10-31T15:33:33-07:00""
+                                          }
+                                       }";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxWatermark result = await _foldersManager.GetWatermarkAsync("5010739069");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(_FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+        }
+
+        [TestMethod]
+        public async Task ApplyWatermarkToFolder_ValidResponse_ValidWatermark()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                          ""watermark"": {
+                                            ""created_at"": ""2016-10-31T15:33:33-07:00"",
+                                            ""modified_at"": ""2016-10-31T15:33:33-07:00""
+                                          }
+                                       }";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxWatermark result = await _foldersManager.ApplyWatermarkAsync("5010739069");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
+            Assert.AreEqual(_FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
+            BoxApplyWatermarkRequest payload = JsonConvert.DeserializeObject<BoxApplyWatermarkRequest>(boxRequest.Payload);
+            Assert.AreEqual("default", payload.Watermark.Imprint);
+
+            //Response check
+            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+        }
+
+        [TestMethod]
+        public async Task RemoveWatermarkFromFolder_ValidResponse_RemovedWatermark()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            bool result = await _foldersManager.RemoveWatermarkAsync("5010739069");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(_FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual(true, result);
 
         }
     }
