@@ -116,6 +116,39 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual<string>(newGroup.Id, memberships.Entries[0].Group.Id, "Wrong Group id");
             Assert.AreEqual<string>(user.Id, memberships.Entries[0].User.Id, "Wrong User id");
 
+            // Add this group to a folder
+            const string folderId = "1927307787";
+
+            // Add Collaboration
+            BoxCollaborationRequest addRequest = new BoxCollaborationRequest()
+            {
+                Item = new BoxRequestEntity()
+                {
+                    Id = folderId,
+                    Type = BoxType.folder
+                },
+                AccessibleBy = new BoxCollaborationUserRequest()
+                {
+                    Type = BoxType.group,
+                    Id = newGroup.Id
+                },
+                Role = "viewer"
+            };
+
+            BoxCollaboration collab = await _client.CollaborationsManager.AddCollaborationAsync(addRequest, notify: false);
+
+            Assert.AreEqual(folderId, collab.Item.Id, "Folder and collaboration folder id do not match");
+            Assert.AreEqual(BoxCollaborationRoles.Viewer, collab.Role, "Incorrect collaboration role");
+
+            // Get all collaborations for the give group
+            var collabs = await _client.GroupsManager.GetCollaborationsForGroupAsync(newGroup.Id);
+            Assert.AreEqual<int>(1, collabs.Entries.Count, "Wrong count of collaborations");
+            Assert.AreEqual<int>(1, collabs.TotalCount, "Wrong total count of collaborations");
+
+            collab = collabs.Entries[0];
+            Assert.AreEqual<string>(newGroup.Id, collab.AccessibleBy.Id, "Wrong Group Id");
+            Assert.AreEqual<string>("viewer", collab.Role, "Wrong Role Type");
+
             // Get memberships for the user
             memberships = await _client.GroupsManager.GetAllGroupMembershipsForUserAsync(user.Id);
 
