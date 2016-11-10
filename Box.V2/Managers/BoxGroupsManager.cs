@@ -162,6 +162,26 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Retrieves all of the group collaborations for a given group. Note this is only available to group admins.
+        /// </summary>
+        /// <param name="groupId">The id of the group to get the list of collaborations for.</param>
+        /// <param name="limit">The number of results to return with this request. Refer to the Box API for defaults.</param>
+        /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>A collection of collaborations for the specified group id.</returns>
+        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsForGroupAsync(string groupId, int? limit = null, int? offset = null, List<string> fields = null)
+        {
+            var request = new BoxRequest(_config.GroupsEndpointUri, string.Format(Constants.CollaborationsPathString, groupId))
+                .Param(ParamFields, fields)
+                .Param("limit", limit.ToString())
+                .Param("offset", offset.ToString()); ;
+
+            var response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Get the list of group memberships for a given group.
         /// </summary>
         /// <param name="groupId">The id of the group to get the list of memberships for.</param>
