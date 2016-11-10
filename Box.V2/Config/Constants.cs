@@ -78,6 +78,7 @@ namespace Box.V2.Config
         public const string RetentionPolicyAssignmentsEndpointString = @"{0}/assignments";
         public const string MetadataPathString = @"{0}/metadata/{1}/{2}";
         public const string AllFileMetadataPathString = @"{0}/metadata";
+        public const string AllFolderMetadataPathString = @"{0}/metadata";
         public const string MetadataTemplatesPathString = @"{0}/{1}/schema";
         public const string EnterpriseMetadataTemplatesPathString = @"{0}";
         public const string TasksPathString = @"{0}/tasks";

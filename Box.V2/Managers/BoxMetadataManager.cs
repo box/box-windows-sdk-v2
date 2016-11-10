@@ -150,6 +150,19 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to retrieve all metadata associated with a given folder
+        /// </summary>
+        /// <param name="folderId">Id of folder</param>
+        /// <returns>Collection of metadata instances associated with the file.</returns>
+        public async Task<BoxMetadataTemplateCollection<Dictionary<string, object>>> GetAllFolderMetadataTemplatesAsync(string folderId)
+        {
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.AllFolderMetadataPathString, folderId));
+            IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>> response = await ToResponseAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Used to retrieve all metadata templates within a user's enterprise. Currently only the enterprise scope is supported.
         /// </summary>
         /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global</param>
