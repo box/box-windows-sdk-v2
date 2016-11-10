@@ -24,7 +24,7 @@ namespace Box.V2.Models
         public const string FieldJobTitle = "job_title";
         public const string FieldPhone = "phone";
         public const string FieldAddress = "address";
-        public const string FieldAvatarArl = "vatar_url";
+        public const string FieldAvatarUrl = "avatar_url";
         public const string FieldIsExemptFromDeviceLimits = "is_exempt_from_device_limits";
         public const string FieldIsExemptFromLoginVerification = "is_exempt_from_login_verification";
         public const string FieldEnterprise = "enterprise";
@@ -129,7 +129,7 @@ namespace Box.V2.Models
         /// <summary>
         /// URL of this user’s avatar image
         /// </summary>
-        [JsonProperty(PropertyName = FieldAvatarArl)]
+        [JsonProperty(PropertyName = FieldAvatarUrl)]
         public string AvatarUrl { get; private set; }
 
         /// <summary>

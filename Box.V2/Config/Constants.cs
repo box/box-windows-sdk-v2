@@ -87,6 +87,9 @@ namespace Box.V2.Config
         public const string WatermarkPathString = @"{0}/watermark";
         public const string DeleteOldVersionPathString = @"{0}/versions/{1}";
         public const string PromoteVersionPathString = @"{0}/versions/current";
+        public const string MoveUserFolderPathString = @"{0}/folders/{1}";
+        public const string GroupMembershipForUserPathString = @"{0}/memberships";
+        public const string DeleteEmailAliasPathString = "{0}/email_aliases/{1}";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";

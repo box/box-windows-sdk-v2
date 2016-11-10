@@ -96,6 +96,7 @@
     <Compile Include="Models\Permissions\BoxItemPermission.cs" />
     <Compile Include="Models\BoxSortOrder.cs" />
     <Compile Include="Models\Request\BoxMetadataFilterRequest.cs" />
+    <Compile Include="Models\Request\BoxMoveUserFolderRequest.cs" />
     <Compile Include="Models\Request\BoxPreflightCheckRequest.cs" />
     <Compile Include="Models\Request\BoxPromoteVersionRequest.cs" />
     <Compile Include="Models\Request\BoxRetentionPolicyAssignmentRequest.cs" />
