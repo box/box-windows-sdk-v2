@@ -45,6 +45,9 @@ namespace Box.V2.Config
         /// The collections endpoint constant
         /// </summary>
         public const string CollectionsString = @"collections/";
+        /// <summary>
+        /// The web links endpoint constant
+        /// </summary>
         public const string WebLinksString = @"web_links/";
 
         /*** API Full Endpoint Strings ***/

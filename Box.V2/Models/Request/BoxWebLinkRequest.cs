@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Box.V2.Models
 {
-    public class BoxCreateWebLinkRequest : BoxItemRequest
+    public class BoxWebLinkRequest : BoxItemRequest
     {
         /// <summary>
         /// URL you want the web link to point to. Must include http:// or https://
