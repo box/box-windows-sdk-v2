@@ -48,6 +48,10 @@ namespace Box.V2.Config
         /// The collections endpoint constant
         /// </summary>
         public const string CollectionsString = @"collections/";
+        /// <summary>
+        /// The web links endpoint constant
+        /// </summary>
+        public const string WebLinksString = @"web_links/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -67,6 +71,7 @@ namespace Box.V2.Config
         public const string TaskAssignmentsEndpointString = BoxApiUriString + TaskAssignmentsString;
         public const string TasksEndpointString = BoxApiUriString + TasksString;
         public const string CollectionsEndpointString = BoxApiUriString + CollectionsString;
+        public const string WebLinksEndpointString = BoxApiUriString + WebLinksString;
 
 
         /*** Endpoint Paths ***/

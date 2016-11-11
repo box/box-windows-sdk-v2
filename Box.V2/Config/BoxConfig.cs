@@ -29,7 +29,7 @@ namespace Box.V2.Config
         /// <param name="jwtPrivateKey"></param>
         /// <param name="jwtPrivateKeyPassword"></param>
         /// <param name="jwtPublicKeyId"></param>
-        public BoxConfig(string clientId, string clientSecret, string enterpriseId, 
+        public BoxConfig(string clientId, string clientSecret, string enterpriseId,
             string jwtPrivateKey, string jwtPrivateKeyPassword, string jwtPublicKeyId)
         {
             ClientId = clientId;
@@ -81,8 +81,8 @@ namespace Box.V2.Config
         public virtual Uri CollaborationsEndpointUri { get { return new Uri(BoxApiUri, Constants.CollaborationsString); } }
         public virtual Uri GroupsEndpointUri { get { return new Uri(BoxApiUri, Constants.GroupsString); } }
         public virtual Uri GroupMembershipEndpointUri { get { return new Uri(BoxApiUri, Constants.GroupMembershipString); } }
-        public virtual Uri RetentionPoliciesEndpointUri {  get { return new Uri(BoxApiUri, Constants.RetentionPoliciesString); } }
-        public virtual Uri RetentionPolicyAssignmentsUri {  get { return new Uri(BoxApiUri, Constants.RetentionPolicyAssignmentsString); } }
+        public virtual Uri RetentionPoliciesEndpointUri { get { return new Uri(BoxApiUri, Constants.RetentionPoliciesString); } }
+        public virtual Uri RetentionPolicyAssignmentsUri { get { return new Uri(BoxApiUri, Constants.RetentionPolicyAssignmentsString); } }
         public virtual Uri FileVersionRetentionsUri { get { return new Uri(BoxApiUri, Constants.FileVersionRetentionsString); } }
         public virtual Uri EventsUri { get { return new Uri(BoxApiUri, Constants.EventsString); } }
         public virtual Uri MetadataTemplatesUri { get { return new Uri(BoxApiUri, Constants.MetadataTemplatesString); } }
@@ -119,12 +119,15 @@ namespace Box.V2.Config
         /// The collections endpoint URI.
         /// </value>
         public virtual Uri CollectionsEndpointUri { get { return new Uri(BoxApiUri, Constants.CollectionsString); } }
-
+        /// <summary>
+        /// Gets the web links endpoint URI.
+        /// </summary>
+        public virtual Uri WebLinksEndpointUri { get { return new Uri(BoxApiUri, Constants.WebLinksString); } }
     }
 
     public enum CompressionType
     {
-        gzip, 
+        gzip,
         deflate
     }
 }

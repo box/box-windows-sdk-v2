@@ -11,6 +11,6 @@ namespace Box.V2.Models
         public const string FieldUrl = "url";
 
         [JsonProperty(PropertyName = FieldUrl)]
-        public string Url { get; private set; }
+        public Uri Url { get; private set; }
     }
 }

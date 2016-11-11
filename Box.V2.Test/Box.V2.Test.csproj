@@ -81,6 +81,7 @@
     <Compile Include="BoxTasksManagerTest.cs" />
     <Compile Include="BoxUsersManagerTest.cs" />
     <Compile Include="BoxCollaborationsManagerTest.cs" />
+    <Compile Include="BoxWebLinksManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoxRequestTest.cs" />
     <Compile Include="BoxFoldersManagerTest.cs" />
