@@ -39,6 +39,8 @@ namespace Box.V2.Config
         /// The shared items constant
         /// </summary>
         public const string SharedItemsString = @"shared_items";
+        public const string TaskAssignmentsString = @"task_assignments/";
+        public const string TasksString = @"tasks/";
         /// <summary>
         /// The collections endpoint constant
         /// </summary>
@@ -59,6 +61,8 @@ namespace Box.V2.Config
         public const string CollaborationsEndpointString = BoxApiUriString + CollaborationsString;
         public const string EventsEndpointString = BoxApiUriString + EventsString;
         public const string MetadataTemplatesEndpointString = BoxApiUriString + MetadataTemplatesString;
+        public const string TaskAssignmentsEndpointString = BoxApiUriString + TaskAssignmentsString;
+        public const string TasksEndpointString = BoxApiUriString + TasksString;
         public const string CollectionsEndpointString = BoxApiUriString + CollectionsString;
 
 
@@ -85,6 +89,7 @@ namespace Box.V2.Config
         public const string TasksPathString = @"{0}/tasks";
         public const string UserEmailAliasesPathString = @"{0}/email_aliases/";
         public const string WatermarkPathString = @"{0}/watermark";
+        public const string TaskAssignmentsPathString = @"{0}/assignments";
         public const string DeleteOldVersionPathString = @"{0}/versions/{1}";
         public const string PromoteVersionPathString = @"{0}/versions/current";
         public const string MoveUserFolderPathString = @"{0}/folders/{1}";
@@ -115,6 +120,7 @@ namespace Box.V2.Config
         public const string TypeWebhook = "webhook";
         public const string TypeTask = "task";
         public const string TypeEmailAlias = "email_alias";
+        public const string TypeTaskAssignment = "task_assignment";
         public const string TypeCollection = "collection";
 
         /*** File Preview ***/

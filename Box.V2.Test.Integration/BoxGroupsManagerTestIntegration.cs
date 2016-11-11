@@ -1,16 +1,11 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using Box.V2.Models.Request;
-using Box.V2.Exceptions;
+﻿using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 
 namespace Box.V2.Test.Integration
 {
-   
     [TestClass]
     public class BoxGroupsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -20,7 +15,7 @@ namespace Box.V2.Test.Integration
             // Get all groups and one individual group
             var allGroupsInit = await _client.GroupsManager.GetAllGroupsAsync();
             var oneGroup = await _client.GroupsManager.GetGroupAsync(allGroupsInit.Entries[0].Id);
-            Assert.AreEqual<string>(allGroupsInit.Entries[0].Name, oneGroup.Name, "Did not retrieve the correct group");
+            Assert.AreEqual(allGroupsInit.Entries[0].Name, oneGroup.Name, "Did not retrieve the correct group");
             
             // Create a new group
             string groupName = GetUniqueName();
@@ -49,7 +44,7 @@ namespace Box.V2.Test.Integration
             var updatedGroup = await _client.GroupsManager.UpdateAsync(newGroup.Id, updateRequest);
             var allGroupsAfterUpdate = await _client.GroupsManager.GetAllGroupsAsync();
 
-            Assert.AreEqual<string>(updatedGroup.Name, updatedName, "The group name was not updated correctly");
+            Assert.AreEqual(updatedGroup.Name, updatedName, "The group name was not updated correctly");
             Assert.AreEqual(1, allGroupsAfterUpdate.Entries.Count(x => x.Name.Equals(updatedName)), "The updated group name does not exist among all groups");
             Assert.IsFalse(allGroupsAfterUpdate.Entries.Any<BoxGroup>(x => x.Name.Equals(groupName)), "The old group name still exists among all groups");
 
@@ -90,31 +85,31 @@ namespace Box.V2.Test.Integration
 
             var responseMembership = await _client.GroupsManager.AddMemberToGroupAsync(request);
 
-            Assert.AreEqual<string>("group_membership", responseMembership.Type, "The type is not group_membership");
-            Assert.AreEqual<string>("member", responseMembership.Role, "Membership role is not set correctly");
-            Assert.AreEqual<string>(user.Id, responseMembership.User.Id, "User id not set correctly for membership");
-            Assert.AreEqual<string>(newGroup.Id, responseMembership.Group.Id, "Group id not set correctly for membership");
+            Assert.AreEqual("group_membership", responseMembership.Type, "The type is not group_membership");
+            Assert.AreEqual("member", responseMembership.Role, "Membership role is not set correctly");
+            Assert.AreEqual(user.Id, responseMembership.User.Id, "User id not set correctly for membership");
+            Assert.AreEqual(newGroup.Id, responseMembership.Group.Id, "Group id not set correctly for membership");
 
             // Get the created group membership
             var membership = await _client.GroupsManager.GetGroupMembershipAsync(responseMembership.Id);
-            Assert.AreEqual<string>("group_membership", membership.Type, "The type is not group_membership");
-            Assert.AreEqual<string>("member", membership.Role, "Membership role is not set correctly");
-            Assert.AreEqual<string>(user.Id, membership.User.Id, "User id not set correctly for membership");
-            Assert.AreEqual<string>(newGroup.Id, membership.Group.Id, "Group id not set correctly for membership");
+            Assert.AreEqual("group_membership", membership.Type, "The type is not group_membership");
+            Assert.AreEqual("member", membership.Role, "Membership role is not set correctly");
+            Assert.AreEqual(user.Id, membership.User.Id, "User id not set correctly for membership");
+            Assert.AreEqual(newGroup.Id, membership.Group.Id, "Group id not set correctly for membership");
 
             // Update the group membership's role
             request = new BoxGroupMembershipRequest() { Role = "admin" };
             var updatedMembership = await _client.GroupsManager.UpdateGroupMembershipAsync(responseMembership.Id, request);
-            Assert.AreEqual<string>("admin", updatedMembership.Role, "Membership role was not updated correctly");
+            Assert.AreEqual("admin", updatedMembership.Role, "Membership role was not updated correctly");
             
             // Get all memberships for the given groups
             var memberships = await _client.GroupsManager.GetAllGroupMembershipsForGroupAsync(newGroup.Id);
 
             Assert.AreEqual<int>(1, memberships.Entries.Count, "Wrong count of memberships");
             Assert.AreEqual<int>(1, memberships.TotalCount, "Wrong total count of memberships");
-            Assert.AreEqual<string>("group_membership", memberships.Entries[0].Type, "Wrong type");
-            Assert.AreEqual<string>(newGroup.Id, memberships.Entries[0].Group.Id, "Wrong Group id");
-            Assert.AreEqual<string>(user.Id, memberships.Entries[0].User.Id, "Wrong User id");
+            Assert.AreEqual("group_membership", memberships.Entries[0].Type, "Wrong type");
+            Assert.AreEqual(newGroup.Id, memberships.Entries[0].Group.Id, "Wrong Group id");
+            Assert.AreEqual(user.Id, memberships.Entries[0].User.Id, "Wrong User id");
 
             // Add this group to a folder
             const string folderId = "1927307787";
