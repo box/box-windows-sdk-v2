@@ -218,8 +218,8 @@ var downloadUri = await client.FilesManager.GetDownloadUriAsync(fileId);
 var filter = new 
 { 
 	someKey = "blah", 
-	expiresOn = new {gt = new DateTime(2015,1,1).ToUniversalTime().ToString("o"), 
-			 lt = new DateTime(2015,9,1).ToUniversalTime().ToString("o")},
+	expiresOn = new {gt = new DateTime(2015,1,1), 
+			 lt = new DateTime(2015,9,1)},
 	count = new {gt = 5, lt = 10},
 	option = "value1"
 };

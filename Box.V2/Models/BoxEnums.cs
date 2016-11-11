@@ -31,7 +31,8 @@ namespace Box.V2.Models
     public enum BoxSortBy
     {
         Type,
-        Name
+        Name,
+        Id
     }
 
     /// <summary>
@@ -78,5 +79,12 @@ namespace Box.V2.Models
         editTemplate,
         reorderEnumOptions,
         reorderFields
+    }
+
+    public enum UserEventsStreamType
+    {
+        all,
+        changes,
+        sync
     }
 }

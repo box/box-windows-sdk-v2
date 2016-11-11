@@ -88,6 +88,9 @@ namespace Box.V2.Config
         public virtual Uri MetadataTemplatesUri { get { return new Uri(BoxApiUri, Constants.MetadataTemplatesString); } }
         public virtual Uri CreateMetadataTemplateUri { get { return new Uri(BoxApiUri, Constants.CreateMetadataTemplateString); } }
         public virtual Uri WebhooksUri { get { return new Uri(BoxApiUri, Constants.WebhooksString); } }
+        public virtual Uri EnterprisesUri {  get { return new Uri(BoxApiUri, Constants.EnterprisesString); } }
+        public virtual Uri DevicePinUri {  get { return new Uri(BoxApiUri, Constants.DevicePinString); } }
+
         /// <summary>
         /// Gets the shared items endpoint URI.
         /// </summary>
@@ -95,6 +98,7 @@ namespace Box.V2.Config
         /// The shared items endpoint URI.
         /// </value>
         public virtual Uri SharedItemsUri { get { return new Uri(BoxApiUri, Constants.SharedItemsString); } }
+
         /// <summary>
         /// Gets the task assignments endpoint URI.
         /// </summary>

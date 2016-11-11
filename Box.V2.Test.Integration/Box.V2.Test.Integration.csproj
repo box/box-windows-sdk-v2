@@ -61,6 +61,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BoxCollectionsManagerTestIntegration.cs" />
+    <Compile Include="BoxDevicePinManagerTestIntegration.cs" />
+    <Compile Include="BoxEventsManagerTestIntegration.cs" />
     <Compile Include="BoxFilesManagerTestIntegration.cs" />
     <Compile Include="BoxFoldersManagerTestIntegration.cs" />
     <Compile Include="BoxTasksManagerTestIntegration.cs" />

@@ -35,6 +35,9 @@ namespace Box.V2.Config
         public const string MetadataTemplatesString = @"metadata_templates/";
         public const string CreateMetadataTemplateString = @"metadata_templates/schema";
         public const string WebhooksString = @"webhooks/";
+        public const string EnterprisesString = @"enterprises/";
+        public const string DevicePinString = @"device_pinners/";
+
         /// <summary>
         /// The shared items constant
         /// </summary>
@@ -100,6 +103,7 @@ namespace Box.V2.Config
         public const string MoveUserFolderPathString = @"{0}/folders/{1}";
         public const string GroupMembershipForUserPathString = @"{0}/memberships";
         public const string DeleteEmailAliasPathString = "{0}/email_aliases/{1}";
+        public const string GetEnterpriseDevicePinsPathString = @"{0}/device_pinners";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -127,12 +131,14 @@ namespace Box.V2.Config
         public const string TypeEmailAlias = "email_alias";
         public const string TypeTaskAssignment = "task_assignment";
         public const string TypeCollection = "collection";
+        public const string TypeDevicePin = "device_pinner";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
 
         /*** Date Format ***/
         public const string RFC3339DateFormat = "yyyy-MM-ddTHH:mm:sszzz";
+        public const string RFC3339DateFormat_UTC = "yyyy-MM-dd'T'HH:mm:ss.fffK";
 
         public static class RequestParameters
         {

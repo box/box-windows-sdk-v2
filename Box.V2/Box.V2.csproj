@@ -52,6 +52,7 @@
     <Compile Include="Exceptions\BoxAuthenticationFailedException.cs" />
     <Compile Include="Extensions\BoxExtensions.cs" />
     <Compile Include="Managers\BoxCollectionsManager.cs" />
+    <Compile Include="Managers\BoxDevicePinManager.cs" />
     <Compile Include="Managers\BoxEventsManager.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Managers\BoxMetadataManager.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Managers\BoxWebhooksManager.cs" />
     <Compile Include="Managers\BoxWebLinksManager.cs" />
     <Compile Include="Models\BoxCollectionItem.cs" />
+    <Compile Include="Models\BoxDevicePin.cs" />
     <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
