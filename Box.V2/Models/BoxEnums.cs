@@ -68,4 +68,11 @@ namespace Box.V2.Models
         reorderEnumOptions,
         reorderFields
     }
+
+    public enum UserEventsStreamType
+    {
+        all,
+        changes,
+        sync
+    }
 }

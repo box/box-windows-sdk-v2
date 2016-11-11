@@ -50,5 +50,19 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        public async Task<BoxEventCollection<BoxEnterpriseEvent>> UserEventsAsync(int limit = 500, UserEventsStreamType streamType = UserEventsStreamType.all, string streamPosition = "now")
+        {
+            BoxRequest request = new BoxRequest(_config.EventsUri)
+                .Param("stream_type", streamType.ToString())
+                .Param("limit", limit.ToString())
+                .Param("stream_position", streamPosition);
+
+            IBoxResponse<BoxEventCollection<BoxEnterpriseEvent>> response = await ToResponseAsync<BoxEventCollection<BoxEnterpriseEvent>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+
     }
 }
