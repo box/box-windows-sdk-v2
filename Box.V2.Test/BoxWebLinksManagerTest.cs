@@ -99,7 +99,7 @@ namespace Box.V2.Test
             /*** Act ***/
             BoxWebLinkRequest createWebLinkRequest = new BoxWebLinkRequest()
             {
-                Url = "https://www.box.com",
+                Url = new Uri("https://www.box.com"),
                 Parent = new BoxRequestEntity()
                 {
                     Id = "848123342"
@@ -112,10 +112,10 @@ namespace Box.V2.Test
             /*** Assert ***/
             //Request check
             Assert.IsNotNull(boxRequest);
-            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
             Assert.AreEqual(webLinksUri, boxRequest.AbsoluteUri.AbsoluteUri);
             BoxWebLinkRequest payload = JsonConvert.DeserializeObject<BoxWebLinkRequest>(boxRequest.Payload);
-            Assert.AreEqual("https://www.box.com", payload.Url);
+            Assert.AreEqual(new Uri("https://www.box.com"), payload.Url);
             Assert.AreEqual("848123342", payload.Parent.Id);
             Assert.AreEqual("Box Website!", payload.Name);
             Assert.AreEqual("Cloud Content Management", payload.Description);
@@ -123,7 +123,7 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual("web_link", result.Type);
             Assert.AreEqual("6743065", result.Id);
-            Assert.AreEqual("https://www.box.com", result.Url);
+            Assert.AreEqual(new Uri("https://www.box.com"), result.Url);
             Assert.AreEqual("Cloud Content Management", result.Description);
             Assert.AreEqual("0", result.PathCollection.Entries[0].Id);
             Assert.AreEqual("All Files", result.PathCollection.Entries[0].Name);
@@ -246,7 +246,7 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual("web_link", result.Type);
             Assert.AreEqual("6742981", result.Id);
-            Assert.AreEqual("https://www.box.com", result.Url);
+            Assert.AreEqual(new Uri("https://www.box.com"), result.Url);
             Assert.AreEqual("Cloud Content Management", result.Description);
             Assert.AreEqual("0", result.PathCollection.Entries[0].Id);
             Assert.AreEqual("All Files", result.PathCollection.Entries[0].Name);
@@ -347,7 +347,7 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual("web_link", result.Type);
             Assert.AreEqual("6742981", result.Id);
-            Assert.AreEqual("https://www.box.com", result.Url);
+            Assert.AreEqual(new Uri("https://www.box.com"), result.Url);
             Assert.AreEqual("Box Marketing Web Page", result.Name);
             Assert.AreEqual("Cloud Content Management", result.Description);
             Assert.AreEqual("0", result.PathCollection.Entries[0].Id);

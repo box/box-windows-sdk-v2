@@ -12,6 +12,6 @@ namespace Box.V2.Models
         /// URL you want the web link to point to. Must include http:// or https://
         /// </summary>
         [JsonProperty(PropertyName = "url")]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
     }
 }
