@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Config
 {
@@ -106,7 +103,11 @@ namespace Box.V2.Config
         /// </value>
         public virtual Uri TaskAssignmentsEndpointUri { get { return new Uri(BoxApiUri, Constants.TaskAssignmentsString); } }
 
+        /// <summary>
+        /// Gets the tasks endpoint URI.
+        /// </summary>
         public virtual Uri TasksEndpointUri { get { return new Uri(BoxApiUri, Constants.TasksString); } }
+
         /// <summary>
         /// Gets the collections endpoint URI.
         /// </summary>

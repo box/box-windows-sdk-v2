@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// Request to update a task assignment.
+    /// </summary>
     public class BoxTaskAssignmentUpdateRequest
     {
         /// <summary>
@@ -14,6 +17,7 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
+
         /// <summary>
         /// A message from the assignee about this task.
         /// </summary>

@@ -402,14 +402,15 @@ namespace Box.V2.Test
             /*** Act ***/
             BoxTaskUpdateRequest taskUpdateRequest = new BoxTaskUpdateRequest()
             {
+                Id = "1839355",
                 Message = "REVIEW PLZ K THX"
             };
-            BoxTask result = await _tasksManager.UpdateTaskAsync("1839355", taskUpdateRequest);
+            BoxTask result = await _tasksManager.UpdateTaskAsync(taskUpdateRequest);
 
             /*** Assert ***/
             //Request check
             Assert.IsNotNull(boxRequest);
-            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
             Assert.AreEqual(tasksUri + "1839355", boxRequest.AbsoluteUri.AbsoluteUri);
             BoxTaskUpdateRequest payload = JsonConvert.DeserializeObject<BoxTaskUpdateRequest>(boxRequest.Payload);
             Assert.AreEqual(taskUpdateRequest.Message, payload.Message);

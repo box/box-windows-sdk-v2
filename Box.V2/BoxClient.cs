@@ -126,6 +126,7 @@ namespace Box.V2
             RetentionPoliciesManager = new BoxRetentionPoliciesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             MetadataManager = new BoxMetadataManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             WebhooksManager = new BoxWebhooksManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            TasksManager = new BoxTasksManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             SharedItemsManager = new BoxSharedItemsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             CollectionsManager = new BoxCollectionsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             // Init Resource Plugins Manager
@@ -203,6 +204,11 @@ namespace Box.V2
         /// The manager that represents the webhooks V2 endpoint
         /// </summary>
         public BoxWebhooksManager WebhooksManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the tasks endpoint
+        /// </summary>
+        public BoxTasksManager TasksManager { get; private set; }
 
         /// <summary>
         /// The Auth repository that holds the auth session

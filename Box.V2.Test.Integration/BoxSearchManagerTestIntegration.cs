@@ -68,7 +68,7 @@ namespace Box.V2.Test.Integration
             start = new DateTime(2014, 5, 1);
             end = new DateTime(2014, 5, 30);
             results = await _client.SearchManager.SearchAsync(keyword, 200, updatedAtRangeFromDate: start, updatedAtRangeToDate: end);
-            Assert.AreEqual(13, results.Entries.Count, "Incorrect number of search results using updated at date range");
+            Assert.AreEqual(12, results.Entries.Count, "Incorrect number of search results using updated at date range");
 
             //search using a size range that should return results
             var minBytes = 150000;

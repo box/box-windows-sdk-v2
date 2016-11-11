@@ -12,6 +12,12 @@ namespace Box.V2.Models
     public class BoxTaskUpdateRequest
     {
         /// <summary>
+        /// Id of the task.
+        /// </summary>
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+
+        /// <summary>
         /// The action the task assignee will be prompted to do. Can be review.
         /// </summary>
         [JsonProperty(PropertyName = "action")]

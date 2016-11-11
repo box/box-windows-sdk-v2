@@ -1,14 +1,11 @@
-﻿using Box.V2.Auth;
+﻿using System;
+using System.Threading.Tasks;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -20,11 +17,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to assign a task to a single user. There can be multiple assignments on a given task.
         /// </summary>
-        /// <param name="taskAssignmentRequest">The task assignment request.
-        /// taskAssignmentRequest.Task.Id - Id of the task,
-        /// taskAssignmentRequest.AssignTo.Id - The Id of the user this assignment is for,
-        /// taskAssignmentRequest.AssignTo.Login - The login email address for the user this assignment is for.
-        /// </param>
+        /// <param name="taskAssignmentRequest">BoxTaskAssignmentRequest object.</param>
         /// <returns>A new task assignment object will be returned upon success.</returns>
         public async Task<BoxTaskAssignment> CreateTaskAssignmentAsync(BoxTaskAssignmentRequest taskAssignmentRequest)
         {
@@ -50,11 +43,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to update a task assignment.
         /// </summary>
-        /// <param name="taskAssignmentUpdateRequest">The task assignment update request.
-        /// taskAssignmentUpdateRequest.Id - Id of the task assignment,
-        /// taskAssignmentUpdateRequest.Message - A message from the assignee about this task,
-        /// taskAssignmentUpdateRequest.ResolutionState - Can be completed, incomplete, approved, or rejected.
-        /// </param>
+        /// <param name="taskAssignmentUpdateRequest">BoxTaskAssignmentUpdateRequest object.</param>
         /// <returns>A new task assignment object will be returned upon success.</returns>
         public async Task<BoxTaskAssignment> UpdateTaskAssignmentAsync(BoxTaskAssignmentUpdateRequest taskAssignmentUpdateRequest)
         {
@@ -107,12 +96,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to create a single task for single user on a single file.
         /// </summary>
-        /// <param name="taskCreateRequest">The task create request.
-        /// taskCreateRequest.Item.Id - The ID of the item this task is for,
-        /// taskCreateRequest.Item.Type - The type of the item this task is for (currently only file is supported),
-        /// taskCreateRequest.Message - An optional message to include with the task,
-        /// taskCreateRequest.DueAt - The day at which this task is due.
-        /// </param>
+        /// <param name="taskCreateRequest">BoxTaskCreateRequest object.</param>
         /// <returns>A new task object will be returned upon success.</returns>
         public async Task<BoxTask> CreateTaskAsync(BoxTaskCreateRequest taskCreateRequest)
         {
@@ -136,19 +120,14 @@ namespace Box.V2.Managers
         /// <summary>
         /// Updates a specific task.
         /// </summary>
-        /// <param name="taskId">Id of the task.</param>
-        /// <param name="taskUpdateRequest">The task update request.
-        /// taskUpdateRequest.Action - The action the task assignee will be prompted to do. Can be review.,
-        /// taskUpdateRequest.Message - An optional message to include with the task,
-        /// taskUpdateRequest.DueAt - The day at which this task is due.
-        /// </param>
+        /// <param name="taskUpdateRequest">BoxTaskUpdateRequest object.</param>
         /// <returns>The updated task object will be returned upon success.</returns>
-        public async Task<BoxTask> UpdateTaskAsync(string taskId, BoxTaskUpdateRequest taskUpdateRequest)
+        public async Task<BoxTask> UpdateTaskAsync(BoxTaskUpdateRequest taskUpdateRequest)
         {
             taskUpdateRequest.ThrowIfNull("taskUpdateRequest");
 
-            BoxRequest request = new BoxRequest(_config.TasksEndpointUri, taskId)
-                .Method(RequestMethod.Post)
+            BoxRequest request = new BoxRequest(_config.TasksEndpointUri, taskUpdateRequest.Id)
+                .Method(RequestMethod.Put)
                 .Payload(_converter.Serialize(taskUpdateRequest));
 
             IBoxResponse<BoxTask> response = await ToResponseAsync<BoxTask>(request).ConfigureAwait(false);
@@ -157,7 +136,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Permanently deletes a specific task..
+        /// Permanently deletes a specific task.
         /// </summary>
         /// <param name="taskId">Id of the task.</param>
         /// <returns>True will be returned upon success.</returns>

@@ -1,9 +1,5 @@
 ﻿using Box.V2.Models.Request;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Models
 {
@@ -16,7 +12,7 @@ namespace Box.V2.Models
         public BoxTaskRequest Task { get; set; }
 
         /// <summary>
-        /// The user this assignment is for. .
+        /// The user this assignment is for.
         /// </summary>
         [JsonProperty(PropertyName = "assign_to")]
         public BoxAssignmentRequest AssignTo { get; set; }
