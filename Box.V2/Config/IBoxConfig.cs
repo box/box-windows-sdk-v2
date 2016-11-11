@@ -51,6 +51,9 @@ namespace Box.V2.Config
         Uri MetadataTemplatesUri { get; }
         Uri CreateMetadataTemplateUri { get; }
         Uri WebhooksUri { get; }
+        Uri EnterprisesUri { get; }
+        Uri DevicePinUri { get; }
+
         /// <summary>
         /// Gets the shared items endpoint URI.
         /// </summary>
@@ -58,6 +61,7 @@ namespace Box.V2.Config
         /// The shared items endpoint URI.
         /// </value>
         Uri SharedItemsUri { get; }
+
         /// <summary>
         /// Gets the task assignments endpoint URI.
         /// </summary>
