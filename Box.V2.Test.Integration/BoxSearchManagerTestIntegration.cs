@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Box.V2.Models.Request;
 using Box.V2.Exceptions;
+using Box.V2.Config;
 
 namespace Box.V2.Test.Integration
 {
@@ -129,11 +130,13 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task SearchMetadata_LiveSession()
         {
+
+
             var filter = new
             {
                 attr1 = "blah",
                 attr2 = new { gt = 5, lt = 5 },
-                attr3 = new { gt = new DateTime(2016, 10, 1).ToUniversalTime().ToString("o"), lt = new DateTime(2016, 11, 5).ToUniversalTime().ToString("o") },
+                attr3 = new { gt = new DateTime(2016, 10, 1), lt = new DateTime(2016, 11, 5) },
                 attr4 = "value1"
             };
 
