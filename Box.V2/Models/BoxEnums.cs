@@ -31,7 +31,8 @@ namespace Box.V2.Models
     public enum BoxSortBy
     {
         Type,
-        Name
+        Name,
+        file_version_id
     }
 
     /// <summary>
