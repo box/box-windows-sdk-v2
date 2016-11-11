@@ -21,10 +21,10 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
-        /// Used to create a new retention policy
+        /// Used to create a new retention policy.
         /// </summary>
-        /// <param name="retentionPolicyRequest"></param>
-        /// <returns></returns>
+        /// <param name="retentionPolicyRequest">BoxRetentionPolicyRequest object.</param>
+        /// <returns>A new retention policy object will be returned upon success.</returns>
         public async Task<BoxRetentionPolicy> CreateRetentionPolicyAsync(BoxRetentionPolicyRequest retentionPolicyRequest)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri)
@@ -37,11 +37,11 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to retrieve information about a retention policy
+        /// Used to retrieve information about a retention policy.
         /// </summary>
-        /// <param name="id">ID of the retention policy</param>
-        /// <param name="fields"></param>
-        /// <returns></returns>
+        /// <param name="id">ID of the retention policy.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>The specified retention policy will be returned upon success.</returns>
         public async Task<BoxRetentionPolicy> GetRetentionPolicyAsync(string id, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -57,10 +57,10 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to update a retention policy.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="retentionPolicyRequest"></param>
-        /// <param name="fields"></param>
-        /// <returns></returns>
+        /// <param name="id">ID of the retention policy.</param>
+        /// <param name="retentionPolicyRequest">BoxRetentionPolicyRequest object.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>An updated retention policy object will be returned upon success.</returns>
         public async Task<BoxRetentionPolicy> UpdateRetentionPolicyAsync(string id, BoxRetentionPolicyRequest retentionPolicyRequest, List<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -81,8 +81,8 @@ namespace Box.V2.Managers
         /// <param name="policyName">A name to filter the retention policies by. A trailing partial match search is performed.</param>
         /// <param name="policyType">A policy type to filter the retention policies by.</param>
         /// <param name="createdByUserId">A user id to filter the retention policies by.</param>
-        /// <param name="fields"></param>
-        /// <returns></returns>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns the list of all retention policies for the enterprise.</returns>
         public async Task<BoxCollection<BoxRetentionPolicy>> GetRetentionPoliciesAsync(string policyName = null, string policyType = null, string createdByUserId = null, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri)
@@ -99,10 +99,10 @@ namespace Box.V2.Managers
         /// <summary>
         /// Returns a list of all retention policy assignments associated with a specified retention policy.
         /// </summary>
-        /// <param name="retentionPolicyId">ID of the retention policy</param>
+        /// <param name="retentionPolicyId">ID of the retention policy.</param>
         /// <param name="type">The type of the retention policy assignment to retrieve. Can either be folder or enterprise.</param>
-        /// <param name="fields"></param>
-        /// <returns></returns>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns a list of the retention policy assignments associated with the specified retention policy.</returns>
         public async Task<BoxCollection<BoxRetentionPolicyAssignment>> GetRetentionPolicyAssignmentsAsync(string retentionPolicyId, string type = null, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri, string.Format(Constants.RetentionPolicyAssignmentsEndpointString, retentionPolicyId))
@@ -118,8 +118,8 @@ namespace Box.V2.Managers
         /// Creates a retention policy assignment that associates a retention policy with either a folder or an enterprise
         /// </summary>
         /// <param name="policyAssignmentRequest"></param>
-        /// <param name="fields"></param>
-        /// <returns></returns>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>A new retention policy assignment will be returned upon success.</returns>
         public async Task<BoxRetentionPolicyAssignment> CreateRetentionPolicyAssignmentAsync(BoxRetentionPolicyAssignmentRequest policyAssignmentRequest, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri)
@@ -135,9 +135,9 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to retrieve information about a retention policy assignment.
         /// </summary>
-        /// <param name="retentionPolicyAssignmentId"></param>
-        /// <param name="fields"></param>
-        /// <returns></returns>
+        /// <param name="retentionPolicyAssignmentId">ID of the retention policy assignment.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>The specified retention policy assignment will be returned upon success.</returns>
         public async Task<BoxRetentionPolicyAssignment> GetRetentionPolicyAssignmentAsync(string retentionPolicyAssignmentId, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri, retentionPolicyAssignmentId)
@@ -148,48 +148,35 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Retrieves all file version retentions for the given enterprise.
+        /// </summary>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>The specified file version retention will be returned upon success.</returns>
+        public async Task<BoxCollection<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)
+                .Param(ParamFields, fields);
 
+            var response = await ToResponseAsync<BoxCollection<BoxFileVersionRetention>>(request).ConfigureAwait(false);
 
+            return response.ResponseObject;
+        }
 
+        /// <summary>
+        /// Used to retrieve information about a file version retention.
+        /// </summary>
+        /// <param name="fileVersionRetentionId">ID of the file version retention policy.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns the list of all file version retentions for the enterprise.</returns>
+        public async Task<BoxFileVersionRetention> GetFileVersionRetentionAsync(string fileVersionRetentionId, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri, fileVersionRetentionId)
+                .Param(ParamFields, fields);
 
+            var response = await ToResponseAsync<BoxFileVersionRetention>(request).ConfigureAwait(false);
 
-
-
-
-        /// IMPORTANT!
-        /// do not uncomment and use the code below.  Box API changes that break this code are forthcoming
-
-        ///// <summary>
-        ///// Retrieves all file version retentions for the given enterprise.
-        ///// </summary>
-        ///// <param name="fileVersionRetentionRequest"></param>
-        ///// <param name="fields"></param>
-        ///// <returns></returns>
-        //public async Task<BoxCollectionSingleSortOrder<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(BoxFileVersionRetentionRequest fileVersionRetentionRequest, List<string> fields = null)
-        //{
-        //    BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)
-        //        .Payload(_converter.Serialize(fileVersionRetentionRequest))
-        //        .Param(ParamFields, fields);
-
-        //    IBoxResponse<BoxCollectionSingleSortOrder<BoxFileVersionRetention>> response = await ToResponseAsync<BoxCollectionSingleSortOrder<BoxFileVersionRetention>>(request).ConfigureAwait(false);
-
-        //    return response.ResponseObject;
-        //}
-
-        ///// <summary>
-        ///// Used to retrieve information about a file version retention
-        ///// </summary>
-        ///// <param name="fileVersionRetentionId"></param>
-        ///// <param name="fields"></param>
-        ///// <returns></returns>
-        //public async Task<BoxFileVersionRetention> GetFileVersionRetentionAsync(string fileVersionRetentionId, List<string> fields = null)
-        //{
-        //    BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri, fileVersionRetentionId)
-        //        .Param(ParamFields, fields);
-
-        //    IBoxResponse<BoxFileVersionRetention> response = await ToResponseAsync<BoxFileVersionRetention>(request).ConfigureAwait(false);
-
-        //    return response.ResponseObject;
-        //}
+            return response.ResponseObject;
+        }
     }
 }

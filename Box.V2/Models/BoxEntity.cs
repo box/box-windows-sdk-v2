@@ -15,12 +15,12 @@ namespace Box.V2.Models
         /// The item’s ID
         /// </summary>
         [JsonProperty(PropertyName = FieldId)]
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// The type of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldType)]
-        public string Type { get; private set; }
+        public string Type { get; set; }
     }
 }
