@@ -73,7 +73,23 @@ namespace Box.V2.Test.Integration
             BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync(imageFileId1, linkReq);
             Assert.AreEqual(BoxSharedLinkAccessType.open, fileLink.SharedLink.Access);
         }
-            
+
+        [TestMethod]
+        public async Task Watermark_Files_CRUD()
+        {
+            const string fileId = "16894944949";
+
+            var watermark = await _client.FilesManager.ApplyWatermarkAsync(fileId);
+            Assert.IsNotNull(watermark, "Failed to apply watermark to file");
+
+            var fetchedWatermark = await _client.FilesManager.GetWatermarkAsync(fileId);
+            Assert.IsNotNull(fetchedWatermark, "Failed to fetch watermark of file");
+
+            var result = await _client.FilesManager.RemoveWatermarkAsync(fileId);
+            Assert.IsTrue(result, "Failed to remove watermark from file");
+
+        }
+
         [TestMethod]
         public async Task FileWorkflow_ValidRequest_ValidResponse()
         {

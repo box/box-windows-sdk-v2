@@ -49,6 +49,7 @@ namespace Box.V2.Config
         Uri FileVersionRetentionsUri { get; }
         Uri EventsUri { get; }
         Uri MetadataTemplatesUri { get; }
+        Uri CreateMetadataTemplateUri { get; }
         Uri WebhooksUri { get; }
         /// <summary>
         /// Gets the shared items endpoint URI.
@@ -57,6 +58,19 @@ namespace Box.V2.Config
         /// The shared items endpoint URI.
         /// </value>
         Uri SharedItemsUri { get; }
+        /// <summary>
+        /// Gets the task assignments endpoint URI.
+        /// </summary>
+        /// <value>
+        /// The task assignments endpoint URI.
+        /// </value>
+        Uri TaskAssignmentsEndpointUri { get; }
+
+        /// <summary>
+        /// Gets the tasks endpoint URI.
+        /// </summary>
+        Uri TasksEndpointUri { get; }
+
         /// <summary>
         /// Gets the collections endpoint URI.
         /// </summary>

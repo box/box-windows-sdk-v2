@@ -14,6 +14,7 @@ namespace Box.V2.Converter
     {
         const string ItemType = "type";
         const string EventSourceItemType = "item_type";
+        const string WatermarkType = "watermark";
 
         protected override BoxEntity Create(Type objectType, JObject jObject)
         {
@@ -57,6 +58,8 @@ namespace Box.V2.Converter
                         return new BoxTask();
                     case Constants.TypeEmailAlias:
                         return new BoxEmailAlias();
+                    case Constants.TypeTaskAssignment:
+                        return new BoxTaskAssignment();
                     case Constants.TypeCollection:
                         return new BoxCollectionItem();
                 }
@@ -69,6 +72,10 @@ namespace Box.V2.Converter
                     case Constants.TypeFile:
                         return new BoxFileEventSource();
                 }
+            }
+            else if (FieldExists(WatermarkType, jObject))
+            {
+                return new BoxWatermarkResponse();
             }
             return new BoxEntity();
         }

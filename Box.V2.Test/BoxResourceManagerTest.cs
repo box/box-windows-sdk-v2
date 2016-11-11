@@ -13,6 +13,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Test
 {
@@ -29,7 +31,8 @@ namespace Box.V2.Test
         protected Uri _FoldersUri = new Uri(Constants.FoldersEndpointString);
         protected Uri _FilesUploadUri = new Uri(Constants.FilesUploadEndpointString);
         protected Uri _FilesUri = new Uri(Constants.FilesEndpointString);
-        protected Uri _usersUri = new Uri(Constants.UserEndpointString);
+        protected Uri _UserUri = new Uri(Constants.UserEndpointString);
+        protected Uri _InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
 
         public BoxResourceManagerTest()
         {
@@ -41,10 +44,9 @@ namespace Box.V2.Test
             _config.SetupGet(x => x.CollaborationsEndpointUri).Returns(new Uri(Constants.CollaborationsEndpointString));
             _config.SetupGet(x => x.FoldersEndpointUri).Returns(_FoldersUri);
             _config.SetupGet(x => x.FilesEndpointUri).Returns(_FilesUri);
-            _config.SetupGet(x => x.FoldersEndpointUri).Returns(_FoldersUri);
-            _config.SetupGet(x => x.UserEndpointUri).Returns(_usersUri);
-
             _config.SetupGet(x => x.FilesUploadEndpointUri).Returns(_FilesUploadUri);
+            _config.SetupGet(x => x.UserEndpointUri).Returns(_UserUri);
+            _config.SetupGet(x => x.InviteEndpointUri).Returns(_InviteUri);
 
             _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }

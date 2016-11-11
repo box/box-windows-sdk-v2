@@ -63,6 +63,8 @@
     <Compile Include="BoxCollectionsManagerTestIntegration.cs" />
     <Compile Include="BoxFilesManagerTestIntegration.cs" />
     <Compile Include="BoxFoldersManagerTestIntegration.cs" />
+    <Compile Include="BoxTasksManagerTestIntegration.cs" />
+    <Compile Include="BoxMetadataManagerTestIntegration.cs" />
     <Compile Include="BoxResourceManagerTestIntegration.cs" />
     <Compile Include="BoxCommentsManagerTestIntegration.cs" />
     <Compile Include="BoxSearchManagerTestIntegration.cs" />

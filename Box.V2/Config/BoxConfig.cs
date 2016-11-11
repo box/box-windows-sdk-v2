@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Config
 {
@@ -89,6 +86,7 @@ namespace Box.V2.Config
         public virtual Uri FileVersionRetentionsUri { get { return new Uri(BoxApiUri, Constants.FileVersionRetentionsString); } }
         public virtual Uri EventsUri { get { return new Uri(BoxApiUri, Constants.EventsString); } }
         public virtual Uri MetadataTemplatesUri { get { return new Uri(BoxApiUri, Constants.MetadataTemplatesString); } }
+        public virtual Uri CreateMetadataTemplateUri { get { return new Uri(BoxApiUri, Constants.CreateMetadataTemplateString); } }
         public virtual Uri WebhooksUri { get { return new Uri(BoxApiUri, Constants.WebhooksString); } }
         /// <summary>
         /// Gets the shared items endpoint URI.
@@ -97,6 +95,19 @@ namespace Box.V2.Config
         /// The shared items endpoint URI.
         /// </value>
         public virtual Uri SharedItemsUri { get { return new Uri(BoxApiUri, Constants.SharedItemsString); } }
+        /// <summary>
+        /// Gets the task assignments endpoint URI.
+        /// </summary>
+        /// <value>
+        /// The task assignments endpoint URI.
+        /// </value>
+        public virtual Uri TaskAssignmentsEndpointUri { get { return new Uri(BoxApiUri, Constants.TaskAssignmentsString); } }
+
+        /// <summary>
+        /// Gets the tasks endpoint URI.
+        /// </summary>
+        public virtual Uri TasksEndpointUri { get { return new Uri(BoxApiUri, Constants.TasksString); } }
+
         /// <summary>
         /// Gets the collections endpoint URI.
         /// </summary>

@@ -137,6 +137,42 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to create a new metadata template with the specified schema.
+        /// </summary>
+        /// <param name="template">BoxMetadataTemplate object</param>
+        /// <returns>The schema representing the metadata template created.</returns>
+        public async Task<BoxMetadataTemplate> CreateMetadataTemplate(BoxMetadataTemplate template)
+        {
+            BoxRequest request = new BoxRequest(_config.CreateMetadataTemplateUri)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(template));
+
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to update the schema of an existing template.
+        /// </summary>
+        /// <param name="metadataTemplateUpdate">BoxMetadataTemplateUpdate object</param>
+        /// <param name="scope">Scope name. Currently, the only scopes supported are enterprise and global</param>
+        /// <param name="template">Metadata template name</param>
+        /// <returns></returns>
+        public async Task<BoxMetadataTemplate> UpdateMetadataTemplate(List<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template))
+                .Method(RequestMethod.Put)
+                .Payload(_converter.Serialize(metadataTemplateUpdate));
+
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Used to retrieve all metadata associated with a given file
         /// </summary>
         /// <param name="fileId">Id of file</param>
@@ -144,6 +180,19 @@ namespace Box.V2.Managers
         public async Task<BoxMetadataTemplateCollection<Dictionary<string, object>>> GetAllFileMetadataTemplatesAsync(string fileId)
         {
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.AllFileMetadataPathString, fileId));
+            IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>> response = await ToResponseAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to retrieve all metadata associated with a given folder
+        /// </summary>
+        /// <param name="folderId">Id of folder</param>
+        /// <returns>Collection of metadata instances associated with the file.</returns>
+        public async Task<BoxMetadataTemplateCollection<Dictionary<string, object>>> GetAllFolderMetadataTemplatesAsync(string folderId)
+        {
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.AllFolderMetadataPathString, folderId));
             IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>> response = await ToResponseAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;

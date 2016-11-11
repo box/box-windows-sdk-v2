@@ -667,6 +667,77 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to retrieve the watermark for a corresponding Box file.
+        /// </summary>
+        /// <param name="id">Id of the file.</param>
+        /// <returns>An object containing information about the watermark associated for this file. If the file does not have a watermark applied to it than return null</returns>
+        public async Task<BoxWatermark> GetWatermarkAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.WatermarkPathString, id))
+               .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
+            if (response.Status == ResponseStatus.Success)
+            {
+                return response.ResponseObject.Watermark;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Used to apply or update the watermark for a corresponding Box file.
+        /// </summary>
+        /// <param name="id">Id of the file.</param>
+        /// <param name="applyWatermarkRequest">BoxApplyWatermarkRequest object. Can be null, for using default values - imprint="default" </param>
+        /// <returns>An object containing information about the watermark associated for this file.</returns>
+        public async Task<BoxWatermark> ApplyWatermarkAsync(string id, BoxApplyWatermarkRequest applyWatermarkRequest = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            if (applyWatermarkRequest == null)
+            {
+                applyWatermarkRequest = new BoxApplyWatermarkRequest() { Watermark = new BoxWatermarkRequest() { Imprint = "default" } };
+            }
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.WatermarkPathString, id))
+               .Method(RequestMethod.Put)
+               .Payload(_converter.Serialize(applyWatermarkRequest));
+
+            IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
+
+            if (response.Status == ResponseStatus.Success)
+            {
+                return response.ResponseObject.Watermark;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Used to remove the watermark for a corresponding Box file.
+        /// </summary>
+        /// <param name="id">Id of the file.</param>
+        /// <returns>True to confirm the watermark has been removed. If the file did not have a watermark applied to it, than False will be returned.</returns>
+        public async Task<bool> RemoveWatermarkAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.WatermarkPathString, id))
+               .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
         /// Discards a specific file version to the trash.
         /// </summary>
         /// <param name="id">Id of the file (Required).</param>
