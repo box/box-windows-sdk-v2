@@ -129,6 +129,8 @@ namespace Box.V2
             TasksManager = new BoxTasksManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             SharedItemsManager = new BoxSharedItemsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             CollectionsManager = new BoxCollectionsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            DevicePinManager = new BoxDevicePinManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
         }
@@ -229,6 +231,11 @@ namespace Box.V2
         /// The manager that represents the collections endpoint
         /// </summary>
         public BoxCollectionsManager CollectionsManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the device pin endpoint
+        /// </summary>
+        public BoxDevicePinManager DevicePinManager { get; private set; }
 
     }
 }

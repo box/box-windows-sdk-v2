@@ -29,6 +29,14 @@ namespace Box.V2.Models
         public const string FieldEntries = "entries";
     }
 
+    public abstract class BoxDevicePinCollection
+    {
+        public const string FieldEntries = "entries";
+        public const string FieldMarker = "marker";
+        public const string FieldLimit = "limit";
+        public const string FieldOrder = "order";
+    }
+
     public abstract class BoxMetadataTemplateCollection
     {
         public const string FieldEntries = "entries";
@@ -113,6 +121,33 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldEntries)]
         public List<T> Entries { get; private set; }
+    }
+
+    public class BoxDevicePinCollection<T> : BoxDevicePinCollection where T: BoxDevicePin
+    {
+        /// <summary>
+        /// Default value is 100. Max value is 10000
+        /// </summary>
+        [JsonProperty(PropertyName = FieldLimit)]
+        public int Limit { get; private set; }
+
+        /// <summary>
+        /// Needs not be passed or can be empty for first invocation of the API. Use the one returned in response for each subsequent call.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldMarker)]
+        public string Marker { get; private set; }
+
+        /// <summary>
+        /// List of device pins returned
+        /// </summary>
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; private set; }
+
+        /// <summary>
+        /// Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldOrder)]
+        public List<BoxSortOrder> Order { get; private set; }
     }
 
     public class BoxMetadataTemplateCollection<T> : BoxMetadataTemplateCollection where T: Dictionary<string,object>
