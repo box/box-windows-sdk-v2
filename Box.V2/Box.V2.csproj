@@ -75,6 +75,7 @@
     <Compile Include="Models\BoxMetadataTemplateUpdate.cs" />
     <Compile Include="Models\BoxMetadataUpdate.cs" />
     <Compile Include="Models\BoxPreflightCheck.cs" />
+    <Compile Include="Models\BoxRestrictedTo.cs" />
     <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
     <Compile Include="Models\BoxRetentionPolicy.cs" />
     <Compile Include="Models\BoxTask.cs" />
