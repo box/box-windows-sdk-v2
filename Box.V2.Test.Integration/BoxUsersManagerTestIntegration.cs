@@ -23,7 +23,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task EnterpriseUsersInformation_LiveSession_ValidResponse()
         {
-            BoxCollection<BoxUser> users = await _client.UsersManager.GetEnterpriseUsersAsync("test.user");
+            BoxCollection<BoxUser> users = await _client.UsersManager.GetEnterpriseUsersAsync("test.user", userType: "all");
 
             Assert.AreEqual(users.TotalCount, 1);
             Assert.AreEqual(users.Entries.First().Name, "Test User");

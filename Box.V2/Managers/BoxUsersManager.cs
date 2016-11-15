@@ -83,9 +83,14 @@ namespace Box.V2.Managers
         /// <param name="offset">The record at which to start. (default: 0)</param>
         /// <param name="limit">The number of records to return. (min: 1; default: 100; max: 1000)</param>
         /// <param name="fields">The fields to populate for each returned user.</param>
+        /// <param name="userType">The type of user to search for. Valid values are all, external or managed. If nothing is provided, the default behavior will be managed only</param>
         /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
-        public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null, uint offset = 0, uint limit = 100, List<string> fields = null)
+        public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null,
+                                                                          uint offset = 0, 
+                                                                          uint limit = 100, 
+                                                                          List<string> fields = null,
+                                                                          string userType = null)
         {
             if (limit == 0 || limit > 1000) throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
 
@@ -93,6 +98,7 @@ namespace Box.V2.Managers
                 .Param("filter_term", filterTerm)
                 .Param("offset", offset.ToString())
                 .Param("limit", limit.ToString())
+                .Param("user_type", userType)
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxUser>> response = await ToResponseAsync<BoxCollection<BoxUser>>(request).ConfigureAwait(false);
