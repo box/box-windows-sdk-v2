@@ -63,10 +63,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Box.V2.TransactionalAuth\Box.V2.TransactionalAuth.csproj">
-      <Project>{8c45e962-8b19-491f-b95b-465533109557}</Project>
-      <Name>Box.V2.TransactionalAuth</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Box.V2\Box.V2.csproj">
       <Project>{740075f5-8b88-4b8a-a75a-564f66359607}</Project>
       <Name>Box.V2</Name>
