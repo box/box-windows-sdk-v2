@@ -6,10 +6,6 @@ using Box.V2.Services;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Box.V2.Auth
@@ -38,11 +34,11 @@ namespace Box.V2.Auth
         public event EventHandler<SessionAuthenticatedEventArgs> SessionAuthenticated;
 
         /// <summary>
-        /// Instantiates a new AuthRepository
+        /// Instantiates a new AuthRepository.
         /// </summary>
-        /// <param name="boxConfig">The Box configuration that should be used</param>
-        /// <param name="boxService">The Box service that will be used to make the requests</param>
-        /// <param name="converter">How requests/responses will be serialized/deserialized respectively</param>
+        /// <param name="boxConfig">The Box configuration that should be used.</param>
+        /// <param name="boxService">The Box service that will be used to make the requests.</param>
+        /// <param name="converter">How requests/responses will be serialized/deserialized respectively.</param>
         public AuthRepository(IBoxConfig boxConfig, IBoxService boxService, IBoxConverter converter) : this(boxConfig, boxService, converter, null) { }
 
         /// <summary>
@@ -91,8 +87,8 @@ namespace Box.V2.Auth
         /// this method should not need to be called explicitly, as an automatic refresh is invoked when the SDK 
         /// detects that the tokens have expired. 
         /// </summary>
-        /// <param name="accessToken">The access token to refresh</param>
-        /// <returns>Refreshed session of Box Client</returns>
+        /// <param name="accessToken">The access token to refresh.</param>
+        /// <returns>Refreshed session of Box Client.</returns>
         public virtual async Task<OAuthSession> RefreshAccessTokenAsync(string accessToken)
         {
             OAuthSession session;
@@ -221,24 +217,16 @@ namespace Box.V2.Auth
         /// </summary>
         protected void OnSessionInvalidated()
         {
-            var handler = SessionInvalidated;
-            if (handler != null)
-            {
-                handler(this, new EventArgs());
-            }
+            SessionInvalidated?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
-        /// Allows sub classes to invoke the SessionAuthenticated event
+        /// Allows sub classes to invoke the SessionAuthenticated event.
         /// </summary>
-        ///<param name="session">Authenticated session</param>
+        ///<param name="session">Authenticated session.</param>
         protected void OnSessionAuthenticated(OAuthSession session)
         {
-            var handler = SessionAuthenticated;
-            if (handler != null)
-            {
-                handler(this, new SessionAuthenticatedEventArgs(session));
-            }
+            SessionAuthenticated?.Invoke(this, new SessionAuthenticatedEventArgs(session));
         }
 
     }
