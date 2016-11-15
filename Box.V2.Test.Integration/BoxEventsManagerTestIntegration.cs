@@ -60,23 +60,35 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task LongPollUserEvents_LiveSession()
         {
+            const string fileId = "16894943599";
+
+            ConcurrentBag<BoxEnterpriseEvent> incomingEvents = new ConcurrentBag<BoxEnterpriseEvent>();
+
             //first we need to get the latest stream position
             var events = await _client.EventsManager.UserEventsAsync();
 
-            var tasks = new ConcurrentBag<Task>();
-
             CancellationTokenSource cancelSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-            var t = Task.Factory.StartNew((opts) =>
+            var t = await Task.Factory.StartNew(async (opts) =>
             {
-                _client.EventsManager.LongPollUserEvents(events.NextStreamPosition, NewEvents, cancelSource.Token);
+                await _client.EventsManager.LongPollUserEvents(events.NextStreamPosition,
+                    (newEvents) =>
+                    {
+                        //do something with incoming new events
+                        //Debug.WriteLine("Received {0} new event(s)", newEvents.Entries.Count);
+                        newEvents.Entries.ForEach(e => incomingEvents.Add(e));
+                    }, cancelSource.Token, retryTimeoutOverride: 5);
             },
             TaskCreationOptions.LongRunning,
             cancelSource.Token);
 
+            var tasks = new ConcurrentBag<Task>();
             tasks.Add(t);
 
-            //make some events 
+            Thread.Sleep(1000);
 
+            //make some events 
+            var fileLock = await _client.FilesManager.LockAsync(new BoxFileLockRequest() { Lock = new BoxFileLock() { IsDownloadPrevented = false } }, fileId);
+            var result = await _client.FilesManager.UnLock(fileId);
 
             try
             {
@@ -84,28 +96,26 @@ namespace Box.V2.Test.Integration
             }
             catch (AggregateException e)
             {
-                Console.WriteLine("\nAggregateException thrown with the following inner exceptions:"); 
+                //Console.WriteLine("\nAggregateException thrown with the following inner exceptions:"); 
                 foreach (var v in e.InnerExceptions)
                 {
                     if (v is TaskCanceledException)
-                        Console.WriteLine("   TaskCanceledException: Task {0}",
-                                          ((TaskCanceledException)v).Task.Id);
+                    {
+                        //Console.WriteLine("   TaskCanceledException: Task {0}", ((TaskCanceledException)v).Task.Id);
+                        var num = incomingEvents.Count;
+                        Assert.IsTrue(num >= 2, "Failed to get correct event count using long polling.");
+                    }
                     else
-                        Console.WriteLine("   Exception: {0}", v.GetType().Name);
+                    {
+                        //Console.WriteLine("   Exception: {0}", v.GetType().Name);
+                        Assert.Fail("Failed to get events using long polling.");
+                    }   
                 }
-                Console.WriteLine();
             }
             finally
             {
                 cancelSource.Dispose();
             }
-        }
-
-        private void NewEvents(BoxEventCollection<BoxEnterpriseEvent> newEvents)
-        {
-            //do something with the new events
-            var num = newEvents.Entries.Count;
-            Debug.WriteLine("Received {0} new event(s)", num);
         }
     }
 }

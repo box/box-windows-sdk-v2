@@ -61,6 +61,7 @@ namespace Box.V2.Managers
         /// <param name="limit">Limits the number of events returned (defaults to 500).</param>
         /// <param name="streamType">Restricts the types of events returned: all returns all events; changes returns events that may cause file tree changes such as file updates or collaborations; sync returns events that may cause file tree changes only for synced folders.</param>
         /// <param name="streamPosition">The location in the event stream from which you want to start receiving events. You can specify the special value 'now' to get 0 events and the latest stream_position value. Defaults to 'now'.</param>
+        /// <param name="dedupeEvents">Whether or not to automatically de-duplicate events as they are received. Defaults to true.</param>
         /// <returns></returns>
         public async Task<BoxEventCollection<BoxEnterpriseEvent>> UserEventsAsync(int limit = 500, 
                                                                                   UserEventsStreamType streamType = UserEventsStreamType.all,
@@ -93,11 +94,22 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-        public void LongPollUserEvents(string streamPosition,
+        /// <summary>
+        /// Used to get real-time notification of activity in a Box account.
+        /// </summary>
+        /// <param name="streamPosition">The location in the event stream from which you want to start receiving events.</param>
+        /// <param name="newEventsCallback">Method to invoke when new events are received.</param>
+        /// <param name="cancellationToken">Used to request that the long polling process terminate.</param>
+        /// <param name="streamType">Restricts the types of events returned: all returns all events; changes returns events that may cause file tree changes such as file updates or collaborations; sync returns events that may cause file tree changes only for synced folders.</param>
+        /// <param name="dedupeEvents">Whether or not to automatically de-duplicate events as they are received. Defaults to true.</param>
+        /// <param name="retryTimeoutOverride">Used to override the retry timeout value returned from the long polling OPTIONS request.</param>
+        /// <returns></returns>
+        public async Task LongPollUserEvents(string streamPosition,
                                              Action<BoxEventCollection<BoxEnterpriseEvent>> newEventsCallback,
                                              CancellationToken cancellationToken,
                                              UserEventsStreamType streamType = UserEventsStreamType.all, 
-                                             bool dedupeEvents = true)
+                                             bool dedupeEvents = true,
+                                             int? retryTimeoutOverride = null)
         {
             const string NEW_CHANGE_MESSAGE = "new_change";
 
@@ -109,7 +121,7 @@ namespace Box.V2.Managers
                .Param("stream_type", streamType.ToString())
                .Method(RequestMethod.Options);
 
-                IBoxResponse<BoxLongPollInfoCollection<BoxLongPollInfo>> optionsResponse = ToResponseAsync<BoxLongPollInfoCollection<BoxLongPollInfo>>(optionsRequest).Result;
+                IBoxResponse<BoxLongPollInfoCollection<BoxLongPollInfo>> optionsResponse = await ToResponseAsync<BoxLongPollInfoCollection<BoxLongPollInfo>>(optionsRequest).ConfigureAwait(false);
                 var longPollInfo = optionsResponse.ResponseObject.Entries[0];
                 var numRetries = Int32.Parse(longPollInfo.MaxRetries);
 
@@ -122,8 +134,9 @@ namespace Box.V2.Managers
                     }      
                     try
                     {
-                        BoxRequest pollRequest = new BoxRequest(longPollInfo.Url) { Timeout = TimeSpan.FromSeconds(2) };
-                        IBoxResponse<BoxLongPollMessage> pollResponse = ToResponseAsync<BoxLongPollMessage>(pollRequest).Result;
+                        var timeout = retryTimeoutOverride.HasValue ? retryTimeoutOverride.Value : longPollInfo.RetryTimeout;
+                        BoxRequest pollRequest = new BoxRequest(longPollInfo.Url) { Timeout = TimeSpan.FromSeconds(timeout) };
+                        IBoxResponse<BoxLongPollMessage> pollResponse = await ToResponseAsync<BoxLongPollMessage>(pollRequest).ConfigureAwait(false);
 
                         var message = pollResponse.ResponseObject.Message;
                         if (message == NEW_CHANGE_MESSAGE)
@@ -131,7 +144,7 @@ namespace Box.V2.Managers
                             BoxEventCollection<BoxEnterpriseEvent> newEvents = null;
                             do
                             {
-                                newEvents = UserEventsAsync(streamType: streamType, streamPosition: nextStreamPosition, dedupeEvents: dedupeEvents).Result;
+                                newEvents = await UserEventsAsync(streamType: streamType, streamPosition: nextStreamPosition, dedupeEvents: dedupeEvents).ConfigureAwait(false);
                                 nextStreamPosition = newEvents.NextStreamPosition;
                                 if (newEvents.Entries.Count > 0)
                                 {
@@ -142,8 +155,8 @@ namespace Box.V2.Managers
                     }
                     catch
                     {
-                        //most likely request timed out
-                        //If we've reached maximum number of retries then bounce all the way back to the OPTIONS request
+                        //Most likely request timed out.
+                        //If we've reached maximum number of retries then bounce all the way back to the OPTIONS request.
                         pollAgain = numRetries-- > 0;
                     }
                 } while (pollAgain);                         
