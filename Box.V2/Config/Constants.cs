@@ -178,7 +178,7 @@ namespace Box.V2.Config
             public const string Scope = "scope";
             public const string ScopeDefaultValue = "item_preview";
             public const string Resource = "resource";
-            public const string TransactionalGrantTypeValue = "urn:ietf:params:oauth:grant-type:token-exchange";
+            public const string TokenExchangeGrantTypeValue = "urn:ietf:params:oauth:grant-type:token-exchange";
 
 
             public const string Status = "status";
