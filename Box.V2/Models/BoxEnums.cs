@@ -32,6 +32,7 @@ namespace Box.V2.Models
     {
         Type,
         Name,
+        file_version_id,
         Id
     }
 
