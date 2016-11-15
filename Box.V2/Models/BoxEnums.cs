@@ -32,7 +32,8 @@ namespace Box.V2.Models
     {
         Type,
         Name,
-        Id
+        Id,
+        policy_name
     }
 
     /// <summary>

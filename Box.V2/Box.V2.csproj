@@ -60,7 +60,9 @@
     <Compile Include="Managers\BoxSharedItemsManager.cs" />
     <Compile Include="Managers\BoxTasksManager.cs" />
     <Compile Include="Managers\BoxWebhooksManager.cs" />
+    <Compile Include="Managers\BoxLegalHoldPoliciesManager.cs" />
     <Compile Include="Managers\BoxWebLinksManager.cs" />
+    <Compile Include="Models\BoxAssignmentCounts.cs" />
     <Compile Include="Models\BoxCollectionItem.cs" />
     <Compile Include="Models\BoxDevicePin.cs" />
     <Compile Include="Models\BoxEmailAlias.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Models\BoxFileLock.cs" />
     <Compile Include="Models\BoxFilePreview.cs" />
     <Compile Include="Models\BoxFileVersionRetention.cs" />
+    <Compile Include="Models\BoxLegalHoldPolicy.cs" />
     <Compile Include="Models\BoxMetadataTemplate.cs" />
     <Compile Include="Models\BoxMetadataTemplateUpdate.cs" />
     <Compile Include="Models\BoxMetadataUpdate.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Models\BoxGroup.cs" />
     <Compile Include="Models\BoxGroupMembership.cs" />
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
+    <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxTaskAssignmentUpdateRequest.cs" />
     <Compile Include="Models\Request\BoxAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxApplyWatermarkRequest.cs" />
