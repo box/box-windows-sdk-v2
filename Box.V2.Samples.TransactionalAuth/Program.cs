@@ -35,7 +35,8 @@ namespace Box.V2.Samples.TransactionalAuth
             Console.ReadLine();
         }
 
-        private static async Task MainAsync(string token, string fileId, string folderId)
+        }
+        private static async Task MainAsync(string fileId, bool usePrimaryToken)
         {
             var auth = new OAuthSession(token, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
