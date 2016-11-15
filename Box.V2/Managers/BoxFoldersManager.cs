@@ -52,7 +52,7 @@ namespace Box.V2.Managers
         /// <returns>A collection of items contained in the folder is returned. An error is thrown if the folder does not exist, 
         /// or if any of the parameters are invalid. The total_count returned may not match the number of entries when using enterprise scope, 
         /// because external folders are hidden the list of entries.</returns>
-        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
+        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, List<string> fields = null, bool autoPaginate=true)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -61,9 +61,16 @@ namespace Box.V2.Managers
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            if (autoPaginate)
+            {
+                var allItems = AutoPaginateLimitOffset<BoxCollection<BoxItem>>(request, limit);
+                return allItems.Result;
+            }
+            else
+            {
+                IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }   
         }
 
         /// <summary>

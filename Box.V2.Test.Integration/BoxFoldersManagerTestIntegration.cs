@@ -40,7 +40,7 @@ namespace Box.V2.Test.Integration
             const int numFiles = 9;
             const int numFolders = 2;
 
-            BoxCollection<BoxItem> c = await boxClient.FoldersManager.GetFolderItemsAsync("0", 50, 0, new List<string>() { 
+            BoxCollection<BoxItem> c = await boxClient.FoldersManager.GetFolderItemsAsync("0", 3, 0, new List<string>() { 
                 BoxItem.FieldName, 
                 BoxItem.FieldSize, 
                 BoxFolder.FieldItemCollection
