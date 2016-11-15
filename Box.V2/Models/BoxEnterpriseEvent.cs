@@ -75,4 +75,36 @@ namespace Box.V2.Models
         public Dictionary<string,object> AdditionalDetails { get; private set; }
 
     }
+
+    public class BoxLongPollInfo
+    {
+        public const string FieldType = "type";
+        public const string FieldURL = "url";
+        public const string FieldTTL = "ttl";
+        public const string FieldMaxRetries = "max_retries";
+        public const string FieldRetryTimeout = "retry_timeout";
+
+        [JsonProperty(PropertyName = FieldType)]
+        public string Type { get; set; }
+
+        [JsonProperty(PropertyName = FieldURL)]
+        public Uri Url { get; set; }
+
+        [JsonProperty(PropertyName = FieldTTL)]
+        public string TTL { get; set; }
+
+        [JsonProperty(PropertyName = FieldMaxRetries)]
+        public string MaxRetries { get; set; }
+
+        [JsonProperty(PropertyName = FieldRetryTimeout)]
+        public int RetryTimeout { get; set; }
+    }
+
+    public class BoxLongPollMessage
+    {
+        public const string FieldMessage = "message";
+
+        [JsonProperty(PropertyName = FieldMessage)]
+        public string Message { get; set; }
+    }
 }

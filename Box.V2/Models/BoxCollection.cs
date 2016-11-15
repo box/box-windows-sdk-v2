@@ -22,6 +22,12 @@ namespace Box.V2.Models
         public const string FieldEntries = "entries";
     }
 
+    public abstract class BoxLongPollInfoCollection
+    {
+        public const string FieldChunkSize = "chunk_size";
+        public const string FieldEntries = "entries";
+    }
+
     public abstract class BoxWebhookCollection
     {
         public const string FieldLimit = "limit";
@@ -93,10 +99,19 @@ namespace Box.V2.Models
     public class BoxEventCollection<T> : BoxEventCollection where T: BoxEnterpriseEvent
     {
         [JsonProperty(PropertyName = FieldChunkSize)]
-        public int ChunkSize { get; private set; }
+        public int ChunkSize { get; set; }
 
         [JsonProperty(PropertyName = FieldNextStreamPosition)]
-        public string NextStreamPosition { get; private set; }
+        public string NextStreamPosition { get; set; }
+
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; set; }
+    }
+
+    public class BoxLongPollInfoCollection<T> : BoxLongPollInfoCollection where T : BoxLongPollInfo
+    {
+        [JsonProperty(PropertyName = FieldChunkSize)]
+        public int ChunkSize { get; private set; }
 
         [JsonProperty(PropertyName = FieldEntries)]
         public List<T> Entries { get; private set; }

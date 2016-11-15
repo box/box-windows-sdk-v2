@@ -119,6 +119,7 @@
     <Compile Include="Plugin\BoxResourcePlugins.cs" />
     <Compile Include="Plugin\IBoxMetadataManager.cs" />
     <Compile Include="Plugin\IResourcePlugin.cs" />
+    <Compile Include="Utility\LRUCache.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxErrorContextInfo.cs" />
     <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
