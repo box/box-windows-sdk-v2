@@ -93,8 +93,9 @@ namespace Box.V2.Managers
         /// <param name="limit">The maximum number of items to return in a page.</param>
         /// <param name="offset">The offset at which to begin the response. An offset of value of 0 will start at the beginning of the folder-listing. Offset of 2 would start at the 2nd record, not the second page. Note: If there are hidden items in your previous response, your next offset should be = offset + limit, not the # of records you received back.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxItem>> GetCollectionItemsAsync(string collectionId, int limit = 100, int offset = 0, List<string> fields = null)
+        public async Task<BoxCollection<BoxItem>> GetCollectionItemsAsync(string collectionId, int limit = 100, int offset = 0, List<string> fields = null, bool autoPaginate = false)
         {
             collectionId.ThrowIfNullOrWhiteSpace("collectionId");
 
@@ -104,9 +105,16 @@ namespace Box.V2.Managers
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString());
 
-            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            if (autoPaginate)
+            {
+                var allItems = AutoPaginateLimitOffset<BoxItem>(request, limit);
+                return allItems.Result;
+            }
+            else
+            {
+                IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
     }
 }

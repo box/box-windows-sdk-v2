@@ -26,7 +26,7 @@ namespace Box.V2.Test.Integration
             };
 
             var newGroup = await _client.GroupsManager.CreateAsync(groupReq);
-            var allGroupsAfterAdd = await _client.GroupsManager.GetAllGroupsAsync();
+            var allGroupsAfterAdd = await _client.GroupsManager.GetAllGroupsAsync(limit:3, autoPaginate:true);
 
             Assert.AreEqual(newGroup.Name, groupName, "New group does not have correct name");
             Assert.AreEqual(allGroupsInit.TotalCount + 1, allGroupsAfterAdd.TotalCount, "Number of groups after add is not correct");

@@ -31,17 +31,33 @@ namespace Box.V2.Managers
         /// <param name="limit">The number of results to return with this request. Refer to the Box API for defaults.</param>
         /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all groups; defaults to false.</param>
         /// <returns>A collection of groups.</returns>
-        public async Task<BoxCollection<BoxGroup>> GetAllGroupsAsync(int? limit = null, int? offset = null, List<string> fields = null)
+        public async Task<BoxCollection<BoxGroup>> GetAllGroupsAsync(int? limit = null, int? offset = null, List<string> fields = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.GroupsEndpointUri)
                 .Param(ParamFields, fields)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString());
 
-            IBoxResponse<BoxCollection<BoxGroup>> response = await ToResponseAsync<BoxCollection<BoxGroup>>(request).ConfigureAwait(false);
+            if (autoPaginate)
+            {
+                if (!limit.HasValue)
+                {
+                    limit = 100;
+                    request.Param("limit", limit.ToString());      
+                }
+                if (!offset.HasValue)
+                    request.Param("offset", "0");
 
-            return response.ResponseObject;
+                var allItems = AutoPaginateLimitOffset<BoxGroup>(request, limit.Value);
+                return allItems.Result;
+            }
+            else
+            {
+                IBoxResponse<BoxCollection<BoxGroup>> response = await ToResponseAsync<BoxCollection<BoxGroup>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
@@ -168,17 +184,34 @@ namespace Box.V2.Managers
         /// <param name="limit">The number of results to return with this request. Refer to the Box API for defaults.</param>
         /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group collaborations; defaults to false.</param>
         /// <returns>A collection of collaborations for the specified group id.</returns>
-        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsForGroupAsync(string groupId, int? limit = null, int? offset = null, List<string> fields = null)
+        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsForGroupAsync(string groupId, int? limit = null, int? offset = null, 
+                                                                                          List<string> fields = null, bool autoPaginate = false)
         {
             var request = new BoxRequest(_config.GroupsEndpointUri, string.Format(Constants.CollaborationsPathString, groupId))
                 .Param(ParamFields, fields)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString()); ;
 
-            var response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request).ConfigureAwait(false);
+            if (autoPaginate)
+            {
+                if (!limit.HasValue)
+                {
+                    limit = 100;
+                    request.Param("limit", limit.ToString());
+                }
+                if(!offset.HasValue)
+                    request.Param("offset", "0");
 
-            return response.ResponseObject;
+                var allItems = AutoPaginateLimitOffset<BoxCollaboration>(request, limit.Value);
+                return allItems.Result;
+            }
+            else
+            {
+                var response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
@@ -188,19 +221,36 @@ namespace Box.V2.Managers
         /// <param name="limit">The number of results to return with this request. Refer to the Box API for defaults.</param>
         /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group memberships; defaults to false.</param>
         /// <returns>A collection of group memberships for the specified group id.</returns>
-        public async Task<BoxCollection<BoxGroupMembership>> GetAllGroupMembershipsForGroupAsync(string groupId, int? limit = null, int? offset = null, List<string> fields = null)
+        public async Task<BoxCollection<BoxGroupMembership>> GetAllGroupMembershipsForGroupAsync(string groupId, int? limit = null, int? offset = null,
+                                                                                                 List<string> fields = null, bool autoPaginate = false)
         {
             groupId.ThrowIfNullOrWhiteSpace("groupId");
 
             BoxRequest request = new BoxRequest(_config.GroupsEndpointUri, string.Format(Constants.GroupMembershipPathString, groupId))
                 .Param(ParamFields, fields)
                 .Param("limit", limit.ToString())
-                .Param("offset", offset.ToString()); ;
+                .Param("offset", offset.ToString());
 
-            IBoxResponse<BoxCollection<BoxGroupMembership>> response = await ToResponseAsync<BoxCollection<BoxGroupMembership>>(request).ConfigureAwait(false);
+            if (autoPaginate)
+            {
+                if (!limit.HasValue)
+                {
+                    limit = 100;
+                    request.Param("limit", limit.ToString());
+                }
+                if (!offset.HasValue)
+                    request.Param("offset", "0");
 
-            return response.ResponseObject;
+                var allItems = AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
+                return allItems.Result;
+            }
+            else
+            {
+                IBoxResponse<BoxCollection<BoxGroupMembership>> response = await ToResponseAsync<BoxCollection<BoxGroupMembership>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
@@ -210,19 +260,36 @@ namespace Box.V2.Managers
         /// <param name="limit">The number of results to return with this request. Refer to the Box API for defaults.</param>
         /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group memberships; defaults to false.</param>
         /// <returns>A collection of group memberships for the specified user id.</returns>
-        public async Task<BoxCollection<BoxGroupMembership>> GetAllGroupMembershipsForUserAsync(string userId, int? limit = null, int? offset = null, List<string> fields = null)
+        public async Task<BoxCollection<BoxGroupMembership>> GetAllGroupMembershipsForUserAsync(string userId, int? limit = null, int? offset = null,
+                                                                                                List<string> fields = null, bool autoPaginate = false)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
 
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.GroupMembershipPathString, userId))
                 .Param(ParamFields, fields)
                 .Param("limit", limit.ToString())
-                .Param("offset", offset.ToString()); ;
+                .Param("offset", offset.ToString());
 
-            IBoxResponse<BoxCollection<BoxGroupMembership>> response = await ToResponseAsync<BoxCollection<BoxGroupMembership>>(request).ConfigureAwait(false);
+            if (autoPaginate)
+            {
+                if (!limit.HasValue)
+                {
+                    limit = 100;
+                    request.Param("limit", limit.ToString());
+                }
+                if (!offset.HasValue)
+                    request.Param("offset", "0");
 
-            return response.ResponseObject;
+                var allItems = AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
+                return allItems.Result;
+            }
+            else
+            {
+                IBoxResponse<BoxCollection<BoxGroupMembership>> response = await ToResponseAsync<BoxCollection<BoxGroupMembership>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
