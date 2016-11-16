@@ -84,13 +84,15 @@ namespace Box.V2.Managers
         /// <param name="limit">The number of records to return. (min: 1; default: 100; max: 1000)</param>
         /// <param name="fields">The fields to populate for each returned user.</param>
         /// <param name="userType">The type of user to search for. Valid values are all, external or managed. If nothing is provided, the default behavior will be managed only</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all users; defaults to false.</param>
         /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
         public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null,
                                                                           uint offset = 0, 
                                                                           uint limit = 100, 
                                                                           List<string> fields = null,
-                                                                          string userType = null)
+                                                                          string userType = null,
+                                                                          bool autoPaginate = false)
         {
             if (limit == 0 || limit > 1000) throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
 
@@ -101,9 +103,16 @@ namespace Box.V2.Managers
                 .Param("user_type", userType)
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxUser>> response = await ToResponseAsync<BoxCollection<BoxUser>>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            if (autoPaginate)
+            {
+                var allItems = AutoPaginateLimitOffset<BoxUser>(request, (int)limit);
+                return allItems.Result;
+            }
+            else
+            {
+                IBoxResponse<BoxCollection<BoxUser>> response = await ToResponseAsync<BoxCollection<BoxUser>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
@@ -295,8 +304,9 @@ namespace Box.V2.Managers
         /// <param name="userId">Id of the user.</param>
         /// <param name="offset">The item at which to begin the response.</param>
         /// <param name="limit">Default is 100. Max is 1000.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group memberships; defaults to false.</param>
         /// <returns>A collection of group membership objects will be returned upon success.</returns>
-        public async Task<BoxCollection<BoxGroupMembership>> GetMembershipsForUserAsync(string userId, uint offset = 0, uint limit = 100)
+        public async Task<BoxCollection<BoxGroupMembership>> GetMembershipsForUserAsync(string userId, uint offset = 0, uint limit = 100, bool autoPaginate=false)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
 
@@ -305,9 +315,17 @@ namespace Box.V2.Managers
                 .Param("limit", limit.ToString())
                 .Method(RequestMethod.Get);
 
-            IBoxResponse<BoxCollection<BoxGroupMembership>> response = await ToResponseAsync<BoxCollection<BoxGroupMembership>>(request).ConfigureAwait(false);
+            if (autoPaginate)
+            {
+                var allItems = AutoPaginateLimitOffset<BoxGroupMembership>(request, (int)limit);
+                return allItems.Result;
+            }
+            else
+            {
 
-            return response.ResponseObject;
+                IBoxResponse<BoxCollection<BoxGroupMembership>> response = await ToResponseAsync<BoxCollection<BoxGroupMembership>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
     }
 }

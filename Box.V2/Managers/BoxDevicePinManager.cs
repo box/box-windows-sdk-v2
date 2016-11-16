@@ -24,7 +24,7 @@ namespace Box.V2.Managers
         /// <param name="marker">Needs not be passed or can be empty for first invocation of the API. Use the one returned in response for each subsequent call.</param>
         /// <param name="limit">Default value is 100. Max value is 10000.</param>
         /// <param name="direction">Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.</param>
-        /// <returns></returns>
+        /// <returns>Returns all the device pins within a given enterprise up to limit amount.</returns>
         public async Task<BoxDevicePinCollection<BoxDevicePin>> GetEnterpriseDevicePinsAsync(string enterpriseId, string marker = null, int limit = 100, BoxSortDirection direction = BoxSortDirection.ASC)
         {
             BoxRequest request = new BoxRequest(_config.EnterprisesUri, string.Format(Constants.GetEnterpriseDevicePinsPathString, enterpriseId))
@@ -38,10 +38,30 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Convenience method to automatically fetch all device pins within a given enterprise.
+        /// </summary>
+        /// <returns>Returns all the device pins within a given enterprise.</returns>
+        public async Task<List<BoxDevicePin>> GetAllEnterpriseDevicePinsAsync(string enterpriseId, BoxSortDirection direction = BoxSortDirection.ASC)
+        {
+            string nextMarker = null;
+            var allDevicePins = new List<BoxDevicePin>();
+
+            do
+            {
+                var nextDevicePins = await GetEnterpriseDevicePinsAsync(enterpriseId, limit: 100, marker: nextMarker);
+                allDevicePins.AddRange(nextDevicePins.Entries);
+                nextMarker = nextDevicePins.NextMarker;
+
+            } while (!string.IsNullOrWhiteSpace(nextMarker));
+
+            return allDevicePins;
+        }
+
+        /// <summary>
         /// Gets information about an individual device pin.
         /// </summary>
         /// <param name="id">Device pin id.</param>
-        /// <returns></returns>
+        /// <returns>Information about the device pin.</returns>
         public async Task<BoxDevicePin> GetDevicePin(string id)
         {
             BoxRequest request = new BoxRequest(_config.DevicePinUri, id);
@@ -55,7 +75,7 @@ namespace Box.V2.Managers
         /// Delete individual device pin.
         /// </summary>
         /// <param name="id">Device pin id.</param>
-        /// <returns></returns>
+        /// <returns>True if successfully deleted.</returns>
         public async Task<bool> DeleteDevicePin(string id)
         {
             BoxRequest request = new BoxRequest(_config.DevicePinUri, id)

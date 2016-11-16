@@ -38,7 +38,7 @@ namespace Box.V2.Models
     public abstract class BoxDevicePinCollection
     {
         public const string FieldEntries = "entries";
-        public const string FieldMarker = "marker";
+        public const string FieldMarker = "next_marker";
         public const string FieldLimit = "limit";
         public const string FieldOrder = "order";
     }
@@ -61,19 +61,19 @@ namespace Box.V2.Models
     public class BoxCollection<T> : BoxCollection where T : class, new()
     {
         [JsonProperty(PropertyName = FieldTotalCount)]
-        public int TotalCount { get; private set; }
+        public int TotalCount { get; set; }
 
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
+        public List<T> Entries { get; set; }
 
         [JsonProperty(PropertyName = FieldOffset)]
-        public int Offset { get; private set; }
+        public int Offset { get; set; }
 
         [JsonProperty(PropertyName = FieldLimit)]
-        public int Limit { get; private set; }
+        public int Limit { get; set; }
 
         [JsonProperty(PropertyName = FieldOrder)]
-        public List<BoxSortOrder> Order { get; private set; }
+        public List<BoxSortOrder> Order { get; set; }
 
     }
 
@@ -150,7 +150,7 @@ namespace Box.V2.Models
         /// Needs not be passed or can be empty for first invocation of the API. Use the one returned in response for each subsequent call.
         /// </summary>
         [JsonProperty(PropertyName = FieldMarker)]
-        public string Marker { get; private set; }
+        public string NextMarker { get; private set; }
 
         /// <summary>
         /// List of device pins returned

@@ -29,5 +29,13 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(users.Entries.First().Name, "Test User");
             Assert.AreEqual(users.Entries.First().Login, "test.user@example.com");
         }
+
+        [TestMethod]
+        public async Task EnterpriseUsersAutoPagination_LiveSession_ValidResponse()
+        {
+            BoxCollection<BoxUser> users = await _client.UsersManager.GetEnterpriseUsersAsync(limit: 1, userType: "all", autoPaginate: true);
+
+            Assert.AreEqual(users.TotalCount, 2);
+        }
     }
 }

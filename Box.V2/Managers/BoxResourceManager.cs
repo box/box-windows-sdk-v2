@@ -2,8 +2,10 @@
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
+using Box.V2.Models;
 using Box.V2.Services;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
@@ -123,6 +125,38 @@ namespace Box.V2.Managers
             request.Header(Constants.AuthHeaderKey, sb.ToString());
         }
 
+        /// <summary>
+        /// Used to fetch all results using pagination based on limit and offset
+        /// </summary>
+        /// <typeparam name="T">The type of BoxCollection item to expect.</typeparam>
+        /// <param name="request">The pre-configured BoxRequest object.</param>
+        /// <param name="limit">The limit specific to the endpoint.</param>
+        /// <returns></returns>
+        protected async Task<BoxCollection<T>> AutoPaginateLimitOffset<T>(BoxRequest request, int limit) where T : BoxEntity, new()
+        {
+            var allItemsCollection = new BoxCollection<T>();
+            allItemsCollection.Entries = new List<T>();
+
+            int offset = 0;
+            bool keepGoing = true;
+            do
+            {
+                IBoxResponse<BoxCollection<T>> response = await ToResponseAsync<BoxCollection<T>>(request).ConfigureAwait(false);
+                var newItems = response.ResponseObject;
+                allItemsCollection.Entries.AddRange(newItems.Entries);
+                allItemsCollection.Order = newItems.Order;
+
+                offset += limit;
+                request.Param("offset", offset.ToString());
+
+                keepGoing = newItems.Entries.Count >= limit;
+
+            } while (keepGoing);
+
+            allItemsCollection.TotalCount = allItemsCollection.Entries.Count;
+
+            return allItemsCollection;
+        }
 
     }
 }

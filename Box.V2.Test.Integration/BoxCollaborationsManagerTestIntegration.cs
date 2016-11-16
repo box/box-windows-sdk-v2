@@ -44,6 +44,10 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(collab.Id, editCollab.Id, "Id of original collaboration and updated collaboration do not match");
             Assert.AreEqual(BoxCollaborationRoles.Editor, editCollab.Role, "Incorrect updated role");
 
+            // test getting list of collaborations on folder
+            var collabs = await _client.FoldersManager.GetCollaborationsAsync(folderId);
+            Assert.AreEqual(4, collabs.Entries.Count, "Failed to get correct number of folder collabs.");
+
             // Test Remove Collaboration
             bool success = await _client.CollaborationsManager.RemoveCollaborationAsync(collab.Id);
 
