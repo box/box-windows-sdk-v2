@@ -1,10 +1,11 @@
-﻿using System;
-using Box.V2.Auth;
+﻿using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Extensions;
 using Box.V2.Converter;
 using Box.V2.Services;
 using Box.V2.Request;
+using System;
+using Box.V2.Utility;
 
 namespace Box.V2.TransactionalAuth
 {
@@ -14,48 +15,41 @@ namespace Box.V2.TransactionalAuth
     public class BoxTransactionalAuth
     {
         const string TOKEN_TYPE = "bearer";
+        const string ACTOR_HEADER = "{\"alg\":\"none\"}";
+        const string ACTOR_CLAIM_TEMPLATE = "{{\"iss\":\"{0}\",\"sub\":\"{1}\",\"box_sub_type\":\"external\",\"aud\":\"https://api.box.com/oauth2/token\",\"exp\":{2},\"jti\":\"{3}\",\"name\":\"{4}\"}}";
         
         private BoxConfig boxConfig;
 
         /// <summary>
-        /// Sessions with the specified token.
-        /// </summary>
-        /// <param name="token">The token.</param>
-        /// <returns>Authenticated session.</returns>
-        public OAuthSession Session(string token)
-        {
-            return new OAuthSession(token, null, 3600, TOKEN_TYPE);
-        }
-        
-        /// <summary>
         /// Initializes a new instance of the <see cref="BoxTransactionalAuth"/> class.
         /// </summary>
-        public BoxTransactionalAuth()
+        public BoxTransactionalAuth(BoxConfig boxConfig)
         {
-            this.boxConfig = new BoxConfig(string.Empty, string.Empty, new Uri(Constants.BoxApiHostUriString));
+            this.boxConfig = boxConfig;
         }
 
         /// <summary>
-        /// Down scope an access token.
+        /// Get a down scoped token.
         /// </summary>
-        /// <param name="token">The token.</param>
         /// <param name="scope">The scope to be limited to.</param>
         /// <param name="resource">The resource to be limited to.</param>
+        /// <param name="actorToken">The actor user token.</param>
         /// <returns>The down scoped access token.</returns>
-        public string TokenExchange(string token, string scope, string resource = null)
+        public string TokenExchange(string scope, string resource = null, string actorToken = null)
         {
-            if (scope == null)
-            {
-                scope = Constants.RequestParameters.ScopeDefaultValue;
-            }
-
             BoxRequest boxRequest = new BoxRequest(boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString)
-                                .Method(RequestMethod.Post)
-                                .Payload(Constants.RequestParameters.SubjectToken, token)
-                                .Payload(Constants.RequestParameters.SubjectTokenType, Constants.RequestParameters.SubjectTokenTypeValue)
-                                .Payload(Constants.RequestParameters.Scope, scope)
-                                .Payload(Constants.RequestParameters.Resource, resource)
-                                .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.TokenExchangeGrantTypeValue);
+                .Method(RequestMethod.Post)
+                .Payload(Constants.RequestParameters.SubjectToken, boxConfig.Token)
+                .Payload(Constants.RequestParameters.SubjectTokenType, Constants.RequestParameters.AccessTokenTypeValue)
+                .Payload(Constants.RequestParameters.Scope, scope)
+                .Payload(Constants.RequestParameters.Resource, resource)
+                .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.TokenExchangeGrantTypeValue);
+
+            if (actorToken != null)
+            {
+                boxRequest = boxRequest.Payload(Constants.RequestParameters.ActorToken, actorToken)
+                    .Payload(Constants.RequestParameters.ActorTokenType, Constants.RequestParameters.IdTokenTypeValue);
+            }
 
             var handler = new HttpRequestHandler();
             var converter = new BoxJsonConverter();
@@ -67,17 +61,34 @@ namespace Box.V2.TransactionalAuth
             return boxResponse.ResponseObject.AccessToken;
         }
 
+
+        /// <summary>
+        /// Construct an actor token.
+        /// </summary>
+        /// <param name="userId">The external user id.</param>
+        /// <param name="userName">The external display name.</param>
+        /// <param name="clientId">The clientId.</param>
+        /// <returns></returns>
+        public static string ConstructActorToken(string userId, string userName, string clientId)
+        {
+            var exp = Helper.ConvertToUnixTimestamp(DateTime.UtcNow.AddSeconds(30));
+            var jti = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+
+            var header = Helper.Base64Encode(ACTOR_HEADER);
+
+            var claims = string.Format(ACTOR_CLAIM_TEMPLATE, clientId, userId, exp, jti, userName);
+            claims = Helper.Base64Encode(claims);
+
+            return header + "." + claims + ".";
+        }
+
         /// <summary>
         /// Gets the client.
         /// </summary>
-        /// <param name="token">The token.</param>
-        /// <param name="scope">The scope to be limited to.</param>
-        /// <param name="resource">The resource to be limited to.</param>
         /// <returns>Box client comunicating with box API.</returns>
-        public BoxClient GetClient(string token, string scope, string resource = null)
+        public BoxClient GetClient()
         {
-            var downScopedToken = TokenExchange(token, scope, resource);
-            var session = Session(downScopedToken);
+            var session = new OAuthSession(boxConfig.Token, null, 3600, TOKEN_TYPE);
             return new BoxClient(boxConfig, session);
         }
     }

@@ -41,7 +41,15 @@ namespace Box.V2.Config
             UserAgent = DefaultUserAgent;
         }
 
-
+        /// <summary>
+        /// Instantiates a Box config for use with Transactional auth.
+        /// </summary>
+        /// <param name="token">the access token.</param>
+        public BoxConfig(string token)
+        {
+            Token = token;
+            UserAgent = DefaultUserAgent;
+        }
 
         public virtual Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
         public virtual Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
@@ -50,6 +58,7 @@ namespace Box.V2.Config
         public virtual string ClientId { get; private set; }
         public virtual string ConsumerKey { get; private set; }
         public virtual string ClientSecret { get; private set; }
+        public virtual string Token { get; private set; }
         public virtual Uri RedirectUri { get; set; }
 
         public string EnterpriseId { get; private set; }
