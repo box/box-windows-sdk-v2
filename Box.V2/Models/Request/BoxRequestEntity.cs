@@ -41,5 +41,7 @@ public enum BoxType
     enterprise,
     user,
     group,
-    web_link
+    web_link,
+    file_version
+
 }

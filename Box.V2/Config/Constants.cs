@@ -59,6 +59,10 @@ namespace Box.V2.Config
         /// The legal hold policies endpoint constant
         /// </summary>
         public const string LegalHoldPoliciesString = @"legal_hold_policies/";
+        /// <summary>
+        /// The legal hold policy assignments endpoint constant
+        /// </summary>
+        public const string LegalHoldPolicyAssignmentsString = @"legal_hold_policy_assignments/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -80,7 +84,7 @@ namespace Box.V2.Config
         public const string CollectionsEndpointString = BoxApiUriString + CollectionsString;
         public const string WebLinksEndpointString = BoxApiUriString + WebLinksString;
         public const string LegalHoldPoliciesEndpointString = BoxApiUriString + LegalHoldPoliciesString;
-
+        public const string LegalHoldPolicyAssignmentsEndpointString = BoxApiUriString + LegalHoldPolicyAssignmentsString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";
@@ -112,6 +116,7 @@ namespace Box.V2.Config
         public const string GroupMembershipForUserPathString = @"{0}/memberships";
         public const string DeleteEmailAliasPathString = "{0}/email_aliases/{1}";
         public const string GetEnterpriseDevicePinsPathString = @"{0}/device_pinners";
+        public const string LegalHoldPolicyAssignmentsPathString = @"{0}/assignments";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -141,6 +146,7 @@ namespace Box.V2.Config
         public const string TypeCollection = "collection";
         public const string TypeDevicePin = "device_pinner";
         public const string TypeLegalHoldPolicy = "legal_hold_policy";
+        public const string TypeLegalHoldPolicyAssignment = "legal_hold_policy_assignment";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
