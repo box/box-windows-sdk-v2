@@ -86,7 +86,5 @@ namespace Box.V2.Config
         /// Gets the web links endpoint URI.
         /// </summary>
         Uri WebLinksEndpointUri { get; }
-
-        
     }
 }
