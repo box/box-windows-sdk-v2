@@ -24,7 +24,7 @@ namespace Box.V2.Config
         string DeviceId { get; set; }
         string DeviceName { get; set; }
         string UserAgent { get; set; }
-        
+
         /// <summary>
         /// Sends compressed responses from Box for faster response times
         /// </summary>
@@ -86,7 +86,11 @@ namespace Box.V2.Config
         /// Gets the web links endpoint URI.
         /// </summary>
         Uri WebLinksEndpointUri { get; }
+        /// <summary>
+        /// Gets the legal hold policies endpoint URI.
+        /// </summary>
+        Uri LegalHoldPoliciesEndpointUri { get; }
 
-        
+
     }
 }

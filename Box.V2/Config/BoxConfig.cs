@@ -88,8 +88,8 @@ namespace Box.V2.Config
         public virtual Uri MetadataTemplatesUri { get { return new Uri(BoxApiUri, Constants.MetadataTemplatesString); } }
         public virtual Uri CreateMetadataTemplateUri { get { return new Uri(BoxApiUri, Constants.CreateMetadataTemplateString); } }
         public virtual Uri WebhooksUri { get { return new Uri(BoxApiUri, Constants.WebhooksString); } }
-        public virtual Uri EnterprisesUri {  get { return new Uri(BoxApiUri, Constants.EnterprisesString); } }
-        public virtual Uri DevicePinUri {  get { return new Uri(BoxApiUri, Constants.DevicePinString); } }
+        public virtual Uri EnterprisesUri { get { return new Uri(BoxApiUri, Constants.EnterprisesString); } }
+        public virtual Uri DevicePinUri { get { return new Uri(BoxApiUri, Constants.DevicePinString); } }
 
         /// <summary>
         /// Gets the shared items endpoint URI.
@@ -123,6 +123,10 @@ namespace Box.V2.Config
         /// Gets the web links endpoint URI.
         /// </summary>
         public virtual Uri WebLinksEndpointUri { get { return new Uri(BoxApiUri, Constants.WebLinksString); } }
+        /// <summary>
+        /// Gets the legal hold policies endpoint URI.
+        /// </summary>
+        public virtual Uri LegalHoldPoliciesEndpointUri { get { return new Uri(BoxApiUri, Constants.LegalHoldPoliciesString); } }
     }
 
     public enum CompressionType

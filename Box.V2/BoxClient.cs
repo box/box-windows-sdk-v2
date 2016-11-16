@@ -131,6 +131,7 @@ namespace Box.V2
             CollectionsManager = new BoxCollectionsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             DevicePinManager = new BoxDevicePinManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             WebLinksManager = new BoxWebLinksManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            LegalHoldPoliciesManager = new BoxLegalHoldPoliciesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -212,6 +213,11 @@ namespace Box.V2
         /// The manager that represents the tasks endpoint
         /// </summary>
         public BoxTasksManager TasksManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the legal hold policies endpoint
+        /// </summary>
+        public BoxLegalHoldPoliciesManager LegalHoldPoliciesManager { get; private set; }
 
         /// <summary>
         /// The Auth repository that holds the auth session
