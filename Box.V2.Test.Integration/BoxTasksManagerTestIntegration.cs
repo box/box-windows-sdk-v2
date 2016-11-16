@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Models.Request;
+using System;
 
 namespace Box.V2.Test.Integration
 {
@@ -18,7 +19,8 @@ namespace Box.V2.Test.Integration
                     Id = "100699285359",
                     Type = BoxType.file
                 },
-                Message = "REVIEW PLZ K THX"
+                Message = "REVIEW PLZ K THX",
+                DueAt = DateTime.Now.AddDays(30)
             });
 
             // Creat task assignment

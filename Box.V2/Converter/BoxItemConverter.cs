@@ -64,6 +64,8 @@ namespace Box.V2.Converter
                         return new BoxCollectionItem();
                     case Constants.TypeDevicePin:
                         return new BoxDevicePin();
+                    case Constants.TypeLegalHoldPolicy:
+                        return new BoxLegalHoldPolicy();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names
