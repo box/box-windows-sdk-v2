@@ -34,7 +34,9 @@ namespace Box.V2.Models
         Name,
         file_version_id,
         Id,
-        policy_name
+        policy_name,
+        retention_policy_id,
+        retention_policy_object_id
     }
 
     /// <summary>
