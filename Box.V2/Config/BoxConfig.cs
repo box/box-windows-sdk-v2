@@ -127,6 +127,10 @@ namespace Box.V2.Config
         /// Gets the legal hold policies endpoint URI.
         /// </summary>
         public virtual Uri LegalHoldPoliciesEndpointUri { get { return new Uri(BoxApiUri, Constants.LegalHoldPoliciesString); } }
+        /// <summary>
+        /// Gets the legal hold policies endpoint URI.
+        /// </summary>
+        public virtual Uri LegalHoldPolicyAssignmentsEndpointUri { get { return new Uri(BoxApiUri, Constants.LegalHoldPolicyAssignmentsString); } }
     }
 
     public enum CompressionType

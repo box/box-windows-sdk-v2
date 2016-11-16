@@ -130,5 +130,81 @@ namespace Box.V2.Managers
             return response.Status == ResponseStatus.Success;
         }
 
+        /// <summary>
+        /// Get details of a single assignment.
+        /// </summary>
+        /// <param name="assignmentId">Id of the assignment.</param>
+        /// <returns>If the assignmentId is valid, information about the Assignment is returned </returns>
+        public async Task<BoxLegalHoldPolicyAssignment> GetAssignmentAsync(string assignmentId)
+        {
+            assignmentId.ThrowIfNullOrWhiteSpace("assignmentId");
+
+            BoxRequest request = new BoxRequest(_config.LegalHoldPolicyAssignmentsEndpointUri, assignmentId)
+                .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxLegalHoldPolicyAssignment> response = await ToResponseAsync<BoxLegalHoldPolicyAssignment>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Get list of assignments for a single Policy.
+        /// </summary>
+        /// <param name="legalHoldPolicyId">D of Policy to get Assignments for.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="assignToType">Filter assignments of this type only. Can be file_version, file, folder, or user.</param>
+        /// <param name="assignToId">Filter assignments to this ID only. Note that this will only show assignments applied directly to this entity.</param>
+        /// <returns>Returns the list of Assignments for the passed in Policy, as well as any optional filter parameters passed in. By default, will only return only type, and id, but you can specify more by using the fields parameter.</returns>
+        public async Task<BoxCollection<BoxLegalHoldPolicyAssignment>> GetListAssignmentsAsync(string legalHoldPolicyId, string fields = null, string assignToType = null, string assignToId = null)
+        {
+            legalHoldPolicyId.ThrowIfNullOrWhiteSpace("legalHoldPolicyId");
+            if (!string.IsNullOrEmpty(assignToType) && assignToType != "file_version" && assignToType != "file" && assignToType != "folder" && assignToType != "user")
+            {
+                throw new ArgumentException("assignToType can be file_version, file, folder, or user.", "assignToType");
+            }
+            BoxRequest request = new BoxRequest(_config.LegalHoldPoliciesEndpointUri, string.Format(Constants.LegalHoldPolicyAssignmentsPathString, legalHoldPolicyId))
+                .Method(RequestMethod.Get)
+                .Param(ParamFields, fields)
+                .Param("assign_to_type", assignToType)
+                .Param("assign_to_id", assignToId);
+
+            IBoxResponse<BoxCollection<BoxLegalHoldPolicyAssignment>> response = await ToResponseAsync<BoxCollection<BoxLegalHoldPolicyAssignment>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Create a new Assignment, which will apply the Legal Hold Policy to the target of the Assignment.
+        /// </summary>
+        /// <param name="createRequest">Legal Hold Policy Assignment request
+        /// createRequest.PolicyId (required) - ID of Policy to create Assignment for,
+        /// createRequest.AssignTo.Type (required) - Type of target. Can be 'file_version', 'file', 'folder', or 'user',
+        /// createRequest.AssignTo.Id (required) - Id of the target entity: file_version_id, file_id, folder_id, or user_id.
+        /// </param>
+        /// <returns>For a successful request, returns object with information about the Assignment created. 
+        /// If the policy or assign-to target cannot be found, null will be returned.
+        /// </returns>
+        public async Task<BoxLegalHoldPolicyAssignment> CreateNewAssignmentAsync(BoxLegalHoldPolicyAssignmentRequest createRequest)
+        {
+            createRequest.ThrowIfNull("createRequest")
+                .PolicyId.ThrowIfNullOrWhiteSpace("createRequest.PolicyId");
+            createRequest.AssignTo.ThrowIfNull("createRequest.AssignTo")
+                .Id.ThrowIfNullOrWhiteSpace("createRequest.AssignTo.Id");
+            createRequest.AssignTo.Type.ThrowIfNull("createRequest.AssignTo.Type");
+
+            if(createRequest.AssignTo.Type!=BoxType.file_version && createRequest.AssignTo.Type!=BoxType.file 
+                && createRequest.AssignTo.Type!=BoxType.folder && createRequest.AssignTo.Type!=BoxType.user)
+            {
+                throw new ArgumentException("createRequest.AssignTo.Type can be file_version, file, folder, or user.", "createRequest.AssignTo.Type");
+            }
+            BoxRequest request = new BoxRequest(_config.LegalHoldPolicyAssignmentsEndpointUri)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(createRequest));
+
+            IBoxResponse<BoxLegalHoldPolicyAssignment> response = await ToResponseAsync<BoxLegalHoldPolicyAssignment>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
     }
 }
