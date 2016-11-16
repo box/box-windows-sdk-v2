@@ -128,20 +128,20 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to fetch all results using pagination based on limit and offset
         /// </summary>
-        /// <typeparam name="T">The type of result to expect.</typeparam>
+        /// <typeparam name="T">The type of BoxCollection item to expect.</typeparam>
         /// <param name="request">The pre-configured BoxRequest object.</param>
         /// <param name="limit">The limit specific to the endpoint.</param>
         /// <returns></returns>
-        protected async Task<T> AutoPaginateLimitOffset<T>(BoxRequest request, int limit) where T : BoxCollection<BoxItem>, new()
+        protected async Task<BoxCollection<T>> AutoPaginateLimitOffset<T>(BoxRequest request, int limit) where T : BoxEntity, new()
         {
-            var allItemsCollection = new T();
-            allItemsCollection.Entries = new List<BoxItem>();
+            var allItemsCollection = new BoxCollection<T>();
+            allItemsCollection.Entries = new List<T>();
 
             int offset = 0;
             bool keepGoing = true;
             do
             {
-                IBoxResponse<T> response = await ToResponseAsync<T>(request).ConfigureAwait(false);
+                IBoxResponse<BoxCollection<T>> response = await ToResponseAsync<BoxCollection<T>>(request).ConfigureAwait(false);
                 var newItems = response.ResponseObject;
                 allItemsCollection.Entries.AddRange(newItems.Entries);
                 allItemsCollection.Order = newItems.Order;

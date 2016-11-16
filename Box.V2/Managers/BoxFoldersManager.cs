@@ -64,7 +64,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                var allItems = AutoPaginateLimitOffset<BoxCollection<BoxItem>>(request, limit);
+                var allItems = AutoPaginateLimitOffset<BoxItem>(request, limit);
                 return allItems.Result;
             }
             else
@@ -270,7 +270,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                var allItems = AutoPaginateLimitOffset<BoxCollection<BoxItem>>(request, limit);
+                var allItems = AutoPaginateLimitOffset<BoxItem>(request, limit);
                 return allItems.Result;
             }
             else
