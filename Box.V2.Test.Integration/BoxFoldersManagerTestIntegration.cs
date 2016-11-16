@@ -44,7 +44,7 @@ namespace Box.V2.Test.Integration
                 BoxItem.FieldName, 
                 BoxItem.FieldSize, 
                 BoxFolder.FieldItemCollection
-             });
+             }, autoPaginate: true);
 
             Assert.AreEqual(totalCount, c.TotalCount, "Incorrect total count");
             Assert.AreEqual(totalCount, c.Entries.Count, "Incorrect number if items returned");

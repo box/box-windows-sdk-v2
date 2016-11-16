@@ -49,10 +49,11 @@ namespace Box.V2.Managers
         /// Note: If there are hidden items in your previous response, your next offset should be = offset + limit, not the # of records you received back. 
         /// The default is 0.</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>A collection of items contained in the folder is returned. An error is thrown if the folder does not exist, 
         /// or if any of the parameters are invalid. The total_count returned may not match the number of entries when using enterprise scope, 
         /// because external folders are hidden the list of entries.</returns>
-        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, List<string> fields = null, bool autoPaginate=true)
+        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, List<string> fields = null, bool autoPaginate=false)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -258,17 +259,25 @@ namespace Box.V2.Managers
         /// <param name="limit">The maximum number of items to return</param>
         /// <param name="offset">The item at which to begin the response</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
-        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, List<string> fields = null)
+        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, List<string> fields = null, bool autoPaginate=false)
         {
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, Constants.TrashItemsPathString)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            if (autoPaginate)
+            {
+                var allItems = AutoPaginateLimitOffset<BoxCollection<BoxItem>>(request, limit);
+                return allItems.Result;
+            }
+            else
+            {
+                IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }    
         }
 
         /// <summary>
