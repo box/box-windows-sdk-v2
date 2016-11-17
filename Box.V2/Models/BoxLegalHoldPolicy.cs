@@ -38,7 +38,7 @@ namespace Box.V2.Models
         /// A user object representing the author of the legal hold policy.
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime CreatedAt { get; private set; }
+        public DateTime? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time this legal hold policy was created.
