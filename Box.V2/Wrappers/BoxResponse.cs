@@ -51,6 +51,7 @@ namespace Box.V2
         Error,
         Unauthorized,
         Found,
-        Forbidden
+        Forbidden,
+        TooManyRequests
     }
 }
