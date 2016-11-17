@@ -25,14 +25,14 @@ namespace Box.V2.Managers
         /// <param name="limit">Default value is 100. Max value is 10000.</param>
         /// <param name="direction">Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.</param>
         /// <returns>Returns all the device pins within a given enterprise up to limit amount.</returns>
-        public async Task<BoxDevicePinCollection<BoxDevicePin>> GetEnterpriseDevicePinsAsync(string enterpriseId, string marker = null, int limit = 100, BoxSortDirection direction = BoxSortDirection.ASC)
+        public async Task<BoxCollectionMarkerBased<BoxDevicePin>> GetEnterpriseDevicePinsAsync(string enterpriseId, string marker = null, int limit = 100, BoxSortDirection direction = BoxSortDirection.ASC)
         {
             BoxRequest request = new BoxRequest(_config.EnterprisesUri, string.Format(Constants.GetEnterpriseDevicePinsPathString, enterpriseId))
                 .Param("limit", limit.ToString())
                 .Param("marker", marker)
                 .Param("direction", direction.ToString());
 
-            IBoxResponse<BoxDevicePinCollection<BoxDevicePin>> response = await ToResponseAsync<BoxDevicePinCollection<BoxDevicePin>>(request).ConfigureAwait(false);
+            IBoxResponse<BoxCollectionMarkerBased<BoxDevicePin>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxDevicePin>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }

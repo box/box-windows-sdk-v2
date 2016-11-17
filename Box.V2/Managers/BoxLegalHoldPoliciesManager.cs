@@ -44,7 +44,7 @@ namespace Box.V2.Managers
         /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
         /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
         /// <returns>Returns the list of Legal Hold Policies in your Enterprise that match the filter parameters (if passed in). By default, will only return only 'type', 'id', and 'policy_name', but you can specify more by using the 'fields' parameter.</returns>
-        public async Task<BoxCollection<BoxLegalHoldPolicy>> GetListLegalHoldPoliciesAsync(string policyName = null, string fields = null, int? limit = null, string marker = null)
+        public async Task<BoxCollectionMarkerBased<BoxLegalHoldPolicy>> GetListLegalHoldPoliciesAsync(string policyName = null, string fields = null, int? limit = null, string marker = null)
         {
             BoxRequest request = new BoxRequest(_config.LegalHoldPoliciesEndpointUri)
                 .Method(RequestMethod.Get)
@@ -53,7 +53,7 @@ namespace Box.V2.Managers
                 .Param("limit", limit == null ? null : limit.ToString())
                 .Param("marker", marker);
 
-            IBoxResponse<BoxCollection<BoxLegalHoldPolicy>> response = await ToResponseAsync<BoxCollection<BoxLegalHoldPolicy>>(request).ConfigureAwait(false);
+            IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicy>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
