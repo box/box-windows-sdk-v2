@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 
 namespace Box.V2.Models
@@ -20,6 +17,7 @@ namespace Box.V2.Models
         public const string FieldCommentCount = "comment_count";
         public const string FieldLock = "lock";
         public const string FieldExpiringEmbedLink = "expiring_embed_link";
+        public const string FieldWatermarkInfo = "watermark_info";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -80,5 +78,10 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldExpiringEmbedLink)]
         public BoxExpiringEmbedLink ExpiringEmbedLink { get; protected set; }
 
+        /// <summary>
+        /// Information about the watermark status of this file.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldWatermarkInfo)]
+        public BoxWatermarkInfo WatermarkInfo { get; protected set; }
     }
 }

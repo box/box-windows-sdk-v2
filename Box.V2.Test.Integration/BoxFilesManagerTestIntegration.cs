@@ -79,8 +79,15 @@ namespace Box.V2.Test.Integration
         {
             const string fileId = "16894944949";
 
+            var mylist = new List<string>(new string[] { "watermark_info" });
+            var file = await _client.FilesManager.GetInformationAsync(fileId, mylist);
+            Assert.IsFalse(file.WatermarkInfo.IsWatermarked);
+
             var watermark = await _client.FilesManager.ApplyWatermarkAsync(fileId);
             Assert.IsNotNull(watermark, "Failed to apply watermark to file");
+
+            file = await _client.FilesManager.GetInformationAsync(fileId, mylist);
+            Assert.IsTrue(file.WatermarkInfo.IsWatermarked);
 
             var fetchedWatermark = await _client.FilesManager.GetWatermarkAsync(fileId);
             Assert.IsNotNull(fetchedWatermark, "Failed to fetch watermark of file");

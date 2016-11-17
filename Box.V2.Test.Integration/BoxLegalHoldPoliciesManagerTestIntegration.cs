@@ -66,6 +66,18 @@ namespace Box.V2.Test.Integration
 
             Assert.AreEqual(legalHoldAssignment.Id, gLegalHoldAssignments.Entries.Single(lha => lha.Id == gLegalHoldAssignment.Id).Id);
 
+            // Get file version legal holds
+            var fileVersionLegalHolds = await _client.LegalHoldPoliciesManager.GetFileVersionLegalHoldsAsync(legalHold.Id);
+
+            if (fileVersionLegalHolds.Entries.Count > 0) {
+                var fileVersionLegalHoldId = fileVersionLegalHolds.Entries[0].Id;
+
+                // Get file version legal hold
+                var fileVersionLegalHold = await _client.LegalHoldPoliciesManager.GetFileVersionLegalHoldAsync(fileVersionLegalHoldId);
+
+                Assert.AreEqual(fileVersionLegalHoldId, fileVersionLegalHold.Id);
+            }
+
             // Delete assignment
             try {
                 var deleted1 = await _client.LegalHoldPoliciesManager.DeleteAssignmentAsync(legalHoldAssignment.Id);

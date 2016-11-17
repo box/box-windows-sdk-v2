@@ -6,6 +6,7 @@ using Box.V2.Models;
 using Box.V2.Services;
 using System.Threading.Tasks;
 using System;
+using System.Collections.Generic;
 
 namespace Box.V2.Managers
 {
@@ -216,24 +217,32 @@ namespace Box.V2.Managers
         /// <summary>
         /// Get details of a single File Version Legal Hold.
         /// </summary>
-        /// <param name="legalHoldId">ID of the legal hold.</param>
+        /// <param name="fileVersionLegalHoldId">ID of the file version legal hold.</param>
         /// <returns>If the ID is valid, information about the Hold is returned with a 200.
         /// If the ID is for a non-existent Hold, a 404 is returned.</returns>
-        public async Task<BoxFileVersionLegalHold> GetFileVersionLegalHoldAsync(string legalHoldId)
+        public async Task<BoxFileVersionLegalHold> GetFileVersionLegalHoldAsync(string fileVersionLegalHoldId)
         {
-            BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri, legalHoldId);
+            BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri, fileVersionLegalHoldId);
 
             var response = await ToResponseAsync<BoxFileVersionLegalHold>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }
 
-        public async Task<BoxFileVersionLegalHold> GetFileVersionLegalHoldsAsync(string policyId)
+        /// <summary>
+        /// Get list of non-deleted Holds for a single Policy.
+        /// </summary>
+        /// <param name="policyId">ID of Legal Hold Policy to get File Version Legal Holds for.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns the list of File Version Legal Holds for the passed in Policy. 
+        /// By default, will only return only "type", and "id", but you can specify more by using the "fields" parameter.</returns>
+        public async Task<BoxCollectionMarkerBased<BoxFileVersionLegalHold>> GetFileVersionLegalHoldsAsync(string policyId, List<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri)
-                .Param(ParamPolicyId, policyId);
+                .Param(ParamPolicyId, policyId)
+                .Param(ParamFields, fields);
 
-            var response = await ToResponseAsync<BoxFileVersionLegalHold>(request).ConfigureAwait(false);
+            var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxFileVersionLegalHold>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
         }

@@ -13,6 +13,7 @@ namespace Box.V2.Models
         public const string FieldSyncState = "sync_state";
         public const string FieldHasCollaborations = "has_collaborations";
         public const string FieldAllowedInviteeRoles = "allowed_invitee_roles";
+        public const string FieldWatermarkInfo = "watermark_info";
 
         /// <summary>
         /// The upload email address for this folder
@@ -50,5 +51,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldAllowedInviteeRoles)]
         public IList<string> AllowedInviteeRoles { get; protected set; }
+
+        /// <summary>
+        /// Information about the watermark status of this folder.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldWatermarkInfo)]
+        public BoxWatermarkInfo WatermarkInfo { get; protected set; }
     }
 }
