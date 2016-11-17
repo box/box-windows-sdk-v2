@@ -30,6 +30,7 @@ namespace Box.V2.Extensions
             switch (response.Status)
             {
                 case ResponseStatus.Success:
+                case ResponseStatus.Pending:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                         response.ResponseObject = converter.Parse<T>(response.ContentString);
                     break;

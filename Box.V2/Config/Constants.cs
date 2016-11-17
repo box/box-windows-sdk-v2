@@ -55,6 +55,10 @@ namespace Box.V2.Config
         /// The web links endpoint constant
         /// </summary>
         public const string WebLinksString = @"web_links/";
+        /// <summary>
+        /// The legal hold policies endpoint constant
+        /// </summary>
+        public const string LegalHoldPoliciesString = @"legal_hold_policies/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
@@ -75,6 +79,7 @@ namespace Box.V2.Config
         public const string TasksEndpointString = BoxApiUriString + TasksString;
         public const string CollectionsEndpointString = BoxApiUriString + CollectionsString;
         public const string WebLinksEndpointString = BoxApiUriString + WebLinksString;
+        public const string LegalHoldPoliciesEndpointString = BoxApiUriString + LegalHoldPoliciesString;
 
 
         /*** Endpoint Paths ***/
@@ -135,6 +140,7 @@ namespace Box.V2.Config
         public const string TypeTaskAssignment = "task_assignment";
         public const string TypeCollection = "collection";
         public const string TypeDevicePin = "device_pinner";
+        public const string TypeLegalHoldPolicy = "legal_hold_policy";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
