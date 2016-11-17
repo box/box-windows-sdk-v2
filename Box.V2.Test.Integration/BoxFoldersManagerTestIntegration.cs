@@ -65,8 +65,16 @@ namespace Box.V2.Test.Integration
         {
             const string folderId = "1927308583";
 
+            var mylist = new List<string>(new string[] { "watermark_info" });
+            var folder = await _client.FoldersManager.GetInformationAsync(folderId, mylist);
+
+            Assert.IsFalse(folder.WatermarkInfo.IsWatermarked);
+
             var watermark = await _client.FoldersManager.ApplyWatermarkAsync(folderId);
             Assert.IsNotNull(watermark, "Failed to apply watermark to folder");
+
+            folder = await _client.FoldersManager.GetInformationAsync(folderId, mylist);
+            Assert.IsTrue(folder.WatermarkInfo.IsWatermarked);
 
             var fetchedWatermark = await _client.FoldersManager.GetWatermarkAsync(folderId);
             Assert.IsNotNull(fetchedWatermark, "Failed to fetch watermark of folder");

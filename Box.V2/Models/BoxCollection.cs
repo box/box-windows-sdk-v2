@@ -103,6 +103,7 @@ namespace Box.V2.Models
         /// Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.
         /// </summary>
         [JsonProperty(PropertyName = FieldOrder)]
+
         public List<BoxSortOrder> Order { get; set; }
     }
 

@@ -303,5 +303,194 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual(true, result);
         }
+
+        [TestMethod]
+        public async Task GetAssignment_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                          ""type"": ""legal_hold_policy_assignment"",
+                                          ""id"": ""255473"",
+                                          ""legal_hold_policy"": {
+                                            ""type"": ""legal_hold_policy"",
+                                            ""id"": ""166757"",
+                                            ""policy_name"": ""Bug Bash 5-12 Policy 3 updated""
+                                          },
+                                          ""assigned_to"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""2030388321""
+                                          },
+                                          ""assigned_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""2030388321"",
+                                            ""name"": ""Steve Boxuser"",
+                                            ""login"": ""sboxuser@box.com""
+                                          },
+                                          ""assigned_at"": ""2016-05-18T10:32:19-07:00"",
+                                          ""deleted_at"": null
+                                        }";
+            IBoxRequest boxRequest = null;
+            Uri legalHoldPolicyAssignmentUri = new Uri(Constants.LegalHoldPolicyAssignmentsEndpointString);
+            _config.SetupGet(x => x.LegalHoldPolicyAssignmentsEndpointUri).Returns(legalHoldPolicyAssignmentUri);
+            _handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicyAssignment>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicyAssignment>>(new BoxResponse<BoxLegalHoldPolicyAssignment>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxLegalHoldPolicyAssignment result = await _legalHoldPoliciesManager.GetAssignmentAsync("255473");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(legalHoldPolicyAssignmentUri + "255473", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual("legal_hold_policy_assignment", result.Type);
+            Assert.AreEqual("255473", result.Id);
+            Assert.AreEqual("legal_hold_policy", result.LegalHoldPolicy.Type);
+            Assert.AreEqual("166757", result.LegalHoldPolicy.Id);
+            Assert.AreEqual("Bug Bash 5-12 Policy 3 updated", result.LegalHoldPolicy.PolicyName);
+            Assert.AreEqual("user", result.AssignedTo.Type);
+            Assert.AreEqual("2030388321", result.AssignedTo.Id);
+            Assert.AreEqual("user", result.AssignedBy.Type);
+            Assert.AreEqual("2030388321", result.AssignedBy.Id);
+            Assert.AreEqual("Steve Boxuser", result.AssignedBy.Name);
+            Assert.AreEqual("sboxuser@box.com", result.AssignedBy.Login);
+            Assert.IsNull(result.DeletedAt);
+            Assert.AreEqual(DateTime.Parse("2016-05-18T10:32:19-07:00"), result.AssignedAt);
+
+
+        }
+
+        [TestMethod]
+        public async Task GetListAssignments_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                          ""entries"": [
+                                            {
+                                              ""type"": ""legal_hold_policy_assignment"",
+                                              ""id"": ""255473""
+                                            }
+                                          ],
+                                          ""limit"": 100,
+                                          ""order"": [
+                                            {
+                                              ""by"": ""retention_policy_id, retention_policy_object_id"",
+                                              ""direction"": ""ASC""
+                                            }
+                                          ]
+                                        }";
+            IBoxRequest boxRequest = null;
+            Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
+            _config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
+            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxLegalHoldPolicyAssignment>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxLegalHoldPolicyAssignment>>>(new BoxResponse<BoxCollection<BoxLegalHoldPolicyAssignment>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxCollection<BoxLegalHoldPolicyAssignment> result = await _legalHoldPoliciesManager.GetAssignmentsAsync("123456");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(legalHoldsPoliciesUri + "123456/assignments", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual(1, result.Entries.Count);
+            Assert.AreEqual(100, result.Limit);
+            Assert.AreEqual(BoxSortBy.retention_policy_object_id, result.Order[0].By);
+            Assert.AreEqual(BoxSortDirection.ASC, result.Order[0].Direction);
+            Assert.AreEqual("legal_hold_policy_assignment", result.Entries[0].Type);
+            Assert.AreEqual("255473", result.Entries[0].Id);
+
+
+        }
+
+        [TestMethod]
+        public async Task CreateNewAssignment_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                          ""type"": ""legal_hold_policy_assignment"",
+                                          ""id"": ""255613"",
+                                          ""legal_hold_policy"": {
+                                            ""type"": ""legal_hold_policy"",
+                                            ""id"": ""166757"",
+                                            ""policy_name"": ""Bug Bash 5-12 Policy 3 updated""
+                                          },
+                                          ""assigned_to"": {
+                                            ""type"": ""file"",
+                                            ""id"": ""5025127885""
+                                          },
+                                          ""assigned_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""2030388321"",
+                                            ""name"": ""Steve Boxuser"",
+                                            ""login"": ""sboxuser@box.com""
+                                          },
+                                          ""assigned_at"": ""2016-05-18T17:38:03-07:00"",
+                                          ""deleted_at"": null
+                                        }";
+            IBoxRequest boxRequest = null;
+            Uri legalHoldPolicyAssignmentUri = new Uri(Constants.LegalHoldPolicyAssignmentsEndpointString);
+            _config.SetupGet(x => x.LegalHoldPolicyAssignmentsEndpointUri).Returns(legalHoldPolicyAssignmentUri);
+            _handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicyAssignment>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicyAssignment>>(new BoxResponse<BoxLegalHoldPolicyAssignment>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxLegalHoldPolicyAssignmentRequest createRequest = new BoxLegalHoldPolicyAssignmentRequest()
+            {
+                PolicyId = "166757",
+                AssignTo = new BoxRequestEntity()
+                {
+                    Id = "5025127885",
+                    Type = BoxType.file
+                }
+            };
+            BoxLegalHoldPolicyAssignment result = await _legalHoldPoliciesManager.CreateAssignmentAsync(createRequest);
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(legalHoldPolicyAssignmentUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            BoxLegalHoldPolicyAssignmentRequest payLoad = JsonConvert.DeserializeObject<BoxLegalHoldPolicyAssignmentRequest>(boxRequest.Payload);
+            Assert.AreEqual("166757", payLoad.PolicyId);
+            Assert.AreEqual("5025127885", payLoad.AssignTo.Id);
+            Assert.AreEqual(BoxType.file, payLoad.AssignTo.Type);
+
+            //Response check
+            Assert.AreEqual("legal_hold_policy_assignment", result.Type);
+            Assert.AreEqual("255613", result.Id);
+            Assert.AreEqual("legal_hold_policy", result.LegalHoldPolicy.Type);
+            Assert.AreEqual("166757", result.LegalHoldPolicy.Id);
+            Assert.AreEqual("Bug Bash 5-12 Policy 3 updated", result.LegalHoldPolicy.PolicyName);
+            Assert.AreEqual("file", result.AssignedTo.Type);
+            Assert.AreEqual("5025127885", result.AssignedTo.Id);
+            Assert.AreEqual("user", result.AssignedBy.Type);
+            Assert.AreEqual("2030388321", result.AssignedBy.Id);
+            Assert.AreEqual("Steve Boxuser", result.AssignedBy.Name);
+            Assert.AreEqual("sboxuser@box.com", result.AssignedBy.Login);
+            Assert.IsNull(result.DeletedAt);
+            Assert.AreEqual(DateTime.Parse("2016-05-18T17:38:03-07:00"), result.AssignedAt);
+
+
+        }
     }
 }

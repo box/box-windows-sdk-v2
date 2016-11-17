@@ -5,6 +5,8 @@ using Box.V2.Converter;
 using Box.V2.Models;
 using Box.V2.Services;
 using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
 
 namespace Box.V2.Managers
 {
@@ -13,6 +15,8 @@ namespace Box.V2.Managers
     /// </summary>
     public class BoxLegalHoldPoliciesManager : BoxResourceManager
     {
+        private const string ParamPolicyId = "policy_id";
+
         /// <summary>
         /// Create a new BoxLegalHoldPoliciesManager object.
         /// </summary>
@@ -121,5 +125,126 @@ namespace Box.V2.Managers
             return response.Status == ResponseStatus.Pending;
         }
 
+        /// <summary>
+        /// Get details of a single assignment.
+        /// </summary>
+        /// <param name="assignmentId">Id of the assignment.</param>
+        /// <returns>If the assignmentId is valid, information about the Assignment is returned </returns>
+        public async Task<BoxLegalHoldPolicyAssignment> GetAssignmentAsync(string assignmentId)
+        {
+            assignmentId.ThrowIfNullOrWhiteSpace("assignmentId");
+
+            BoxRequest request = new BoxRequest(_config.LegalHoldPolicyAssignmentsEndpointUri, assignmentId)
+                .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxLegalHoldPolicyAssignment> response = await ToResponseAsync<BoxLegalHoldPolicyAssignment>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Get assignments for a single policy.
+        /// </summary>
+        /// <param name="legalHoldPolicyId">ID of Policy to get Assignments for.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="assignToType">Filter assignments of this type only. Can be file_version, file, folder, or user.</param>
+        /// <param name="assignToId">Filter assignments to this ID only. Note that this will only show assignments applied directly to this entity.</param>
+        /// <returns>Returns the list of Assignments for the passed in Policy, as well as any optional filter parameters passed in. By default, will only return only type, and id, but you can specify more by using the fields parameter.</returns>
+        public async Task<BoxCollection<BoxLegalHoldPolicyAssignment>> GetAssignmentsAsync(string legalHoldPolicyId, string fields = null, string assignToType = null, string assignToId = null)
+        {
+            legalHoldPolicyId.ThrowIfNullOrWhiteSpace("legalHoldPolicyId");
+            if (!string.IsNullOrEmpty(assignToType) && assignToType != "file_version" && assignToType != "file" && assignToType != "folder" && assignToType != "user")
+            {
+                throw new ArgumentException("assignToType can be file_version, file, folder, or user.", "assignToType");
+            }
+            BoxRequest request = new BoxRequest(_config.LegalHoldPoliciesEndpointUri, string.Format(Constants.LegalHoldPolicyAssignmentsPathString, legalHoldPolicyId))
+                .Method(RequestMethod.Get)
+                .Param(ParamFields, fields)
+                .Param("assign_to_type", assignToType)
+                .Param("assign_to_id", assignToId);
+
+            IBoxResponse<BoxCollection<BoxLegalHoldPolicyAssignment>> response = await ToResponseAsync<BoxCollection<BoxLegalHoldPolicyAssignment>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Create a new Assignment, which will apply the Legal Hold Policy to the target of the Assignment.
+        /// </summary>
+        /// <param name="createRequest">BoxLegalHoldPolicyAssignmentRequest object.</param>
+        /// <returns>For a successful request, returns object with information about the Assignment created. 
+        /// If the policy or assign-to target cannot be found, null will be returned.
+        /// </returns>
+        public async Task<BoxLegalHoldPolicyAssignment> CreateAssignmentAsync(BoxLegalHoldPolicyAssignmentRequest createRequest)
+        {
+            createRequest.ThrowIfNull("createRequest")
+                .PolicyId.ThrowIfNullOrWhiteSpace("createRequest.PolicyId");
+            createRequest.AssignTo.ThrowIfNull("createRequest.AssignTo")
+                .Id.ThrowIfNullOrWhiteSpace("createRequest.AssignTo.Id");
+            createRequest.AssignTo.Type.ThrowIfNull("createRequest.AssignTo.Type");
+
+            if (createRequest.AssignTo.Type != BoxType.file_version && createRequest.AssignTo.Type != BoxType.file
+                && createRequest.AssignTo.Type != BoxType.folder && createRequest.AssignTo.Type != BoxType.user)
+            {
+                throw new ArgumentException("createRequest.AssignTo.Type can be file_version, file, folder, or user.", "createRequest.AssignTo.Type");
+            }
+
+            BoxRequest request = new BoxRequest(_config.LegalHoldPolicyAssignmentsEndpointUri)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(createRequest));
+
+            IBoxResponse<BoxLegalHoldPolicyAssignment> response = await ToResponseAsync<BoxLegalHoldPolicyAssignment>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Sends request to delete an existing Assignment.
+        /// Note that this is an asynchronous process - the Assignment will not be fully deleted yet when the response comes back.
+        /// </summary>
+        /// <param name="assignmentId">ID of the legal holds assignment.</param>
+        /// <returns>A successful request returns 204 No Content. If the Assignment is still initializing, will return a 409.</returns>
+        public async Task<bool> DeleteAssignmentAsync(string assignmentId)
+        {
+            BoxRequest request = new BoxRequest(_config.LegalHoldPolicyAssignmentsEndpointUri, assignmentId)
+                .Method(RequestMethod.Delete);
+
+            var response = await ToResponseAsync<BoxLegalHoldPolicyAssignment>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
+        /// Get details of a single File Version Legal Hold.
+        /// </summary>
+        /// <param name="fileVersionLegalHoldId">ID of the file version legal hold.</param>
+        /// <returns>If the ID is valid, information about the Hold is returned with a 200.
+        /// If the ID is for a non-existent Hold, a 404 is returned.</returns>
+        public async Task<BoxFileVersionLegalHold> GetFileVersionLegalHoldAsync(string fileVersionLegalHoldId)
+        {
+            BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri, fileVersionLegalHoldId);
+
+            var response = await ToResponseAsync<BoxFileVersionLegalHold>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Get list of non-deleted Holds for a single Policy.
+        /// </summary>
+        /// <param name="policyId">ID of Legal Hold Policy to get File Version Legal Holds for.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns the list of File Version Legal Holds for the passed in Policy. 
+        /// By default, will only return only "type", and "id", but you can specify more by using the "fields" parameter.</returns>
+        public async Task<BoxCollectionMarkerBased<BoxFileVersionLegalHold>> GetFileVersionLegalHoldsAsync(string policyId, List<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri)
+                .Param(ParamPolicyId, policyId)
+                .Param(ParamFields, fields);
+
+            var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxFileVersionLegalHold>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
     }
 }
