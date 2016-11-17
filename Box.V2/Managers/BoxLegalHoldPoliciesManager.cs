@@ -75,7 +75,6 @@ namespace Box.V2.Managers
         {
             createRequest.ThrowIfNull("createRequest")
                 .PolicyName.ThrowIfNull("createRequest.PolicyName");
-            createRequest.ReleaseNotes = null;
 
             BoxRequest request = new BoxRequest(_config.LegalHoldPoliciesEndpointUri)
                 .Method(RequestMethod.Post)
@@ -96,8 +95,6 @@ namespace Box.V2.Managers
         {
             legalHoldPolicyId.ThrowIfNull("legalHoldPolicyId");
             updateRequest.ThrowIfNull("updateRequest");
-            updateRequest.FilterStartedAt = null;
-            updateRequest.FilterEndedAt = null;
 
             BoxRequest request = new BoxRequest(_config.LegalHoldPoliciesEndpointUri, legalHoldPolicyId)
                 .Method(RequestMethod.Put)
@@ -153,10 +150,7 @@ namespace Box.V2.Managers
         public async Task<BoxCollection<BoxLegalHoldPolicyAssignment>> GetAssignmentsAsync(string legalHoldPolicyId, string fields = null, string assignToType = null, string assignToId = null)
         {
             legalHoldPolicyId.ThrowIfNullOrWhiteSpace("legalHoldPolicyId");
-            if (!string.IsNullOrEmpty(assignToType) && assignToType != "file_version" && assignToType != "file" && assignToType != "folder" && assignToType != "user")
-            {
-                throw new ArgumentException("assignToType can be file_version, file, folder, or user.", "assignToType");
-            }
+
             BoxRequest request = new BoxRequest(_config.LegalHoldPoliciesEndpointUri, string.Format(Constants.LegalHoldPolicyAssignmentsPathString, legalHoldPolicyId))
                 .Method(RequestMethod.Get)
                 .Param(ParamFields, fields)
@@ -182,12 +176,6 @@ namespace Box.V2.Managers
             createRequest.AssignTo.ThrowIfNull("createRequest.AssignTo")
                 .Id.ThrowIfNullOrWhiteSpace("createRequest.AssignTo.Id");
             createRequest.AssignTo.Type.ThrowIfNull("createRequest.AssignTo.Type");
-
-            if (createRequest.AssignTo.Type != BoxType.file_version && createRequest.AssignTo.Type != BoxType.file
-                && createRequest.AssignTo.Type != BoxType.folder && createRequest.AssignTo.Type != BoxType.user)
-            {
-                throw new ArgumentException("createRequest.AssignTo.Type can be file_version, file, folder, or user.", "createRequest.AssignTo.Type");
-            }
 
             BoxRequest request = new BoxRequest(_config.LegalHoldPolicyAssignmentsEndpointUri)
                 .Method(RequestMethod.Post)
