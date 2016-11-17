@@ -42,7 +42,7 @@ namespace Box.V2.Managers
         /// <returns>Returns the user object for the newly created user.</returns>
         public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, List<string> fields = null)
         {
-            userRequest.ThrowIfNull("userRequest").Login.ThrowIfNull("userRequest.Login");
+            userRequest.ThrowIfNull("userRequest");
             userRequest.Name.ThrowIfNull("userRequest.Name");
 
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, "")
