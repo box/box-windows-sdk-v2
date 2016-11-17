@@ -6,86 +6,114 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Box.V2.Request
 {
     public class HttpRequestHandler : IRequestHandler
     {
+        const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
+
         public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
             where T : class
         {
             // Need to account for special cases when the return type is a stream
             bool isStream = typeof(T) == typeof(Stream);
-
-            HttpRequestMessage httpRequest = request.GetType() == typeof(BoxMultiPartRequest) ?
-                                                BuildMultiPartRequest(request as BoxMultiPartRequest) :
-                                                BuildRequest(request);
-
-            // Add headers
-            foreach (var kvp in request.HttpHeaders)
-            {
-                if (kvp.Key == Constants.RequestParameters.ContentMD5)
-                {
-                    httpRequest.Content.Headers.Add(kvp.Key, kvp.Value);
-                } else
-                {
-                    httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
-                }       
-            }
-                
-
-            // If we are retrieving a stream, we should return without reading the entire response
-            HttpCompletionOption completionOption = isStream ?
-                HttpCompletionOption.ResponseHeadersRead :
-                HttpCompletionOption.ResponseContentRead;
-
-            Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));//, RequestHeader: {1} , httpRequest.Headers.Select(i => string.Format("{0}:{1}", i.Key, i.Value)).Aggregate((i, j) => i + "," + j)));
+            var numRetries = 3;
 
             try
             {
-                HttpClient client = CreateClient(request);
-
-                HttpResponseMessage response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
-
-                BoxResponse<T> boxResponse = new BoxResponse<T>();
-                boxResponse.Headers = response.Headers;
-
-                // Translate the status codes that interest us 
-                boxResponse.StatusCode = response.StatusCode;
-                switch (response.StatusCode)
+                while(true)
                 {
-                    case HttpStatusCode.OK:
-                    case HttpStatusCode.Created:
-                    case HttpStatusCode.NoContent:
-                    case HttpStatusCode.Found:
-                        boxResponse.Status = ResponseStatus.Success;
-                        break;
-                    case HttpStatusCode.Accepted:
-                        boxResponse.Status = ResponseStatus.Pending;
-                        break;
-                    case HttpStatusCode.Unauthorized:
-                        boxResponse.Status = ResponseStatus.Unauthorized;
-                        break;
-                    case HttpStatusCode.Forbidden:
-                        boxResponse.Status = ResponseStatus.Forbidden;
-                        break;
-                    default:
-                        boxResponse.Status = ResponseStatus.Error;
-                        break;
-                }
+                    HttpRequestMessage httpRequest = request.GetType() == typeof(BoxMultiPartRequest) ?
+                                                BuildMultiPartRequest(request as BoxMultiPartRequest) :
+                                                BuildRequest(request);
 
-                if (isStream && boxResponse.Status == ResponseStatus.Success)
-                {
-                    var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                    boxResponse.ResponseObject = resObj as T;             
+                    // Add headers
+                    foreach (var kvp in request.HttpHeaders)
+                    {
+                        if (kvp.Key == Constants.RequestParameters.ContentMD5)
+                        {
+                            httpRequest.Content.Headers.Add(kvp.Key, kvp.Value);
+                        }
+                        else
+                        {
+                            httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
+                        }
+                    }
+
+                    // If we are retrieving a stream, we should return without reading the entire response
+                    HttpCompletionOption completionOption = isStream ?
+                        HttpCompletionOption.ResponseHeadersRead :
+                        HttpCompletionOption.ResponseContentRead;
+
+                    Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));//, RequestHeader: {1} , httpRequest.Headers.Select(i => string.Format("{0}:{1}", i.Key, i.Value)).Aggregate((i, j) => i + "," + j)));
+
+                    HttpClient client = CreateClient(request);
+                    BoxResponse<T> boxResponse = new BoxResponse<T>();
+
+                    HttpResponseMessage response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
+            
+                    if(response.StatusCode == TooManyRequests && numRetries-- > 0)
+                    {
+                        //need to wait for Retry-After seconds and then retry request
+                        var retryAfterHeader = response.Headers.RetryAfter;
+
+                        TimeSpan delay;
+                        if (retryAfterHeader.Delta.HasValue)
+                            delay = retryAfterHeader.Delta.Value;
+                        else
+                            delay = TimeSpan.FromMilliseconds(2000);
+
+                        Debug.WriteLine("TooManyRequests error (429). Waiting for {0} seconds to retry request. RequestUri: {1}", delay.Seconds, httpRequest.RequestUri);
+
+                        await TaskEx.Delay(delay);
+                    }
+                    else
+                    {
+                        boxResponse.Headers = response.Headers;
+
+                        // Translate the status codes that interest us 
+                        boxResponse.StatusCode = response.StatusCode;
+                        switch (response.StatusCode)
+                        {
+                            case HttpStatusCode.OK:
+                            case HttpStatusCode.Created:
+                            case HttpStatusCode.NoContent:
+                            case HttpStatusCode.Found:
+                                boxResponse.Status = ResponseStatus.Success;
+                                break;
+                            case HttpStatusCode.Accepted:
+                                boxResponse.Status = ResponseStatus.Pending;
+                                break;
+                            case HttpStatusCode.Unauthorized:
+                                boxResponse.Status = ResponseStatus.Unauthorized;
+                                break;
+                            case HttpStatusCode.Forbidden:
+                                boxResponse.Status = ResponseStatus.Forbidden;
+                                break;
+                            case TooManyRequests:
+                                boxResponse.Status = ResponseStatus.TooManyRequests;
+                                break;
+                            default:
+                                boxResponse.Status = ResponseStatus.Error;
+                                break;
+                        }
+
+                        if (isStream && boxResponse.Status == ResponseStatus.Success)
+                        {
+                            var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                            boxResponse.ResponseObject = resObj as T;
+                        }
+                        else
+                        {
+                            boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        }
+
+                        return boxResponse;
+                    }         
                 }
-                else
-                {
-                    boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                }
-                return boxResponse;
             }
             catch (Exception ex)
             {
