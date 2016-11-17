@@ -94,7 +94,9 @@ namespace Box.V2.Config
         /// Gets the legal hold policy assignments endpoint URI.
         /// </summary>
         Uri LegalHoldPolicyAssignmentsEndpointUri { get; }
-
-
+        /// <summary>
+        /// Gets the file viersion legal holds endpoint URI.
+        /// </summary>
+        Uri FileVersionLegalHoldsEndpointUri { get; }
     }
 }

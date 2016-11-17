@@ -62,7 +62,7 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(legalHoldAssignment.Id, gLegalHoldAssignment.Id);
 
             // Get assignments
-            var gLegalHoldAssignments = await _client.LegalHoldPoliciesManager.GetListAssignmentsAsync(legalHold.Id);
+            var gLegalHoldAssignments = await _client.LegalHoldPoliciesManager.GetAssignmentsAsync(legalHold.Id);
 
             Assert.AreEqual(legalHoldAssignment.Id, gLegalHoldAssignments.Entries.Single(lha => lha.Id == gLegalHoldAssignment.Id).Id);
 

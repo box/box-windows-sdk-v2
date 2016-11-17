@@ -14,6 +14,8 @@ namespace Box.V2.Managers
     /// </summary>
     public class BoxLegalHoldPoliciesManager : BoxResourceManager
     {
+        private const string ParamPolicyId = "policy_id";
+
         /// <summary>
         /// Create a new BoxLegalHoldPoliciesManager object.
         /// </summary>
@@ -140,14 +142,14 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Get list of assignments for a single Policy.
+        /// Get assignments for a single policy.
         /// </summary>
         /// <param name="legalHoldPolicyId">ID of Policy to get Assignments for.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="assignToType">Filter assignments of this type only. Can be file_version, file, folder, or user.</param>
         /// <param name="assignToId">Filter assignments to this ID only. Note that this will only show assignments applied directly to this entity.</param>
         /// <returns>Returns the list of Assignments for the passed in Policy, as well as any optional filter parameters passed in. By default, will only return only type, and id, but you can specify more by using the fields parameter.</returns>
-        public async Task<BoxCollection<BoxLegalHoldPolicyAssignment>> GetListAssignmentsAsync(string legalHoldPolicyId, string fields = null, string assignToType = null, string assignToId = null)
+        public async Task<BoxCollection<BoxLegalHoldPolicyAssignment>> GetAssignmentsAsync(string legalHoldPolicyId, string fields = null, string assignToType = null, string assignToId = null)
         {
             legalHoldPolicyId.ThrowIfNullOrWhiteSpace("legalHoldPolicyId");
             if (!string.IsNullOrEmpty(assignToType) && assignToType != "file_version" && assignToType != "file" && assignToType != "folder" && assignToType != "user")
@@ -180,8 +182,8 @@ namespace Box.V2.Managers
                 .Id.ThrowIfNullOrWhiteSpace("createRequest.AssignTo.Id");
             createRequest.AssignTo.Type.ThrowIfNull("createRequest.AssignTo.Type");
 
-            if(createRequest.AssignTo.Type!=BoxType.file_version && createRequest.AssignTo.Type!=BoxType.file 
-                && createRequest.AssignTo.Type!=BoxType.folder && createRequest.AssignTo.Type!=BoxType.user)
+            if (createRequest.AssignTo.Type != BoxType.file_version && createRequest.AssignTo.Type != BoxType.file
+                && createRequest.AssignTo.Type != BoxType.folder && createRequest.AssignTo.Type != BoxType.user)
             {
                 throw new ArgumentException("createRequest.AssignTo.Type can be file_version, file, folder, or user.", "createRequest.AssignTo.Type");
             }
@@ -209,6 +211,31 @@ namespace Box.V2.Managers
             var response = await ToResponseAsync<BoxLegalHoldPolicyAssignment>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
+        /// Get details of a single File Version Legal Hold.
+        /// </summary>
+        /// <param name="legalHoldId">ID of the legal hold.</param>
+        /// <returns>If the ID is valid, information about the Hold is returned with a 200.
+        /// If the ID is for a non-existent Hold, a 404 is returned.</returns>
+        public async Task<BoxFileVersionLegalHold> GetFileVersionLegalHoldAsync(string legalHoldId)
+        {
+            BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri, legalHoldId);
+
+            var response = await ToResponseAsync<BoxFileVersionLegalHold>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        public async Task<BoxFileVersionLegalHold> GetFileVersionLegalHoldsAsync(string policyId)
+        {
+            BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri)
+                .Param(ParamPolicyId, policyId);
+
+            var response = await ToResponseAsync<BoxFileVersionLegalHold>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
         }
     }
 }

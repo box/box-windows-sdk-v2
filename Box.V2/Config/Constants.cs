@@ -63,6 +63,10 @@ namespace Box.V2.Config
         /// The legal hold policy assignments endpoint constant
         /// </summary>
         public const string LegalHoldPolicyAssignmentsString = @"legal_hold_policy_assignments/";
+        /// <summary>
+        /// The legal hold policy assignments endpoint constant
+        /// </summary>
+        public const string FileVersionLegalHoldsString = @"file_version_legal_holds/";
 
         /*** API Full Endpoint Strings ***/
         public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;

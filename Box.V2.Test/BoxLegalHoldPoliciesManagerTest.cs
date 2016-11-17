@@ -398,7 +398,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxCollection<BoxLegalHoldPolicyAssignment> result = await _legalHoldPoliciesManager.GetListAssignmentsAsync("123456");
+            BoxCollection<BoxLegalHoldPolicyAssignment> result = await _legalHoldPoliciesManager.GetAssignmentsAsync("123456");
 
             /*** Assert ***/
             //Request check

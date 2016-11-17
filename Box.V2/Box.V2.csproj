@@ -73,6 +73,7 @@
     <Compile Include="Models\BoxFileEventSource.cs" />
     <Compile Include="Models\BoxFileLock.cs" />
     <Compile Include="Models\BoxFilePreview.cs" />
+    <Compile Include="Models\BoxFileVersionLegalHold.cs" />
     <Compile Include="Models\BoxFileVersionRetention.cs" />
     <Compile Include="Models\BoxLegalHoldPolicyAssignment.cs" />
     <Compile Include="Models\BoxLegalHoldPolicy.cs" />
