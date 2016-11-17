@@ -74,6 +74,7 @@
     <Compile Include="Models\BoxFileLock.cs" />
     <Compile Include="Models\BoxFilePreview.cs" />
     <Compile Include="Models\BoxFileVersionRetention.cs" />
+    <Compile Include="Models\BoxLegalHoldPolicyAssignment.cs" />
     <Compile Include="Models\BoxLegalHoldPolicy.cs" />
     <Compile Include="Models\BoxMetadataTemplate.cs" />
     <Compile Include="Models\BoxMetadataTemplateUpdate.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Models\BoxGroup.cs" />
     <Compile Include="Models\BoxGroupMembership.cs" />
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
+    <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxTaskAssignmentUpdateRequest.cs" />
     <Compile Include="Models\Request\BoxAssignmentRequest.cs" />
