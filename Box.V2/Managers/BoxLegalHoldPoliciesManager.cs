@@ -5,6 +5,7 @@ using Box.V2.Converter;
 using Box.V2.Models;
 using Box.V2.Services;
 using System.Threading.Tasks;
+using System;
 
 namespace Box.V2.Managers
 {
@@ -141,7 +142,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Get list of assignments for a single Policy.
         /// </summary>
-        /// <param name="legalHoldPolicyId">D of Policy to get Assignments for.</param>
+        /// <param name="legalHoldPolicyId">ID of Policy to get Assignments for.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="assignToType">Filter assignments of this type only. Can be file_version, file, folder, or user.</param>
         /// <param name="assignToId">Filter assignments to this ID only. Note that this will only show assignments applied directly to this entity.</param>
@@ -167,15 +168,11 @@ namespace Box.V2.Managers
         /// <summary>
         /// Create a new Assignment, which will apply the Legal Hold Policy to the target of the Assignment.
         /// </summary>
-        /// <param name="createRequest">Legal Hold Policy Assignment request
-        /// createRequest.PolicyId (required) - ID of Policy to create Assignment for,
-        /// createRequest.AssignTo.Type (required) - Type of target. Can be 'file_version', 'file', 'folder', or 'user',
-        /// createRequest.AssignTo.Id (required) - Id of the target entity: file_version_id, file_id, folder_id, or user_id.
-        /// </param>
+        /// <param name="createRequest">BoxLegalHoldPolicyAssignmentRequest object.</param>
         /// <returns>For a successful request, returns object with information about the Assignment created. 
         /// If the policy or assign-to target cannot be found, null will be returned.
         /// </returns>
-        public async Task<BoxLegalHoldPolicyAssignment> CreateNewAssignmentAsync(BoxLegalHoldPolicyAssignmentRequest createRequest)
+        public async Task<BoxLegalHoldPolicyAssignment> CreateAssignmentAsync(BoxLegalHoldPolicyAssignmentRequest createRequest)
         {
             createRequest.ThrowIfNull("createRequest")
                 .PolicyId.ThrowIfNullOrWhiteSpace("createRequest.PolicyId");
@@ -188,6 +185,7 @@ namespace Box.V2.Managers
             {
                 throw new ArgumentException("createRequest.AssignTo.Type can be file_version, file, folder, or user.", "createRequest.AssignTo.Type");
             }
+
             BoxRequest request = new BoxRequest(_config.LegalHoldPolicyAssignmentsEndpointUri)
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize(createRequest));
@@ -197,5 +195,20 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Sends request to delete an existing Assignment.
+        /// Note that this is an asynchronous process - the Assignment will not be fully deleted yet when the response comes back.
+        /// </summary>
+        /// <param name="assignmentId">ID of the legal holds assignment.</param>
+        /// <returns>A successful request returns 204 No Content. If the Assignment is still initializing, will return a 409.</returns>
+        public async Task<bool> DeleteAssignmentAsync(string assignmentId)
+        {
+            BoxRequest request = new BoxRequest(_config.LegalHoldPolicyAssignmentsEndpointUri, assignmentId)
+                .Method(RequestMethod.Delete);
+
+            var response = await ToResponseAsync<BoxLegalHoldPolicyAssignment>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
     }
 }

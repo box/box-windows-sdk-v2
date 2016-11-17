@@ -463,7 +463,7 @@ namespace Box.V2.Test
                     Type = BoxType.file
                 }
             };
-            BoxLegalHoldPolicyAssignment result = await _legalHoldPoliciesManager.CreateNewAssignmentAsync(createRequest);
+            BoxLegalHoldPolicyAssignment result = await _legalHoldPoliciesManager.CreateAssignmentAsync(createRequest);
 
             /*** Assert ***/
             //Request check
