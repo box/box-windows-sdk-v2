@@ -50,7 +50,7 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Get)
                 .Param("policy_name", policyName)
                 .Param("fields", fields)
-                .Param("limit", limit == null ? null : limit.ToString())
+                .Param("limit", limit.ToString())
                 .Param("marker", marker);
 
             IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicy>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>(request).ConfigureAwait(false);

@@ -105,8 +105,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                var allItems = AutoPaginateLimitOffset<BoxUser>(request, (int)limit);
-                return allItems.Result;
+                return await AutoPaginateLimitOffset<BoxUser>(request, (int)limit);
             }
             else
             {
@@ -317,12 +316,10 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                var allItems = AutoPaginateLimitOffset<BoxGroupMembership>(request, (int)limit);
-                return allItems.Result;
+                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, (int)limit);
             }
             else
             {
-
                 IBoxResponse<BoxCollection<BoxGroupMembership>> response = await ToResponseAsync<BoxCollection<BoxGroupMembership>>(request).ConfigureAwait(false);
                 return response.ResponseObject;
             }

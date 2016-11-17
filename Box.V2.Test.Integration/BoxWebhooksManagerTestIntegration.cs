@@ -18,8 +18,8 @@ namespace Box.V2.Test.Integration
             const string ADDRESS2 = "https://example2.com";
 
             //first remove any dangling webhooks from previous failed tests
-            var existingWebhooks = await _client.WebhooksManager.GetAllWebhooksAsync();
-            foreach (var wh in existingWebhooks)
+            var existingWebhooks = await _client.WebhooksManager.GetWebhooksAsync(autoPaginate:true);
+            foreach (var wh in existingWebhooks.Entries)
             {
                 await _client.WebhooksManager.DeleteWebhookAsync(wh.Id);
             }

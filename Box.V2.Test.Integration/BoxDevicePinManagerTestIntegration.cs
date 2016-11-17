@@ -16,12 +16,8 @@ namespace Box.V2.Test.Integration
             const string enterpriseId = "440385";
 
             //get enterprise device pins
-            var pins = await _client.DevicePinManager.GetEnterpriseDevicePinsAsync(enterpriseId);
+            var pins = await _client.DevicePinManager.GetEnterpriseDevicePinsAsync(enterpriseId, autoPaginate: true);
             Assert.IsTrue(pins.Entries.Count == 1, "Failed to get enterprise device pins.");
-
-            //get all enterprise device pins
-            var allPins = await _client.DevicePinManager.GetAllEnterpriseDevicePinsAsync(enterpriseId);
-            Assert.IsTrue(allPins.Count == 1, "Failed to get enterprise device pins.");
 
             //get device pin by id
             var devicePin = await _client.DevicePinManager.GetDevicePin(pins.Entries[0].Id);

@@ -95,22 +95,30 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="limit">Optional. Defaults to 100, max of 200.</param>
         /// <param name="nextMarker">Optional. Used to indicate starting point for next batch of webhooks.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns all defined webhooks for the requesting application and user, up to the limit.</returns>
-        public async Task<BoxWebhookCollection<BoxWebhook>> GetWebhooksAsync (int limit = 100, string nextMarker = null)
+        public async Task<BoxCollectionMarkerBased<BoxWebhook>> GetWebhooksAsync (int limit = 100, string nextMarker = null, bool autoPaginate=false)
         {
             BoxRequest request = new BoxRequest(_config.WebhooksUri)
                 .Param("limit", limit.ToString())
                 .Param("marker", nextMarker);
 
-            IBoxResponse<BoxWebhookCollection<BoxWebhook>> response = await ToResponseAsync<BoxWebhookCollection<BoxWebhook>>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxWebhook>(request, limit);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxWebhook>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxWebhook>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
         /// Convenience method to automatically fetch all webhooks for the requesting application and user using auto-pagination.
         /// </summary>
         /// <returns>Returns all defined webhooks for the requesting application and user.</returns>
+        [Obsolete("This method is deprecated. Use GetWebhooksAsync and specify autoPaginate=true instead.",true)]
         public async Task<List<BoxWebhook>> GetAllWebhooksAsync()
         {
             string nextMarker = null;

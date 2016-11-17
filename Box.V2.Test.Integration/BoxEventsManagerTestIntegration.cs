@@ -67,7 +67,7 @@ namespace Box.V2.Test.Integration
             //first we need to get the latest stream position
             var events = await _client.EventsManager.UserEventsAsync();
 
-            CancellationTokenSource cancelSource = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+            CancellationTokenSource cancelSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
             var t = await Task.Factory.StartNew(async (opts) =>
             {
                 await _client.EventsManager.LongPollUserEvents(events.NextStreamPosition,

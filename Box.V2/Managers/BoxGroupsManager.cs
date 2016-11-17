@@ -50,8 +50,7 @@ namespace Box.V2.Managers
                 if (!offset.HasValue)
                     request.Param("offset", "0");
 
-                var allItems = AutoPaginateLimitOffset<BoxGroup>(request, limit.Value);
-                return allItems.Result;
+                return await AutoPaginateLimitOffset<BoxGroup>(request, limit.Value);
             }
             else
             {
@@ -204,8 +203,7 @@ namespace Box.V2.Managers
                 if(!offset.HasValue)
                     request.Param("offset", "0");
 
-                var allItems = AutoPaginateLimitOffset<BoxCollaboration>(request, limit.Value);
-                return allItems.Result;
+                return await AutoPaginateLimitOffset<BoxCollaboration>(request, limit.Value);
             }
             else
             {
@@ -243,8 +241,7 @@ namespace Box.V2.Managers
                 if (!offset.HasValue)
                     request.Param("offset", "0");
 
-                var allItems = AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
-                return allItems.Result;
+                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
             }
             else
             {
@@ -282,8 +279,7 @@ namespace Box.V2.Managers
                 if (!offset.HasValue)
                     request.Param("offset", "0");
 
-                var allItems = AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
-                return allItems.Result;
+                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
             }
             else
             {

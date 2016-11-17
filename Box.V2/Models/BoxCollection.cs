@@ -85,25 +85,25 @@ namespace Box.V2.Models
         /// Number of items to return per request.
         /// </summary>
         [JsonProperty(PropertyName = FieldLimit)]
-        public int Limit { get; private set; }
+        public int Limit { get; set; }
 
         /// <summary>
         /// Should be empty for first invocation of the API. Use the one returned in response for each subsequent call.
         /// </summary>
         [JsonProperty(PropertyName = FieldMarker)]
-        public string NextMarker { get; private set; }
+        public string NextMarker { get; set; }
 
         /// <summary>
         /// List of items returned.
         /// </summary>
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
+        public List<T> Entries { get; set; }
 
         /// <summary>
         /// Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.
         /// </summary>
         [JsonProperty(PropertyName = FieldOrder)]
-        public List<BoxSortOrder> Order { get; private set; }
+        public List<BoxSortOrder> Order { get; set; }
     }
 
     public class BoxEventCollection<T> : BoxEventCollection where T: BoxEnterpriseEvent
@@ -123,27 +123,6 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldChunkSize)]
         public int ChunkSize { get; private set; }
 
-        [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
-    }
-
-    public class BoxWebhookCollection<T> : BoxWebhookCollection where T : BoxWebhook
-    {
-        /// <summary>
-        /// Max number of webhooks returned
-        /// </summary>
-        [JsonProperty(PropertyName = FieldLimit)]
-        public int Limit { get; private set; }
-
-        /// <summary>
-        /// Marker to use for next request for webhooks. Will be null if no more webhooks.
-        /// </summary>
-        [JsonProperty(PropertyName = FieldNextMarker)]
-        public string NextMarker { get; private set; }
-
-        /// <summary>
-        /// List of webhooks returned
-        /// </summary>
         [JsonProperty(PropertyName = FieldEntries)]
         public List<T> Entries { get; private set; }
     }

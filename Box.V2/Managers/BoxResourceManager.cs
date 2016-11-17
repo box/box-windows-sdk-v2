@@ -138,7 +138,7 @@ namespace Box.V2.Managers
             allItemsCollection.Entries = new List<T>();
 
             int offset = 0;
-            bool keepGoing = true;
+            bool keepGoing;
             do
             {
                 IBoxResponse<BoxCollection<T>> response = await ToResponseAsync<BoxCollection<T>>(request).ConfigureAwait(false);
@@ -154,6 +154,35 @@ namespace Box.V2.Managers
             } while (keepGoing);
 
             allItemsCollection.TotalCount = allItemsCollection.Entries.Count;
+
+            return allItemsCollection;
+        }
+
+        /// <summary>
+        /// Used to fetch all results using pagination based on next_marker
+        /// </summary>
+        /// <typeparam name="T">The type of BoxCollectionMarkerBased item to expect.</typeparam>
+        /// <param name="request">The pre-configured BoxRequest object.</param>
+        /// <param name="limit">The limit specific to the endpoint.</param>
+        /// <returns></returns>
+        protected async Task<BoxCollectionMarkerBased<T>> AutoPaginateMarker<T>(BoxRequest request, int limit) where T : BoxEntity, new()
+        {
+            var allItemsCollection = new BoxCollectionMarkerBased<T>();
+            allItemsCollection.Entries = new List<T>();
+
+            bool keepGoing;
+            do
+            {
+                IBoxResponse<BoxCollectionMarkerBased<T>> response = await ToResponseAsync<BoxCollectionMarkerBased<T>>(request).ConfigureAwait(false);
+                var newItems = response.ResponseObject;
+                allItemsCollection.Entries.AddRange(newItems.Entries);
+                allItemsCollection.Order = newItems.Order;
+
+                request.Param("marker", newItems.NextMarker);
+
+                keepGoing = !string.IsNullOrWhiteSpace(newItems.NextMarker);
+
+            } while (keepGoing);
 
             return allItemsCollection;
         }

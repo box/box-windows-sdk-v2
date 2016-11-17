@@ -24,37 +24,27 @@ namespace Box.V2.Managers
         /// <param name="marker">Needs not be passed or can be empty for first invocation of the API. Use the one returned in response for each subsequent call.</param>
         /// <param name="limit">Default value is 100. Max value is 10000.</param>
         /// <param name="direction">Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns all the device pins within a given enterprise up to limit amount.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxDevicePin>> GetEnterpriseDevicePinsAsync(string enterpriseId, string marker = null, int limit = 100, BoxSortDirection direction = BoxSortDirection.ASC)
+        public async Task<BoxCollectionMarkerBased<BoxDevicePin>> GetEnterpriseDevicePinsAsync(string enterpriseId, string marker = null, 
+                                                                                               int limit = 100, 
+                                                                                               BoxSortDirection direction = BoxSortDirection.ASC,
+                                                                                               bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.EnterprisesUri, string.Format(Constants.GetEnterpriseDevicePinsPathString, enterpriseId))
                 .Param("limit", limit.ToString())
                 .Param("marker", marker)
                 .Param("direction", direction.ToString());
 
-            IBoxResponse<BoxCollectionMarkerBased<BoxDevicePin>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxDevicePin>>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
-        }
-
-        /// <summary>
-        /// Convenience method to automatically fetch all device pins within a given enterprise.
-        /// </summary>
-        /// <returns>Returns all the device pins within a given enterprise.</returns>
-        public async Task<List<BoxDevicePin>> GetAllEnterpriseDevicePinsAsync(string enterpriseId, BoxSortDirection direction = BoxSortDirection.ASC)
-        {
-            string nextMarker = null;
-            var allDevicePins = new List<BoxDevicePin>();
-
-            do
+            if (autoPaginate)
             {
-                var nextDevicePins = await GetEnterpriseDevicePinsAsync(enterpriseId, limit: 100, marker: nextMarker);
-                allDevicePins.AddRange(nextDevicePins.Entries);
-                nextMarker = nextDevicePins.NextMarker;
-
-            } while (!string.IsNullOrWhiteSpace(nextMarker));
-
-            return allDevicePins;
+                return await AutoPaginateMarker<BoxDevicePin>(request, limit);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxDevicePin>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxDevicePin>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
