@@ -226,29 +226,29 @@
           "lib/netstandard1.0/Nito.Collections.Deque.dll": {}
         }
       },
-      "Portable.BouncyCastle/1.8.1": {
+      "Portable.BouncyCastle/1.8.1.1": {
         "type": "package",
         "dependencies": {
-          "System.Collections": "4.0.10",
-          "System.Diagnostics.Debug": "4.0.10",
-          "System.Globalization": "4.0.10",
-          "System.IO": "4.0.10",
-          "System.IO.FileSystem": "4.0.0",
-          "System.IO.FileSystem.Primitives": "4.0.0",
-          "System.Linq": "4.0.0",
-          "System.Reflection": "4.0.10",
-          "System.Reflection.Extensions": "4.0.0",
-          "System.Runtime": "4.0.20",
-          "System.Runtime.Extensions": "4.0.10",
-          "System.Text.Encoding": "4.0.10",
-          "System.Threading": "4.0.10",
-          "System.Threading.Tasks": "4.0.10"
+          "System.Collections": "4.0.11",
+          "System.Diagnostics.Debug": "4.0.11",
+          "System.Globalization": "4.0.11",
+          "System.IO": "4.1.0",
+          "System.IO.FileSystem": "4.0.1",
+          "System.IO.FileSystem.Primitives": "4.0.1",
+          "System.Linq": "4.1.0",
+          "System.Reflection": "4.1.0",
+          "System.Reflection.Extensions": "4.0.1",
+          "System.Runtime": "4.1.0",
+          "System.Runtime.Extensions": "4.1.0",
+          "System.Text.Encoding": "4.0.11",
+          "System.Threading": "4.0.11",
+          "System.Threading.Tasks": "4.0.11"
         },
         "compile": {
-          "lib/dotnet/crypto.dll": {}
+          "lib/netstandard1.3/crypto.dll": {}
         },
         "runtime": {
-          "lib/dotnet/crypto.dll": {}
+          "lib/netstandard1.3/crypto.dll": {}
         }
       },
       "runtime.native.System/4.0.0": {
@@ -1358,50 +1358,23 @@
         "lib/portable45-net45+win8+wp8+wpa81/Nito.Collections.Deque.xml"
       ]
     },
-    "Portable.BouncyCastle/1.8.1": {
-      "sha512": "Z4yqqo0gur6HvGQbEtXjiyKCW+Y7e87gU/Tng10Dgwhs6Pt2KCMiIcrlr6P4QViYNZArsKSKwQvFnQma/NES+Q==",
+    "Portable.BouncyCastle/1.8.1.1": {
+      "sha512": "bKqC2Me9ukybNYTBhlYd2sJ6j2kRV7SgB+JfiP2GueYq6QdM4Ym6PYV5eyrqb6KViOyd3zqQfJp0o6UW5ZG+GQ==",
       "type": "package",
-      "path": "Portable.BouncyCastle/1.8.1",
+      "path": "Portable.BouncyCastle/1.8.1.1",
       "files": [
-        "Portable.BouncyCastle.1.8.1.nupkg.sha512",
+        "Portable.BouncyCastle.1.8.1.1.nupkg.sha512",
         "Portable.BouncyCastle.nuspec",
         "Readme.html",
-        "lib/MonoAndroid/crypto.dll",
-        "lib/MonoAndroid/crypto.pdb",
-        "lib/MonoAndroid/crypto.xml",
-        "lib/MonoTouch/crypto.dll",
-        "lib/MonoTouch/crypto.pdb",
-        "lib/MonoTouch/crypto.xml",
-        "lib/XamarinIos/crypto.dll",
-        "lib/XamarinIos/crypto.pdb",
-        "lib/XamarinIos/crypto.xml",
-        "lib/XamarinMac/crypto.dll",
-        "lib/XamarinMac/crypto.pdb",
-        "lib/XamarinMac/crypto.xml",
-        "lib/dotnet/crypto.dll",
-        "lib/dotnet/crypto.pdb",
-        "lib/dotnet/crypto.xml",
-        "lib/net45/crypto.dll",
-        "lib/net45/crypto.pdb",
-        "lib/net45/crypto.xml",
-        "lib/net46/crypto.dll",
-        "lib/net46/crypto.pdb",
-        "lib/net46/crypto.xml",
-        "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll",
-        "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.pdb",
-        "lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.xml",
-        "lib/portable-net45+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.dll",
-        "lib/portable-net45+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.pdb",
-        "lib/portable-net45+win8+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10/crypto.xml",
-        "lib/uap10.0/crypto.dll",
-        "lib/uap10.0/crypto.pdb",
-        "lib/uap10.0/crypto.xml",
-        "lib/win8/crypto.dll",
-        "lib/win8/crypto.pdb",
-        "lib/win8/crypto.xml",
-        "lib/wpa81/crypto.dll",
-        "lib/wpa81/crypto.pdb",
-        "lib/wpa81/crypto.xml"
+        "lib/netstandard1.0/crypto.dll",
+        "lib/netstandard1.0/crypto.pdb",
+        "lib/netstandard1.0/crypto.xml",
+        "lib/netstandard1.3/crypto.dll",
+        "lib/netstandard1.3/crypto.pdb",
+        "lib/netstandard1.3/crypto.xml",
+        "lib/portable-net4+sl5+wp8+win8+wpa81/crypto.dll",
+        "lib/portable-net4+sl5+wp8+win8+wpa81/crypto.pdb",
+        "lib/portable-net4+sl5+wp8+win8+wpa81/crypto.xml"
       ]
     },
     "runtime.native.System/4.0.0": {
@@ -4431,7 +4404,7 @@
       "NETStandard.Library >= 1.6.0",
       "Newtonsoft.Json >= 9.0.1",
       "Nito.AsyncEx.Coordination >= 1.0.1",
-      "Portable.BouncyCastle >= 1.8.1",
+      "Portable.BouncyCastle >= 1.8.1.1",
       "System.IdentityModel.Tokens.Jwt >= 5.0.0",
       "System.Security.Cryptography.Algorithms >= 4.2.0"
     ],

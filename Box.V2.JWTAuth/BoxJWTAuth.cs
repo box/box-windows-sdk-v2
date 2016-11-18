@@ -124,10 +124,10 @@ namespace Box.V2.JWTAuth
         private string ConstructJWTAssertion(string sub, string boxSubType)
         {
             byte[] randomNumber = new byte[64];
-#if NET40
-            using (var rng = new RNGCryptoServiceProvider())
-#else
+#if NETSTANDARD1_4
             using (var rng = RandomNumberGenerator.Create())
+#else
+            using (var rng = new RNGCryptoServiceProvider())
 #endif
             {
                 rng.GetBytes(randomNumber);
