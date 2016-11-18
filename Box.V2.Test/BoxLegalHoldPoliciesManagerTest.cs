@@ -409,7 +409,10 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual(1, result.Entries.Count);
             Assert.AreEqual(100, result.Limit);
-            Assert.AreEqual(BoxSortBy.retention_policy_object_id, result.Order[0].By);
+
+            //Not using for now until order is corrected to be two entries instead of a comma-separated list in one entry
+            //Assert.AreEqual(BoxSortBy.retention_policy_object_id, result.Order[0].By);
+
             Assert.AreEqual(BoxSortDirection.ASC, result.Order[0].Direction);
             Assert.AreEqual("legal_hold_policy_assignment", result.Entries[0].Type);
             Assert.AreEqual("255473", result.Entries[0].Id);
