@@ -1,0 +1,30 @@
+﻿{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "Box.V2.Core": "1.0.0-*",
+    "Microsoft.NETCore.App": {
+      // include this to make it a FDB, framework depend build
+      // http://www.hanselman.com/blog/SelfcontainedNETCoreApplications.aspx
+      // dotnet build -r osx.10.10-x64
+      // dotnet publish -c release -r osx.10.10-x64
+      // "type": "platform",
+      "version": "1.0.*"
+    }
+  },
+
+  "frameworks": {
+    "netcoreapp1.1": {
+      "imports": "dnxcore50"
+    }
+  },
+
+  "runtimes": {
+    "win10-x64": {},
+    "osx.10.10-x64": {},
+    "ubuntu.14.04-x64": {}
+  }
+}

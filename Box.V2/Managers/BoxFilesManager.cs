@@ -4,6 +4,7 @@ using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
+using Box.V2.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -431,7 +432,7 @@ namespace Box.V2.Managers
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
             {
-                await TaskEx.Delay(GetTimeDelay(response.Headers));
+                await CrossPlatform.Delay(GetTimeDelay(response.Headers));
                 response = await ToResponseAsync<Stream>(request, throttle).ConfigureAwait(false);
             }
 
@@ -502,7 +503,7 @@ namespace Box.V2.Managers
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
             {
-                await TaskEx.Delay(GetTimeDelay(response.Headers));
+                await CrossPlatform.Delay(GetTimeDelay(response.Headers));
                 response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
             }
 

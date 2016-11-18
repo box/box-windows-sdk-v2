@@ -15,6 +15,11 @@ using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
+#if !NET40
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+#endif
+
 namespace Box.V2.JWTAuth
 {
     ///<summary>
@@ -50,7 +55,11 @@ namespace Box.V2.JWTAuth
             }
             var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
 
+#if NET40
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
+#else
+            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+#endif
         }
         /// <summary>
         /// Create admin BoxClient using an admin access token
@@ -115,7 +124,11 @@ namespace Box.V2.JWTAuth
         private string ConstructJWTAssertion(string sub, string boxSubType)
         {
             byte[] randomNumber = new byte[64];
+#if NET40
             using (var rng = new RNGCryptoServiceProvider())
+#else
+            using (var rng = RandomNumberGenerator.Create())
+#endif
             {
                 rng.GetBytes(randomNumber);
             }
