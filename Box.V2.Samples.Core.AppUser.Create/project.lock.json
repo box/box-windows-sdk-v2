@@ -2,7 +2,7 @@
   "locked": false,
   "version": 2,
   "targets": {
-    ".NETCoreApp,Version=v1.0": {
+    ".NETCoreApp,Version=v1.1": {
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -2295,7 +2295,7 @@
         }
       }
     },
-    ".NETCoreApp,Version=v1.0/osx.10.10-x64": {
+    ".NETCoreApp,Version=v1.1/osx.10.10-x64": {
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -4844,7 +4844,7 @@
         }
       }
     },
-    ".NETCoreApp,Version=v1.0/ubuntu.14.04-x64": {
+    ".NETCoreApp,Version=v1.1/ubuntu.14.04-x64": {
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -7395,7 +7395,7 @@
         }
       }
     },
-    ".NETCoreApp,Version=v1.0/win10-x64": {
+    ".NETCoreApp,Version=v1.1/win10-x64": {
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -15746,7 +15746,7 @@
       "Box.V2.Core >= 1.0.0-*",
       "Microsoft.NETCore.App >= 1.0.*"
     ],
-    ".NETCoreApp,Version=v1.0": []
+    ".NETCoreApp,Version=v1.1": []
   },
   "tools": {},
   "projectFileToolGroups": {}

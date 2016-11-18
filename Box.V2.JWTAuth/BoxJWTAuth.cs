@@ -15,7 +15,7 @@ using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
-#if !NET40
+#if NETSTANDARD1_4
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 #endif
@@ -55,10 +55,10 @@ namespace Box.V2.JWTAuth
             }
             var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
 
-#if NET40
-            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
-#else
+#if NETSTANDARD1_4    
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+#else
+            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
 #endif
         }
         /// <summary>
