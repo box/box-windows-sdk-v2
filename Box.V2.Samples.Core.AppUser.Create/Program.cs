@@ -10,7 +10,7 @@ namespace Box.V2.Samples.Core.AppUser.Create
 {
     public class Program
     {
-        private static void Main(String[] args)
+        private static void Main(string[] args)
         {
             try
             {

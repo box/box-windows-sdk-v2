@@ -1,4 +1,5 @@
 ﻿using Box.V2.Config;
+using Box.V2.Utility;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Box.V2.Request
@@ -68,7 +68,7 @@ namespace Box.V2.Request
 
                         Debug.WriteLine("TooManyRequests error (429). Waiting for {0} seconds to retry request. RequestUri: {1}", delay.Seconds, httpRequest.RequestUri);
 
-                        await TaskEx.Delay(delay);
+                        await CrossPlatform.Delay(Convert.ToInt32(delay.TotalMilliseconds));
                     }
                     else
                     {
