@@ -128,7 +128,7 @@ namespace Box.V2.Test
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(legalHoldsPoliciesUri + "?policy_name=pol", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(legalHoldsPoliciesUri + "?policy_name=pol&limit=100", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
             Assert.AreEqual(2, result.Entries.Count);
@@ -389,8 +389,8 @@ namespace Box.V2.Test
             IBoxRequest boxRequest = null;
             Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
             _config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxLegalHoldPolicyAssignment>>(It.IsAny<IBoxRequest>()))
-                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxLegalHoldPolicyAssignment>>>(new BoxResponse<BoxCollection<BoxLegalHoldPolicyAssignment>>()
+            _handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>>(new BoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
@@ -398,13 +398,13 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxCollection<BoxLegalHoldPolicyAssignment> result = await _legalHoldPoliciesManager.GetAssignmentsAsync("123456");
+            var result = await _legalHoldPoliciesManager.GetAssignmentsAsync("123456");
 
             /*** Assert ***/
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(legalHoldsPoliciesUri + "123456/assignments", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(legalHoldsPoliciesUri + "123456/assignments?limit=100", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
             Assert.AreEqual(1, result.Entries.Count);

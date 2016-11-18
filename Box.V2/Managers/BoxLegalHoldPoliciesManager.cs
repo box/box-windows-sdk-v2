@@ -47,8 +47,9 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
         /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns the list of Legal Hold Policies in your Enterprise that match the filter parameters (if passed in). By default, will only return only 'type', 'id', and 'policy_name', but you can specify more by using the 'fields' parameter.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxLegalHoldPolicy>> GetListLegalHoldPoliciesAsync(string policyName = null, string fields = null, int? limit = null, string marker = null)
+        public async Task<BoxCollectionMarkerBased<BoxLegalHoldPolicy>> GetListLegalHoldPoliciesAsync(string policyName = null, string fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.LegalHoldPoliciesEndpointUri)
                 .Method(RequestMethod.Get)
@@ -57,9 +58,15 @@ namespace Box.V2.Managers
                 .Param("limit", limit.ToString())
                 .Param("marker", marker);
 
-            IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicy>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxLegalHoldPolicy>(request, limit);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicy>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
@@ -146,8 +153,11 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="assignToType">Filter assignments of this type only. Can be file_version, file, folder, or user.</param>
         /// <param name="assignToId">Filter assignments to this ID only. Note that this will only show assignments applied directly to this entity.</param>
+        /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
+        /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns the list of Assignments for the passed in Policy, as well as any optional filter parameters passed in. By default, will only return only type, and id, but you can specify more by using the fields parameter.</returns>
-        public async Task<BoxCollection<BoxLegalHoldPolicyAssignment>> GetAssignmentsAsync(string legalHoldPolicyId, string fields = null, string assignToType = null, string assignToId = null)
+        public async Task<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>> GetAssignmentsAsync(string legalHoldPolicyId, string fields = null, string assignToType = null, string assignToId = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             legalHoldPolicyId.ThrowIfNullOrWhiteSpace("legalHoldPolicyId");
 
@@ -155,11 +165,19 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Get)
                 .Param(ParamFields, fields)
                 .Param("assign_to_type", assignToType)
-                .Param("assign_to_id", assignToId);
+                .Param("assign_to_id", assignToId)
+                .Param("limit", limit.ToString())
+                .Param("marker", marker);
 
-            IBoxResponse<BoxCollection<BoxLegalHoldPolicyAssignment>> response = await ToResponseAsync<BoxCollection<BoxLegalHoldPolicyAssignment>>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxLegalHoldPolicyAssignment>(request, limit);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
@@ -222,17 +240,28 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="policyId">ID of Legal Hold Policy to get File Version Legal Holds for.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
+        /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns the list of File Version Legal Holds for the passed in Policy. 
         /// By default, will only return only "type", and "id", but you can specify more by using the "fields" parameter.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxFileVersionLegalHold>> GetFileVersionLegalHoldsAsync(string policyId, List<string> fields = null)
+        public async Task<BoxCollectionMarkerBased<BoxFileVersionLegalHold>> GetFileVersionLegalHoldsAsync(string policyId, List<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri)
                 .Param(ParamPolicyId, policyId)
-                .Param(ParamFields, fields);
+                .Param(ParamFields, fields)
+                .Param("limit", limit.ToString())
+                .Param("marker", marker);
 
-            var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxFileVersionLegalHold>>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxFileVersionLegalHold>(request, limit);
+            }
+            else
+            {
+                var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxFileVersionLegalHold>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
     }
 }
