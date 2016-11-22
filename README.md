@@ -293,6 +293,7 @@ Other Resources
 - Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2/
 - JWT Support Nuget Package: https://www.nuget.org/packages/Box.V2.JWTAuth/
 - Box Windows SDK Video Tutorial: https://youtu.be/hqko0hxbaXU
+- .NET Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2.Core/
 
 Known Issues
 ------------
