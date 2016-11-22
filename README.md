@@ -8,11 +8,13 @@ Windows .NET SDK for V2 of the Box API that is usable from the following framewo
 * .NET for Windows Store apps
 * Silverlight 4 and higher
 * Windows Phone 7.5 and higher
+* .NET Core 1.0 or above
 
 ###Prerequisites
 * Visual Studio 2012 w/ Update 2 CTP (or higher)
 * Windows Phone SDK 8.0 (if running Windows Phone samples)
 * Windows Store SDK (if running Windows Store samples)
+* .NET Core SDK (if running .NET Core samples)
 
 Quick Start
 -----------
@@ -25,6 +27,11 @@ PM> Install-Package Box.V2
 For use with Box Platform Developer or Box Platform Enterprise, also install JWT support using Nuget
 ```bash
 PM> Install-Package Box.V2.JWTAuth
+```
+
+If you want to use .NET Core, which has JWT support build in already.
+```bash
+PM> Install-Package Box.V2.Core
 ```
 
 If you haven't already created an app in Box go to https://developer.box.com/ and click 'Sign Up'
