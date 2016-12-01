@@ -32,6 +32,13 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }
+
+        /// <summary>
+        /// Whether view path collaboration feature is enabled or not. View path collaborations allow the invitee to see the entire ancestral path to the associated folder. 
+        /// The user will not gain privileges in any ancestral folder (e.g. see content the user is not collaborated on).
+        /// </summary>
+        [JsonProperty(PropertyName = "can_view_path")]
+        public bool? CanViewPath { get; set; }
     }
 
     public static class BoxCollaborationRoles
