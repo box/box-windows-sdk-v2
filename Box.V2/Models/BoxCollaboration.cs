@@ -43,7 +43,7 @@ namespace Box.V2.Models
         public DateTime? ExpiresAt { get; set; }
 
         /// <summary>
-        /// he status of this collab. Can be accepted, pending, or rejected
+        /// The status of this collab. Can be accepted, pending, or rejected
         /// </summary>
         [JsonProperty(PropertyName = FieldStatus)]
         public string Status { get; set; }
