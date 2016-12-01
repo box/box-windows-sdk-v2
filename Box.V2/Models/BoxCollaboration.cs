@@ -49,7 +49,7 @@ namespace Box.V2.Models
         public string Status { get; set; }
 
         /// <summary>
-        /// The user who the collaboration applies to
+        /// The user or group who the collaboration applies to
         /// </summary>
         [JsonProperty(PropertyName = FieldAccessibleBy)]
         public BoxEntity AccessibleBy { get; set; }
