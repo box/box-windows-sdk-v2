@@ -55,7 +55,7 @@ namespace Box.V2.Models
         public BoxEntity AccessibleBy { get; set; }
 
         /// <summary>
-        /// The level of access this user has. Can be editor, viewer, previewer, uploader, previewer uploader, 
+        /// The level of access this user or group has. Can be editor, viewer, previewer, uploader, previewer uploader, 
         /// viewer uploader, or co-owner
         /// </summary>
         [JsonProperty(PropertyName = FieldRole)]
