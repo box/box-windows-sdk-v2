@@ -20,7 +20,7 @@ Quick Start
 -----------
 
 ### Installation
-Install the core SDK using Nuget
+Install the SDK using Nuget
 ```bash
 PM> Install-Package Box.V2
 ```
