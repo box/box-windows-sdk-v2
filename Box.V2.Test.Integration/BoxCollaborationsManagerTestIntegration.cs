@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Box.V2.Test.Integration
 {
@@ -14,8 +15,8 @@ namespace Box.V2.Test.Integration
             const string folderId = "1927307787";
 
             // Add Collaboration
-            BoxCollaborationRequest addRequest = new BoxCollaborationRequest(){
-                Item = new BoxRequestEntity() 
+            BoxCollaborationRequest addRequest = new BoxCollaborationRequest() {
+                Item = new BoxRequestEntity()
                 {
                     Id = folderId,
                     Type = BoxType.folder
@@ -44,6 +45,10 @@ namespace Box.V2.Test.Integration
 
             Assert.AreEqual(collab.Id, editCollab.Id, "Id of original collaboration and updated collaboration do not match");
             Assert.AreEqual(BoxCollaborationRoles.Editor, editCollab.Role, "Incorrect updated role");
+
+            // get existing collaboration
+            var existingCollab = await _client.CollaborationsManager.GetCollaborationAsync(collab.Id, fields: new List<string>() { "can_view_path" });
+            Assert.IsTrue(existingCollab.CanViewPath.Value, "failed to retrieve existing collab with specific fields");
 
             // test getting list of collaborations on folder
             var collabs = await _client.FoldersManager.GetCollaborationsAsync(folderId);

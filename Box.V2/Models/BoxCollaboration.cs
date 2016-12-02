@@ -17,6 +17,7 @@ namespace Box.V2.Models
         public const string FieldRole = "role";
         public const string FieldAcknowledgedAt = "acknowledged_at";
         public const string FieldItem = "item";
+        public const string FieldCanViewPath = "can_view_path";
 
         /// <summary>
         /// The user who created this collaboration
@@ -72,5 +73,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldItem)]
         public BoxFolder Item { get; set; }
+
+        /// <summary>
+        /// Whether view path collaboration feature is enabled or not. View path collaborations allow the invitee to see the entire ancestral path to the associated folder. 
+        /// The user will not gain privileges in any ancestral folder (e.g. see content the user is not collaborated on).
+        /// </summary>
+        [JsonProperty(PropertyName = FieldCanViewPath)]
+        public bool? CanViewPath { get; set; }
     }
 }
