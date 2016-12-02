@@ -36,7 +36,8 @@ namespace Box.V2.Test.Integration
             BoxCollaborationRequest editRequest = new BoxCollaborationRequest()
             {
                 Id = collab.Id,
-                Role = BoxCollaborationRoles.Editor 
+                Role = BoxCollaborationRoles.Editor,
+                CanViewPath = true
             };
 
             BoxCollaboration editCollab = await _client.CollaborationsManager.EditCollaborationAsync(editRequest);
