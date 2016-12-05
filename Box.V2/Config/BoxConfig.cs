@@ -4,7 +4,7 @@ namespace Box.V2.Config
 {
     public class BoxConfig : IBoxConfig
     {
-        private const string DefaultUserAgent = "Box Windows SDK v2.12.1";
+        private const string DefaultUserAgent = "Box Windows SDK v2.13.0";
 
         /// <summary>
         /// Instantiates a Box config with all of the standard defaults

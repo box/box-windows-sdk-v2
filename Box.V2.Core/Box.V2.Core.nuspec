@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Box.V2.Core</id>
-    <version>2.12.4</version>
+    <version>2.13.0</version>
     <title>Box Windows SDK V2 Core</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is built for .NET Core.</description>
-    <releaseNotes>Fixes issue for determining can_view_path when retrieving an existing collab.</releaseNotes>
+    <releaseNotes>This release brings the SDK up to 100% coverage of existing public Box API endpoints.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>

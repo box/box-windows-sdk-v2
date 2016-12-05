@@ -11,17 +11,17 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public class BoxFilesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
-        [TestMethod]
-        public async Task GetStreamResponse()
-        {
-            const string pdfFileId = "16894929979";
-            const int totalPages = 227;
-            var filePreview = await _client.FilesManager.GetFilePreviewAsync(pdfFileId, 1);
+        //[TestMethod]
+        //public async Task GetStreamResponse()
+        //{
+        //    const string pdfFileId = "16894929979";
+        //    const int totalPages = 227;
+        //    var filePreview = await _client.FilesManager.GetFilePreviewAsync(pdfFileId, 1);
 
-            Assert.AreEqual(1, filePreview.CurrentPage, "Invalid current page");
-            Assert.AreEqual(totalPages, filePreview.TotalPages, "Invalid total pages");
-            Assert.AreEqual(HttpStatusCode.OK, filePreview.ReturnedStatusCode, "Invalid status code");
-        }
+        //    Assert.AreEqual(1, filePreview.CurrentPage, "Invalid current page");
+        //    Assert.AreEqual(totalPages, filePreview.TotalPages, "Invalid total pages");
+        //    Assert.AreEqual(HttpStatusCode.OK, filePreview.ReturnedStatusCode, "Invalid status code");
+        //}
 
         [TestMethod]
         public async Task GetInformation_Fields_ValidResponse()

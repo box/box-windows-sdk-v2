@@ -458,6 +458,7 @@ namespace Box.V2.Managers
         /// <param name="page"></param>
         /// /// <param name="handleRetry"></param>
         /// <returns>A PNG of the preview</returns>
+        [Obsolete("Please use GetPreviewLinkAsync instead.  This functionality is not supported by Box.")]
         public async Task<Stream> GetPreviewAsync(string id, int page, bool handleRetry = true)
         {
             return (await GetPreviewResponseAsync(id, page, handleRetry: handleRetry)).ResponseObject;
@@ -471,6 +472,7 @@ namespace Box.V2.Managers
         /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay.</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
+        [Obsolete("Please use GetPreviewLinkAsync instead.  This functionality is not supported by Box.")]
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
         {
             IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
