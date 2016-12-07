@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-//using Box.V2.TransactionalAuth;
 using Box.V2.Auth;
+using Box.V2.Auth.Token;
 using Box.V2.Config;
 using Box.V2.Exceptions;
 
@@ -18,53 +18,83 @@ namespace Box.V2.Samples.TransactionalAuth
         /// <param name="args">The arguments.</param>
         static void Main(string[] args)
         {
-            //Console.WriteLine("Enter token:");
-            //string token = Console.ReadLine();
+            Console.WriteLine("Enter token:");
+            string token = Console.ReadLine();
 
-            //Console.WriteLine("Enter the fileId, which the token has access to:");
-            //string fileId = Console.ReadLine();
+            Console.WriteLine("Enter the fileId, which the token has access to:");
+            string fileId = Console.ReadLine();
 
-            //Console.WriteLine("Enter the folderId, which doesn't contain the fileId:");
-            //string folderId = Console.ReadLine();
+            Console.WriteLine("Enter the folderId, which doesn't contain the fileId:");
+            string folderId = Console.ReadLine();
 
-            //Task t = MainAsync(token, fileId, folderId);
-            //t.Wait();
+            Task t = MainAsync(token, fileId, folderId);
+            t.Wait();
 
-            //Console.WriteLine();
-            //Console.Write("Press return to exit...");
-            //Console.ReadLine();
+            Console.WriteLine();
+            Console.Write("Press return to exit...");
+            Console.ReadLine();
         }
 
-        //private static async Task MainAsync(string token, string fileId, string folderId)
-        //{
-        //    var auth = new OAuthSession(token, "YOUR_REFRESH_TOKEN", 3600, "bearer");
+        private static BoxClient CreateClientByToken(string token)
+        {
+            var auth = new OAuthSession(token, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-        //    var config = new BoxConfig(string.Empty, string.Empty, new Uri("http://boxsdk"));
-        //    var client1 = new BoxClient(config, auth);
-        //    var fileInfo = await client1.FilesManager.GetInformationAsync(fileId);
-        //    Console.WriteLine(string.Format("File name is {0} ", fileInfo.Name));
+            var config = new BoxConfig(string.Empty, string.Empty, new Uri("http://boxsdk"));
+            var client = new BoxClient(config, auth);
 
-        //    // var resource = string.Format("https://api.box.com/2.0/files/{0}", fileId);
-        //    var resource = string.Format("https://api.box.com/2.0/folders/{0}", folderId);
-        //    var boxTransactional = new BoxTransactionalAuth();
-        //    var client2 = boxTransactional.GetClient(token, "root_readwrite", resource);
-        //    try
-        //    {
-        //        await client2.FilesManager.GetInformationAsync(fileId);
-        //    }
-        //    catch (BoxException exp)
-        //    {
-        //        // The new token does not have access to the file any more.
-        //        Console.WriteLine("Permission denied!");
-        //        Console.WriteLine(exp);
-        //    }
+            return client;
+        }
 
-        //    // Can still access the folder.
-        //    var folderInfo = await client2.FoldersManager.GetInformationAsync(folderId);
-        //    Console.WriteLine(folderInfo.Name);
+        private static async Task MainAsync(string token, string fileId, string folderId)
+        {
+            var client = CreateClientByToken(token);
+            var fileInfo = await client.FilesManager.GetInformationAsync(fileId);
+            Console.WriteLine(string.Format("File name is {0} ", fileInfo.Name));
 
-        //    // Check resource to be optional
-        //    var client3 = boxTransactional.GetClient(token, "root_readwrite");
-        //}
+            // var resource = string.Format("https://api.box.com/2.0/files/{0}", fileId);
+            var resource = string.Format("https://api.box.com/2.0/folders/{0}", folderId);
+
+            var scope = "root_readwrite";
+            var tokenExchange = new TokenExchange(token, scope);
+
+            // Check resource to be optional
+            var token1 = tokenExchange.Exchange();
+            var client1 = CreateClientByToken(token1);
+
+            // Set resource
+            tokenExchange.SetResource(resource);
+            var token2 = tokenExchange.Exchange();
+            var client2 = CreateClientByToken(token2);
+            try
+            {
+                await client2.FilesManager.GetInformationAsync(fileId);
+            }
+            catch (BoxException exp)
+            {
+                // The new token does not have access to the file any more.
+                Console.WriteLine("Permission denied!");
+                Console.WriteLine(exp);
+            }
+
+            // Can still access the folder.
+            var folderInfo = await client2.FoldersManager.GetInformationAsync(folderId);
+            Console.WriteLine(folderInfo.Name);
+
+            /*
+            // Set ActorToken
+            var actorTokenBuilder = new ActorTokenBuilder("FAKE_USER_ID", "YOUR_CLIENT_ID");
+            var actorToken = actorTokenBuilder.build();
+
+            tokenExchange.setActorToken(actorToken);
+            var tokenWAT1 = tokenExchange.exchange();
+
+            // Set ActorToken w/ user name
+            actorTokenBuilder.setUserName("uname");
+            actorToken = actorTokenBuilder.build();
+
+            tokenExchange.setActorToken(actorToken);
+            var tokenWAT2 = tokenExchange.exchange();
+            */
+        }
     }
 }
