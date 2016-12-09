@@ -27,7 +27,8 @@
         "xmlDoc": false,
         "compile": [
             "../Box.V2/Auth/AuthRepository.cs",
-            "../Box.V2/Auth/BoxTransactionalAuth.cs",
+            "../Box.V2/Auth/Token/ActorTokenBuilder.cs",
+            "../Box.V2/Auth/Token/TokenExchange.cs",
             "../Box.V2/Auth/EventArgs/SessionAuthenticatedEventArgs.cs",
             "../Box.V2/BoxClient.cs",
             "../Box.V2/Converter/BoxItemConverter.cs",
@@ -112,6 +113,7 @@
             "../Box.V2/Plugin/IResourcePlugin.cs",
             "../Box.V2/Utility/LRUCache.cs",
             "../Box.V2/Utility/CrossPlatform.cs",
+            "../Box.V2/Utility/Helper.cs",
             "../Box.V2/Wrappers/BoxError.cs",
             "../Box.V2/Wrappers/BoxErrorContextInfo.cs",
             "../Box.V2/Wrappers/BoxMultiPartRequest.cs",

@@ -190,7 +190,10 @@ namespace Box.V2.Config
 
             public const string SubjectToken = "subject_token";
             public const string SubjectTokenType = "subject_token_type";
-            public const string SubjectTokenTypeValue = "urn:ietf:params:oauth:token-type:access_token";
+            public const string ActorToken = "actor_token";
+            public const string ActorTokenType = "actor_token_type";
+            public const string AccessTokenTypeValue = "urn:ietf:params:oauth:token-type:access_token";
+            public const string IdTokenTypeValue = "urn:ietf:params:oauth:token-type:id_token";
             public const string Scope = "scope";
             public const string ScopeDefaultValue = "item_preview";
             public const string Resource = "resource";
