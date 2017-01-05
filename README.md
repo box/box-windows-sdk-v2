@@ -1,4 +1,5 @@
 [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
+[![Build status](https://ci.appveyor.com/api/projects/status/kbuwacqvl72x6hw6/branch/master?svg=true)](https://ci.appveyor.com/project/coolboy/box-windows-sdk-v2/branch/master)
 
 Box Windows V2 SDK
 ==================
