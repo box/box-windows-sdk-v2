@@ -49,8 +49,8 @@ namespace Box.V2.Samples.JWTAuth
                 Console.WriteLine("\t{0}", i.Name);
                 //if (i.Type == "file")
                 //{
-                //    var preview_link = adminClient.FilesManager.GetPreviewLinkAsync(i.Id).Result;
-                //    Console.WriteLine("\tPreview Link: {0}", preview_link.ToString());
+                //    var previewLink = adminClient.FilesManager.GetPreviewLinkAsync(i.Id).Result;
+                //    Console.WriteLine("\tPreview Link: {0}", previewLink.ToString());
                 //    Console.WriteLine();
                 //}   
             });
