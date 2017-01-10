@@ -5,8 +5,6 @@ using Box.V2.Services;
 using Moq;
 using Box.V2.Auth;
 using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
 using Box.V2.Request;
 using Box.V2.Converter;
 using Box.V2.Config;
@@ -16,12 +14,11 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxServiceTest
     {
-
-        IBoxConverter _converter;
-        Mock<IRequestHandler> _handler;
-        IBoxService _service;
-        Mock<IBoxConfig> _boxConfig;
-        IAuthRepository _authRepository;
+	    private readonly IBoxConverter _converter;
+        private readonly Mock<IRequestHandler> _handler;
+        private readonly IBoxService _service;
+        private readonly Mock<IBoxConfig> _boxConfig;
+        private readonly IAuthRepository _authRepository;
 
         public BoxServiceTest()
         {
@@ -68,6 +65,5 @@ namespace Box.V2.Test
                 Assert.AreEqual(session.AccessToken, i.ToString());
             }
         }
-
     }
 }

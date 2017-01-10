@@ -3,11 +3,7 @@ using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
@@ -15,11 +11,11 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxMetadataManagerTest : BoxResourceManagerTest
     {
-        protected BoxMetadataManager _metadataManager;
+		private readonly BoxMetadataManager _metadataManager;
 
         public BoxMetadataManagerTest()
         {
-            _metadataManager = new BoxMetadataManager(_config.Object, _service, _converter, _authRepository);
+            _metadataManager = new BoxMetadataManager(Config.Object, Service, Converter, AuthRepository);
         }
 
         [TestMethod]
@@ -43,7 +39,7 @@ namespace Box.V2.Test
                                         }";
 
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
                 {
                     Status = ResponseStatus.Success,
@@ -99,7 +95,7 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
                 {
                     Status = ResponseStatus.Success,
@@ -165,7 +161,7 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>>>(new BoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>>()
                 {
                     Status = ResponseStatus.Success,
@@ -208,7 +204,7 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
                 {
                     Status = ResponseStatus.Success,

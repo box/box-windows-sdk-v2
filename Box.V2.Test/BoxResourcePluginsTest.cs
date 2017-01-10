@@ -1,14 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Box.V2.Services;
-using System.Threading.Tasks;
-using Box.V2.Auth;
-using System.Collections.Generic;
-using Box.V2.Exceptions;
-using System.Linq;
-using Box.V2.Request;
-using Box.V2.Config;
 using Box.V2.Managers;
 
 namespace Box.V2.Test
@@ -16,12 +7,11 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxResourcePluginsTest : BoxResourceManagerTest
     {
-    
         [TestMethod]
         public void InitializePlugins_ValidResource_ValidPlugins()
         {
             // Arrange
-            BoxClient client = new BoxClient(_config.Object);
+            BoxClient client = new BoxClient(Config.Object);
 
             // Act
             client
@@ -47,7 +37,7 @@ namespace Box.V2.Test
         public void InitializePlugins_UnregisteredResource_InvalidOperationException()
         {
             // Arrange
-            BoxClient client = new BoxClient(_config.Object);
+            BoxClient client = new BoxClient(Config.Object);
 
             // Act
             client.AddResourcePlugin<BoxFilesManager>();

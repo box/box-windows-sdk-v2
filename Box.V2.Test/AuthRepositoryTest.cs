@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Box.V2.Services;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ namespace Box.V2.Test
             IBoxService service = new BoxService(handler);
             IBoxConfig config = new BoxConfig(null, null, null);
 
-            IAuthRepository authRepository = new AuthRepository(config, service, _converter);
+            IAuthRepository authRepository = new AuthRepository(config, service, Converter);
 
             // Act
             OAuthSession response = await authRepository.AuthenticateAsync("fakeAuthorizationCode");
@@ -35,7 +34,7 @@ namespace Box.V2.Test
         public async Task Authenticate_ValidResponse_ValidSession()
         {
             // Arrange
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
                 .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
                 {
                     Status = ResponseStatus.Success,
@@ -43,7 +42,7 @@ namespace Box.V2.Test
                 }));
 
             // Act
-            OAuthSession session = await _authRepository.AuthenticateAsync("sampleauthorizationcode");
+            OAuthSession session = await AuthRepository.AuthenticateAsync("sampleauthorizationcode");
 
             // Assert
             Assert.AreEqual(session.AccessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");
@@ -57,7 +56,7 @@ namespace Box.V2.Test
         public async Task Authenticate_ErrorResponse_Exception()
         {
             // Arrange
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
                 .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
                 {
                     Status = ResponseStatus.Error,
@@ -65,14 +64,14 @@ namespace Box.V2.Test
                 }));
 
             // Act
-            OAuthSession session = await _authRepository.AuthenticateAsync("fakeauthorizationcode");
+            OAuthSession session = await AuthRepository.AuthenticateAsync("fakeauthorizationcode");
         }
 
         [TestMethod]
         public async Task RefreshSession_ValidResponse_ValidSession()
         {
             // Arrange
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
                 .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
                 {
                     Status = ResponseStatus.Success,
@@ -80,7 +79,7 @@ namespace Box.V2.Test
                 }));
 
             // Act
-            OAuthSession session = await _authRepository.RefreshAccessTokenAsync("fakeaccesstoken");
+            OAuthSession session = await AuthRepository.RefreshAccessTokenAsync("fakeaccesstoken");
 
             // Assert
             Assert.AreEqual(session.AccessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");
@@ -100,7 +99,7 @@ namespace Box.V2.Test
             int count = 0; 
 
             // Increments the access token each time a call is made to the API
-            _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<OAuthSession>>(new BoxResponse<OAuthSession>() 
                 {
                     Status = ResponseStatus.Success,
@@ -111,7 +110,7 @@ namespace Box.V2.Test
             List<Task<OAuthSession>> tasks = new List<Task<OAuthSession>>();
 
             for (int i = 0; i < numTasks; i++)
-                tasks.Add(_authRepository.RefreshAccessTokenAsync("fakeAccessToken")); // Refresh with the same access token each time
+                tasks.Add(AuthRepository.RefreshAccessTokenAsync("fakeAccessToken")); // Refresh with the same access token each time
 
             await Task.WhenAll(tasks);
 

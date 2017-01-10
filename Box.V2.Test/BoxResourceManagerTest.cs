@@ -1,54 +1,46 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
-using Box.V2.Managers;
 using Box.V2.Request;
 using Box.V2.Services;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Test
 {
     public abstract class BoxResourceManagerTest
     {
+		protected IBoxConverter Converter;
+		protected Mock<IRequestHandler> Handler;
+		protected IBoxService Service;
+		protected Mock<IBoxConfig> Config;
+		protected AuthRepository AuthRepository;
 
-        protected IBoxConverter _converter;
-        protected Mock<IRequestHandler> _handler;
-        protected IBoxService _service;
-        protected Mock<IBoxConfig> _config;
-        protected AuthRepository _authRepository;
+		protected Uri FoldersUri = new Uri(Constants.FoldersEndpointString);
+		protected Uri FilesUploadUri = new Uri(Constants.FilesUploadEndpointString);
+		protected Uri FilesUri = new Uri(Constants.FilesEndpointString);
+		protected Uri UserUri = new Uri(Constants.UserEndpointString);
+		protected Uri InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
 
-        protected Uri _baseUri = new Uri(Constants.BoxApiUriString);
-        protected Uri _FoldersUri = new Uri(Constants.FoldersEndpointString);
-        protected Uri _FilesUploadUri = new Uri(Constants.FilesUploadEndpointString);
-        protected Uri _FilesUri = new Uri(Constants.FilesEndpointString);
-        protected Uri _UserUri = new Uri(Constants.UserEndpointString);
-        protected Uri _InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
-
-        public BoxResourceManagerTest()
+	    protected BoxResourceManagerTest()
         {
             // Initial Setup
-            _converter = new BoxJsonConverter();
-            _handler = new Mock<IRequestHandler>();
-            _service = new BoxService(_handler.Object);
-            _config = new Mock<IBoxConfig>();
-            _config.SetupGet(x => x.CollaborationsEndpointUri).Returns(new Uri(Constants.CollaborationsEndpointString));
-            _config.SetupGet(x => x.FoldersEndpointUri).Returns(_FoldersUri);
-            _config.SetupGet(x => x.FilesEndpointUri).Returns(_FilesUri);
-            _config.SetupGet(x => x.FilesUploadEndpointUri).Returns(_FilesUploadUri);
-            _config.SetupGet(x => x.UserEndpointUri).Returns(_UserUri);
-            _config.SetupGet(x => x.InviteEndpointUri).Returns(_InviteUri);
+            Converter = new BoxJsonConverter();
+            Handler = new Mock<IRequestHandler>();
+            Service = new BoxService(Handler.Object);
+            Config = new Mock<IBoxConfig>();
+            Config.SetupGet(x => x.CollaborationsEndpointUri).Returns(new Uri(Constants.CollaborationsEndpointString));
+            Config.SetupGet(x => x.FoldersEndpointUri).Returns(FoldersUri);
+            Config.SetupGet(x => x.FilesEndpointUri).Returns(FilesUri);
+            Config.SetupGet(x => x.FilesUploadEndpointUri).Returns(FilesUploadUri);
+            Config.SetupGet(x => x.UserEndpointUri).Returns(UserUri);
+            Config.SetupGet(x => x.InviteEndpointUri).Returns(InviteUri);
 
-            _authRepository = new AuthRepository(_config.Object, _service, _converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
+            AuthRepository = new AuthRepository(Config.Object, Service, Converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
 
         public static bool AreJsonStringsEqual(string sourceJsonString, string targetJsonString)

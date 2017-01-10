@@ -5,9 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
@@ -15,11 +12,11 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxWebLinkManagerTest : BoxResourceManagerTest
     {
-        protected BoxWebLinksManager _webLinkManager;
+        private readonly BoxWebLinksManager _webLinkManager;
 
         public BoxWebLinkManagerTest()
         {
-            _webLinkManager = new BoxWebLinksManager(_config.Object, _service, _converter, _authRepository);
+            _webLinkManager = new BoxWebLinksManager(Config.Object, Service, Converter, AuthRepository);
         }
 
         [TestMethod]
@@ -87,8 +84,8 @@ namespace Box.V2.Test
                                     }";
             IBoxRequest boxRequest = null;
             Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
-            _config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
                 {
                     Status = ResponseStatus.Success,
@@ -138,8 +135,8 @@ namespace Box.V2.Test
             string responseString = "";
             IBoxRequest boxRequest = null;
             Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
-            _config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
                 {
                     Status = ResponseStatus.Success,
@@ -225,8 +222,8 @@ namespace Box.V2.Test
                                     }";
             IBoxRequest boxRequest = null;
             Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
-            _config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
                 {
                     Status = ResponseStatus.Success,
@@ -319,8 +316,8 @@ namespace Box.V2.Test
                                     }";
             IBoxRequest boxRequest = null;
             Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
-            _config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
                 {
                     Status = ResponseStatus.Success,

@@ -12,11 +12,11 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxLegalHoldPoliciesManagerTest : BoxResourceManagerTest
     {
-        protected BoxLegalHoldPoliciesManager _legalHoldPoliciesManager;
+		private readonly BoxLegalHoldPoliciesManager _legalHoldPoliciesManager;
 
         public BoxLegalHoldPoliciesManagerTest()
         {
-            _legalHoldPoliciesManager = new BoxLegalHoldPoliciesManager(_config.Object, _service, _converter, _authRepository);
+            _legalHoldPoliciesManager = new BoxLegalHoldPoliciesManager(Config.Object, Service, Converter, AuthRepository);
         }
 
         [TestMethod]
@@ -49,8 +49,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
-            _config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicy>>(new BoxResponse<BoxLegalHoldPolicy>()
                 {
                     Status = ResponseStatus.Success,
@@ -112,8 +112,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
-            _config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>>(new BoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>()
                 {
                     Status = ResponseStatus.Success,
@@ -167,8 +167,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
-            _config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicy>>(new BoxResponse<BoxLegalHoldPolicy>()
                 {
                     Status = ResponseStatus.Success,
@@ -234,8 +234,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
-            _config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicy>>(new BoxResponse<BoxLegalHoldPolicy>()
                 {
                     Status = ResponseStatus.Success,
@@ -282,8 +282,8 @@ namespace Box.V2.Test
             string responseString = "";
             IBoxRequest boxRequest = null;
             Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
-            _config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicy>>(new BoxResponse<BoxLegalHoldPolicy>()
                 {
                     Status = ResponseStatus.Pending,
@@ -331,8 +331,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri legalHoldPolicyAssignmentUri = new Uri(Constants.LegalHoldPolicyAssignmentsEndpointString);
-            _config.SetupGet(x => x.LegalHoldPolicyAssignmentsEndpointUri).Returns(legalHoldPolicyAssignmentUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicyAssignment>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.LegalHoldPolicyAssignmentsEndpointUri).Returns(legalHoldPolicyAssignmentUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicyAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicyAssignment>>(new BoxResponse<BoxLegalHoldPolicyAssignment>()
                 {
                     Status = ResponseStatus.Success,
@@ -388,8 +388,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
-            _config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>>(new BoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>()
                 {
                     Status = ResponseStatus.Success,
@@ -447,8 +447,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri legalHoldPolicyAssignmentUri = new Uri(Constants.LegalHoldPolicyAssignmentsEndpointString);
-            _config.SetupGet(x => x.LegalHoldPolicyAssignmentsEndpointUri).Returns(legalHoldPolicyAssignmentUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicyAssignment>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.LegalHoldPolicyAssignmentsEndpointUri).Returns(legalHoldPolicyAssignmentUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicyAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicyAssignment>>(new BoxResponse<BoxLegalHoldPolicyAssignment>()
                 {
                     Status = ResponseStatus.Success,

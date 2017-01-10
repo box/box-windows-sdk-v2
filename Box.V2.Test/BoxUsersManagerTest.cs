@@ -5,9 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
@@ -15,11 +13,11 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxUsersManagerTest : BoxResourceManagerTest
     {
-        protected BoxUsersManager _usersManager;
+		private readonly BoxUsersManager _usersManager;
 
         public BoxUsersManagerTest()
         {
-            _usersManager = new BoxUsersManager(_config.Object, _service, _converter, _authRepository);
+            _usersManager = new BoxUsersManager(Config.Object, Service, Converter, AuthRepository);
         }
 
         [TestMethod]
@@ -27,7 +25,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\",\"created_at\":\"2012-03-26T15:43:07-07:00\",\"modified_at\":\"2012-12-12T11:34:29-08:00\",\"language\":\"en\",\"space_amount\":5368709120,\"space_used\":2377016,\"max_upload_size\":262144000,\"status\":\"active\",\"job_title\":\"Employee\",\"phone\":\"5555555555\",\"address\":\"555 Office Drive\",\"avatar_url\":\"https://www.box.com/api/avatar/large/17738362\"}";
-            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
                 {
                     Status = ResponseStatus.Success,
@@ -50,7 +48,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "{\"type\":\"user\",\"id\":\"181216415\",\"name\":\"sean\",\"login\":\"sean+awesome@box.com\",\"created_at\":\"2012-05-03T21:39:11-07:00\",\"modified_at\":\"2012-12-06T18:17:16-08:00\",\"role\":\"admin\",\"language\":\"en\",\"space_amount\":5368709120,\"space_used\":1237179286,\"max_upload_size\":2147483648,\"tracking_codes\":[],\"can_see_managed_users\":true,\"is_sync_enabled\":true,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"6509241374\",\"address\":\"\",\"avatar_url\":\"https://www.box.com/api/avatar/large/181216415\",\"is_exempt_from_device_limits\":false,\"is_exempt_from_login_verification\":false}";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
                 {
                     Status = ResponseStatus.Success,
@@ -71,7 +69,7 @@ namespace Box.V2.Test
             // Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
-            Assert.AreEqual(_UserUri + "181216415", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri + "181216415", boxRequest.AbsoluteUri.AbsoluteUri);
             BoxUserRequest payload = JsonConvert.DeserializeObject<BoxUserRequest>(boxRequest.Payload);
             Assert.AreEqual(userRequest.Id, payload.Id);
             Assert.AreEqual(userRequest.Name, payload.Name);
@@ -89,7 +87,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "{ \"type\":\"invite\",\"id\":\"238632\",\"invited_to\":{ \"type\":\"enterprise\",\"id\":\"42500\",\"name\":\"Blosser Account\"},\"actionable_by\":{ \"type\":\"user\",\"id\":\"229667663\",\"name\":\"Lleyton Hewitt\",\"login\":\"freeuser@box.com\"},\"invited_by\":{ \"type\":\"user\",\"id\":\"10523870\",\"name\":\"Ted Blosser\",\"login\":\"ted@box.com\"},\"status\":\"pending\",\"created_at\":\"2014-12-23T12:55:53-08:00\",\"modified_at\":\"2014-12-23T12:55:53-08:00\"}";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxUserInvite>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxUserInvite>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUserInvite>>(new BoxResponse<BoxUserInvite>()
                 {
                     Status = ResponseStatus.Success,
@@ -116,7 +114,7 @@ namespace Box.V2.Test
             // Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(_InviteUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(InviteUri, boxRequest.AbsoluteUri.AbsoluteUri);
             BoxUserInviteRequest payload = JsonConvert.DeserializeObject<BoxUserInviteRequest>(boxRequest.Payload);
             Assert.AreEqual(userInviteRequest.Enterprise.Id, payload.Enterprise.Id);
             Assert.AreEqual(userInviteRequest.ActionableBy.Login, payload.ActionableBy.Login);
@@ -131,7 +129,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{ \"type\":\"invite\",\"id\":\"238632\",\"invited_to\":{ \"type\":\"enterprise\",\"id\":\"42500\",\"name\":\"Blosser Account\"},\"actionable_by\":{ \"type\":\"user\",\"id\":\"229667663\",\"name\":\"Lleyton Hewitt\",\"login\":\"freeuser@box.com\"},\"invited_by\":{ \"type\":\"user\",\"id\":\"10523870\",\"name\":\"Ted Blosser\",\"login\":\"ted@box.com\"},\"status\":\"pending\",\"created_at\":\"2014-12-23T12:55:53-08:00\",\"modified_at\":\"2014-12-23T12:55:53-08:00\"}";
-            _handler.Setup(h => h.ExecuteAsync<BoxUserInvite>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxUserInvite>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUserInvite>>(new BoxResponse<BoxUserInvite>()
                 {
                     Status = ResponseStatus.Success,
@@ -148,7 +146,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetEnterpriseUsers_ValidReponse()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxUser>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxUser>>(It.IsAny<IBoxRequest>()))
            .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxUser>>>(new BoxResponse<BoxCollection<BoxUser>>()
            {
                Status = ResponseStatus.Success,
@@ -181,7 +179,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
            .Returns(() => Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
            {
                Status = ResponseStatus.Success,
@@ -197,7 +195,7 @@ namespace Box.V2.Test
             // Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
-            Assert.AreEqual(_UserUri + "userId", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri + "userId", boxRequest.AbsoluteUri.AbsoluteUri);
             Assert.IsNotNull(boxRequest.Payload);
             Assert.IsTrue(AreJsonStringsEqual("{\"login\":\"userLogin\"}", boxRequest.Payload));
 
@@ -229,7 +227,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "{\"type\": \"user\", \"id\": \"187273718\", \"name\": \"Ned Stark\",  \"login\": \"eddard@box.com\",  \"created_at\": \"2012-11-15T16:34:28-08:00\", \"modified_at\": \"2012-11-15T16:34:29-08:00\", \"role\": \"user\", \"language\": \"en\", \"space_amount\": 5368709120, \"space_used\": 0, \"max_upload_size\": 2147483648, \"tracking_codes\": [], \"can_see_managed_users\": true, \"is_sync_enabled\": true, \"status\": \"active\", \"job_title\": \"\", \"phone\": \"555-555-5555\", \"address\": \"555 Box Lane\", \"avatar_url\": \"https://www.box.com/api/avatar/large/187273718\", \"is_exempt_from_device_limits\": false,\"is_exempt_from_login_verification\": false }";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
            .Returns(() => Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
            {
                Status = ResponseStatus.Success,
@@ -256,7 +254,7 @@ namespace Box.V2.Test
             // Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(_UserUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri, boxRequest.AbsoluteUri.AbsoluteUri);
             Assert.IsNotNull(boxRequest.Payload);
             BoxUserRequest payload = JsonConvert.DeserializeObject<BoxUserRequest>(boxRequest.Payload);
             Assert.AreEqual(userRequest.Login, payload.Login);
@@ -293,7 +291,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
            .Returns(() => Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
            {
                Status = ResponseStatus.Success,
@@ -308,7 +306,7 @@ namespace Box.V2.Test
             // Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
-            Assert.AreEqual(_UserUri + "userid" + "?notify=True&force=False", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri + "userid" + "?notify=True&force=False", boxRequest.AbsoluteUri.AbsoluteUri);
 
             // Response check
             Assert.IsNull(result);
@@ -320,7 +318,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
            .Returns(() => Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
            {
                Status = ResponseStatus.Success,
@@ -335,7 +333,7 @@ namespace Box.V2.Test
             // Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
-            Assert.AreEqual(_UserUri + "userid/email_aliases/aliasid", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri + "userid/email_aliases/aliasid", boxRequest.AbsoluteUri.AbsoluteUri);
 
             // Response check
             Assert.AreEqual(true, result);
@@ -347,7 +345,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "{\"type\": \"user\", \"id\": \"10543463\", \"name\": \"Arielle Frey\", \"login\": \"ariellefrey@box.com\", \"created_at\": \"2011-01-07T12:37:09-08:00\", \"modified_at\": \"2014-05-30T10:39:47-07:00\", \"language\": \"en\", \"timezone\": \"America/Los_Angeles\", \"space_amount\": 10737418240,\"space_used\":558732,\"max_upload_size\": 5368709120,\"status\": \"active\",\"job_title\": \"\",\"phone\": \"\",\"address\": \"\",\"avatar_url\":\"https://blosserdemoaccount.app.box.com/api/avatar/large/10543465\"}";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
                 {
                     Status = ResponseStatus.Success,
@@ -362,7 +360,7 @@ namespace Box.V2.Test
             // Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(_UserUri + "10543463", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri + "10543463", boxRequest.AbsoluteUri.AbsoluteUri);
             // Response check
             Assert.AreEqual("10543463", user.Id);
             Assert.AreEqual("Arielle Frey", user.Name);
@@ -375,7 +373,7 @@ namespace Box.V2.Test
             IBoxRequest boxRequest = null;
             /*** Arrange ***/
             string responseString = "{\"total_count\":1,\"entries\":[{\"type\":\"email_alias\",\"id\":\"1234\",\"is_confirmed\":true,\"email\":\"dglover2@box.com\"},{\"type\":\"email_alias\",\"id\":\"1235\",\"is_confirmed\":true,\"email\":\"dglover3@box.com\"}]}";
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxEmailAlias>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxEmailAlias>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxEmailAlias>>>(new BoxResponse<BoxCollection<BoxEmailAlias>>()
                 {
                     Status = ResponseStatus.Success,
@@ -390,7 +388,7 @@ namespace Box.V2.Test
             // request
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(_UserUri + "1234/email_aliases/", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri + "1234/email_aliases/", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //response
             Assert.AreEqual(1, emailALiases.TotalCount);
@@ -418,7 +416,7 @@ namespace Box.V2.Test
             IBoxRequest boxRequest = null;
             /*** Arrange ***/
             string responseString = "{\"type\":\"email_alias\",\"id\":\"1234\",\"is_confirmed\":true,\"email\":\"dglover2@box.com\"}";
-            _handler.Setup(h => h.ExecuteAsync<BoxEmailAlias>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxEmailAlias>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxEmailAlias>>(new BoxResponse<BoxEmailAlias>()
                 {
                     Status = ResponseStatus.Success,
@@ -433,7 +431,7 @@ namespace Box.V2.Test
             // request
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(_UserUri + "1234/email_aliases/", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri + "1234/email_aliases/", boxRequest.AbsoluteUri.AbsoluteUri);
             Assert.AreEqual("{\"email\":\"mail@server.com\"}", boxRequest.Payload);
 
             // response
@@ -450,7 +448,7 @@ namespace Box.V2.Test
             IBoxRequest boxRequest = null;
             /*** Arrange ***/
             string responseString = "{\"type\":\"folder\",\"id\":\"11446498\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"Pictures\",\"created_at\":\"2012-12-12T10:53:43-08:00\",\"modified_at\":\"2012-12-12T11:15:04-08:00\",\"description\":\"Some pictures I took\",\"size\":629644,\"path_collection\":{\"total_count\":1,\"entries\":[{\"type\":\"folder\",\"id\":\"0\",\"sequence_id\":null,\"etag\":null,\"name\":\"All Files\"}]},\"created_by\":{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\"},\"modified_by\":{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\"},\"owned_by\":{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\"},\"shared_link\":{\"url\":\"https://www.box.com/s/vspke7y05sb214wjokpk\",\"download_url\":null,\"vanity_url\":null,\"is_password_enabled\":false,\"unshared_at\":null,\"download_count\":0,\"preview_count\":0,\"access\":\"open\",\"permissions\":{\"can_download\":true,\"can_preview\":true}},\"folder_upload_email\":{\"access\":\"open\",\"email\":\"upload.Picture.k13sdz1@u.box.com\"},\"parent\":{\"type\":\"folder\",\"id\":\"0\",\"sequence_id\":null,\"etag\":null,\"name\":\"All Files\"},\"item_status\":\"active\",\"item_collection\":{\"total_count\":1,\"entries\":[{\"type\":\"file\",\"id\":\"5000948880\",\"sequence_id\":\"3\",\"etag\":\"3\",\"sha1\":\"134b65991ed521fcfe4724b7d814ab8ded5185dc\",\"name\":\"tigers.jpeg\"}],\"offset\":0,\"limit\":100}}";
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -465,7 +463,7 @@ namespace Box.V2.Test
             // request
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
-            Assert.AreEqual(_UserUri + "12345678/folders/0?notify=False", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri + "12345678/folders/0?notify=False", boxRequest.AbsoluteUri.AbsoluteUri);
             BoxMoveUserFolderRequest payload = JsonConvert.DeserializeObject<BoxMoveUserFolderRequest>(boxRequest.Payload);
             Assert.AreEqual("17738362", payload.OwnedBy.Id);
 
@@ -483,7 +481,7 @@ namespace Box.V2.Test
             IBoxRequest boxRequest = null;
             /*** Arrange ***/
             string responseString = "{\"total_count\":1,\"entries\":[{\"type\":\"group_membership\",\"id\":\"1560354\",\"user\":{\"type\":\"user\",\"id\":\"13130406\",\"name\":\"Alison Wonderland\",\"login\":\"alice@gmail.com\"},\"group\":{\"type\":\"group\",\"id\":\"119720\",\"name\":\"family\"},\"role\":\"member\"}],\"limit\":100,\"offset\":0}";
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroupMembership>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroupMembership>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxGroupMembership>>>(new BoxResponse<BoxCollection<BoxGroupMembership>>()
                 {
                     Status = ResponseStatus.Success,
@@ -498,7 +496,7 @@ namespace Box.V2.Test
             // request
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(_UserUri + "13130406/memberships?offset=0&limit=100", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(UserUri + "13130406/memberships?offset=0&limit=100", boxRequest.AbsoluteUri.AbsoluteUri);
           
             // response
             Assert.IsNotNull(result);

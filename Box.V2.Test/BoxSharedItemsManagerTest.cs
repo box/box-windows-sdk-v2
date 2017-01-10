@@ -2,10 +2,6 @@
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
@@ -14,12 +10,13 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxSharedItemsManagerTest : BoxResourceManagerTest
     {
-        protected BoxSharedItemsManager _sharedItemsManager;
+        private readonly BoxSharedItemsManager _sharedItemsManager;
 
         public BoxSharedItemsManagerTest()
         {
-            _sharedItemsManager = new BoxSharedItemsManager(_config.Object, _service, _converter, _authRepository);
+            _sharedItemsManager = new BoxSharedItemsManager(Config.Object, Service, Converter, AuthRepository);
         }
+
         [TestMethod]
         public async Task SharedItems_ValidResponse_ValidSharedLink()
         {
@@ -106,7 +103,7 @@ namespace Box.V2.Test
                         ""limit"": 100
                     }
                 }";
-            _handler.Setup(h => h.ExecuteAsync<BoxItem>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxItem>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxItem>>(new BoxResponse<BoxItem>()
                 {
                     Status = ResponseStatus.Success,
