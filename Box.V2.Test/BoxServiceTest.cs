@@ -14,7 +14,7 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxServiceTest
     {
-	    private readonly IBoxConverter _converter;
+        private readonly IBoxConverter _converter;
         private readonly Mock<IRequestHandler> _handler;
         private readonly IBoxService _service;
         private readonly Mock<IBoxConfig> _boxConfig;

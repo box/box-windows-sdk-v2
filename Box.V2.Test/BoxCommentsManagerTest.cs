@@ -10,7 +10,7 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxCommentsManagerTest : BoxResourceManagerTest
     {
-		private readonly BoxCommentsManager _commentsManager;
+        private readonly BoxCommentsManager _commentsManager;
 
         public BoxCommentsManagerTest()
         {

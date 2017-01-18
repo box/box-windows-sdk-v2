@@ -11,7 +11,7 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxGroupsManagerTest : BoxResourceManagerTest
     {
-		private readonly BoxGroupsManager _groupsManager;
+        private readonly BoxGroupsManager _groupsManager;
 
         public BoxGroupsManagerTest()
         {

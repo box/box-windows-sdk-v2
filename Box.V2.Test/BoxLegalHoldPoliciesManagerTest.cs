@@ -12,7 +12,7 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxLegalHoldPoliciesManagerTest : BoxResourceManagerTest
     {
-		private readonly BoxLegalHoldPoliciesManager _legalHoldPoliciesManager;
+        private readonly BoxLegalHoldPoliciesManager _legalHoldPoliciesManager;
 
         public BoxLegalHoldPoliciesManagerTest()
         {

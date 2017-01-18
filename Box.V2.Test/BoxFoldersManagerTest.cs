@@ -15,7 +15,7 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxFoldersManagerTest : BoxResourceManagerTest
     {
-		private readonly BoxFoldersManager _foldersManager;
+        private readonly BoxFoldersManager _foldersManager;
 
         public BoxFoldersManagerTest()
         {

@@ -11,7 +11,7 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxMetadataManagerTest : BoxResourceManagerTest
     {
-		private readonly BoxMetadataManager _metadataManager;
+        private readonly BoxMetadataManager _metadataManager;
 
         public BoxMetadataManagerTest()
         {

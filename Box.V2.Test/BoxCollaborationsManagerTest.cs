@@ -9,7 +9,7 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxCollaborationsManagerTest : BoxResourceManagerTest
     {
-		private readonly BoxCollaborationsManager _collaborationsManager;
+        private readonly BoxCollaborationsManager _collaborationsManager;
 
         public BoxCollaborationsManagerTest()
         {

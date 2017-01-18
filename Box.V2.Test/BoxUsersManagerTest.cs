@@ -13,7 +13,7 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxUsersManagerTest : BoxResourceManagerTest
     {
-		private readonly BoxUsersManager _usersManager;
+        private readonly BoxUsersManager _usersManager;
 
         public BoxUsersManagerTest()
         {

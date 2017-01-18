@@ -14,19 +14,19 @@ namespace Box.V2.Test
 {
     public abstract class BoxResourceManagerTest
     {
-		protected IBoxConverter Converter;
-		protected Mock<IRequestHandler> Handler;
-		protected IBoxService Service;
-		protected Mock<IBoxConfig> Config;
-		protected AuthRepository AuthRepository;
+        protected IBoxConverter Converter;
+        protected Mock<IRequestHandler> Handler;
+        protected IBoxService Service;
+        protected Mock<IBoxConfig> Config;
+        protected AuthRepository AuthRepository;
 
-		protected Uri FoldersUri = new Uri(Constants.FoldersEndpointString);
-		protected Uri FilesUploadUri = new Uri(Constants.FilesUploadEndpointString);
-		protected Uri FilesUri = new Uri(Constants.FilesEndpointString);
-		protected Uri UserUri = new Uri(Constants.UserEndpointString);
-		protected Uri InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
+        protected Uri FoldersUri = new Uri(Constants.FoldersEndpointString);
+        protected Uri FilesUploadUri = new Uri(Constants.FilesUploadEndpointString);
+        protected Uri FilesUri = new Uri(Constants.FilesEndpointString);
+        protected Uri UserUri = new Uri(Constants.UserEndpointString);
+        protected Uri InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
 
-	    protected BoxResourceManagerTest()
+        protected BoxResourceManagerTest()
         {
             // Initial Setup
             Converter = new BoxJsonConverter();
