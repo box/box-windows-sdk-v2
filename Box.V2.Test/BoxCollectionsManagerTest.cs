@@ -13,12 +13,13 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxCollectionsManagerTest : BoxResourceManagerTest
     {
-		private readonly BoxCollectionsManager _collectionsManager;
+        private readonly BoxCollectionsManager _collectionsManager;
 
         public BoxCollectionsManagerTest()
         {
             _collectionsManager = new BoxCollectionsManager(Config.Object, Service, Converter, AuthRepository);
         }
+
         [TestMethod]
         public async Task CreateOrDeleteCollectionsForFolder_ValidResponse()
         {
