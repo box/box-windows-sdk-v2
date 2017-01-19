@@ -69,10 +69,10 @@ namespace Box.V2.Models
         public DateTime? AcknowledgedAt { get; set; }
 
         /// <summary>
-        /// The folder this discussion is related to
+        /// The item this collaboration is related to
         /// </summary>
         [JsonProperty(PropertyName = FieldItem)]
-        public BoxFolder Item { get; set; }
+        public BoxItem Item { get; set; }
 
         /// <summary>
         /// Whether view path collaboration feature is enabled or not. View path collaborations allow the invitee to see the entire ancestral path to the associated folder. 
