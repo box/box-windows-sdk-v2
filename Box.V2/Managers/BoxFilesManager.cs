@@ -385,6 +385,24 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Use this to get a list of all the collaborations on a file
+        /// </summary>
+        /// <param name="id">Id of the file</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <returns>List of all the collaborations on a file</returns>
+        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CollaborationsPathString, id))
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxCollection<BoxCollaboration>> response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Retrieves the comments on a particular file, if any exist.
         /// </summary>
         /// <param name="id">The Id of the item that the comments should be retrieved for.</param>

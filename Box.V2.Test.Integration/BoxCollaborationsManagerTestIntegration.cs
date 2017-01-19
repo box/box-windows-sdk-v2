@@ -84,13 +84,12 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(fileId, collab.Item.Id, "File and collaboration file id do not match");
             Assert.AreEqual(BoxCollaborationRoles.Viewer, collab.Role, "Incorrect collaboration role");
 
-            /*
+            
             // TODO: Edit Collaboration
             BoxCollaborationRequest editRequest = new BoxCollaborationRequest()
             {
                 Id = collab.Id,
-                Role = BoxCollaborationRoles.Editor,
-                CanViewPath = true
+                Role = BoxCollaborationRoles.Editor
             };
 
             BoxCollaboration editCollab = await _client.CollaborationsManager.EditCollaborationAsync(editRequest);
@@ -99,13 +98,12 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(BoxCollaborationRoles.Editor, editCollab.Role, "Incorrect updated role");
 
             // get existing collaboration
-            var existingCollab = await _client.CollaborationsManager.GetCollaborationAsync(collab.Id, fields: new List<string>() { "can_view_path" });
-            Assert.IsTrue(existingCollab.CanViewPath.Value, "failed to retrieve existing collab with specific fields");
+            var existingCollab = await _client.CollaborationsManager.GetCollaborationAsync(collab.Id);
+            Assert.IsTrue(existingCollab.Item.Id == fileId, "failed to retrieve existing collab");
 
-            // TODO: test getting list of collaborations on file
-            // var collabs = await _client.FoldersManager.GetCollaborationsAsync(folderId);
-            // Assert.AreEqual(4, collabs.Entries.Count, "Failed to get correct number of folder collabs.");
-            */
+            // test getting list of collaborations on file
+            var collabs = await _client.FilesManager.GetCollaborationsAsync(fileId);
+            Assert.AreEqual(4, collabs.Entries.Count, "Failed to get correct number of file collabs.");      
 
             // Test Remove Collaboration
             bool success = await _client.CollaborationsManager.RemoveCollaborationAsync(collab.Id);
