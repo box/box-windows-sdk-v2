@@ -39,16 +39,16 @@ namespace Box.V2.Extensions
                     if (errorMsg != null)
                     {
                         var err = new BoxError() { Code = response.StatusCode.ToString(), Description = "Forbidden", Message = errorMsg.ToString() };
-                        throw new BoxException(err.Message, err);
+                        throw new BoxException(err.Message, err) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
                     }
                     else if (!string.IsNullOrWhiteSpace(response.ContentString))
                     {
                         response.Error = converter.Parse<BoxError>(response.ContentString);
-                        throw new BoxException(response.ContentString, response.Error) {StatusCode = response.StatusCode};
+                        throw new BoxException(response.ContentString, response.Error) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
                     }
                     else
                     {
-                        throw new BoxException("Forbidden");
+                        throw new BoxException("Forbidden") { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
                     }
                 default:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
@@ -61,11 +61,11 @@ namespace Box.V2.Extensions
                                     if (response is IBoxResponse<BoxPreflightCheck>)
                                     {
                                         BoxPreflightCheckConflictError<BoxFile> err = converter.Parse<BoxPreflightCheckConflictError<BoxFile>>(response.ContentString);
-                                        exToThrow = new BoxPreflightCheckConflictException<BoxFile>(response.ContentString, err);
+                                        exToThrow = new BoxPreflightCheckConflictException<BoxFile>(response.ContentString, err) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
                                     } else
                                     {
                                         BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
-                                        exToThrow = new BoxConflictException<T>(response.ContentString, error);
+                                        exToThrow = new BoxConflictException<T>(response.ContentString, error) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
                                     }
                                   
                                     break;
@@ -80,10 +80,10 @@ namespace Box.V2.Extensions
                         }
 
                         throw exToThrow == null ?
-                            new BoxException(response.ContentString, response.Error) { StatusCode = response.StatusCode } :
+                            new BoxException(response.ContentString, response.Error) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers } :
                             exToThrow;
                     }
-                    throw new BoxException(response.ContentString) { StatusCode = response.StatusCode };
+                    throw new BoxException(response.ContentString) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
             }
             return response;
         }
