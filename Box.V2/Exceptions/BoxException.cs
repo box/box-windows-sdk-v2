@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Box.V2.Exceptions
@@ -47,6 +48,11 @@ namespace Box.V2.Exceptions
         /// Error parsed from the message returned by the API
         /// </summary>
         public BoxError Error { get; set; }
+
+        /// <summary>
+        /// Response headers returned by the API
+        /// </summary>
+        public HttpResponseHeaders ResponseHeaders { get; set; }
     }
 
 

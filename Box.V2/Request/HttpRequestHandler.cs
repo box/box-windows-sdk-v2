@@ -24,11 +24,13 @@ namespace Box.V2.Request
 
             try
             {
-                while(true)
+                var isMultiPartRequest = request.GetType() == typeof(BoxMultiPartRequest);
+
+                while (true)
                 {
-                    HttpRequestMessage httpRequest = request.GetType() == typeof(BoxMultiPartRequest) ?
-                                                BuildMultiPartRequest(request as BoxMultiPartRequest) :
-                                                BuildRequest(request);
+                    HttpRequestMessage httpRequest = isMultiPartRequest ?
+                                                        BuildMultiPartRequest(request as BoxMultiPartRequest) :
+                                                        BuildRequest(request);
 
                     // Add headers
                     foreach (var kvp in request.HttpHeaders)
@@ -55,7 +57,9 @@ namespace Box.V2.Request
 
                     HttpResponseMessage response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
             
-                    if(response.StatusCode == TooManyRequests && numRetries-- > 0)
+                    // If we get a 429 error code and this is not a multi part request (meaning a file upload, which cannot be retried
+                    // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
+                    if((response.StatusCode == TooManyRequests && !isMultiPartRequest) && numRetries-- > 0)
                     {
                         //need to wait for Retry-After seconds and then retry request
                         var retryAfterHeader = response.Headers.RetryAfter;
