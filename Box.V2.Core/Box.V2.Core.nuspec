@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Box.V2.Core</id>
-    <version>2.13.0</version>
+    <version>2.14.0</version>
     <title>Box Windows SDK V2 Core</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is built for .NET Core.</description>
-    <releaseNotes>This release brings the SDK up to 100% coverage of existing public Box API endpoints.</releaseNotes>
+    <releaseNotes>Adds support for single file collaborations. Fixes issue with rate limit error on file upload. Adds ResponseHeaders field to BoxException.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>
