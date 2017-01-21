@@ -199,6 +199,9 @@ namespace Box.V2.Config
             public const string Resource = "resource";
             public const string TokenExchangeGrantTypeValue = "urn:ietf:params:oauth:grant-type:token-exchange";
 
+            public const string AllManagedUsers = "all_managed_users";
+            public const string AdminsAndMembers = "admins_and_members";
+            public const string AdminsOnly = "admins_only";
 
             public const string Status = "status";
             public const string Pending = "pending";
