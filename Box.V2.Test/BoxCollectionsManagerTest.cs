@@ -6,22 +6,20 @@ using Moq;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
-
     [TestClass]
     public class BoxCollectionsManagerTest : BoxResourceManagerTest
     {
-        protected BoxCollectionsManager _collectionsManager;
+        private readonly BoxCollectionsManager _collectionsManager;
 
         public BoxCollectionsManagerTest()
         {
-            _collectionsManager = new BoxCollectionsManager(_config.Object, _service, _converter, _authRepository);
+            _collectionsManager = new BoxCollectionsManager(Config.Object, Service, Converter, AuthRepository);
         }
+
         [TestMethod]
         public async Task CreateOrDeleteCollectionsForFolder_ValidResponse()
         {
@@ -109,7 +107,7 @@ namespace Box.V2.Test
                                             }
                                         }";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -134,7 +132,7 @@ namespace Box.V2.Test
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
-            Assert.AreEqual(_FoldersUri + "11446498", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "11446498", boxRequest.AbsoluteUri.AbsoluteUri);
             BoxCollectionsRequest payload = JsonConvert.DeserializeObject<BoxCollectionsRequest>(boxRequest.Payload);
             Assert.AreEqual(collectionsRequest.Collections[0].Id, payload.Collections[0].Id);
 
@@ -227,7 +225,7 @@ namespace Box.V2.Test
                                         ""item_status"": ""active""
                                     }";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
                     Status = ResponseStatus.Success,
@@ -252,7 +250,7 @@ namespace Box.V2.Test
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
-            Assert.AreEqual(_FilesUri + "5000948880", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FilesUri + "5000948880", boxRequest.AbsoluteUri.AbsoluteUri);
             BoxCollectionsRequest payload = JsonConvert.DeserializeObject<BoxCollectionsRequest>(boxRequest.Payload);
             Assert.AreEqual(collectionsRequest.Collections[0].Id, payload.Collections[0].Id);
 
@@ -283,8 +281,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri collectionUri = new Uri(Constants.CollectionsEndpointString);
-            _config.SetupGet(x => x.CollectionsEndpointUri).Returns(collectionUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollectionItem>>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.CollectionsEndpointUri).Returns(collectionUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollectionItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxCollectionItem>>>(new BoxResponse<BoxCollection<BoxCollectionItem>>()
                 {
                     Status = ResponseStatus.Success,
@@ -343,8 +341,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri collectionUri = new Uri(Constants.CollectionsEndpointString);
-            _config.SetupGet(x => x.CollectionsEndpointUri).Returns(collectionUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.CollectionsEndpointUri).Returns(collectionUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
                 {
                     Status = ResponseStatus.Success,

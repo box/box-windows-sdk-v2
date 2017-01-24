@@ -6,22 +6,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 
 namespace Box.V2.Test
 {
     [TestClass]
     public class BoxTasksManagerTest : BoxResourceManagerTest
     {
-        protected BoxTasksManager _tasksManager;
+        private readonly BoxTasksManager _tasksManager;
 
         public BoxTasksManagerTest()
         {
-            _tasksManager = new BoxTasksManager(_config.Object, _service, _converter, _authRepository);
+            _tasksManager = new BoxTasksManager(Config.Object, Service, Converter, AuthRepository);
         }
 
         [TestMethod]
@@ -59,8 +55,8 @@ namespace Box.V2.Test
                                     }";
             IBoxRequest boxRequest = null;
             Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
-            _config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
                 {
                     Status = ResponseStatus.Success,
@@ -141,8 +137,8 @@ namespace Box.V2.Test
                                         }";
             IBoxRequest boxRequest = null;
             Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
-            _config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
                 {
                     Status = ResponseStatus.Success,
@@ -216,8 +212,8 @@ namespace Box.V2.Test
                                     }";
             IBoxRequest boxRequest = null;
             Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
-            _config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
                 {
                     Status = ResponseStatus.Success,
@@ -255,8 +251,8 @@ namespace Box.V2.Test
             string responseString = "";
             IBoxRequest boxRequest = null;
             Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
-            _config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
                 {
                     Status = ResponseStatus.Success,
@@ -312,8 +308,8 @@ namespace Box.V2.Test
                                     }";
             IBoxRequest boxRequest = null;
             Uri tasksUri = new Uri(Constants.TasksEndpointString);
-            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
                 {
                     Status = ResponseStatus.Success,
@@ -390,8 +386,8 @@ namespace Box.V2.Test
                                     }";
             IBoxRequest boxRequest = null;
             Uri tasksUri = new Uri(Constants.TasksEndpointString);
-            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
                 {
                     Status = ResponseStatus.Success,
@@ -436,8 +432,8 @@ namespace Box.V2.Test
             string responseString = "";
             IBoxRequest boxRequest = null;
             Uri tasksUri = new Uri(Constants.TasksEndpointString);
-            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
                 {
                     Status = ResponseStatus.Success,
@@ -493,8 +489,8 @@ namespace Box.V2.Test
                                     }";
             IBoxRequest boxRequest = null;
             Uri tasksUri = new Uri(Constants.TasksEndpointString);
-            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
                 {
                     Status = ResponseStatus.Success,
@@ -553,8 +549,8 @@ namespace Box.V2.Test
                                     }";
             IBoxRequest boxRequest = null;
             Uri tasksUri = new Uri(Constants.TasksEndpointString);
-            _config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxTaskAssignment>>(It.IsAny<IBoxRequest>()))
+            Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxTaskAssignment>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxTaskAssignment>>>(new BoxResponse<BoxCollection<BoxTaskAssignment>>()
                 {
                     Status = ResponseStatus.Success,

@@ -2,10 +2,6 @@
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
@@ -13,11 +9,11 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxCollaborationsManagerTest : BoxResourceManagerTest
     {
-        protected BoxCollaborationsManager _collaborationsManager;
+        private readonly BoxCollaborationsManager _collaborationsManager;
 
         public BoxCollaborationsManagerTest()
         {
-            _collaborationsManager = new BoxCollaborationsManager(_config.Object, _service, _converter, _authRepository);
+            _collaborationsManager = new BoxCollaborationsManager(Config.Object, Service, Converter, AuthRepository);
         }
 
         [TestMethod]
@@ -25,7 +21,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{\"type\":\"collaboration\",\"id\":\"791293\",\"created_by\":{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\"},\"created_at\":\"2012-12-12T10:54:37-08:00\",\"modified_at\":\"2012-12-12T11:30:43-08:00\",\"expires_at\":null,\"status\":\"accepted\",\"accessible_by\":{\"type\":\"user\",\"id\":\"18203124\",\"name\":\"sean\",\"login\":\"sean+test@box.com\"},\"role\":\"editor\",\"acknowledged_at\":\"2012-12-12T11:30:43-08:00\",\"item\":{\"type\":\"folder\",\"id\":\"11446500\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Shared Pictures\"}}";
-            _handler.Setup(h => h.ExecuteAsync<BoxCollaboration>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollaboration>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollaboration>>(new BoxResponse<BoxCollaboration>()
                 {
                     Status = ResponseStatus.Success,
@@ -62,7 +58,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{\"type\":\"collaboration\",\"id\":\"791293\",\"created_by\":{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\"},\"created_at\":\"2012-12-12T10:54:37-08:00\",\"modified_at\":\"2012-12-12T11:30:43-08:00\",\"expires_at\":null,\"status\":\"accepted\",\"accessible_by\":{\"type\":\"user\",\"id\":\"18203124\",\"name\":\"sean\",\"login\":\"sean+test@box.com\"},\"role\":\"viewer\",\"acknowledged_at\":\"2012-12-12T11:30:43-08:00\",\"item\":{\"type\":\"folder\",\"id\":\"11446500\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Shared Pictures\"}}";
-            _handler.Setup(h => h.ExecuteAsync<BoxCollaboration>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollaboration>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollaboration>>(new BoxResponse<BoxCollaboration>()
                 {
                     Status = ResponseStatus.Success,
@@ -90,7 +86,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{\"type\":\"collaboration\",\"id\":\"791293\",\"created_by\":{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\"},\"created_at\":\"2012-12-12T10:54:37-08:00\",\"modified_at\":\"2012-12-12T11:30:43-08:00\",\"expires_at\":null,\"status\":\"accepted\",\"accessible_by\":{\"type\":\"user\",\"id\":\"18203124\",\"name\":\"sean\",\"login\":\"sean+test@box.com\"},\"role\":\"editor\",\"acknowledged_at\":\"2012-12-12T11:30:43-08:00\",\"item\":{\"type\":\"folder\",\"id\":\"11446500\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Shared Pictures\"}}";
-            _handler.Setup(h => h.ExecuteAsync<BoxCollaboration>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollaboration>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollaboration>>(new BoxResponse<BoxCollaboration>()
                 {
                     Status = ResponseStatus.Success,
@@ -142,7 +138,7 @@ namespace Box.V2.Test
                 }";
 
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxCollaboration>>>(new BoxResponse<BoxCollection<BoxCollaboration>>()
                 {
                     Status = ResponseStatus.Success,
@@ -171,7 +167,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "";
-            _handler.Setup(h => h.ExecuteAsync<BoxCollaboration>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollaboration>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollaboration>>(new BoxResponse<BoxCollaboration>()
                 {
                     Status = ResponseStatus.Success,

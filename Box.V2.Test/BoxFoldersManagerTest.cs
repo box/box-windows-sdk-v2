@@ -15,17 +15,17 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxFoldersManagerTest : BoxResourceManagerTest
     {
-        protected BoxFoldersManager _foldersManager;
+        private readonly BoxFoldersManager _foldersManager;
 
         public BoxFoldersManagerTest()
         {
-            _foldersManager = new BoxFoldersManager(_config.Object, _service, _converter, _authRepository);
+            _foldersManager = new BoxFoldersManager(Config.Object, Service, Converter, AuthRepository);
         }
 
         [TestMethod]
         public async Task GetFolderItems_ValidResponse_ValidFolder()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
                     {
                         Status = ResponseStatus.Success,
@@ -58,7 +58,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetFolder_ValidResponse_ValidFolder()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                     {
                         Status = ResponseStatus.Success,
@@ -112,7 +112,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task CreateFolder_ValidResponse_ValidFolder()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -181,7 +181,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task CreateFolder_ValidResponse_NameConflict()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     StatusCode = System.Net.HttpStatusCode.Conflict,
@@ -260,7 +260,7 @@ namespace Box.V2.Test
         {
             IBoxRequest boxRequest = null;
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -274,7 +274,7 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(_FoldersUri + "11446498?fields=f1,f2,f3", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "11446498?fields=f1,f2,f3", boxRequest.AbsoluteUri.AbsoluteUri);
 
             Assert.AreEqual(f.Type, "folder");
             Assert.AreEqual(f.Id, "11446498");
@@ -340,7 +340,7 @@ namespace Box.V2.Test
         public async Task CopyFolder_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -368,7 +368,7 @@ namespace Box.V2.Test
         public async Task UpdateFolderInformation_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -398,7 +398,7 @@ namespace Box.V2.Test
         public async Task CreateFolderSharedLink_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -425,7 +425,7 @@ namespace Box.V2.Test
         public async Task GetFolderCollaborators_ValidResponse_ValidCollaborators()
         {
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxCollaboration>>>(new BoxResponse<BoxCollection<BoxCollaboration>>()
                 {
                     Status = ResponseStatus.Success,
@@ -451,7 +451,7 @@ namespace Box.V2.Test
         public async Task GetFolderCollaborators_ValidResponseWithGroups_ValidCollaborators()
         {
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxCollaboration>>>(new BoxResponse<BoxCollection<BoxCollaboration>>()
                 {
                     Status = ResponseStatus.Success,
@@ -485,7 +485,7 @@ namespace Box.V2.Test
         public async Task GetTrashedItems_ValidResponse_ValidFiles()
         {
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
                 {
                     Status = ResponseStatus.Success,
@@ -518,7 +518,7 @@ namespace Box.V2.Test
             IBoxRequest boxRequest = null;
 
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -539,7 +539,7 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(_FoldersUri + "fakeId?fields=field1,field2", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "fakeId?fields=field1,field2", boxRequest.AbsoluteUri.AbsoluteUri);
             Assert.IsTrue(AreJsonStringsEqual(
                "{\"parent\":{\"id\":\"fakeId\"},\"name\":\"fakeName\"}",
                boxRequest.Payload));
@@ -555,7 +555,7 @@ namespace Box.V2.Test
         public async Task GetTrashedFolder_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -577,7 +577,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "";
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -598,7 +598,7 @@ namespace Box.V2.Test
         public async Task GetTrashItems_ValidResponse_ValidCountAndEntries()
         {
             /*** Arrange ***/
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
                 {
                     Status = ResponseStatus.Success,
@@ -643,7 +643,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "";
-            _handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
@@ -671,7 +671,7 @@ namespace Box.V2.Test
                                           }
                                        }";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
                 {
                     Status = ResponseStatus.Success,
@@ -686,7 +686,7 @@ namespace Box.V2.Test
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(_FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
             Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
@@ -704,7 +704,7 @@ namespace Box.V2.Test
                                           }
                                        }";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
                 {
                     Status = ResponseStatus.Success,
@@ -719,7 +719,7 @@ namespace Box.V2.Test
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
-            Assert.AreEqual(_FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
             BoxApplyWatermarkRequest payload = JsonConvert.DeserializeObject<BoxApplyWatermarkRequest>(boxRequest.Payload);
             Assert.AreEqual("default", payload.Watermark.Imprint);
 
@@ -734,7 +734,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
                 {
                     Status = ResponseStatus.Success,
@@ -749,7 +749,7 @@ namespace Box.V2.Test
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
-            Assert.AreEqual(_FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
             Assert.AreEqual(true, result);

@@ -1,31 +1,27 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Managers;
 using System.Threading.Tasks;
 using Box.V2.Models;
 using Moq;
 using Box.V2.Models.Request;
-using Box.V2.Exceptions;
 
 namespace Box.V2.Test
 {
-   
     [TestClass]
     public class BoxGroupsManagerTest : BoxResourceManagerTest
     {
-        protected BoxGroupsManager _groupsManager;
+        private readonly BoxGroupsManager _groupsManager;
 
         public BoxGroupsManagerTest()
         {
-            _groupsManager = new BoxGroupsManager(_config.Object, _service, _converter, _authRepository);
+            _groupsManager = new BoxGroupsManager(Config.Object, Service, Converter, AuthRepository);
         }
 
         [TestMethod]
         public async Task GetGroupItems_ValidResponse_ValidGroups()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroup>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroup>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxGroup>>>(new BoxResponse<BoxCollection<BoxGroup>>()
                 {
                     Status = ResponseStatus.Success,
@@ -51,7 +47,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetGroup_ValidResponse_ValidGroup()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxGroup>>(new BoxResponse<BoxGroup>()
                 {
                     Status = ResponseStatus.Success,
@@ -70,7 +66,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetGroupItems_ValidResponse_NoGroups()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroup>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroup>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxGroup>>>(new BoxResponse<BoxCollection<BoxGroup>>()
                 {
                     Status = ResponseStatus.Success,
@@ -88,7 +84,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task CreateGroup_ValidResponse_NewGroup()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<BoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<BoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxGroup>>(new BoxResponse<BoxGroup>()
                 {
                     Status = ResponseStatus.Success,
@@ -108,7 +104,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task DeleteGroup_ValidResponse_ValidGroup()
         {
-            _handler.Setup(h=>h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h=>h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxGroup>>(new BoxResponse<BoxGroup>()
                 {
                     Status = ResponseStatus.Success,
@@ -122,7 +118,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task UpdateGroup_ValidResponse_ValidGroup()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxGroup>>(new BoxResponse<BoxGroup>()
                 {
                     Status = ResponseStatus.Success,
@@ -142,7 +138,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task AddGroupMembership_ValidResponse()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxGroupMembership>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxGroupMembership>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxGroupMembership>>(new BoxResponse<BoxGroupMembership>()
                 {
                     Status = ResponseStatus.Success,
@@ -174,7 +170,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task DeleteMembership_ValidResponse_ValidGroup()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxGroup>>(new BoxResponse<BoxGroup>()
                 {
                     Status = ResponseStatus.Success,
@@ -188,7 +184,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetAllMemberships_ValidResponse_ValidGroup()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroupMembership>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroupMembership>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxGroupMembership>>>(new BoxResponse<BoxCollection<BoxGroupMembership>>()
                 {
                     Status = ResponseStatus.Success,
@@ -213,7 +209,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetAllMemberships_ValidResponse_ValidUser()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroupMembership>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroupMembership>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxGroupMembership>>>(new BoxResponse<BoxCollection<BoxGroupMembership>>()
                 {
                     Status = ResponseStatus.Success,
@@ -238,7 +234,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetGroupMembership_ValidResponse()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxGroupMembership>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxGroupMembership>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxGroupMembership>>(new BoxResponse<BoxGroupMembership>()
                 {
                     Status = ResponseStatus.Success,
@@ -264,7 +260,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task UpdateGroupMembership_ValidResponse()
         {
-            _handler.Setup(h => h.ExecuteAsync<BoxGroupMembership>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxGroupMembership>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxGroupMembership>>(new BoxResponse<BoxGroupMembership>()
                 {
                     Status = ResponseStatus.Success,

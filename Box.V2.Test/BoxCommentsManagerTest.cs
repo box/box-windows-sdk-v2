@@ -3,10 +3,6 @@ using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
@@ -14,11 +10,11 @@ namespace Box.V2.Test
     [TestClass]
     public class BoxCommentsManagerTest : BoxResourceManagerTest
     {
-        protected BoxCommentsManager _commentsManager;
+        private readonly BoxCommentsManager _commentsManager;
 
         public BoxCommentsManagerTest()
         {
-            _commentsManager = new BoxCommentsManager(_config.Object, _service, _converter, _authRepository);
+            _commentsManager = new BoxCommentsManager(Config.Object, Service, Converter, AuthRepository);
         }
 
         [TestMethod]
@@ -27,7 +23,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "{\"type\":\"comment\",\"id\":\"191969\",\"is_reply_comment\":false,\"message\":\"These tigers are cool!\",\"created_by\":{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\"},\"created_at\":\"2012-12-12T11:25:01-08:00\",\"item\":{\"id\":\"5000948880\",\"type\":\"file\"},\"modified_at\":\"2012-12-12T11:25:01-08:00\"}";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxComment>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxComment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxComment>>(new BoxResponse<BoxComment>()
                 {
                     Status = ResponseStatus.Success,
@@ -64,7 +60,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "{\"type\":\"comment\",\"id\":\"191969\",\"is_reply_comment\":false,\"message\":\"These tigers are cool!\",\"created_by\":{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\"},\"created_at\":\"2012-12-12T11:25:01-08:00\",\"item\":{\"id\":\"5000948880\",\"type\":\"file\"},\"modified_at\":\"2012-12-12T11:25:01-08:00\"}";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxComment>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxComment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxComment>>(new BoxResponse<BoxComment>()
                 {
                     Status = ResponseStatus.Success,
@@ -89,7 +85,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "{\"type\":\"comment\",\"id\":\"191969\",\"is_reply_comment\":false,\"message\":\"These tigers are cool!\",\"created_by\":{\"type\":\"user\",\"id\":\"17738362\",\"name\":\"sean rose\",\"login\":\"sean@box.com\"},\"created_at\":\"2012-12-12T11:25:01-08:00\",\"item\":{\"id\":\"5000948880\",\"type\":\"file\"},\"modified_at\":\"2012-12-12T11:25:01-08:00\"}";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxComment>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxComment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxComment>>(new BoxResponse<BoxComment>()
                 {
                     Status = ResponseStatus.Success,
@@ -120,7 +116,7 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "";
             IBoxRequest boxRequest = null;
-            _handler.Setup(h => h.ExecuteAsync<BoxComment>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxComment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxComment>>(new BoxResponse<BoxComment>()
                 {
                     Status = ResponseStatus.Success,
