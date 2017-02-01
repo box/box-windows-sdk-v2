@@ -3,7 +3,7 @@
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.1": {
-      "Libuv/1.9.0": {
+      "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
@@ -189,15 +189,16 @@
           "lib/netstandard1.4/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
-      "Microsoft.NETCore.App/1.0.1": {
+      "Microsoft.NETCore.App/1.0.3": {
         "type": "package",
         "dependencies": {
-          "Libuv": "1.9.0",
+          "Libuv": "1.9.1",
           "Microsoft.CSharp": "4.0.1",
           "Microsoft.CodeAnalysis.CSharp": "1.3.0",
           "Microsoft.CodeAnalysis.VisualBasic": "1.3.0",
-          "Microsoft.NETCore.DotNetHostPolicy": "1.0.1",
-          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.4",
+          "Microsoft.NETCore.DotNetHostPolicy": "1.0.3",
+          "Microsoft.NETCore.Platforms": "1.0.2",
+          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.5",
           "Microsoft.VisualBasic": "10.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Buffers": "4.0.0",
@@ -214,6 +215,7 @@
           "System.Linq.Expressions": "4.1.0",
           "System.Linq.Parallel": "4.0.1",
           "System.Linq.Queryable": "4.0.1",
+          "System.Net.Http": "4.1.1",
           "System.Net.NameResolution": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Net.Security": "4.0.0",
@@ -244,7 +246,7 @@
       "Microsoft.NETCore.DotNetHost/1.0.1": {
         "type": "package"
       },
-      "Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
+      "Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.DotNetHostResolver": "1.0.1"
@@ -256,10 +258,10 @@
           "Microsoft.NETCore.DotNetHost": "1.0.1"
         }
       },
-      "Microsoft.NETCore.Jit/1.0.4": {
+      "Microsoft.NETCore.Jit/1.0.5": {
         "type": "package"
       },
-      "Microsoft.NETCore.Platforms/1.0.1": {
+      "Microsoft.NETCore.Platforms/1.0.2": {
         "type": "package",
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -268,10 +270,10 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
+      "Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Jit": "1.0.4",
+          "Microsoft.NETCore.Jit": "1.0.5",
           "Microsoft.NETCore.Windows.ApiSets": "1.0.1"
         }
       },
@@ -1177,10 +1179,10 @@
           "lib/netstandard1.3/System.Linq.Queryable.dll": {}
         }
       },
-      "System.Net.Http/4.1.0": {
+      "System.Net.Http/4.1.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Platforms": "1.0.2",
           "System.Collections": "4.0.11",
           "System.Diagnostics.Debug": "4.0.11",
           "System.Diagnostics.DiagnosticSource": "4.0.0",
@@ -2276,7 +2278,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "Box.V2.Core/2.12.0": {
+      "Box.V2.Core/2.14.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.4",
         "dependencies": {
@@ -2284,8 +2286,7 @@
           "Newtonsoft.Json": "9.0.1",
           "Nito.AsyncEx.Coordination": "1.0.1",
           "Portable.BouncyCastle": "1.8.1.1",
-          "System.IdentityModel.Tokens.Jwt": "5.0.0",
-          "System.Security.Cryptography.Algorithms": "4.2.0"
+          "System.IdentityModel.Tokens.Jwt": "5.0.0"
         },
         "compile": {
           "netstandard1.4/Box.V2.Core.dll": {}
@@ -2296,7 +2297,7 @@
       }
     },
     ".NETCoreApp,Version=v1.1/osx.10.10-x64": {
-      "Libuv/1.9.0": {
+      "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
@@ -2451,15 +2452,16 @@
           "lib/netstandard1.4/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
-      "Microsoft.NETCore.App/1.0.1": {
+      "Microsoft.NETCore.App/1.0.3": {
         "type": "package",
         "dependencies": {
-          "Libuv": "1.9.0",
+          "Libuv": "1.9.1",
           "Microsoft.CSharp": "4.0.1",
           "Microsoft.CodeAnalysis.CSharp": "1.3.0",
           "Microsoft.CodeAnalysis.VisualBasic": "1.3.0",
-          "Microsoft.NETCore.DotNetHostPolicy": "1.0.1",
-          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.4",
+          "Microsoft.NETCore.DotNetHostPolicy": "1.0.3",
+          "Microsoft.NETCore.Platforms": "1.0.2",
+          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.5",
           "Microsoft.VisualBasic": "10.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Buffers": "4.0.0",
@@ -2476,6 +2478,7 @@
           "System.Linq.Expressions": "4.1.0",
           "System.Linq.Parallel": "4.0.1",
           "System.Linq.Queryable": "4.0.1",
+          "System.Net.Http": "4.1.1",
           "System.Net.NameResolution": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Net.Security": "4.0.0",
@@ -2509,11 +2512,11 @@
           "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHost": "1.0.1"
         }
       },
-      "Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
+      "Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.DotNetHostResolver": "1.0.1",
-          "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy": "1.0.1"
+          "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy": "1.0.3"
         }
       },
       "Microsoft.NETCore.DotNetHostResolver/1.0.1": {
@@ -2523,13 +2526,13 @@
           "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostResolver": "1.0.1"
         }
       },
-      "Microsoft.NETCore.Jit/1.0.4": {
+      "Microsoft.NETCore.Jit/1.0.5": {
         "type": "package",
         "dependencies": {
-          "runtime.osx.10.10-x64.Microsoft.NETCore.Jit": "1.0.4"
+          "runtime.osx.10.10-x64.Microsoft.NETCore.Jit": "1.0.5"
         }
       },
-      "Microsoft.NETCore.Platforms/1.0.1": {
+      "Microsoft.NETCore.Platforms/1.0.2": {
         "type": "package",
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -2538,12 +2541,12 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
+      "Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Jit": "1.0.4",
+          "Microsoft.NETCore.Jit": "1.0.5",
           "Microsoft.NETCore.Windows.ApiSets": "1.0.1",
-          "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR": "1.0.4"
+          "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR": "1.0.5"
         }
       },
       "Microsoft.NETCore.Targets/1.0.1": {
@@ -3001,7 +3004,7 @@
           "runtimes/osx.10.10-x64/native/dotnet": {}
         }
       },
-      "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
+      "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.DotNetHostResolver": "1.0.1"
@@ -3019,13 +3022,13 @@
           "runtimes/osx.10.10-x64/native/libhostfxr.dylib": {}
         }
       },
-      "runtime.osx.10.10-x64.Microsoft.NETCore.Jit/1.0.4": {
+      "runtime.osx.10.10-x64.Microsoft.NETCore.Jit/1.0.5": {
         "type": "package",
         "native": {
           "runtimes/osx.10.10-x64/native/libclrjit.dylib": {}
         }
       },
-      "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
+      "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
         "type": "package",
         "compile": {
           "ref/netstandard1.0/_._": {}
@@ -3798,10 +3801,10 @@
           "lib/netstandard1.3/System.Linq.Queryable.dll": {}
         }
       },
-      "System.Net.Http/4.1.0": {
+      "System.Net.Http/4.1.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Platforms": "1.0.2",
           "System.Collections": "4.0.11",
           "System.Diagnostics.Debug": "4.0.11",
           "System.Diagnostics.DiagnosticSource": "4.0.0",
@@ -4825,7 +4828,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "Box.V2.Core/2.12.0": {
+      "Box.V2.Core/2.14.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.4",
         "dependencies": {
@@ -4833,8 +4836,7 @@
           "Newtonsoft.Json": "9.0.1",
           "Nito.AsyncEx.Coordination": "1.0.1",
           "Portable.BouncyCastle": "1.8.1.1",
-          "System.IdentityModel.Tokens.Jwt": "5.0.0",
-          "System.Security.Cryptography.Algorithms": "4.2.0"
+          "System.IdentityModel.Tokens.Jwt": "5.0.0"
         },
         "compile": {
           "netstandard1.4/Box.V2.Core.dll": {}
@@ -4845,7 +4847,7 @@
       }
     },
     ".NETCoreApp,Version=v1.1/ubuntu.14.04-x64": {
-      "Libuv/1.9.0": {
+      "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
@@ -5000,15 +5002,16 @@
           "lib/netstandard1.4/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
-      "Microsoft.NETCore.App/1.0.1": {
+      "Microsoft.NETCore.App/1.0.3": {
         "type": "package",
         "dependencies": {
-          "Libuv": "1.9.0",
+          "Libuv": "1.9.1",
           "Microsoft.CSharp": "4.0.1",
           "Microsoft.CodeAnalysis.CSharp": "1.3.0",
           "Microsoft.CodeAnalysis.VisualBasic": "1.3.0",
-          "Microsoft.NETCore.DotNetHostPolicy": "1.0.1",
-          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.4",
+          "Microsoft.NETCore.DotNetHostPolicy": "1.0.3",
+          "Microsoft.NETCore.Platforms": "1.0.2",
+          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.5",
           "Microsoft.VisualBasic": "10.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Buffers": "4.0.0",
@@ -5025,6 +5028,7 @@
           "System.Linq.Expressions": "4.1.0",
           "System.Linq.Parallel": "4.0.1",
           "System.Linq.Queryable": "4.0.1",
+          "System.Net.Http": "4.1.1",
           "System.Net.NameResolution": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Net.Security": "4.0.0",
@@ -5058,11 +5062,11 @@
           "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHost": "1.0.1"
         }
       },
-      "Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
+      "Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.DotNetHostResolver": "1.0.1",
-          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy": "1.0.1"
+          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy": "1.0.3"
         }
       },
       "Microsoft.NETCore.DotNetHostResolver/1.0.1": {
@@ -5072,13 +5076,13 @@
           "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostResolver": "1.0.1"
         }
       },
-      "Microsoft.NETCore.Jit/1.0.4": {
+      "Microsoft.NETCore.Jit/1.0.5": {
         "type": "package",
         "dependencies": {
-          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit": "1.0.4"
+          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit": "1.0.5"
         }
       },
-      "Microsoft.NETCore.Platforms/1.0.1": {
+      "Microsoft.NETCore.Platforms/1.0.2": {
         "type": "package",
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -5087,12 +5091,12 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
+      "Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Jit": "1.0.4",
+          "Microsoft.NETCore.Jit": "1.0.5",
           "Microsoft.NETCore.Windows.ApiSets": "1.0.1",
-          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR": "1.0.4"
+          "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR": "1.0.5"
         }
       },
       "Microsoft.NETCore.Targets/1.0.1": {
@@ -5550,7 +5554,7 @@
           "runtimes/ubuntu.14.04-x64/native/dotnet": {}
         }
       },
-      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
+      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.DotNetHostResolver": "1.0.1"
@@ -5568,13 +5572,13 @@
           "runtimes/ubuntu.14.04-x64/native/libhostfxr.so": {}
         }
       },
-      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit/1.0.4": {
+      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit/1.0.5": {
         "type": "package",
         "native": {
           "runtimes/ubuntu.14.04-x64/native/libclrjit.so": {}
         }
       },
-      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
+      "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
         "type": "package",
         "compile": {
           "ref/netstandard1.0/_._": {}
@@ -6349,10 +6353,10 @@
           "lib/netstandard1.3/System.Linq.Queryable.dll": {}
         }
       },
-      "System.Net.Http/4.1.0": {
+      "System.Net.Http/4.1.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Platforms": "1.0.2",
           "System.Collections": "4.0.11",
           "System.Diagnostics.Debug": "4.0.11",
           "System.Diagnostics.DiagnosticSource": "4.0.0",
@@ -7376,7 +7380,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "Box.V2.Core/2.12.0": {
+      "Box.V2.Core/2.14.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.4",
         "dependencies": {
@@ -7384,8 +7388,7 @@
           "Newtonsoft.Json": "9.0.1",
           "Nito.AsyncEx.Coordination": "1.0.1",
           "Portable.BouncyCastle": "1.8.1.1",
-          "System.IdentityModel.Tokens.Jwt": "5.0.0",
-          "System.Security.Cryptography.Algorithms": "4.2.0"
+          "System.IdentityModel.Tokens.Jwt": "5.0.0"
         },
         "compile": {
           "netstandard1.4/Box.V2.Core.dll": {}
@@ -7396,7 +7399,7 @@
       }
     },
     ".NETCoreApp,Version=v1.1/win10-x64": {
-      "Libuv/1.9.0": {
+      "Libuv/1.9.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.0.1"
@@ -7551,15 +7554,16 @@
           "lib/netstandard1.4/Microsoft.IdentityModel.Tokens.dll": {}
         }
       },
-      "Microsoft.NETCore.App/1.0.1": {
+      "Microsoft.NETCore.App/1.0.3": {
         "type": "package",
         "dependencies": {
-          "Libuv": "1.9.0",
+          "Libuv": "1.9.1",
           "Microsoft.CSharp": "4.0.1",
           "Microsoft.CodeAnalysis.CSharp": "1.3.0",
           "Microsoft.CodeAnalysis.VisualBasic": "1.3.0",
-          "Microsoft.NETCore.DotNetHostPolicy": "1.0.1",
-          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.4",
+          "Microsoft.NETCore.DotNetHostPolicy": "1.0.3",
+          "Microsoft.NETCore.Platforms": "1.0.2",
+          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.5",
           "Microsoft.VisualBasic": "10.0.1",
           "NETStandard.Library": "1.6.0",
           "System.Buffers": "4.0.0",
@@ -7576,6 +7580,7 @@
           "System.Linq.Expressions": "4.1.0",
           "System.Linq.Parallel": "4.0.1",
           "System.Linq.Queryable": "4.0.1",
+          "System.Net.Http": "4.1.1",
           "System.Net.NameResolution": "4.0.0",
           "System.Net.Requests": "4.0.11",
           "System.Net.Security": "4.0.0",
@@ -7609,11 +7614,11 @@
           "runtime.win7-x64.Microsoft.NETCore.DotNetHost": "1.0.1"
         }
       },
-      "Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
+      "Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.DotNetHostResolver": "1.0.1",
-          "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy": "1.0.1"
+          "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy": "1.0.3"
         }
       },
       "Microsoft.NETCore.DotNetHostResolver/1.0.1": {
@@ -7623,13 +7628,13 @@
           "runtime.win7-x64.Microsoft.NETCore.DotNetHostResolver": "1.0.1"
         }
       },
-      "Microsoft.NETCore.Jit/1.0.4": {
+      "Microsoft.NETCore.Jit/1.0.5": {
         "type": "package",
         "dependencies": {
-          "runtime.win7-x64.Microsoft.NETCore.Jit": "1.0.4"
+          "runtime.win7-x64.Microsoft.NETCore.Jit": "1.0.5"
         }
       },
-      "Microsoft.NETCore.Platforms/1.0.1": {
+      "Microsoft.NETCore.Platforms/1.0.2": {
         "type": "package",
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -7638,12 +7643,12 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
+      "Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Jit": "1.0.4",
+          "Microsoft.NETCore.Jit": "1.0.5",
           "Microsoft.NETCore.Windows.ApiSets": "1.0.1",
-          "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR": "1.0.4"
+          "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR": "1.0.5"
         }
       },
       "Microsoft.NETCore.Targets/1.0.1": {
@@ -8225,7 +8230,7 @@
           "runtimes/win7-x64/native/dotnet.exe": {}
         }
       },
-      "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
+      "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.DotNetHostResolver": "1.0.1"
@@ -8243,13 +8248,13 @@
           "runtimes/win7-x64/native/hostfxr.dll": {}
         }
       },
-      "runtime.win7-x64.Microsoft.NETCore.Jit/1.0.4": {
+      "runtime.win7-x64.Microsoft.NETCore.Jit/1.0.5": {
         "type": "package",
         "native": {
           "runtimes/win7-x64/native/clrjit.dll": {}
         }
       },
-      "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
+      "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
         "type": "package",
         "compile": {
           "ref/netstandard1.0/_._": {}
@@ -8856,10 +8861,10 @@
           "lib/netstandard1.3/System.Linq.Queryable.dll": {}
         }
       },
-      "System.Net.Http/4.1.0": {
+      "System.Net.Http/4.1.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.0.1",
+          "Microsoft.NETCore.Platforms": "1.0.2",
           "System.Collections": "4.0.11",
           "System.Diagnostics.Debug": "4.0.11",
           "System.Diagnostics.DiagnosticSource": "4.0.0",
@@ -9883,7 +9888,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "Box.V2.Core/2.12.0": {
+      "Box.V2.Core/2.14.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v1.4",
         "dependencies": {
@@ -9891,8 +9896,7 @@
           "Newtonsoft.Json": "9.0.1",
           "Nito.AsyncEx.Coordination": "1.0.1",
           "Portable.BouncyCastle": "1.8.1.1",
-          "System.IdentityModel.Tokens.Jwt": "5.0.0",
-          "System.Security.Cryptography.Algorithms": "4.2.0"
+          "System.IdentityModel.Tokens.Jwt": "5.0.0"
         },
         "compile": {
           "netstandard1.4/Box.V2.Core.dll": {}
@@ -9904,12 +9908,12 @@
     }
   },
   "libraries": {
-    "Libuv/1.9.0": {
-      "sha512": "9Q7AaqtQhS8JDSIvRBt6ODSLWDBI4c8YxNxyCQemWebBFUtBbc6M5Vi5Gz1ZyIUlTW3rZK9bIr5gnVyv0z7a2Q==",
+    "Libuv/1.9.1": {
+      "sha512": "uqX2Frwf9PW8MaY7PRNY6HM5BpW1D8oj1EdqzrmbEFD5nH63Yat3aEjN/tws6Tw6Fk7LwmLBvtUh32tTeTaHiA==",
       "type": "package",
-      "path": "Libuv/1.9.0",
+      "path": "Libuv/1.9.1",
       "files": [
-        "Libuv.1.9.0.nupkg.sha512",
+        "Libuv.1.9.1.nupkg.sha512",
         "Libuv.nuspec",
         "License.txt",
         "runtimes/debian-x64/native/libuv.so",
@@ -10069,12 +10073,12 @@
         "lib/netstandard1.4/Microsoft.IdentityModel.Tokens.xml"
       ]
     },
-    "Microsoft.NETCore.App/1.0.1": {
-      "sha512": "M3iH7u95LntTkJtI/DqN/96MRlb8Wa0SjnXldxHA4FjlvEqghOhwK087bDZAZaTN9C4YHckvaYH3ka9eYWZZZw==",
+    "Microsoft.NETCore.App/1.0.3": {
+      "sha512": "1GKkw9n1vlhm825BDH2tUlp/xg2sgmdeVpEZIOBXsPb3Avq1V34Ex0V9W+lt082PmTQn8aB1OGdmBQ3jD6saFA==",
       "type": "package",
-      "path": "Microsoft.NETCore.App/1.0.1",
+      "path": "Microsoft.NETCore.App/1.0.3",
       "files": [
-        "Microsoft.NETCore.App.1.0.1.nupkg.sha512",
+        "Microsoft.NETCore.App.1.0.3.nupkg.sha512",
         "Microsoft.NETCore.App.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -10093,12 +10097,12 @@
         "runtime.json"
       ]
     },
-    "Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
-      "sha512": "d8AQ+ZVj2iK9sbgl3IEsshCSaumhM1PNTPHxldZAQLOoI1BKF8QZ1zPCNqwBGisPiWOE3f/1SHDbQi1BTRBxuA==",
+    "Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
+      "sha512": "emPcHCi96pF2Rqkmya+oqPKVhokXb1VE4ZwtsUNrW5Hn3/ClGJN7wOsi7xvuNurR1JGZd2hQFwDUUjJqW1cunA==",
       "type": "package",
-      "path": "Microsoft.NETCore.DotNetHostPolicy/1.0.1",
+      "path": "Microsoft.NETCore.DotNetHostPolicy/1.0.3",
       "files": [
-        "Microsoft.NETCore.DotNetHostPolicy.1.0.1.nupkg.sha512",
+        "Microsoft.NETCore.DotNetHostPolicy.1.0.3.nupkg.sha512",
         "Microsoft.NETCore.DotNetHostPolicy.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -10117,24 +10121,24 @@
         "runtime.json"
       ]
     },
-    "Microsoft.NETCore.Jit/1.0.4": {
-      "sha512": "IcHTGj+vTFcOu7/flwNg+CWIfTsxqHWgj08MKOtYwS5k0EuLvx6PrYsn7vHCV0SUTk1zbQ1l0EJj1UdxTMyx4w==",
+    "Microsoft.NETCore.Jit/1.0.5": {
+      "sha512": "bFkW6vmXUvSZdOfbxpLMjxaInwO9or1kxt8oLXAugoadZsFX655e57JWy9MqbKnl7yU1qtlO7/7IXWXRJADLRg==",
       "type": "package",
-      "path": "Microsoft.NETCore.Jit/1.0.4",
+      "path": "Microsoft.NETCore.Jit/1.0.5",
       "files": [
-        "Microsoft.NETCore.Jit.1.0.4.nupkg.sha512",
+        "Microsoft.NETCore.Jit.1.0.5.nupkg.sha512",
         "Microsoft.NETCore.Jit.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "runtime.json"
       ]
     },
-    "Microsoft.NETCore.Platforms/1.0.1": {
-      "sha512": "2G6OjjJzwBfNOO8myRV/nFrbTw5iA+DEm0N+qUqhrOmaVtn4pC77h38I1jsXGw5VH55+dPfQsqHD0We9sCl9FQ==",
+    "Microsoft.NETCore.Platforms/1.0.2": {
+      "sha512": "fRHBvQs9Z/ZSUAqaSotK1UPol/lwybTgdeTXR4eVw3rVDgzUnWGTUsK0A418oR7NrimNL1TQu/IM0RDa26s0qg==",
       "type": "package",
-      "path": "Microsoft.NETCore.Platforms/1.0.1",
+      "path": "Microsoft.NETCore.Platforms/1.0.2",
       "files": [
-        "Microsoft.NETCore.Platforms.1.0.1.nupkg.sha512",
+        "Microsoft.NETCore.Platforms.1.0.2.nupkg.sha512",
         "Microsoft.NETCore.Platforms.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -10142,12 +10146,12 @@
         "runtime.json"
       ]
     },
-    "Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
-      "sha512": "r4/aP7VYcJ+W/rJVFU+jAdjF4KrsHRDYQJ+p8weUP5n65yLzWXlQTVY6OsR560aV5EF7jc65dqsNXIryUCrEkQ==",
+    "Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
+      "sha512": "F9Uq8v2a8ClvBkVTFOKMELKK9HSqv1P1VHNLtvzpODiYXf7UqYMdk1SyXZex8E5nC6N0TIWmB+7D0p8vaysLVQ==",
       "type": "package",
-      "path": "Microsoft.NETCore.Runtime.CoreCLR/1.0.4",
+      "path": "Microsoft.NETCore.Runtime.CoreCLR/1.0.5",
       "files": [
-        "Microsoft.NETCore.Runtime.CoreCLR.1.0.4.nupkg.sha512",
+        "Microsoft.NETCore.Runtime.CoreCLR.1.0.5.nupkg.sha512",
         "Microsoft.NETCore.Runtime.CoreCLR.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -10866,14 +10870,14 @@
         "version.txt"
       ]
     },
-    "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
-      "sha512": "ATCNQH5qopynOsSWlE54RBJ0L31PplRYbJ0hW2zhER1rvFi0XOqR+kvh3+rnBbWEmB+lBZJbk+kEU5fe9ci0YQ==",
+    "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
+      "sha512": "BM1EFRDAha7rfQyQRck9ZkN2CrpPp6tedrHO9YdYd5A3nGNZ9cSJfY2GYBv0h1fpfpvgrenXDgfb4clu6lzNXA==",
       "type": "package",
-      "path": "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1",
+      "path": "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.3",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
-        "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy.1.0.1.nupkg.sha512",
+        "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy.1.0.3.nupkg.sha512",
         "runtime.osx.10.10-x64.Microsoft.NETCore.DotNetHostPolicy.nuspec",
         "runtimes/osx.10.10-x64/native/libhostpolicy.dylib",
         "version.txt"
@@ -10892,27 +10896,27 @@
         "version.txt"
       ]
     },
-    "runtime.osx.10.10-x64.Microsoft.NETCore.Jit/1.0.4": {
-      "sha512": "UZ4aH/gbzHhZ20F/+2c1nyfUYvpOnWqTCtx9l5vzd/RnaUnaEn40W+9mlDNlTjMcf/XgIDVub8gCo4ILfiNgbA==",
+    "runtime.osx.10.10-x64.Microsoft.NETCore.Jit/1.0.5": {
+      "sha512": "qXFLzYghMDsTKKtGRigrqv7U0JmZWl3QAccTaaVyoqylme3B8f3V4rgTW2LIDxC7f0U9uwdkGwoNEAZz9DBU6w==",
       "type": "package",
-      "path": "runtime.osx.10.10-x64.Microsoft.NETCore.Jit/1.0.4",
+      "path": "runtime.osx.10.10-x64.Microsoft.NETCore.Jit/1.0.5",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
-        "runtime.osx.10.10-x64.Microsoft.NETCore.Jit.1.0.4.nupkg.sha512",
+        "runtime.osx.10.10-x64.Microsoft.NETCore.Jit.1.0.5.nupkg.sha512",
         "runtime.osx.10.10-x64.Microsoft.NETCore.Jit.nuspec",
         "runtimes/osx.10.10-x64/native/libclrjit.dylib"
       ]
     },
-    "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
-      "sha512": "tvOkfS0qL/HoJAEroHd6ciFyUW9vVj/4TWl4FboTOPNGV0ZWCIILm0kTBycR77UdwfTHik1znNfGJBO/c+TxNg==",
+    "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
+      "sha512": "VELg2J7T9PAqWc34SLoVnJad9Lq20nm0P0h6L7hEQWehK16L8yV/HYUG2Pe4g27M4oejaRNlIQAvCTRt5hQ/7g==",
       "type": "package",
-      "path": "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4",
+      "path": "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.5",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "ref/netstandard1.0/_._",
-        "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR.1.0.4.nupkg.sha512",
+        "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR.1.0.5.nupkg.sha512",
         "runtime.osx.10.10-x64.Microsoft.NETCore.Runtime.CoreCLR.nuspec",
         "runtimes/osx.10.10-x64/lib/netstandard1.0/System.Private.CoreLib.dll",
         "runtimes/osx.10.10-x64/lib/netstandard1.0/mscorlib.dll",
@@ -11002,14 +11006,14 @@
         "version.txt"
       ]
     },
-    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
-      "sha512": "M0t6qFStlbTlbEMZpz3SXLqy3g0vTqWJWoDTbYjm4ePUJ7BPqVZCZyx4eUzggSMc82XpJ8gzF9M1aynIH9EuvQ==",
+    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
+      "sha512": "fmPrQyEX2oPIusFnduzR9gmg8wjPIkHK1znPrw6rVM1Le/bPEB1Ic5LCBCryETf09WeTBAGHNjrQF3oIMT1+gA==",
       "type": "package",
-      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1",
+      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.3",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
-        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy.1.0.1.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy.1.0.3.nupkg.sha512",
         "runtime.ubuntu.14.04-x64.Microsoft.NETCore.DotNetHostPolicy.nuspec",
         "runtimes/ubuntu.14.04-x64/native/libhostpolicy.so",
         "version.txt"
@@ -11028,27 +11032,27 @@
         "version.txt"
       ]
     },
-    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit/1.0.4": {
-      "sha512": "j3T7+rTz3hqUIHpFQGLWR/keWd++P0gSorov5MT30VuozKsBqkyivTYcMT0C1jplyDjjChQcPYKFHCW1eVMY7w==",
+    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit/1.0.5": {
+      "sha512": "upWoRg/SujYqa2MWGIo52m3uxvUg+dfTCnPx8MOkRgQztmB02An2jKiv7X+YDdsZEyQUMjPWB1qEWZ5ggq/z7A==",
       "type": "package",
-      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit/1.0.4",
+      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit/1.0.5",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
-        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit.1.0.4.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit.1.0.5.nupkg.sha512",
         "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Jit.nuspec",
         "runtimes/ubuntu.14.04-x64/native/libclrjit.so"
       ]
     },
-    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
-      "sha512": "Qlpf467dTFgrc/eKel5XeCa9LMNSOslSnUOmxBQqDTNPOC2FBs6qsx7aQTFeLT0a/LLxJD02STisWHEI5HiFWw==",
+    "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
+      "sha512": "HMkor4q0UzZFvldOjWHFOG561QQq8JXO1LuN/KVSrwZeatMT8TiraBvfbifnoJ/mzVjPPGWC9L617rBw0FuK/A==",
       "type": "package",
-      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4",
+      "path": "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.5",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "ref/netstandard1.0/_._",
-        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR.1.0.4.nupkg.sha512",
+        "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR.1.0.5.nupkg.sha512",
         "runtime.ubuntu.14.04-x64.Microsoft.NETCore.Runtime.CoreCLR.nuspec",
         "runtimes/ubuntu.14.04-x64/lib/netstandard1.0/System.Private.CoreLib.dll",
         "runtimes/ubuntu.14.04-x64/lib/netstandard1.0/mscorlib.dll",
@@ -11356,14 +11360,14 @@
         "version.txt"
       ]
     },
-    "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1": {
-      "sha512": "kRifi+XIuUv5DZwIphXJTzMY6rXKbv5RmAXNNLF/97Is77eW3foMRdZ6wViw22YRdzZ8g4rAYXxl8nTMrfKh/A==",
+    "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.3": {
+      "sha512": "4CBvIwIXwLiH52/a0QDZg2ftKe2yGYMU/9eVQB3YCYPRSiD7IcH1TRQiRvSMyq5MEJe4pWSkVjf6MA6sVkzaIQ==",
       "type": "package",
-      "path": "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.1",
+      "path": "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy/1.0.3",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
-        "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy.1.0.1.nupkg.sha512",
+        "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy.1.0.3.nupkg.sha512",
         "runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy.nuspec",
         "runtimes/win7-x64/native/hostpolicy.dll",
         "version.txt"
@@ -11382,28 +11386,28 @@
         "version.txt"
       ]
     },
-    "runtime.win7-x64.Microsoft.NETCore.Jit/1.0.4": {
-      "sha512": "x5CokVDl/gul8A3mfzyvJr+YvDNByTn/XTh3V4QT46EXjFfF45jDBrwRdRCLyIIp05Or5w9GkU+yjXRFnPO85w==",
+    "runtime.win7-x64.Microsoft.NETCore.Jit/1.0.5": {
+      "sha512": "VOvnMCSY7T4JnR99CuE6PBgmHR4zpW4cC7z02reO7ZPI/JuZvt+zEu9dKWL1TiP9FdWFThnwEA6JGKql6/o9Ew==",
       "type": "package",
-      "path": "runtime.win7-x64.Microsoft.NETCore.Jit/1.0.4",
+      "path": "runtime.win7-x64.Microsoft.NETCore.Jit/1.0.5",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
-        "runtime.win7-x64.Microsoft.NETCore.Jit.1.0.4.nupkg.sha512",
+        "runtime.win7-x64.Microsoft.NETCore.Jit.1.0.5.nupkg.sha512",
         "runtime.win7-x64.Microsoft.NETCore.Jit.nuspec",
         "runtimes/win7-x64-aot/native/_._",
         "runtimes/win7-x64/native/clrjit.dll"
       ]
     },
-    "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4": {
-      "sha512": "xk70lt1wyb5Elwc+BaOVWfcFms4W8njKwUIDCeOC3xGPFVdEdME4F1cl5u/XZUrKqxamgQCAEjo+VypNQWnQ9A==",
+    "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.5": {
+      "sha512": "o6Znp6kdjrTTm7rTIrJyUFVf4qnGY8e7i6coeqd5F9eQQCGxS7SL/nJSP2URWKOSTkotgGttsccoX4PpLGqv+w==",
       "type": "package",
-      "path": "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.4",
+      "path": "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR/1.0.5",
       "files": [
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "ref/netstandard1.0/_._",
-        "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR.1.0.4.nupkg.sha512",
+        "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR.1.0.5.nupkg.sha512",
         "runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR.nuspec",
         "runtimes/win7-x64-aot/lib/netstandard1.0/_._",
         "runtimes/win7-x64-aot/native/_._",
@@ -13055,12 +13059,12 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "System.Net.Http/4.1.0": {
-      "sha512": "ULq9g3SOPVuupt+Y3U+A37coXzdNisB1neFCSKzBwo182u0RDddKJF8I5+HfyXqK6OhJPgeoAwWXrbiUXuRDsg==",
+    "System.Net.Http/4.1.1": {
+      "sha512": "UB6cBljFrgbAjIpwiP+vzEzL9LW7DsO6rRuPfpWaGtK6+obBdkkDOi/3WggHPRGwl9NRHlv4xnEmBrYfKSfq1Q==",
       "type": "package",
-      "path": "System.Net.Http/4.1.0",
+      "path": "System.Net.Http/4.1.1",
       "files": [
-        "System.Net.Http.4.1.0.nupkg.sha512",
+        "System.Net.Http.4.1.1.nupkg.sha512",
         "System.Net.Http.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
@@ -15708,7 +15712,7 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "Box.V2.Core/2.12.0": {
+    "Box.V2.Core/2.14.0": {
       "type": "project",
       "path": "../Box.V2.Core/project.json",
       "msbuildProject": "../Box.V2.Core/Box.V2.Core.xproj"
