@@ -28,6 +28,7 @@ namespace Box.V2.Config
         public const string FilesUploadString = @"files/content";
         public const string FilesUploadSessionString = @"files/upload-session";
         public const string FilesNewVersionString = @"files/{0}/content";
+        public const string FilesNewVersionUploadSessionString = @"files/{0}/upload-session";
         public const string CommentsString = @"comments/";
         public const string SearchString = @"search";
         public const string UserString = @"users/";
@@ -78,6 +79,7 @@ namespace Box.V2.Config
         public const string FilesEndpointString = BoxApiUriString + FilesString;
         public const string FilesUploadEndpointString = BoxUploadApiUriString + FilesUploadString;
         public const string FilesNewVersionEndpointString = BoxUploadApiUriString + FilesNewVersionString;
+        public const string FilesNewVersionUploadSessionEndpointString = BoxUploadApiUriV21String + FilesNewVersionUploadSessionString;
         public const string FilesPreflightCheckNewVersionString = BoxApiUriString + FilesNewVersionString;
         public const string CommentsEndpointString = BoxApiUriString + CommentsString;
         public const string SearchEndpointString = BoxApiUriString + SearchString;

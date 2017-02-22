@@ -258,6 +258,25 @@ namespace Box.V2.Managers
             return response.ResponseObject.Entries.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Create new file version upload session.
+        /// </summary>
+        /// <param name="fileId">The file id.</param>
+        /// <param name="fileSize">The total number of bytes in the file to be uploaded.</param>
+        /// <returns></returns>
+        public async Task<BoxFileUploadSession> CreateNewVersionUploadSessionAsync(string fileId, string fileSize)
+        {
+            var uploadUri = new Uri(string.Format(Constants.FilesNewVersionUploadSessionEndpointString, fileId));
+
+            var request = new BoxRequest(uploadUri)
+                .Method(RequestMethod.Post)
+                .Payload("file_size", fileSize);
+
+            IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
         private string HexStringFromBytes(byte[] bytes)
         {
             var sb = new StringBuilder();
