@@ -11,6 +11,7 @@ namespace Box.V2.Config
         public const string BoxApiHostUriString = "https://app.box.com/api/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
+        public const string BoxUploadApiUriV21String = "https://upload.box.com/api/2.1/";
         
 
         /*** API Endpoints ***/
@@ -25,6 +26,7 @@ namespace Box.V2.Config
         public const string GroupMembershipString = @"group_memberships/";
         public const string FilesString = @"files/";
         public const string FilesUploadString = @"files/content";
+        public const string FilesUploadSessionString = @"files/upload-session";
         public const string FilesNewVersionString = @"files/{0}/content";
         public const string CommentsString = @"comments/";
         public const string SearchString = @"search";
@@ -180,6 +182,8 @@ namespace Box.V2.Config
             public const string BoxNotifications = "Box-Notifications";
 
             public const string ContentMD5 = "Content-MD5";
+
+            public const string ContentLength = "Content-Length";
 
             /*** Values ***/
             public const string RefreshToken = "refresh_token";

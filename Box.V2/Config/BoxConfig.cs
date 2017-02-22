@@ -41,11 +41,10 @@ namespace Box.V2.Config
             UserAgent = DefaultUserAgent;
         }
 
-
-
         public virtual Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
         public virtual Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
         public virtual Uri BoxUploadApiUri { get { return new Uri(Constants.BoxUploadApiUriString); } }
+        public virtual Uri BoxUploadApiUriV21 { get { return new Uri(Constants.BoxUploadApiUriV21String); } }
 
         public virtual string ClientId { get; private set; }
         public virtual string ConsumerKey { get; private set; }
@@ -71,6 +70,12 @@ namespace Box.V2.Config
         public virtual Uri FoldersEndpointUri { get { return new Uri(BoxApiUri, Constants.FoldersString); } }
         public virtual Uri FilesEndpointUri { get { return new Uri(BoxApiUri, Constants.FilesString); } }
         public virtual Uri FilesUploadEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesUploadString); } }
+
+        /// <summary>
+        /// Upload session
+        /// </summary>
+        public virtual Uri FilesUploadSessionEndpointUri { get { return new Uri(BoxUploadApiUriV21, Constants.FilesUploadSessionString); } }
+
         //public virtual Uri FilesNewVersionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesNewVersionString); } }
         public virtual Uri FilesPreflightCheckUri { get { return new Uri(BoxApiUri, Constants.FilesUploadString); } }
         //public virtual Uri FilesPreflightCheckNewVersionUri { get { return new Uri(BoxApiUri, Constants.FilesNewVersionString); } }

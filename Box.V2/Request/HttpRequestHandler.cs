@@ -193,13 +193,16 @@ namespace Box.V2.Request
                 multiPart.Add(new StringContent(sp.Value), ForceQuotesOnParam(sp.Name));
 
             // Create the file part
-            StreamContent fileContent = new StreamContent(filePart.Value);
-            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            if (filePart != null)
             {
-                Name = ForceQuotesOnParam(filePart.Name),
-                FileName = ForceQuotesOnParam(filePart.FileName)
-            };
-            multiPart.Add(fileContent);
+                StreamContent fileContent = new StreamContent(filePart.Value);
+                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                {
+                    Name = ForceQuotesOnParam(filePart.Name),
+                    FileName = ForceQuotesOnParam(filePart.FileName)
+                };
+                multiPart.Add(fileContent);
+            }
 
             httpRequest.Content = multiPart;
 

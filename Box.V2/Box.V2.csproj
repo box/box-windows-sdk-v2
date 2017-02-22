@@ -72,6 +72,8 @@
     <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
+    <Compile Include="Models\BoxSessionEndpoint.cs" />
+    <Compile Include="Models\BoxFileUploadSession.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />
     <Compile Include="Models\BoxFileEventSource.cs" />
     <Compile Include="Models\BoxFileLock.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="Models\BoxGroup.cs" />
     <Compile Include="Models\BoxGroupMembership.cs" />
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
+    <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxTaskAssignmentUpdateRequest.cs" />

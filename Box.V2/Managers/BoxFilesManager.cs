@@ -188,6 +188,26 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Create an upload session for uploading a new file.
+        /// </summary>
+        /// <param name="uploadSessionRequest">The upload session request.</param>
+        /// <returns>The upload session.</returns>
+        public async Task<BoxFileUploadSession> CreateUploadSessionAsync(BoxFileUploadSessionRequest uploadSessionRequest)
+        {
+            var uploadUri = _config.FilesUploadSessionEndpointUri;
+
+            var request = new BoxRequest(uploadUri)
+                .Method(RequestMethod.Post)
+                .Payload("folder_id", uploadSessionRequest.FolderId)
+                .Payload("file_size", uploadSessionRequest.FileSize)
+                .Payload("file_name", uploadSessionRequest.FileName);
+
+            IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// This method is used to upload a new version of an existing file in a user’s account. Similar to regular file uploads, 
         /// these are performed as multipart form uploads. An optional If-Match header can be included to ensure that client only 
         /// overwrites the file if it knows about the latest version. The filename on Box will remain the same as the previous version.
