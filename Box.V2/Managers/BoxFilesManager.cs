@@ -355,6 +355,23 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Abort the upload session and discard all data uploaded. This cannot be reversed.
+        /// </summary>
+        /// <param name="id">The upload session id which this part belongs to.</param>
+        /// <returns>True if deletion success.</returns>
+        public async Task<bool> DeleteUploadSessionAsync(string id)
+        {
+            var uploadUri = new Uri(_config.FilesUploadSessionEndpointUri.ToString() + "/" + id);
+
+            var request = new BoxRequest(uploadUri)
+                .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
         /// Used to create a copy of a file in another folder. The original version of the file will not be altered.
         /// </summary>
         /// <param name="fileRequest">BoxFileRequest object.</param>
