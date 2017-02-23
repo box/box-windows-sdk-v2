@@ -5,7 +5,7 @@
   },
 
   "dependencies": {
-    "Box.V2.Core": "1.0.0-*",
+    "Box.V2.Core": "2.*",
     "Microsoft.NETCore.App": {
       // include this to make it a FDB, framework depend build
       // http://www.hanselman.com/blog/SelfcontainedNETCoreApplications.aspx
