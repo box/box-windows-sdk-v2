@@ -140,9 +140,12 @@
     <Compile Include="Utility\LRUCache.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxErrorContextInfo.cs" />
+    <Compile Include="Wrappers\BoxBinaryRequest.cs" />
+    <Compile Include="Wrappers\BoxPart.cs" />
     <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
     <Compile Include="Wrappers\BoxResponse.cs" />
     <Compile Include="Extensions\BoxResponseExtensions.cs" />
+    <Compile Include="Wrappers\Contracts\IBoxPart.cs" />
     <Compile Include="Wrappers\Contracts\IBoxResponse.cs" />
     <Compile Include="Wrappers\BoxFormPart.cs" />
     <Compile Include="Wrappers\Contracts\IBoxFormPart.cs" />
