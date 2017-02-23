@@ -277,6 +277,36 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Upload a part of the file to the session.
+        /// </summary>
+        /// <param name="id">The session id.</param>
+        /// <param name="sha1">The message digest of the part body, formatted as specified by RFC 3230.</param>
+        /// <param name="partId">A valid 8 character hex string that identifies the part upload request.</param>
+        /// <param name="partStartOffsetInBytes">Part begin offset in bytes.</param>
+        /// <param name="sizeOfOriginalFileInBytes">Size of original file in bytes.</param>
+        /// <param name="stream">The file part stream.</param>
+        /// <returns></returns>
+        public async Task<bool> UploadPartAsync(string id, string sha1, string partId, long partStartOffsetInBytes, long sizeOfOriginalFileInBytes, Stream stream)
+        {
+            var uploadUri = new Uri(_config.FilesUploadSessionEndpointUri.ToString() + "/" + id);
+
+            var binary = stream.ToString();
+
+            var request = new BoxBinaryRequest(uploadUri)
+                .Method(RequestMethod.Put)
+                .Header(Constants.RequestParameters.Digest, "sha=" + sha1)
+                .Header(Constants.RequestParameters.BoxPartId, partId)
+                .Header(Constants.RequestParameters.ContentRange, "bytes " + partStartOffsetInBytes.ToString() + "-" + (stream.Length - 1) + "/" + sizeOfOriginalFileInBytes)
+                .Part(new BoxFilePart() {
+                    Value = stream
+                });
+
+            var response = await ToResponseAsync<object>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
         private string HexStringFromBytes(byte[] bytes)
         {
             var sb = new StringBuilder();

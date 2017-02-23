@@ -182,10 +182,13 @@ namespace Box.V2.Config
             public const string AsUser = "As-User";
 
             public const string BoxNotifications = "Box-Notifications";
+            public const string BoxPartId = "X-Box-Part-Id";
 
             public const string ContentMD5 = "Content-MD5";
-
+            public const string ContentRange = "Content-Range";
             public const string ContentLength = "Content-Length";
+
+            public const string Digest = "Digest";
 
             /*** Values ***/
             public const string RefreshToken = "refresh_token";
