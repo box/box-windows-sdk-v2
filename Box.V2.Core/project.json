@@ -98,7 +98,7 @@
             "../Box.V2/Models/Permissions/BoxItemPermission.cs",
             "../Box.V2/Models/BoxSortOrder.cs",
             "../Box.V2/Models/Request/BoxMetadataFilterRequest.cs",
-            "../Box.V2/Models/Request/BoxMoveUserFolderRequest.cs",
+          "../Box.V2/Models/Request/BoxMoveUserFolderRequest.cs",
             "../Box.V2/Models/Request/BoxPreflightCheckRequest.cs",
             "../Box.V2/Models/Request/BoxPromoteVersionRequest.cs",
             "../Box.V2/Models/Request/BoxRetentionPolicyAssignmentRequest.cs",
