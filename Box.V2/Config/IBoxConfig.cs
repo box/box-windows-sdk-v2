@@ -35,6 +35,12 @@ namespace Box.V2.Config
         Uri FoldersEndpointUri { get; }
         Uri FilesEndpointUri { get; }
         Uri FilesUploadEndpointUri { get; }
+
+        /// <summary>
+        /// Upload session
+        /// </summary>
+        Uri FilesUploadSessionEndpointUri { get; }
+
         Uri FilesPreflightCheckUri { get; }
         //Uri FilesPreflightCheckNewVersionUri { get; }
         Uri CommentsEndpointUri { get; }

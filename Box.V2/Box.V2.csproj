@@ -72,6 +72,8 @@
     <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
+    <Compile Include="Models\BoxSessionEndpoint.cs" />
+    <Compile Include="Models\BoxFileUploadSession.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />
     <Compile Include="Models\BoxFileEventSource.cs" />
     <Compile Include="Models\BoxFileLock.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="Models\BoxGroup.cs" />
     <Compile Include="Models\BoxGroupMembership.cs" />
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
+    <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxTaskAssignmentUpdateRequest.cs" />
@@ -137,9 +140,12 @@
     <Compile Include="Utility\LRUCache.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxErrorContextInfo.cs" />
+    <Compile Include="Wrappers\BoxBinaryRequest.cs" />
+    <Compile Include="Wrappers\BoxPart.cs" />
     <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
     <Compile Include="Wrappers\BoxResponse.cs" />
     <Compile Include="Extensions\BoxResponseExtensions.cs" />
+    <Compile Include="Wrappers\Contracts\IBoxPart.cs" />
     <Compile Include="Wrappers\Contracts\IBoxResponse.cs" />
     <Compile Include="Wrappers\BoxFormPart.cs" />
     <Compile Include="Wrappers\Contracts\IBoxFormPart.cs" />

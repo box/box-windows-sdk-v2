@@ -84,7 +84,5 @@ namespace Box.V2
         /// </summary>
         /// <returns></returns>
         string GetQueryString();
-
-        
     }
 }

@@ -188,6 +188,26 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Create an upload session for uploading a new file.
+        /// </summary>
+        /// <param name="uploadSessionRequest">The upload session request.</param>
+        /// <returns>The upload session.</returns>
+        public async Task<BoxFileUploadSession> CreateUploadSessionAsync(BoxFileUploadSessionRequest uploadSessionRequest)
+        {
+            var uploadUri = _config.FilesUploadSessionEndpointUri;
+
+            var request = new BoxRequest(uploadUri)
+                .Method(RequestMethod.Post)
+                .Payload("folder_id", uploadSessionRequest.FolderId)
+                .Payload("file_size", uploadSessionRequest.FileSize)
+                .Payload("file_name", uploadSessionRequest.FileName);
+
+            IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// This method is used to upload a new version of an existing file in a user’s account. Similar to regular file uploads, 
         /// these are performed as multipart form uploads. An optional If-Match header can be included to ensure that client only 
         /// overwrites the file if it knows about the latest version. The filename on Box will remain the same as the previous version.
@@ -236,6 +256,55 @@ namespace Box.V2.Managers
 
             // We can only upload one file at a time, so return the first entry
             return response.ResponseObject.Entries.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Create new file version upload session.
+        /// </summary>
+        /// <param name="fileId">The file id.</param>
+        /// <param name="fileSize">The total number of bytes in the file to be uploaded.</param>
+        /// <returns></returns>
+        public async Task<BoxFileUploadSession> CreateNewVersionUploadSessionAsync(string fileId, string fileSize)
+        {
+            var uploadUri = new Uri(string.Format(Constants.FilesNewVersionUploadSessionEndpointString, fileId));
+
+            var request = new BoxRequest(uploadUri)
+                .Method(RequestMethod.Post)
+                .Payload("file_size", fileSize);
+
+            IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Upload a part of the file to the session.
+        /// </summary>
+        /// <param name="id">The session id.</param>
+        /// <param name="sha1">The message digest of the part body, formatted as specified by RFC 3230.</param>
+        /// <param name="partId">A valid 8 character hex string that identifies the part upload request.</param>
+        /// <param name="partStartOffsetInBytes">Part begin offset in bytes.</param>
+        /// <param name="sizeOfOriginalFileInBytes">Size of original file in bytes.</param>
+        /// <param name="stream">The file part stream.</param>
+        /// <returns></returns>
+        public async Task<bool> UploadPartAsync(string id, string sha1, string partId, long partStartOffsetInBytes, long sizeOfOriginalFileInBytes, Stream stream)
+        {
+            var uploadUri = new Uri(_config.FilesUploadSessionEndpointUri.ToString() + "/" + id);
+
+            var binary = stream.ToString();
+
+            var request = new BoxBinaryRequest(uploadUri)
+                .Method(RequestMethod.Put)
+                .Header(Constants.RequestParameters.Digest, "sha=" + sha1)
+                .Header(Constants.RequestParameters.BoxPartId, partId)
+                .Header(Constants.RequestParameters.ContentRange, "bytes " + partStartOffsetInBytes.ToString() + "-" + (stream.Length - 1) + "/" + sizeOfOriginalFileInBytes)
+                .Part(new BoxFilePart() {
+                    Value = stream
+                });
+
+            var response = await ToResponseAsync<object>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
         }
 
         private string HexStringFromBytes(byte[] bytes)
@@ -311,6 +380,23 @@ namespace Box.V2.Managers
                 .Header(Constants.RequestParameters.IfMatch, etag);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
+        /// Abort the upload session and discard all data uploaded. This cannot be reversed.
+        /// </summary>
+        /// <param name="id">The upload session id which this part belongs to.</param>
+        /// <returns>True if deletion success.</returns>
+        public async Task<bool> DeleteUploadSessionAsync(string id)
+        {
+            var uploadUri = new Uri(_config.FilesUploadSessionEndpointUri.ToString() + "/" + id);
+
+            var request = new BoxRequest(uploadUri)
+                .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
         }

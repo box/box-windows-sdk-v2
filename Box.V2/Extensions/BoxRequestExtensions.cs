@@ -97,5 +97,11 @@ namespace Box.V2.Extensions
             return request;
         }
 
+        public static T Part<T>(this T request, IBoxPart part) where T : BoxBinaryRequest
+        {
+            request.Part = part;
+
+            return request;
+        }
     }
 }

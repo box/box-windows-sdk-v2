@@ -24,18 +24,33 @@ namespace Box.V2.Request
 
             try
             {
+                // TODO: yhu@ better handling of different request
                 var isMultiPartRequest = request.GetType() == typeof(BoxMultiPartRequest);
+                var isBinaryRequest = request.GetType() == typeof(BoxBinaryRequest);
 
                 while (true)
                 {
-                    HttpRequestMessage httpRequest = isMultiPartRequest ?
-                                                        BuildMultiPartRequest(request as BoxMultiPartRequest) :
-                                                        BuildRequest(request);
+                    HttpRequestMessage httpRequest = null;
+
+                    if (isMultiPartRequest)
+                    {
+                        httpRequest = BuildMultiPartRequest(request as BoxMultiPartRequest);
+                    }
+                    else if (isBinaryRequest)
+                    {
+                        httpRequest = BuildBinaryRequest(request as BoxBinaryRequest);
+                    }
+                    else
+                    {
+                        httpRequest = BuildRequest(request);
+                    }
 
                     // Add headers
                     foreach (var kvp in request.HttpHeaders)
                     {
-                        if (kvp.Key == Constants.RequestParameters.ContentMD5)
+                        // They could not be added to the headers directly
+                        if (kvp.Key == Constants.RequestParameters.ContentMD5
+                            || kvp.Key == Constants.RequestParameters.ContentRange)
                         {
                             httpRequest.Content.Headers.Add(kvp.Key, kvp.Value);
                         }
@@ -143,37 +158,72 @@ namespace Box.V2.Request
         {
             HttpRequestMessage httpRequest = new HttpRequestMessage();
             httpRequest.RequestUri = request.AbsoluteUri;
-            //httpRequest.Content = new StringContent(request.GetQueryString(), Encoding.UTF8, "application/x-www-form-urlencoded");
+            httpRequest.Method = GetHttpMethod(request.Method);
+            if (httpRequest.Method == HttpMethod.Get)
+            {
+                return httpRequest;
+            }
 
-            switch (request.Method)
+            HttpContent content = null;
+
+            // Set request content to string or form-data
+            if (!string.IsNullOrWhiteSpace(request.Payload))
+            {
+                if (string.IsNullOrEmpty(request.ContentType))
+                {
+                    content = new StringContent(request.Payload);
+                }
+                else
+                {
+                    content = new StringContent(request.Payload, request.ContentEncoding, request.ContentType);
+                }
+            }
+            else
+            {
+                content = new FormUrlEncodedContent(request.PayloadParameters);
+            }
+
+            httpRequest.Content = content;
+
+            return httpRequest;
+        }
+
+        private HttpRequestMessage BuildBinaryRequest(BoxBinaryRequest request)
+        {
+            HttpRequestMessage httpRequest = new HttpRequestMessage();
+            httpRequest.RequestUri = request.AbsoluteUri;
+            httpRequest.Method = GetHttpMethod(request.Method);
+
+            HttpContent content = null;
+
+            var filePart = request.Part as BoxFilePart;
+            if (filePart != null)
+            {
+                content = new StreamContent(filePart.Value);
+            }
+
+            httpRequest.Content = content;
+
+            return httpRequest;
+        }
+
+        private HttpMethod GetHttpMethod(RequestMethod requestMethod)
+        {
+            switch (requestMethod)
             {
                 case RequestMethod.Get:
-                    httpRequest.Method = HttpMethod.Get;
-                    return httpRequest;
+                    return HttpMethod.Get;
                 case RequestMethod.Put:
-                    httpRequest.Method = HttpMethod.Put;
-                    break;
+                    return HttpMethod.Put;
                 case RequestMethod.Delete:
-                    httpRequest.Method = HttpMethod.Delete;
-                    break;
+                    return HttpMethod.Delete;
                 case RequestMethod.Post:
-                    httpRequest.Method = HttpMethod.Post;
-                    break;
+                    return HttpMethod.Post;
                 case RequestMethod.Options:
-                    httpRequest.Method = HttpMethod.Options;
-                    break;
+                    return HttpMethod.Options;
                 default:
                     throw new InvalidOperationException("Http method not supported");
             }
-
-            // Set request content to string or form-data
-            httpRequest.Content = !string.IsNullOrWhiteSpace(request.Payload) ? 
-                string.IsNullOrEmpty(request.ContentType) ? // Check for custom content type
-                    (HttpContent)new StringContent(request.Payload) :
-                    (HttpContent)new StringContent(request.Payload, request.ContentEncoding, request.ContentType) :
-                (HttpContent)new FormUrlEncodedContent(request.PayloadParameters);
-
-            return httpRequest;
         }
 
         private HttpRequestMessage BuildMultiPartRequest(BoxMultiPartRequest request)
@@ -193,13 +243,16 @@ namespace Box.V2.Request
                 multiPart.Add(new StringContent(sp.Value), ForceQuotesOnParam(sp.Name));
 
             // Create the file part
-            StreamContent fileContent = new StreamContent(filePart.Value);
-            fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            if (filePart != null)
             {
-                Name = ForceQuotesOnParam(filePart.Name),
-                FileName = ForceQuotesOnParam(filePart.FileName)
-            };
-            multiPart.Add(fileContent);
+                StreamContent fileContent = new StreamContent(filePart.Value);
+                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                {
+                    Name = ForceQuotesOnParam(filePart.Name),
+                    FileName = ForceQuotesOnParam(filePart.FileName)
+                };
+                multiPart.Add(fileContent);
+            }
 
             httpRequest.Content = multiPart;
 

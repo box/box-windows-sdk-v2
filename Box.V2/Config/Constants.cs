@@ -11,6 +11,7 @@ namespace Box.V2.Config
         public const string BoxApiHostUriString = "https://app.box.com/api/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
+        public const string BoxUploadApiUriV21String = "https://upload.box.com/api/2.1/";
         
 
         /*** API Endpoints ***/
@@ -25,7 +26,9 @@ namespace Box.V2.Config
         public const string GroupMembershipString = @"group_memberships/";
         public const string FilesString = @"files/";
         public const string FilesUploadString = @"files/content";
+        public const string FilesUploadSessionString = @"files/upload-session";
         public const string FilesNewVersionString = @"files/{0}/content";
+        public const string FilesNewVersionUploadSessionString = @"files/{0}/upload-session";
         public const string CommentsString = @"comments/";
         public const string SearchString = @"search";
         public const string UserString = @"users/";
@@ -76,6 +79,7 @@ namespace Box.V2.Config
         public const string FilesEndpointString = BoxApiUriString + FilesString;
         public const string FilesUploadEndpointString = BoxUploadApiUriString + FilesUploadString;
         public const string FilesNewVersionEndpointString = BoxUploadApiUriString + FilesNewVersionString;
+        public const string FilesNewVersionUploadSessionEndpointString = BoxUploadApiUriV21String + FilesNewVersionUploadSessionString;
         public const string FilesPreflightCheckNewVersionString = BoxApiUriString + FilesNewVersionString;
         public const string CommentsEndpointString = BoxApiUriString + CommentsString;
         public const string SearchEndpointString = BoxApiUriString + SearchString;
@@ -178,8 +182,13 @@ namespace Box.V2.Config
             public const string AsUser = "As-User";
 
             public const string BoxNotifications = "Box-Notifications";
+            public const string BoxPartId = "X-Box-Part-Id";
 
             public const string ContentMD5 = "Content-MD5";
+            public const string ContentRange = "Content-Range";
+            public const string ContentLength = "Content-Length";
+
+            public const string Digest = "Digest";
 
             /*** Values ***/
             public const string RefreshToken = "refresh_token";
