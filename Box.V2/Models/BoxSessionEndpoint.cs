@@ -45,7 +45,7 @@ namespace Box.V2.Models
         public string Abort { get; private set; }
 
         /// <summary>
-        /// Endpoint to abort.
+        /// Endpoint to get status.
         /// </summary>
         [JsonProperty(PropertyName = FieldStatus)]
         public string Status { get; private set; }
