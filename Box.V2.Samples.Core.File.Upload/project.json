@@ -5,15 +5,9 @@
   },
 
   "dependencies": {
-    "Box.V2.Core": "1.0.0-*",
-    "Microsoft.NETCore.App": {
-      // include this to make it a FDB, framework depend build
-      // http://www.hanselman.com/blog/SelfcontainedNETCoreApplications.aspx
-      // dotnet build -r osx.10.10-x64
-      // dotnet publish -c release -r osx.10.10-x64
-      // "type": "platform",
-      "version": "1.0.*"
-    }
+    "Box.V2.Core": "2.14.2-*",
+    "Microsoft.NETCore.App": "1.1.0",
+    "System.Security.Cryptography.Algorithms": "4.3.0"
   },
 
   "frameworks": {
