@@ -74,7 +74,7 @@ namespace Box.V2.Config
         /// <summary>
         /// Upload session
         /// </summary>
-        public virtual Uri FilesUploadSessionEndpointUri { get { return new Uri(BoxUploadApiUriV21, Constants.FilesUploadSessionString); } }
+        public virtual Uri FilesUploadSessionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesUploadSessionString); } }
 
         //public virtual Uri FilesNewVersionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesNewVersionString); } }
         public virtual Uri FilesPreflightCheckUri { get { return new Uri(BoxApiUri, Constants.FilesUploadString); } }
