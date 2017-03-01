@@ -310,7 +310,7 @@ namespace Box.V2.Managers
         /// <param name="sha">The message digest of the complete file, formatted as specified by RFC 3230.</param>
         /// <param name="sessionPartsInfo">Parts info for the uploaded parts</param>
         /// <returns></returns>
-        public async Task<bool> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionPartsInfoRequest sessionPartsInfo)
+        public async Task<bool> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
             var request = new BoxRequest(commitSessionUrl)
                 .Method(RequestMethod.Post)

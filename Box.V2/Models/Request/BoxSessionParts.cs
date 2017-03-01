@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
-    public class BoxSessionPartsInfoRequest
+    public class BoxSessionParts
     {
-        public BoxSessionPartsInfoRequest(List<BoxSessionPartInfo> parts)
+        public BoxSessionParts(List<BoxSessionPartInfo> parts)
         {
             Parts = parts;
         }
