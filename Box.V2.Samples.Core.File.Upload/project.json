@@ -5,9 +5,8 @@
   },
 
   "dependencies": {
-    "Box.V2.Core": "2.14.2-*",
-    "Microsoft.NETCore.App": "1.1.0",
-    "System.Security.Cryptography.Algorithms": "4.3.0"
+    "Box.V2.Core": "2.*",
+    "Microsoft.NETCore.App": "1.1.0"
   },
 
   "frameworks": {

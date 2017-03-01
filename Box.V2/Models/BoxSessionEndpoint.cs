@@ -12,6 +12,7 @@ namespace Box.V2.Models
         public const string FieldLogEvent = "log_event";
         public const string FieldUploadPart = "upload_part";
         public const string FieldAbort = "abort";
+        public const string FieldStatus = "status";
 
         /// <summary>
         /// Endpoint to list parts.
@@ -42,5 +43,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldAbort)]
         public string Abort { get; private set; }
+
+        /// <summary>
+        /// Endpoint to get status.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldStatus)]
+        public string Status { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
@@ -36,6 +37,14 @@ namespace Box.V2.JWTAuth
             var numArray = new Byte[size];
             Array.Copy(byteArrayUnsigned, 0, numArray, size - byteArrayUnsigned.Length, byteArrayUnsigned.Length);
             return numArray;
+        }
+
+        public static string GetSha1Hash(Stream stream)
+        {
+            SHA1 sha1 = SHA1.Create();
+            byte[] hash = sha1.ComputeHash(stream);
+            string base64String = Convert.ToBase64String(hash);
+            return base64String;
         }
     }
 }
