@@ -310,20 +310,34 @@ namespace Box.V2.Managers
         /// <param name="sha">The message digest of the complete file, formatted as specified by RFC 3230.</param>
         /// <param name="sessionPartsInfo">Parts info for the uploaded parts</param>
         /// <returns></returns>
-        public async Task<bool> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionPartsInfoRequest sessionPartsInfo)
+        public async Task<bool> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
-            var request = new BoxRequest(commitSessionUrl)
+            BoxRequest request = new BoxRequest(commitSessionUrl)
                 .Method(RequestMethod.Post)
                 .Header(Constants.RequestParameters.Digest, "sha=" + sha)
                 .Payload(_converter.Serialize(sessionPartsInfo));
 
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
-            var response = await ToResponseAsync<object>(request).ConfigureAwait(false);
+            IBoxResponse<object> response = await ToResponseAsync<object>(request).ConfigureAwait(false);
 
             return response.Status == ResponseStatus.Success;
         }
 
+        /// <summary>
+        /// Get a list of parts that wre uploaded in a session
+        /// </summary>
+        /// <param name="sessionPartsUri">The Url returned in the Create Session response</param>
+        /// <returns></returns>
+        public async Task<BoxSessionParts> GetSessionUploadedPartsAsync(Uri sessionPartsUri)
+        {
+            BoxRequest request = new BoxRequest(sessionPartsUri)
+               .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxSessionParts> response = await ToResponseAsync<BoxSessionParts>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
         private string HexStringFromBytes(byte[] bytes)
         {
             var sb = new StringBuilder();

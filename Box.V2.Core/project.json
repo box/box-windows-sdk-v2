@@ -94,7 +94,7 @@
       "../Box.V2/Models/Request/BoxFileVersionRetentionRequest.cs",
       "../Box.V2/Models/Request/BoxGroupMembershipRequest.cs",
       "../Box.V2/Models/Request/BoxGroupRequest.cs",
-      "../Box.V2/Models/Request/BoxSessionPartsInfoRequest.cs",
+      "../Box.V2/Models/Request/BoxSessionParts.cs",
       "../Box.V2/Models/Permissions/BoxFolderPermission.cs",
       "../Box.V2/Models/Permissions/BoxItemPermission.cs",
       "../Box.V2/Models/BoxSortOrder.cs",
