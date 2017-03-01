@@ -304,11 +304,11 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Commits a session after all individual file part uploads are complete
+        /// Commits a session after all individual file part uploads are complete.
         /// </summary>
-        /// <param name="commitSessionUrl">Commit URL returned in the Create Session response</param>
+        /// <param name="commitSessionUrl">Commit URL returned in the Create Session response.</param>
         /// <param name="sha">The message digest of the complete file, formatted as specified by RFC 3230.</param>
-        /// <param name="sessionPartsInfo">Parts info for the uploaded parts</param>
+        /// <param name="sessionPartsInfo">Parts info for the uploaded parts.</param>
         /// <returns></returns>
         public async Task<bool> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
@@ -325,9 +325,9 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Get a list of parts that wre uploaded in a session
+        /// Get a list of parts that were uploaded in a session.
         /// </summary>
-        /// <param name="sessionPartsUri">The Url returned in the Create Session response</param>
+        /// <param name="sessionPartsUri">The Url returned in the Create Session response.</param>
         /// <returns></returns>
         public async Task<BoxSessionParts> GetSessionUploadedPartsAsync(Uri sessionPartsUri)
         {
@@ -338,6 +338,22 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Gets the status of the upload session.
+        /// </summary>
+        /// <param name="sessionUploadStatusUri">The Url returned in the Create Session response.</param>
+        /// <returns></returns>
+        public async Task<BoxSessionUploadStatus> GetSessionUploadStatusAsync(Uri sessionUploadStatusUri)
+        {
+            BoxRequest request = new BoxRequest(sessionUploadStatusUri)
+               .Method(RequestMethod.Get);
+
+            IBoxResponse<BoxSessionUploadStatus> response = await ToResponseAsync<BoxSessionUploadStatus>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
         private string HexStringFromBytes(byte[] bytes)
         {
             var sb = new StringBuilder();
