@@ -328,6 +328,7 @@ namespace Box.V2.Managers
         /// Get a list of parts that were uploaded in a session.
         /// </summary>
         /// <param name="sessionPartsUri">The Url returned in the Create Session response.</param>
+        /// <returns>Returns a list of file part information uploaded so far in the session.</returns>
         public async Task<BoxSessionParts> GetSessionUploadedPartsAsync(Uri sessionPartsUri)
         {
             BoxRequest request = new BoxRequest(sessionPartsUri)
