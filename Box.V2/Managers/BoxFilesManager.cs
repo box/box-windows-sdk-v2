@@ -309,7 +309,7 @@ namespace Box.V2.Managers
         /// <param name="commitSessionUrl">Commit URL returned in the Create Session response.</param>
         /// <param name="sha">The message digest of the complete file, formatted as specified by RFC 3230.</param>
         /// <param name="sessionPartsInfo">Parts info for the uploaded parts.</param>
-        /// <returns></returns>
+        /// <returns>True or False on whether the commit was successful.</returns>
         public async Task<bool> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
             BoxRequest request = new BoxRequest(commitSessionUrl)
@@ -328,7 +328,6 @@ namespace Box.V2.Managers
         /// Get a list of parts that were uploaded in a session.
         /// </summary>
         /// <param name="sessionPartsUri">The Url returned in the Create Session response.</param>
-        /// <returns></returns>
         public async Task<BoxSessionParts> GetSessionUploadedPartsAsync(Uri sessionPartsUri)
         {
             BoxRequest request = new BoxRequest(sessionPartsUri)
@@ -343,7 +342,7 @@ namespace Box.V2.Managers
         /// Gets the status of the upload session.
         /// </summary>
         /// <param name="sessionUploadStatusUri">The Url returned in the Create Session response.</param>
-        /// <returns></returns>
+        /// <returns>Returns an object representing the status of the upload session.</returns>
         public async Task<BoxSessionUploadStatus> GetSessionUploadStatusAsync(Uri sessionUploadStatusUri)
         {
             BoxRequest request = new BoxRequest(sessionUploadStatusUri)
