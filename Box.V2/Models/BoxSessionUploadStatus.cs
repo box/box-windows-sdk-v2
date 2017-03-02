@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace Box.V2.Models
 {
     /// <summary>
-    /// Represents box upload session
+    /// Represents box upload session.
     /// </summary>
     public class BoxSessionUploadStatus
     {
@@ -14,25 +14,25 @@ namespace Box.V2.Models
         public const string FieldNumberOfPartsProcessed = "num_parts_processed";
         
         /// <summary>
-        /// Endpoint to list parts.
+        /// Expiry in DateTime format for the upload session.
         /// </summary>
         [JsonProperty(PropertyName = FieldSessionExpiryDate)]
         public DateTime SessionExpiryDate { get; private set; }
 
         /// <summary>
-        /// Endpoint to commit.
+        /// Size in bytes for the file parts that was returned in Create Session.
         /// </summary>
         [JsonProperty(PropertyName = FieldPartSize)]
         public long PartSize { get; private set; }
 
         /// <summary>
-        /// Endpoint to log event.
+        /// Total number of parts that are uploaded in the session.
         /// </summary>
         [JsonProperty(PropertyName = FieldTotalParts)]
         public int TotalParts { get; private set; }
 
         /// <summary>
-        /// Endpoint to upload part.
+        /// Total number of parts that have been processed in the backend.
         /// </summary>
         [JsonProperty(PropertyName = FieldNumberOfPartsProcessed)]
         public int NumberOfPartsProcessed { get; private set; }
