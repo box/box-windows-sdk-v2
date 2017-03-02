@@ -26,19 +26,19 @@ namespace Box.V2.Models
     public class BoxSessionPartInfo
     {
         /// <summary>
-        /// String representing the 8 digit part ID.
+        /// String representing the Unique 8 digit part ID.
         /// </summary>
         [JsonProperty(PropertyName = "part_id")]
         public string PartId { get; set; }
 
         /// <summary>
-        /// File part offset in bytes.
+        /// Offset in bytes for the file part that was uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "offset")]
         public long Offset { get; set; }
 
         /// <summary>
-        /// File part Size in bytes.
+        /// Size in bytes for the file part that was uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "size")]
         public long Size { get; set; }
