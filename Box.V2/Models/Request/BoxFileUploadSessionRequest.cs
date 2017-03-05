@@ -17,7 +17,7 @@ namespace Box.V2.Models
         /// The total number of bytes in the file to be uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "file_size")]
-        public string FileSize { get; set; }
+        public long FileSize { get; set; }
 
         /// <summary>
         /// Name of new file.

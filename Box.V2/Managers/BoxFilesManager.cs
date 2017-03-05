@@ -199,7 +199,7 @@ namespace Box.V2.Managers
             var request = new BoxRequest(uploadUri)
                 .Method(RequestMethod.Post)
                 .Payload("folder_id", uploadSessionRequest.FolderId)
-                .Payload("file_size", uploadSessionRequest.FileSize)
+                .Payload("file_size", uploadSessionRequest.FileSize.ToString())
                 .Payload("file_name", uploadSessionRequest.FileName);
 
             IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
@@ -434,13 +434,11 @@ namespace Box.V2.Managers
         /// <summary>
         /// Abort the upload session and discard all data uploaded. This cannot be reversed.
         /// </summary>
-        /// <param name="id">The upload session id which this part belongs to.</param>
+        /// <param name="abortUri">The upload session abort url that aborts the session.</param>
         /// <returns>True if deletion success.</returns>
-        public async Task<bool> DeleteUploadSessionAsync(string id)
+        public async Task<bool> DeleteUploadSessionAsync(Uri abortUri)
         {
-            var uploadUri = new Uri(_config.FilesUploadSessionEndpointUri.ToString() + "/" + id);
-
-            var request = new BoxRequest(uploadUri)
+            var request = new BoxRequest(abortUri)
                 .Method(RequestMethod.Delete);
 
             IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);

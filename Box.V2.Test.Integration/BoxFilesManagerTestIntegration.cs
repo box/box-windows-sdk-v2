@@ -3,8 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Box.V2.Models;
 using System.Net;
+using System.Security.Cryptography;
 
 namespace Box.V2.Test.Integration
 {
@@ -230,10 +232,153 @@ namespace Box.V2.Test.Integration
         //    }
         //}
 
+        [TestMethod]
+        public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
+        {
+            string localFilePath = "C:\\temp\\tenmb";
+            string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
+            string parentFolderId = "0";
+
+            FileStream file = File.OpenRead(localFilePath);
+            long fileSize = file.Length;
+            BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest() { FolderId = parentFolderId, FileName = remoteFileName, FileSize = fileSize };
+            // Create Upload Session
+            BoxFileUploadSession boxFileUploadSession = await _client.FilesManager.CreateUploadSessionAsync(boxFileUploadSessionRequest);
+            BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
+            Uri abortUri = new Uri(boxSessionEndpoint.Abort);
+            Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
+            Uri statusUri = new Uri(boxSessionEndpoint.Status);
+            string partSize = boxFileUploadSession.PartSize;
+            long partSizeLong;
+            long.TryParse(partSize, out partSizeLong);
+            int numberOfParts = GetNumberOfPartsToBeUploaded(fileSize, partSizeLong);
+
+            // Upload parts in the session
+            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, file, fileSize);
+
+            // Assert Status
+            BoxSessionUploadStatus boxSessionUploadStatus = await _client.FilesManager.GetSessionUploadStatusAsync(statusUri);
+            // TODO
+            // Assert file is not committed/uploaded to box yet
+            // TODO
+
+            // Abort
+            bool abortResult = await _client.FilesManager.DeleteUploadSessionAsync(abortUri);
+
+            // Assert Status
+            boxSessionUploadStatus = await _client.FilesManager.GetSessionUploadStatusAsync(statusUri);
+            //TODO
+            // Assert file is not committed/uploaded to box
+        }
+
+        [TestMethod]
+        public async Task UploadFileInSession_CommitSession_FilePresent()
+        {
+            string localFilePath = "C:\\temp\\tenmb";
+            string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
+            string parentFolderId = "0";
+
+            FileStream file = File.OpenRead(localFilePath);
+            long fileSize = file.Length;
+            BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest() { FolderId = parentFolderId, FileName = remoteFileName, FileSize = fileSize };
+            // Create Upload Session
+            BoxFileUploadSession boxFileUploadSession = await _client.FilesManager.CreateUploadSessionAsync(boxFileUploadSessionRequest);
+            BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
+            Uri listPartsUri = new Uri(boxSessionEndpoint.ListParts);
+            Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
+            Uri statusUri = new Uri(boxSessionEndpoint.Status);
+            Uri commitUri = new Uri(boxSessionEndpoint.Commit);
+            string partSize = boxFileUploadSession.PartSize;
+            long partSizeLong;
+            long.TryParse(partSize, out partSizeLong);
+            int numberOfParts = GetNumberOfPartsToBeUploaded(fileSize, partSizeLong);
+
+            // Upload parts in the session
+            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, file, fileSize);
+
+            // Assert Status
+            BoxSessionUploadStatus boxSessionUploadStatus = await _client.FilesManager.GetSessionUploadStatusAsync(statusUri);
+            // TODO
+            // Assert file is not committed/uploaded to box yet
+            // TODO
+
+            // Get upload parts
+            BoxSessionParts boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri);
+            //TODO Assert parts are right
+
+            // Commit
+            await _client.FilesManager.CommitSessionAsync(commitUri, GetSha1Hash(file), boxSessionParts);
+            // Assert file is committed/uploaded to box
+
+            // Delete file
+            //await _client.FilesManager.DeleteAsync();
+        }
+
         private string GetSaveFolderPath()
         {
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             return Path.Combine(pathUser, "Downloads") + "\\{0}";
+        }
+
+        private async Task UploadPartsInSession(Uri uploadPartsUri, int numberOfParts, long partSize, FileStream file, long fileSize)
+        {
+            for (int i = 0; i < numberOfParts; i++)
+            {
+                string uniqueRandomPartId = GetRandomString(8);
+                // Split file as per part size
+                long partOffset = partSize * i;
+                Stream partFileStream = GetFilePart(file, partSize, partOffset);
+                string sha = GetSha1Hash(partFileStream);
+                partFileStream.Position = 0;
+                await _client.FilesManager.UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize, partFileStream);
+            }
+        }
+
+        private int GetNumberOfPartsToBeUploaded(long totalSize, long partSize)
+        {
+            if(partSize==0)
+                throw new Exception("Part Size cannot be 0");
+            int numberOfParts = 1;
+            if (partSize != totalSize)
+            {
+                numberOfParts = Convert.ToInt32(totalSize / partSize);
+                numberOfParts += 1;
+            }
+            return numberOfParts;
+        }
+
+        private string GetRandomString(int digits)
+        {
+            Random random = new Random();
+            byte[] buffer = new byte[digits / 2];
+            random.NextBytes(buffer);
+            string result = String.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
+            if (digits % 2 == 0)
+                return result;
+            return result + random.Next(16).ToString("X");
+        }
+
+        private string GetSha1Hash(Stream stream)
+        {
+            stream.Position = 0;
+            SHA1 sha1 = SHA1.Create();
+            byte[] hash = sha1.ComputeHash(stream);
+            string base64String = Convert.ToBase64String(hash);
+            return base64String;
+        }
+
+        private FileStream GetFilePart(FileStream fileStream, long partSize, long offset)
+        {
+            if(File.Exists("c:\\temp\\temp.tmp"))
+                File.Delete("c:\\temp\\temp.tmp");
+            FileStream tempStream = new FileStream("c:\\temp\\temp.tmp", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+            int byteRead;
+            fileStream.Position = offset;
+            for (int i = 0; i < partSize && (byteRead = fileStream.ReadByte())!=-1; i++)
+            {
+                tempStream.WriteByte((byte)byteRead);
+            }
+            return tempStream;
         }
     }
 }
