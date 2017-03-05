@@ -247,7 +247,6 @@ namespace Box.V2.Test.Integration
             BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
             Uri abortUri = new Uri(boxSessionEndpoint.Abort);
             Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
-            Uri statusUri = new Uri(boxSessionEndpoint.Status);
             string partSize = boxFileUploadSession.PartSize;
             long partSizeLong;
             long.TryParse(partSize, out partSizeLong);
@@ -256,19 +255,14 @@ namespace Box.V2.Test.Integration
             // Upload parts in the session
             await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, file, fileSize);
 
-            // Assert Status
-            BoxSessionUploadStatus boxSessionUploadStatus = await _client.FilesManager.GetSessionUploadStatusAsync(statusUri);
-            // TODO
             // Assert file is not committed/uploaded to box yet
-            // TODO
+            Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
 
             // Abort
-            bool abortResult = await _client.FilesManager.DeleteUploadSessionAsync(abortUri);
+            await _client.FilesManager.DeleteUploadSessionAsync(abortUri);
 
-            // Assert Status
-            boxSessionUploadStatus = await _client.FilesManager.GetSessionUploadStatusAsync(statusUri);
-            //TODO
             // Assert file is not committed/uploaded to box
+            Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
         }
 
         [TestMethod]
@@ -286,7 +280,6 @@ namespace Box.V2.Test.Integration
             BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
             Uri listPartsUri = new Uri(boxSessionEndpoint.ListParts);
             Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
-            Uri statusUri = new Uri(boxSessionEndpoint.Status);
             Uri commitUri = new Uri(boxSessionEndpoint.Commit);
             string partSize = boxFileUploadSession.PartSize;
             long partSizeLong;
@@ -296,22 +289,27 @@ namespace Box.V2.Test.Integration
             // Upload parts in the session
             await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, file, fileSize);
 
-            // Assert Status
-            BoxSessionUploadStatus boxSessionUploadStatus = await _client.FilesManager.GetSessionUploadStatusAsync(statusUri);
-            // TODO
             // Assert file is not committed/uploaded to box yet
-            // TODO
-
+            Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+            
             // Get upload parts
             BoxSessionParts boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri);
-            //TODO Assert parts are right
-
+          
             // Commit
             await _client.FilesManager.CommitSessionAsync(commitUri, GetSha1Hash(file), boxSessionParts);
+
             // Assert file is committed/uploaded to box
+            Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
 
             // Delete file
-            //await _client.FilesManager.DeleteAsync();
+            string fileId = await GetFileId(parentFolderId, remoteFileName);
+            if (!string.IsNullOrWhiteSpace(fileId))
+            {
+                await _client.FilesManager.DeleteAsync(fileId);
+            }
+
+            // Assert file has been deleted from Box
+            Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
         }
 
         private string GetSaveFolderPath()
@@ -380,5 +378,20 @@ namespace Box.V2.Test.Integration
             }
             return tempStream;
         }
+
+        private async Task<bool> DoesFileExistInFolder(string folderId, string fileName)
+        {
+            // TODO: Paging
+            BoxCollection<BoxItem> boxCollection = await _client.FoldersManager.GetFolderItemsAsync(folderId, 1000);
+            return boxCollection.Entries.Any(item => item.Name == fileName);
+        }
+
+        private async Task<string> GetFileId(string folderId, string fileName)
+        {
+            // TODO: Paging
+            BoxCollection<BoxItem> boxCollection = await _client.FoldersManager.GetFolderItemsAsync(folderId, 1000);
+            return boxCollection.Entries.FirstOrDefault(item => item.Name == fileName)?.Id;
+        }
+
     }
 }
