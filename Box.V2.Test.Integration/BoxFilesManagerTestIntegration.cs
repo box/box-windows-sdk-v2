@@ -54,7 +54,7 @@ namespace Box.V2.Test.Integration
             using (FileStream fs = new FileStream(string.Format(GetSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
             {
                 Assert.IsNotNull(stream, "Stream is Null");
-                
+
                 await stream.CopyToAsync(fs);
 
                 Assert.IsNotNull(fs, "FileStream is null");
@@ -105,7 +105,7 @@ namespace Box.V2.Test.Integration
             //file Ids of the two files to download
             string imageFileId1 = "16894947279";
             string imageFileId2 = "16894946307";
-            
+
             // paths to store the two downloaded files
             var dlPath1 = string.Format(GetSaveFolderPath(), "thumbnail1.png");
             var dlPath2 = string.Format(GetSaveFolderPath(), "thumbnail2.png");
@@ -207,7 +207,7 @@ namespace Box.V2.Test.Integration
             await _client.FilesManager.DeleteAsync(fileCopy.Id, fileCopy.ETag);
             await _client.FilesManager.DeleteAsync(fileWithLink.Id, fileWithLink.ETag);
         }
-        
+
         //[TestMethod]
         //public async Task BatchDownload_ValidRequest_ValidResponse()
         //{
@@ -235,13 +235,17 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
         {
-            string localFilePath = "C:\\temp\\tenmb";
+            long fileSize = 9000000;
+            MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
 
-            FileStream file = File.OpenRead(localFilePath);
-            long fileSize = file.Length;
-            BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest() { FolderId = parentFolderId, FileName = remoteFileName, FileSize = fileSize };
+            BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest()
+            {
+                FolderId = parentFolderId,
+                FileName = remoteFileName,
+                FileSize = fileSize
+            };
             // Create Upload Session
             BoxFileUploadSession boxFileUploadSession = await _client.FilesManager.CreateUploadSessionAsync(boxFileUploadSessionRequest);
             BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
@@ -253,7 +257,7 @@ namespace Box.V2.Test.Integration
             int numberOfParts = GetNumberOfPartsToBeUploaded(fileSize, partSizeLong);
 
             // Upload parts in the session
-            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, file, fileSize);
+            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, fileInMemoryStream, fileSize);
 
             // Assert file is not committed/uploaded to box yet
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
@@ -268,13 +272,17 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task UploadFileInSession_CommitSession_FilePresent()
         {
-            string localFilePath = "C:\\temp\\tenmb";
+            long fileSize = 9000000;
+            MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
 
-            FileStream file = File.OpenRead(localFilePath);
-            long fileSize = file.Length;
-            BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest() { FolderId = parentFolderId, FileName = remoteFileName, FileSize = fileSize };
+            BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest()
+            {
+                FolderId = parentFolderId,
+                FileName = remoteFileName,
+                FileSize = fileSize
+            };
             // Create Upload Session
             BoxFileUploadSession boxFileUploadSession = await _client.FilesManager.CreateUploadSessionAsync(boxFileUploadSessionRequest);
             BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
@@ -287,16 +295,16 @@ namespace Box.V2.Test.Integration
             int numberOfParts = GetNumberOfPartsToBeUploaded(fileSize, partSizeLong);
 
             // Upload parts in the session
-            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, file, fileSize);
+            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, fileInMemoryStream, fileSize);
 
             // Assert file is not committed/uploaded to box yet
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
-            
+
             // Get upload parts
             BoxSessionParts boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri);
-          
+
             // Commit
-            await _client.FilesManager.CommitSessionAsync(commitUri, GetSha1Hash(file), boxSessionParts);
+            await _client.FilesManager.CommitSessionAsync(commitUri, GetSha1Hash(fileInMemoryStream), boxSessionParts);
 
             // Assert file is committed/uploaded to box
             Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
@@ -312,29 +320,43 @@ namespace Box.V2.Test.Integration
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
         }
 
+        #region Private functions
+
         private string GetSaveFolderPath()
         {
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             return Path.Combine(pathUser, "Downloads") + "\\{0}";
         }
 
-        private async Task UploadPartsInSession(Uri uploadPartsUri, int numberOfParts, long partSize, FileStream file, long fileSize)
+        private MemoryStream GetBigFileInMemoryStream(long fileSize)
+        {
+            // Create random data to write to the file.
+            byte[] dataArray = new byte[fileSize];
+            new Random().NextBytes(dataArray);
+            MemoryStream memoryStream = new MemoryStream(dataArray);
+            return memoryStream;
+        }
+
+        private async Task UploadPartsInSession(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
+            long fileSize)
         {
             for (int i = 0; i < numberOfParts; i++)
             {
                 string uniqueRandomPartId = GetRandomString(8);
                 // Split file as per part size
                 long partOffset = partSize * i;
-                Stream partFileStream = GetFilePart(file, partSize, partOffset);
+                Stream partFileStream = GetFilePart(stream, partSize, partOffset);
                 string sha = GetSha1Hash(partFileStream);
                 partFileStream.Position = 0;
-                await _client.FilesManager.UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize, partFileStream);
+                await
+                    _client.FilesManager.UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize,
+                        partFileStream);
             }
         }
 
         private int GetNumberOfPartsToBeUploaded(long totalSize, long partSize)
         {
-            if(partSize==0)
+            if (partSize == 0)
                 throw new Exception("Part Size cannot be 0");
             int numberOfParts = 1;
             if (partSize != totalSize)
@@ -365,14 +387,15 @@ namespace Box.V2.Test.Integration
             return base64String;
         }
 
-        private FileStream GetFilePart(FileStream fileStream, long partSize, long offset)
+        private FileStream GetFilePart(Stream stream, long partSize, long offset)
         {
-            if(File.Exists("c:\\temp\\temp.tmp"))
+            if (File.Exists("c:\\temp\\temp.tmp"))
                 File.Delete("c:\\temp\\temp.tmp");
-            FileStream tempStream = new FileStream("c:\\temp\\temp.tmp", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+            FileStream tempStream = new FileStream("c:\\temp\\temp.tmp", FileMode.OpenOrCreate, FileAccess.ReadWrite,
+                FileShare.None);
             int byteRead;
-            fileStream.Position = offset;
-            for (int i = 0; i < partSize && (byteRead = fileStream.ReadByte())!=-1; i++)
+            stream.Position = offset;
+            for (int i = 0; i < partSize && (byteRead = stream.ReadByte()) != -1; i++)
             {
                 tempStream.WriteByte((byte)byteRead);
             }
@@ -393,5 +416,6 @@ namespace Box.V2.Test.Integration
             return boxCollection.Entries.FirstOrDefault(item => item.Name == fileName)?.Id;
         }
 
+        #endregion
     }
 }
