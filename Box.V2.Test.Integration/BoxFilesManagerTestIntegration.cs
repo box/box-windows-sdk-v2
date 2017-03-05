@@ -235,6 +235,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
         {
+
             long fileSize = 9000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
             
@@ -313,7 +314,6 @@ namespace Box.V2.Test.Integration
         }
 
         #region Private functions
-
         private string GetSaveFolderPath()
         {
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -406,6 +406,5 @@ namespace Box.V2.Test.Integration
         }
 
         #endregion
-
     }
 }
