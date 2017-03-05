@@ -3,8 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Box.V2.Models;
 using System.Net;
+using System.Security.Cryptography;
 
 namespace Box.V2.Test.Integration
 {
@@ -230,10 +232,166 @@ namespace Box.V2.Test.Integration
         //    }
         //}
 
+        [TestMethod]
+        public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
+        {
+            string localFilePath = "C:\\temp\\tenmb";
+            string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
+            string parentFolderId = "0";
+
+            FileStream file = File.OpenRead(localFilePath);
+            long fileSize = file.Length;
+            BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest() { FolderId = parentFolderId, FileName = remoteFileName, FileSize = fileSize };
+            // Create Upload Session
+            BoxFileUploadSession boxFileUploadSession = await _client.FilesManager.CreateUploadSessionAsync(boxFileUploadSessionRequest);
+            BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
+            Uri abortUri = new Uri(boxSessionEndpoint.Abort);
+            Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
+            string partSize = boxFileUploadSession.PartSize;
+            long partSizeLong;
+            long.TryParse(partSize, out partSizeLong);
+            int numberOfParts = GetNumberOfPartsToBeUploaded(fileSize, partSizeLong);
+
+            // Upload parts in the session
+            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, file, fileSize);
+
+            // Assert file is not committed/uploaded to box yet
+            Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+
+            // Abort
+            await _client.FilesManager.DeleteUploadSessionAsync(abortUri);
+
+            // Assert file is not committed/uploaded to box
+            Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+        }
+
+        [TestMethod]
+        public async Task UploadFileInSession_CommitSession_FilePresent()
+        {
+            string localFilePath = "C:\\temp\\tenmb";
+            string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
+            string parentFolderId = "0";
+
+            FileStream file = File.OpenRead(localFilePath);
+            long fileSize = file.Length;
+            BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest() { FolderId = parentFolderId, FileName = remoteFileName, FileSize = fileSize };
+            // Create Upload Session
+            BoxFileUploadSession boxFileUploadSession = await _client.FilesManager.CreateUploadSessionAsync(boxFileUploadSessionRequest);
+            BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
+            Uri listPartsUri = new Uri(boxSessionEndpoint.ListParts);
+            Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
+            Uri commitUri = new Uri(boxSessionEndpoint.Commit);
+            string partSize = boxFileUploadSession.PartSize;
+            long partSizeLong;
+            long.TryParse(partSize, out partSizeLong);
+            int numberOfParts = GetNumberOfPartsToBeUploaded(fileSize, partSizeLong);
+
+            // Upload parts in the session
+            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, file, fileSize);
+
+            // Assert file is not committed/uploaded to box yet
+            Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+            
+            // Get upload parts
+            BoxSessionParts boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri);
+          
+            // Commit
+            await _client.FilesManager.CommitSessionAsync(commitUri, GetSha1Hash(file), boxSessionParts);
+
+            // Assert file is committed/uploaded to box
+            Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+
+            // Delete file
+            string fileId = await GetFileId(parentFolderId, remoteFileName);
+            if (!string.IsNullOrWhiteSpace(fileId))
+            {
+                await _client.FilesManager.DeleteAsync(fileId);
+            }
+
+            // Assert file has been deleted from Box
+            Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+        }
+
         private string GetSaveFolderPath()
         {
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             return Path.Combine(pathUser, "Downloads") + "\\{0}";
         }
+
+        private async Task UploadPartsInSession(Uri uploadPartsUri, int numberOfParts, long partSize, FileStream file, long fileSize)
+        {
+            for (int i = 0; i < numberOfParts; i++)
+            {
+                string uniqueRandomPartId = GetRandomString(8);
+                // Split file as per part size
+                long partOffset = partSize * i;
+                Stream partFileStream = GetFilePart(file, partSize, partOffset);
+                string sha = GetSha1Hash(partFileStream);
+                partFileStream.Position = 0;
+                await _client.FilesManager.UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize, partFileStream);
+            }
+        }
+
+        private int GetNumberOfPartsToBeUploaded(long totalSize, long partSize)
+        {
+            if(partSize==0)
+                throw new Exception("Part Size cannot be 0");
+            int numberOfParts = 1;
+            if (partSize != totalSize)
+            {
+                numberOfParts = Convert.ToInt32(totalSize / partSize);
+                numberOfParts += 1;
+            }
+            return numberOfParts;
+        }
+
+        private string GetRandomString(int digits)
+        {
+            Random random = new Random();
+            byte[] buffer = new byte[digits / 2];
+            random.NextBytes(buffer);
+            string result = String.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
+            if (digits % 2 == 0)
+                return result;
+            return result + random.Next(16).ToString("X");
+        }
+
+        private string GetSha1Hash(Stream stream)
+        {
+            stream.Position = 0;
+            SHA1 sha1 = SHA1.Create();
+            byte[] hash = sha1.ComputeHash(stream);
+            string base64String = Convert.ToBase64String(hash);
+            return base64String;
+        }
+
+        private FileStream GetFilePart(FileStream fileStream, long partSize, long offset)
+        {
+            if(File.Exists("c:\\temp\\temp.tmp"))
+                File.Delete("c:\\temp\\temp.tmp");
+            FileStream tempStream = new FileStream("c:\\temp\\temp.tmp", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+            int byteRead;
+            fileStream.Position = offset;
+            for (int i = 0; i < partSize && (byteRead = fileStream.ReadByte())!=-1; i++)
+            {
+                tempStream.WriteByte((byte)byteRead);
+            }
+            return tempStream;
+        }
+
+        private async Task<bool> DoesFileExistInFolder(string folderId, string fileName)
+        {
+            // TODO: Paging
+            BoxCollection<BoxItem> boxCollection = await _client.FoldersManager.GetFolderItemsAsync(folderId, 1000);
+            return boxCollection.Entries.Any(item => item.Name == fileName);
+        }
+
+        private async Task<string> GetFileId(string folderId, string fileName)
+        {
+            // TODO: Paging
+            BoxCollection<BoxItem> boxCollection = await _client.FoldersManager.GetFolderItemsAsync(folderId, 1000);
+            return boxCollection.Entries.FirstOrDefault(item => item.Name == fileName)?.Id;
+        }
+
     }
 }
