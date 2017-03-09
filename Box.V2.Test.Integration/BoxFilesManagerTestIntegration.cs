@@ -272,7 +272,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task UploadFileInSession_CommitSession_FilePresent()
         {
-            long fileSize = 9000000;
+            long fileSize = 19000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
@@ -300,11 +300,19 @@ namespace Box.V2.Test.Integration
             // Assert file is not committed/uploaded to box yet
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
 
-            // Get upload parts
-            BoxSessionParts boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri);
+            // Get upload parts (1 by 1) for Integration testing purposes
+            List<BoxSessionPartInfo> allSessionParts = new List<BoxSessionPartInfo>();
+            BoxSessionParts boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri, null, 1);
+            allSessionParts.AddRange(boxSessionParts.Parts);
+            while ( !string.IsNullOrWhiteSpace(boxSessionParts.Marker) )
+            {
+                boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri, boxSessionParts.Marker, 1);
+                allSessionParts.AddRange(boxSessionParts.Parts);
+            }
+            BoxSessionParts sessionPartsForCommit = new BoxSessionParts(allSessionParts);
 
             // Commit
-            await _client.FilesManager.CommitSessionAsync(commitUri, GetSha1Hash(fileInMemoryStream), boxSessionParts);
+            await _client.FilesManager.CommitSessionAsync(commitUri, GetSha1Hash(fileInMemoryStream), sessionPartsForCommit);
 
             // Assert file is committed/uploaded to box
             Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));

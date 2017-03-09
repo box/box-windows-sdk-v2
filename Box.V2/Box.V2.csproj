@@ -55,6 +55,7 @@
     <Compile Include="Converter\BoxItemConverter.cs" />
     <Compile Include="Exceptions\BoxAuthenticationFailedException.cs" />
     <Compile Include="Extensions\BoxExtensions.cs" />
+    <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Managers\BoxCollectionsManager.cs" />
     <Compile Include="Managers\BoxDevicePinManager.cs" />
     <Compile Include="Managers\BoxEventsManager.cs" />

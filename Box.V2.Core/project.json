@@ -34,6 +34,7 @@
       "../Box.V2/Converter/BoxItemConverter.cs",
       "../Box.V2/Exceptions/BoxAuthenticationFailedException.cs",
       "../Box.V2/Extensions/BoxExtensions.cs",
+      "../Box.V2/Extensions/UriExtensions.cs",
       "../Box.V2/Managers/BoxCollectionsManager.cs",
       "../Box.V2/Managers/BoxDevicePinManager.cs",
       "../Box.V2/Managers/BoxEventsManager.cs",

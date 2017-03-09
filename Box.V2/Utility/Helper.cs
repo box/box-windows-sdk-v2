@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Box.V2.Utility
 {
@@ -29,5 +31,22 @@ namespace Box.V2.Utility
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
             return Convert.ToBase64String(plainTextBytes);
         }
+
+        /// <summary>
+        /// Parses a URL and returns query string
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public static Dictionary<string, string> ParseQueryString(Uri uri)
+        {
+            var query = uri.Query.Substring(uri.Query.IndexOf('?') + 1); // +1 for skipping '?'
+            var pairs = query.Split('&');
+            return pairs
+                .Select(o => o.Split('='))
+                .Where(items => items.Count() == 2)
+                .ToDictionary(pair => Uri.UnescapeDataString(pair[ 0 ]),
+                    pair => Uri.UnescapeDataString(pair[ 1 ]));
+        }
+
     }
 }
