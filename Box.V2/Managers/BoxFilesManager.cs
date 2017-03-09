@@ -374,8 +374,9 @@ namespace Box.V2.Managers
         /// <param name="fileName">Name of the remote file name.</param>
         /// <param name="fileSize">Size of the file.</param>
         /// <param name="folderId">parent folder id.</param>
+        /// <param name="sha1HashFunction">Function delegate that returns message digest of the stream, formatted as specified by RFC 3230.</param>
         /// <returns></returns>
-        public async Task<bool> UploadUsingSessionAsync(Stream stream, string fileName, long fileSize, string folderId)
+        public async Task<bool> UploadUsingSessionAsync(Stream stream, string fileName, long fileSize, string folderId, Func<Stream,string> sha1HashFunction)
         {
             // Create Upload Session
             BoxFileUploadSessionRequest uploadSessionRequest = new BoxFileUploadSessionRequest() {FileName = fileName, FileSize = fileSize, FolderId = folderId};
@@ -392,7 +393,7 @@ namespace Box.V2.Managers
             int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
 
             // Upload parts in the session
-            await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize);
+            await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize, sha1HashFunction);
 
             // Get the list of parts uploaded in Session
             // Get upload parts by multiples of 1000 as 1000 is the default
@@ -407,11 +408,11 @@ namespace Box.V2.Managers
             BoxSessionParts sessionPartsForCommit = new BoxSessionParts(allSessionParts);
 
             // Commit
-            return await CommitSessionAsync(commitUri, CrossPlatform.GetSha1Hash(stream), sessionPartsForCommit);
+            return await CommitSessionAsync(commitUri, sha1HashFunction(stream), sessionPartsForCommit);
         }
 
         private async Task UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
-           long fileSize)
+           long fileSize, Func<Stream, string> sha1HashFunction)
         {
             for (int i = 0; i < numberOfParts; i++)
             {
@@ -419,7 +420,7 @@ namespace Box.V2.Managers
                 // Split file as per part size
                 long partOffset = partSize * i;
                 Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
-                string sha = CrossPlatform.GetSha1Hash(partFileStream);
+                string sha = sha1HashFunction(partFileStream);
                 partFileStream.Position = 0;
                 await UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize, partFileStream);
             }

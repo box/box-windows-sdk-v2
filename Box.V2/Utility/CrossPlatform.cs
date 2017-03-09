@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 #if NETSTANDARD1_4
 using System.Reflection;
@@ -34,25 +35,6 @@ namespace Box.V2.Utility
             return typeof(T).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo());
 #else
             return typeof(T).IsAssignableFrom(objectType);
-#endif
-        }
-
-        /// <summary>
-        /// Returns the message digest of the stream, formatted as specified by RFC 3230.
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static string GetSha1Hash(Stream stream)
-        {
-            stream.Position = 0;
-#if NETSTANDARD1_4
-            SHA1 sha1 = SHA1.Create();
-            byte[] hash = sha1.ComputeHash(stream);
-            string base64String = Convert.ToBase64String(hash);
-            return base64String;
-#else
-            throw new NotImplementedException("SHA1 hash function is not implemented in Portable library");
 #endif
         }
     }
