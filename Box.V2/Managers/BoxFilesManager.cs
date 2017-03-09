@@ -368,7 +368,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Upload a large file by splitting them up and uploads in a session.
+        /// Upload a large file by splitting them up and uploads in a session. NOTE: Available only in .NET CORE. Not available in portable library.
         /// </summary>
         /// <param name="stream">The file stream.</param>
         /// <param name="fileName">Name of the remote file name.</param>
