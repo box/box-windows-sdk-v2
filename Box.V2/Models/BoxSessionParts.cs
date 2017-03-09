@@ -18,6 +18,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "parts")]
         public List<BoxSessionPartInfo> Parts { get; set; }
+
+        /// <summary>
+        /// Marker (if present) to sent in the next request of List parts.
+        /// </summary>
+        [JsonProperty(PropertyName = "marker")]
+        public string Marker { get; set; }
     }
 
     /// <summary>
