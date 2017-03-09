@@ -7,6 +7,7 @@ using System.Linq;
 using Box.V2.Models;
 using System.Net;
 using System.Security.Cryptography;
+using Box.V2.Utility;
 
 namespace Box.V2.Test.Integration
 {
@@ -254,10 +255,10 @@ namespace Box.V2.Test.Integration
             string partSize = boxFileUploadSession.PartSize;
             long partSizeLong;
             long.TryParse(partSize, out partSizeLong);
-            int numberOfParts = GetNumberOfPartsToBeUploaded(fileSize, partSizeLong);
+            int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
 
             // Upload parts in the session
-            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, fileInMemoryStream, fileSize);
+            await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, fileInMemoryStream, fileSize);
 
             // Assert file is not committed/uploaded to box yet
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
@@ -292,10 +293,10 @@ namespace Box.V2.Test.Integration
             string partSize = boxFileUploadSession.PartSize;
             long partSizeLong;
             long.TryParse(partSize, out partSizeLong);
-            int numberOfParts = GetNumberOfPartsToBeUploaded(fileSize, partSizeLong);
+            int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
 
             // Upload parts in the session
-            await UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, fileInMemoryStream, fileSize);
+            await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, fileInMemoryStream, fileSize);
 
             // Assert file is not committed/uploaded to box yet
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
@@ -345,45 +346,21 @@ namespace Box.V2.Test.Integration
             return memoryStream;
         }
 
-        private async Task UploadPartsInSession(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
+        private async Task UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
             long fileSize)
         {
             for (int i = 0; i < numberOfParts; i++)
             {
-                string uniqueRandomPartId = GetRandomString(8);
+                string uniqueRandomPartId = Helper.GetRandomString(8);
                 // Split file as per part size
                 long partOffset = partSize * i;
-                Stream partFileStream = GetFilePart(stream, partSize, partOffset);
+                Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
                 string sha = GetSha1Hash(partFileStream);
                 partFileStream.Position = 0;
                 await
                     _client.FilesManager.UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize,
                         partFileStream);
             }
-        }
-
-        private int GetNumberOfPartsToBeUploaded(long totalSize, long partSize)
-        {
-            if (partSize == 0)
-                throw new Exception("Part Size cannot be 0");
-            int numberOfParts = 1;
-            if (partSize != totalSize)
-            {
-                numberOfParts = Convert.ToInt32(totalSize / partSize);
-                numberOfParts += 1;
-            }
-            return numberOfParts;
-        }
-
-        private string GetRandomString(int digits)
-        {
-            Random random = new Random();
-            byte[] buffer = new byte[digits / 2];
-            random.NextBytes(buffer);
-            string result = String.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
-            if (digits % 2 == 0)
-                return result;
-            return result + random.Next(16).ToString("X");
         }
 
         private string GetSha1Hash(Stream stream)
@@ -393,21 +370,6 @@ namespace Box.V2.Test.Integration
             byte[] hash = sha1.ComputeHash(stream);
             string base64String = Convert.ToBase64String(hash);
             return base64String;
-        }
-
-        private FileStream GetFilePart(Stream stream, long partSize, long offset)
-        {
-            if (File.Exists("c:\\temp\\temp.tmp"))
-                File.Delete("c:\\temp\\temp.tmp");
-            FileStream tempStream = new FileStream("c:\\temp\\temp.tmp", FileMode.OpenOrCreate, FileAccess.ReadWrite,
-                FileShare.None);
-            int byteRead;
-            stream.Position = offset;
-            for (int i = 0; i < partSize && (byteRead = stream.ReadByte()) != -1; i++)
-            {
-                tempStream.WriteByte((byte)byteRead);
-            }
-            return tempStream;
         }
 
         private async Task<bool> DoesFileExistInFolder(string folderId, string fileName)

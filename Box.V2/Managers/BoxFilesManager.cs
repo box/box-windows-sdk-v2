@@ -367,6 +367,64 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        /// <summary>
+        /// Upload a large file by splitting them up and uploads in a session. NOTE: Available only in .NET CORE. Not available in portable library.
+        /// </summary>
+        /// <param name="stream">The file stream.</param>
+        /// <param name="fileName">Name of the remote file name.</param>
+        /// <param name="fileSize">Size of the file.</param>
+        /// <param name="folderId">parent folder id.</param>
+        /// <returns></returns>
+        public async Task<bool> UploadUsingSessionAsync(Stream stream, string fileName, long fileSize, string folderId)
+        {
+            // Create Upload Session
+            BoxFileUploadSessionRequest uploadSessionRequest = new BoxFileUploadSessionRequest() {FileName = fileName, FileSize = fileSize, FolderId = folderId};
+            BoxFileUploadSession boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest);
+
+            // Parse upload session response
+            BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
+            Uri listPartsUri = new Uri(boxSessionEndpoint.ListParts);
+            Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
+            Uri commitUri = new Uri(boxSessionEndpoint.Commit);
+            string partSize = boxFileUploadSession.PartSize;
+            long partSizeLong;
+            long.TryParse(partSize, out partSizeLong);
+            int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
+
+            // Upload parts in the session
+            await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize);
+
+            // Get the list of parts uploaded in Session
+            // Get upload parts by multiples of 1000 as 1000 is the default
+            List<BoxSessionPartInfo> allSessionParts = new List<BoxSessionPartInfo>();
+            BoxSessionParts boxSessionParts = await GetSessionUploadedPartsAsync(listPartsUri);
+            allSessionParts.AddRange(boxSessionParts.Parts);
+            while (!string.IsNullOrWhiteSpace(boxSessionParts.Marker))
+            {
+                boxSessionParts = await GetSessionUploadedPartsAsync(listPartsUri, boxSessionParts.Marker);
+                allSessionParts.AddRange(boxSessionParts.Parts);
+            }
+            BoxSessionParts sessionPartsForCommit = new BoxSessionParts(allSessionParts);
+
+            // Commit
+            return await CommitSessionAsync(commitUri, CrossPlatform.GetSha1Hash(stream), sessionPartsForCommit);
+        }
+
+        private async Task UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
+           long fileSize)
+        {
+            for (int i = 0; i < numberOfParts; i++)
+            {
+                string uniqueRandomPartId = Helper.GetRandomString(8);
+                // Split file as per part size
+                long partOffset = partSize * i;
+                Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
+                string sha = CrossPlatform.GetSha1Hash(partFileStream);
+                partFileStream.Position = 0;
+                await UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize, partFileStream);
+            }
+        }
+
         private string HexStringFromBytes(byte[] bytes)
         {
             var sb = new StringBuilder();
