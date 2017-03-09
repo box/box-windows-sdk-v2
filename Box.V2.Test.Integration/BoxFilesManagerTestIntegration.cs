@@ -329,6 +329,31 @@ namespace Box.V2.Test.Integration
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
         }
 
+        [TestMethod]
+        public async Task UploadFileInSession_Utility_Function_FilePresent()
+        {
+            long fileSize = 19000000;
+            MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
+            string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
+            string parentFolderId = "0";
+
+            // Call Utility function
+            await _client.FilesManager.UploadUsingSessionAsync(fileInMemoryStream, remoteFileName, fileSize, parentFolderId, GetSha1Hash);
+
+            // Assert file is committed/uploaded to box
+            Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+
+            // Delete file
+            string fileId = await GetFileId(parentFolderId, remoteFileName);
+            if (!string.IsNullOrWhiteSpace(fileId))
+            {
+                await _client.FilesManager.DeleteAsync(fileId);
+            }
+
+            // Assert file has been deleted from Box
+            Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+        }
+
         #region Private functions
 
         private string GetSaveFolderPath()
