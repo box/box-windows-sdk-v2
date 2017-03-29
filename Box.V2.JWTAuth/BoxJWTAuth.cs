@@ -63,7 +63,7 @@ namespace Box.V2.JWTAuth
 #if NETSTANDARD1_4    
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
 #else
-            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
+            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), Securiorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
 #endif
         }
 
@@ -76,7 +76,7 @@ namespace Box.V2.JWTAuth
         //
         // I took the guts of the sealed class DotNetUtilities and overrode it here
         // -------------------------------------------------------------------------------------
-        public static RSA ToRSA(RsaPrivateCrtKeyParameters privKey)
+        private static RSA ToRSA(RsaPrivateCrtKeyParameters privKey)
         {
             return CreateRSAProvider(ToRSAParameters(privKey));
         }
@@ -98,7 +98,7 @@ namespace Box.V2.JWTAuth
         // ------------------------------------------------------------------------------------------------------------------
         // Note: http://stackoverflow.com/questions/28370414/import-rsa-key-from-bouncycastle-sometimes-throws-bad-data
         // ------------------------------------------------------------------------------------------------------------------
-        public static RSAParameters ToRSAParameters(RsaPrivateCrtKeyParameters privKey)
+        private static RSAParameters ToRSAParameters(RsaPrivateCrtKeyParameters privKey)
         {
             RSAParameters rp = new RSAParameters();
             rp.Modulus = privKey.Modulus.ToByteArrayUnsigned();
