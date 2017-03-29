@@ -63,7 +63,7 @@ namespace Box.V2.JWTAuth
 #if NETSTANDARD1_4    
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
 #else
-            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), Securiorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
+            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
 #endif
         }
 
