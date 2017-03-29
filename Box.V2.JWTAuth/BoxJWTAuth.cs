@@ -60,7 +60,6 @@ namespace Box.V2.JWTAuth
             // ------------------------------------------------------------------
             var rsa = ToRSA((RsaPrivateCrtKeyParameters)key.Private);   // use the local version to override the call to DotNetUtilities
 
-
 #if NETSTANDARD1_4    
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
 #else
