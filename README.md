@@ -21,6 +21,12 @@ Quick Start
 -----------
 
 ### Installation
+
+Install the dependency Microsoft.Bcl.Async, or you may get FileNotFoundException: Could not load file or assembly ‘Microsoft.Threading.Tasks‘
+```bash
+PM> Install-Package Microsoft.Bcl.Async
+```
+
 Install the SDK using Nuget
 ```bash
 PM> Install-Package Box.V2
