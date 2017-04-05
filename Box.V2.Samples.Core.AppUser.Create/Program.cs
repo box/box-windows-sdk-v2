@@ -25,6 +25,7 @@ namespace Box.V2.Samples.Core.AppUser.Create
         private async Task ExecuteMainAsync()
         {
             var config = ConfigureBoxApi();
+
             var session = new BoxJWTAuth(config);
 
             // client with permissions to manage application users
@@ -79,34 +80,15 @@ namespace Box.V2.Samples.Core.AppUser.Create
             return client.UsersManager.CreateEnterpriseUserAsync(userRequest);
         }
 
-        private static BoxConfig ConfigureBoxApi()
+        private static IBoxConfig ConfigureBoxApi()
         {
-            // can be obtained from Box developer portal at application info page
+            IBoxConfig config = null;
+            using (FileStream fs = new FileStream(@"<YOUR_JSON_FILE_HERE>", FileMode.Open))
+            {
+                config = BoxConfig.CreateFromJsonFile(fs);
+            }
 
-            Console.WriteLine("Client Id: ");
-            var clientId = Console.ReadLine();
-
-            Console.WriteLine("Client secret: ");
-            var clientSecret = Console.ReadLine();
-
-            // RSA private key
-            Console.WriteLine("Private key file path: ");
-            var privateKeyPath = Console.ReadLine();
-            var privateKey = File.ReadAllText(privateKeyPath);
-
-            // secret used to generate RSA keypair
-            Console.WriteLine("Private key secret: ");
-            var rsaSecret = Console.ReadLine();
-
-            // can be obtained from administration console
-            Console.WriteLine("Enterprise Id: ");
-            var enterpriseId = Console.ReadLine();
-
-            // can be obtained at application info page
-            Console.WriteLine("Public key Id: ");
-            var publicKeyId = Console.ReadLine();
-
-            return new BoxConfig(clientId, clientSecret, enterpriseId, privateKey, rsaSecret, publicKeyId);
+            return config;
         }
     }
 }
