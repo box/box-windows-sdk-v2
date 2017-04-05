@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
+using System.Text;
 
 namespace Box.V2.Config
 {
@@ -39,6 +42,43 @@ namespace Box.V2.Config
             JWTPrivateKeyPassword = jwtPrivateKeyPassword;
             JWTPublicKeyId = jwtPublicKeyId;
             UserAgent = DefaultUserAgent;
+        }
+
+        
+        /// <summary>
+        /// Create BoxConfig from json file.
+        /// </summary>
+        /// <param name="jsonFile">json file stream.</param>
+        /// <returns>IBoxConfig instance.</returns>
+        public static IBoxConfig CreateFromJsonFile(Stream jsonFile)
+        {
+            var jsonString = string.Empty;
+
+            using (var reader = new StreamReader(jsonFile, Encoding.UTF8))
+            {
+                jsonString = reader.ReadToEnd();
+            }
+
+            return CreateFromJsonString(jsonString);
+        }
+
+        /// <summary>
+        /// Create BoxConfig from json string
+        /// </summary>
+        /// <param name="jsonString">json string.</param>
+        /// <returns>IBoxConfig instance.</returns>
+        public static IBoxConfig CreateFromJsonString(string jsonString)
+        {
+            var json = JObject.Parse(jsonString);
+
+            var clientId     = json["boxAppSettings"]["clientID"].ToString();
+            var clientSecret = json["boxAppSettings"]["clientSecret"].ToString();
+            var enterpriseId = json["boxAppSettings"]["developerEnterprise"]["enterpriseID"].ToString();
+            var privateKey   = json["boxAppSettings"]["appAuth"]["privateKey"].ToString();
+            var rsaSecret    = json["boxAppSettings"]["appAuth"]["passphrase"].ToString();
+            var publicKeyId  = json["boxAppSettings"]["appAuth"]["keyID"].ToString();
+
+            return new BoxConfig(clientId, clientSecret, enterpriseId, privateKey, rsaSecret, publicKeyId);
         }
 
         public virtual Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
