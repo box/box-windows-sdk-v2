@@ -9,6 +9,7 @@ namespace Box.V2.Config
     {
         /*** Base API URIs ***/
         public const string BoxApiHostUriString = "https://app.box.com/api/";
+        public const string BoxAccountApiHostUriString = "https://account.box.com/api/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
         public const string BoxUploadApiUriV21String = "https://upload.box.com/api/2.1/";
@@ -72,7 +73,7 @@ namespace Box.V2.Config
         public const string FileVersionLegalHoldsString = @"file_version_legal_holds/";
 
         /*** API Full Endpoint Strings ***/
-        public const string AuthCodeEndpointString = BoxApiHostUriString + AuthCodeString;
+        public const string AuthCodeEndpointString = BoxAccountApiHostUriString + AuthCodeString;
         public const string FoldersEndpointString = BoxApiUriString + FoldersString;
         public const string GroupsEndpointString = BoxApiUriString + GroupsString;
         public const string GroupMembershipEndpointString = BoxApiUriString + GroupMembershipString;
