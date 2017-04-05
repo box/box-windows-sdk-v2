@@ -8,7 +8,7 @@ namespace Box.V2.Config
     public static class Constants
     {
         /*** Base API URIs ***/
-        public const string BoxApiHostUriString = "https://app.box.com/api/";
+        public const string BoxApiHostUriString = "https://api.box.com/";
         public const string BoxAccountApiHostUriString = "https://account.box.com/api/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
