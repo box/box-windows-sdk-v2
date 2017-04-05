@@ -42,6 +42,7 @@ namespace Box.V2.Config
         }
 
         public virtual Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
+        public virtual Uri BoxAccountApiHostUri { get { return new Uri(Constants.BoxAccountApiHostUriString); } }
         public virtual Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
         public virtual Uri BoxUploadApiUri { get { return new Uri(Constants.BoxUploadApiUriString); } }
         public virtual Uri BoxUploadApiUriV21 { get { return new Uri(Constants.BoxUploadApiUriV21String); } }
@@ -65,7 +66,7 @@ namespace Box.V2.Config
         /// </summary>
         public CompressionType? AcceptEncoding { get; set; }
 
-        public virtual Uri AuthCodeBaseUri { get { return new Uri(BoxApiHostUri, Constants.AuthCodeString); } }
+        public virtual Uri AuthCodeBaseUri { get { return new Uri(BoxAccountApiHostUri, Constants.AuthCodeString); } }
         public virtual Uri AuthCodeUri { get { return new Uri(AuthCodeBaseUri, string.Format("?response_type=code&client_id={0}&redirect_uri={1}", ClientId, RedirectUri)); } }
         public virtual Uri FoldersEndpointUri { get { return new Uri(BoxApiUri, Constants.FoldersString); } }
         public virtual Uri FilesEndpointUri { get { return new Uri(BoxApiUri, Constants.FilesString); } }
