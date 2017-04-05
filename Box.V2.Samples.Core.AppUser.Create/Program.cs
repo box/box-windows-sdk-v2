@@ -83,7 +83,7 @@ namespace Box.V2.Samples.Core.AppUser.Create
         private static IBoxConfig ConfigureBoxApi()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\coolcute\Desktop\ws\files\app_config_full.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"<YOUR_JSON_FILE_HERE>", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
