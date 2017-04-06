@@ -20,9 +20,7 @@ namespace Box.V2.Test.Integration
       'privateKey': 'DUMMY',
       'passphrase': 'password'
     },
-    'developerEnterprise': {
-      'enterpriseID': 'eid-123'
-    },
+    'enterpriseID': 'eid-123',
     'webhooks': {}
   }
 }";
