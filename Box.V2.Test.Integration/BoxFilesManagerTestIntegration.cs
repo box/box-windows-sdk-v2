@@ -209,29 +209,29 @@ namespace Box.V2.Test.Integration
             await _client.FilesManager.DeleteAsync(fileWithLink.Id, fileWithLink.ETag);
         }
 
-        //[TestMethod]
-        //public async Task BatchDownload_ValidRequest_ValidResponse()
-        //{
-        //    const string fileId = "16894947279";
+        [TestMethod]
+        public async Task BatchGetInformation_ValidRequest_ValidResponse()
+        {
+            const string fileId = "16894947279";
 
-        //    /*** Arrange ***/
-        //    List<Task<Stream>> tasks = new List<Task<Stream>>();
+            /*** Arrange ***/
+            var tasks = new List<Task<BoxFile>>();
 
-        //    int size = 1420;
-        //    int numTasks = 5;
+            int size = 574732;
+            int numTasks = 5;
 
-        //    /*** Act ***/
-        //    for (int i = 0; i < numTasks; ++i)
-        //        tasks.Add(_client.FilesManager.DownloadStreamAsync(fileId));
+            /*** Act ***/
+            for (int i = 0; i < numTasks; ++i)
+                tasks.Add(_client.FilesManager.GetInformationAsync(fileId));
 
-        //    await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks);
 
-        //    /*** Assert ***/
-        //    foreach (var t in tasks)
-        //    {
-        //        Assert.AreEqual(size, (await t).Length);
-        //    }
-        //}
+            /*** Assert ***/
+            foreach (var t in tasks)
+            {
+                Assert.AreEqual(size, (await t).Size);
+            }
+        }
 
         [TestMethod]
         public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
