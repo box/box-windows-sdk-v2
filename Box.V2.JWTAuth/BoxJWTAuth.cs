@@ -8,6 +8,7 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Math;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
@@ -53,7 +54,11 @@ namespace Box.V2.JWTAuth
             {
                 key = (AsymmetricCipherKeyPair)new PemReader(reader, pwf).ReadObject();
             }
-            var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
+            // ------------------------------------------------------------------
+            // This is the original call to BouncyCastle
+            // var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
+            // ------------------------------------------------------------------
+            var rsa = ToRSA((RsaPrivateCrtKeyParameters)key.Private);   // use the local version to override the call to DotNetUtilities
 
 #if NETSTANDARD1_4    
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
@@ -61,6 +66,65 @@ namespace Box.V2.JWTAuth
             this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
 #endif
         }
+
+        // -------------------------------------------------------------------------------------
+        // When running JWT in an Azure WebJob or Function, you will get an error: 
+        //    "System.Security.Cryptography.CryptographicException: The system cannot find the file specified."
+        //
+        // The error message is misleading and you can see more info here:    
+        //     https://blogs.msdn.microsoft.com/winsdk/2009/11/16/opps-system-security-cryptography-cryptographicexception-the-system-cannot-find-the-file-specified/
+        //
+        // I took the guts of the sealed class DotNetUtilities and overrode it here
+        // -------------------------------------------------------------------------------------
+        private static RSA ToRSA(RsaPrivateCrtKeyParameters privKey)
+        {
+            return CreateRSAProvider(ToRSAParameters(privKey));
+        }
+
+        private static RSA CreateRSAProvider(RSAParameters rp)
+        {
+            CspParameters csp = new CspParameters();
+            csp.KeyContainerName = string.Format("BouncyCastle-{0}", Guid.NewGuid());
+
+            // This needs to be here to run as WebJob
+            csp.Flags = CspProviderFlags.UseMachineKeyStore;
+
+            RSACryptoServiceProvider rsaCsp = new RSACryptoServiceProvider(csp);
+            rsaCsp.ImportParameters(rp);
+
+            return rsaCsp;
+        }
+
+        // ------------------------------------------------------------------------------------------------------------------
+        // Note: http://stackoverflow.com/questions/28370414/import-rsa-key-from-bouncycastle-sometimes-throws-bad-data
+        // ------------------------------------------------------------------------------------------------------------------
+        private static RSAParameters ToRSAParameters(RsaPrivateCrtKeyParameters privKey)
+        {
+            RSAParameters rp = new RSAParameters();
+            rp.Modulus = privKey.Modulus.ToByteArrayUnsigned();
+            rp.Exponent = privKey.PublicExponent.ToByteArrayUnsigned();
+            rp.P = privKey.P.ToByteArrayUnsigned();
+            rp.Q = privKey.Q.ToByteArrayUnsigned();
+            rp.D = ConvertRSAParametersField(privKey.Exponent, rp.Modulus.Length);
+            rp.DP = ConvertRSAParametersField(privKey.DP, rp.P.Length);
+            rp.DQ = ConvertRSAParametersField(privKey.DQ, rp.Q.Length);
+            rp.InverseQ = ConvertRSAParametersField(privKey.QInv, rp.Q.Length);
+            return rp;
+        }
+
+        private static byte[] ConvertRSAParametersField(BigInteger n, int size)
+        {
+            byte[] bs = n.ToByteArrayUnsigned();
+            if (bs.Length == size)
+                return bs;
+            if (bs.Length > size)
+                throw new ArgumentException("Specified size too small", "size");
+            byte[] padded = new byte[size];
+            Array.Copy(bs, 0, padded, size - bs.Length, bs.Length);
+            return padded;
+        }
+
+
         /// <summary>
         /// Create admin BoxClient using an admin access token
         /// </summary>
