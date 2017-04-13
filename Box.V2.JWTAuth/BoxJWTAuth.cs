@@ -1,6 +1,7 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
+using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Request;
 using Box.V2.Services;
@@ -52,6 +53,11 @@ namespace Box.V2.JWTAuth
             using (var reader = new StringReader(this.boxConfig.JWTPrivateKey))
             {
                 key = (AsymmetricCipherKeyPair)new PemReader(reader, pwf).ReadObject();
+            }
+
+            if (key == null)
+            {
+                throw new BoxException("Private key read error!");
             }
             var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
 
