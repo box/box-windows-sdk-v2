@@ -10,13 +10,13 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task BoxConfig_CreateFromString()
         {
-            const string jsonString = 
+            const string jsonString =
 @"{
   'boxAppSettings': {
     'clientID': 'cid-123',
     'clientSecret': 'cre-123',
     'appAuth': {
-      'keyID': 'kid-123',
+      'publicKeyID': 'kid-123',
       'privateKey': 'DUMMY',
       'passphrase': 'password'
     },
