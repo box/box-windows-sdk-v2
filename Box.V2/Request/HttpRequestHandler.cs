@@ -67,8 +67,7 @@ namespace Box.V2.Request
 
                     Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));//, RequestHeader: {1} , httpRequest.Headers.Select(i => string.Format("{0}:{1}", i.Key, i.Value)).Aggregate((i, j) => i + "," + j)));
 
-                    HttpClient client = CreateClient(request);
-                    BoxResponse<T> boxResponse = new BoxResponse<T>();
+                    HttpClient client = GetClient(request);
 
                     HttpResponseMessage response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
             
@@ -91,6 +90,7 @@ namespace Box.V2.Request
                     }
                     else
                     {
+                        BoxResponse<T> boxResponse = new BoxResponse<T>();
                         boxResponse.Headers = response.Headers;
 
                         // Translate the status codes that interest us 
@@ -141,15 +141,57 @@ namespace Box.V2.Request
             }
         }
 
-        private HttpClient CreateClient(IBoxRequest request)
+        private class ClientFactory
         {
-            HttpClientHandler handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
-            handler.AllowAutoRedirect = request.FollowRedirect;
+            private static readonly Lazy<HttpClient> autoRedirectClient =
+                new Lazy<HttpClient>(() => CreateClient(true));
 
-            HttpClient client = new HttpClient(handler);
-            
+            private static readonly Lazy<HttpClient> nonAutoRedirectClient =
+                new Lazy<HttpClient>(() => CreateClient(false));
+
+            // reuseable HttpClient instance
+            public static HttpClient AutoRedirectClient { get { return autoRedirectClient.Value; } }
+            public static HttpClient NonAutoRedirectClient { get { return nonAutoRedirectClient.Value; } }
+
+            // Create new HttpClient per timeout
+            public static HttpClient CreateClientWithTimeout(bool followRedirect, TimeSpan timeout)
+            {
+                HttpClient client = CreateClient(followRedirect);
+
+                client.Timeout = timeout;
+
+                return client;
+            }
+
+            private static HttpClient CreateClient(bool followRedirect)
+            {
+                HttpClientHandler handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
+                handler.AllowAutoRedirect = followRedirect;
+
+                return new HttpClient(handler);
+            }
+        }
+
+        private HttpClient GetClient(IBoxRequest request)
+        {
+            HttpClient client = null;
+
             if (request.Timeout.HasValue)
-                client.Timeout = request.Timeout.Value;
+            {
+                var timeout = request.Timeout.Value;
+                client = ClientFactory.CreateClientWithTimeout(request.FollowRedirect, timeout);
+            }
+            else
+            {
+                if (request.FollowRedirect)
+                {
+                    client = ClientFactory.AutoRedirectClient;
+                }
+                else
+                {
+                    client = ClientFactory.NonAutoRedirectClient;
+                }
+            }
 
             return client;
         }
