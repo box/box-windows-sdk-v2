@@ -57,7 +57,7 @@ namespace Box.V2.JWTAuth
 
             if (key == null)
             {
-                throw new BoxException("Private key read error!");
+                throw new BoxException("Invalid private key!");
             }
             var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
 
