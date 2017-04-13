@@ -13,13 +13,14 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task LegalHoldPoliciesWorkflow_ValidRequest()
         {
-            // Create
+            // Init
             var policyName = "PN" + Guid.NewGuid().ToString().Substring(0,4);
             var newPolicyName = "N" + policyName;
             var description = "DESC";
             var filterStarted = DateTime.Now.AddDays(-30);
             var filterEnded = DateTime.Now.AddDays(-15);
 
+            // Create with filter_date
             var legalHold = await _client.LegalHoldPoliciesManager.CreateLegalHoldPolicyAsync(new BoxLegalHoldPolicyRequest() {
                 PolicyName = policyName,
                 Description = description,
@@ -28,6 +29,7 @@ namespace Box.V2.Test.Integration
             });
 
             Assert.IsNotNull(legalHold.Id);
+            Assert.IsFalse(legalHold.IsOngoing);
 
             // Update
             var uLegalHold = await _client.LegalHoldPoliciesManager.UpdateLegalHoldPolicyAsync(legalHold.Id, new BoxLegalHoldPolicyRequest() {
@@ -90,6 +92,30 @@ namespace Box.V2.Test.Integration
             catch (BoxConflictException<BoxLegalHoldPolicyAssignment> exp) {
                 // 409 will cause exception
             }
+        }
+
+        [TestMethod]
+        public async Task LegalHoldPoliciesWorkflow_IsOngoing_ValidRequest()
+        {
+            // Init
+            var policyName = "PN" + Guid.NewGuid().ToString().Substring(0, 4);
+            var newPolicyName = "N" + policyName;
+            var description = "DESC";
+
+            // Create with is_ongoing
+            var legalHold = await _client.LegalHoldPoliciesManager.CreateLegalHoldPolicyAsync(new BoxLegalHoldPolicyRequest()
+            {
+                PolicyName = policyName,
+                Description = description,
+                isOngoing = true
+            });
+
+            Assert.IsNotNull(legalHold.Id);
+            Assert.IsTrue(legalHold.IsOngoing);
+
+            // Delete
+            var deleted = await _client.LegalHoldPoliciesManager.DeleteLegalHoldPolicyAsync(legalHold.Id);
+            Assert.IsTrue(deleted);
         }
     }
 }

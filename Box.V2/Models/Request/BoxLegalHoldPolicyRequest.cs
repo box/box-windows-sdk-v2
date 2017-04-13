@@ -9,6 +9,7 @@ namespace Box.V2.Models
         public const string FieldDescription = "description";
         public const string FieldFilterStartedAt = "filter_started_at";
         public const string FieldFilterEndedAt = "filter_ended_at";
+        public const string FieldIsOngoing = "is_ongoing";
         public const string FieldReleaseNotes = "release_notes";
 
         /// <summary>
@@ -34,6 +35,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldFilterEndedAt)]
         public DateTime? FilterEndedAt { get; set; }
+
+        /// <summary>
+        /// After initialization, Assignments under this Policy will continue applying to files based on events, indefinitely.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldIsOngoing)]
+        public bool? isOngoing { get; set; }
 
         /// <summary>
         /// Notes around why the policy was released. Optional property with a 500 character limit.
