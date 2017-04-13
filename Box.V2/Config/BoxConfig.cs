@@ -76,7 +76,7 @@ namespace Box.V2.Config
             var enterpriseId = json["boxAppSettings"]["enterpriseID"].ToString();
             var privateKey   = json["boxAppSettings"]["appAuth"]["privateKey"].ToString();
             var rsaSecret    = json["boxAppSettings"]["appAuth"]["passphrase"].ToString();
-            var publicKeyId  = json["boxAppSettings"]["appAuth"]["keyID"].ToString();
+            var publicKeyId  = json["boxAppSettings"]["appAuth"]["publicKeyID"].ToString();
 
             return new BoxConfig(clientId, clientSecret, enterpriseId, privateKey, rsaSecret, publicKeyId);
         }
