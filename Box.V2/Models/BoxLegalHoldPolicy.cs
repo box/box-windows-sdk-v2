@@ -14,6 +14,7 @@ namespace Box.V2.Models
         public const string FieldDeletedAt = "deleted_at";
         public const string FieldFilterStartedAt = "filter_started_at";
         public const string FieldFilterEndedAt = "filter_ended_at";
+        public const string FieldIsOngoing = "is_ongoing";
         public const string FieldAssignmentCounts = "assignment_counts";
 
         /// <summary>
@@ -75,5 +76,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignmentCounts)]
         public BoxAssignmentCounts AssignmentCounts { get; private set; }
+
+        /// <summary>
+        /// Whether this assignment will continue applying to File Versions even after initialization.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldIsOngoing)]
+        public bool IsOngoing { get; private set; }
     }
 }
