@@ -1,6 +1,7 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
+using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
@@ -197,10 +198,15 @@ namespace Box.V2.Managers
             var uploadUri = _config.FilesUploadSessionEndpointUri;
 
             var request = new BoxRequest(uploadUri)
-                .Method(RequestMethod.Post)
+                .Method(RequestMethod.Post);
+            /*
                 .Payload("folder_id", uploadSessionRequest.FolderId)
                 .Payload("file_size", uploadSessionRequest.FileSize.ToString())
                 .Payload("file_name", uploadSessionRequest.FileName);
+                */
+
+            request.Payload = _converter.Serialize(uploadSessionRequest);
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
             IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
 
@@ -309,8 +315,8 @@ namespace Box.V2.Managers
         /// <param name="commitSessionUrl">Commit URL returned in the Create Session response.</param>
         /// <param name="sha">The message digest of the complete file, formatted as specified by RFC 3230.</param>
         /// <param name="sessionPartsInfo">Parts info for the uploaded parts.</param>
-        /// <returns>True or False on whether the commit was successful.</returns>
-        public async Task<bool> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
+        /// <returns> Full BoxFile object if commit success. </returns>
+        public async Task<BoxFile> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
             BoxRequest request = new BoxRequest(commitSessionUrl)
                 .Method(RequestMethod.Post)
@@ -319,9 +325,9 @@ namespace Box.V2.Managers
 
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
-            IBoxResponse<object> response = await ToResponseAsync<object>(request).ConfigureAwait(false);
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
-            return response.Status == ResponseStatus.Success;
+            return response.ResponseObject;
         }
 
         /// <summary>
@@ -372,11 +378,10 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="stream">The file stream.</param>
         /// <param name="fileName">Name of the remote file name.</param>
-        /// <param name="fileSize">Size of the file.</param>
+        /// <param name="fileSize">Size of the file in bytes.</param>
         /// <param name="folderId">parent folder id.</param>
-        /// <param name="sha1HashFunction">Function delegate that returns message digest of the stream, formatted as specified by RFC 3230.</param>
-        /// <returns></returns>
-        public async Task<bool> UploadUsingSessionAsync(Stream stream, string fileName, long fileSize, string folderId, Func<Stream,string> sha1HashFunction)
+        /// <returns>Full BoxFile object if upload success. </returns>
+        public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName, long fileSize, string folderId)
         {
             // Create Upload Session
             BoxFileUploadSessionRequest uploadSessionRequest = new BoxFileUploadSessionRequest() {FileName = fileName, FileSize = fileSize, FolderId = folderId};
@@ -388,12 +393,16 @@ namespace Box.V2.Managers
             Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
             Uri commitUri = new Uri(boxSessionEndpoint.Commit);
             string partSize = boxFileUploadSession.PartSize;
-            long partSizeLong;
-            long.TryParse(partSize, out partSizeLong);
+            long partSizeLong = 0;
+            if (long.TryParse(partSize, out partSizeLong) == false)
+            {
+                throw new BoxException("File part size wrong!");
+            }
+
             int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
 
             // Upload parts in the session
-            await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize, sha1HashFunction);
+            await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize);
 
             // Get the list of parts uploaded in Session
             // Get upload parts by multiples of 1000 as 1000 is the default
@@ -408,11 +417,11 @@ namespace Box.V2.Managers
             BoxSessionParts sessionPartsForCommit = new BoxSessionParts(allSessionParts);
 
             // Commit
-            return await CommitSessionAsync(commitUri, sha1HashFunction(stream), sessionPartsForCommit);
+            var fullFileSha1 = CrossPlatform.GetSha1Hash(stream); // TODO yhu@ make it async
+            return await CommitSessionAsync(commitUri, fullFileSha1, sessionPartsForCommit);
         }
 
-        private async Task UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
-           long fileSize, Func<Stream, string> sha1HashFunction)
+        private async Task UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream, long fileSize)
         {
             for (int i = 0; i < numberOfParts; i++)
             {
@@ -420,7 +429,7 @@ namespace Box.V2.Managers
                 // Split file as per part size
                 long partOffset = partSize * i;
                 Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
-                string sha = sha1HashFunction(partFileStream);
+                string sha = CrossPlatform.GetSha1Hash(partFileStream);
                 partFileStream.Position = 0;
                 await UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize, partFileStream);
             }
