@@ -80,14 +80,28 @@ namespace Box.V2.Utility
         /// <returns></returns>
         public static Stream GetFilePart(Stream stream, long partSize, long partOffset)
         {
-            MemoryStream partStream = new MemoryStream();
-            int byteRead;
+            var partStream = new MemoryStream();
+            int byteRead = 0;
             stream.Position = partOffset;
             for (int i = 0; i < partSize && (byteRead = stream.ReadByte()) != -1; i++)
             {
                 partStream.WriteByte((byte)byteRead);
             }
             return partStream;
+        }
+
+        /// <summary>
+        /// Calculate sha1 hash.
+        /// </summary>
+        /// <param name="stream"> the input stream. </param>
+        /// <returns>Base64 encoded sha1 hash.</returns>
+        public static string GetSha1Hash(Stream stream)
+        {
+            stream.Position = 0;
+            var sha1 = Box.V2.Utility.SHA1.Create();
+            byte[] hash = sha1.ComputeHash(stream);
+            
+            return Convert.ToBase64String(hash);
         }
     }
 }

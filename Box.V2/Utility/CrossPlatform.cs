@@ -37,32 +37,5 @@ namespace Box.V2.Utility
             return typeof(T).IsAssignableFrom(objectType);
 #endif
         }
-
-        public static string GetSha1Hash(Stream stream)
-        {
-#if NETSTANDARD1_4
-            stream.Position = 0;
-            SHA1 sha1 = SHA1.Create();
-            byte[] hash = sha1.ComputeHash(stream);
-            string base64String = Convert.ToBase64String(hash);
-            return base64String;
-#else
-            /*
-            var key = new byte[32];
-            var contentBytes = Encoding.UTF8.GetBytes("some kind of content to hash");
-            new RNGCryptoServiceProvider().GetBytes(key);
-
-            var alg = new HMACSHA1(key); // Bouncy castle usage does not differ from this
-            var result = alg.ComputeHash(contentBytes);
-            */
-
-            // TODO yhu@ sha1 in pcl
-            var keyBytes = new byte[32];
-            HMACSHA1 hashAlgorithm = new HMACSHA1(keyBytes);
-            byte[] dataBuffer = Encoding.UTF8.GetBytes(stream.ToString());
-            byte[] hashBytes = hashAlgorithm.ComputeHash(dataBuffer);
-            return Convert.ToBase64String(hashBytes);
-#endif
-        }
     }
 }

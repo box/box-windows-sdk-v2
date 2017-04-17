@@ -338,7 +338,7 @@ namespace Box.V2.Test.Integration
             string parentFolderId = "0";
 
             // Call Utility function
-            await _client.FilesManager.UploadUsingSessionAsync(fileInMemoryStream, remoteFileName, fileSize, parentFolderId, GetSha1Hash);
+            await _client.FilesManager.UploadUsingSessionAsync(fileInMemoryStream, remoteFileName, fileSize, parentFolderId);
 
             // Assert file is committed/uploaded to box
             Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
