@@ -376,15 +376,12 @@ namespace Box.V2.Test.Integration
         {
             for (int i = 0; i < numberOfParts; i++)
             {
-                string uniqueRandomPartId = Helper.GetRandomString(8);
                 // Split file as per part size
                 long partOffset = partSize * i;
                 Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
                 string sha = GetSha1Hash(partFileStream);
                 partFileStream.Position = 0;
-                await
-                    _client.FilesManager.UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize,
-                        partFileStream);
+                await _client.FilesManager.UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream);
             }
         }
 

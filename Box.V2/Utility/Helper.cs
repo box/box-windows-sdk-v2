@@ -71,23 +71,8 @@ namespace Box.V2.Utility
         }
 
         /// <summary>
-        /// Return a Random (probably unique) string.
-        /// </summary>
-        /// <param name="length">Lenght of the string returned.</param>
-        /// <returns></returns>
-        public static string GetRandomString(int length)
-        {
-            Random random = new Random();
-            byte[] buffer = new byte[length / 2];
-            random.NextBytes(buffer);
-            string result = String.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
-            if (length % 2 == 0)
-                return result;
-            return result + random.Next(16).ToString("X");
-        }
-
-        /// <summary>
         /// Returns part of the file starting at offset.
+        /// TODO yhu@ update comments
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="partSize"></param>

@@ -26,6 +26,19 @@ namespace Box.V2.Models
         public string Marker { get; set; }
     }
 
+    // TODO yhu@ better file structure
+    /// <summary>
+    /// Response of upload part.
+    /// </summary>
+    public class BoxUploadPartResponse
+    {
+        /// <summary>
+        /// List of session parts uploaded.
+        /// </summary>
+        [JsonProperty(PropertyName = "part")]
+        public BoxSessionPartInfo Part { get; set; }
+    }
+
     /// <summary>
     /// Represents a single part of a session.
     /// </summary>
@@ -48,5 +61,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "size")]
         public long Size { get; set; }
+
+        /// <summary>
+        /// String with hexadecimal representation of part’s SHA-1.
+        /// </summary>
+        [JsonProperty(PropertyName = "sha1")]
+        public string Sha1 { get; set; }
     }
 }
