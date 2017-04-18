@@ -8,6 +8,10 @@ namespace Box.V2.Models
     /// </summary>
     public class BoxSessionParts
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="parts"></param>
         public BoxSessionParts(IEnumerable<BoxSessionPartInfo> parts)
         {
             Parts = parts;

@@ -409,12 +409,11 @@ namespace Box.V2.Managers
             var fullFileSha1 = Helper.GetSha1Hash(stream); // TODO yhu@ should it be async?
 
             // Commit
-            var response = await CommitSessionAsync(commitUri, fullFileSha1, sessionPartsForCommit);
+            var response = await Retry.ExecuteAsync(async () => await CommitSessionAsync(commitUri, fullFileSha1, sessionPartsForCommit), TimeSpan.FromSeconds(3), 3) ;
 
             return response;
         }
 
-        // TODO yhu@ retry wrapper for upload and commit
         private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream, long fileSize)
         {
             var tasks = new List<Task<BoxUploadPartResponse>>();
@@ -426,8 +425,10 @@ namespace Box.V2.Managers
                 Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
                 string sha = Helper.GetSha1Hash(partFileStream);
                 partFileStream.Position = 0;
-                var uploadPartTask = UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream);
-                tasks.Add(uploadPartTask);
+
+                // Retry 3 times and internal is 3 seconds
+                var uploadPartWithRetryTask = Retry.ExecuteAsync(async () => await UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream), TimeSpan.FromSeconds(3), 3) ;
+                tasks.Add(uploadPartWithRetryTask);
             }
 
             var results = await CrossPlatform.WhenAll(tasks);
