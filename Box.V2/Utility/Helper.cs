@@ -71,8 +71,7 @@ namespace Box.V2.Utility
         }
 
         /// <summary>
-        /// Returns part of the file starting at offset.
-        /// TODO yhu@ update comments
+        /// Returns part of the file starting at offset in memory.
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="partSize"></param>
@@ -80,13 +79,33 @@ namespace Box.V2.Utility
         /// <returns></returns>
         public static Stream GetFilePart(Stream stream, long partSize, long partOffset)
         {
-            var partStream = new MemoryStream();
-            int byteRead = 0;
+            // Default the buffer size to 4K.
+            byte[] buffer = new byte[4096];
+            int bytesRead = 0;
             stream.Position = partOffset;
-            for (int i = 0; i < partSize && (byteRead = stream.ReadByte()) != -1; i++)
+            var partStream = new MemoryStream();
+            do
             {
-                partStream.WriteByte((byte)byteRead);
-            }
+                bytesRead = stream.Read(buffer, 0, 4096);
+                if (bytesRead > 0)
+                {
+                    long bytesToWrite = bytesRead;
+                    bool shouldBreak = false;
+                    if (partStream.Length + bytesRead >= partSize)
+                    {
+                        bytesToWrite = partSize - partStream.Length;
+                        shouldBreak = true;
+                    }
+
+                    partStream.Write(buffer, 0, Convert.ToInt32(bytesToWrite));
+
+                    if (shouldBreak)
+                    {
+                        break;
+                    }
+                }
+            } while (bytesRead > 0);
+
             return partStream;
         }
 

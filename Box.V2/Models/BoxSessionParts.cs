@@ -8,7 +8,7 @@ namespace Box.V2.Models
     /// </summary>
     public class BoxSessionParts
     {
-        public BoxSessionParts(List<BoxSessionPartInfo> parts)
+        public BoxSessionParts(IEnumerable<BoxSessionPartInfo> parts)
         {
             Parts = parts;
         }
@@ -17,7 +17,7 @@ namespace Box.V2.Models
         /// List of session parts uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "parts")]
-        public List<BoxSessionPartInfo> Parts { get; set; }
+        public IEnumerable<BoxSessionPartInfo> Parts { get; set; }
 
         /// <summary>
         /// Marker (if present) to sent in the next request of List parts.

@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections.Generic;
 
 #if NETSTANDARD1_4
 using System.Reflection;
@@ -15,6 +16,15 @@ namespace Box.V2.Utility
     /// </summary>
     public static class CrossPlatform
     {
+        public static Task<TResult[]> WhenAll<TResult>(IEnumerable<Task<TResult>> tasks)
+        {
+#if NETSTANDARD1_4
+            return Task.WhenAll(tasks);
+#else
+            return TaskEx.WhenAll(tasks);
+#endif
+        }
+
         /// <summary>
         /// Starts a Task that will complete after the specified due time.
         /// </summary>
@@ -29,6 +39,12 @@ namespace Box.V2.Utility
 #endif
         }
 
+        /// <summary>
+        /// Check if Type can convert to T
+        /// </summary>
+        /// <typeparam name="T">Convert to type.</typeparam>
+        /// <param name="objectType">Convert from type.</param>
+        /// <returns>true if able to convert.</returns>
         public static bool CanConvert<T>(Type objectType)
         {
 #if NETSTANDARD1_4

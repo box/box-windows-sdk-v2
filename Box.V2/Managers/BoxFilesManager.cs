@@ -383,7 +383,6 @@ namespace Box.V2.Managers
         /// <returns> The complete BoxFile object. </returns>
         public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName, long fileSize, string folderId)
         {
-            // TODO yhu@ should we have preflight check?
             // Create Upload Session
             BoxFileUploadSessionRequest uploadSessionRequest = new BoxFileUploadSessionRequest() {FileName = fileName, FileSize = fileSize, FolderId = folderId};
             BoxFileUploadSession boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest);
@@ -403,37 +402,25 @@ namespace Box.V2.Managers
             int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
 
             // Upload parts in the session
-            var allSessionParts = UploadPartsInSession(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize);
-
-            // Get the list of parts uploaded in Session
-            // Get upload parts by multiples of 1000 as 1000 is the default
-            /*
-            List<BoxSessionPartInfo> allSessionParts2 = new List<BoxSessionPartInfo>();
-            BoxSessionParts boxSessionParts = await GetSessionUploadedPartsAsync(listPartsUri);
-            allSessionParts2.AddRange(boxSessionParts.Parts);
-            while (!string.IsNullOrWhiteSpace(boxSessionParts.Marker))
-            {
-                boxSessionParts = await GetSessionUploadedPartsAsync(listPartsUri, boxSessionParts.Marker);
-                allSessionParts2.AddRange(boxSessionParts.Parts);
-            }
-            */
+            var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize);
 
             var sessionPartsForCommit = new BoxSessionParts(allSessionParts);
 
+            var fullFileSha1 = Helper.GetSha1Hash(stream); // TODO yhu@ should it be async?
+
             // Commit
-            var fullFileSha1 = Helper.GetSha1Hash(stream); // TODO yhu@ make it async
             var response = await CommitSessionAsync(commitUri, fullFileSha1, sessionPartsForCommit);
 
             return response;
         }
 
         // TODO yhu@ retry wrapper for upload and commit
-        private List<BoxSessionPartInfo> UploadPartsInSession(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream, long fileSize)
+        private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream, long fileSize)
         {
             var tasks = new List<Task<BoxUploadPartResponse>>();
             for (int i = 0; i < numberOfParts; i++)
             {
-                // TODO yhu@ 1. tasks number limit? 2. Split Stream
+                // TODO yhu@ 1. tasks number limit?
                 // Split file as per part size
                 long partOffset = partSize * i;
                 Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
@@ -443,15 +430,9 @@ namespace Box.V2.Managers
                 tasks.Add(uploadPartTask);
             }
 
-            // TODO yhu@ better concurrency to make the function truely async, not it's just blocking here
-            Task.WaitAll(tasks.ToArray());
+            var results = await CrossPlatform.WhenAll(tasks);
 
-            var ret = new List<BoxSessionPartInfo>();
-
-            foreach (var task in tasks)
-            {
-                ret.Add(task.Result.Part);
-            }
+            var ret = results.Select(elem => elem.Part);
 
             return ret;
         }
