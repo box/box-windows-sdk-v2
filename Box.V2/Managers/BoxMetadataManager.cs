@@ -66,9 +66,12 @@ namespace Box.V2.Managers
         /// <param name="metadata">Metadata to create</param>
         /// <param name="scope">Scope name. Currently, only the enterprise scope is supported</param>
         /// <param name="template">Metadata template name</param>
-        /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
+        /// <returns>An instance of the template that includes key:value pairs defined by a user or application.</returns>
         public async Task<Dictionary<string, object>> CreateFolderMetadataAsync(string folderId, Dictionary<string, object> metadata, string scope, string template)
         {
+            folderId.ThrowIfNullOrWhiteSpace("folderId");
+            scope.ThrowIfNullOrWhiteSpace("scope");
+            template.ThrowIfNullOrWhiteSpace("template");
             return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template);
         }
 
@@ -113,12 +116,16 @@ namespace Box.V2.Managers
         /// <summary>
         /// Used to delete the template instance. To delete custom key:value pairs within a template instance, you should refer to the updating metadata section.
         /// </summary>
-        /// <param name="folderId">Id of folder</param>
-        /// <param name="scope">Scope name. Currently, only the enterprise scope is supported</param>
-        /// <param name="template">Metadata template name</param>
-        /// <returns>True if successful, false otherwise.</returns>
+        /// <param name="folderId">Id of folder.</param>
+        /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global.</param>
+        /// <param name="template">Metadata template name.</param>
+        /// <returns>Response to confirm the deletion of the template instance</returns>
         public async Task<bool> DeleteFolderMetadataAsync(string folderId, string scope, string template)
         {
+            folderId.ThrowIfNullOrWhiteSpace("folderId");
+            scope.ThrowIfNullOrWhiteSpace("scope");
+            template.ThrowIfNullOrWhiteSpace("template");
+
             return await DeleteMetadata(_config.FoldersEndpointUri, folderId, scope, template);
         }
 

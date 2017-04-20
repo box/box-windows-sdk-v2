@@ -107,7 +107,7 @@ namespace Box.V2.Test
 
             /*** Assert ***/
             /*** Request ***/
-            Assert.AreEqual(string.Format("{0}/metadata/{1}/{2}","5010739061", "enterprise", "bandInfo"), boxRequest.Path);
+            Assert.AreEqual(string.Format("{0}/metadata/{1}/{2}", "5010739061", "enterprise", "bandInfo"), boxRequest.Path);
             /*** Response ***/
             Assert.AreEqual("internal", metadata["audience1"]);
             Assert.AreEqual("Q1 plans", metadata["documentType"]);
@@ -283,6 +283,83 @@ namespace Box.V2.Test
             Assert.AreEqual("Q1 plans", result["documentType"]);
             Assert.AreEqual((long)1, result["$version"]);
             Assert.AreEqual("reviewed", result["currentState"]);
+        }
+
+        [TestMethod]
+        public async Task CreateFolderMetadata_ValidResponse_ValidMetadata()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""currentDocumentStage"": ""initial vetting"",
+                                        ""needsApprovalFrom"": ""vetting team"",
+                                        ""nextDocumentStage"": ""prioritization"",
+                                        ""$type"": ""documentFlow-452b4c9d-c3ad-4ac7-b1ad-9d5192f2fc5f"",
+                                        ""$parent"": ""folder_998951261"",
+                                        ""$id"": ""e57f90ff-0044-48c2-807d-06b908765baf"",
+                                        ""$version"": 0,
+                                        ""$typeVersion"": 0,
+                                        ""$template"": ""documentFlow"",
+                                        ""$scope"": ""enterprise_12345""
+                                    }";
+
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            Dictionary<string, object> inputMetadata = new Dictionary<string, object>()
+                                                        {
+                                                            {"currentDocumentStage", "initial vetting"},
+                                                            {"needsApprovalFrom", "vetting team"},
+                                                            {"nextDocumentStage", "prioritization"}
+                                                        };
+            Dictionary<string, object> metadata = await _metadataManager.CreateFolderMetadataAsync("998951261", inputMetadata, "enterprise", "documentFlow");
+
+            /*** Assert ***/
+            /***request***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(_FoldersUri + "998951261/metadata/enterprise/documentFlow", boxRequest.AbsoluteUri.AbsoluteUri);
+            Dictionary<string, object> payLoad = JsonConvert.DeserializeObject<Dictionary<string, object>>(boxRequest.Payload);
+            foreach (string key in inputMetadata.Keys)
+            {
+                Assert.AreEqual(inputMetadata[key], payLoad[key]);
+            }
+            /***response***/
+            Assert.AreEqual(inputMetadata["currentDocumentStage"], metadata["currentDocumentStage"]);
+            Assert.AreEqual(inputMetadata["needsApprovalFrom"], metadata["needsApprovalFrom"]);
+            Assert.AreEqual(inputMetadata["nextDocumentStage"], metadata["nextDocumentStage"]);
+        }
+
+        [TestMethod]
+        public async Task DeleteFolderMetadata_ValidResponse_ValidMetadata()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+
+            IBoxRequest boxRequest = null;
+            _handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            bool result = await _metadataManager.DeleteFolderMetadataAsync("testFolderId", "testScope", "testTemplate");
+
+            /*** Assert ***/
+            /***request***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(_FoldersUri + "testFolderId/metadata/testScope/testTemplate", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            /***response***/
+            Assert.IsTrue(result);
         }
     }
 }
