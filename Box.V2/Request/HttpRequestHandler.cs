@@ -73,22 +73,27 @@ namespace Box.V2.Request
                     using (httpRequest)
                     using (var response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false))
                     {
+                        //need to wait for Retry-After seconds and then retry request
+                        var retryAfterHeader = response.Headers.RetryAfter;
+
                         // If we get a 429 error code and this is not a multi part request (meaning a file upload, which cannot be retried
                         // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
-                        if ((response.StatusCode == TooManyRequests && !isMultiPartRequest) && numRetries-- > 0)
+                        // If we get a 202 code and has a retry-after header, we will retry after
+                        if (
+                            ((response.StatusCode == TooManyRequests && !isMultiPartRequest)
+                            ||
+                            (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader.Delta.HasValue)) 
+                            && numRetries-- > 0)
                         {
-                            //need to wait for Retry-After seconds and then retry request
-                            var retryAfterHeader = response.Headers.RetryAfter;
-
-                            TimeSpan delay;
+                            TimeSpan delay = TimeSpan.FromSeconds(2);
                             if (retryAfterHeader.Delta.HasValue)
+                            {
                                 delay = retryAfterHeader.Delta.Value;
-                            else
-                                delay = TimeSpan.FromMilliseconds(2000);
+                            }
 
-                            Debug.WriteLine("TooManyRequests error (429). Waiting for {0} seconds to retry request. RequestUri: {1}", delay.Seconds, httpRequest.RequestUri);
+                            Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
 
-                            await CrossPlatform.Delay(Convert.ToInt32(delay.TotalMilliseconds));
+                            await CrossPlatform.Delay(delay);
                         }
                         else
                         {

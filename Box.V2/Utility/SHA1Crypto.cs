@@ -8,14 +8,14 @@ using System.IO;
 
 namespace Box.V2.Utility
 {
-    public abstract class SHA1 : HashAlgorithm
+    public abstract class SHA1Crypto : HashAlgorithm
     {
         static public HashAlgorithm Create()
         {
             return new SHA1CryptoServiceProvider();
         }
 
-        protected SHA1()
+        protected SHA1Crypto()
         {
             HashSizeValue = 160;
         }
@@ -494,7 +494,7 @@ namespace Box.V2.Utility
         }
     }
 
-    public sealed class SHA1CryptoServiceProvider : SHA1
+    public sealed class SHA1CryptoServiceProvider : SHA1Crypto
     {
         private SHA1Internal sha;
 

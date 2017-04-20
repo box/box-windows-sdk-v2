@@ -51,67 +51,6 @@ namespace Box.V2.Utility
         }
 
         /// <summary>
-        /// Retuns the number of parts to be uploaded in Session
-        /// </summary>
-        /// <param name="totalSize"></param>
-        /// <param name="partSize"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public static int GetNumberOfParts(long totalSize, long partSize)
-        {
-            if (partSize == 0)
-                throw new Exception("Part Size cannot be 0");
-            int numberOfParts = 1;
-            if (partSize != totalSize)
-            {
-                numberOfParts = Convert.ToInt32(totalSize / partSize);
-                numberOfParts += 1;
-            }
-            return numberOfParts;
-        }
-
-        /// <summary>
-        /// Returns part of the file starting at offset in memory.
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="partSize"></param>
-        /// <param name="partOffset"></param>
-        /// <returns></returns>
-        public static Stream GetFilePart(Stream stream, long partSize, long partOffset)
-        {
-            // Default the buffer size to 4K.
-            const int bufferSize = 4096;
-
-            byte[] buffer = new byte[bufferSize];
-            int bytesRead = 0;
-            stream.Position = partOffset;
-            var partStream = new MemoryStream();
-            do
-            {
-                bytesRead = stream.Read(buffer, 0, 4096);
-                if (bytesRead > 0)
-                {
-                    long bytesToWrite = bytesRead;
-                    bool shouldBreak = false;
-                    if (partStream.Length + bytesRead >= partSize)
-                    {
-                        bytesToWrite = partSize - partStream.Length;
-                        shouldBreak = true;
-                    }
-
-                    partStream.Write(buffer, 0, Convert.ToInt32(bytesToWrite));
-
-                    if (shouldBreak)
-                    {
-                        break;
-                    }
-                }
-            } while (bytesRead > 0);
-
-            return partStream;
-        }
-
-        /// <summary>
         /// Calculate sha1 hash.
         /// </summary>
         /// <param name="stream"> the input stream. </param>
@@ -119,7 +58,7 @@ namespace Box.V2.Utility
         public static string GetSha1Hash(Stream stream)
         {
             stream.Position = 0;
-            var sha1 = Box.V2.Utility.SHA1.Create();
+            var sha1 = SHA1Crypto.Create();
             byte[] hash = sha1.ComputeHash(stream);
 
             return Convert.ToBase64String(hash);
