@@ -80,7 +80,9 @@ namespace Box.V2.Utility
         public static Stream GetFilePart(Stream stream, long partSize, long partOffset)
         {
             // Default the buffer size to 4K.
-            byte[] buffer = new byte[4096];
+            const int bufferSize = 4096;
+
+            byte[] buffer = new byte[bufferSize];
             int bytesRead = 0;
             stream.Position = partOffset;
             var partStream = new MemoryStream();
@@ -119,7 +121,7 @@ namespace Box.V2.Utility
             stream.Position = 0;
             var sha1 = Box.V2.Utility.SHA1.Create();
             byte[] hash = sha1.ComputeHash(stream);
-            
+
             return Convert.ToBase64String(hash);
         }
     }

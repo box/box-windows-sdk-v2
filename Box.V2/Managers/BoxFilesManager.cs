@@ -374,13 +374,13 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Upload a large file by splitting them up and uploads in a session. NOTE: Available only in .NET CORE. Not available in portable library.
+        /// Upload a large file by splitting them up and uploads in a session.
         /// </summary>
         /// <param name="stream">The file stream.</param>
         /// <param name="fileName">Name of the remote file name.</param>
         /// <param name="fileSize">Size of the file in bytes.</param>
         /// <param name="folderId">parent folder id.</param>
-        /// <returns> The complete BoxFile object. </returns>
+        /// <returns> The complete BoxFile object.</returns>
         public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName, long fileSize, string folderId)
         {
             // Create Upload Session
@@ -401,39 +401,76 @@ namespace Box.V2.Managers
 
             int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
 
-            // Upload parts in the session
+            // Upload parts in session
             var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize);
 
             var sessionPartsForCommit = new BoxSessionParts(allSessionParts);
 
-            var fullFileSha1 = Helper.GetSha1Hash(stream); // TODO yhu@ should it be async?
+            // Full file sha1
+            var fullFileSha1 = Helper.GetSha1Hash(stream);
 
-            // Commit
-            var response = await Retry.ExecuteAsync(async () => await CommitSessionAsync(commitUri, fullFileSha1, sessionPartsForCommit), TimeSpan.FromSeconds(3), 3) ;
+            // Commit, Retry 3 times with interval related to the total part number
+            const int retryCount = 3;
+            int retryInterval = allSessionParts.Count() * 100;
+
+            var response = await Retry.ExecuteAsync(async () => await CommitSessionAsync(commitUri, fullFileSha1, sessionPartsForCommit), TimeSpan.FromMilliseconds(retryInterval), retryCount) ;
 
             return response;
         }
 
         private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream, long fileSize)
         {
+            // Limit to 5 tasks
+            // TODO yhu@ http://stackoverflow.com/questions/8834045/can-i-limit-the-amount-of-system-threading-tasks-task-objects-that-run-simultane
+            const int maxTaskNum = 5;
+
+            // Retry 3 times for 10 seconds
+            const int retryMaxCount = 3;
+            const int retryMaxInterval = 10;
+
             var tasks = new List<Task<BoxUploadPartResponse>>();
+            var ret = new List<BoxSessionPartInfo>();
+
             for (int i = 0; i < numberOfParts; i++)
             {
-                // TODO yhu@ 1. tasks number limit?
                 // Split file as per part size
                 long partOffset = partSize * i;
-                Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
-                string sha = Helper.GetSha1Hash(partFileStream);
-                partFileStream.Position = 0;
 
-                // Retry 3 times and internal is 3 seconds
-                var uploadPartWithRetryTask = Retry.ExecuteAsync(async () => await UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream), TimeSpan.FromSeconds(3), 3) ;
+                // Retry
+                var uploadPartWithRetryTask = Retry.ExecuteAsync(async () =>
+                    {
+                        // Release the memory when done
+                        using (var partFileStream = Helper.GetFilePart(stream, partSize, partOffset))
+                        {
+                            string sha = Helper.GetSha1Hash(partFileStream);
+                            partFileStream.Position = 0;
+                            var uploadPartResponse = await UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream);
+
+                            return uploadPartResponse;
+                        }
+                    }
+                    ,
+                    TimeSpan.FromSeconds(retryMaxInterval), retryMaxCount) ;
+
                 tasks.Add(uploadPartWithRetryTask);
+
+                // Limit the concurrent tasks
+                if (tasks.Count >= maxTaskNum)
+                {
+                    var results = await CrossPlatform.WhenAll(tasks);
+                    ret.AddRange(results.Select(elem => elem.Part));
+
+                    // reset
+                    tasks.Clear();
+                }
             }
 
-            var results = await CrossPlatform.WhenAll(tasks);
-
-            var ret = results.Select(elem => elem.Part);
+            // Capture the last part
+            if (tasks.Count > 0)
+            {
+               var results = await CrossPlatform.WhenAll(tasks);
+               ret.AddRange(results.Select(elem => elem.Part));
+            }
 
             return ret;
         }

@@ -16,6 +16,33 @@ namespace Box.V2.Utility
     /// </summary>
     public static class CrossPlatform
     {
+        public static Task<TResult> Run<TResult>(Func<TResult> task)
+        {
+#if NETSTANDARD1_4
+            return Task.Run(task);
+#else
+            return TaskEx.Run(task);
+#endif
+        }
+
+        public static Task WhenAll(params Task[] tasks)
+        {
+#if NETSTANDARD1_4
+            return Task.WhenAll(tasks);
+#else
+            return TaskEx.WhenAll(tasks);
+#endif
+        }
+
+        public static Task<TResult> Run<TResult>(Func<Task<TResult>> action)
+        {
+#if NETSTANDARD1_4
+            return Task.Run(action);
+#else
+            return TaskEx.Run(action);
+#endif
+        }
+
         public static Task<TResult[]> WhenAll<TResult>(IEnumerable<Task<TResult>> tasks)
         {
 #if NETSTANDARD1_4
