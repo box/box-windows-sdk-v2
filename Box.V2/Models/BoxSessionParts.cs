@@ -8,7 +8,11 @@ namespace Box.V2.Models
     /// </summary>
     public class BoxSessionParts
     {
-        public BoxSessionParts(List<BoxSessionPartInfo> parts)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="parts"></param>
+        public BoxSessionParts(IEnumerable<BoxSessionPartInfo> parts)
         {
             Parts = parts;
         }
@@ -17,13 +21,26 @@ namespace Box.V2.Models
         /// List of session parts uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "parts")]
-        public List<BoxSessionPartInfo> Parts { get; set; }
+        public IEnumerable<BoxSessionPartInfo> Parts { get; set; }
 
         /// <summary>
         /// Marker (if present) to sent in the next request of List parts.
         /// </summary>
         [JsonProperty(PropertyName = "marker")]
         public string Marker { get; set; }
+    }
+
+    // TODO yhu@ better file structure
+    /// <summary>
+    /// Response of upload part.
+    /// </summary>
+    public class BoxUploadPartResponse
+    {
+        /// <summary>
+        /// List of session parts uploaded.
+        /// </summary>
+        [JsonProperty(PropertyName = "part")]
+        public BoxSessionPartInfo Part { get; set; }
     }
 
     /// <summary>
@@ -48,5 +65,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "size")]
         public long Size { get; set; }
+
+        /// <summary>
+        /// String with hexadecimal representation of part’s SHA-1.
+        /// </summary>
+        [JsonProperty(PropertyName = "sha1")]
+        public string Sha1 { get; set; }
     }
 }

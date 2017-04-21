@@ -1,6 +1,7 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
+using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
@@ -79,7 +80,7 @@ namespace Box.V2.Managers
 
             return locationUri;
         }
-        
+
         /// <summary>
         /// Verify that a file will be accepted by Box before you send all the bytes over the wire.
         /// </summary>
@@ -197,10 +198,10 @@ namespace Box.V2.Managers
             var uploadUri = _config.FilesUploadSessionEndpointUri;
 
             var request = new BoxRequest(uploadUri)
-                .Method(RequestMethod.Post)
-                .Payload("folder_id", uploadSessionRequest.FolderId)
-                .Payload("file_size", uploadSessionRequest.FileSize.ToString())
-                .Payload("file_name", uploadSessionRequest.FileName);
+                .Method(RequestMethod.Post);
+
+            request.Payload = _converter.Serialize(uploadSessionRequest);
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
             IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
 
@@ -282,25 +283,29 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="uploadPartUri">Upload Uri from Create Session which include SessionId</param>
         /// <param name="sha">The message digest of the part body, formatted as specified by RFC 3230.</param>
-        /// <param name="partId">A valid 8 character hex string that identifies the part upload request.</param>
         /// <param name="partStartOffsetInBytes">Part begin offset in bytes.</param>
         /// <param name="sizeOfOriginalFileInBytes">Size of original file in bytes.</param>
         /// <param name="stream">The file part stream.</param>
-        /// <returns></returns>
-        public async Task<bool> UploadPartAsync(Uri uploadPartUri, string sha, string partId, long partStartOffsetInBytes, long sizeOfOriginalFileInBytes, Stream stream)
+        /// <param name="partId">Optional 8 character hex string that identifies the part upload request.</param>
+        /// <returns>The complete BoxUploadPartResponse object if success.</returns>
+        public async Task<BoxUploadPartResponse> UploadPartAsync(Uri uploadPartUri, string sha, long partStartOffsetInBytes, long sizeOfOriginalFileInBytes, Stream stream, string partId = null)
         {
             var request = new BoxBinaryRequest(uploadPartUri)
                 .Method(RequestMethod.Put)
                 .Header(Constants.RequestParameters.Digest, "sha=" + sha)
-                .Header(Constants.RequestParameters.BoxPartId, partId)
                 .Header(Constants.RequestParameters.ContentRange, "bytes " + partStartOffsetInBytes + "-" + (partStartOffsetInBytes + stream.Length - 1) + "/" + sizeOfOriginalFileInBytes)
                 .Part(new BoxFilePart() {
                     Value = stream
                 });
 
-            var response = await ToResponseAsync<object>(request).ConfigureAwait(false);
+            if (!string.IsNullOrEmpty(partId))
+            {
+                request.Header(Constants.RequestParameters.BoxPartId, partId);
+            }
 
-            return response.Status == ResponseStatus.Success;
+            var response = await ToResponseAsync<BoxUploadPartResponse>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
         }
 
         /// <summary>
@@ -309,8 +314,8 @@ namespace Box.V2.Managers
         /// <param name="commitSessionUrl">Commit URL returned in the Create Session response.</param>
         /// <param name="sha">The message digest of the complete file, formatted as specified by RFC 3230.</param>
         /// <param name="sessionPartsInfo">Parts info for the uploaded parts.</param>
-        /// <returns>True or False on whether the commit was successful.</returns>
-        public async Task<bool> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
+        /// <returns> The complete BoxFile object. </returns>
+        public async Task<BoxFile> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
             BoxRequest request = new BoxRequest(commitSessionUrl)
                 .Method(RequestMethod.Post)
@@ -319,9 +324,10 @@ namespace Box.V2.Managers
 
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
-            IBoxResponse<object> response = await ToResponseAsync<object>(request).ConfigureAwait(false);
+            var response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
-            return response.Status == ResponseStatus.Success;
+            // We can only commit one file at a time, so return the first entry
+            return response.ResponseObject.Entries.FirstOrDefault();
         }
 
         /// <summary>
@@ -339,7 +345,7 @@ namespace Box.V2.Managers
                 //Add marker
                 sessionPartsUri = sessionPartsUri.AppendQueryString("marker", marker);
             }
-            if ( limit.HasValue )
+            if (limit.HasValue)
             {
                 //Add value to query string
                 sessionPartsUri = sessionPartsUri.AppendQueryString("limit", limit.Value.ToString());
@@ -368,18 +374,17 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Upload a large file by splitting them up and uploads in a session. NOTE: Available only in .NET CORE. Not available in portable library.
+        /// Upload a large file by splitting them up and uploads in a session.
         /// </summary>
         /// <param name="stream">The file stream.</param>
         /// <param name="fileName">Name of the remote file name.</param>
-        /// <param name="fileSize">Size of the file.</param>
         /// <param name="folderId">parent folder id.</param>
-        /// <param name="sha1HashFunction">Function delegate that returns message digest of the stream, formatted as specified by RFC 3230.</param>
-        /// <returns></returns>
-        public async Task<bool> UploadUsingSessionAsync(Stream stream, string fileName, long fileSize, string folderId, Func<Stream,string> sha1HashFunction)
+        /// <returns> The complete BoxFile object.</returns>
+        public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName, string folderId)
         {
             // Create Upload Session
-            BoxFileUploadSessionRequest uploadSessionRequest = new BoxFileUploadSessionRequest() {FileName = fileName, FileSize = fileSize, FolderId = folderId};
+            long fileSize = stream.Length;
+            BoxFileUploadSessionRequest uploadSessionRequest = new BoxFileUploadSessionRequest() { FileName = fileName, FileSize = fileSize, FolderId = folderId };
             BoxFileUploadSession boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest);
 
             // Parse upload session response
@@ -388,42 +393,86 @@ namespace Box.V2.Managers
             Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
             Uri commitUri = new Uri(boxSessionEndpoint.Commit);
             string partSize = boxFileUploadSession.PartSize;
-            long partSizeLong;
-            long.TryParse(partSize, out partSizeLong);
-            int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
-
-            // Upload parts in the session
-            await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize, sha1HashFunction);
-
-            // Get the list of parts uploaded in Session
-            // Get upload parts by multiples of 1000 as 1000 is the default
-            List<BoxSessionPartInfo> allSessionParts = new List<BoxSessionPartInfo>();
-            BoxSessionParts boxSessionParts = await GetSessionUploadedPartsAsync(listPartsUri);
-            allSessionParts.AddRange(boxSessionParts.Parts);
-            while (!string.IsNullOrWhiteSpace(boxSessionParts.Marker))
+            long partSizeLong = 0;
+            if (long.TryParse(partSize, out partSizeLong) == false)
             {
-                boxSessionParts = await GetSessionUploadedPartsAsync(listPartsUri, boxSessionParts.Marker);
-                allSessionParts.AddRange(boxSessionParts.Parts);
+                throw new BoxException("File part size is wrong!");
             }
-            BoxSessionParts sessionPartsForCommit = new BoxSessionParts(allSessionParts);
 
-            // Commit
-            return await CommitSessionAsync(commitUri, sha1HashFunction(stream), sessionPartsForCommit);
+            int numberOfParts = UploadUsingSessionInternal.GetNumberOfParts(fileSize, partSizeLong);
+
+            // Upload parts in session
+            var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize);
+
+            var sessionPartsForCommit = new BoxSessionParts(allSessionParts);
+
+            // Full file sha1 TODO yhu@ CPU bound here
+            var fullFileSha1 = Helper.GetSha1Hash(stream);
+
+            // Commit, Retry 2 times with interval related to the total part number
+            const int retryCount = 2;
+            int retryInterval = allSessionParts.Count() * 100;
+
+            var response = await Retry.ExecuteAsync(async () => await CommitSessionAsync(commitUri, fullFileSha1, sessionPartsForCommit), TimeSpan.FromMilliseconds(retryInterval), retryCount);
+
+            return response;
         }
 
-        private async Task UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
-           long fileSize, Func<Stream, string> sha1HashFunction)
+        private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream, long fileSize)
         {
+            // Limit to 5 tasks
+            // TODO yhu@ http://stackoverflow.com/questions/8834045/can-i-limit-the-amount-of-system-threading-tasks-task-objects-that-run-simultane
+            const int maxTaskNum = 5;
+
+            // Retry 3 times for 10 seconds
+            const int retryMaxCount = 3;
+            const int retryMaxInterval = 10;
+
+            var tasks = new List<Task<BoxUploadPartResponse>>();
+            var ret = new List<BoxSessionPartInfo>();
+
             for (int i = 0; i < numberOfParts; i++)
             {
-                string uniqueRandomPartId = Helper.GetRandomString(8);
                 // Split file as per part size
                 long partOffset = partSize * i;
-                Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
-                string sha = sha1HashFunction(partFileStream);
-                partFileStream.Position = 0;
-                await UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize, partFileStream);
+
+                // Retry
+                var uploadPartWithRetryTask = Retry.ExecuteAsync(async () =>
+                    {
+                        // Release the memory when done
+                        using (var partFileStream = UploadUsingSessionInternal.GetFilePart(stream, partSize, partOffset))
+                        {
+                            string sha = Helper.GetSha1Hash(partFileStream);
+                            partFileStream.Position = 0;
+                            var uploadPartResponse = await UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream);
+
+                            return uploadPartResponse;
+                        }
+                    }
+                    ,
+                    TimeSpan.FromSeconds(retryMaxInterval), retryMaxCount);
+
+                tasks.Add(uploadPartWithRetryTask);
+
+                // Limit the concurrent tasks
+                if (tasks.Count >= maxTaskNum)
+                {
+                    var results = await CrossPlatform.WhenAll(tasks);
+                    ret.AddRange(results.Select(elem => elem.Part));
+
+                    // reset
+                    tasks.Clear();
+                }
             }
+
+            // Capture the last part
+            if (tasks.Count > 0)
+            {
+                var results = await CrossPlatform.WhenAll(tasks);
+                ret.AddRange(results.Select(elem => elem.Part));
+            }
+
+            return ret;
         }
 
         private string HexStringFromBytes(byte[] bytes)
@@ -999,13 +1048,66 @@ namespace Box.V2.Managers
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.PromoteVersionPathString, id))
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize(new BoxPromoteVersionRequest()
-                    {
-                        Id = versionId
-                    }));
+                {
+                    Id = versionId
+                }));
 
             IBoxResponse<BoxFileVersion> response = await ToResponseAsync<BoxFileVersion>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
+        }
+    }
+
+    internal static class UploadUsingSessionInternal
+    {
+        public static int GetNumberOfParts(long totalSize, long partSize)
+        {
+            if (partSize == 0)
+            {
+                throw new BoxException("Part Size cannot be 0");
+            }
+
+            int numberOfParts = 1;
+            if (partSize != totalSize)
+            {
+                numberOfParts = Convert.ToInt32(totalSize / partSize);
+                numberOfParts += 1;
+            }
+            return numberOfParts;
+        }
+
+        public static Stream GetFilePart(Stream stream, long partSize, long partOffset)
+        {
+            // Default the buffer size to 4K.
+            const int bufferSize = 4096;
+
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead = 0;
+            stream.Position = partOffset;
+            var partStream = new MemoryStream();
+            do
+            {
+                bytesRead = stream.Read(buffer, 0, 4096);
+                if (bytesRead > 0)
+                {
+                    long bytesToWrite = bytesRead;
+                    bool shouldBreak = false;
+                    if (partStream.Length + bytesRead >= partSize)
+                    {
+                        bytesToWrite = partSize - partStream.Length;
+                        shouldBreak = true;
+                    }
+
+                    partStream.Write(buffer, 0, Convert.ToInt32(bytesToWrite));
+
+                    if (shouldBreak)
+                    {
+                        break;
+                    }
+                }
+            } while (bytesRead > 0);
+
+            return partStream;
         }
     }
 }

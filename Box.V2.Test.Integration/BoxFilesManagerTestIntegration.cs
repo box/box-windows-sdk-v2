@@ -255,7 +255,7 @@ namespace Box.V2.Test.Integration
             string partSize = boxFileUploadSession.PartSize;
             long partSizeLong;
             long.TryParse(partSize, out partSizeLong);
-            int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
+            int numberOfParts = UploadUsingSessionInternal.GetNumberOfParts(fileSize, partSizeLong);
 
             // Upload parts in the session
             await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, fileInMemoryStream, fileSize);
@@ -293,7 +293,7 @@ namespace Box.V2.Test.Integration
             string partSize = boxFileUploadSession.PartSize;
             long partSizeLong;
             long.TryParse(partSize, out partSizeLong);
-            int numberOfParts = Helper.GetNumberOfParts(fileSize, partSizeLong);
+            int numberOfParts = UploadUsingSessionInternal.GetNumberOfParts(fileSize, partSizeLong);
 
             // Upload parts in the session
             await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, fileInMemoryStream, fileSize);
@@ -303,7 +303,7 @@ namespace Box.V2.Test.Integration
 
             // Get upload parts (1 by 1) for Integration testing purposes
             List<BoxSessionPartInfo> allSessionParts = new List<BoxSessionPartInfo>();
-            BoxSessionParts boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri, null, 1);
+            BoxSessionParts boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri);
             allSessionParts.AddRange(boxSessionParts.Parts);
             while ( !string.IsNullOrWhiteSpace(boxSessionParts.Marker) )
             {
@@ -313,7 +313,7 @@ namespace Box.V2.Test.Integration
             BoxSessionParts sessionPartsForCommit = new BoxSessionParts(allSessionParts);
 
             // Commit
-            await _client.FilesManager.CommitSessionAsync(commitUri, GetSha1Hash(fileInMemoryStream), sessionPartsForCommit);
+            await _client.FilesManager.CommitSessionAsync(commitUri, Helper.GetSha1Hash(fileInMemoryStream), sessionPartsForCommit);
 
             // Assert file is committed/uploaded to box
             Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
@@ -338,7 +338,7 @@ namespace Box.V2.Test.Integration
             string parentFolderId = "0";
 
             // Call Utility function
-            await _client.FilesManager.UploadUsingSessionAsync(fileInMemoryStream, remoteFileName, fileSize, parentFolderId, GetSha1Hash);
+            await _client.FilesManager.UploadUsingSessionAsync(fileInMemoryStream, remoteFileName, parentFolderId);
 
             // Assert file is committed/uploaded to box
             Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
@@ -376,25 +376,13 @@ namespace Box.V2.Test.Integration
         {
             for (int i = 0; i < numberOfParts; i++)
             {
-                string uniqueRandomPartId = Helper.GetRandomString(8);
                 // Split file as per part size
                 long partOffset = partSize * i;
-                Stream partFileStream = Helper.GetFilePart(stream, partSize, partOffset);
-                string sha = GetSha1Hash(partFileStream);
+                Stream partFileStream = UploadUsingSessionInternal.GetFilePart(stream, partSize, partOffset);
+                string sha = Helper.GetSha1Hash(partFileStream);
                 partFileStream.Position = 0;
-                await
-                    _client.FilesManager.UploadPartAsync(uploadPartsUri, sha, uniqueRandomPartId, partOffset, fileSize,
-                        partFileStream);
+                await _client.FilesManager.UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream);
             }
-        }
-
-        private string GetSha1Hash(Stream stream)
-        {
-            stream.Position = 0;
-            SHA1 sha1 = SHA1.Create();
-            byte[] hash = sha1.ComputeHash(stream);
-            string base64String = Convert.ToBase64String(hash);
-            return base64String;
         }
 
         private async Task<bool> DoesFileExistInFolder(string folderId, string fileName)
@@ -410,7 +398,56 @@ namespace Box.V2.Test.Integration
             BoxCollection<BoxItem> boxCollection = await _client.FoldersManager.GetFolderItemsAsync(folderId, 1000);
             return boxCollection.Entries.FirstOrDefault(item => item.Name == fileName)?.Id;
         }
-
         #endregion
+
+        internal static class UploadUsingSessionInternal
+        {
+            public static int GetNumberOfParts(long totalSize, long partSize)
+            {
+                if (partSize == 0)
+                    throw new Exception("Part Size cannot be 0");
+                int numberOfParts = 1;
+                if (partSize != totalSize)
+                {
+                    numberOfParts = Convert.ToInt32(totalSize / partSize);
+                    numberOfParts += 1;
+                }
+                return numberOfParts;
+            }
+
+            public static Stream GetFilePart(Stream stream, long partSize, long partOffset)
+            {
+                // Default the buffer size to 4K.
+                const int bufferSize = 4096;
+
+                byte[] buffer = new byte[bufferSize];
+                int bytesRead = 0;
+                stream.Position = partOffset;
+                var partStream = new MemoryStream();
+                do
+                {
+                    bytesRead = stream.Read(buffer, 0, 4096);
+                    if (bytesRead > 0)
+                    {
+                        long bytesToWrite = bytesRead;
+                        bool shouldBreak = false;
+                        if (partStream.Length + bytesRead >= partSize)
+                        {
+                            bytesToWrite = partSize - partStream.Length;
+                            shouldBreak = true;
+                        }
+
+                        partStream.Write(buffer, 0, Convert.ToInt32(bytesToWrite));
+
+                        if (shouldBreak)
+                        {
+                            break;
+                        }
+                    }
+                } while (bytesRead > 0);
+
+                return partStream;
+            }
+        }
     }
 }

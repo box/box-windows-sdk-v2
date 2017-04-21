@@ -5,18 +5,13 @@ namespace Box.V2.Models
     /// <summary>
     /// Represents box upload session
     /// </summary>
-    public class BoxFileUploadSession
+    public class BoxFileUploadSession : BoxEntity
     {
-        public const string FieldUploadSessionId = "upload_session_id";
         public const string FieldSessionExpiresAt = "session_expires_at";
         public const string FieldPartSize = "part_size";
         public const string FieldSessionEndpoints = "session_endpoints";
-
-        /// <summary>
-        /// The upload session id.
-        /// </summary>
-        [JsonProperty(PropertyName = FieldUploadSessionId)]
-        public string UploadSessionId { get; private set; }
+        public const string FieldTotalParts = "total_parts";
+        public const string FieldNumPartsProcessed = "num_parts_processed";
 
         /// <summary>
         /// Session expiration time in RFC 3339.
@@ -35,5 +30,17 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldSessionEndpoints)]
         public BoxSessionEndpoint SessionEndpoints { get; private set; }
+
+        /// <summary>
+        /// Total number of parts.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldTotalParts)]
+        public int TotalParts { get; private set; }
+
+        /// <summary>
+        /// Number of parts processed.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldNumPartsProcessed)]
+        public int NumPartsProcessed { get; private set; }
     }
 }

@@ -27,9 +27,9 @@ namespace Box.V2.Config
         public const string GroupMembershipString = @"group_memberships/";
         public const string FilesString = @"files/";
         public const string FilesUploadString = @"files/content";
-        public const string FilesUploadSessionString = @"files/upload-session";
+        public const string FilesUploadSessionString = @"files/upload_sessions";
         public const string FilesNewVersionString = @"files/{0}/content";
-        public const string FilesNewVersionUploadSessionString = @"files/{0}/upload-session";
+        public const string FilesNewVersionUploadSessionString = @"files/{0}/upload_sessions";
         public const string CommentsString = @"comments/";
         public const string SearchString = @"search";
         public const string UserString = @"users/";
@@ -156,6 +156,7 @@ namespace Box.V2.Config
         public const string TypeDevicePin = "device_pinner";
         public const string TypeLegalHoldPolicy = "legal_hold_policy";
         public const string TypeLegalHoldPolicyAssignment = "legal_hold_policy_assignment";
+        public const string TypeUploadSession = "upload_session";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds

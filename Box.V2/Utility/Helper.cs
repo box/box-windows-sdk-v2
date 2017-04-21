@@ -51,58 +51,17 @@ namespace Box.V2.Utility
         }
 
         /// <summary>
-        /// Retuns the number of parts to be uploaded in Session
+        /// Calculate sha1 hash.
         /// </summary>
-        /// <param name="totalSize"></param>
-        /// <param name="partSize"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public static int GetNumberOfParts(long totalSize, long partSize)
+        /// <param name="stream"> the input stream. </param>
+        /// <returns>Base64 encoded sha1 hash.</returns>
+        public static string GetSha1Hash(Stream stream)
         {
-            if (partSize == 0)
-                throw new Exception("Part Size cannot be 0");
-            int numberOfParts = 1;
-            if (partSize != totalSize)
-            {
-                numberOfParts = Convert.ToInt32(totalSize / partSize);
-                numberOfParts += 1;
-            }
-            return numberOfParts;
-        }
+            stream.Position = 0;
+            var sha1 = SHA1Crypto.Create();
+            byte[] hash = sha1.ComputeHash(stream);
 
-        /// <summary>
-        /// Return a Random (probably unique) string.
-        /// </summary>
-        /// <param name="length">Lenght of the string returned.</param>
-        /// <returns></returns>
-        public static string GetRandomString(int length)
-        {
-            Random random = new Random();
-            byte[] buffer = new byte[length / 2];
-            random.NextBytes(buffer);
-            string result = String.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
-            if (length % 2 == 0)
-                return result;
-            return result + random.Next(16).ToString("X");
-        }
-
-        /// <summary>
-        /// Returns part of the file starting at offset.
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="partSize"></param>
-        /// <param name="partOffset"></param>
-        /// <returns></returns>
-        public static Stream GetFilePart(Stream stream, long partSize, long partOffset)
-        {
-            MemoryStream partStream = new MemoryStream();
-            int byteRead;
-            stream.Position = partOffset;
-            for (int i = 0; i < partSize && (byteRead = stream.ReadByte()) != -1; i++)
-            {
-                partStream.WriteByte((byte)byteRead);
-            }
-            return partStream;
+            return Convert.ToBase64String(hash);
         }
     }
 }

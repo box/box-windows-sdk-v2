@@ -65,6 +65,8 @@ namespace Box.V2.Converter
                         return new BoxLegalHoldPolicy();
                     case Constants.TypeLegalHoldPolicyAssignment:
                         return new BoxLegalHoldPolicyAssignment();
+                    case Constants.TypeUploadSession:
+                        return new BoxFileUploadSession();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names

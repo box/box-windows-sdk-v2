@@ -120,6 +120,8 @@
       "../Box.V2/Utility/LRUCache.cs",
       "../Box.V2/Utility/CrossPlatform.cs",
       "../Box.V2/Utility/Helper.cs",
+      "../Box.V2/Utility/SHA1Crypto.cs",
+      "../Box.V2/Utility/Retry.cs",
       "../Box.V2/Extensions/BoxResponseExtensions.cs",
       "../Box.V2/Wrappers/BoxError.cs",
       "../Box.V2/Wrappers/BoxErrorContextInfo.cs",
