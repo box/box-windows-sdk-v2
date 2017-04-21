@@ -286,9 +286,8 @@ namespace Box.V2.Managers
         /// <param name="partStartOffsetInBytes">Part begin offset in bytes.</param>
         /// <param name="sizeOfOriginalFileInBytes">Size of original file in bytes.</param>
         /// <param name="stream">The file part stream.</param>
-        /// <param name="partId">Optional 8 character hex string that identifies the part upload request.</param>
         /// <returns>The complete BoxUploadPartResponse object if success.</returns>
-        public async Task<BoxUploadPartResponse> UploadPartAsync(Uri uploadPartUri, string sha, long partStartOffsetInBytes, long sizeOfOriginalFileInBytes, Stream stream, string partId = null)
+        public async Task<BoxUploadPartResponse> UploadPartAsync(Uri uploadPartUri, string sha, long partStartOffsetInBytes, long sizeOfOriginalFileInBytes, Stream stream)
         {
             var request = new BoxBinaryRequest(uploadPartUri)
                 .Method(RequestMethod.Put)
@@ -297,11 +296,6 @@ namespace Box.V2.Managers
                 .Part(new BoxFilePart() {
                     Value = stream
                 });
-
-            if (!string.IsNullOrEmpty(partId))
-            {
-                request.Header(Constants.RequestParameters.BoxPartId, partId);
-            }
 
             var response = await ToResponseAsync<BoxUploadPartResponse>(request).ConfigureAwait(false);
 
