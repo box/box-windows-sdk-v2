@@ -69,9 +69,11 @@ namespace Box.V2.Request
 
                     HttpClient client = GetClient(request);
 
-                    // Dispose the httpRequest & response
+                    // Not disposing the reponse since it will affect stream response 
+                    var response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
+
+                    // Dispose the httpRequest
                     using (httpRequest)
-                    using (var response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false))
                     {
                         //need to wait for Retry-After seconds and then retry request
                         var retryAfterHeader = response.Headers.RetryAfter;
@@ -82,7 +84,7 @@ namespace Box.V2.Request
                         if (
                             ((response.StatusCode == TooManyRequests && !isMultiPartRequest)
                             ||
-                            (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader.Delta.HasValue)) 
+                            (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)) 
                             && numRetries-- > 0)
                         {
                             TimeSpan delay = TimeSpan.FromSeconds(2);

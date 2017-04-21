@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
 
 namespace Box.V2.Models
 {
@@ -32,7 +30,7 @@ namespace Box.V2.Models
         /// The value to be set or tested. Required for add, replace, and test operations. For add, if value already exists, then previous value will be overwritten by the new value. For replace, the metadata value must exist before replacing.For test, the value of the existing metadata instance must match the specified value.
         /// </summary>
         [JsonProperty(PropertyName = FieldValue)]
-        public string Value { get; set; }
+        public object Value { get; set; }
 
         /// <summary>
         /// Required for move or copy. The path that designates the source key, in the format of a JSON-Pointer, formatted in the same way as path. Used in conjunction with path: from specifies the source, path specifies the destination.
