@@ -40,9 +40,11 @@ namespace Box.V2.Test.Integration
             //update metadata
             var update = new BoxMetadataUpdate() { Op = MetadataUpdateOp.copy, Path = "/attr1", From = "/attr4" };
             var update2 = new BoxMetadataUpdate() { Op = MetadataUpdateOp.replace, Path = "/attr4", Value = "value2" };
-            var updatedMD = await _client.MetadataManager.UpdateFileMetadataAsync(FILE_ID, new List<BoxMetadataUpdate>() { update, update2 }, SCOPE, TEMPLATE_KEY);
+            var update3 = new BoxMetadataUpdate() { Op = MetadataUpdateOp.replace, Path = "/attr2", Value = 2 }; // Int update
+            var updatedMD = await _client.MetadataManager.UpdateFileMetadataAsync(FILE_ID, new List<BoxMetadataUpdate>() { update, update2, update3 }, SCOPE, TEMPLATE_KEY);
             Assert.AreEqual(ATTR4, updatedMD["attr1"], "Failed to update metadata on file");
             Assert.AreEqual("value2", updatedMD["attr4"], "Failed to update metadata on file");
+            Assert.AreEqual(Convert.ToInt64(2), updatedMD["attr2"], "Failed to update metadata on file");
 
             //get all file metadata
             var allMD = await _client.MetadataManager.GetAllFileMetadataTemplatesAsync(FILE_ID);
