@@ -48,6 +48,18 @@ namespace Box.V2.JWTAuth
         {
             this.boxConfig = boxConfig;
 
+            // the following allows creation of a BoxJWTAuth object without valid keys but with a valid JWT UserToken
+            // this allows code like this:
+
+            // var boxConfig = new BoxConfig("", "", "", "", "", "");
+            // var boxJwt = new BoxJWTAuth(boxConfig);
+            // const string userToken = "TOKEN_OBTAINED_BY_CALLING_FULL_BOXJWTAUTH";  // token valid for 1 hr.
+            // UserClient = boxJwt.UserClient(userToken, null);  // this user client can do normal file operations.
+
+            if (string.IsNullOrEmpty(boxConfig.JWTPrivateKey) || string.IsNullOrEmpty(boxConfig.JWTPrivateKeyPassword))
+	            return;
+
+
             var pwf = new PEMPasswordFinder(this.boxConfig.JWTPrivateKeyPassword);
             AsymmetricCipherKeyPair key;
             using (var reader = new StringReader(this.boxConfig.JWTPrivateKey))
