@@ -56,29 +56,29 @@ namespace Box.V2.JWTAuth
             // const string userToken = "TOKEN_OBTAINED_BY_CALLING_FULL_BOXJWTAUTH";  // token valid for 1 hr.
             // UserClient = boxJwt.UserClient(userToken, null);  // this user client can do normal file operations.
 
-            if (string.IsNullOrEmpty(boxConfig.JWTPrivateKey) || string.IsNullOrEmpty(boxConfig.JWTPrivateKeyPassword))
-	            return;
-
-
-            var pwf = new PEMPasswordFinder(this.boxConfig.JWTPrivateKeyPassword);
-            AsymmetricCipherKeyPair key;
-            using (var reader = new StringReader(this.boxConfig.JWTPrivateKey))
+            if (!string.IsNullOrEmpty(boxConfig.JWTPrivateKey) && !string.IsNullOrEmpty(boxConfig.JWTPrivateKeyPassword))
             {
-                key = (AsymmetricCipherKeyPair)new PemReader(reader, pwf).ReadObject();
-            }
+                var pwf = new PEMPasswordFinder(this.boxConfig.JWTPrivateKeyPassword);
+                AsymmetricCipherKeyPair key;
+                using (var reader = new StringReader(this.boxConfig.JWTPrivateKey))
+                {
+                    key = (AsymmetricCipherKeyPair)new PemReader(reader, pwf).ReadObject();
+                }
 
-            if (key == null)
-            {
-                throw new BoxException("Invalid private key!");
-            }
-            var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
+                if (key == null)
+                {
+                    throw new BoxException("Invalid private key!");
+                }
+                var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
 
-#if NETSTANDARD1_4    
-            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+#if NETSTANDARD1_4
+                this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
 #else
-            this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
+                this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
 #endif
+            }
         }
+
         /// <summary>
         /// Create admin BoxClient using an admin access token
         /// </summary>
