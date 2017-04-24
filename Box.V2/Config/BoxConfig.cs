@@ -71,12 +71,52 @@ namespace Box.V2.Config
         {
             var json = JObject.Parse(jsonString);
 
-            var clientId     = json["boxAppSettings"]["clientID"].ToString();
-            var clientSecret = json["boxAppSettings"]["clientSecret"].ToString();
-            var enterpriseId = json["boxAppSettings"]["enterpriseID"].ToString();
-            var privateKey   = json["boxAppSettings"]["appAuth"]["privateKey"].ToString();
-            var rsaSecret    = json["boxAppSettings"]["appAuth"]["passphrase"].ToString();
-            var publicKeyId  = json["boxAppSettings"]["appAuth"]["publicKeyID"].ToString();
+            string clientId = null;
+            string clientSecret = null;
+            string enterpriseId = null;
+            string privateKey = null;
+            string rsaSecret = null;
+            string publicKeyId = null;
+
+            if (json["boxAppSettings"] != null)
+            {
+                var boxAppSettings = json["boxAppSettings"];
+
+                if (boxAppSettings["clientID"] != null)
+                {
+                    clientId = boxAppSettings["clientID"].ToString();
+                }
+
+                if (boxAppSettings["clientSecret"] != null)
+                {
+                    clientSecret = boxAppSettings["clientSecret"].ToString();
+                }
+
+                if (boxAppSettings["enterpriseID"] != null)
+                {
+                    enterpriseId = boxAppSettings["enterpriseID"].ToString();
+                }
+
+                if (boxAppSettings["appAuth"] != null)
+                {
+                    var appAuth = boxAppSettings["appAuth"];
+
+                    if (appAuth["privateKey"] != null)
+                    {
+                        privateKey = appAuth["privateKey"].ToString();
+                    }
+
+                    if (appAuth["passphrase"] != null)
+                    {
+                        rsaSecret = appAuth["passphrase"].ToString();
+                    }
+
+                    if (appAuth["publicKeyID"] != null)
+                    {
+                        publicKeyId = appAuth["publicKeyID"].ToString();
+                    }
+                }
+            }
 
             return new BoxConfig(clientId, clientSecret, enterpriseId, privateKey, rsaSecret, publicKeyId);
         }
