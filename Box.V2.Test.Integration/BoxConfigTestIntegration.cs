@@ -27,6 +27,10 @@ namespace Box.V2.Test.Integration
             var config = BoxConfig.CreateFromJsonString(jsonString);
 
             Assert.AreEqual(config.ClientId, "cid-123");
+            Assert.AreEqual(config.ClientSecret, "cre-123");
+            Assert.AreEqual(config.JWTPublicKeyId, "kid-123");
+            Assert.AreEqual(config.JWTPrivateKey, "DUMMY");
+            Assert.AreEqual(config.EnterpriseId, "eid-123");
         }
     }
 }
