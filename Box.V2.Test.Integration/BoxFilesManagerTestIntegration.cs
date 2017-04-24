@@ -62,7 +62,6 @@ namespace Box.V2.Test.Integration
             }
         }
 
-
         [TestMethod]
         public async Task GetSharedLink_ValidRequest_ValidSharedLink()
         {
