@@ -7,7 +7,8 @@ namespace Box.V2.Config
 {
     public class BoxConfig : IBoxConfig
     {
-        private const string DefaultUserAgent = "Box Windows SDK v2.14.0";
+        // TODO yhu@ version string from AssemblyInfo
+        private const string DefaultUserAgent = "Box Windows SDK v2.15.0";
 
         /// <summary>
         /// Instantiates a Box config with all of the standard defaults
@@ -92,11 +93,6 @@ namespace Box.V2.Config
                     clientSecret = boxAppSettings["clientSecret"].ToString();
                 }
 
-                if (boxAppSettings["enterpriseID"] != null)
-                {
-                    enterpriseId = boxAppSettings["enterpriseID"].ToString();
-                }
-
                 if (boxAppSettings["appAuth"] != null)
                 {
                     var appAuth = boxAppSettings["appAuth"];
@@ -116,6 +112,11 @@ namespace Box.V2.Config
                         publicKeyId = appAuth["publicKeyID"].ToString();
                     }
                 }
+            }
+
+            if (json["enterpriseID"] != null)
+            {
+                enterpriseId = json["enterpriseID"].ToString();
             }
 
             return new BoxConfig(clientId, clientSecret, enterpriseId, privateKey, rsaSecret, publicKeyId);
