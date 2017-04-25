@@ -20,9 +20,9 @@ namespace Box.V2.Test.Integration
       'privateKey': 'DUMMY',
       'passphrase': 'password'
     },
-    'enterpriseID': 'eid-123',
-    'webhooks': {}
-  }
+  },
+  'webhooks': {},
+  'enterpriseID': 'eid-123'
 }";
             var config = BoxConfig.CreateFromJsonString(jsonString);
 

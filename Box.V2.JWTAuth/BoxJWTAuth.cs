@@ -59,17 +59,30 @@ namespace Box.V2.JWTAuth
             if (!string.IsNullOrEmpty(boxConfig.JWTPrivateKey) && !string.IsNullOrEmpty(boxConfig.JWTPrivateKeyPassword))
             {
                 var pwf = new PEMPasswordFinder(this.boxConfig.JWTPrivateKeyPassword);
-                AsymmetricCipherKeyPair key;
+                object key = null;
                 using (var reader = new StringReader(this.boxConfig.JWTPrivateKey))
                 {
-                    key = (AsymmetricCipherKeyPair)new PemReader(reader, pwf).ReadObject();
+                    var privateKey = new PemReader(reader, pwf).ReadObject();
+
+                    key = privateKey;
                 }
 
                 if (key == null)
                 {
                     throw new BoxException("Invalid private key!");
                 }
-                var rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)key.Private);
+
+                RSA rsa = null;
+                if (key is AsymmetricCipherKeyPair)
+                {
+                    var ackp = (AsymmetricCipherKeyPair)key;
+                    rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)ackp.Private);
+                }
+                else if (key is RsaPrivateCrtKeyParameters)
+                {
+                    var rpcp = (RsaPrivateCrtKeyParameters)key;
+                    rsa = DotNetUtilities.ToRSA(rpcp);
+                }
 
 #if NETSTANDARD1_4
                 this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
