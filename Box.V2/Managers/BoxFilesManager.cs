@@ -286,10 +286,11 @@ namespace Box.V2.Managers
         /// <param name="partStartOffsetInBytes">Part begin offset in bytes.</param>
         /// <param name="sizeOfOriginalFileInBytes">Size of original file in bytes.</param>
         /// <param name="stream">The file part stream.</param>
+        /// <param name="timeout">Timeout of the request.</param>
         /// <returns>The complete BoxUploadPartResponse object if success.</returns>
-        public async Task<BoxUploadPartResponse> UploadPartAsync(Uri uploadPartUri, string sha, long partStartOffsetInBytes, long sizeOfOriginalFileInBytes, Stream stream)
+        public async Task<BoxUploadPartResponse> UploadPartAsync(Uri uploadPartUri, string sha, long partStartOffsetInBytes, long sizeOfOriginalFileInBytes, Stream stream, TimeSpan? timeout = null)
         {
-            var request = new BoxBinaryRequest(uploadPartUri)
+            var request = new BoxBinaryRequest(uploadPartUri) { Timeout = timeout }
                 .Method(RequestMethod.Put)
                 .Header(Constants.RequestParameters.Digest, "sha=" + sha)
                 .Header(Constants.RequestParameters.ContentRange, "bytes " + partStartOffsetInBytes + "-" + (partStartOffsetInBytes + stream.Length - 1) + "/" + sizeOfOriginalFileInBytes)
@@ -373,8 +374,9 @@ namespace Box.V2.Managers
         /// <param name="stream">The file stream.</param>
         /// <param name="fileName">Name of the remote file name.</param>
         /// <param name="folderId">parent folder id.</param>
+        /// <param name="timeout">Timeout for subsequent UploadPart requests.</param>
         /// <returns> The complete BoxFile object.</returns>
-        public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName, string folderId)
+        public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName, string folderId, TimeSpan? timeout = null)
         {
             // Create Upload Session
             long fileSize = stream.Length;
@@ -396,7 +398,7 @@ namespace Box.V2.Managers
             int numberOfParts = UploadUsingSessionInternal.GetNumberOfParts(fileSize, partSizeLong);
 
             // Upload parts in session
-            var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize);
+            var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize, timeout);
 
             var sessionPartsForCommit = new BoxSessionParts(allSessionParts);
 
@@ -412,7 +414,7 @@ namespace Box.V2.Managers
             return response;
         }
 
-        private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream, long fileSize)
+        private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream, long fileSize, TimeSpan? timeout = null)
         {
             // Limit to 5 tasks
             // TODO yhu@ http://stackoverflow.com/questions/8834045/can-i-limit-the-amount-of-system-threading-tasks-task-objects-that-run-simultane
@@ -438,7 +440,7 @@ namespace Box.V2.Managers
                         {
                             string sha = Helper.GetSha1Hash(partFileStream);
                             partFileStream.Position = 0;
-                            var uploadPartResponse = await UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream);
+                            var uploadPartResponse = await UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream, timeout);
 
                             return uploadPartResponse;
                         }

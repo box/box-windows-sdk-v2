@@ -1,6 +1,7 @@
 ﻿using Box.V2.Config;
 using Box.V2.Utility;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -72,75 +73,71 @@ namespace Box.V2.Request
                     // Not disposing the reponse since it will affect stream response 
                     var response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
 
-                    // Dispose the httpRequest
-                    using (httpRequest)
+                    //need to wait for Retry-After seconds and then retry request
+                    var retryAfterHeader = response.Headers.RetryAfter;
+
+                    // If we get a 429 error code and this is not a multi part request (meaning a file upload, which cannot be retried
+                    // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
+                    // If we get a 202 code and has a retry-after header, we will retry after
+                    if (
+                        ((response.StatusCode == TooManyRequests && !isMultiPartRequest)
+                        ||
+                        (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)) 
+                        && numRetries-- > 0)
                     {
-                        //need to wait for Retry-After seconds and then retry request
-                        var retryAfterHeader = response.Headers.RetryAfter;
-
-                        // If we get a 429 error code and this is not a multi part request (meaning a file upload, which cannot be retried
-                        // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
-                        // If we get a 202 code and has a retry-after header, we will retry after
-                        if (
-                            ((response.StatusCode == TooManyRequests && !isMultiPartRequest)
-                            ||
-                            (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)) 
-                            && numRetries-- > 0)
+                        TimeSpan delay = TimeSpan.FromSeconds(2);
+                        if (retryAfterHeader.Delta.HasValue)
                         {
-                            TimeSpan delay = TimeSpan.FromSeconds(2);
-                            if (retryAfterHeader.Delta.HasValue)
-                            {
-                                delay = retryAfterHeader.Delta.Value;
-                            }
+                            delay = retryAfterHeader.Delta.Value;
+                        }
 
-                            Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
+                        Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
 
-                            await CrossPlatform.Delay(delay);
+                        await CrossPlatform.Delay(delay);
+                    }
+                    else
+                    {
+                        BoxResponse<T> boxResponse = new BoxResponse<T>();
+                        boxResponse.Headers = response.Headers;
+
+                        // Translate the status codes that interest us 
+                        boxResponse.StatusCode = response.StatusCode;
+                        switch (response.StatusCode)
+                        {
+                            case HttpStatusCode.OK:
+                            case HttpStatusCode.Created:
+                            case HttpStatusCode.NoContent:
+                            case HttpStatusCode.Found:
+                                boxResponse.Status = ResponseStatus.Success;
+                                break;
+                            case HttpStatusCode.Accepted:
+                                boxResponse.Status = ResponseStatus.Pending;
+                                break;
+                            case HttpStatusCode.Unauthorized:
+                                boxResponse.Status = ResponseStatus.Unauthorized;
+                                break;
+                            case HttpStatusCode.Forbidden:
+                                boxResponse.Status = ResponseStatus.Forbidden;
+                                break;
+                            case TooManyRequests:
+                                boxResponse.Status = ResponseStatus.TooManyRequests;
+                                break;
+                            default:
+                                boxResponse.Status = ResponseStatus.Error;
+                                break;
+                        }
+
+                        if (isStream && boxResponse.Status == ResponseStatus.Success)
+                        {
+                        var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                        boxResponse.ResponseObject = resObj as T;
                         }
                         else
                         {
-                            BoxResponse<T> boxResponse = new BoxResponse<T>();
-                            boxResponse.Headers = response.Headers;
-
-                            // Translate the status codes that interest us 
-                            boxResponse.StatusCode = response.StatusCode;
-                            switch (response.StatusCode)
-                            {
-                                case HttpStatusCode.OK:
-                                case HttpStatusCode.Created:
-                                case HttpStatusCode.NoContent:
-                                case HttpStatusCode.Found:
-                                    boxResponse.Status = ResponseStatus.Success;
-                                    break;
-                                case HttpStatusCode.Accepted:
-                                    boxResponse.Status = ResponseStatus.Pending;
-                                    break;
-                                case HttpStatusCode.Unauthorized:
-                                    boxResponse.Status = ResponseStatus.Unauthorized;
-                                    break;
-                                case HttpStatusCode.Forbidden:
-                                    boxResponse.Status = ResponseStatus.Forbidden;
-                                    break;
-                                case TooManyRequests:
-                                    boxResponse.Status = ResponseStatus.TooManyRequests;
-                                    break;
-                                default:
-                                    boxResponse.Status = ResponseStatus.Error;
-                                    break;
-                            }
-
-                            if (isStream && boxResponse.Status == ResponseStatus.Success)
-                            {
-                                var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                                boxResponse.ResponseObject = resObj as T;
-                            }
-                            else
-                            {
-                                boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            }
-
-                            return boxResponse;
+                            boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                         }
+
+                        return boxResponse;
                     }
                 }
             }
@@ -159,6 +156,8 @@ namespace Box.V2.Request
             private static readonly Lazy<HttpClient> nonAutoRedirectClient =
                 new Lazy<HttpClient>(() => CreateClient(false));
 
+            private static IDictionary<TimeSpan, HttpClient> httpClientCache = new Dictionary<TimeSpan, HttpClient>();
+
             // reuseable HttpClient instance
             public static HttpClient AutoRedirectClient { get { return autoRedirectClient.Value; } }
             public static HttpClient NonAutoRedirectClient { get { return nonAutoRedirectClient.Value; } }
@@ -166,11 +165,20 @@ namespace Box.V2.Request
             // Create new HttpClient per timeout
             public static HttpClient CreateClientWithTimeout(bool followRedirect, TimeSpan timeout)
             {
-                HttpClient client = CreateClient(followRedirect);
+                lock (httpClientCache)
+                {
+                    HttpClient client = null;
+                    if (!httpClientCache.ContainsKey(timeout))
+                    {
+                        // create new client with timeout
+                        client = CreateClient(followRedirect);
+                        client.Timeout = timeout;
+                        // cache it
+                        httpClientCache.Add(timeout, client);
+                    }
 
-                client.Timeout = timeout;
-
-                return client;
+                    return httpClientCache[timeout];
+                }
             }
 
             private static HttpClient CreateClient(bool followRedirect)
