@@ -1,22 +1,13 @@
 using System;
-using System.IO;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
+using System.Runtime.InteropServices;
 
 namespace Box.V2.JWTAuth
 {
     public static class DotNetUtilities
     {
-        // -------------------------------------------------------------------------------------
-        // When running JWT in an Azure WebJob or Function, you will get an error: 
-        //    "System.Security.Cryptography.CryptographicException: The system cannot find the file specified."
-        //
-        // The error message is misleading and you can see more info here:    
-        //     https://blogs.msdn.microsoft.com/winsdk/2009/11/16/opps-system-security-cryptography-cryptographicexception-the-system-cannot-find-the-file-specified/
-        //
-        // I took the guts of the sealed class DotNetUtilities and overrode it here
-        // -------------------------------------------------------------------------------------
         public static RSA ToRSA(RsaPrivateCrtKeyParameters privKey)
         {
             return CreateRSAProvider(ToRSAParameters(privKey));
@@ -24,16 +15,36 @@ namespace Box.V2.JWTAuth
 
         private static RSA CreateRSAProvider(RSAParameters rp)
         {
-            CspParameters csp = new CspParameters();
-            csp.KeyContainerName = string.Format("BouncyCastle-{0}", Guid.NewGuid());
+            // -------------------------------------------------------------------------------------
+            // When running JWT in an Azure WebJob or Function, you will get an error: 
+            //    "System.Security.Cryptography.CryptographicException: The system cannot find the file specified."
+            //
+            // The error message is misleading and you can see more info here:    
+            //     https://blogs.msdn.microsoft.com/winsdk/2009/11/16/opps-system-security-cryptography-cryptographicexception-the-system-cannot-find-the-file-specified/
+            //
+            // I took the guts of the sealed class DotNetUtilities and overrode it here
+            // -------------------------------------------------------------------------------------
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                CspParameters csp = new CspParameters()
+                {
+                    KeyContainerName = string.Format("BouncyCastle-{0}", Guid.NewGuid()),
+                    Flags = CspProviderFlags.UseMachineKeyStore // This needs to be here to run as WebJob
+                };
 
-            // This needs to be here to run as WebJob
-            csp.Flags = CspProviderFlags.UseMachineKeyStore;
+                RSACryptoServiceProvider rsaCsp = new RSACryptoServiceProvider(csp);
+                rsaCsp.ImportParameters(rp);
 
-            RSACryptoServiceProvider rsaCsp = new RSACryptoServiceProvider(csp);
-            rsaCsp.ImportParameters(rp);
+                return rsaCsp;
+            }
+            else
+            {
+                // Other than windows
+                var rsaCsp = RSA.Create();
+                rsaCsp.ImportParameters(rp);
 
-            return rsaCsp;
+                return rsaCsp;
+            }
         }
 
         // ------------------------------------------------------------------------------------------------------------------
@@ -63,14 +74,6 @@ namespace Box.V2.JWTAuth
             byte[] padded = new byte[size];
             Array.Copy(bs, 0, padded, size - bs.Length, bs.Length);
             return padded;
-        }
-
-        public static string GetSha1Hash(Stream stream)
-        {
-            SHA1 sha1 = SHA1.Create();
-            byte[] hash = sha1.ComputeHash(stream);
-            string base64String = Convert.ToBase64String(hash);
-            return base64String;
         }
     }
 }

@@ -2,15 +2,15 @@
 <package >
   <metadata>
     <id>Box.V2</id>
-    <version>2.14.0</version>
+    <version>2.15.0</version>
     <title>Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is built upon the Portable Class Library and targets the following frameworks: .NET for Windows Store apps, .NET Framework 4.0, Silverlight 4 and higher, Windows Phone 7.5 and higher</description>
-    <releaseNotes>Adds support for single file collaborations. Fixes issue with rate limit error on file upload. Adds ResponseHeaders field to BoxException.</releaseNotes>
-    <copyright>Copyright 2016</copyright>
+    <releaseNotes>Adds support for multiput upload. Fixes issue with BoxJWTAuth. Reuse HttpClient. Able to import json config file. Updated to correct API endpoints.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>
 </package>

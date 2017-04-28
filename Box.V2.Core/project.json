@@ -1,8 +1,10 @@
 {
   "title": "Box.V2.Core",
-  "version": "2.14.2",
+  "version": "2.15.2",
+  "authors": [ "Box, Inc." ],
+  "description": "Box.V2 for .Net Core",
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
+    "NETStandard.Library": "1.6.1",
     "Newtonsoft.Json": "10.0.2",
     "Portable.BouncyCastle": "1.8.1.1",
     "Nito.AsyncEx.Coordination": "1.0.1",
