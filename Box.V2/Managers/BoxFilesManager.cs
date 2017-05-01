@@ -332,6 +332,7 @@ namespace Box.V2.Managers
         /// <param name="marker">Value to get next group of parts staring at marker.</param>
         /// <param name="limit">Number of parts to get in the set. Defaults to 1000.</param>
         /// <returns>Returns a list of file part information uploaded so far in the session.</returns>
+        /*
         public async Task<BoxSessionParts> GetSessionUploadedPartsAsync(Uri sessionPartsUri, string marker = null, int? limit = null)
         {
             // For the very first call, i.e. when marker is null, marker should not be sent in the query string
@@ -352,6 +353,7 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+        */
 
         /// <summary>
         /// Gets the status of the upload session.

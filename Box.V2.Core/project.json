@@ -1,6 +1,6 @@
 {
   "title": "Box.V2.Core",
-  "version": "2.15.3",
+  "version": "2.15.4",
   "authors": [ "Box, Inc." ],
   "description": "Box.V2 for .Net Core",
   "dependencies": {
