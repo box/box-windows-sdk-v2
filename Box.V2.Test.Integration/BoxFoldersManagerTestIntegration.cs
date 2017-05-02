@@ -150,6 +150,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI")]
         public async Task FolderSharedLink_CreateAndDelete_ValidResponse()
         {
             string testName = GetUniqueName();
