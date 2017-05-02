@@ -269,6 +269,7 @@ namespace Box.V2.Test.Integration
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
         }
 
+        /*
         [TestMethod]
         public async Task UploadFileInSession_CommitSession_FilePresent()
         {
@@ -327,6 +328,7 @@ namespace Box.V2.Test.Integration
             // Assert file has been deleted from Box
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
         }
+        */
 
         [TestMethod]
         public async Task UploadFileInSession_Utility_Function_FilePresent()
