@@ -31,7 +31,7 @@ namespace Box.V2.Test.Integration
             _handler = new HttpRequestHandler();
             _parser = new BoxJsonConverter();
 
-            Debug.WriteLine(jsonConfig);
+            Debug.WriteLine(jsonConfig.Length);
 
             if (string.IsNullOrEmpty(jsonConfig))
             {
