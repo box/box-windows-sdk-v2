@@ -85,6 +85,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI")]
         public async Task FolderWorkflow_LiveSession_ValidResponse()
         {
             string testName = GetUniqueName();
