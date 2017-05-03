@@ -8,6 +8,7 @@ using Box.V2.JWTAuth;
 using System.Threading.Tasks;
 using Box.V2.Models;
 using System.Diagnostics;
+using System.IO;
 
 namespace Box.V2.Test.Integration
 {
@@ -25,16 +26,73 @@ namespace Box.V2.Test.Integration
         protected IRequestHandler _handler;
         protected IBoxConverter _parser;
 
-        public BoxResourceManagerTestIntegration()
-        {
-            var jsonConfig = Environment.GetEnvironmentVariable("JSON_CONFIG");
-            _handler = new HttpRequestHandler();
-            _parser = new BoxJsonConverter();
+        protected static string jsonConfig;
+        protected static BoxClient userClient;
+        protected static BoxClient adminClient;
+        protected static string userId;
+        protected static string userToken;
 
-            Debug.WriteLine(jsonConfig.Length);
+        [AssemblyInitialize]
+        public static void Initialize(TestContext testContext)
+        {
+            jsonConfig = Environment.GetEnvironmentVariable("JSON_CONFIG");
+            // jsonConfig = File.ReadAllText(@"C:\Users\coolcute\Desktop\ws\files\app_config_full.json");
 
             if (string.IsNullOrEmpty(jsonConfig))
             {
+                Debug.WriteLine("No json config found!");
+            }
+            else
+            {
+                Debug.WriteLine("json config content length : " + jsonConfig.Length);
+
+                var config = BoxConfig.CreateFromJsonString(jsonConfig);
+                var session = new BoxJWTAuth(config);
+
+                // create a new app user
+                // client with permissions to manage application users
+                var adminToken = session.AdminToken();
+                adminClient = session.AdminClient(adminToken);
+
+                var user = CreateNewUser(adminClient).Result;
+
+                userId = user.Id;
+
+                Debug.WriteLine("New app user created : " + userId);
+
+                // user client with access to user's data (folders, files, etc)
+                userToken = session.UserToken(userId);
+                userClient = session.UserClient(userToken, userId);
+            }
+        }
+
+        [AssemblyCleanup]
+        public static void Cleanup()
+        {
+            // Delete the app user if we created one
+            if (userId != null)
+            {
+                try
+                {
+                    var task = adminClient.UsersManager.DeleteEnterpriseUserAsync(userId, false, true);
+                    task.Wait();
+                }
+                catch (Exception exp)
+                {
+                    // Delete will fail if there are content in the user
+                    Debug.Print(exp.StackTrace);
+                }
+            }
+        }
+
+        public BoxResourceManagerTestIntegration()
+        {
+            _handler = new HttpRequestHandler();
+            _parser = new BoxJsonConverter();
+
+            if (userToken == null)
+            {
+                // Legacy way of getting the token
                 _auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
                 _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
@@ -43,19 +101,8 @@ namespace Box.V2.Test.Integration
             else
             {
                 _config = BoxConfig.CreateFromJsonString(jsonConfig);
-                var session = new BoxJWTAuth(_config);
 
-                // create a new app user
-                // client with permissions to manage application users
-                var adminToken = session.AdminToken();
-                var client = session.AdminClient(adminToken);
-
-                var user = CreateNewUser(client).Result;
-                // Console.WriteLine("New app user created with Id = {0}", user.Id);
-
-                // user client with access to user's data (folders, files, etc)
-                var userToken = session.UserToken(user.Id);
-                _client = session.UserClient(userToken, user.Id);
+                _client = userClient;
                 _auth = new OAuthSession(userToken, "", 3600, "bearer");
             }
         }
@@ -64,7 +111,7 @@ namespace Box.V2.Test.Integration
         {
             var userRequest = new BoxUserRequest
             {
-                Name = "CI User",
+                Name = "CI App User " + DateTime.Now.ToString("dd-MM-yyyy"), // mark with date
                 IsPlatformAccessOnly = true // creating application specific user, not a Box.com user
             };
             return client.UsersManager.CreateEnterpriseUserAsync(userRequest);
