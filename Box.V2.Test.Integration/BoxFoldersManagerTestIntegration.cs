@@ -1,6 +1,4 @@
-﻿using System;
-using Box.V2.Auth;
-using Box.V2.Config;
+﻿using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
@@ -54,6 +52,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task FolderGetTrashItems_LiveSession_ValidResponse()
         {
             var results = await _client.FoldersManager.GetTrashItemsAsync(10);
@@ -61,9 +60,23 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Watermark_Folders_CRUD()
         {
-            const string folderId = "1927308583";
+            string testName = GetUniqueName();
+
+            // Create Folder
+            BoxFolderRequest folderReq = new BoxFolderRequest()
+            {
+                Name = testName,
+                Parent = new BoxRequestEntity() { Id = "0" }
+            };
+
+            var newFolder = await _client.FoldersManager.CreateAsync(folderReq);
+
+            Assert.IsNotNull(newFolder, "Folder was not created");
+
+            var folderId = newFolder.Id;
 
             var mylist = new List<string>(new string[] { "watermark_info" });
             var folder = await _client.FoldersManager.GetInformationAsync(folderId, mylist);
@@ -85,6 +98,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task FolderWorkflow_LiveSession_ValidResponse()
         {
             string testName = GetUniqueName();
@@ -149,6 +163,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task FolderSharedLink_CreateAndDelete_ValidResponse()
         {
             string testName = GetUniqueName();

@@ -17,6 +17,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task AddCollaboration_ValidResponse_ValidCollaboration()
         {
             /*** Arrange ***/
@@ -53,7 +54,9 @@ namespace Box.V2.Test
             Assert.AreEqual("17738362", collab.CreatedBy.Id);
             Assert.AreEqual("sean@box.com", collab.CreatedBy.Login);
         }
+
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task EditCollaboration_ValidResponse_ValidCollaboration()
         {
             /*** Arrange ***/
@@ -82,6 +85,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetCollaboration_ValidResponse_ValidCollaboration()
         {
             /*** Arrange ***/
@@ -105,6 +109,7 @@ namespace Box.V2.Test
         }
      
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetPendingCollaboration_ValidResponse_ValidEntries()
         {
             /*** Arrange ***/
@@ -160,9 +165,8 @@ namespace Box.V2.Test
           
         }
 
-    
-
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteCollaboration_ValidResponse_CollaborationDeleted()
         {
             /*** Arrange ***/
@@ -180,8 +184,6 @@ namespace Box.V2.Test
             /*** Assert ***/
 
             Assert.AreEqual(true, result);
-
-
         }
 
     }

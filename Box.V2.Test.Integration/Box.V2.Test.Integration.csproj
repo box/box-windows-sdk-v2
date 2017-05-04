@@ -84,6 +84,10 @@
     <Compile Include="BoxGroupsManagerTestIntegration.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Box.V2.JWTAuth\Box.V2.JWTAuth.csproj">
+      <Project>{05b4a5a3-36cb-42bc-856d-ecb13a4651e0}</Project>
+      <Name>Box.V2.JWTAuth</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Box.V2\Box.V2.csproj">
       <Project>{740075f5-8b88-4b8a-a75a-564f66359607}</Project>
       <Name>Box.V2</Name>
