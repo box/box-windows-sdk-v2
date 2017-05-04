@@ -1,6 +1,4 @@
-﻿using System;
-using Box.V2.Auth;
-using Box.V2.Config;
+﻿using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;

@@ -1,14 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
+using System.Diagnostics;
 using Box.V2.Auth;
 using Box.V2.Request;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.JWTAuth;
-using System.Threading.Tasks;
 using Box.V2.Models;
-using System.Diagnostics;
-using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test.Integration
 {
@@ -36,7 +35,6 @@ namespace Box.V2.Test.Integration
         public static void Initialize(TestContext testContext)
         {
             jsonConfig = Environment.GetEnvironmentVariable("JSON_CONFIG");
-            // jsonConfig = File.ReadAllText(@"C:\Users\coolcute\Desktop\ws\files\app_config_full.json");
 
             if (string.IsNullOrEmpty(jsonConfig))
             {
