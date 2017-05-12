@@ -6,6 +6,10 @@
 *.user
 *.sln.docstates
 
+# Packages
+/packages/
+!packages/repositories.config
+
 # Build results
 
 [Dd]ebug/
