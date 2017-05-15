@@ -14,6 +14,7 @@ namespace Box.V2.Models
         public const string FieldContentCreatedAt = "content_created_at";
         public const string FieldContentModifiedAt = "content_modified_at";
         public const string FieldVersionNumber = "version_number";
+        public const string FieldExtension = "extension";
         public const string FieldCommentCount = "comment_count";
         public const string FieldLock = "lock";
         public const string FieldExpiringEmbedLink = "expiring_embed_link";
@@ -58,6 +59,12 @@ namespace Box.V2.Models
         public string VersionNumber { get; private set; }
 
         /// <summary>
+        /// Indicates the suffix, when available, on the file.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldExtension)]
+        public string Extension { get; private set; }
+
+        /// <summary>
         /// The number of comments on a file
         /// </summary>
         [JsonProperty(PropertyName = FieldCommentCount)]
@@ -75,6 +82,9 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldLock)]
         public BoxFileLock Lock { get; protected set; }
 
+        /// <summary>
+        /// An expiring URL for an embedded preview session in an iframe.
+        /// </summary>
         [JsonProperty(PropertyName = FieldExpiringEmbedLink)]
         public BoxExpiringEmbedLink ExpiringEmbedLink { get; protected set; }
 
