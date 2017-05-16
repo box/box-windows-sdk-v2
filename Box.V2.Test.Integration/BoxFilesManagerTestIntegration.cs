@@ -47,6 +47,22 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task Download_ValidRequest_ValidStreamWithRange()
+        {
+            const string fileId = "16894947279";
+            var responseStream = await _client.FilesManager.DownloadStreamAsync(fileId, null, null, 10, 20);
+            Assert.IsNotNull(responseStream, "Response stream is null");
+
+            using (var reader = new StreamReader(responseStream))
+            {
+                string value = reader.ReadToEnd();
+
+                // Make sure it's the parts range
+                Assert.AreEqual(11, value.Length);
+            }
+        }
+
+        [TestMethod]
         public async Task GetThumbnail_ValidRequest_ValidThumbnail()
         {
             const string fileId = "16894947279";

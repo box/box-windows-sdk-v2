@@ -108,6 +108,7 @@ namespace Box.V2.Request
                             case HttpStatusCode.Created:
                             case HttpStatusCode.NoContent:
                             case HttpStatusCode.Found:
+                            case HttpStatusCode.PartialContent: // Download with range
                                 boxResponse.Status = ResponseStatus.Success;
                                 break;
                             case HttpStatusCode.Accepted:
@@ -129,8 +130,8 @@ namespace Box.V2.Request
 
                         if (isStream && boxResponse.Status == ResponseStatus.Success)
                         {
-                        var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                        boxResponse.ResponseObject = resObj as T;
+                            var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                            boxResponse.ResponseObject = resObj as T;
                         }
                         else
                         {
