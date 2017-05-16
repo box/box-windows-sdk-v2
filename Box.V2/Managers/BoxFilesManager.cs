@@ -336,31 +336,47 @@ namespace Box.V2.Managers
         /// Get a list of parts that were uploaded in a session.
         /// </summary>
         /// <param name="sessionPartsUri">The Url returned in the Create Session response.</param>
-        /// <param name="marker">Value to get next group of parts staring at marker.</param>
-        /// <param name="limit">Number of parts to get in the set. Defaults to 1000.</param>
+        /// <param name="offset">Zero-based index of first OffsetID of part to return.</param>
+        /// <param name="limit">How many parts to return.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all; defaults to false.</param>
         /// <returns>Returns a list of file part information uploaded so far in the session.</returns>
-        /*
-        public async Task<BoxSessionParts> GetSessionUploadedPartsAsync(Uri sessionPartsUri, string marker = null, int? limit = null)
+        public async Task<BoxCollection<BoxSessionPartInfo>> GetSessionUploadedPartsAsync(Uri sessionPartsUri, int? offset = null, int? limit = null, bool autoPaginate = false)
         {
-            // For the very first call, i.e. when marker is null, marker should not be sent in the query string
-            if (!string.IsNullOrWhiteSpace(marker))
-            {
-                //Add marker
-                sessionPartsUri = sessionPartsUri.AppendQueryString("marker", marker);
-            }
-            if (limit.HasValue)
-            {
-                //Add value to query string
-                sessionPartsUri = sessionPartsUri.AppendQueryString("limit", limit.Value.ToString());
-            }
             BoxRequest request = new BoxRequest(sessionPartsUri)
                .Method(RequestMethod.Get);
 
-            IBoxResponse<BoxSessionParts> response = await ToResponseAsync<BoxSessionParts>(request).ConfigureAwait(false);
+            if (offset.HasValue)
+            {
+                request.Param("offset", offset.Value.ToString());
+                // sessionPartsUri = sessionPartsUri.AppendQueryString("offset", offset.Value.ToString());
+            }
 
-            return response.ResponseObject;
+            if (limit.HasValue)
+            {
+                request.Param("limit", limit.Value.ToString());
+                // sessionPartsUri = sessionPartsUri.AppendQueryString("limit", limit.Value.ToString());
+            }
+
+            if (autoPaginate)
+            {
+                if (!limit.HasValue)
+                {
+                    limit = 100;
+                    request.Param("limit", limit.ToString());
+                }
+
+                if (!offset.HasValue)
+                    request.Param("offset", "0");
+
+                return await AutoPaginateLimitOffset<BoxSessionPartInfo>(request, limit.Value);
+            }
+            else
+            {
+                var response = await ToResponseAsync<BoxCollection<BoxSessionPartInfo>>(request).ConfigureAwait(false);
+
+                return response.ResponseObject;
+            }
         }
-        */
 
         /// <summary>
         /// Gets the status of the upload session.
