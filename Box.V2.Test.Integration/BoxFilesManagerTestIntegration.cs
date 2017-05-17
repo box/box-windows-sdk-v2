@@ -285,8 +285,8 @@ namespace Box.V2.Test.Integration
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
         }
 
-        /*
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_CommitSession_FilePresent()
         {
             long fileSize = 19000000;
@@ -319,14 +319,27 @@ namespace Box.V2.Test.Integration
 
             // Get upload parts (1 by 1) for Integration testing purposes
             List<BoxSessionPartInfo> allSessionParts = new List<BoxSessionPartInfo>();
-            BoxSessionParts boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri);
-            allSessionParts.AddRange(boxSessionParts.Parts);
-            while ( !string.IsNullOrWhiteSpace(boxSessionParts.Marker) )
+
+            // var boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri, 0, 2, true);
+            var boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri, null, null, true);
+
+            foreach (var sessionPart in boxSessionParts.Entries)
             {
-                boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri, boxSessionParts.Marker, 1);
-                allSessionParts.AddRange(boxSessionParts.Parts);
+                allSessionParts.Add(sessionPart);
             }
-            BoxSessionParts sessionPartsForCommit = new BoxSessionParts(allSessionParts);
+
+            /* w/o autopaging
+            var boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri, 0, 1);
+            allSessionParts.AddRange(boxSessionParts.Entries);
+
+            while (allSessionParts.Count < boxSessionParts.TotalCount)
+            {
+                boxSessionParts = await _client.FilesManager.GetSessionUploadedPartsAsync(listPartsUri, allSessionParts.Count, 1);
+                allSessionParts.AddRange(boxSessionParts.Entries);
+            }
+            */
+
+            BoxSessionParts sessionPartsForCommit = new BoxSessionParts() { Parts = allSessionParts };
 
             // Commit
             await _client.FilesManager.CommitSessionAsync(commitUri, Helper.GetSha1Hash(fileInMemoryStream), sessionPartsForCommit);
@@ -344,9 +357,9 @@ namespace Box.V2.Test.Integration
             // Assert file has been deleted from Box
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
         }
-        */
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_Utility_Function_FilePresent()
         {
             long fileSize = 19000000;

@@ -132,7 +132,7 @@ namespace Box.V2.Managers
         /// <param name="request">The pre-configured BoxRequest object.</param>
         /// <param name="limit">The limit specific to the endpoint.</param>
         /// <returns></returns>
-        protected async Task<BoxCollection<T>> AutoPaginateLimitOffset<T>(BoxRequest request, int limit) where T : BoxEntity, new()
+        protected async Task<BoxCollection<T>> AutoPaginateLimitOffset<T>(BoxRequest request, int limit) where T : class, new()
         {
             var allItemsCollection = new BoxCollection<T>();
             allItemsCollection.Entries = new List<T>();
