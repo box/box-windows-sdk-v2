@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Box.V2.JWTAuth
 {
-    public static class DotNetUtilities
+    public static class RSAUtilities
     {
         public static RSA ToRSA(RsaPrivateCrtKeyParameters privKey)
         {
@@ -24,7 +24,11 @@ namespace Box.V2.JWTAuth
             //
             // I took the guts of the sealed class DotNetUtilities and overrode it here
             // -------------------------------------------------------------------------------------
+#if NETSTANDARD1_4
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+#else
+            if (true)
+#endif
             {
                 CspParameters csp = new CspParameters()
                 {

@@ -8,7 +8,6 @@ using Box.V2.Services;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
-using Org.BouncyCastle.Security;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
@@ -76,12 +75,12 @@ namespace Box.V2.JWTAuth
                 if (key is AsymmetricCipherKeyPair)
                 {
                     var ackp = (AsymmetricCipherKeyPair)key;
-                    rsa = DotNetUtilities.ToRSA((RsaPrivateCrtKeyParameters)ackp.Private);
+                    rsa = RSAUtilities.ToRSA((RsaPrivateCrtKeyParameters)ackp.Private);
                 }
                 else if (key is RsaPrivateCrtKeyParameters)
                 {
                     var rpcp = (RsaPrivateCrtKeyParameters)key;
-                    rsa = DotNetUtilities.ToRSA(rpcp);
+                    rsa = RSAUtilities.ToRSA(rpcp);
                 }
 
 #if NETSTANDARD1_4

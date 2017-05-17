@@ -183,9 +183,8 @@
       "../Box.V2/Converter/BoxJsonConverter.cs",
       // JWTAuth
       "../Box.V2.JWTAuth/BoxJWTAuth.cs",
-      "../Box.V2.JWTAuth/JWTAuthRepository.cs",
-      // Local
-      "DotNetUtilities.cs"
+      "../Box.V2.JWTAuth/RSAUtilities.cs",
+      "../Box.V2.JWTAuth/JWTAuthRepository.cs"
     ]
   }
 }
