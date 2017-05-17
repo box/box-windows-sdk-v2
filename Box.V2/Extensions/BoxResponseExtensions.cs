@@ -58,11 +58,12 @@ namespace Box.V2.Extensions
                             switch (response.StatusCode)
                             {
                                 case System.Net.HttpStatusCode.Conflict:
-                                    if (response is IBoxResponse<BoxPreflightCheck>)
+                                    if (response is IBoxResponse<BoxPreflightCheck> || response is IBoxResponse<BoxCollection<BoxFile>>)
                                     {
                                         BoxPreflightCheckConflictError<BoxFile> err = converter.Parse<BoxPreflightCheckConflictError<BoxFile>>(response.ContentString);
                                         exToThrow = new BoxPreflightCheckConflictException<BoxFile>(response.ContentString, err) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
-                                    } else
+                                    }
+                                    else
                                     {
                                         BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
                                         exToThrow = new BoxConflictException<T>(response.ContentString, error) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
