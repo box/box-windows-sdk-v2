@@ -9,28 +9,12 @@ namespace Box.V2.Models
     public class BoxSessionParts
     {
         /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="parts"></param>
-        public BoxSessionParts(IEnumerable<BoxSessionPartInfo> parts)
-        {
-            Parts = parts;
-        }
-
-        /// <summary>
         /// List of session parts uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "parts")]
         public IEnumerable<BoxSessionPartInfo> Parts { get; set; }
-
-        /// <summary>
-        /// Marker (if present) to sent in the next request of List parts.
-        /// </summary>
-        [JsonProperty(PropertyName = "marker")]
-        public string Marker { get; set; }
     }
 
-    // TODO yhu@ better file structure
     /// <summary>
     /// Response of upload part.
     /// </summary>

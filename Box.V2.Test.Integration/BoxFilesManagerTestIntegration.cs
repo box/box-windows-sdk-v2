@@ -286,6 +286,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_CommitSession_FilePresent()
         {
             long fileSize = 19000000;
@@ -338,7 +339,7 @@ namespace Box.V2.Test.Integration
             }
             */
 
-            BoxSessionParts sessionPartsForCommit = new BoxSessionParts(allSessionParts);
+            BoxSessionParts sessionPartsForCommit = new BoxSessionParts() { Parts = allSessionParts };
 
             // Commit
             await _client.FilesManager.CommitSessionAsync(commitUri, Helper.GetSha1Hash(fileInMemoryStream), sessionPartsForCommit);
@@ -358,6 +359,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_Utility_Function_FilePresent()
         {
             long fileSize = 19000000;

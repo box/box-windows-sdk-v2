@@ -426,7 +426,7 @@ namespace Box.V2.Managers
             // Upload parts in session
             var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize, timeout);
 
-            var sessionPartsForCommit = new BoxSessionParts(allSessionParts);
+            var sessionPartsForCommit = new BoxSessionParts() { Parts = allSessionParts };
 
             // Full file sha1 TODO yhu@ CPU bound here
             var fullFileSha1 = Helper.GetSha1Hash(stream);
