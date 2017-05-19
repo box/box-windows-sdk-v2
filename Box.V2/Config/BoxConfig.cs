@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Box.V2.Utility;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Text;
@@ -7,8 +8,7 @@ namespace Box.V2.Config
 {
     public class BoxConfig : IBoxConfig
     {
-        // TODO yhu@ version string from AssemblyInfo
-        private const string DefaultUserAgent = "Box Windows SDK v2.15.0";
+        private static string DefaultUserAgent = "Box Windows SDK v" + AssemblyInfo.AssemblyVersion;
 
         /// <summary>
         /// Instantiates a Box config with all of the standard defaults
@@ -44,7 +44,6 @@ namespace Box.V2.Config
             JWTPublicKeyId = jwtPublicKeyId;
             UserAgent = DefaultUserAgent;
         }
-
         
         /// <summary>
         /// Create BoxConfig from json file.

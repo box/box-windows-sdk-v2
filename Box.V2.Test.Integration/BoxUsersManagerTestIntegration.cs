@@ -35,7 +35,7 @@ namespace Box.V2.Test.Integration
         {
             BoxCollection<BoxUser> users = await _client.UsersManager.GetEnterpriseUsersAsync(limit: 1, userType: "all", autoPaginate: true);
 
-            Assert.AreEqual(users.TotalCount, 2);
+            Assert.IsTrue(users.TotalCount > 2);
         }
     }
 }
