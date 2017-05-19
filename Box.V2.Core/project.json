@@ -1,6 +1,6 @@
 {
   "title": "Box.V2.Core",
-  "version": "2.15.4",
+  "version": "2.15.5",
   "authors": [ "Box, Inc." ],
   "description": "Box.V2 for .Net Core",
   "dependencies": {
@@ -124,6 +124,7 @@
       "../Box.V2/Utility/Helper.cs",
       "../Box.V2/Utility/SHA1Crypto.cs",
       "../Box.V2/Utility/Retry.cs",
+      "../Box.V2/Utility/AssemblyInfo.cs",
       "../Box.V2/Extensions/BoxResponseExtensions.cs",
       "../Box.V2/Wrappers/BoxError.cs",
       "../Box.V2/Wrappers/BoxErrorContextInfo.cs",
