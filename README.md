@@ -297,10 +297,10 @@ Documentation of all classes and methods are provided through the standard ```<s
 
 Other Resources
 -------------
-- Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2/
+- SDK Nuget Package: https://www.nuget.org/packages/Box.V2/
+- .NET Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2.Core/
 - JWT Support Nuget Package: https://www.nuget.org/packages/Box.V2.JWTAuth/
 - Box Windows SDK Video Tutorial: https://youtu.be/hqko0hxbaXU
-- .NET Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2.Core/
 
 Known Issues
 ------------
@@ -309,7 +309,7 @@ Windows 8 Sample OAuth2 uses desktop login screen instead of mobile. Pending fix
 
 ## Copyright and License
 
-Copyright 2014 Box, Inc. All rights reserved.
+Copyright 2017 Box, Inc. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
