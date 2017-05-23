@@ -4,6 +4,7 @@ using Box.V2.Converter;
 using Box.V2.Services;
 using Box.V2.Extensions;
 using System;
+using System.Collections.Generic;
 
 namespace Box.V2.Auth.Token
 {
@@ -14,7 +15,7 @@ namespace Box.V2.Auth.Token
     {
         // required fields
         protected string token;
-        protected string scope;
+        protected List<string> scopes = new List<string>();
 
         // optional fields
         protected string actorToken;
@@ -28,7 +29,18 @@ namespace Box.V2.Auth.Token
         public TokenExchange(string token, string scope)
         {
             this.token = token;
-            this.scope = scope;
+            scopes.Add(scope);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TokenExchange"/> class.
+        /// </summary>
+        /// <param name="token">The access token.</param>
+        /// <param name="scopes">The scopes to be limited to.</param>
+        public TokenExchange(string token, IEnumerable<string> scopes)
+        {
+            this.token = token;
+            this.scopes.AddRange(scopes);
         }
 
         /// <summary>
@@ -59,7 +71,7 @@ namespace Box.V2.Auth.Token
                 .Method(RequestMethod.Post)
                 .Payload(Constants.RequestParameters.SubjectToken, token)
                 .Payload(Constants.RequestParameters.SubjectTokenType, Constants.RequestParameters.AccessTokenTypeValue)
-                .Payload(Constants.RequestParameters.Scope, scope)
+                .Payload(Constants.RequestParameters.Scope, string.Join(" ", scopes))
                 .Payload(Constants.RequestParameters.Resource, resourceUrl)
                 .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.TokenExchangeGrantTypeValue);
 

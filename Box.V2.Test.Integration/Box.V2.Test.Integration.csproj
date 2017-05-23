@@ -79,6 +79,7 @@
     <Compile Include="BoxRetentionPoliciesManagerTestIntegration.cs" />
     <Compile Include="BoxWebhooksManagerTestIntegration.cs" />
     <Compile Include="BoxConfigTestIntegration.cs" />
+    <Compile Include="BoxTokenExchangeTestIntegration.cs" />
     <Compile Include="BoxWebLinkManagerTestIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoxGroupsManagerTestIntegration.cs" />
