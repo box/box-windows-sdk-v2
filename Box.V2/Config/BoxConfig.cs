@@ -8,7 +8,7 @@ namespace Box.V2.Config
 {
     public class BoxConfig : IBoxConfig
     {
-        private static string DefaultUserAgent = "Box Windows SDK v" + AssemblyInfo.AssemblyVersion;
+        private static string DefaultUserAgent = "Box Windows SDK v" + AssemblyInfo.NuGetVersion;
 
         /// <summary>
         /// Instantiates a Box config with all of the standard defaults
