@@ -39,11 +39,33 @@ namespace Box.V2.JWTAuth
 
         private readonly IBoxConfig boxConfig;
         private readonly SigningCredentials credentials;
-        /// <summary>
-        /// Constructor for JWT authentication
-        /// </summary>
-        /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
-        public BoxJWTAuth(IBoxConfig boxConfig)
+
+		/// <summary>
+		/// Constructor for JWT authentication - to be used if you already have a token. The second constructor
+		/// Parameter is just to differentiate it from the normal default constructor, value is not important.
+		/// </summary>
+		/// <code>
+		/// public void RefreshUserClient()
+		/// {
+		///	    var boxConfig = new BoxConfig("", "", "", "", "", "");
+		///     var boxJwt = new BoxJWTAuth(boxConfig, false);  
+		///     const string userToken = "USER_TOKEN_GOTTEN_FROM_NORMAL_JWTAUTH_WITH_FULL_CREDENTIALS";
+		///     UserClient = boxJwt.UserClient(userToken, null);
+		///     // the above UserClient will work for file calls, but will not support auto-refreshing of the tokens.
+		/// }
+		/// </code>
+		/// <param name="boxConfig">Config contains information about box config - but not necessarily the passwords.</param>
+		/// <param name="use">Not used</param>
+		public BoxJWTAuth(IBoxConfig boxConfig, bool use)
+	    {
+		    this.boxConfig = boxConfig;
+	    }
+
+	    /// <summary>
+		/// Constructor for JWT authentication
+		/// </summary>
+		/// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
+		public BoxJWTAuth(IBoxConfig boxConfig)
         {
             this.boxConfig = boxConfig;
 
