@@ -22,7 +22,7 @@ namespace Box.V2.Managers
         /// <param name="limit"></param>
         /// <param name="offset"></param>
         [Obsolete("This endpoint is not officially supported by the API and is not guaranteed to be available in the next version. Please use GetFolderItemsAsync")]
-        public async Task<BoxFolder> GetItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
+        public async Task<BoxFolder> GetItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -53,7 +53,7 @@ namespace Box.V2.Managers
         /// <returns>A collection of items contained in the folder is returned. An error is thrown if the folder does not exist, 
         /// or if any of the parameters are invalid. The total_count returned may not match the number of entries when using enterprise scope, 
         /// because external folders are hidden the list of entries.</returns>
-        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, List<string> fields = null, bool autoPaginate=false)
+        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -79,7 +79,7 @@ namespace Box.V2.Managers
         /// <param name="folderRequest">BoxFolderRequest object</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A full folder object is returned if the parent folder ID is valid and if no name collisions occur.</returns>
-        public async Task<BoxFolder> CreateAsync(BoxFolderRequest folderRequest, List<string> fields = null)
+        public async Task<BoxFolder> CreateAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Name.ThrowIfNullOrWhiteSpace("folderRequest.Name");
@@ -104,7 +104,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A full folder object is returned, including the most current information available about it. 
         /// An exception is thrown if the folder does not exist or if the user does not have access to it.</returns>
-        public async Task<BoxFolder> GetInformationAsync(string id, List<string> fields = null)
+        public async Task<BoxFolder> GetInformationAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -123,7 +123,7 @@ namespace Box.V2.Managers
         /// <param name="folderRequest">BoxFolderRequest object</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A full folder object is returned if the ID is valid and if the update is successful.</returns>
-        public async Task<BoxFolder> CopyAsync(BoxFolderRequest folderRequest, List<string> fields = null)
+        public async Task<BoxFolder> CopyAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
@@ -173,7 +173,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <param name="etag">This ‘etag’ field of the folder object to set in the If-Match header</param>
         /// <returns>The updated folder is returned if the name is valid. Errors generally occur only if there is a name collision.</returns>
-        public async Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest, List<string> fields = null, string etag = null)
+        public async Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null, string etag = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
@@ -197,7 +197,7 @@ namespace Box.V2.Managers
         /// <param name="sharedLinkRequest">Shared link request object</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A full folder object is returned if the ID is valid and if the shared link is created.</returns>
-        public async Task<BoxFolder> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
+        public async Task<BoxFolder> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -235,7 +235,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the folder</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>List of all the collaborations on a folder</returns>
-        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, List<string> fields = null)
+        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -260,7 +260,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
-        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, List<string> fields = null, bool autoPaginate=false)
+        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false)
         {
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, Constants.TrashItemsPathString)
                 .Param("limit", limit.ToString())
@@ -290,8 +290,8 @@ namespace Box.V2.Managers
         /// <param name="offset">The item at which to begin the response</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
-        [Obsolete("This method will be removed in a future update. Please use the GetTrashItemsAsync(int, int, List<string>) overload")]
-        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, List<string> fields = null)
+        [Obsolete("This method will be removed in a future update. Please use the GetTrashItemsAsync(int, int, IEnumerable<string>) overload")]
+        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -313,7 +313,7 @@ namespace Box.V2.Managers
         /// <param name="folderRequest">BoxFolderRequest object (specify Parent.Id if you wish to restore to a different parent)</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>The full item will be returned if success. By default it is restored to the parent folder it was in before it was trashed.</returns>
-        public async Task<BoxFolder> RestoreTrashedFolderAsync(BoxFolderRequest folderRequest, List<string> fields = null)
+        public async Task<BoxFolder> RestoreTrashedFolderAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
@@ -359,7 +359,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the folder</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>The full folder will be returned, including information about when it was moved to the trash</returns>
-        public async Task<BoxFolder> GetTrashedFolderAsync(string id, List<string> fields = null)
+        public async Task<BoxFolder> GetTrashedFolderAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 

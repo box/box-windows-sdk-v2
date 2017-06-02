@@ -35,7 +35,7 @@ namespace Box.V2.Managers
         /// <returns></returns>
         public async Task<BoxEventCollection<BoxEnterpriseEvent>> EnterpriseEventsAsync(int limit = 500,
                                                                         string streamPosition = null,
-                                                                        List<string> eventTypes = null,
+                                                                        IEnumerable<string> eventTypes = null,
                                                                         DateTime? createdAfter = null,
                                                                         DateTime? createdBefore = null)
         {

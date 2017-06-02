@@ -42,7 +42,7 @@ namespace Box.V2.Managers
         /// <param name="id">ID of the retention policy.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The specified retention policy will be returned upon success.</returns>
-        public async Task<BoxRetentionPolicy> GetRetentionPolicyAsync(string id, List<string> fields = null)
+        public async Task<BoxRetentionPolicy> GetRetentionPolicyAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -61,7 +61,7 @@ namespace Box.V2.Managers
         /// <param name="retentionPolicyRequest">BoxRetentionPolicyRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>An updated retention policy object will be returned upon success.</returns>
-        public async Task<BoxRetentionPolicy> UpdateRetentionPolicyAsync(string id, BoxRetentionPolicyRequest retentionPolicyRequest, List<string> fields = null)
+        public async Task<BoxRetentionPolicy> UpdateRetentionPolicyAsync(string id, BoxRetentionPolicyRequest retentionPolicyRequest, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -86,7 +86,7 @@ namespace Box.V2.Managers
         /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns the list of all retention policies for the enterprise.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxRetentionPolicy>> GetRetentionPoliciesAsync(string policyName = null, string policyType = null, string createdByUserId = null, List<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxRetentionPolicy>> GetRetentionPoliciesAsync(string policyName = null, string policyType = null, string createdByUserId = null, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri)
                 .Param("policy_name", policyName)
@@ -117,7 +117,7 @@ namespace Box.V2.Managers
         /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns a list of the retention policy assignments associated with the specified retention policy.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxRetentionPolicyAssignment>> GetRetentionPolicyAssignmentsAsync(string retentionPolicyId, string type = null, List<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxRetentionPolicyAssignment>> GetRetentionPolicyAssignmentsAsync(string retentionPolicyId, string type = null, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPoliciesEndpointUri, string.Format(Constants.RetentionPolicyAssignmentsEndpointString, retentionPolicyId))
                 .Param("type", type)
@@ -142,7 +142,7 @@ namespace Box.V2.Managers
         /// <param name="policyAssignmentRequest"></param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A new retention policy assignment will be returned upon success.</returns>
-        public async Task<BoxRetentionPolicyAssignment> CreateRetentionPolicyAssignmentAsync(BoxRetentionPolicyAssignmentRequest policyAssignmentRequest, List<string> fields = null)
+        public async Task<BoxRetentionPolicyAssignment> CreateRetentionPolicyAssignmentAsync(BoxRetentionPolicyAssignmentRequest policyAssignmentRequest, IEnumerable<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri)
                 .Method(RequestMethod.Post)
@@ -160,7 +160,7 @@ namespace Box.V2.Managers
         /// <param name="retentionPolicyAssignmentId">ID of the retention policy assignment.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The specified retention policy assignment will be returned upon success.</returns>
-        public async Task<BoxRetentionPolicyAssignment> GetRetentionPolicyAssignmentAsync(string retentionPolicyAssignmentId, List<string> fields = null)
+        public async Task<BoxRetentionPolicyAssignment> GetRetentionPolicyAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri, retentionPolicyAssignmentId)
                 .Param(ParamFields, fields);
@@ -178,7 +178,7 @@ namespace Box.V2.Managers
         /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>The specified file version retention will be returned upon success.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(List<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)
                 .Param(ParamFields, fields)
@@ -202,7 +202,7 @@ namespace Box.V2.Managers
         /// <param name="fileVersionRetentionId">ID of the file version retention policy.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns the list of all file version retentions for the enterprise.</returns>
-        public async Task<BoxFileVersionRetention> GetFileVersionRetentionAsync(string fileVersionRetentionId, List<string> fields = null)
+        public async Task<BoxFileVersionRetention> GetFileVersionRetentionAsync(string fileVersionRetentionId, IEnumerable<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri, fileVersionRetentionId)
                 .Param(ParamFields, fields);

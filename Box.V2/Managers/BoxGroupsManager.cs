@@ -33,7 +33,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all groups; defaults to false.</param>
         /// <returns>A collection of groups.</returns>
-        public async Task<BoxCollection<BoxGroup>> GetAllGroupsAsync(int? limit = null, int? offset = null, List<string> fields = null, bool autoPaginate = false)
+        public async Task<BoxCollection<BoxGroup>> GetAllGroupsAsync(int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.GroupsEndpointUri)
                 .Param(ParamFields, fields)
@@ -65,7 +65,7 @@ namespace Box.V2.Managers
         /// <param name="id">The id of the group to return.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Group with id='id'.</returns>
-        public async Task<BoxGroup> GetGroupAsync(string id, List<string> fields = null)
+        public async Task<BoxGroup> GetGroupAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -83,7 +83,7 @@ namespace Box.V2.Managers
         /// <param name="groupRequest">BoxGroupRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The newly created group.</returns>
-        public async Task<BoxGroup> CreateAsync(BoxGroupRequest groupRequest, List<string> fields = null)
+        public async Task<BoxGroup> CreateAsync(BoxGroupRequest groupRequest, IEnumerable<string> fields = null)
         {
             groupRequest.ThrowIfNull("groupRequest")
                 .Name.ThrowIfNullOrWhiteSpace("groupRequest.Name");
@@ -122,7 +122,7 @@ namespace Box.V2.Managers
         /// <param name="groupRequest">BoxGroupRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The updated group.</returns>
-        public async Task<BoxGroup> UpdateAsync(string id, BoxGroupRequest groupRequest, List<string> fields = null)
+        public async Task<BoxGroup> UpdateAsync(string id, BoxGroupRequest groupRequest, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
             groupRequest.ThrowIfNull("groupRequest").Name.ThrowIfNullOrWhiteSpace("groupRequest.Name");
@@ -143,7 +143,7 @@ namespace Box.V2.Managers
         /// <param name="membershipRequest">BoxGroupMembershipRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The group membership created.</returns>
-        public async Task<BoxGroupMembership> AddMemberToGroupAsync(BoxGroupMembershipRequest membershipRequest, List<string> fields = null) 
+        public async Task<BoxGroupMembership> AddMemberToGroupAsync(BoxGroupMembershipRequest membershipRequest, IEnumerable<string> fields = null) 
         {
             membershipRequest.ThrowIfNull("membershipRequest")
                 .Group.Id.ThrowIfNullOrWhiteSpace("Group.Id");
@@ -186,7 +186,7 @@ namespace Box.V2.Managers
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group collaborations; defaults to false.</param>
         /// <returns>A collection of collaborations for the specified group id.</returns>
         public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsForGroupAsync(string groupId, int? limit = null, int? offset = null, 
-                                                                                          List<string> fields = null, bool autoPaginate = false)
+                                                                                          IEnumerable<string> fields = null, bool autoPaginate = false)
         {
             var request = new BoxRequest(_config.GroupsEndpointUri, string.Format(Constants.CollaborationsPathString, groupId))
                 .Param(ParamFields, fields)
@@ -222,7 +222,7 @@ namespace Box.V2.Managers
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group memberships; defaults to false.</param>
         /// <returns>A collection of group memberships for the specified group id.</returns>
         public async Task<BoxCollection<BoxGroupMembership>> GetAllGroupMembershipsForGroupAsync(string groupId, int? limit = null, int? offset = null,
-                                                                                                 List<string> fields = null, bool autoPaginate = false)
+                                                                                                 IEnumerable<string> fields = null, bool autoPaginate = false)
         {
             groupId.ThrowIfNullOrWhiteSpace("groupId");
 
@@ -260,7 +260,7 @@ namespace Box.V2.Managers
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group memberships; defaults to false.</param>
         /// <returns>A collection of group memberships for the specified user id.</returns>
         public async Task<BoxCollection<BoxGroupMembership>> GetAllGroupMembershipsForUserAsync(string userId, int? limit = null, int? offset = null,
-                                                                                                List<string> fields = null, bool autoPaginate = false)
+                                                                                                IEnumerable<string> fields = null, bool autoPaginate = false)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
 
@@ -294,7 +294,7 @@ namespace Box.V2.Managers
         /// <param name="id">The id of the group membership to return.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Group membership with id='id'.</returns>
-        public async Task<BoxGroupMembership> GetGroupMembershipAsync(string id, List<string> fields = null)
+        public async Task<BoxGroupMembership> GetGroupMembershipAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -313,7 +313,7 @@ namespace Box.V2.Managers
         /// <param name="memRequest">BoxGroupMembershipRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The updated group membership.</returns>
-        public async Task<BoxGroupMembership> UpdateGroupMembershipAsync(string membershipId, BoxGroupMembershipRequest memRequest, List<string> fields = null) 
+        public async Task<BoxGroupMembership> UpdateGroupMembershipAsync(string membershipId, BoxGroupMembershipRequest memRequest, IEnumerable<string> fields = null) 
         {
             membershipId.ThrowIfNullOrWhiteSpace("membershipId");
             memRequest.ThrowIfNull("memRequest").Role.ThrowIfNullOrWhiteSpace("role");

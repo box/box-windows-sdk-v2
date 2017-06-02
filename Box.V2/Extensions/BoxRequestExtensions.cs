@@ -22,15 +22,23 @@ namespace Box.V2.Extensions
             return request;
         }
 
-        public static T Param<T>(this T request, string name, List<string> values) where T : IBoxRequest
+        public static T Param<T>(this T request, string name, IEnumerable<string> values) where T : IBoxRequest
         {
             name.ThrowIfNullOrWhiteSpace("name");
 
             // Don't add a parameter that does not have a value
-            if (values == null || values.Count == 0)
-                return request;
+            if ( values != null )
+            {
+                // Rather than use an extention method to determine if the
+                // collection has any values, do the join and check the
+                // result - it'll be empty if there are no values.
+                string joinedValues = string.Join( ",", values );
 
-            request.Parameters[name] = string.Join(",", values);
+                if ( !string.IsNullOrEmpty( joinedValues ) )
+                {
+                    request.Parameters[name] = joinedValues;
+                }
+            }
 
             return request;
         }

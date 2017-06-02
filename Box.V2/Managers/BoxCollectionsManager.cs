@@ -95,7 +95,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns></returns>
-        public async Task<BoxCollection<BoxItem>> GetCollectionItemsAsync(string collectionId, int limit = 100, int offset = 0, List<string> fields = null, bool autoPaginate = false)
+        public async Task<BoxCollection<BoxItem>> GetCollectionItemsAsync(string collectionId, int limit = 100, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate = false)
         {
             collectionId.ThrowIfNullOrWhiteSpace("collectionId");
 
