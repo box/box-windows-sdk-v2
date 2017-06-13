@@ -74,6 +74,8 @@ namespace Box.V2.Converter
                 {
                     case Constants.TypeFile:
                         return new BoxFileEventSource();
+                    case Constants.TypeFolder:
+                        return new BoxFolderEventSource();
                 }
             }
             else if (FieldExists(WatermarkType, jObject))
