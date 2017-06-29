@@ -402,77 +402,99 @@ namespace Box.V2.Managers
         /// <param name="folderId">parent folder id.</param>
         /// <param name="timeout">Timeout for subsequent UploadPart requests.</param>
         /// <returns> The complete BoxFile object.</returns>
-        public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName, string folderId, TimeSpan? timeout = null)
+        public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName,
+            string folderId, TimeSpan? timeout = null)
         {
             // Create Upload Session
-            long fileSize = stream.Length;
-            BoxFileUploadSessionRequest uploadSessionRequest = new BoxFileUploadSessionRequest() { FileName = fileName, FileSize = fileSize, FolderId = folderId };
-            BoxFileUploadSession boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest);
+            var fileSize = stream.Length;
+            var uploadSessionRequest = new BoxFileUploadSessionRequest
+            {
+                FileName = fileName,
+                FileSize = fileSize,
+                FolderId = folderId
+            };
+            var boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest);
 
             // Parse upload session response
-            BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
-            Uri listPartsUri = new Uri(boxSessionEndpoint.ListParts);
-            Uri uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
-            Uri commitUri = new Uri(boxSessionEndpoint.Commit);
-            string partSize = boxFileUploadSession.PartSize;
-            long partSizeLong = 0;
+            var boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
+            var uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
+            var commitUri = new Uri(boxSessionEndpoint.Commit);
+            var partSize = boxFileUploadSession.PartSize;
+            long partSizeLong;
             if (long.TryParse(partSize, out partSizeLong) == false)
             {
                 throw new BoxException("File part size is wrong!");
             }
 
-            int numberOfParts = UploadUsingSessionInternal.GetNumberOfParts(fileSize, partSizeLong);
+            var numberOfParts = UploadUsingSessionInternal.GetNumberOfParts(fileSize,
+                partSizeLong);
 
             // Upload parts in session
-            var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, stream, fileSize, timeout);
+            var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri,
+                numberOfParts,
+                partSizeLong, stream, fileSize, timeout);
 
-            var sessionPartsForCommit = new BoxSessionParts() { Parts = allSessionParts };
+            var allSessionPartsList = allSessionParts.ToList();
 
-            // Full file sha1 TODO yhu@ CPU bound here
+            var sessionPartsForCommit = new BoxSessionParts
+            {
+                Parts = allSessionPartsList
+            };
+
+            // Full file sha1 TODO yhu@ CPU bound here - and not currently using multiple threads
             var fullFileSha1 = Helper.GetSha1Hash(stream);
 
-            // Commit, Retry 2 times with interval related to the total part number
-            const int retryCount = 2;
-            int retryInterval = allSessionParts.Count() * 100;
+            // Commit, Retry 5 times with interval related to the total part number
+            // Having debugged this -- retries do consistenly happen so we up the retries
+            const int retryCount = 5;
+            var retryInterval = allSessionPartsList.Count * 100;
 
-            var response = await Retry.ExecuteAsync(async () => await CommitSessionAsync(commitUri, fullFileSha1, sessionPartsForCommit), TimeSpan.FromMilliseconds(retryInterval), retryCount);
+            var response =
+                await Retry.ExecuteAsync(
+                    async () =>
+                        await CommitSessionAsync(commitUri, fullFileSha1,
+                            sessionPartsForCommit),
+                    TimeSpan.FromMilliseconds(retryInterval), retryCount);
 
             return response;
         }
 
-        private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream, long fileSize, TimeSpan? timeout = null)
+        private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(
+            Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
+            long fileSize, TimeSpan? timeout = null)
         {
-            // Limit to 5 tasks
+            // Limit tasks to the number of cores we have
             // TODO yhu@ http://stackoverflow.com/questions/8834045/can-i-limit-the-amount-of-system-threading-tasks-task-objects-that-run-simultane
-            const int maxTaskNum = 5;
+            var maxTaskNum = Environment.ProcessorCount;
 
-            // Retry 3 times for 10 seconds
-            const int retryMaxCount = 3;
+            // Retry 5 times for 10 seconds
+            const int retryMaxCount = 5;
             const int retryMaxInterval = 10;
 
             var tasks = new List<Task<BoxUploadPartResponse>>();
             var ret = new List<BoxSessionPartInfo>();
 
-            for (int i = 0; i < numberOfParts; i++)
+            for (var i = 0; i < numberOfParts; i++)
             {
                 // Split file as per part size
-                long partOffset = partSize * i;
+                var partOffset = partSize * i;
 
                 // Retry
                 var uploadPartWithRetryTask = Retry.ExecuteAsync(async () =>
+                {
+                    // Release the memory when done
+                    using (var partFileStream = UploadUsingSessionInternal.GetFilePart(stream, partSize,
+                                partOffset))
                     {
-                        // Release the memory when done
-                        using (var partFileStream = UploadUsingSessionInternal.GetFilePart(stream, partSize, partOffset))
-                        {
-                            string sha = Helper.GetSha1Hash(partFileStream);
-                            partFileStream.Position = 0;
-                            var uploadPartResponse = await UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream, timeout);
+                        var sha = Helper.GetSha1Hash(partFileStream);
+                        partFileStream.Position = 0;
+                        var uploadPartResponse = await UploadPartAsync(
+                            uploadPartsUri, sha, partOffset, fileSize, partFileStream,
+                            timeout);
 
-                            return uploadPartResponse;
-                        }
+                        return uploadPartResponse;
                     }
-                    ,
-                    TimeSpan.FromSeconds(retryMaxInterval), retryMaxCount);
+                }, TimeSpan.FromSeconds(retryMaxInterval), retryMaxCount);
 
                 tasks.Add(uploadPartWithRetryTask);
 
