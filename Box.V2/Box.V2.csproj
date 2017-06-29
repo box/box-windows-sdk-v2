@@ -73,6 +73,7 @@
     <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
+    <Compile Include="Models\BoxFolderEventSource.cs" />
     <Compile Include="Models\BoxSessionEndpoint.cs" />
     <Compile Include="Models\BoxFileUploadSession.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />
