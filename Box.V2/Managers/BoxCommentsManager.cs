@@ -26,7 +26,7 @@ namespace Box.V2.Managers
         /// <param name="commentRequest">BoxCommentRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The new comment object is returned.</returns>
-        public async Task<BoxComment> AddCommentAsync(BoxCommentRequest commentRequest, List<string> fields = null)
+        public async Task<BoxComment> AddCommentAsync(BoxCommentRequest commentRequest, IEnumerable<string> fields = null)
         {
             commentRequest.ThrowIfNull("commentRequest")
                 .Item.ThrowIfNull("commentRequest.Item")
@@ -52,7 +52,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the comment.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A full comment object is returned is the ID is valid and if the user has access to the comment.</returns>
-        public async Task<BoxComment> GetInformationAsync(string id, List<string> fields = null)
+        public async Task<BoxComment> GetInformationAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -72,7 +72,7 @@ namespace Box.V2.Managers
         /// <param name="commentsRequest">BoxCommentsRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The full updated comment object is returned if the ID is valid and if the user has access to the comment.</returns>
-        public async Task<BoxComment> UpdateAsync(string id, BoxCommentRequest commentsRequest, List<string> fields = null)
+        public async Task<BoxComment> UpdateAsync(string id, BoxCommentRequest commentsRequest, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
             commentsRequest.ThrowIfNull("commentsRequest")

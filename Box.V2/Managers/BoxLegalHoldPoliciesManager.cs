@@ -245,7 +245,7 @@ namespace Box.V2.Managers
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns the list of File Version Legal Holds for the passed in Policy. 
         /// By default, will only return only "type", and "id", but you can specify more by using the "fields" parameter.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxFileVersionLegalHold>> GetFileVersionLegalHoldsAsync(string policyId, List<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxFileVersionLegalHold>> GetFileVersionLegalHoldsAsync(string policyId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri)
                 .Param(ParamPolicyId, policyId)

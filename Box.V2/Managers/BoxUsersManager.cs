@@ -24,7 +24,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns a single complete user object.</returns>
-        public async Task<BoxUser> GetCurrentUserInformationAsync(List<string> fields = null)
+        public async Task<BoxUser> GetCurrentUserInformationAsync(IEnumerable<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, "me")
                 .Param(ParamFields, fields);
@@ -40,7 +40,7 @@ namespace Box.V2.Managers
         /// <param name="userRequest">BoxUserRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns the user object for the newly created user.</returns>
-        public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, List<string> fields = null)
+        public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, IEnumerable<string> fields = null)
         {
             userRequest.ThrowIfNull("userRequest");
             userRequest.Name.ThrowIfNull("userRequest.Name");
@@ -62,7 +62,7 @@ namespace Box.V2.Managers
         /// <param name="userRequest">BoxUserRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns the user object for the updated user. Errors may be thrown when the fields are invalid or this API call is made from a non-admin account.</returns>
-        public async Task<BoxUser> UpdateUserInformationAsync(BoxUserRequest userRequest, List<string> fields = null)
+        public async Task<BoxUser> UpdateUserInformationAsync(BoxUserRequest userRequest, IEnumerable<string> fields = null)
         {
             userRequest.ThrowIfNull("userRequest")
                 .Id.ThrowIfNullOrWhiteSpace("userRequest.Id");
@@ -90,7 +90,7 @@ namespace Box.V2.Managers
         public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null,
                                                                           uint offset = 0, 
                                                                           uint limit = 100, 
-                                                                          List<string> fields = null,
+                                                                          IEnumerable<string> fields = null,
                                                                           string userType = null,
                                                                           bool autoPaginate = false)
         {
@@ -141,7 +141,7 @@ namespace Box.V2.Managers
         /// <param name="userInviteRequest">BoxUserInviteRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A new invite object will be returned if successful.</returns>
-        public async Task<BoxUserInvite> InviteUserToEnterpriseAsync(BoxUserInviteRequest userInviteRequest, List<string> fields = null)
+        public async Task<BoxUserInvite> InviteUserToEnterpriseAsync(BoxUserInviteRequest userInviteRequest, IEnumerable<string> fields = null)
         {
             userInviteRequest.ThrowIfNull("userInviteRequest")
                 .Enterprise.ThrowIfNull("Enterprise").Id.ThrowIfNullOrWhiteSpace("userInviteRequest.Enterprise.Id");
@@ -164,7 +164,7 @@ namespace Box.V2.Managers
         /// <param name="inviteId">The ID associated with the user invitiation.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The complete user invite information.</returns>
-        public async Task<BoxUserInvite> GetUserInviteAsync(string inviteId, List<string> fields = null)
+        public async Task<BoxUserInvite> GetUserInviteAsync(string inviteId, IEnumerable<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.InviteEndpointUri, inviteId)
             .Param(ParamFields, fields);
@@ -181,7 +181,7 @@ namespace Box.V2.Managers
         /// <param name="login">The email alias to become the primary email.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>If the user_id is valid and the email address is a confirmed email alias, the updated user object will be returned.</returns>
-        public async Task<BoxUser> ChangeUsersLoginAsync(string userId, string login, List<string> fields = null)
+        public async Task<BoxUser> ChangeUsersLoginAsync(string userId, string login, IEnumerable<string> fields = null)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
             login.ThrowIfNullOrWhiteSpace("login");

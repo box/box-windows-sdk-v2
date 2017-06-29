@@ -32,7 +32,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the file.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
-        public async Task<BoxFile> GetInformationAsync(string id, List<string> fields = null)
+        public async Task<BoxFile> GetInformationAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -156,7 +156,7 @@ namespace Box.V2.Managers
         /// <param name="setStreamPositionToZero">Set position for input stream to 0.</param>
         /// <param name="uploadUri">Uri to use for upload. Default upload endpoint URI is used if not specified.</param>
         /// <returns>A full file object is returned inside of a collection if the ID is valid and if the update is successful.</returns>
-        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, List<string> fields = null,
+        public async Task<BoxFile> UploadAsync(BoxFileRequest fileRequest, Stream stream, IEnumerable<string> fields = null,
                                                 TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                 bool setStreamPositionToZero = true,
                                                 Uri uploadUri = null)
@@ -233,7 +233,7 @@ namespace Box.V2.Managers
         /// <param name="uploadUri">Optional url for uploading file.</param>
         /// <returns>A full file object is returned.</returns>
         public async Task<BoxFile> UploadNewVersionAsync(string fileName, string fileId, Stream stream,
-                                                         string etag = null, List<string> fields = null,
+                                                         string etag = null, IEnumerable<string> fields = null,
                                                          TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                          bool setStreamPositionToZero = true,
                                                          Uri uploadUri = null)
@@ -516,7 +516,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A collection of versions other than the main version of the file. If a file has no other versions, an empty collection will be returned.
         /// Note that if a file has a total of three versions, only the first two version will be returned.</returns>
-        public async Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, List<string> fields = null)
+        public async Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -537,7 +537,7 @@ namespace Box.V2.Managers
         /// <param name="etag">This ‘etag’ field of the file, which will be set in the If-Match header.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The complete BoxFile object.</returns>
-        public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, List<string> fields = null)
+        public async Task<BoxFile> UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, IEnumerable<string> fields = null)
         {
             fileRequest.ThrowIfNull("fileRequest")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
@@ -598,7 +598,7 @@ namespace Box.V2.Managers
         /// A full file object is returned if the ID is valid and if the update is successful. 
         /// Errors can be thrown if the destination folder is invalid or if a file-name collision occurs. 
         /// </returns>
-        public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, List<string> fields = null)
+        public async Task<BoxFile> CopyAsync(BoxFileRequest fileRequest, IEnumerable<string> fields = null)
         {
             fileRequest.ThrowIfNull("fileRequest");
             fileRequest.Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
@@ -625,7 +625,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A full file object containing the updated shared link is returned
         /// if the ID is valid and if the update is successful.</returns>
-        public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, List<string> fields = null)
+        public async Task<BoxFile> CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
             sharedLinkRequest.ThrowIfNull("sharedLinkRequest");
@@ -664,7 +664,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the file</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>List of all the collaborations on a file</returns>
-        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, List<string> fields = null)
+        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -682,7 +682,7 @@ namespace Box.V2.Managers
         /// <param name="id">The Id of the item that the comments should be retrieved for.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A Collection of comment objects are returned. If there are no comments on the file, an empty comments array is returned.</returns>
-        public async Task<BoxCollection<BoxComment>> GetCommentsAsync(string id, List<string> fields = null)
+        public async Task<BoxCollection<BoxComment>> GetCommentsAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -822,7 +822,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the file.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The full item will be returned, including information about when the it was moved to the trash.</returns>
-        public async Task<BoxFile> GetTrashedAsync(string id, List<string> fields = null)
+        public async Task<BoxFile> GetTrashedAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -842,7 +842,7 @@ namespace Box.V2.Managers
         /// <param name="fileRequest">BoxFileRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The full item will be returned with a 201 Created status. By default it is restored to the parent folder it was in before it was trashed.</returns>
-        public async Task<BoxFile> RestoreTrashedAsync(BoxFileRequest fileRequest, List<string> fields = null)
+        public async Task<BoxFile> RestoreTrashedAsync(BoxFileRequest fileRequest, IEnumerable<string> fields = null)
         {
             fileRequest.ThrowIfNull("fileRequest")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
@@ -949,7 +949,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the file.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A collection of task objects is returned. If there are no tasks, an empty collection will be returned.</returns>
-        public async Task<BoxCollection<BoxTask>> GetFileTasks(string id, List<string> fields = null)
+        public async Task<BoxCollection<BoxTask>> GetFileTasks(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 

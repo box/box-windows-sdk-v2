@@ -27,7 +27,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="notify">Determines if the user, (or all the users in the group) should receive email notification of the collaboration.</param>
         /// <returns>The new collaboration object is returned. Errors may occur if the IDs are invalid or if the user does not have permissions to create a collaboration.</returns>
-        public async Task<BoxCollaboration> AddCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null, bool? notify = null)
+        public async Task<BoxCollaboration> AddCollaborationAsync(BoxCollaborationRequest collaborationRequest, IEnumerable<string> fields = null, bool? notify = null)
         {
             collaborationRequest.ThrowIfNull("collaborationRequest")
                 .Item.ThrowIfNull("collaborationRequest.Item")
@@ -59,7 +59,7 @@ namespace Box.V2.Managers
         /// <returns>The updated collaboration object is returned. If the role is changed to owner, the collaboration is deleted with a new one created for the previous owner and a 204 is returned.
         /// Errors may occur if the IDs are invalid or if the user does not have permissions to edit the collaboration.
         /// </returns>
-        public async Task<BoxCollaboration> EditCollaborationAsync(BoxCollaborationRequest collaborationRequest, List<string> fields = null)
+        public async Task<BoxCollaboration> EditCollaborationAsync(BoxCollaborationRequest collaborationRequest, IEnumerable<string> fields = null)
         {
             collaborationRequest.ThrowIfNull("collaborationRequest")
                 .Id.ThrowIfNullOrWhiteSpace("collaborationRequest.Id");
@@ -97,7 +97,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the collaboration object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The collaboration object is returned. Errors may occur if id is invalid, the collaboration has been rejected by the user, or if the user does not have permissions to see the collaboration.</returns>
-        public async Task<BoxCollaboration> GetCollaborationAsync(string id, List<string> fields = null)
+        public async Task<BoxCollaboration> GetCollaborationAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -113,7 +113,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>A collection of pending collaboration objects are returned. If the user has no pending collaborations, the collection will be empty.</returns>
-        public async Task<BoxCollection<BoxCollaboration>> GetPendingCollaborationAsync(List<string> fields = null)
+        public async Task<BoxCollection<BoxCollaboration>> GetPendingCollaborationAsync(IEnumerable<string> fields = null)
         {
            
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, null)
