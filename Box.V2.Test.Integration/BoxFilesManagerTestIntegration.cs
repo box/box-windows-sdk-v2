@@ -251,7 +251,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
         {
-            long fileSize = 9000000;
+            long fileSize = 50000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
@@ -289,7 +289,7 @@ namespace Box.V2.Test.Integration
         [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_CommitSession_FilePresent()
         {
-            long fileSize = 19000000;
+            long fileSize = 50000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
@@ -362,7 +362,7 @@ namespace Box.V2.Test.Integration
         [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_Utility_Function_FilePresent()
         {
-            long fileSize = 19000000;
+            long fileSize = 50000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
