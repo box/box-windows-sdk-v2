@@ -65,7 +65,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetThumbnail_ValidRequest_ValidThumbnail()
         {
-            const string fileId = "16894947279";
+            const string fileId = "102438629524";
 
             using (Stream stream = await _client.FilesManager.GetThumbnailAsync(fileId, 256, 256))
             using (FileStream fs = new FileStream(string.Format(GetSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
