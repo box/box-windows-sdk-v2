@@ -56,6 +56,7 @@
       "../Box.V2/Models/BoxEnterpriseEvent.cs",
       "../Box.V2/Models/BoxExpiringEmbedLink.cs",
       "../Box.V2/Models/BoxFileEventSource.cs",
+      "../Box.V2/Models/BoxFolderEventSource.cs",
       "../Box.V2/Models/BoxFileLock.cs",
       "../Box.V2/Models/BoxFilePreview.cs",
       "../Box.V2/Models/BoxFileUploadSession.cs",
