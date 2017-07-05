@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{A5BC8AA0-5191-4B1D-845F-B4F0BD0287A4}"
 EndProject
@@ -21,11 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box.V2.Samples.JWTAuth", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box.V2.Samples.TransactionalAuth", "Box.V2.Samples.TransactionalAuth\Box.V2.Samples.TransactionalAuth.csproj", "{3438C884-06FE-4F94-A4DF-6DA024EB2B2D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Box.V2.Core", "Box.V2.Core\Box.V2.Core.xproj", "{CF62B2C3-4A2C-4C3F-821F-0CB89DE6CF62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.V2.Core", "Box.V2.Core\Box.V2.Core.csproj", "{CF62B2C3-4A2C-4C3F-821F-0CB89DE6CF62}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Box.V2.Samples.Core.File.Upload", "Box.V2.Samples.Core.File.Upload\Box.V2.Samples.Core.File.Upload.xproj", "{B6646429-8CD9-412E-937D-BD5862B80CB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.V2.Samples.Core.File.Upload", "Box.V2.Samples.Core.File.Upload\Box.V2.Samples.Core.File.Upload.csproj", "{B6646429-8CD9-412E-937D-BD5862B80CB4}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Box.V2.Samples.Core.AppUser.Create", "Box.V2.Samples.Core.AppUser.Create\Box.V2.Samples.Core.AppUser.Create.xproj", "{EB890C3A-311C-4140-B24C-863B9C8595A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.V2.Samples.Core.AppUser.Create", "Box.V2.Samples.Core.AppUser.Create\Box.V2.Samples.Core.AppUser.Create.csproj", "{EB890C3A-311C-4140-B24C-863B9C8595A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
