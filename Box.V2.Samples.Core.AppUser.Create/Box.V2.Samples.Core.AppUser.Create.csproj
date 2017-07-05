@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>Box.V2.Samples.Core.AppUser.Create</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Box.V2.Samples.Core.AppUser.Create</PackageId>
+    <RuntimeIdentifiers>win10-x64;osx.10.10-x64;ubuntu.14.04-x64</RuntimeIdentifiers>
+    <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Box.V2.Core\Box.V2.Core.csproj" />
+  </ItemGroup>
+
+</Project>
