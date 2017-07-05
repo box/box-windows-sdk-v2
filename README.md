@@ -12,7 +12,7 @@ Windows .NET SDK for V2 of the Box API that is usable from the following framewo
 * .NET Core 1.0 or above
 
 Prerequisites
-* Visual Studio 2012 w/ Update 2 CTP (or higher)
+* Visual Studio 2017
 * Windows Phone SDK 8.0 (if running Windows Phone samples)
 * Windows Store SDK (if running Windows Store samples)
 * .NET Core SDK (if running .NET Core samples)
