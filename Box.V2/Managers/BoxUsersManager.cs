@@ -85,6 +85,7 @@ namespace Box.V2.Managers
         /// <param name="fields">The fields to populate for each returned user.</param>
         /// <param name="userType">The type of user to search for. Valid values are all, external or managed. If nothing is provided, the default behavior will be managed only</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all users; defaults to false.</param>
+        /// <param name="externalAppUserId">The external app user id.</param>
         /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
         public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null,
@@ -92,6 +93,7 @@ namespace Box.V2.Managers
                                                                           uint limit = 100, 
                                                                           IEnumerable<string> fields = null,
                                                                           string userType = null,
+                                                                          string externalAppUserId = null,
                                                                           bool autoPaginate = false)
         {
             if (limit == 0 || limit > 1000) throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
@@ -101,6 +103,7 @@ namespace Box.V2.Managers
                 .Param("offset", offset.ToString())
                 .Param("limit", limit.ToString())
                 .Param("user_type", userType)
+                .Param("external_app_user_id", externalAppUserId)
                 .Param(ParamFields, fields);
 
             if (autoPaginate)

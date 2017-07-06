@@ -75,7 +75,8 @@ namespace Box.V2.Samples.Core.AppUser.Create
             var userRequest = new BoxUserRequest
             {
                 Name = "First user",
-                IsPlatformAccessOnly = true // creating application specific user, not a Box.com user
+                IsPlatformAccessOnly = true, // creating application specific user, not a Box.com user
+                ExternalAppUserId = "yhu-au1" // Optional, set external app user id
             };
             return client.UsersManager.CreateEnterpriseUserAsync(userRequest);
         }
