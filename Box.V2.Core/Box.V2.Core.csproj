@@ -16,8 +16,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Box.V2\**\*.cs"
-             Exclude="bin\**;obj\**;**\*.xproj;packages\**;..\Box.V2\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Box.V2\**\*.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**;..\Box.V2\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Box.V2.JWTAuth\**\*.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**;..\Box.V2.JWTAuth\Properties\AssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>

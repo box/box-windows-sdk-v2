@@ -108,5 +108,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "is_platform_access_only")]
         public bool? IsPlatformAccessOnly { get; set; }
+
+        /// <summary>
+        /// External app user id
+        /// </summary>
+        [JsonProperty(PropertyName = "external_app_user_id")]
+        public string ExternalAppUserId { get; set; }
     }
 }
