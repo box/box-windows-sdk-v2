@@ -82,8 +82,11 @@ namespace Box.V2.Models
         addField,
         editField,
         editTemplate,
+        editEnumOption,
         reorderEnumOptions,
-        reorderFields
+        reorderFields,
+        removeField,
+        removeEnumOption
     }
 
     public enum UserEventsStreamType

@@ -129,11 +129,21 @@ namespace Box.V2.Test.Integration
 
         // This test is disabled because our test account has hit the maximum number of metadata templates (50).
         // Until we can figure out how to delete some templates or increase the limit this test will fail.
-        //[TestMethod]
+        [TestMethod]
+        // [TestCategory("CI-APP-USER")]
         public async Task Metadata_UpdateTemplate_LiveSession()
         {
-            var templateKey = "template-" + Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8);
-            var createdTemplate = await createTestTemplate(templateKey);
+            /*
+            if (!IsUnderCI())
+            {
+                return;
+            }
+            */
+
+            // var templateKey = "template-" + Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8);
+            // var createdTemplate = await createTestTemplate(templateKey);
+
+            var templateKey = "template-fbc81a44";
 
             //addField operation
             var newField = new BoxMetadataTemplateField() { Key = "attr5", DisplayName = "a string", Type = "string" };
@@ -170,6 +180,19 @@ namespace Box.V2.Test.Integration
             updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
             Assert.IsTrue(updatedTemplate.Fields.Single(f => f.Key == "attr4").Options[0].Key == "value2", "reorderEnumOptions operation failed on metadata update");
 
+            //editEnumOption operation
+            newValue = new BoxMetadataTemplateFieldOption() { Key = "value31" };
+            update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.editEnumOption, FieldKey = "attr4", EnumOptionKey = "value3", Data = newValue };
+            updates = new List<BoxMetadataTemplateUpdate>() { update };
+            updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+            Assert.IsTrue(updatedTemplate.Fields.Single(f => f.Key == "attr4").Options.Count == 3, "editEnumOption operation failed on metadata update");
+
+            //removeEnumOption operation
+            update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.removeEnumOption, FieldKey = "attr4", EnumOptionKey = "value31" };
+            updates = new List<BoxMetadataTemplateUpdate>() { update };
+            updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+            Assert.IsTrue(updatedTemplate.Fields.Single(f => f.Key == "attr4").Options.Count == 2, "removeEnumOption operation failed on metadata update");
+
             //reorderFields operation
             var newFieldOrder = new List<string>() { "attr5", "attr4", "attr3", "attr2", "attr1" };
             update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.reorderFields, FieldKeys=newFieldOrder };
@@ -177,6 +200,11 @@ namespace Box.V2.Test.Integration
             updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
             Assert.IsTrue(updatedTemplate.Fields[0].Key == "attr5", "reorderFields operation failed on metadata update");
 
+            //removeField operation
+            update = new BoxMetadataTemplateUpdate() { Op = MetadataTemplateUpdateOp.removeField, FieldKey = "attr5" };
+            updates = new List<BoxMetadataTemplateUpdate>() { update };
+            updatedTemplate = await _client.MetadataManager.UpdateMetadataTemplate(updates, "enterprise", templateKey);
+            Assert.IsFalse(updatedTemplate.Fields.Any(f => f.Key == "attr5"), "removeField operation failed on metadata update");
         }
 
         private async Task<BoxMetadataTemplate> createTestTemplate(string templateKey)
