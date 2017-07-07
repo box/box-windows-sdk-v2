@@ -16,6 +16,7 @@ namespace Box.V2.Models
         public const string FieldData = "data";
         public const string FieldFieldKey = "fieldKey";
         public const string FieldFieldKeys = "fieldKeys";
+        public const string FieldEnumOptionKey = "enumOptionKey";
         public const string FieldEnumOptionKeys = "enumOptionKeys";
 
         [JsonProperty(PropertyName = FieldOp)]
@@ -30,6 +31,9 @@ namespace Box.V2.Models
 
         [JsonProperty(PropertyName = FieldFieldKeys)]
         public List<string> FieldKeys { get; set; }
+
+        [JsonProperty(PropertyName = FieldEnumOptionKey)]
+        public string EnumOptionKey { get; set; }
 
         [JsonProperty(PropertyName = FieldEnumOptionKeys)]
         public List<string> EnumOptionKeys { get; set; }

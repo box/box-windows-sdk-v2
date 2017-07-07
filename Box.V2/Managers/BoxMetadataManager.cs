@@ -161,7 +161,7 @@ namespace Box.V2.Managers
         /// <param name="scope">Scope name. Currently, the only scopes supported are enterprise and global</param>
         /// <param name="template">Metadata template name</param>
         /// <returns></returns>
-        public async Task<BoxMetadataTemplate> UpdateMetadataTemplate(List<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)
+        public async Task<BoxMetadataTemplate> UpdateMetadataTemplate(IEnumerable<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)
         {
             BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template))
                 .Method(RequestMethod.Put)
