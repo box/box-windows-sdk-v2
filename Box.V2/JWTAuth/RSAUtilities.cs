@@ -2,7 +2,6 @@ using System;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
-using System.Runtime.InteropServices;
 
 namespace Box.V2.JWTAuth
 {
@@ -24,31 +23,11 @@ namespace Box.V2.JWTAuth
             //
             // I took the guts of the sealed class DotNetUtilities and overrode it here
             // -------------------------------------------------------------------------------------
-#if NETSTANDARD1_4
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-#else
-            if (true)
-#endif
-            {
-                CspParameters csp = new CspParameters()
-                {
-                    KeyContainerName = string.Format("BouncyCastle-{0}", Guid.NewGuid()),
-                    Flags = CspProviderFlags.UseMachineKeyStore // This needs to be here to run as WebJob
-                };
 
-                RSACryptoServiceProvider rsaCsp = new RSACryptoServiceProvider(csp);
-                rsaCsp.ImportParameters(rp);
+            var rsaCsp = RSA.Create();
+            rsaCsp.ImportParameters(rp);
 
-                return rsaCsp;
-            }
-            else
-            {
-                // Other than windows
-                var rsaCsp = RSA.Create();
-                rsaCsp.ImportParameters(rp);
-
-                return rsaCsp;
-            }
+            return rsaCsp;
         }
 
         // ------------------------------------------------------------------------------------------------------------------

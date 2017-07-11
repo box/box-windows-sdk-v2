@@ -83,7 +83,7 @@ namespace Box.V2.Utility
                     exceptions.Add(ex);
                     if (retry < retryCount)
                     {
-                        CrossPlatform.Delay(retryInterval).Wait();
+                        Task.Delay(retryInterval).Wait();
                     }
                 }
             }
@@ -169,7 +169,7 @@ namespace Box.V2.Utility
                     exceptions.Add(ex);
                     if (retry < retryCount)
                     {
-                        await CrossPlatform.Delay(retryInterval);
+                        await Task.Delay(retryInterval);
                     }
                 }
             }

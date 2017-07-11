@@ -3,9 +3,10 @@ using Box.V2.Converter;
 using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Services;
-using Nito.AsyncEx;
+// using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Box.V2.Auth
@@ -21,7 +22,7 @@ namespace Box.V2.Auth
         protected IBoxConverter _converter;
 
         private List<string> _expiredTokens = new List<string>();
-        private readonly AsyncLock _mutex = new AsyncLock();
+        private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
 
         /// <summary>
         /// Fires when the authentication session is invalidated
@@ -72,11 +73,17 @@ namespace Box.V2.Auth
         {
             OAuthSession session = await ExchangeAuthCode(authCode);
 
-            using (await _mutex.LockAsync().ConfigureAwait(false))
+            await _mutex.WaitAsync().ConfigureAwait(false);
+            // using (await _mutex.LockAsync().ConfigureAwait(false))
+            try
             {
                 Session = session;
 
                 OnSessionAuthenticated(session);
+            }
+            finally
+            {
+                _mutex.Release();
             }
 
             return session;
@@ -92,7 +99,10 @@ namespace Box.V2.Auth
         public virtual async Task<OAuthSession> RefreshAccessTokenAsync(string accessToken)
         {
             OAuthSession session;
-            using (await _mutex.LockAsync().ConfigureAwait(false))
+
+            await _mutex.WaitAsync().ConfigureAwait(false);
+            // using (await _mutex.LockAsync().ConfigureAwait(false))
+            try
             {
                 if (_expiredTokens.Contains(accessToken))
                 {
@@ -111,6 +121,10 @@ namespace Box.V2.Auth
                     OnSessionAuthenticated(session);
                 }
             }
+            finally
+            {
+                _mutex.Release();
+            }
 
             return session;
         }
@@ -122,8 +136,16 @@ namespace Box.V2.Auth
         {
             string token;
 
-            using (await _mutex.LockAsync().ConfigureAwait(false))
+            await _mutex.WaitAsync().ConfigureAwait(false);
+            //using (await _mutex.LockAsync().ConfigureAwait(false))
+            try
+            {
                 token = Session.AccessToken;
+            }
+            finally
+            {
+                _mutex.Release();
+            }
 
             await InvalidateTokens(token);
         }

@@ -83,6 +83,12 @@ namespace Box.V2.Test.Integration
             }
         }
 
+        protected static bool IsUnderCI()
+        {
+            // if we have adminClient, we are under the CI env.
+            return adminClient == null;
+        }
+
         public BoxResourceManagerTestIntegration()
         {
             _handler = new HttpRequestHandler();

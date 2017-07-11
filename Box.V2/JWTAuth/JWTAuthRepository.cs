@@ -1,8 +1,5 @@
 ﻿using Box.V2.Auth;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.JWTAuth
@@ -93,11 +90,7 @@ namespace Box.V2.JWTAuth
 
         private void OnSessionAuthenticated(OAuthSession session)
         {
-            var handler = SessionAuthenticated;
-            if (handler != null)
-            {
-                handler(this, new SessionAuthenticatedEventArgs(session));
-            }
+            SessionAuthenticated?.Invoke(this, new SessionAuthenticatedEventArgs(session));
         }
     }
 }

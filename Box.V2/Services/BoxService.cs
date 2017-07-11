@@ -1,5 +1,6 @@
 ﻿using Box.V2.Request;
-using Nito.AsyncEx;
+using System.Threading;
+// using Nito.AsyncEx;
 using System.Threading.Tasks;
 
 namespace Box.V2.Services
@@ -10,7 +11,7 @@ namespace Box.V2.Services
         private IRequestHandler _handler;
 
         // Used to limit the number of requests that go out
-        AsyncSemaphore _throttler = new AsyncSemaphore(NumberOfThreads); 
+        SemaphoreSlim _throttler = new SemaphoreSlim(NumberOfThreads); 
 
         /// <summary>
         /// Instantiates a new BoxService with the provided handler

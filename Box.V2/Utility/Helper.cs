@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Box.V2.Utility
@@ -58,7 +59,7 @@ namespace Box.V2.Utility
         public static string GetSha1Hash(Stream stream)
         {
             stream.Position = 0;
-            var sha1 = SHA1Crypto.Create();
+            var sha1 = SHA1.Create();
             byte[] hash = sha1.ComputeHash(stream);
 
             return Convert.ToBase64String(hash);

@@ -10,15 +10,11 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
-
-#if NETSTANDARD1_4
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-#endif
 
 namespace Box.V2.JWTAuth
 {
@@ -83,11 +79,7 @@ namespace Box.V2.JWTAuth
                     rsa = RSAUtilities.ToRSA(rpcp);
                 }
 
-#if NETSTANDARD1_4
-                this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
-#else
-                this.credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256Signature, SecurityAlgorithms.Sha256Digest);
-#endif
+                credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
             }
         }
 
@@ -154,11 +146,7 @@ namespace Box.V2.JWTAuth
         private string ConstructJWTAssertion(string sub, string boxSubType)
         {
             byte[] randomNumber = new byte[64];
-#if NETSTANDARD1_4
             using (var rng = RandomNumberGenerator.Create())
-#else
-            using (var rng = new RNGCryptoServiceProvider())
-#endif
             {
                 rng.GetBytes(randomNumber);
             }
