@@ -5,16 +5,11 @@ Box Windows V2 SDK
 ==================
 
 Windows .NET SDK for V2 of the Box API that is usable from the following frameworks: 
-* .NET Framework 4.0.3 and higher
-* .NET for Windows Store apps
-* Silverlight 4 and higher
-* Windows Phone 7.5 and higher
+* .NET Framework 4.5
 * .NET Core 1.0 or above
 
 Prerequisites
 * Visual Studio 2017
-* Windows Phone SDK 8.0 (if running Windows Phone samples)
-* Windows Store SDK (if running Windows Store samples)
 * .NET Core SDK (if running .NET Core samples)
 
 Quick Start
@@ -22,21 +17,12 @@ Quick Start
 
 ### Installation
 
-Install the dependency Microsoft.Bcl.Async, or you may get FileNotFoundException: Could not load file or assembly ‘Microsoft.Threading.Tasks‘
-```bash
-PM> Install-Package Microsoft.Bcl.Async
-```
-
 Install the SDK using Nuget
 ```bash
 PM> Install-Package Box.V2
 ```
-For use with Box Platform Developer or Box Platform Enterprise, also install JWT support using Nuget
-```bash
-PM> Install-Package Box.V2.JWTAuth
-```
 
-If you want to use .NET Core, which has JWT support build in already.
+If you want to use .NET Core
 ```bash
 PM> Install-Package Box.V2.Core
 ```
@@ -183,10 +169,11 @@ using (SHA1 sha1 = SHA1.Create())
 ```c#
 try
 {
-	var req = new BoxPreflightCheckRequest() { Name = "example.pdf", 
-											   Parent = new BoxRequestEntity() { Id = "0" },
-											   Size = 10000 //set the size if known, otherwise don't set (i.e. for a stream)
-											 };
+	var req = new BoxPreflightCheckRequest() { 
+	    Name = "example.pdf", 
+	    Parent = new BoxRequestEntity() { Id = "0" },
+	    Size = 10000 //set the size if known, otherwise don't set (i.e. for a stream)
+	};
 											 
 	//exception will be thrown if name collision or storage limit would be exceeded by upload									 
 	await userClient.FilesManager.PreflightCheck(req);
@@ -208,7 +195,7 @@ try
 	var req = new BoxPreflightCheckRequest() { Size=10926 };
 	
 	//exception will be thrown if storage limit would be exceeded by uploading new version of file
-    await userClient.FilesManager.PreflightCheckNewVersion(existingFile.Id, req);									 
+        await userClient.FilesManager.PreflightCheckNewVersion(existingFile.Id, req);		 
 }
 catch (BoxException bex)
 {
@@ -299,7 +286,6 @@ Other Resources
 -------------
 - SDK Nuget Package: https://www.nuget.org/packages/Box.V2/
 - .NET Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2.Core/
-- JWT Support Nuget Package: https://www.nuget.org/packages/Box.V2.JWTAuth/
 - Box Windows SDK Video Tutorial: https://youtu.be/hqko0hxbaXU
 
 Known Issues
