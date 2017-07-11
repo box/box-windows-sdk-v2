@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Box.V2.Managers
@@ -429,6 +430,11 @@ namespace Box.V2.Managers
             var numberOfParts = UploadUsingSessionInternal.GetNumberOfParts(fileSize,
                 partSizeLong);
 
+            // Full file sha1 for final commit
+            var fullFileSha1 = await Task.Run(() => {
+                    return Helper.GetSha1Hash(stream);
+                });
+
             // Upload parts in session
             var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri,
                 numberOfParts,
@@ -440,9 +446,6 @@ namespace Box.V2.Managers
             {
                 Parts = allSessionPartsList
             };
-
-            // Full file sha1 TODO yhu@ CPU bound here - and not currently using multiple threads
-            var fullFileSha1 = Helper.GetSha1Hash(stream);
 
             // Commit, Retry 5 times with interval related to the total part number
             // Having debugged this -- retries do consistenly happen so we up the retries
@@ -463,56 +466,50 @@ namespace Box.V2.Managers
             Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
             long fileSize, TimeSpan? timeout = null)
         {
-            // Limit tasks to the number of cores we have
-            // TODO yhu@ http://stackoverflow.com/questions/8834045/can-i-limit-the-amount-of-system-threading-tasks-task-objects-that-run-simultane
-            var maxTaskNum = Environment.ProcessorCount;
+            var maxTaskNum = Environment.ProcessorCount + 1;
 
             // Retry 5 times for 10 seconds
             const int retryMaxCount = 5;
             const int retryMaxInterval = 10;
 
-            var tasks = new List<Task<BoxUploadPartResponse>>();
             var ret = new List<BoxSessionPartInfo>();
 
-            for (var i = 0; i < numberOfParts; i++)
+            using (SemaphoreSlim concurrencySemaphore = new SemaphoreSlim(maxTaskNum))
             {
-                // Split file as per part size
-                var partOffset = partSize * i;
+                var postTaskTasks = new List<Task>();
 
-                // Retry
-                var uploadPartWithRetryTask = Retry.ExecuteAsync(async () =>
+                var tasks = new List<Task<BoxUploadPartResponse>>();
+                for (var i = 0; i < numberOfParts; i++)
                 {
-                    // Release the memory when done
-                    using (var partFileStream = UploadUsingSessionInternal.GetFilePart(stream, partSize,
-                                partOffset))
+                    await concurrencySemaphore.WaitAsync();
+
+                    // Split file as per part size
+                    var partOffset = partSize * i;
+
+                    // Retry
+                    var uploadPartWithRetryTask = Retry.ExecuteAsync(async () =>
                     {
-                        var sha = Helper.GetSha1Hash(partFileStream);
-                        partFileStream.Position = 0;
-                        var uploadPartResponse = await UploadPartAsync(
-                            uploadPartsUri, sha, partOffset, fileSize, partFileStream,
-                            timeout);
+                        // Release the memory when done
+                        using (var partFileStream = UploadUsingSessionInternal.GetFilePart(stream, partSize,
+                                    partOffset))
+                        {
+                            var sha = Helper.GetSha1Hash(partFileStream);
+                            partFileStream.Position = 0;
+                            var uploadPartResponse = await UploadPartAsync(
+                                uploadPartsUri, sha, partOffset, fileSize, partFileStream,
+                                timeout);
 
-                        return uploadPartResponse;
-                    }
-                }, TimeSpan.FromSeconds(retryMaxInterval), retryMaxCount);
+                            return uploadPartResponse;
+                        }
+                    }, TimeSpan.FromSeconds(retryMaxInterval), retryMaxCount);
 
-                tasks.Add(uploadPartWithRetryTask);
+                    // Have each task notify the Semaphore when it completes so that it decrements the number of tasks currently running.
+                    postTaskTasks.Add(uploadPartWithRetryTask.ContinueWith(tsk => concurrencySemaphore.Release()));
 
-                // Limit the concurrent tasks
-                if (tasks.Count >= maxTaskNum)
-                {
-                    var results = await CrossPlatform.WhenAll(tasks);
-                    ret.AddRange(results.Select(elem => elem.Part));
-
-                    // reset
-                    tasks.Clear();
+                    tasks.Add(uploadPartWithRetryTask);
                 }
-            }
 
-            // Capture the last part
-            if (tasks.Count > 0)
-            {
-                var results = await CrossPlatform.WhenAll(tasks);
+                var results = await Task.WhenAll(tasks);
                 ret.AddRange(results.Select(elem => elem.Part));
             }
 
@@ -746,7 +743,7 @@ namespace Box.V2.Managers
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
             {
-                await CrossPlatform.Delay(GetTimeDelay(response.Headers));
+                await Task.Delay(GetTimeDelay(response.Headers));
                 response = await ToResponseAsync<Stream>(request, throttle).ConfigureAwait(false);
             }
 
@@ -819,7 +816,7 @@ namespace Box.V2.Managers
 
             while (response.StatusCode == HttpStatusCode.Accepted && handleRetry)
             {
-                await CrossPlatform.Delay(GetTimeDelay(response.Headers));
+                await Task.Delay(GetTimeDelay(response.Headers));
                 response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
             }
 

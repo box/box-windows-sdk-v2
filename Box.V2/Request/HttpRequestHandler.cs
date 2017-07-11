@@ -1,5 +1,4 @@
 ﻿using Box.V2.Config;
-using Box.V2.Utility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -93,7 +92,7 @@ namespace Box.V2.Request
 
                         Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
 
-                        await CrossPlatform.Delay(delay);
+                        await Task.Delay(delay);
                     }
                     else
                     {
