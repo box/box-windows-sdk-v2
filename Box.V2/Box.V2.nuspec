@@ -8,7 +8,7 @@
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.6.1</description>
+    <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.5</description>
     <releaseNotes>Revert back the file version.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
