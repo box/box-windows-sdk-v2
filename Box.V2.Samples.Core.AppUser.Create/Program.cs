@@ -76,7 +76,7 @@ namespace Box.V2.Samples.Core.AppUser.Create
             {
                 Name = "First user",
                 IsPlatformAccessOnly = true, // creating application specific user, not a Box.com user
-                ExternalAppUserId = "yhu-au1" // Optional, set external app user id
+                // ExternalAppUserId = "yhu-au1" // Optional, set unique external app user id
             };
             return client.UsersManager.CreateEnterpriseUserAsync(userRequest);
         }
@@ -84,7 +84,7 @@ namespace Box.V2.Samples.Core.AppUser.Create
         private static IBoxConfig ConfigureBoxApi()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"<YOUR_JSON_FILE_HERE>", FileMode.Open))
+            using (FileStream fs = new FileStream(@"YOUR_JSON_FILE_HERE", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }

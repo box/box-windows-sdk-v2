@@ -151,6 +151,7 @@
     <Compile Include="Plugin\IBoxMetadataManager.cs" />
     <Compile Include="Plugin\IResourcePlugin.cs" />
     <Compile Include="JWTAuth\RSAUtilities.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\AssemblyInfo.cs" />
     <Compile Include="Utility\CrossPlatform.cs" />
     <Compile Include="Utility\Helper.cs" />
@@ -216,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Box.V2.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
