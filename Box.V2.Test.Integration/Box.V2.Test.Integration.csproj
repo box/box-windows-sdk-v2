@@ -78,11 +78,6 @@
     <Compile Include="BoxGroupsManagerTestIntegration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Box.V2\Box.V2.csproj">
       <Project>{602ff1b8-df8b-4cff-88c6-8b34468c45ad}</Project>
       <Name>Box.V2</Name>

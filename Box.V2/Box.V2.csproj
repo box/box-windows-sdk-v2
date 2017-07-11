@@ -216,7 +216,6 @@
     <Compile Include="Converter\BoxJsonConverter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Box.V2.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
