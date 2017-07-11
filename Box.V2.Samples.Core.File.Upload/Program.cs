@@ -50,7 +50,12 @@ namespace Box.V2.Core.Sample
                 Parent = new BoxFolderRequest { Id = parentFolderId }
             };
 
-            var bFile = await client.FilesManager.UploadAsync(fileRequest, file);
+            // Normal file upload
+            // var bFile = await client.FilesManager.UploadAsync(fileRequest, file);
+
+            // Supercharged filed upload with progress report, only works with file >= 50m.
+            var progress = new Progress<int>(val => { Console.WriteLine("{0}%", val); });
+            var bFile = await client.FilesManager.UploadUsingSessionAsync(file, fileName, parentFolderId, null, progress);
 
             Console.WriteLine("{0} uploaded to folder: {1} as file: {2}",localFilePath, parentFolderId, bFile.Id);
             Console.WriteLine("Time spend : {0} ms", timer.ElapsedMilliseconds);
