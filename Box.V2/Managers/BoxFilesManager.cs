@@ -400,11 +400,12 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="stream">The file stream.</param>
         /// <param name="fileName">Name of the remote file name.</param>
-        /// <param name="folderId">parent folder id.</param>
+        /// <param name="folderId">Parent folder id.</param>
         /// <param name="timeout">Timeout for subsequent UploadPart requests.</param>
-        /// <returns> The complete BoxFile object.</returns>
+        /// <param name="progress">Will report progress from 1 - 100.</param>
+        /// <returns>The complete BoxFile object.</returns>
         public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName,
-            string folderId, TimeSpan? timeout = null)
+            string folderId, TimeSpan? timeout = null, IProgress<int> progress = null)
         {
             // Create Upload Session
             var fileSize = stream.Length;
@@ -437,8 +438,8 @@ namespace Box.V2.Managers
 
             // Upload parts in session
             var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri,
-                numberOfParts,
-                partSizeLong, stream, fileSize, timeout);
+                numberOfParts, partSizeLong, stream, 
+                fileSize, timeout, progress);
 
             var allSessionPartsList = allSessionParts.ToList();
 
@@ -464,7 +465,7 @@ namespace Box.V2.Managers
 
         private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(
             Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
-            long fileSize, TimeSpan? timeout = null)
+            long fileSize, TimeSpan? timeout = null, IProgress<int> progress = null)
         {
             var maxTaskNum = Environment.ProcessorCount + 1;
 
@@ -477,6 +478,7 @@ namespace Box.V2.Managers
             using (SemaphoreSlim concurrencySemaphore = new SemaphoreSlim(maxTaskNum))
             {
                 var postTaskTasks = new List<Task>();
+                int taskCompleted = 0;
 
                 var tasks = new List<Task<BoxUploadPartResponse>>();
                 for (var i = 0; i < numberOfParts; i++)
@@ -504,7 +506,16 @@ namespace Box.V2.Managers
                     }, TimeSpan.FromSeconds(retryMaxInterval), retryMaxCount);
 
                     // Have each task notify the Semaphore when it completes so that it decrements the number of tasks currently running.
-                    postTaskTasks.Add(uploadPartWithRetryTask.ContinueWith(tsk => concurrencySemaphore.Release()));
+                    postTaskTasks.Add(uploadPartWithRetryTask.ContinueWith(tsk =>
+                        {
+                            concurrencySemaphore.Release();
+                            ++taskCompleted;
+                            if (progress != null)
+                            {
+                                progress.Report(taskCompleted * 100 / numberOfParts);
+                            }
+                        }
+                    ));
 
                     tasks.Add(uploadPartWithRetryTask);
                 }

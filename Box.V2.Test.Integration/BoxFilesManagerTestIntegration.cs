@@ -8,6 +8,7 @@ using Box.V2.Models;
 using System.Net;
 using System.Security.Cryptography;
 using Box.V2.Utility;
+using System.Diagnostics;
 
 namespace Box.V2.Test.Integration
 {
@@ -367,11 +368,21 @@ namespace Box.V2.Test.Integration
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
 
+            bool progressReported = false;
+
+            var progress = new Progress<int>(val => {
+                Debug.WriteLine("{0}%", val);
+                progressReported = true;
+            });
+
             // Call Utility function
-            await _client.FilesManager.UploadUsingSessionAsync(fileInMemoryStream, remoteFileName, parentFolderId);
+            await _client.FilesManager.UploadUsingSessionAsync(fileInMemoryStream, remoteFileName, parentFolderId,
+                null, progress);
 
             // Assert file is committed/uploaded to box
             Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+
+            Assert.IsTrue(progressReported);
 
             // Delete file
             string fileId = await GetFileId(parentFolderId, remoteFileName);
