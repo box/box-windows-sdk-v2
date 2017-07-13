@@ -370,8 +370,8 @@ namespace Box.V2.Test.Integration
 
             bool progressReported = false;
 
-            var progress = new Progress<int>(val => {
-                Debug.WriteLine("{0}%", val);
+            var progress = new Progress<BoxProgress>(val => {
+                Debug.WriteLine("{0}%", val.progress);
                 progressReported = true;
             });
 

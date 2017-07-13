@@ -405,7 +405,7 @@ namespace Box.V2.Managers
         /// <param name="progress">Will report progress from 1 - 100.</param>
         /// <returns>The complete BoxFile object.</returns>
         public async Task<BoxFile> UploadUsingSessionAsync(Stream stream, string fileName,
-            string folderId, TimeSpan? timeout = null, IProgress<int> progress = null)
+            string folderId, TimeSpan? timeout = null, IProgress<BoxProgress> progress = null)
         {
             // Create Upload Session
             var fileSize = stream.Length;
@@ -465,7 +465,7 @@ namespace Box.V2.Managers
 
         private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(
             Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
-            long fileSize, TimeSpan? timeout = null, IProgress<int> progress = null)
+            long fileSize, TimeSpan? timeout = null, IProgress<BoxProgress> progress = null)
         {
             var maxTaskNum = Environment.ProcessorCount + 1;
 
@@ -512,7 +512,12 @@ namespace Box.V2.Managers
                             ++taskCompleted;
                             if (progress != null)
                             {
-                                progress.Report(taskCompleted * 100 / numberOfParts);
+                                var boxProgress = new BoxProgress()
+                                {
+                                    progress = taskCompleted * 100 / numberOfParts
+                                };
+
+                                progress.Report(boxProgress);
                             }
                         }
                     ));
