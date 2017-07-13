@@ -153,6 +153,7 @@
     <Compile Include="JWTAuth\RSAUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\AssemblyInfo.cs" />
+    <Compile Include="Utility\BoxProgess.cs" />
     <Compile Include="Utility\CrossPlatform.cs" />
     <Compile Include="Utility\Helper.cs" />
     <Compile Include="Utility\LRUCache.cs" />
