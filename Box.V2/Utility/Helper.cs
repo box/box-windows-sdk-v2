@@ -59,10 +59,13 @@ namespace Box.V2.Utility
         public static string GetSha1Hash(Stream stream)
         {
             stream.Position = 0;
-            var sha1 = SHA1.Create();
-            byte[] hash = sha1.ComputeHash(stream);
 
-            return Convert.ToBase64String(hash);
+            using (var sha1 = SHA1.Create())
+            {
+                byte[] hash = sha1.ComputeHash(stream);
+
+                return Convert.ToBase64String(hash);
+            }
         }
     }
 }
