@@ -4,12 +4,12 @@ using Box.V2.Converter;
 using Box.V2.Models;
 using Box.V2.Extensions;
 using Box.V2.Services;
+using Box.V2.Utility;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Box.V2.Utility;
 using System.Threading;
-using System.Diagnostics;
+using System.Net;
 
 namespace Box.V2.Managers
 {
@@ -41,6 +41,17 @@ namespace Box.V2.Managers
         {
             var createdAfterString = createdAfter.HasValue ? createdAfter.Value.ToString(Constants.RFC3339DateFormat) : null;
             var createdBeforeString = createdBefore.HasValue ? createdBefore.Value.ToString(Constants.RFC3339DateFormat) : null;
+
+            // url encode 
+            if (!string.IsNullOrEmpty(createdAfterString))
+            {
+                createdAfterString = WebUtility.UrlEncode(createdAfterString);
+            }
+
+            if (!string.IsNullOrEmpty(createdBeforeString))
+            {
+                createdBeforeString = WebUtility.UrlEncode(createdBeforeString);
+            }
 
             BoxRequest request = new BoxRequest(_config.EventsUri)
                 .Param("stream_type", ENTERPRISE_EVENTS_STREAM_TYPE)

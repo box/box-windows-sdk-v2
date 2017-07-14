@@ -65,7 +65,7 @@ namespace Box.V2.Request
                         HttpCompletionOption.ResponseHeadersRead :
                         HttpCompletionOption.ResponseContentRead;
 
-                    Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));//, RequestHeader: {1} , httpRequest.Headers.Select(i => string.Format("{0}:{1}", i.Key, i.Value)).Aggregate((i, j) => i + "," + j)));
+                    Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
 
                     HttpClient client = GetClient(request);
 
