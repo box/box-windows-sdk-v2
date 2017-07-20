@@ -31,7 +31,7 @@ namespace Box.V2.Managers
         {
             BoxRequest request = new BoxRequest(_config.WebhooksUri)
                 .Method(RequestMethod.Post)
-                .Payload(_converter.Serialize<BoxWebhookRequest>(webhookRequest));
+                .Payload(_converter.Serialize(webhookRequest));
 
             IBoxResponse<BoxWebhook> response = await ToResponseAsync<BoxWebhook>(request).ConfigureAwait(false);
 
@@ -66,7 +66,7 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.WebhooksUri, webhookRequest.Id)
                 .Method(RequestMethod.Put)
-                .Payload(_converter.Serialize<BoxWebhookRequest>(webhookRequest));
+                .Payload(_converter.Serialize(webhookRequest));
 
             IBoxResponse<BoxWebhook> response = await ToResponseAsync<BoxWebhook>(request).ConfigureAwait(false);
 
@@ -112,27 +112,6 @@ namespace Box.V2.Managers
                 IBoxResponse<BoxCollectionMarkerBased<BoxWebhook>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxWebhook>>(request).ConfigureAwait(false);
                 return response.ResponseObject;
             }
-        }
-
-        /// <summary>
-        /// Convenience method to automatically fetch all webhooks for the requesting application and user using auto-pagination.
-        /// </summary>
-        /// <returns>Returns all defined webhooks for the requesting application and user.</returns>
-        [Obsolete("This method is deprecated. Use GetWebhooksAsync and specify autoPaginate=true instead.",true)]
-        public async Task<List<BoxWebhook>> GetAllWebhooksAsync()
-        {
-            string nextMarker = null;
-            var webhooks = new List<BoxWebhook>();
-
-            do
-            {
-                var nextWebhooks = await GetWebhooksAsync(limit: 200, nextMarker: nextMarker);
-                webhooks.AddRange(nextWebhooks.Entries);
-                nextMarker = nextWebhooks.NextMarker;
-
-            } while (!string.IsNullOrWhiteSpace(nextMarker));
-
-            return webhooks;
         }
 
         /// <summary>
