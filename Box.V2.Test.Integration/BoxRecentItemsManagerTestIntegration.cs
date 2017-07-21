@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Box.V2.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
@@ -10,14 +11,20 @@ namespace Box.V2.Test.Integration
         [TestCategory("CI-APP-USER")]
         public async Task RecentItemsTests_LiveSession()
         {
+            // Get 3 recents items w/o auto paging
+            var recentItems = await _client.RecentItemsManager.GetRecentItemsAsync(limit:3);
+            Assert.AreEqual(recentItems.Limit, 3);
+
+            // Get next page if possible
+            if (!string.IsNullOrEmpty(recentItems.NextMarker))
+            {
+                recentItems = await _client.RecentItemsManager.GetRecentItemsAsync(limit: 3, marker: recentItems.NextMarker);
+                Assert.AreEqual(recentItems.Limit, 3);
+            }
+
             // Get all the recent items.
-            var recentItems = await _client.RecentItemsManager.GetRecentItemsAsync(limit:3, autoPaginate:true);
-
-            Assert.IsTrue(recentItems.Entries.Count > 0);
-
-            // Verify the auto paging
-
-            // Assert.IsTrue(result, "Failed to delete webhook");
+            recentItems = await _client.RecentItemsManager.GetRecentItemsAsync(limit:3, autoPaginate:true);
+            Assert.AreEqual(recentItems.Order.By, BoxSortBy.interacted_at);
         }
     }
 }

@@ -77,6 +77,7 @@ namespace Box.V2.Models
 
     /// <summary>
     /// Box representation of a collection that uses the next_marker and limit fields for paging through results.
+    /// This class will only accept Order as BoxSortOrder array 
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class BoxCollectionMarkerBased<T> : BoxCollectionMarkerBased where T : class, new()
@@ -103,8 +104,40 @@ namespace Box.V2.Models
         /// Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.
         /// </summary>
         [JsonProperty(PropertyName = FieldOrder)]
-
         public List<BoxSortOrder> Order { get; set; }
+    }
+
+    /// <summary>
+    /// Box representation of a collection that uses the next_marker and limit fields for paging through results.
+    /// This class will only accept Order as BoxSortOrder object 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class BoxCollectionMarkerBasedV2<T> : BoxCollectionMarkerBased where T : class, new()
+    {
+        /// <summary>
+        /// Number of items to return per request.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldLimit)]
+        public int Limit { get; set; }
+
+        /// <summary>
+        /// Should be empty for first invocation of the API. Use the one returned in response for each subsequent call.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldMarker)]
+        public string NextMarker { get; set; }
+
+        /// <summary>
+        /// List of items returned.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; set; }
+
+        /// <summary>
+        /// Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldOrder)]
+
+        public BoxSortOrder Order { get; set; }
     }
 
     public class BoxEventCollection<T> : BoxEventCollection where T: BoxEnterpriseEvent

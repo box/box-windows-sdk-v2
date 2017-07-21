@@ -4,10 +4,7 @@ using Box.V2.Extensions;
 using Box.V2.Converter;
 using Box.V2.Models;
 using Box.V2.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Managers
@@ -28,7 +25,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Comma-separated list of fields to include in the response.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>BoxRecentItem in collection.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxRecentItem>> GetRecentItemsAsync(int limit = 100, string marker = null, IEnumerable<string> fields = null, bool autoPaginate = false)
+        public async Task<BoxCollectionMarkerBasedV2<BoxRecentItem>> GetRecentItemsAsync(int limit = 100, string marker = null, IEnumerable<string> fields = null, bool autoPaginate = false)
         {
             var request = new BoxRequest(_config.RecentItemsUri)
                 .Param("limit", limit.ToString())
@@ -37,11 +34,11 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxRecentItem>(request, limit);
+                return await AutoPaginateMarkerV2<BoxRecentItem>(request, limit);
             }
             else
             {
-                var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxRecentItem>>(request).ConfigureAwait(false);
+                var response = await ToResponseAsync<BoxCollectionMarkerBasedV2<BoxRecentItem>>(request).ConfigureAwait(false);
                 return response.ResponseObject;
             }
         }

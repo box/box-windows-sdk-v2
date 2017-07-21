@@ -26,5 +26,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "interaction_shared_link")]
         public string InteractionSharedLink { get; protected set; }
+
+        /// <summary>
+        /// The item that was recently accessed.
+        /// </summary>
+        [JsonProperty(PropertyName = "item")]
+        public BoxItem Item { get; protected set; }
     }
 }
