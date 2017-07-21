@@ -174,6 +174,7 @@ namespace Box.V2.Config
         public virtual Uri MetadataTemplatesUri { get { return new Uri(BoxApiUri, Constants.MetadataTemplatesString); } }
         public virtual Uri CreateMetadataTemplateUri { get { return new Uri(BoxApiUri, Constants.CreateMetadataTemplateString); } }
         public virtual Uri WebhooksUri { get { return new Uri(BoxApiUri, Constants.WebhooksString); } }
+        public virtual Uri RecentItemsUri { get { return new Uri(BoxApiUri, Constants.RecentItemsString); } }
         public virtual Uri EnterprisesUri { get { return new Uri(BoxApiUri, Constants.EnterprisesString); } }
         public virtual Uri DevicePinUri { get { return new Uri(BoxApiUri, Constants.DevicePinString); } }
 

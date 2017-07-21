@@ -57,6 +57,7 @@ namespace Box.V2.Config
         Uri MetadataTemplatesUri { get; }
         Uri CreateMetadataTemplateUri { get; }
         Uri WebhooksUri { get; }
+        Uri RecentItemsUri { get; }
         Uri EnterprisesUri { get; }
         Uri DevicePinUri { get; }
 

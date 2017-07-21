@@ -70,6 +70,7 @@
     <Compile Include="BoxCollaborationsManagerTestIntegration.cs" />
     <Compile Include="BoxAuthTestIntegration.cs" />
     <Compile Include="BoxRetentionPoliciesManagerTestIntegration.cs" />
+    <Compile Include="BoxRecentItemsManagerTestIntegration.cs" />
     <Compile Include="BoxWebhooksManagerTestIntegration.cs" />
     <Compile Include="BoxConfigTestIntegration.cs" />
     <Compile Include="BoxTokenExchangeTestIntegration.cs" />

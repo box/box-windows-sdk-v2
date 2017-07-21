@@ -141,7 +141,7 @@ namespace Box.V2.Managers
             bool keepGoing;
             do
             {
-                IBoxResponse<BoxCollection<T>> response = await ToResponseAsync<BoxCollection<T>>(request).ConfigureAwait(false);
+                var response = await ToResponseAsync<BoxCollection<T>>(request).ConfigureAwait(false);
                 var newItems = response.ResponseObject;
                 allItemsCollection.Entries.AddRange(newItems.Entries);
                 allItemsCollection.Order = newItems.Order;
@@ -173,7 +173,7 @@ namespace Box.V2.Managers
             bool keepGoing;
             do
             {
-                IBoxResponse<BoxCollectionMarkerBased<T>> response = await ToResponseAsync<BoxCollectionMarkerBased<T>>(request).ConfigureAwait(false);
+                var response = await ToResponseAsync<BoxCollectionMarkerBased<T>>(request).ConfigureAwait(false);
                 var newItems = response.ResponseObject;
                 allItemsCollection.Entries.AddRange(newItems.Entries);
                 allItemsCollection.Order = newItems.Order;
@@ -187,5 +187,33 @@ namespace Box.V2.Managers
             return allItemsCollection;
         }
 
+        /// <summary>
+        /// Used to fetch all results using pagination based on next_marker, V2 is for sort order is an object.
+        /// </summary>
+        /// <typeparam name="T">The type of BoxCollectionMarkerBased item to expect.</typeparam>
+        /// <param name="request">The pre-configured BoxRequest object.</param>
+        /// <param name="limit">The limit specific to the endpoint.</param>
+        /// <returns></returns>
+        protected async Task<BoxCollectionMarkerBasedV2<T>> AutoPaginateMarkerV2<T>(BoxRequest request, int limit) where T : BoxEntity, new()
+        {
+            var allItemsCollection = new BoxCollectionMarkerBasedV2<T>();
+            allItemsCollection.Entries = new List<T>();
+
+            bool keepGoing;
+            do
+            {
+                var response = await ToResponseAsync<BoxCollectionMarkerBasedV2<T>>(request).ConfigureAwait(false);
+                var newItems = response.ResponseObject;
+                allItemsCollection.Entries.AddRange(newItems.Entries);
+                allItemsCollection.Order = newItems.Order;
+
+                request.Param("marker", newItems.NextMarker);
+
+                keepGoing = !string.IsNullOrWhiteSpace(newItems.NextMarker);
+
+            } while (keepGoing);
+
+            return allItemsCollection;
+        }
     }
 }
