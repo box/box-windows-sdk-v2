@@ -40,6 +40,18 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task GetInformation_Fields_Metadata_ValidResponse()
+        {
+            const string fileId = "97274928659";
+            var file = await _client.FilesManager.GetInformationAsync(fileId, fields: new List<string> { "metadata.enterprise_440385.testtemplate" });
+
+            Assert.AreEqual(fileId, file.Id, "Incorrect file id");
+            Assert.IsNotNull(file.Name, "File Name is null");
+            Assert.IsNotNull(file.ModifiedAt, "ModifiedAt field is null");
+            Assert.IsNotNull(file.OwnedBy, "OwnedBy field is null");
+        }
+
+        [TestMethod]
         public async Task Download_ValidRequest_ValidStream()
         {
             const string fileId = "16894947279";
