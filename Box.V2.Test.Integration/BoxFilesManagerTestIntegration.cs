@@ -1,14 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Box.V2.Models;
-using System.Net;
-using System.Security.Cryptography;
-using Box.V2.Utility;
 using System.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Box.V2.Models;
+using Box.V2.Utility;
 
 namespace Box.V2.Test.Integration
 {
@@ -46,9 +44,8 @@ namespace Box.V2.Test.Integration
             var file = await _client.FilesManager.GetInformationAsync(fileId, fields: new List<string> { "metadata.enterprise_440385.testtemplate" });
 
             Assert.AreEqual(fileId, file.Id, "Incorrect file id");
-            Assert.IsNotNull(file.Name, "File Name is null");
-            Assert.IsNotNull(file.ModifiedAt, "ModifiedAt field is null");
-            Assert.IsNotNull(file.OwnedBy, "OwnedBy field is null");
+            Assert.IsNotNull(file.Metadata, "Metadata is null");
+            Assert.IsNotNull(file.Metadata["enterprise_440385"], "Scope could not be found");
         }
 
         [TestMethod]
