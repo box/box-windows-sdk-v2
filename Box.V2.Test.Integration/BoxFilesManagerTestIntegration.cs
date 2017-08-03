@@ -46,6 +46,12 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(fileId, file.Id, "Incorrect file id");
             Assert.IsNotNull(file.Metadata, "Metadata is null");
             Assert.IsNotNull(file.Metadata["enterprise_440385"], "Scope could not be found");
+
+            file = await _client.FilesManager.GetInformationAsync(fileId, fields: new List<string> { "metadata.enterprise.testtemplate" });
+
+            Assert.AreEqual(fileId, file.Id, "Incorrect file id");
+            Assert.IsNotNull(file.Metadata, "Metadata is null");
+            Assert.IsNotNull(file.Metadata["enterprise"], "Scope could not be found");
         }
 
         [TestMethod]
