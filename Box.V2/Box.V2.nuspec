@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Box.V2</id>
-    <version>3.0.0</version>
+    <version>3.1.0</version>
     <title>Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.5</description>
-    <releaseNotes>Major version bump to 3, targting net45. Upgrading the whole sln to vs2017. Recents API. New operation on Metadata API. Progress on UploadUsingSession. Other minor fixes.</releaseNotes>
+    <releaseNotes>Unified metadata support.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>
