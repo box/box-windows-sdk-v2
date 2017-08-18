@@ -5,6 +5,7 @@ using Box.V2.Config;
 using Box.V2.Models;
 using Box.V2.Auth;
 using System.Diagnostics;
+using Box.V2.Utility;
 
 namespace Box.V2.Core.Sample
 {
@@ -54,7 +55,7 @@ namespace Box.V2.Core.Sample
             // var bFile = await client.FilesManager.UploadAsync(fileRequest, file);
 
             // Supercharged filed upload with progress report, only works with file >= 50m.
-            var progress = new Progress<int>(val => { Console.WriteLine("{0}%", val); });
+            var progress = new Progress<BoxProgress>(val => { Console.WriteLine("{0}%", val.progress); });
             var bFile = await client.FilesManager.UploadUsingSessionAsync(file, fileName, parentFolderId, null, progress);
 
             Console.WriteLine("{0} uploaded to folder: {1} as file: {2}",localFilePath, parentFolderId, bFile.Id);
