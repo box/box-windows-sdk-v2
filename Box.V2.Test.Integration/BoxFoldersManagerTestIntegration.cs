@@ -52,6 +52,23 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task GetFolderInformation_Fields_Metadata_ValidResponse()
+        {
+            const string folderId = "1927307787";
+            var folder = await _client.FoldersManager.GetInformationAsync(folderId, fields: new List<string> { "metadata.enterprise_440385.testtemplate" });
+
+            Assert.AreEqual(folderId, folder.Id, "Incorrect folder id");
+            Assert.IsNotNull(folder.Metadata, "Metadata is null");
+            Assert.IsNotNull(folder.Metadata["enterprise_440385"], "Scope could not be found");
+
+            folder = await _client.FoldersManager.GetInformationAsync(folderId, fields: new List<string> { "metadata.enterprise.testtemplate" });
+
+            Assert.AreEqual(folderId, folder.Id, "Incorrect folder id");
+            Assert.IsNotNull(folder.Metadata, "Metadata is null");
+            Assert.IsNotNull(folder.Metadata["enterprise"], "Scope could not be found");
+        }
+
+        [TestMethod]
         [TestCategory("CI-APP-USER")]
         public async Task FolderGetTrashItems_LiveSession_ValidResponse()
         {
