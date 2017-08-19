@@ -57,5 +57,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldWatermarkInfo)]
         public BoxWatermarkInfo WatermarkInfo { get; protected set; }
+
+        /// <summary>
+        /// Metadata on this file.
+        /// </summary>
+        [JsonProperty(PropertyName = "metadata")]
+        public dynamic Metadata { get; protected set; }
     }
 }
