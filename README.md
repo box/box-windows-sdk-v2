@@ -237,7 +237,11 @@ var results = await client.SearchManager.SearchAsync(mdFilters: new List<BoxMeta
 ```
 
 #### Make API calls with As-User
+
+#### Example 1
+
 If you have an admin token with appropriate permissions, you can make API calls in the context of a managed user. In order to do this you must request Box.com to activate As-User functionality for your API key (see developer site for instructions). 
+
 ```c#
 var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri);
 var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
@@ -248,6 +252,60 @@ var userClient = new BoxClient(config, auth, asUser: userId);
 //returns root folder items for the user with ID '12345678'
 var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
 ```
+
+#### Example 2
+
+This example AdminClient and UserClient from the config.json file downloaded from the Box Developer Web Site.
+The AdminClient is used to retreive all users then the UserClient is used to retrieve a specific user's root folder items.
+
+```c$
+var config = ConfigureBoxApi();
+var session = new BoxJWTAuth(config);
+
+// client with permissions to manage application users
+var adminToken = session.AdminToken();
+var adminClient = session.AdminClient(adminToken);
+
+ Console.WriteLine("Client established: {0} ", adminClient.ToString());
+
+// Display All Users in system
+var Tusers = await adminClient.UsersManager.GetEnterpriseUsersAsync();
+List<BoxUser> allBoxUsers = Tusers.Entries;
+foreach(BoxUser boxUser in allBoxUsers)
+{
+  Console.WriteLine($"{boxUser.ToString()}");
+}
+
+
+// Get a specific user from all users
+var someUser = allBoxUsers.Find(u => u.Name == "Some User Name");
+ Console.WriteLine($"Getting FolderItems for {someUser}");
+
+// Get all Root Folder Items
+var someUserClient = session.UserClient(session.UserToken(someUser.Id), someUser.Id);
+var TsomeUserItems = await someUserClient.FoldersManager.GetFolderItemsAsync("0", 100);
+
+List<BoxItem> someUserItems = TsomeUserItems.Entries;
+foreach(BoxItem item in someUserItems)
+{
+  Console.WriteLine(item);
+}
+
+
+// Read in Application Config.json
+private IBoxConfig ConfigureBoxApi()
+{
+  IBoxConfig config = null;
+  using (FileStream fs = new FileStream(@"YourConfig.json", FileMode.Open))
+  {
+    config = BoxConfig.CreateFromJsonFile(fs);
+  }
+
+  return config;
+}
+
+```
+
 
 #### Suppressing Notifications
 If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
