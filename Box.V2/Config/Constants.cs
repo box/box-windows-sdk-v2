@@ -220,6 +220,8 @@ namespace Box.V2.Config
             public const string Pending = "pending";
 
             public const string IfMatch = "If-Match";
+
+			public const string XRepHints = "x-rep-hints";
         }
 
         public static class ErrorCodes

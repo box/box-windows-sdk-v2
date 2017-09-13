@@ -1113,6 +1113,34 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+		/// <summary>
+		/// Representations are digital assets stored in Box. We can request the following representations: PDF, Extracted Text, Thumbnail,
+		/// and Single Page depending on whether the file type is supported by passing in the corresponding x-rep-hints header. This will generate a 
+		/// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
+		/// for all other representation types.
+		/// </summary>
+		/// <param name="id">Id of the file (Required).</param>
+		/// <param name="RepresentationType">Enum value of representation requested or string of representation requested (Required).</param>
+		/// <param name="contentDispositionType"> Optional value set to "inline" or "attachment" 
+		/// <param name="contentDispositionFileName"> Optional value to define the downloaded representation's file name.</param>
+		/// <returns>A full file object containing the updated representations template_url and state is returned.</returns>
+		/// </summary>
+		public async Task<BoxFile> GetRepresentationsAsync(string id, RepresentationType representation, 
+			string? contentDispositionType = null, string? contentDispositionFileName = null)
+		{
+			const string representationsField = "representations";
+			id.ThrowIfNullOrWhiteSpace("id");
+
+			BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+				.Method(RequestMethod.Get)
+				.Header(Constants.RequestParameters.XRepHints, representation)
+				.Param(ParamFields, representationsField)
+
+			IBoxResponse<BoxFile> response - await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+			return response.ResponseObject.representations;
+		}
     }
 
     internal static class UploadUsingSessionInternal

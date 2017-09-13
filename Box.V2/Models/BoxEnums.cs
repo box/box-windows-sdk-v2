@@ -96,4 +96,19 @@ namespace Box.V2.Models
         changes,
         sync
     }
+
+	
+	/// <summary>
+	/// Enum of popular representations that might be requested. This is only a suggestion and the user can also
+	/// manually pass in representation types as well to build their specific request.
+	/// </summary>	
+	public enum RepresentationType
+	{
+		PDF = "[pdf]", 
+		MULTI_PAGE = "[png?dimensions=1024x1024]",
+		EXTRACTED_TEXT = "[extracted_text]",
+		THUMBNAIL_SMALL = "[jpg?dimensions=320x320]",
+		THUMBNAIL_MEDIUM = "[jpg?dimensions=1024x1024][png?dimensions=1024x1024]",
+		THUMBNAIL_LARGE = "[jpg?dimensions=2048x2048][png?dimensions=2048x2048]"
+	}
 }
