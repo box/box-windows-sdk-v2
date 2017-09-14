@@ -786,5 +786,37 @@ namespace Box.V2.Test
             Assert.AreEqual(DateTime.Parse("2013-11-20T13:20:50-08:00"), result.CreatedAt);
             Assert.AreEqual(DateTime.Parse("2013-11-20T13:26:48-08:00"), result.ModifiedAt);
         }
+
+		[TestMethod]
+		public async Task GetRepresentations_ValidResponse()
+		{
+			/*** Arrange ***/
+			string responseString = "{\"type\":\"file\",\"id\":\"96793280071\",\"etag\":\"1\", \"representations\":{ \"entries\": [ { \"content\": { \"url_template\": \".../{+asset_path}\" }, \"info\": { \"url\": \"...\" }, \"properties\": { \"dimensions\": \"32x32\", \"paged\": \"false\", \"thumb\": \"true\" }, \"representation\": \"jpg\", \"status\": { \"state\": \"success\" } } ] } }";
+			IBoxRequest boxRequest = null;
+			Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+				.Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+				{
+					Status = ResponseStatus.Success,
+					ContentString = responseString
+				}))
+				.Callback<IBoxRequest>(r => boxRequest => r);
+
+			BoxFile result = await _filesManager.GetRepresentationsAsync('fileid', "96793280071");
+
+			// Request check
+			Assert.IsNotNull(boxRequest);
+			Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+			Assert.AreEqual(FilesUri + "fileid?fields=representations", boxRequest.AbsoluteUri.AbsoluteUri);
+
+			// Response check
+			Assert.AreEqual("file", result.Type);
+			Assert.AreEqual("96793280071", result.Id);
+            Assert.AreEqual("1", result.ETag);
+            Assert.AreEqual(".../{+asset_path}", result.representations.entries[0].content.url_template);
+            Assert.AreEqual("...", result.representations.entries[0].info.url);
+            Assert.AreEqual("32x32", result.representations.entries[0].properties.dimensions);
+            Assert.AreEqual("jpg", result.representations.entries[0].representation);
+			Assert.AreEqual("success", result.representations.entries[0].status.state);
+		}
     }
 }
