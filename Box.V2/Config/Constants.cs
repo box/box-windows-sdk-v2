@@ -222,11 +222,22 @@ namespace Box.V2.Config
             public const string IfMatch = "If-Match";
 
 			public const string XRepHints = "x-rep-hints";
+            public const string ContentDispositionType = "set_content_disposition_type";
+            public const string ContentDispositionFilename = "set_content_disposition_filename";
         }
 
         public static class ErrorCodes
         {
             public const string Conflict = "item_name_in_use";
+        }
+
+        public static class RepresentationTypes
+        {
+            public const string Pdf = "[pdf]";
+            public const string ExtractedText = "[extracted_text]";
+            public const string ThumbnailSmall = "[jpg?dimensions=320x320]";
+            public const string ThumbnailMedium = "[jpg?dimensions=1024x1024][png?dimensions=1024x1024]";
+            public const string ThumbnailLarge = "[jpg?dimensions=2048x2048][png?dimenions=2048x2048]";
         }
     }
 }

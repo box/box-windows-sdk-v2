@@ -28,7 +28,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetInformation_Fields_ValidResponse()
         {
-            const string fileId = "16894947279";
+            const string fileId = "194353989366";
             var file = await _client.FilesManager.GetInformationAsync(fileId, new List<string> { BoxFile.FieldName, BoxFile.FieldModifiedAt, BoxFile.FieldOwnedBy });
 
             Assert.AreEqual(fileId, file.Id, "Incorrect file id");
@@ -106,6 +106,17 @@ namespace Box.V2.Test.Integration
 
             BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync(imageFileId1, linkReq);
             Assert.AreEqual(BoxSharedLinkAccessType.open, fileLink.SharedLink.Access);
+        }
+
+        [TestMethod]
+        public async Task GetRepresentations_ValidRequest_ValidRepresentation()
+        {
+            string fileId = "194353989622";
+            string xRepHint = "[pdf]";
+            var representations = await _client.FilesManager.GetRepresentationsAsync(fileId, xRepHint);
+
+            Assert.AreEqual("pdf", representations.Entries[0].Representation);
+            Assert.IsNotNull(representations.Entries[0].Content.UrlTemplate, "Failed to generate a representation for file");
         }
 
         [TestMethod]
@@ -504,6 +515,8 @@ namespace Box.V2.Test.Integration
 
                 return partStream;
             }
+
+
         }
     }
 }
