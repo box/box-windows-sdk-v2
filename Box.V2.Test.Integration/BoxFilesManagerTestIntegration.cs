@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Utility;
+using Box.V2.Config;
 
 namespace Box.V2.Test.Integration
 {
@@ -112,7 +113,7 @@ namespace Box.V2.Test.Integration
         public async Task GetRepresentations_ValidRequest_ValidRepresentation()
         {
             string fileId = "194353989622";
-            string xRepHint = "[pdf]";
+            string xRepHint = Constants.RepresentationTypes.Pdf;
             var representations = await _client.FilesManager.GetRepresentationsAsync(fileId, xRepHint);
 
             Assert.AreEqual("pdf", representations.Entries[0].Representation);
