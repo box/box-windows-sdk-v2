@@ -221,9 +221,9 @@ namespace Box.V2.Config
 
             public const string IfMatch = "If-Match";
 
-			public const string XRepHints = "x-rep-hints";
-            public const string ContentDispositionType = "set_content_disposition_type";
-            public const string ContentDispositionFilename = "set_content_disposition_filename";
+            public const string XRepHints = "x-rep-hints";
+            public const string SetContentDispositionType = "set_content_disposition_type";
+            public const string SetContentDispositionFilename = "set_content_disposition_filename";
         }
 
         public static class ErrorCodes
@@ -231,13 +231,31 @@ namespace Box.V2.Config
             public const string Conflict = "item_name_in_use";
         }
 
+        /*** Sample values for frequently requested file representations***/
         public static class RepresentationTypes
         {
+            /// <summary>
+            ///  This requests a pdf representation of all document Box file types
+            /// </summary>
             public const string Pdf = "[pdf]";
+            /// <summary>
+            /// This requests a text format of all document file types including text/code files supported by Box
+            /// </summary>
             public const string ExtractedText = "[extracted_text]";
+            /// <summary>
+            /// This will request a small jpg thumbnail of all document, image, and video Box file types
+            /// </summary>
             public const string ThumbnailSmall = "[jpg?dimensions=320x320]";
-            public const string ThumbnailMedium = "[jpg?dimensions=1024x1024][png?dimensions=1024x1024]";
-            public const string ThumbnailLarge = "[jpg?dimensions=2048x2048][png?dimenions=2048x2048]";
+            /// <summary>
+            /// This will request two images of type jpg and png with dimensions of 1024x1024 for all
+            /// document, image, and video Box file types
+            /// </summary>
+            public const string ImageMedium = "[jpg?dimensions=1024x1024][png?dimensions=1024x1024]";
+            /// <summary>
+            /// This will request two images of type jpg and png with dimensions of 2048x2048 for all
+            /// document, image, and video Box file types
+            /// </summary>
+            public const string ImageLarge = "[jpg?dimensions=2048x2048][png?dimenions=2048x2048]";
         }
     }
 }

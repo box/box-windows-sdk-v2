@@ -1122,12 +1122,12 @@ namespace Box.V2.Managers
 		/// </summary>
 		/// <param name="id">Id of the file (Required).</param>
 		/// <param name="RepresentationType">Enum value of representation requested or string of representation requested (Required).</param>
-		/// <param name="contentDispositionType"> Optional value set to "inline" or "attachment" 
-		/// <param name="contentDispositionFilename"> Optional value to define the downloaded representation's file name.</param>
+		/// <param name="setContentDispositionType"> Optional value set to "inline" or "attachment" 
+		/// <param name="setContentDispositionFilename"> Optional value to define the downloaded representation's file name.</param>
 		/// <returns>A full file object containing the updated representations template_url and state is returned.</returns>
 		/// </summary>
 		public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(string id, string representation,
-            string contentDispositionType = null, string contentDispositionFilename = null)
+            string setContentDispositionType = null, string setContentDispositionFilename = null)
 		{
 			const string representationsField = "representations";
 			id.ThrowIfNullOrWhiteSpace("id");
@@ -1135,13 +1135,20 @@ namespace Box.V2.Managers
 			BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
 				.Method(RequestMethod.Get)
 				.Header(Constants.RequestParameters.XRepHints, representation)
-                .Header(Constants.RequestParameters.ContentDispositionType, contentDispositionType)
-                .Header(Constants.RequestParameters.ContentDispositionFilename, contentDispositionFilename)
+                .Header(Constants.RequestParameters.SetContentDispositionType, setContentDispositionType)
+                .Header(Constants.RequestParameters.SetContentDispositionFilename, setContentDispositionFilename)
 				.Param(ParamFields, representationsField);
 
 			IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
-			return response.ResponseObject.Representations;
+            if (response.Status == ResponseStatus.Success)
+            {
+                return response.ResponseObject.Representations;
+            }
+            else
+            {
+                return null;
+            }
 		}
     }
 
