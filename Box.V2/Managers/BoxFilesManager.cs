@@ -1114,38 +1114,38 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-		/// <summary>
-		/// Representations are digital assets stored in Box. We can request the following representations: PDF, Extracted Text, Thumbnail,
-		/// and Single Page depending on whether the file type is supported by passing in the corresponding x-rep-hints header. This will generate a 
-		/// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
-		/// for all other representation types.
-		/// </summary>
-		/// <param name="id">Id of the file (Required).</param>
-		/// <param name="RepresentationType">Enum value of representation requested or string of representation requested (Required).</param>
-		/// <param name="setContentDispositionType"> Optional string value set to "inline" or "attachment" 
-		/// <param name="setContentDispositionFilename"> Optional string value to define the downloaded representation's file name.</param>
-		/// <returns>A full file object containing the updated representations template_url and state is returned.</returns>
-		/// </summary>
-		public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(string id, string representation,
+        /// <summary>
+        /// Representations are digital assets stored in Box. We can request the following representations: PDF, Extracted Text, Thumbnail,
+        /// and Single Page depending on whether the file type is supported by passing in the corresponding x-rep-hints header. This will generate a 
+        /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
+        /// for all other representation types.
+        /// </summary>
+        /// <param name="id">Id of the file (Required).</param>
+        /// <param name="RepresentationType">Enum value of representation requested or string of representation requested (Required).</param>
+        /// <param name="setContentDispositionType"> Optional string value set to "inline" or "attachment" 
+        /// <param name="setContentDispositionFilename"> Optional string value to define the downloaded representation's file name.</param>
+        /// <returns>A full file object containing the updated representations template_url and state is returned.</returns>
+        /// </summary>
+        public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(string id, string representation,
             string setContentDispositionType = null, string setContentDispositionFilename = null)
-		{
-			const string representationsField = "representations";
-			id.ThrowIfNullOrWhiteSpace("id");
+        {
+            const string representationsField = "representations";
+            id.ThrowIfNullOrWhiteSpace("id");
 
-			BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
-				.Method(RequestMethod.Get)
-				.Header(Constants.RequestParameters.XRepHints, representation)
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+                .Method(RequestMethod.Get)
+                .Header(Constants.RequestParameters.XRepHints, representation)
                 .Header(Constants.RequestParameters.SetContentDispositionType, setContentDispositionType)
                 .Header(Constants.RequestParameters.SetContentDispositionFilename, setContentDispositionFilename)
-				.Param(ParamFields, representationsField);
+                .Param(ParamFields, representationsField);
 
-			IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
             if (response.Status == ResponseStatus.Success)
             {
                 return response.ResponseObject.Representations;
             }
-                else
+            else
             {
                 return null;
             }
