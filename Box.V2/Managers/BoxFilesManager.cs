@@ -1122,8 +1122,8 @@ namespace Box.V2.Managers
 		/// </summary>
 		/// <param name="id">Id of the file (Required).</param>
 		/// <param name="RepresentationType">Enum value of representation requested or string of representation requested (Required).</param>
-		/// <param name="setContentDispositionType"> Optional value set to "inline" or "attachment" 
-		/// <param name="setContentDispositionFilename"> Optional value to define the downloaded representation's file name.</param>
+		/// <param name="setContentDispositionType"> Optional string value set to "inline" or "attachment" 
+		/// <param name="setContentDispositionFilename"> Optional string value to define the downloaded representation's file name.</param>
 		/// <returns>A full file object containing the updated representations template_url and state is returned.</returns>
 		/// </summary>
 		public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(string id, string representation,
@@ -1145,11 +1145,11 @@ namespace Box.V2.Managers
             {
                 return response.ResponseObject.Representations;
             }
-            else
+                else
             {
                 return null;
             }
-		}
+        }
     }
 
     internal static class UploadUsingSessionInternal

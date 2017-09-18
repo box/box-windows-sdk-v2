@@ -113,7 +113,7 @@ namespace Box.V2.Test.Integration
         public async Task GetRepresentations_ValidRequest_ValidRepresentation()
         {
             string fileId = "194353989622";
-            string xRepHint = Constants.RepresentationTypes.ThumbnailMedium;
+            string xRepHint = Constants.RepresentationTypes.Pdf;
             var representations = await _client.FilesManager.GetRepresentationsAsync(fileId, xRepHint);
 
             Assert.AreEqual("pdf", representations.Entries[0].Representation);
