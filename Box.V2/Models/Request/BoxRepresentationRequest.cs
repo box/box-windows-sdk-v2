@@ -27,5 +27,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "set_content_diposition_filename")]
         public string SetContentDispositionFilename { get; set; }
+
+        /// <summary>
+        /// Boolean value, set to true to try again to make a callout to get representations endpoint if initial call did not return
+        /// complete representation object for file. Set to false if you do not wish to make a callout to representations endpoint again
+        /// </summary>
+        [JsonProperty(PropertyName = "handle_retry")]
+        public bool HandleRetry { get; set; }
     }
 }

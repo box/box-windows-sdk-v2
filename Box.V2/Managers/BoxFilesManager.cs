@@ -1140,14 +1140,13 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
-            if (response.Status == ResponseStatus.Success)
+            while (response.StatusCode == HttpStatusCode.Accepted && representationRequest.HandleRetry)
             {
-                return response.ResponseObject.Representations;
+                await Task.Delay(Constants.RequestParameters.RepresentationRequestRetryTime);
+                response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
             }
-            else
-            {
-                return null;
-            }
+
+            return response.ResponseObject.Representations;
         }
     }
 
