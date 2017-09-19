@@ -31,6 +31,26 @@ If you haven't already created an app in Box go to https://developer.box.com/ an
 
 ### Authentication
 
+### Deciding on Authentication Type
+
+#### Build a Box Integration (Oauth 2.0)
+Oauth 2.0 requires user to log in to Box and grant your application permission to access files and folders.
+This is a three-legged authentication process to allow managed user and external users to interact.
+
+#### Build on Box Platform (Enterprise and Developer)
+*Box Platform Enterprise*
+This represents your application within a Box enterprise. Use this type of authentication if you are trying to:
+Store content at the application level rather than at the individual user level. 
+Access any user and make as-user api calls to impersonate a user. 
+Apply Enterprise features such as: managing and applying retention policies, using metadata object, and accessing Events endpoint of the content api.
+
+*Box Platform Developer*
+Box account that belongs to your Box Platform application, this is different from an end-user of Box. These accounts do not have an associated login and 
+can only be accessed through the Box API. Use this type of authentication if you are trying to:
+Have Box content management functionalities in an external-facing app - customer portal
+Provide access to content stored in Box to internal users who do not have Box Managed User accounts. 
+Allow Box Managed Users to share and collaboration with external users via Box applications
+
 #### Using a Developer Token (generate one in your app admin console; they last for 60 minutes)
 ```c#
 var config = new BoxConfig(<Client_Id>, <Client_Secret>, new Uri("http://localhost"));
