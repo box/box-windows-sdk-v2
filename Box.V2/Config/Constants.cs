@@ -257,5 +257,11 @@ namespace Box.V2.Config
             /// </summary>
             public const string ImageLarge = "[jpg?dimensions=2048x2048][png?dimenions=2048x2048]";
         }
+
+        public static class ContentDispositionTypes
+        {
+            public const string Inline = "inline";
+            public const string Attachment = "attachment";
+        }
     }
 }

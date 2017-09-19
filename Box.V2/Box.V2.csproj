@@ -127,6 +127,7 @@
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
+    <Compile Include="Models\Request\BoxRepresentationRequest.cs" />
     <Compile Include="Models\Request\BoxTaskAssignmentUpdateRequest.cs" />
     <Compile Include="Models\Request\BoxAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxApplyWatermarkRequest.cs" />

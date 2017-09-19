@@ -302,7 +302,8 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Put)
                 .Header(Constants.RequestParameters.Digest, "sha=" + sha)
                 .Header(Constants.RequestParameters.ContentRange, "bytes " + partStartOffsetInBytes + "-" + (partStartOffsetInBytes + stream.Length - 1) + "/" + sizeOfOriginalFileInBytes)
-                .Part(new BoxFilePart() {
+                .Part(new BoxFilePart()
+                {
                     Value = stream
                 });
 
@@ -432,13 +433,14 @@ namespace Box.V2.Managers
                 partSizeLong);
 
             // Full file sha1 for final commit
-            var fullFileSha1 = await Task.Run(() => {
-                    return Helper.GetSha1Hash(stream);
-                });
+            var fullFileSha1 = await Task.Run(() =>
+            {
+                return Helper.GetSha1Hash(stream);
+            });
 
             // Upload parts in session
             var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri,
-                numberOfParts, partSizeLong, stream, 
+                numberOfParts, partSizeLong, stream,
                 fileSize, timeout, progress);
 
             var allSessionPartsList = allSessionParts.ToList();
@@ -1120,23 +1122,21 @@ namespace Box.V2.Managers
         /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
         /// for all other representation types.
         /// </summary>
-        /// <param name="id">Id of the file (Required).</param>
-        /// <param name="RepresentationType">Enum value of representation requested or string of representation requested (Required).</param>
-        /// <param name="setContentDispositionType"> Optional string value set to "inline" or "attachment" 
-        /// <param name="setContentDispositionFilename"> Optional string value to define the downloaded representation's file name.</param>
+        /// <param name="boxRepresentationRequest">Object of type BoxRepresentationRequest that contains Box file id, x-rep-hints, set_content_disposition_type
+        ///     set_content_disposition_filename.</param>
         /// <returns>A full file object containing the updated representations template_url and state is returned.</returns>
         /// </summary>
-        public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(string id, string representation,
-            string setContentDispositionType = null, string setContentDispositionFilename = null)
+        public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(BoxRepresentationRequest representationRequest)
         {
             const string representationsField = "representations";
-            id.ThrowIfNullOrWhiteSpace("id");
+            representationRequest.ThrowIfNull("representationRequest")
+                .FileId.ThrowIfNullOrWhiteSpace("representationRequest.FileId");
 
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, representationRequest.FileId)
                 .Method(RequestMethod.Get)
-                .Header(Constants.RequestParameters.XRepHints, representation)
-                .Header(Constants.RequestParameters.SetContentDispositionType, setContentDispositionType)
-                .Header(Constants.RequestParameters.SetContentDispositionFilename, setContentDispositionFilename)
+                .Header(Constants.RequestParameters.XRepHints, representationRequest.XRepHints)
+                .Header(Constants.RequestParameters.SetContentDispositionType, representationRequest.SetContentDispositionType)
+                .Header(Constants.RequestParameters.SetContentDispositionFilename, representationRequest.SetContentDispositionFilename)
                 .Param(ParamFields, representationsField);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);

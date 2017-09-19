@@ -112,9 +112,11 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetRepresentations_ValidRequest_ValidRepresentation()
         {
-            string fileId = "194353989622";
-            string xRepHint = Constants.RepresentationTypes.Pdf;
-            var representations = await _client.FilesManager.GetRepresentationsAsync(fileId, xRepHint);
+            var representations = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
+            {
+                FileId = "194353989622",
+                XRepHints = Constants.RepresentationTypes.Pdf
+            });
 
             Assert.AreEqual("pdf", representations.Entries[0].Representation);
             Assert.IsNotNull(representations.Entries[0].Content.UrlTemplate, "Failed to generate a representation for file");
