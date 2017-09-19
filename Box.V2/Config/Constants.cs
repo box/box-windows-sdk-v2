@@ -226,7 +226,6 @@ namespace Box.V2.Config
             public const string SetContentDispositionType = "set_content_disposition_type";
             public const string SetContentDispositionFilename = "set_content_disposition_filename";
             public const string RepresentationField = "representations";
-            public const int RepresentationRequestRetryTime = 3000;
         }
 
         public static class ErrorCodes

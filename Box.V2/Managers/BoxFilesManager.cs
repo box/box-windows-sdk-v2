@@ -1142,7 +1142,8 @@ namespace Box.V2.Managers
 
             while (response.StatusCode == HttpStatusCode.Accepted && representationRequest.HandleRetry)
             {
-                await Task.Delay(Constants.RequestParameters.RepresentationRequestRetryTime);
+                const int RepresentationRequestRetryTime = 3000;
+                await Task.Delay(RepresentationRequestRetryTime);
                 response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
             }
 
