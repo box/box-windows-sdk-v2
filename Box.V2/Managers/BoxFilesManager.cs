@@ -1128,7 +1128,6 @@ namespace Box.V2.Managers
         /// </summary>
         public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(BoxRepresentationRequest representationRequest)
         {
-            const string representationsField = "representations";
             representationRequest.ThrowIfNull("representationRequest")
                 .FileId.ThrowIfNullOrWhiteSpace("representationRequest.FileId");
 
@@ -1137,7 +1136,7 @@ namespace Box.V2.Managers
                 .Header(Constants.RequestParameters.XRepHints, representationRequest.XRepHints)
                 .Header(Constants.RequestParameters.SetContentDispositionType, representationRequest.SetContentDispositionType)
                 .Header(Constants.RequestParameters.SetContentDispositionFilename, representationRequest.SetContentDispositionFilename)
-                .Param(ParamFields, representationsField);
+                .Param(ParamFields, Constants.RequestParameters.RepresentationField);
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 

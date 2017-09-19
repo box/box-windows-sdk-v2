@@ -221,9 +221,11 @@ namespace Box.V2.Config
 
             public const string IfMatch = "If-Match";
 
+            /*** Values for specifically representations endpint ***/
             public const string XRepHints = "x-rep-hints";
             public const string SetContentDispositionType = "set_content_disposition_type";
             public const string SetContentDispositionFilename = "set_content_disposition_filename";
+            public const string RepresentationField = "representations";
         }
 
         public static class ErrorCodes
@@ -258,9 +260,17 @@ namespace Box.V2.Config
             public const string ImageLarge = "[jpg?dimensions=2048x2048][png?dimenions=2048x2048]";
         }
 
+        /*** optional set_content_disposition_types for representations endpoint. Can only be one of value: inline or attachment ***/
         public static class ContentDispositionTypes
         {
+            /// <summary>
+            /// Passing this value into set_content_disposition_type will ensure that the browser opens the representation
+            /// in another window
+            /// </summary>
             public const string Inline = "inline";
+            /// <summary>
+            /// Passing this value into set_content_disposition_type will ensure that the browser downloads the representation
+            /// </summary>
             public const string Attachment = "attachment";
         }
     }
