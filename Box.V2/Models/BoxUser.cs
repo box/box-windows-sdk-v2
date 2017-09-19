@@ -156,5 +156,10 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldIsPlatformAccessOnly)]
         public bool? IsPlatformAccessOnly { get; private set; }
 
+
+        public override string ToString()
+        {
+            return $"[{this.GetType()}] {this.Id}/{ this.Name}";
+        }
     }
 }

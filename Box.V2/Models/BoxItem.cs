@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Text;
 
 namespace Box.V2.Models
 {
@@ -116,5 +117,23 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldTags)]
         public string[] Tags { get; private set; }
+
+        public override string ToString()
+        {
+            StringBuilder pathBldr = new StringBuilder();
+            pathBldr.Append($"[{this.GetType()}] ");
+
+            if (this.PathCollection != null)
+            {
+                foreach (BoxFolder parentFolder in this.PathCollection.Entries)
+                {
+                    pathBldr.Append($"{parentFolder}/");
+                }
+            }
+
+            pathBldr.Append($"{this.Id}/{this.Name}");
+
+            return pathBldr.ToString();
+        }
     }
 }
