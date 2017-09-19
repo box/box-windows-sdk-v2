@@ -86,6 +86,11 @@
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
     <Compile Include="Models\BoxFolderEventSource.cs" />
+    <Compile Include="Models\BoxRepresentation.cs" />
+    <Compile Include="Models\BoxRepresentationContent.cs" />
+    <Compile Include="Models\BoxRepresentationInfo.cs" />
+    <Compile Include="Models\BoxRepresentationProperties.cs" />
+    <Compile Include="Models\BoxRepresentationStatus.cs" />
     <Compile Include="Models\BoxSessionEndpoint.cs" />
     <Compile Include="Models\BoxFileUploadSession.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />
@@ -122,6 +127,7 @@
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
+    <Compile Include="Models\Request\BoxRepresentationRequest.cs" />
     <Compile Include="Models\Request\BoxTaskAssignmentUpdateRequest.cs" />
     <Compile Include="Models\Request\BoxAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxApplyWatermarkRequest.cs" />
