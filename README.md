@@ -31,13 +31,16 @@ If you haven't already created an app in Box go to https://developer.box.com/ an
 
 ### Authentication
 
-### Deciding on Authentication Type
+#### Using a Developer Token (generate one in your app admin console; they last for 60 minutes)
+```c#
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, new Uri("http://localhost"));
+var session = new OAuthSession(<Developer_Token>, "NOT_NEEDED", 3600, "bearer");
+client = new BoxClient(config, session);
+```
 
-#### Build a Box Integration (Oauth 2.0)
-Oauth 2.0 requires user to log in to Box and grant your application permission to access files and folders.
-This is a three-legged authentication process to allow managed user and external users to interact.
+#### Using with Box Platform Developer or Box Platform Enterprise
 
-#### Build on Box Platform (Enterprise and Developer)
+#### When to Use Box Platform (Enterprise and Developer)
 *Box Platform Enterprise*
 This represents your application within a Box enterprise. Use this type of authentication if you are trying to:
 Store content at the application level rather than at the individual user level. 
@@ -50,15 +53,6 @@ can only be accessed through the Box API. Use this type of authentication if you
 Have Box content management functionalities in an external-facing app - customer portal
 Provide access to content stored in Box to internal users who do not have Box Managed User accounts. 
 Allow Box Managed Users to share and collaboration with external users via Box applications
-
-#### Using a Developer Token (generate one in your app admin console; they last for 60 minutes)
-```c#
-var config = new BoxConfig(<Client_Id>, <Client_Secret>, new Uri("http://localhost"));
-var session = new OAuthSession(<Developer_Token>, "NOT_NEEDED", 3600, "bearer");
-client = new BoxClient(config, session);
-```
-
-#### Using with Box Platform Developer or Box Platform Enterprise
 
 ##### Configure
 ```c#
@@ -87,6 +81,10 @@ var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync()
 ```
 
 #### Using with OAuth2
+
+#### When to Use Box Integration (Oauth 2.0)
+Oauth 2.0 requires user to log in to Box and grant your application permission to access files and folders.
+This is a three-legged authentication process to allow managed user and external users to interact.
 
 ##### Configure
 Set your configuration parameters and initialize the client:
