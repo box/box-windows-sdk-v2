@@ -25,6 +25,8 @@ namespace Box.V2.Test.Integration
             Assert.IsTrue(events.Entries.Count > 0, "Failed to retrieve enterprise events");
         }
 
+
+
         [TestMethod]
         public async Task UserEvents_LiveSession()
         {

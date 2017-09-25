@@ -39,7 +39,9 @@ namespace Box.V2.Managers
                                                                         DateTime? createdAfter = null,
                                                                         DateTime? createdBefore = null)
         {
-            var createdAfterString = createdAfter.HasValue ? createdAfter.Value.ToString(Constants.RFC3339DateFormat) : null;
+            var createdAfterString = createdAfter.Value.ToString(createdAfter.Value.Kind == DateTimeKind.Utc 
+                ? Constants.RFC3339DateFormat_UTC 
+                : Constants.RFC3339DateFormat);
             var createdBeforeString = createdBefore.HasValue ? createdBefore.Value.ToString(Constants.RFC3339DateFormat) : null;
 
             // url encode 
