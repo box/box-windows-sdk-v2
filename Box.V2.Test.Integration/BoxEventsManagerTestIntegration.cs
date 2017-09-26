@@ -17,11 +17,13 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task EnterpriseEvents_LiveSession()
         {
-            var startDate = DateTime.Now.Subtract(TimeSpan.FromDays(7));
-            var endDate = DateTime.Now;
+            var startDate = Convert.ToDateTime("9/18/2017 11:51:12 PM");
+            var endDate = Convert.ToDateTime("9/24/2017 11:51:12 PM");
+            int expectedChunkSize = 55;
 
             var events = await _client.EventsManager.EnterpriseEventsAsync(createdAfter: startDate, createdBefore: endDate);
             Assert.IsNotNull(events, "Failed to retrieve enterprise events");
+            Assert.AreEqual(events.ChunkSize, expectedChunkSize);
             Assert.IsTrue(events.Entries.Count > 0, "Failed to retrieve enterprise events");
         }
 
