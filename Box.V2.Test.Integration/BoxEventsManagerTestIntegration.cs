@@ -17,7 +17,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task EnterpriseEvents_LiveSession()
         {
-            var startDate = Convert.ToDateTime("9/18 /2017 11:51:12 PM");
+            var startDate = Convert.ToDateTime("9/18/2017 11:51:12 PM");
             var endDate = Convert.ToDateTime("9/24/2017 11:51:12 PM");
             int expectedChunkSize = 55;
 
