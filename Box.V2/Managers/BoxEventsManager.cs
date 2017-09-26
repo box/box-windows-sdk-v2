@@ -39,21 +39,9 @@ namespace Box.V2.Managers
                                                                         DateTime? createdAfter = null,
                                                                         DateTime? createdBefore = null)
         {
-            var createdAfterString = createdAfter.Value.ToString(createdAfter.Value.Kind == DateTimeKind.Utc 
-                ? Constants.RFC3339DateFormat_UTC 
-                : Constants.RFC3339DateFormat);
-            var createdBeforeString = createdBefore.HasValue ? createdBefore.Value.ToString(Constants.RFC3339DateFormat) : null;
 
-            // url encode 
-            if (!string.IsNullOrEmpty(createdAfterString))
-            {
-                createdAfterString = WebUtility.UrlEncode(createdAfterString);
-            }
-
-            if (!string.IsNullOrEmpty(createdBeforeString))
-            {
-                createdBeforeString = WebUtility.UrlEncode(createdBeforeString);
-            }
+            var createdAfterString = createdAfter.Value.ToUniversalTime().ToString("o");
+            var createdBeforeString = createdBefore.Value.ToUniversalTime().ToString("o");
 
             BoxRequest request = new BoxRequest(_config.EventsUri)
                 .Param("stream_type", ENTERPRISE_EVENTS_STREAM_TYPE)
