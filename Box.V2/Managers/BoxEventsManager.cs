@@ -39,9 +39,19 @@ namespace Box.V2.Managers
                                                                         DateTime? createdAfter = null,
                                                                         DateTime? createdBefore = null)
         {
+            var createdAfterString = createdAfter.HasValue ? createdAfter.Value.ToUniversalTime().ToString("o") : null;
+            var createdBeforeString = createdBefore.HasValue ? createdBefore.Value.ToUniversalTime().ToString("o") : null;
 
-            var createdAfterString = createdAfter.Value.ToUniversalTime().ToString("o");
-            var createdBeforeString = createdBefore.Value.ToUniversalTime().ToString("o");
+            // url encode 
+            if (!string.IsNullOrEmpty(createdAfterString))
+            {
+                createdAfterString = WebUtility.UrlEncode(createdAfterString);
+            }
+            
+            if (!string.IsNullOrEmpty(createdBeforeString))
+            {
+                createdBeforeString = WebUtility.UrlEncode(createdBeforeString);
+            }
 
             BoxRequest request = new BoxRequest(_config.EventsUri)
                 .Param("stream_type", ENTERPRISE_EVENTS_STREAM_TYPE)

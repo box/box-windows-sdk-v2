@@ -22,9 +22,18 @@ namespace Box.V2.Test.Integration
             int expectedChunkSize = 55;
 
             var events = await _client.EventsManager.EnterpriseEventsAsync(createdAfter: startDate, createdBefore: endDate);
+            var eventsMissingOneParam = await _client.EventsManager.EnterpriseEventsAsync(createdAfter: startDate, createdBefore: null);
+            var eventsMissingBothParam = await _client.EventsManager.EnterpriseEventsAsync(createdAfter: null, createdBefore: null);
+
             Assert.IsNotNull(events, "Failed to retrieve enterprise events");
             Assert.AreEqual(events.ChunkSize, expectedChunkSize);
             Assert.IsTrue(events.Entries.Count > 0, "Failed to retrieve enterprise events");
+
+            Assert.IsNotNull(eventsMissingOneParam, "Failed to retrieve enterprise events for missing createdBefore param");
+            Assert.IsTrue(eventsMissingOneParam.Entries.Count > 0, "Failed to retrieve enterprise events with missing createdBefore param");
+
+            Assert.IsNotNull(eventsMissingBothParam, "Failed to retrieve enterprise events for missing all params");
+            Assert.IsTrue(eventsMissingBothParam.Entries.Count > 0, "Failed to retrieve enterprise events with missing all params");
         }
 
         [TestMethod]
