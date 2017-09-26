@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Utility;
+using Box.V2.Config;
 
 namespace Box.V2.Test.Integration
 {
@@ -106,6 +107,34 @@ namespace Box.V2.Test.Integration
 
             BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync(imageFileId1, linkReq);
             Assert.AreEqual(BoxSharedLinkAccessType.open, fileLink.SharedLink.Access);
+        }
+
+        [TestMethod]
+        public async Task GetRepresentations_ValidRequest_ValidRepresentation()
+        {
+            var representationsMissingHeader = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
+            {
+                FileId = "194353989622",
+            });
+
+            var representationsAllHeaders = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
+            {
+                FileId = "194353989622",
+                XRepHints = Constants.RepresentationTypes.Pdf,
+                SetContentDispositionFilename = "New Name",
+                SetContentDispositionType = Constants.ContentDispositionTypes.Inline,
+                HandleRetry = true
+            });
+
+            var representationsMultipleXRepHints = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
+            {
+                FileId = "194353989622",
+                XRepHints = Constants.RepresentationTypes.ImageMedium
+            });
+
+            Assert.IsNotNull(representationsMissingHeader.Entries, "Failed to generate a representation for file");
+            Assert.AreEqual("pdf", representationsAllHeaders.Entries[0].Representation);
+            Assert.IsNotNull(representationsMultipleXRepHints.Entries[1], "Failed to generate second representation for file");
         }
 
         [TestMethod]
@@ -385,7 +414,8 @@ namespace Box.V2.Test.Integration
 
             bool progressReported = false;
 
-            var progress = new Progress<BoxProgress>(val => {
+            var progress = new Progress<BoxProgress>(val =>
+            {
                 Debug.WriteLine("{0}%", val.progress);
                 progressReported = true;
             });

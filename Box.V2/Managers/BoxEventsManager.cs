@@ -39,7 +39,6 @@ namespace Box.V2.Managers
                                                                         DateTime? createdAfter = null,
                                                                         DateTime? createdBefore = null)
         {
-
             var createdAfterString = createdAfter.HasValue ? createdAfter.Value.ToUniversalTime().ToString("o") : null;
             var createdBeforeString = createdBefore.HasValue ? createdBefore.Value.ToUniversalTime().ToString("o") : null;
 
@@ -48,6 +47,7 @@ namespace Box.V2.Managers
             {
                 createdAfterString = WebUtility.UrlEncode(createdAfterString);
             }
+            
             if (!string.IsNullOrEmpty(createdBeforeString))
             {
                 createdBeforeString = WebUtility.UrlEncode(createdBeforeString);

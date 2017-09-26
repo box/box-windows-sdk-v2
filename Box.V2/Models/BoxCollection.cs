@@ -41,6 +41,11 @@ namespace Box.V2.Models
         public const string FieldEntries = "entries";
     }
 
+    public abstract class BoxRepresentationCollection
+    {
+        public const string FieldEntries = "entries";
+    }
+
     public abstract class BoxMetadataTemplateCollection
     {
         public const string FieldEntries = "entries";
@@ -162,6 +167,12 @@ namespace Box.V2.Models
     }
 
     public class BoxMetadataTemplateCollection<T> : BoxMetadataTemplateCollection where T: Dictionary<string,object>
+    {
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; private set; }
+    }
+
+    public class BoxRepresentationCollection<T> : BoxRepresentationCollection where T: BoxRepresentation
     {
         [JsonProperty(PropertyName = FieldEntries)]
         public List<T> Entries { get; private set; }
