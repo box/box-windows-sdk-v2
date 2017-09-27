@@ -274,7 +274,7 @@ var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
 
 Using the admin token we can make a call to retrieve all users or a specific user
 
-```c#
+```cs
 var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
 var boxJWT = new BoxJWTAuth(boxConfig);
 
@@ -293,11 +293,11 @@ foreach(BoxUser boxUser in allBoxUsersList)
 // Get a specific user from allBoxUsersList
 var specificBoxUser = allBoxUsersList.Find(u => u.Login == "Specific User Login")
 Console.WriteLine("A Specific Box User: {0}", specificBoxUser.Name);
-```c#
+```
 
 Once we have the specific user we can also find all root folders and folder items
 
-```c#
+```cs
 var boxFolderItems = await someUserClient.FoldersManager.GetFolderItemsAsync("0", 100);
 List<BoxItem> boxFolderItemsList = boxFolderItems.Entries;
 
@@ -305,7 +305,7 @@ foreach(BoxItem item in boxFolderItemsList)
 {
 	Console.WriteLine("Item Name: {0}. Item Id: {1}", item.Name, item.Id);
 }
-```c#
+```
 
 #### Suppressing Notifications
 If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
