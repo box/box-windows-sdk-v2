@@ -306,7 +306,8 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Put)
                 .Header(Constants.RequestParameters.Digest, "sha=" + sha)
                 .Header(Constants.RequestParameters.ContentRange, "bytes " + partStartOffsetInBytes + "-" + (partStartOffsetInBytes + stream.Length - 1) + "/" + sizeOfOriginalFileInBytes)
-                .Part(new BoxFilePart() {
+                .Part(new BoxFilePart()
+                {
                     Value = stream
                 });
 
@@ -499,7 +500,8 @@ namespace Box.V2.Managers
                 partSizeLong);
 
             // Full file sha1 for final commit
-            var fullFileSha1 = await Task.Run(() => {
+            var fullFileSha1 = await Task.Run(() =>
+            {
                 return Helper.GetSha1Hash(stream);
             });
 
@@ -1195,6 +1197,40 @@ namespace Box.V2.Managers
             IBoxResponse<BoxFileVersion> response = await ToResponseAsync<BoxFileVersion>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Representations are digital assets stored in Box. We can request the following representations: PDF, Extracted Text, Thumbnail,
+        /// and Single Page depending on whether the file type is supported by passing in the corresponding x-rep-hints header. This will generate a 
+        /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
+        /// for all other representation types.
+        /// </summary>
+        /// <param name="boxRepresentationRequest">Object of type BoxRepresentationRequest that contains Box file id, x-rep-hints, set_content_disposition_type
+        ///     set_content_disposition_filename.</param>
+        /// <returns>A full file object containing the updated representations template_url and state is returned.</returns>
+        /// </summary>
+        public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(BoxRepresentationRequest representationRequest)
+        {
+            representationRequest.ThrowIfNull("representationRequest")
+                .FileId.ThrowIfNullOrWhiteSpace("representationRequest.FileId");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, representationRequest.FileId)
+                .Method(RequestMethod.Get)
+                .Header(Constants.RequestParameters.XRepHints, representationRequest.XRepHints)
+                .Header(Constants.RequestParameters.SetContentDispositionType, representationRequest.SetContentDispositionType)
+                .Header(Constants.RequestParameters.SetContentDispositionFilename, representationRequest.SetContentDispositionFilename)
+                .Param(ParamFields, Constants.RequestParameters.RepresentationField);
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            while (response.StatusCode == HttpStatusCode.Accepted && representationRequest.HandleRetry)
+            {
+                const int RepresentationRequestRetryTime = 3000;
+                await Task.Delay(RepresentationRequestRetryTime);
+                response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+            }
+
+            return response.ResponseObject.Representations;
         }
     }
 
