@@ -321,7 +321,7 @@ namespace Box.V2.Managers
         /// <param name="commitSessionUrl">Commit URL returned in the Create Session response.</param>
         /// <param name="sha">The message digest of the complete file, formatted as specified by RFC 3230.</param>
         /// <param name="sessionPartsInfo">Parts info for the uploaded parts.</param>
-        /// <returns> A collection containing the complete BoxFile object(s). </returns>
+        /// <returns> The Complete BoxFile object. </returns>
         public async Task<BoxFile> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
             BoxRequest request = new BoxRequest(commitSessionUrl)
@@ -543,8 +543,6 @@ namespace Box.V2.Managers
                 return versionResponse;
             }
         }
-
-        public delegate void uploadUsingSessionDelegateAsync();
 
         private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(
             Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
