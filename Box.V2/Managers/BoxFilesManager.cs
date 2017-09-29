@@ -15,6 +15,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace Box.V2.Managers
 {
@@ -217,6 +218,28 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Createan upload session for uploading a new file version.
+        /// </summary>
+        /// <param name="fileId">The file id.</param>
+        /// <param name="uploadNewVersionSessionRequest">The upload session request for new file version.</param>
+        /// <returns>The upload session for uploading new Box file version using session.</returns>
+        public async Task<BoxFileUploadSession> CreateNewVersionUploadSessionAsync(string fileId, 
+            BoxFileUploadSessionRequest uploadNewVersionSessionRequest)
+        {
+            var uploadUri = new Uri(string.Format(Constants.FilesNewVersionUploadSessionEndpointString, fileId));
+
+            var request = new BoxRequest(uploadUri)
+                .Method(RequestMethod.Post);
+
+            request.Payload = _converter.Serialize(uploadNewVersionSessionRequest);
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// This method is used to upload a new version of an existing file in a user’s account. Similar to regular file uploads, 
         /// these are performed as multipart form uploads. An optional If-Match header can be included to ensure that client only 
         /// overwrites the file if it knows about the latest version. The filename on Box will remain the same as the previous version.
@@ -268,25 +291,6 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Create new file version upload session.
-        /// </summary>
-        /// <param name="fileId">The file id.</param>
-        /// <param name="fileSize">The total number of bytes in the file to be uploaded.</param>
-        /// <returns></returns>
-        public async Task<BoxFileUploadSession> CreateNewVersionUploadSessionAsync(string fileId, string fileSize)
-        {
-            var uploadUri = new Uri(string.Format(Constants.FilesNewVersionUploadSessionEndpointString, fileId));
-
-            var request = new BoxRequest(uploadUri)
-                .Method(RequestMethod.Post)
-                .Payload("file_size", fileSize);
-
-            IBoxResponse<BoxFileUploadSession> response = await ToResponseAsync<BoxFileUploadSession>(request).ConfigureAwait(false);
-
-            return response.ResponseObject;
-        }
-
-        /// <summary>
         /// Upload a part of the file to the session.
         /// </summary>
         /// <param name="uploadPartUri">Upload Uri from Create Session which include SessionId</param>
@@ -317,7 +321,7 @@ namespace Box.V2.Managers
         /// <param name="commitSessionUrl">Commit URL returned in the Create Session response.</param>
         /// <param name="sha">The message digest of the complete file, formatted as specified by RFC 3230.</param>
         /// <param name="sessionPartsInfo">Parts info for the uploaded parts.</param>
-        /// <returns> The complete BoxFile object. </returns>
+        /// <returns> A collection containing the complete BoxFile object(s). </returns>
         public async Task<BoxFile> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
             BoxRequest request = new BoxRequest(commitSessionUrl)
@@ -331,6 +335,27 @@ namespace Box.V2.Managers
 
             // We can only commit one file at a time, so return the first entry
             return response.ResponseObject.Entries.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Commits a session after all individual new file version part uploads are complete.
+        /// </summary>
+        /// <param name="commitSessionUrl">Commit URL returned in the Create Session response.</param>
+        /// <param name="sha">The message digest of the complete file, formatted as specified by RFC 3230.</param>
+        /// <param name="sessionPartsInfo">Parts info for the uploaded parts.</param>
+        /// <returns> The complete BoxFile object. </returns>
+        public async Task<BoxFile> CommitFileVersionSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
+        {
+            BoxRequest request = new BoxRequest(commitSessionUrl)
+                .Method(RequestMethod.Post)
+                .Header(Constants.RequestParameters.Digest, "sha=" + sha)
+                .Payload(_converter.Serialize(sessionPartsInfo));
+
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            var response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
         }
 
         /// <summary>
@@ -395,6 +420,30 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Upload a new large file version by splitting them up and uploads in a session.
+        /// </summary>
+        /// <param name="stream">The file stream.</param>
+        /// <param name="fileId">Id of the remote file.</param>
+        /// <param name="timeout">Timeout for subsequent UploadPart requests.</param>
+        /// <param name="progress">Will report progress from 1 - 100.</param>
+        /// <returns>The BoxFileVersion object.</returns>
+        public async Task<BoxFileVersion> UploadFileVersionUsingSessionAsync(Stream stream, string fileId, string fileName = null,
+            TimeSpan? timeout = null, IProgress<BoxProgress> progress = null)
+        {
+            // Create Upload Session
+            var fileSize = stream.Length;
+            var uploadNewVersionSessionRequest = new BoxFileUploadSessionRequest
+            {
+                FileSize = fileSize,
+                FileName = fileName
+            };
+
+            var boxFileVersionUploadSession = await CreateNewVersionUploadSessionAsync(fileId, uploadNewVersionSessionRequest);
+            var response = await UploadSessionAsync(stream, boxFileVersionUploadSession, timeout, progress);
+            return response.FileVersion;
+        }
+
+        /// <summary>
         /// Upload a large file by splitting them up and uploads in a session.
         /// This method is in BETA, not ready for production use yet, but welcome to try and give us feedback.
         /// </summary>
@@ -415,13 +464,31 @@ namespace Box.V2.Managers
                 FileSize = fileSize,
                 FolderId = folderId
             };
-            var boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest);
 
+            var boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest);
+            var response = await UploadSessionAsync(stream, boxFileUploadSession, timeout, progress);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Using the upload session for new file upload and new file version upload, 
+        /// upload by parts file/file version
+        /// </summary>
+        /// <param name="stream">The file stream.</param>
+        /// <param name="uploadSession">BoxFileUpload session retrieved for uploading new file or uploading new file version</param>
+        /// <param name="progress">Will report progress from 1 - 100.</param>
+        /// <param name="callingMethod"> The calling function name used to determine which commit function to call.</param>
+        /// <returns>The complete BoxFile object.</returns>
+        private async Task<BoxFile> UploadSessionAsync(Stream stream, BoxFileUploadSession uploadSession,
+            TimeSpan? timeout = null, IProgress<BoxProgress> progress = null, [CallerMemberName] string callingMethod = null)
+        {
+            var fileSize = stream.Length;
             // Parse upload session response
-            var boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
+            var boxSessionEndpoint = uploadSession.SessionEndpoints;
             var uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
             var commitUri = new Uri(boxSessionEndpoint.Commit);
-            var partSize = boxFileUploadSession.PartSize;
+            var partSize = uploadSession.PartSize;
             long partSizeLong;
             if (long.TryParse(partSize, out partSizeLong) == false)
             {
@@ -433,12 +500,12 @@ namespace Box.V2.Managers
 
             // Full file sha1 for final commit
             var fullFileSha1 = await Task.Run(() => {
-                    return Helper.GetSha1Hash(stream);
-                });
+                return Helper.GetSha1Hash(stream);
+            });
 
             // Upload parts in session
             var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri,
-                numberOfParts, partSizeLong, stream, 
+                numberOfParts, partSizeLong, stream,
                 fileSize, timeout, progress);
 
             var allSessionPartsList = allSessionParts.ToList();
@@ -453,15 +520,31 @@ namespace Box.V2.Managers
             const int retryCount = 5;
             var retryInterval = allSessionPartsList.Count * 100;
 
-            var response =
+            // Depending on the calling function a different commit function will be used
+            // to commit file upload parts
+            if(callingMethod=="UploadUsingSessionAsync")
+            {
+                var fileResponse =
                 await Retry.ExecuteAsync(
                     async () =>
                         await CommitSessionAsync(commitUri, fullFileSha1,
                             sessionPartsForCommit),
                     TimeSpan.FromMilliseconds(retryInterval), retryCount);
-
-            return response;
+                return fileResponse;
+            }
+            else // This is to call the commit function for file version uploads
+            {
+                var versionResponse =
+                await Retry.ExecuteAsync(
+                    async () =>
+                        await CommitFileVersionSessionAsync(commitUri, fullFileSha1,
+                            sessionPartsForCommit),
+                        TimeSpan.FromMilliseconds(retryInterval), retryCount);
+                return versionResponse;
+            }
         }
+
+        public delegate void uploadUsingSessionDelegateAsync();
 
         private async Task<IEnumerable<BoxSessionPartInfo>> UploadPartsInSessionAsync(
             Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,

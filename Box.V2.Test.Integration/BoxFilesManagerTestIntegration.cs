@@ -380,7 +380,9 @@ namespace Box.V2.Test.Integration
         {
             long fileSize = 50000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
+
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
+            string newRemoteFileName = "UploadFileVersionUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
 
             bool progressReported = false;
@@ -396,11 +398,16 @@ namespace Box.V2.Test.Integration
 
             // Assert file is committed/uploaded to box
             Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+            string fileId = await GetFileId(parentFolderId, remoteFileName);
 
+            // Using previously uploaded Box file, upload a new file version for that Box file
+            var newBoxFileVersion = await _client.FilesManager.UploadFileVersionUsingSessionAsync(fileInMemoryStream, fileId, newRemoteFileName, 
+                null, progress);
+
+            Assert.IsNotNull(newBoxFileVersion, "Did not successfully upload a new Box file version");
             Assert.IsTrue(progressReported);
 
             // Delete file
-            string fileId = await GetFileId(parentFolderId, remoteFileName);
             if (!string.IsNullOrWhiteSpace(fileId))
             {
                 await _client.FilesManager.DeleteAsync(fileId);

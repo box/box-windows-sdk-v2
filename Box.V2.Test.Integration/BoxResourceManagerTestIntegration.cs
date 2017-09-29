@@ -97,7 +97,7 @@ namespace Box.V2.Test.Integration
             if (userToken == null)
             {
                 // Legacy way of getting the token
-                _auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
+                _auth = new OAuthSession("x6Cf9HC3KGsJ6Ojv9bdMOmGpy3ajJfaJ", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
                 _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
                 _client = new BoxClient(_config, _auth);
