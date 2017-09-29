@@ -218,7 +218,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Createan upload session for uploading a new file version.
+        /// Create an upload session for uploading a new file version.
         /// </summary>
         /// <param name="fileId">The file id.</param>
         /// <param name="uploadNewVersionSessionRequest">The upload session request for new file version.</param>
@@ -480,15 +480,15 @@ namespace Box.V2.Managers
         /// <param name="progress">Will report progress from 1 - 100.</param>
         /// <param name="callingMethod"> The calling function name used to determine which commit function to call.</param>
         /// <returns>The complete BoxFile object.</returns>
-        private async Task<BoxFile> UploadSessionAsync(Stream stream, BoxFileUploadSession uploadSession,
+        private async Task<BoxFile> UploadSessionAsync(Stream stream, BoxFileUploadSession uploadFileSession,
             TimeSpan? timeout = null, IProgress<BoxProgress> progress = null, [CallerMemberName] string callingMethod = null)
         {
             var fileSize = stream.Length;
             // Parse upload session response
-            var boxSessionEndpoint = uploadSession.SessionEndpoints;
+            var boxSessionEndpoint = uploadFileSession.SessionEndpoints;
             var uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
             var commitUri = new Uri(boxSessionEndpoint.Commit);
-            var partSize = uploadSession.PartSize;
+            var partSize = uploadFileSession.PartSize;
             long partSizeLong;
             if (long.TryParse(partSize, out partSizeLong) == false)
             {
