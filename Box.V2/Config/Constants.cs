@@ -13,7 +13,7 @@ namespace Box.V2.Config
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
         public const string BoxUploadApiUriV21String = "https://upload.box.com/api/2.1/";
-        
+
 
         /*** API Endpoints ***/
         public const string TransactionalEndpointString = @"/api/oauth2/token";
@@ -220,11 +220,58 @@ namespace Box.V2.Config
             public const string Pending = "pending";
 
             public const string IfMatch = "If-Match";
+
+            /*** Values for specifically representations endpoint ***/
+            public const string XRepHints = "x-rep-hints";
+            public const string SetContentDispositionType = "set_content_disposition_type";
+            public const string SetContentDispositionFilename = "set_content_disposition_filename";
+            public const string RepresentationField = "representations";
         }
 
         public static class ErrorCodes
         {
             public const string Conflict = "item_name_in_use";
+        }
+
+        /*** Sample values for frequently requested file representations***/
+        public static class RepresentationTypes
+        {
+            /// <summary>
+            ///  This requests a pdf representation of all document Box file types
+            /// </summary>
+            public const string Pdf = "[pdf]";
+            /// <summary>
+            /// This requests a text format of all document file types including text/code files supported by Box
+            /// </summary>
+            public const string ExtractedText = "[extracted_text]";
+            /// <summary>
+            /// This will request a small jpg thumbnail of all document, image, and video Box file types
+            /// </summary>
+            public const string ThumbnailSmall = "[jpg?dimensions=320x320]";
+            /// <summary>
+            /// This will request two images of type jpg and png with dimensions of 1024x1024 for all
+            /// document, image, and video Box file types
+            /// </summary>
+            public const string ImageMedium = "[jpg?dimensions=1024x1024][png?dimensions=1024x1024]";
+            /// <summary>
+            /// This will request two images of type jpg and png with dimensions of 2048x2048 for all
+            /// document, image, and video Box file types
+            /// </summary>
+            public const string ImageLarge = "[jpg?dimensions=2048x2048][png?dimenions=2048x2048]";
+        }
+
+        /*** optional set_content_disposition_types for representations endpoint. Can only be one of value: inline or attachment ***/
+        public static class ContentDispositionTypes
+        {
+            /// <summary>
+            /// Passing this value into set_content_disposition_type will ensure that the browser opens the representation
+            /// in another window
+            /// </summary>
+            public const string Inline = "inline";
+            /// <summary>
+            /// Passing this value into set_content_disposition_type will ensure that the browser downloads the representation
+            /// </summary>
+            public const string Attachment = "attachment";
         }
     }
 }
