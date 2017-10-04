@@ -7,6 +7,7 @@ using Box.V2.Models.Request;
 using Box.V2.Services;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Box.V2.Managers
@@ -64,12 +65,18 @@ namespace Box.V2.Managers
         {
 
             string mdFiltersString = null;
-            if (mdFilters!=null)
+            if (mdFilters != null)
+            {               
                 mdFiltersString = _converter.Serialize(mdFilters);
+                mdFiltersString = WebUtility.UrlEncode(mdFiltersString);
+            }
 
             var createdAtRangeString = BuildDateRangeField(createdAtRangeFromDate, createdAtRangeToDate);
             var updatedAtRangeString = BuildDateRangeField(updatedAtRangeFromDate, updatedAtRangeToDate);
             var sizeRangeString = BuildSizeRangeField(sizeRangeLowerBoundBytes, sizeRangeUpperBoundBytes);
+            createdAtRangeString = WebUtility.UrlEncode(createdAtRangeString);
+            updatedAtRangeString = WebUtility.UrlEncode(updatedAtRangeString);
+            sizeRangeString = WebUtility.UrlEncode(sizeRangeString);
 
             BoxRequest request = new BoxRequest(_config.SearchEndpointUri)
                 .Param("query", keyword)

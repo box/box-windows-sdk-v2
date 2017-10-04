@@ -134,10 +134,10 @@ namespace Box.V2.Test.Integration
 
             var filter = new
             {
-                attr1 = "blah",
-                attr2 = new { gt = 5, lt = 5 },
-                attr3 = new { gt = new DateTime(2016, 10, 1), lt = new DateTime(2016, 11, 5) },
-                attr4 = "value1"
+               attr1 = "blah",
+               attr2 = new { gt = 5, lt = 5 },
+               attr3 = new { gt = "2016-10-17T13:35:01+07:00", lt = "2016-11-17T13:35:01+07:00" },
+               attr4 = "value1"
             };
 
             var mdFilter = new BoxMetadataFilterRequest()
