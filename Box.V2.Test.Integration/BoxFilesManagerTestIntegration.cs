@@ -114,12 +114,12 @@ namespace Box.V2.Test.Integration
         {
             var representationsMissingHeader = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
             {
-                FileId = "194353989622",
+                FileId = "16894927933",
             });
 
             var representationsAllHeaders = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
             {
-                FileId = "194353989622",
+                FileId = "16894927933",
                 XRepHints = Constants.RepresentationTypes.Pdf,
                 SetContentDispositionFilename = "New Name",
                 SetContentDispositionType = Constants.ContentDispositionTypes.Inline,
@@ -128,7 +128,7 @@ namespace Box.V2.Test.Integration
 
             var representationsMultipleXRepHints = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
             {
-                FileId = "194353989622",
+                FileId = "16894927933",
                 XRepHints = Constants.RepresentationTypes.ImageMedium
             });
 
