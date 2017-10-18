@@ -499,11 +499,10 @@ namespace Box.V2.Test.Integration
             {
                 if (partSize == 0)
                     throw new Exception("Part Size cannot be 0");
-                int numberOfParts = 1;
-                if (partSize != totalSize)
+                int numberOfParts = Convert.ToInt32(totalSize / partSize);
+                if (partSize % totalSize != 0)
                 {
-                    numberOfParts = Convert.ToInt32(totalSize / partSize);
-                    numberOfParts += 1;
+                    numberOfParts++;
                 }
                 return numberOfParts;
             }
