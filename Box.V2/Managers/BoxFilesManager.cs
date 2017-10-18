@@ -1241,11 +1241,10 @@ namespace Box.V2.Managers
                 throw new BoxException("Part Size cannot be 0");
             }
 
-            int numberOfParts = 1;
-            if (partSize != totalSize)
+            int numberOfParts = Convert.ToInt32(totalSize / partSize);
+            if (partSize % totalSize != 0)
             {
-                numberOfParts = Convert.ToInt32(totalSize / partSize);
-                numberOfParts += 1;
+                numberOfParts++;
             }
             return numberOfParts;
         }
