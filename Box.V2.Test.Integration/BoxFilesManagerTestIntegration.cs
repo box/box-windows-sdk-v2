@@ -294,6 +294,22 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task GetNumberOfParts_Utility_Function_CorrectPartNumber()
+        {
+            // This file size is expected to divide evenly with the partSize
+            long fileSize = 209717000;
+            // This file size is expected to have a small remainder after dividing with partSize
+            long divisibleFileSize = 209715200;
+            long partSize = 8388608;
+
+            int numberOfPartsNoRemainder = UploadUsingSessionInternal.GetNumberOfParts(divisibleFileSize, partSize);
+            int numberOfPartsWithRemainder = UploadUsingSessionInternal.GetNumberOfParts(fileSize, partSize);
+
+            Assert.AreEqual(numberOfPartsNoRemainder, 25);
+            Assert.AreEqual(numberOfPartsWithRemainder, 26);
+        }
+
+        [TestMethod]
         public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
         {
             long fileSize = 50000000;
@@ -499,11 +515,11 @@ namespace Box.V2.Test.Integration
             {
                 if (partSize == 0)
                     throw new Exception("Part Size cannot be 0");
-                int numberOfParts = 1;
-                if (partSize != totalSize)
+
+                int numberOfParts = Convert.ToInt32(totalSize / partSize);
+                if(totalSize % partSize != 0)
                 {
-                    numberOfParts = Convert.ToInt32(totalSize / partSize);
-                    numberOfParts += 1;
+                    numberOfParts++;
                 }
                 return numberOfParts;
             }
