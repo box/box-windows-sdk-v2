@@ -9,6 +9,7 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public class BoxTermsOfServicesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
+        // create terms of service
         [TestMethod]
         public async Task CreateTermsOfServices_ValidResponse()
         {
@@ -22,6 +23,7 @@ namespace Box.V2.Test.Integration
             Assert.IsNotNull(termsOfService, "Terms of Service was not created");
         }
 
+        // retrieve all terms of services
         [TestMethod]
         public async Task GetTermsOfServices_ValidResponse()
         {
@@ -29,6 +31,7 @@ namespace Box.V2.Test.Integration
             Assert.IsNotNull(termsOfService, "Returned Terms of Service successfully");
         }
 
+        // retrieve terms of service by id
         [TestMethod]
         public async Task GetTermsOfServicesById_ValidResponse()
         {
@@ -43,6 +46,7 @@ namespace Box.V2.Test.Integration
             Assert.IsNotNull(termsOfServiceUserStatuses, "User Status for Terms of Service was successfully created");
         }
 
+        // update terms of service information
         [TestMethod]
         public async Task UpdateTermsOfServices_ValidReponse()
         {
@@ -54,6 +58,7 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(termsOfService.Text, "Test Text");
         }
 
+        // get terms of user status for terms of service
         [TestMethod]
         public async Task GetTermsOfServiceUserStatuses_ValidResponse()
         {
@@ -61,6 +66,7 @@ namespace Box.V2.Test.Integration
             Assert.IsNotNull(termsOfServiceUserStatuses, "Returned user status for Terms of Service successfully");
         }
 
+        // update user status on terms of service
         [TestMethod]
         public async Task UpdateTermsOfServiceUserStatuses_ValidResponse()
         {

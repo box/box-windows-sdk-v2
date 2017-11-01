@@ -18,7 +18,7 @@ namespace Box.V2.Models
         /// The Terms of Service object
         /// </summary>
         [JsonProperty(PropertyName = FieldTos)]
-        public BoxTermsOfService Tos { get; set; }
+        public BoxTermsOfService TermsOfService { get; set; }
 
         /// <summary>
         /// The Box user this Terms of Service is associated with
