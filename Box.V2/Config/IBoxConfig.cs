@@ -60,6 +60,8 @@ namespace Box.V2.Config
         Uri RecentItemsUri { get; }
         Uri EnterprisesUri { get; }
         Uri DevicePinUri { get; }
+        Uri TermsOfServicesEndpointUri { get; }
+        Uri TermsOfServiceUserStatusesEndpointUri { get; }
 
         /// <summary>
         /// Gets the shared items endpoint URI.

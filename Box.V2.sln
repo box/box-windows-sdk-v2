@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{A5BC8AA0-5191-4B1D-845F-B4F0BD0287A4}"
 EndProject
@@ -160,5 +160,8 @@ Global
 		{B6646429-8CD9-412E-937D-BD5862B80CB4} = {1F66A59A-7F58-43B6-81FA-3EA5EB40C764}
 		{EB890C3A-311C-4140-B24C-863B9C8595A7} = {1F66A59A-7F58-43B6-81FA-3EA5EB40C764}
 		{602FF1B8-DF8B-4CFF-88C6-8B34468C45AD} = {A5BC8AA0-5191-4B1D-845F-B4F0BD0287A4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {206CDE2C-A9B4-4D55-B9AC-8F373F7FA7B0}
 	EndGlobalSection
 EndGlobal

@@ -99,6 +99,14 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task Metadata_GetTemplateById_LiveSesion()
+        {
+            var templateId = await _client.MetadataManager.GetEnterpriseMetadataAsync();
+            //var template = await _client.MetadataManager.GetMetadataTemplateById(templateId);
+            //Assert.IsNotNull(template);
+        }
+
+        [TestMethod]
         public async Task Metadata_GetTemplate_LiveSession()
         {
             var template = await _client.MetadataManager.GetMetadataTemplate(SCOPE, TEMPLATE_KEY);

@@ -137,6 +137,19 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to retrieve the schema for a given metadata template by metadata template id
+        /// </summary>
+        /// <param name="templateId">Metadata template id</param>
+        /// <returns>Returns the schema for the specified metadata template.</returns>
+        public async Task<BoxMetadataTemplate> GetMetadataTemplateById(string templateId)
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, templateId);
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Used to create a new metadata template with the specified schema.
         /// </summary>
         /// <param name="template">BoxMetadataTemplate object</param>
@@ -164,6 +177,23 @@ namespace Box.V2.Managers
         public async Task<BoxMetadataTemplate> UpdateMetadataTemplate(IEnumerable<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)
         {
             BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template))
+                .Method(RequestMethod.Put)
+                .Payload(_converter.Serialize(metadataTemplateUpdate));
+
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to update the schema of an existing template by template id.
+        /// </summary>
+        /// <param name="metadataTemplateUpdate">BoxMetadataTemplateUpdate object</param>
+        /// <param name="templateId">Metadata template id</param>
+        /// <returns></returns>
+        public async Task<BoxMetadataTemplate> UpdateMetadataTemplateById(string templateId, IEnumerable<BoxMetadataTemplateUpdate> metadataTemplateUpdate)
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, templateId)
                 .Method(RequestMethod.Put)
                 .Payload(_converter.Serialize(metadataTemplateUpdate));
 
