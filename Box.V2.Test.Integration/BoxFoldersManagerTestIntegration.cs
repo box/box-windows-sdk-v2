@@ -55,11 +55,13 @@ namespace Box.V2.Test.Integration
         public async Task GetFolderInformation_Fields_ValidResponse()
         {
             const string folderId = "39105922916";
-            var folder = await _client.FoldersManager.GetInformationAsync(folderId, fields: new List<string> { "allowed_shared_link_access_levels" });
+            var folder = await _client.FoldersManager.GetInformationAsync(folderId, fields: new List<string> { "allowed_shared_link_access_levels", "can_non_owners_invite", "is_externally_owned" });
 
-            Assert.AreEqual(folder.CanNonOwnersInvite, false);
+            Assert.AreEqual(folder.CanNonOwnersInvite, true);
             Assert.AreEqual(folder.IsExternallyOwned, false);
-            Assert.IsNotNull(folder.AllowedSharedLinkAccessLevels, "shared link access levels could not be retrieved");
+            Assert.AreEqual(folder.AllowedSharedLinkAccessLevels[0], "collaborators", "shared link access levels could not be retrieved");
+            Assert.AreEqual(folder.AllowedSharedLinkAccessLevels[1], "open", "shared link access levels could not be retrieved");
+            Assert.AreEqual(folder.AllowedSharedLinkAccessLevels[2], "company", "shared link access levels could not be retrieved");
         }
 
         [TestMethod]

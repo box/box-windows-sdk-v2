@@ -100,7 +100,7 @@ namespace Box.V2.Models
         /// Can owners invite field for folder
         /// </summary>
         [JsonProperty(PropertyName = FieldCanNonOwnersInvite)]
-        public Boolean CanNonOwnersInvite { get; set; }
+        public Boolean? CanNonOwnersInvite { get; set; }
 
         /// <summary>
         /// Allowed shared link access levels for folder
@@ -112,6 +112,6 @@ namespace Box.V2.Models
         /// Is folder externally owned
         /// </summary>
         [JsonProperty(PropertyName = FieldIsExternallyOwned)]
-        public Boolean IsExternallyOwned { get; set; }
+        public Boolean? IsExternallyOwned { get; set; }
     }
 }
