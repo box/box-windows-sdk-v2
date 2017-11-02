@@ -159,6 +159,7 @@ namespace Box.V2.Config
         public const string TypeLegalHoldPolicyAssignment = "legal_hold_policy_assignment";
         public const string TypeUploadSession = "upload_session";
         public const string TypeRecentItem = "recent_item";
+        public const string TypeMetadataTemplate = "metadata_templates";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds

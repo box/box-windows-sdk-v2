@@ -106,6 +106,15 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(4, template.Fields.Count, "Failed to get metadata template");
         }
 
+
+        [TestMethod]
+        public async Task Metadata_GetTemplateById_LiveSesion()
+        {
+            var template = await _client.MetadataManager.GetEnterpriseMetadataAsync();
+            var templateId = await _client.MetadataManager.GetMetadataTemplateById(template.Entries[0].Id);
+            Assert.IsNotNull(templateId);
+        }
+
         // This test is disabled because our test account has hit the maximum number of metadata templates (50).
         // Until we can figure out how to delete some templates or increase the limit this test will fail.
         //[TestMethod]

@@ -69,6 +69,8 @@ namespace Box.V2.Converter
                         return new BoxFileUploadSession();
                     case Constants.TypeRecentItem:
                         return new BoxRecentItem();
+                    case Constants.TypeMetadataTemplate:
+                        return new BoxMetadataTemplate();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names

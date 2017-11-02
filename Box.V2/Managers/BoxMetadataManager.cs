@@ -173,6 +173,36 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to retrieve the schema for a given metadata template by metadata template id.
+        /// </summary>
+        /// <param name="templateId">Metadata template id.</param>
+        /// <returns>Returns the schema for the specified metadata template.</returns>
+        public async Task<BoxMetadataTemplate> GetMetadataTemplateById(string templateId)
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, templateId);
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to update the schema of an existing template by template id.
+        /// </summary>
+        /// <param name="metadataTemplateUpdate">BoxMetadataTemplateUpdate object</param>
+        /// <param name="templateId">Metadata template id</param>
+        /// <returns>Returns the update metadate template information</returns>
+        public async Task<BoxMetadataTemplate> UpdateMetadataTemplateById(string templateId, IEnumerable<BoxMetadataTemplateUpdate> metadataTemplateUpdate)
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, templateId)
+                .Method(RequestMethod.Put)
+                .Payload(_converter.Serialize(metadataTemplateUpdate));
+
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Used to retrieve all metadata associated with a given file
         /// </summary>
         /// <param name="fileId">Id of file</param>
