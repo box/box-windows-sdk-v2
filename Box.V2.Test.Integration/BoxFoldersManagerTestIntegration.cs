@@ -52,6 +52,15 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task GetFolderInformation_Fields_ValidResponse()
+        {
+            const string folderId = "39105922916";
+            var folder = await _client.FoldersManager.GetInformationAsync(folderId);
+
+            Assert.IsNotNull(folder.ContentCreatedAt);
+        }
+
+        [TestMethod]
         public async Task GetFolderInformation_Fields_Metadata_ValidResponse()
         {
             const string folderId = "1927307787";

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Box.V2.Models
@@ -14,6 +15,13 @@ namespace Box.V2.Models
         public const string FieldHasCollaborations = "has_collaborations";
         public const string FieldAllowedInviteeRoles = "allowed_invitee_roles";
         public const string FieldWatermarkInfo = "watermark_info";
+        public const string FieldTrashedAt = "trashed_at";
+        public const string FieldPurgedAt = "purged_at";
+        public const string FieldContentCreatedAt = "content_created_at";
+        public const string FieldContentModifiedAt = "content_modified_at";
+        public const string FieldCanNonOwnersInvite = "can_non_owners_invite";
+        public const string FieldIsExternallyOwned = "is_externally_owned";
+        public const string FieldAllowSharedLinkAccessLevels = "allow_shared_link_access_levels";
 
         /// <summary>
         /// The upload email address for this folder
@@ -63,5 +71,47 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "metadata")]
         public dynamic Metadata { get; protected set; }
+
+        /// <summary>
+        /// Trashed at timestamp for folder
+        /// </summary>
+        [JsonProperty(PropertyName = FieldTrashedAt)]
+        public DateTime? TrashedAt { get; set; }
+
+        /// <summary>
+        /// Purged at timestamp for folder
+        /// </summary>
+        [JsonProperty(PropertyName = FieldPurgedAt)]
+        public DateTime? PurgedAt { get; set; }
+
+        /// <summary>
+        /// Content created at timestamp for folder
+        /// </summary>
+        [JsonProperty(PropertyName = FieldContentCreatedAt)]
+        public DateTime? ContentCreatedAt { get; set; }
+
+        /// <summary>
+        /// Content modified at timestamp for folder
+        /// </summary>
+        [JsonProperty(PropertyName = FieldContentModifiedAt)]
+        public DateTime? ContentModifiedAt { get; set; }
+
+        /// <summary>
+        /// Can owners invite field for folder
+        /// </summary>
+        [JsonProperty(PropertyName = FieldCanNonOwnersInvite)]
+        public Boolean CanNonOwnersInvite { get; set; }
+
+        /// <summary>
+        /// Allowed shared link access levels for folder
+        /// </summary>
+        [JsonProperty(PropertyName = FieldAllowSharedLinkAccessLevels)]
+        public String[] AllowSharedLinkAccessLevels { get; set; }
+
+        /// <summary>
+        /// Is folder externally owned
+        /// </summary>
+        [JsonProperty(PropertyName = FieldIsExternallyOwned)]
+        public Boolean IsExternallyOwned { get; set; }
     }
 }
