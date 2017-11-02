@@ -259,6 +259,5 @@ namespace Box.V2
         /// The manager that represents the terms of service endpoint
         /// </summary>
         public BoxTermsOfServicesManager TermsOfServiceManager { get; private set; }
-
     }
 }

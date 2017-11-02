@@ -10,7 +10,7 @@ namespace Box.V2.Models
     /// <summary>
     /// A request class for making folder requests
     /// </summary>
-    public class BoxTermsOfServicesRequest: BoxItemRequest
+    public class BoxTermsOfServicesRequest : BoxItemRequest
     {
         /// <summary>
         /// The status of Terms of Services object. Either in enabled or disabled mode. 
@@ -29,7 +29,5 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "text")]
         public String Text { get; set; }
-
     }
-
 }

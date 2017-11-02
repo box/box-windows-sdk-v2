@@ -33,7 +33,6 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldTosType)]
         public String TosType { get; set; }
 
-
         /// <summary>
         /// The text description of the terms of service object
         /// </summary>

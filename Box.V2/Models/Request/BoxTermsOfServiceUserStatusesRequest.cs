@@ -29,7 +29,6 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "is_accepted")]
         public Boolean IsAccepted { get; set; }
-
     }
 
 }
