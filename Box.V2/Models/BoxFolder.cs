@@ -21,7 +21,7 @@ namespace Box.V2.Models
         public const string FieldContentModifiedAt = "content_modified_at";
         public const string FieldCanNonOwnersInvite = "can_non_owners_invite";
         public const string FieldIsExternallyOwned = "is_externally_owned";
-        public const string FieldAllowSharedLinkAccessLevels = "allow_shared_link_access_levels";
+        public const string FieldAllowedSharedLinkAccessLevels = "allowed_shared_link_access_levels";
 
         /// <summary>
         /// The upload email address for this folder
@@ -105,8 +105,8 @@ namespace Box.V2.Models
         /// <summary>
         /// Allowed shared link access levels for folder
         /// </summary>
-        [JsonProperty(PropertyName = FieldAllowSharedLinkAccessLevels)]
-        public String[] AllowSharedLinkAccessLevels { get; set; }
+        [JsonProperty(PropertyName = FieldAllowedSharedLinkAccessLevels)]
+        public IList<string> AllowedSharedLinkAccessLevels { get; set; }
 
         /// <summary>
         /// Is folder externally owned
