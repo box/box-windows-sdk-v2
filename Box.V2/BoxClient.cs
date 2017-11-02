@@ -132,7 +132,7 @@ namespace Box.V2
             DevicePinManager = new BoxDevicePinManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             WebLinksManager = new BoxWebLinksManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             LegalHoldPoliciesManager = new BoxLegalHoldPoliciesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
-            TermsOfServiceManager = new BoxTermsOfServicesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            TermsOfServiceManager = new BoxTermsOfServiceManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -258,6 +258,6 @@ namespace Box.V2
         /// <summary>
         /// The manager that represents the terms of service endpoint
         /// </summary>
-        public BoxTermsOfServicesManager TermsOfServiceManager { get; private set; }
+        public BoxTermsOfServiceManager TermsOfServiceManager { get; private set; }
     }
 }
