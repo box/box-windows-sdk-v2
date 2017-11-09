@@ -110,9 +110,10 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task Metadata_GetTemplateById_LiveSesion()
         {
-            var template = await _client.MetadataManager.GetEnterpriseMetadataAsync();
-            var templateId = await _client.MetadataManager.GetMetadataTemplateById(template.Entries[0].Id);
-            Assert.IsNotNull(templateId);
+            var templates = await _client.MetadataManager.GetEnterpriseMetadataAsync();
+            var metadataTemplate = await _client.MetadataManager.GetMetadataTemplateById(templates.Entries[0].Id);
+            Assert.IsNotNull(metadataTemplate);
+            Assert.AreEqual(metadataTemplate.Type, "metadata_template");
         }
 
         // This test is disabled because our test account has hit the maximum number of metadata templates (50).
