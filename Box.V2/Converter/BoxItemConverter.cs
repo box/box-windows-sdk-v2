@@ -69,6 +69,8 @@ namespace Box.V2.Converter
                         return new BoxFileUploadSession();
                     case Constants.TypeRecentItem:
                         return new BoxRecentItem();
+                    case Constants.TypeMetadataTemplate:
+                        return new BoxMetadataTemplate();
                     case Constants.TypeTermsOfService:
                         return new BoxTermsOfService();
                     case Constants.TypeTermsOfServiceUserStatuses:

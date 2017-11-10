@@ -161,6 +161,7 @@ namespace Box.V2.Config
         public const string TypeLegalHoldPolicyAssignment = "legal_hold_policy_assignment";
         public const string TypeUploadSession = "upload_session";
         public const string TypeRecentItem = "recent_item";
+        public const string TypeMetadataTemplate = "metadata_template";
         public const string TypeTermsOfService = "terms_of_service";
         public const string TypeTermsOfServiceUserStatuses = "terms_of_service_user_status";
 
