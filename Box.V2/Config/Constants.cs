@@ -45,6 +45,8 @@ namespace Box.V2.Config
         public const string RecentItemsString = @"recent_items/";
         public const string EnterprisesString = @"enterprises/";
         public const string DevicePinString = @"device_pinners/";
+        public const string TermsOfServicesString = @"terms_of_services/";
+        public const string TermsOfServiceUserStatusesString = @"terms_of_service_user_statuses/";
 
         /// <summary>
         /// The shared items constant
@@ -160,6 +162,8 @@ namespace Box.V2.Config
         public const string TypeUploadSession = "upload_session";
         public const string TypeRecentItem = "recent_item";
         public const string TypeMetadataTemplate = "metadata_template";
+        public const string TypeTermsOfService = "terms_of_service";
+        public const string TypeTermsOfServiceUserStatuses = "terms_of_service_user_status";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
