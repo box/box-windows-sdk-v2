@@ -55,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BoxCollaborationWhitelistManagerTestIntegration.cs" />
     <Compile Include="BoxCollectionsManagerTestIntegration.cs" />
     <Compile Include="BoxDevicePinManagerTestIntegration.cs" />
     <Compile Include="BoxEventsManagerTestIntegration.cs" />

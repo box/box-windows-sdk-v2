@@ -4,6 +4,7 @@ using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
-    class BoxCollaborationWhitelistManager : BoxResourceManager
+    public class BoxCollaborationWhitelistManager : BoxResourceManager
     {
         public BoxCollaborationWhitelistManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
@@ -29,10 +30,15 @@ namespace Box.V2.Managers
             domainToWhitelist.ThrowIfNull("domainToWhitelist");
             directionForWhitelist.ThrowIfNull("directionForWhitelist");
 
+            dynamic req = new JObject();
+            req.domain = domainToWhitelist;
+            req.direction = directionForWhitelist;
+
+            string jsonStr = req.ToString();
+
             BoxRequest request = new BoxRequest(_config.CollaborationWhitelistEntryUri)
                 .Method(RequestMethod.Post)
-                .Payload(_converter.Serialize(domainToWhitelist))
-                .Payload(_converter.Serialize(directionForWhitelist));
+                .Payload(jsonStr);
 
             IBoxResponse<BoxCollaborationWhitelistEntry> response = await ToResponseAsync<BoxCollaborationWhitelistEntry>(request).ConfigureAwait(false);
 
@@ -98,7 +104,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="user">This is the Box User to add to the exempt list.</param>
         /// <returns>The specific exempt user.</returns>
-        public async Task<BoxCollaborationWhitelistTargetEntry> AddCollaborationWhitelistForUserAsync(string id)
+     /*   public async Task<BoxCollaborationWhitelistTargetEntry> AddCollaborationWhitelistForUserAsync(string id)
         {
             id.ThrowIfNull("id");
 
@@ -115,7 +121,7 @@ namespace Box.V2.Managers
             IBoxResponse<BoxCollaborationWhitelistTargetEntry> response = await ToResponseAsync<BoxCollaborationWhitelistTargetEntry>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
-        }
+        }*/
 
         /// <summary>
         /// Used to get information about a single collaboration whitelist for a user.
