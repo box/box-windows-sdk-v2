@@ -45,6 +45,8 @@ namespace Box.V2.Config
         public const string RecentItemsString = @"recent_items/";
         public const string EnterprisesString = @"enterprises/";
         public const string DevicePinString = @"device_pinners/";
+        public const string CollaborationWhitelistEntryString = @"collaboration_whitelist_entries";
+        public const string CollaborationWhitelistTargetEntryString = @"collaboration_whitelist_exempt_targets";
 
         /// <summary>
         /// The shared items constant
