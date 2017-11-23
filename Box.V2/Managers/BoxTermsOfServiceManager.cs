@@ -1,22 +1,11 @@
 ﻿using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
-using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using Box.V2.Utility;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-
-
 
 namespace Box.V2.Managers
 {
