@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.5</description>
-    <releaseNotes>Added support for Terms of Service and Metadate Template ID</releaseNotes>
+    <releaseNotes>Added support for Terms of Service and Metadate Template ID. Fixed get number of parts function and added missing fields for folder model</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>
