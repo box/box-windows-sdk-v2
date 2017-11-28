@@ -71,6 +71,8 @@ namespace Box.V2.Converter
                         return new BoxRecentItem();
                     case Constants.TypeCollabWhitelistEntry:
                         return new BoxCollaborationWhitelistEntry();
+                    case Constants.TypeCollabWhitelistTargetEntry:
+                        return new BoxCollaborationWhitelistTargetEntry();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names

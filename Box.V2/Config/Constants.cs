@@ -45,8 +45,8 @@ namespace Box.V2.Config
         public const string RecentItemsString = @"recent_items/";
         public const string EnterprisesString = @"enterprises/";
         public const string DevicePinString = @"device_pinners/";
-        public const string CollaborationWhitelistEntryString = @"collaboration_whitelist_entries";
-        public const string CollaborationWhitelistTargetEntryString = @"collaboration_whitelist_exempt_targets";
+        public const string CollaborationWhitelistEntryString = @"collaboration_whitelist_entries/";
+        public const string CollaborationWhitelistTargetEntryString = @"collaboration_whitelist_exempt_targets/";
 
         /// <summary>
         /// The shared items constant
@@ -162,6 +162,7 @@ namespace Box.V2.Config
         public const string TypeUploadSession = "upload_session";
         public const string TypeRecentItem = "recent_item";
         public const string TypeCollabWhitelistEntry = "collaboration_whitelist_entry";
+        public const string TypeCollabWhitelistTargetEntry = "collaboration_whitelist_exempt_target";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
