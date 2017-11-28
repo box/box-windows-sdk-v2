@@ -46,6 +46,18 @@ namespace Box.V2.Models
         public const string FieldEntries = "entries";
     }
 
+    public abstract class BoxTermsOfServiceCollection
+    {
+        public const string FieldEntries = "entries";
+        public const string FieldTotalCount = "total_count";
+    }
+
+    public abstract class BoxTermsOfServiceUserStatusesCollection
+    {
+        public const string FieldEntries = "entries";
+        public const string FieldTotalCount = "total_count";
+    }
+
     public abstract class BoxMetadataTemplateCollection
     {
         public const string FieldEntries = "entries";
@@ -190,6 +202,24 @@ namespace Box.V2.Models
     {
         [JsonProperty(PropertyName = FieldEntries)]
         public List<T> Entries { get; private set; }
+    }
+
+    public class BoxTermsOfServiceCollection<T> : BoxTermsOfServiceCollection where T : BoxTermsOfService
+    {
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; private set; }
+
+        [JsonProperty(PropertyName = FieldTotalCount)]
+        public int TotalCount { get; private set; }
+    }
+
+    public class BoxTermsOfServiceUserStatusesCollection<T> : BoxTermsOfServiceUserStatusesCollection where T : BoxTermsOfServiceUserStatuses
+    {
+        [JsonProperty(PropertyName = FieldEntries)]
+        public List<T> Entries { get; private set; }
+
+        [JsonProperty(PropertyName = FieldTotalCount)]
+        public int TotalCount { get; private set; }
     }
 
     public class BoxEnterpriseMetadataTemplateCollection<T> : BoxEnterpriseMetadataTemplateCollection where T : BoxMetadataTemplate

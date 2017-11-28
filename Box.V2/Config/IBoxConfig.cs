@@ -62,6 +62,8 @@ namespace Box.V2.Config
         Uri DevicePinUri { get; }
         Uri CollaborationWhitelistEntryUri { get; }
         Uri CollaborationWhitelistTargetEntryUri { get; }
+        Uri TermsOfServicesUri { get; }
+        Uri TermsOfServiceUserStatusesUri { get; }
 
         /// <summary>
         /// Gets the shared items endpoint URI.

@@ -19,7 +19,7 @@ namespace Box.V2.Test.Integration
         {
             var startDate = Convert.ToDateTime("9/18/2017 11:51:12 PM");
             var endDate = Convert.ToDateTime("9/24/2017 11:51:12 PM");
-            int expectedChunkSize = 55;
+            int expectedChunkSize = 107;
 
             var events = await _client.EventsManager.EnterpriseEventsAsync(createdAfter: startDate, createdBefore: endDate);
             var eventsMissingOneParam = await _client.EventsManager.EnterpriseEventsAsync(createdAfter: startDate, createdBefore: null);
