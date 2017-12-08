@@ -133,6 +133,7 @@ namespace Box.V2
             WebLinksManager = new BoxWebLinksManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             LegalHoldPoliciesManager = new BoxLegalHoldPoliciesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             CollaborationWhitelistManager = new BoxCollaborationWhitelistManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            TermsOfServiceManager = new BoxTermsOfServiceManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -260,5 +261,8 @@ namespace Box.V2
         /// </summary>
         public BoxCollaborationWhitelistManager CollaborationWhitelistManager { get; private set; }
 
+        /// The manager that represents the terms of service endpoint
+        /// </summary>
+        public BoxTermsOfServiceManager TermsOfServiceManager { get; private set; }
     }
 }

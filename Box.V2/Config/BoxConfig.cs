@@ -44,7 +44,7 @@ namespace Box.V2.Config
             JWTPublicKeyId = jwtPublicKeyId;
             UserAgent = DefaultUserAgent;
         }
-        
+
         /// <summary>
         /// Create BoxConfig from json file.
         /// </summary>
@@ -149,6 +149,8 @@ namespace Box.V2.Config
         public virtual Uri AuthCodeBaseUri { get { return new Uri(BoxAccountApiHostUri, Constants.AuthCodeString); } }
         public virtual Uri AuthCodeUri { get { return new Uri(AuthCodeBaseUri, string.Format("?response_type=code&client_id={0}&redirect_uri={1}", ClientId, RedirectUri)); } }
         public virtual Uri FoldersEndpointUri { get { return new Uri(BoxApiUri, Constants.FoldersString); } }
+        public virtual Uri TermsOfServicesUri { get { return new Uri(BoxApiUri, Constants.TermsOfServicesString);  } }
+        public virtual Uri TermsOfServiceUserStatusesUri { get { return new Uri(BoxApiUri, Constants.TermsOfServiceUserStatusesString); } }
         public virtual Uri FilesEndpointUri { get { return new Uri(BoxApiUri, Constants.FilesString); } }
         public virtual Uri FilesUploadEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesUploadString); } }
 

@@ -47,6 +47,8 @@ namespace Box.V2.Config
         public const string DevicePinString = @"device_pinners/";
         public const string CollaborationWhitelistEntryString = @"collaboration_whitelist_entries/";
         public const string CollaborationWhitelistTargetEntryString = @"collaboration_whitelist_exempt_targets/";
+        public const string TermsOfServicesString = @"terms_of_services/";
+        public const string TermsOfServiceUserStatusesString = @"terms_of_service_user_statuses/";
 
         /// <summary>
         /// The shared items constant
@@ -163,6 +165,9 @@ namespace Box.V2.Config
         public const string TypeRecentItem = "recent_item";
         public const string TypeCollabWhitelistEntry = "collaboration_whitelist_entry";
         public const string TypeCollabWhitelistTargetEntry = "collaboration_whitelist_exempt_target";
+        public const string TypeMetadataTemplate = "metadata_template";
+        public const string TypeTermsOfService = "terms_of_service";
+        public const string TypeTermsOfServiceUserStatuses = "terms_of_service_user_status";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
