@@ -69,17 +69,24 @@ namespace Box.V2.Managers
         /// <param name="marker">Position to return results from.</param>
         /// <param name="limit">Maximum number of entries to return. Default is 100.</param>
         /// <returns>The collection of domain collaboration whitelist objects is returned.</returns>
-        public async Task<BoxCollaborationWhitelistEntryCollection<BoxCollaborationWhitelistEntry>> GetAllCollaborationWhitelistEntriesAsync(string marker = null, int limit = 100)
+        public async Task<BoxCollectionMarkerBased<BoxCollaborationWhitelistEntry>> GetAllCollaborationWhitelistEntriesAsync(int limit= 100, string nextMarker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.CollaborationWhitelistEntryUri)
                 .Method(RequestMethod.Get)
                 .Param("limit", limit.ToString())
-                .Param("marker", marker);
+                .Param("marker", nextMarker);
 
-            IBoxResponse<BoxCollaborationWhitelistEntryCollection<BoxCollaborationWhitelistEntry>> response =
-                await ToResponseAsync<BoxCollaborationWhitelistEntryCollection<BoxCollaborationWhitelistEntry>>(request).ConfigureAwait(false);
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxCollaborationWhitelistEntry>(request, limit);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxCollaborationWhitelistEntry>> response =
+                    await ToResponseAsync<BoxCollectionMarkerBased<BoxCollaborationWhitelistEntry>>(request).ConfigureAwait(false);
 
-            return response.ResponseObject;
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
@@ -150,17 +157,24 @@ namespace Box.V2.Managers
         /// <param name="marker">Position to return results from.</param>
         /// <param name="limit">Maximum number of entries to return. Default is 100.</param>
         /// <returns>The collection of collaboration whitelist object is returned for users.</returns>
-        public async Task<BoxCollaborationWhitelistTargetEntryCollection<BoxCollaborationWhitelistTargetEntry>> GetCollaborationWhitelistExemptUsersAsync(string marker = null, int limit = 100)
+        public async Task<BoxCollectionMarkerBased<BoxCollaborationWhitelistTargetEntry>> GetAllCollaborationWhitelistExemptUsersAsync(int limit = 100, string nextMarker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.CollaborationWhitelistTargetEntryUri)
                 .Method(RequestMethod.Get)
                 .Param("limit", limit.ToString())
-                .Param("marker", marker);
+                .Param("marker", nextMarker);
 
-            IBoxResponse<BoxCollaborationWhitelistTargetEntryCollection<BoxCollaborationWhitelistTargetEntry>> response =
-                await ToResponseAsync<BoxCollaborationWhitelistTargetEntryCollection<BoxCollaborationWhitelistTargetEntry>>(request).ConfigureAwait(false);
+            if(autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxCollaborationWhitelistTargetEntry>(request, limit);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxCollaborationWhitelistTargetEntry>> response =
+                    await ToResponseAsync<BoxCollectionMarkerBased<BoxCollaborationWhitelistTargetEntry>>(request).ConfigureAwait(false);
 
-            return response.ResponseObject;
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>

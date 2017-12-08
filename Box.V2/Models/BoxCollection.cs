@@ -57,20 +57,6 @@ namespace Box.V2.Models
         public const string FieldTotalCount = "total_count";
     }
 
-    public abstract class BoxCollaborationWhitelistEntryCollection
-    {
-        public const string FieldEntries = "entries";
-        public const string FieldLimit = "limit";
-        public const string FieldNextMarker = "next_marker";
-    }
-
-    public abstract class BoxCollaborationWhitelistTargetEntryCollection
-    {
-        public const string FieldEntries = "entries";
-        public const string FieldLimit = "limit";
-        public const string FieldNextMarker = "next_marker";
-    }
-
     /// <summary>
     /// Box representation of a collection that uses offset and limit fields for paging through results.
     /// </summary>
@@ -199,17 +185,5 @@ namespace Box.V2.Models
 
         [JsonProperty(PropertyName = FieldTotalCount)]
         public int TotalCount { get; private set; }
-    }
-
-    public class BoxCollaborationWhitelistEntryCollection<T> : BoxCollaborationWhitelistEntryCollection where T: BoxCollaborationWhitelistEntry
-    {
-        [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
-    }
-
-    public class BoxCollaborationWhitelistTargetEntryCollection<T> : BoxCollaborationWhitelistTargetEntryCollection where T: BoxCollaborationWhitelistTargetEntry
-    {
-        [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
     }
 }

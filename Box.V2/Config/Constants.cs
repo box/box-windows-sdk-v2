@@ -277,5 +277,22 @@ namespace Box.V2.Config
             /// </summary>
             public const string Attachment = "attachment";
         }
+
+        /*** required direction for collaboration whitelists endpoint. Can only be one of value: inbound, outbound, or both ***/
+        public static class WhitelistDirections
+        {
+            /// <summary>
+            /// Passing this value into direction will limit the collaboration whitelisting to collaborations inside an enterprise only. 
+            /// </summary>
+            public const string Inbound = "inbound";
+            /// <summary>
+            /// Passing this value into direction will limit the collaboration whitelisting to collaborations outside of an enterprise only.
+            /// </summary>
+            public const string Outbound = "outbound";
+            /// <summary>
+            /// Passing this value into direction will limit the collaboration whitelisting to both collaborations inside and outside of an enterprise.
+            /// </summary>
+            public const string Both = "both";
+        }
     }
 }
