@@ -71,7 +71,7 @@ namespace Box.V2.Models
         /// An array of key/value pairs set by the user’s admin
         /// </summary>
         [JsonProperty(PropertyName = "tracking_codes")]
-        public string[] TrackingCodes { get; set; }
+        public IList<BoxTrackingCode> TrackingCodes { get; set; }
 
         /// <summary>
         /// Whether this user can see other enterprise users in its contact list
