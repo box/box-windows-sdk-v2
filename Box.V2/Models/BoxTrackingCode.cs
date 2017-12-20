@@ -1,10 +1,10 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
 {
     /// <summary>
-    /// Box representation of a user
+    /// Box representation of a tracking code
     /// </summary>
     public class BoxTrackingCode
     {
