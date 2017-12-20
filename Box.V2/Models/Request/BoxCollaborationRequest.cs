@@ -9,7 +9,7 @@ namespace Box.V2.Models
     {
         /// <summary>
         /// The item to add the collaboration on
-        /// The ID and Type are required. The Type MUST also be folder
+        /// The ID and Type are required. The Type can be folder or file.
         /// </summary>
         [JsonProperty(PropertyName = "item")]
         public BoxRequestEntity Item { get; set; }
