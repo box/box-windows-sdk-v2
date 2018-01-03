@@ -11,6 +11,18 @@ namespace Box.V2.Test.Integration
     public class BoxFoldersManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        public async Task RestoreFolder_ValidResponse()
+        {
+            const string folderId = "44086997331";
+            BoxFolderRequest folderRequest = new BoxFolderRequest()
+            {
+                Id = folderId
+            };
+
+            var restoredFolder = await _client.FoldersManager.RestoreTrashedFolderAsync(folderRequest);
+        }
+
+        [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse()
         {
             await AssertFolderContents(_client);

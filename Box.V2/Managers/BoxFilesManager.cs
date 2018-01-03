@@ -964,7 +964,6 @@ namespace Box.V2.Managers
         {
             fileRequest.ThrowIfNull("fileRequest")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
-            fileRequest.Name.ThrowIfNullOrWhiteSpace("fileRequest.Name");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Post)
