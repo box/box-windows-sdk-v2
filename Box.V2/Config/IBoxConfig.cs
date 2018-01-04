@@ -60,6 +60,8 @@ namespace Box.V2.Config
         Uri RecentItemsUri { get; }
         Uri EnterprisesUri { get; }
         Uri DevicePinUri { get; }
+        Uri CollaborationWhitelistEntryUri { get; }
+        Uri CollaborationWhitelistTargetEntryUri { get; }
         Uri TermsOfServicesUri { get; }
         Uri TermsOfServiceUserStatusesUri { get; }
 
