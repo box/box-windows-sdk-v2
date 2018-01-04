@@ -639,7 +639,7 @@ namespace Box.V2.Config
             /// <summary>
             /// Set collaborator expiration. 
             /// </summary>
-            public const string CollaborationExpireation = "COLLABORATION_EXPIRATION";
+            public const string CollaborationExpiration = "COLLABORATION_EXPIRATION";
 
             /// <summary>
             /// Synced folder. 
@@ -789,7 +789,7 @@ namespace Box.V2.Config
             /// <summary>
             /// A watermark is removed from a file. 
             /// </summary>
-            public const string WatermarkLavelDelete = "WATERMARK_LABEL_DELETE";
+            public const string WatermarkLabelDelete = "WATERMARK_LABEL_DELETE";
 
             /// <summary>
             /// A user has granted Box access to their account. 
@@ -814,7 +814,7 @@ namespace Box.V2.Config
             /// <summary>
             /// Deletion of metadata template instance. 
             /// </summary>
-            public const string MetadataTemplateDelte = "METADATA_TEMPLATE_DELETE";
+            public const string MetadataTemplateDelete = "METADATA_TEMPLATE_DELETE";
 
             /// <summary>
             /// Item was opened. 
