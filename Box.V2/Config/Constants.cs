@@ -844,7 +844,8 @@ namespace Box.V2.Config
             /// Folders were added to a group in the Admin console. 
             /// </summary>
             public const string GroupAddItem = "GROUP_ADD_ITEM";
-
+        }
+        
         /*** required direction for collaboration whitelists endpoint. Can only be one of value: inbound, outbound, or both ***/
         public static class WhitelistDirections
         {
