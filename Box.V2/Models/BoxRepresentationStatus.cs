@@ -4,12 +4,12 @@ namespace Box.V2.Models
 {
     public class BoxRepresentationStatus
     {
-        public const string FieldStatus = "status";
+        public const string FieldState = "state";
 
         /// <summary>
         /// The status on generating the representation
         /// </summary>
-        [JsonProperty(PropertyName = FieldStatus)]
-        public string Status { get; private set; }
+        [JsonProperty(PropertyName = FieldState)]
+        public string State { get; private set; }
     }
 }
