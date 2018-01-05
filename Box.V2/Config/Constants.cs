@@ -283,6 +283,569 @@ namespace Box.V2.Config
             public const string Attachment = "attachment";
         }
 
+        /*** stream of events that are logged from a Box Enterprise. ***/
+        public static class UserEventTypes
+        {
+            /// <summary>
+            /// A folder or file was created. 
+            /// </summary>
+            public const string ItemCreate = "ITEM_CREATE";
+
+            /// <summary>
+            /// A folder of file was uploaded.
+            /// </summary>
+            public const string ItemUpload = "ITEM_UPLOAD";
+
+            /// <summary>
+            /// A comment was created on a folder, file, or other comment. 
+            /// </summary>
+            public const string CommentCreate = "COMMENT_CREATE";
+
+            /// <summary>
+            /// A comment was deleted on folder, file, or other comment. 
+            /// </summary>
+            public const string CommentDelete = "COMMENT_DELETE";
+
+            /// <summary>
+            /// A file or folder was downloaded. 
+            /// </summary>
+            public const string ItemDownload = "ITEM_DOWNLOAD";
+
+            /// <summary>
+            /// a file was previewed. 
+            /// </summary>
+            public const string ItemPreview = "ITEM_PREVIEW";
+
+            /// <summary>
+            /// A file or folder was moved. 
+            /// </summary>
+            public const string ItemMove = "ITEM_MOVE";
+
+            /// <summary>
+            /// A file or folder was copied. 
+            /// </summary>
+            public const string ItemCopy = "ITEM_COPY";
+
+            /// <summary>
+            /// A task was assigned. 
+            /// </summary>
+            public const string TaskAssignmentCreate = "TASK_ASSIGNMENT_CREATE";
+
+            /// <summary>
+            /// A task was created. 
+            /// </summary>
+            public const string TaskCreate = "TASK_CREATE";
+
+            /// <summary>
+            /// A file was locked. 
+            /// </summary>
+            public const string LockCreate = "LOCK_CREATE";
+
+            /// <summary>
+            /// A file was unlocked. If a locked file is deleted, the source file will be null. 
+            /// </summary>
+            public const string LockDestroy = "LOCK_DESTROY";
+
+            /// <summary>
+            /// A file or folder was marked as deleted. 
+            /// </summary>
+            public const string ItemTrash = "ITEM_TRASH";
+
+            /// <summary>
+            /// A collaborator was added to a folder.
+            /// </summary>
+            public const string CollabAddCollaborator = "COLLAB_ADD_COLLABORATOR";
+
+            /// <summary>
+            /// A collaborator has their role changed. 
+            /// </summary>
+            public const string CollabRoleChange = "COLLAB_ROLE_CHANGE";
+
+            /// <summary>
+            /// A collaborator was invited on a folder. 
+            /// </summary>
+            public const string CollabInviteCollaborator = "COLLAB_INVITE_COLLABORATOR";
+
+            /// <summary>
+            /// A collaborator was removed from a folder. 
+            /// </summary>
+            public const string CollabRemoveCollaborator = "COLLAB_REMOVE_COLLABORATOR";
+
+            /// <summary>
+            /// A folder was marked for sync. 
+            /// </summary>
+            public const string ItemSync = "ITEM_SYNC";
+
+            /// <summary>
+            /// A folder was un-marked for sync. 
+            /// </summary>
+            public const string ItemUnsync = "ITEM_UNSYNC";
+
+            /// <summary>
+            /// A file or folder was renamed.
+            /// </summary>
+            public const string ItemRename = "ITEM_RENAME";
+
+            /// <summary>
+            /// A file or folder was enabled for sharing. 
+            /// </summary>
+            public const string ItemSharedCreate = "ITEM_SHARED_CREATE";
+
+            /// <summary>
+            /// A file or folder was disabled for sharing. 
+            /// </summary>
+            public const string ItemSharedUnshare = "ITEM_SHARED_UNSHARE";
+
+            /// <summary>
+            /// A folder was shared. 
+            /// </summary>
+            public const string ItemShared = "ITEM_SHARED";
+
+            /// <summary>
+            /// A previous version of a file was promoted to the current version. 
+            /// </summary>
+            public const string ItemMakeCurrentVersion = "ITEM_MAKE_CURRENT_VERSION";
+
+            /// <summary>
+            /// A Tag was added to a file or folder. 
+            /// </summary>
+            public const string TagItemCreate = "TAG_ITEM_CREATE";
+
+            /// <summary>
+            /// 2 factor authentication enabled by user. 
+            /// </summary>
+            public const string EnableTwoFactorAuth = "ENABLE_TWO_FACTOR_AUTH";
+
+            /// <summary>
+            /// Free user accepts invitation to become a managed user. 
+            /// </summary>
+            public const string MasterInviteAccept = "MASTER_INVITE_ACCEPT";
+
+            /// <summary>
+            /// Free user rejects invitation to become a managed user. 
+            /// </summary>
+            public const string MasterInviteReject = "MASTER_INVITE_REJECT";
+
+            /// <summary>
+            /// Revoke Box access to account. 
+            /// </summary>
+            public const string AccessGranted = "ACCESS_GRANTED";
+
+            /// <summary>
+            /// Added user to group. 
+            /// </summary>
+            public const string GroupAddUser = "GROUP_ADD_USER";
+
+            /// <summary>
+            /// Removed user from group.
+            /// </summary>
+            public const string GroupRemoveUser = "GROUP_REMOVE_USER";
+        }
+
+        /*** The following events are defined only for the admin_logs stream_type ***/
+        public static class AdminEventTypes
+        {
+            /// <summary>
+            /// Added user to group.
+            /// </summary>
+            public const string GroupAddUser = "GROUP_ADD_USER";
+
+            /// <summary>
+            /// Created user. 
+            /// </summary>
+            public const string NewUser = "NEW_USER";
+
+            /// <summary>
+            /// Created new group.
+            /// </summary>
+            public const string GroupCreation = "GROUP_CREATION";
+
+            /// <summary>
+            /// Deleted group. 
+            /// </summary>
+            public const string GroupDeletion = "GROUP_DELETION";
+
+            /// <summary>
+            /// Deleted group. 
+            /// </summary>
+            public const string DeleteUser = "DELETE_USER";
+
+            /// <summary>
+            /// Edited group.
+            /// </summary>
+            public const string GroupEdited = "GROUP_EDITED";
+
+            /// <summary>
+            /// Edited user.
+            /// </summary>
+            public const string EditUser = "EDIT_USER";
+
+            /// <summary>
+            /// Removed user from group.
+            /// </summary>
+            public const string GroupRemoveUser = "GROUP_REMOVE_USER";
+
+            /// <summary>
+            /// Admin login.
+            /// </summary>
+            public const string AdminLogin = "ADMIN_LOGIN";
+
+            /// <summary>
+            /// Added device association.
+            /// </summary>
+            public const string AddDeviceAssociation = "ADD_DEVICE_ASSOCIATION";
+            
+            /// <summary>
+            /// Edit the permissions on a folder. 
+            /// </summary>
+            public const string ChangeFolderPermission = "CHANGE_FOLDER_PERMISSION";
+
+            /// <summary>
+            /// Failed login.
+            /// </summary>
+            public const string FailedLogin = "FAILED_LOGIN";
+
+            /// <summary>
+            /// Login.
+            /// </summary>
+            public const string Login = "LOGIN";
+
+            /// <summary>
+            /// Removed device association. 
+            /// </summary>
+            public const string RemoveDeviceAssociation = "REMOVE_DEVICE_ASSOCIATION";
+
+            /// <summary>
+            /// Agree to terms.
+            /// </summary>
+            public const string TermsOfServiceAgree = "TERMS_OF_SERVICE_AGREE";
+
+            /// <summary>
+            /// Rejected terms. 
+            /// </summary>
+            public const string TermsOfServiceReject = "TERMS_OF_SERVICE_REJECT";
+
+            /// <summary>
+            /// Virus found on a file. Event is only received by enterprises that have opted in to be notified. 
+            /// </summary>
+            public const string FileMarkedMalicious = "FILE_MARKED_MALICIOUS";
+
+            /// <summary>
+            /// Copied. 
+            /// </summary>
+            public const string Copy = "COPY";
+
+            /// <summary>
+            /// Deleted.
+            /// </summary>
+            public const string Delete = "DELETE";
+
+            /// <summary>
+            /// Downloaded. 
+            /// </summary>
+            public const string Download = "DOWNLOAD";
+
+            /// <summary>
+            /// Edited 
+            /// </summary>
+            public const string Edit = "EDIT";
+
+            /// <summary>
+            /// Edited. 
+            /// </summary>
+            public const string Lock = "LOCK";
+
+            /// <summary>
+            /// Moved.
+            /// </summary>
+            public const string Move = "MOVE";
+
+            /// <summary>
+            /// Previewed. 
+            /// </summary>
+            public const string Preview = "PREVIEW";
+
+            /// <summary>
+            /// A file or folder name or description is changed. 
+            /// </summary>
+            public const string Rename = "RENAME";
+
+            /// <summary>
+            /// Set file auto-delete.
+            /// </summary>
+            public const string StorageExpiration = "STORAGE_EXPIRATION";
+
+            /// <summary>
+            /// Undeleted. 
+            /// </summary>
+            public const string Undelete = "UNDELETE";
+
+            /// <summary>
+            /// Unlocked. 
+            /// </summary>
+            public const string Unlock = "UNLOCK";
+
+            /// <summary>
+            /// Uploaded. 
+            /// </summary>
+            public const string Upload = "UPLOAD";
+
+            /// <summary>
+            /// Enabled shared links. 
+            /// </summary>
+            public const string Share = "SHARE";
+
+            /// <summary>
+            /// Share links settings updated. 
+            /// </summary>
+            public const string ItemSharedUpdate = "ITEM_SHARED_UPDATE";
+
+            /// <summary>
+            /// Extend shared link expiration. 
+            /// </summary>
+            public const string UpdateShareExpiration = "UPDATE_SHARE_EXPIRATION";
+
+            /// <summary>
+            /// Set shared link expiration. 
+            /// </summary>
+            public const string ShareExpiration = "SHARE_EXPIRATION";
+
+            /// <summary>
+            /// Unshared links. 
+            /// </summary>
+            public const string Unshare = "UNSHARE";
+
+            /// <summary>
+            /// Accepted invites. 
+            /// </summary>
+            public const string CollaborationAccept = "COLLABORATION_ACCEPT";
+
+            /// <summary>
+            /// Changed user roles. 
+            /// </summary>
+            public const string CollaborationRoleChange = "COLLABORATION_ROLE_CHANGE";
+
+            /// <summary>
+            /// Extend collaborator expiration. 
+            /// </summary>
+            public const string UpdateCollaborationExpiration = "UPDATE_COLLABORATION_EXPIRATION";
+
+            /// <summary>
+            /// Removed collaborators. 
+            /// </summary>
+            public const string CollaborationRemove = "COLLABORATION_REMOVE";
+
+            /// <summary>
+            /// Invited. 
+            /// </summary>
+            public const string CollaborationInvite = "COLLABORATION_INVITE";
+
+            /// <summary>
+            /// Set collaborator expiration. 
+            /// </summary>
+            public const string CollaborationExpiration = "COLLABORATION_EXPIRATION";
+
+            /// <summary>
+            /// Synced folder. 
+            /// </summary>
+            public const string ItemSync = "ITEM_SYNC";
+
+            /// <summary>
+            /// Un-synced folder. 
+            /// </summary>
+            public const string ItemUnsync = "ITEM_UNSYNC";
+
+            /// <summary>
+            /// A user is logging in from a device we haven't see before. 
+            /// </summary>
+            public const string AddLoginActivityDevice = "ADD_LOGIN_ACTIVITY_DEVICE";
+
+            /// <summary>
+            /// We invalidated a user session associated with an app. 
+            /// </summary>
+            public const string RemoveLoginActivityDevice = "REMOVE_LOGIN_ACTIVITY_DEVICE";
+
+            /// <summary>
+            /// When an admin role changes for a user. 
+            /// </summary>
+            public const string ChangeAdminRole = "CHANGE_ADMIN_ROLE";
+
+            /// <summary>
+            /// A collaborator violated an admin-set upload policy. 
+            /// </summary>
+            public const string ContentWorkflowUploadPolicyViolation = "CONTENT_WORKFLOW_UPLOAD_POLICY_VIOLATION";
+
+            /// <summary>
+            /// Creation of metadata instance. 
+            /// </summary>
+            public const string MetadataInstanceCreate = "METADATA_INSTANCE_CREATE";
+
+            /// <summary>
+            /// Update of metadata instance. 
+            /// </summary>
+            public const string MetadataInstanceUpdate = "METADATA_INSTANCE_UPDATE";
+
+            /// <summary>
+            /// Deletion of metadata instance. 
+            /// </summary>
+            public const string MetadataInstanceDelete = "METADATA_INSTANCE_DELETE";
+
+            /// <summary>
+            /// Update of a task assignment. 
+            /// </summary>
+            public const string TaskAssignmentUpdate = "TASK_ASSIGNMENT_UPDATE";
+
+            /// <summary>
+            /// A task assignment is created.  
+            /// </summary>
+            public const string TaskAssignmentCreate = "TASK_ASSIGNMENT_CREATE";
+
+            /// <summary>
+            /// A task assignment is deleted. 
+            /// </summary>
+            public const string TaskAssignmentDelete = "TASK_ASSIGNMENT_DELETE";
+
+            /// <summary>
+            /// A task is created. 
+            /// </summary>
+            public const string TaskCreate = "TASK_CREATE";
+
+            /// <summary>
+            /// A comment is created on a file. 
+            /// </summary>
+            public const string CommentCreate = "COMMENT_CREATE";
+
+            /// <summary>
+            /// Retention is removed. 
+            /// </summary>
+            public const string DateRetentionRemoveRetention = "DATA_RETENTION_REMOVE_RETENTION";
+
+            /// <summary>
+            /// Retention is created. 
+            /// </summary>
+            public const string DataRetentionCreateRetention = "DATA_RETENTION_CREATE_RETENTION";
+
+            /// <summary>
+            /// A retention policy assignment is added. 
+            /// </summary>
+            public const string RetentionPolicyAssignmentAdd = "RETENTION_POLICY_ASSIGNMENT_ADD";
+
+            /// <summary>
+            /// A legal hold assignment is created. 
+            /// </summary>
+            public const string LegalHoldAssignmentCreate = "LEGAL_HOLD_ASSIGNMENT_CREATE";
+
+            /// <summary>
+            /// A legal hold assignment is deleted. 
+            /// </summary>
+            public const string LegalHoldAssignmentDelete = "LEGAL_HOLD_ASSIGNMENT_CREATE";
+
+            /// <summary>
+            /// A legal hold policy is deleted. 
+            /// </summary>
+            public const string LegalHoldPolicyDelete = "LEGAL_HOLD_POLICY_DELETE";
+
+            /// <summary>
+            /// There is a sharing policy violation. 
+            /// </summary>
+            public const string ContentWorkflowSharingPolicyViolation = "CONTENT_WORKFLOW_SHARING_POLICY_VIOLATION";
+
+            /// <summary>
+            /// An application public key is added. 
+            /// </summary>
+            public const string ApplicationPublicKeyAdded = "APPLICATION_PUBLIC_KEY_ADDED";
+
+            /// <summary>
+            /// An application public key is deleted. 
+            /// </summary>
+            public const string ApplicationPublicKeyDeleted = "APPLICATION_PUBLIC_KEY_DELETED";
+
+            /// <summary>
+            /// A content policy is added. 
+            /// </summary>
+            public const string ContentWorkflowPolicyAdd = "CONTENT_WORKFLOW_POLICY_ADD";
+
+            /// <summary>
+            /// An automation is added. 
+            /// </summary>
+            public const string ContentWorkflowAutomationAdd = "CONTENT_WORKFLOW_AUTOMATION_ADD";
+
+            /// <summary>
+            /// An automation is deleted. 
+            /// </summary>
+            public const string ContentWorkflowAutomationDelete = "CONTENT_WORKFLOW_AUTOMATION_DELETE";
+
+            /// <summary>
+            /// A user email alias is confirmed. 
+            /// </summary>
+            public const string EmailAliasConfirm = "EMAIL_ALIAS_CONFIRM";
+
+            /// <summary>
+            /// A user email alias is removed. 
+            /// </summary>
+            public const string EmailAliasRemove = "EMAIL_ALIAS_REMOVE";
+
+            /// <summary>
+            /// A watermark is added to a file. 
+            /// </summary>
+            public const string WatermarkLabelCreate = "WATERMARK_LABEL_CREATE";
+
+            /// <summary>
+            /// A watermark is removed from a file. 
+            /// </summary>
+            public const string WatermarkLabelDelete = "WATERMARK_LABEL_DELETE";
+
+            /// <summary>
+            /// A user has granted Box access to their account. 
+            /// </summary>
+            public const string AccessGranted = "ACCESS_GRANTED";
+
+            /// <summary>
+            /// A user has revoked Box access to their account. 
+            /// </summary>
+            public const string AccessRevoked = "ACCESS_REVOKED";
+
+            /// <summary>
+            /// Creation of metadata template instance. 
+            /// </summary>
+            public const string MetadataTemplateCreate = "METADATA_TEMPLATE_CREATE";
+
+            /// <summary>
+            /// Update of metadata template instance. 
+            /// </summary>
+            public const string MatadataTemplateUpdate = "METADATA_TEMPLATE_UPDATE";
+
+            /// <summary>
+            /// Deletion of metadata template instance. 
+            /// </summary>
+            public const string MetadataTemplateDelete = "METADATA_TEMPLATE_DELETE";
+
+            /// <summary>
+            /// Item was opened. 
+            /// </summary>
+            public const string ItemOpen = "ITEM_OPEN";
+
+            /// <summary>
+            /// Item was modified. 
+            /// </summary>
+            public const string ItemModify = "ITEM_MODIFY";
+
+            /// <summary>
+            /// When a policy set the Admin console is triggered. 
+            /// </summary>
+            public const string ContentWorkflowAbnormalDownloadActivity = "CONTENT_WORKFLOW_ABNORMAL_DOWNLOAD_ACTIVITY";
+
+            /// <summary>
+            /// Folders were removed from a group in the admin console. 
+            /// </summary>
+            public const string GroupRemoveItem = "GROUP_REMOVE_ITEM";
+
+            /// <summary>
+            /// Folders were added to a group in the Admin console. 
+            /// </summary>
+            public const string GroupAddItem = "GROUP_ADD_ITEM";
+        }
+        
         /*** required direction for collaboration whitelists endpoint. Can only be one of value: inbound, outbound, or both ***/
         public static class WhitelistDirections
         {
