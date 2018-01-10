@@ -2,6 +2,7 @@
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,6 +52,35 @@ namespace Box.V2.Test
             Assert.AreEqual("https://www.box.com/s/rh935iit6ewrmw0unyul", f.SharedLink.Url);
             Assert.AreEqual("important", f.Tags[0]);
             Assert.AreEqual("needs review", f.Tags[1]);
+        }
+
+        [TestMethod]
+        public async Task GetByPath_ValidResponse_ValidFile()
+        {
+            /*** Arrange ***/
+            string fileJSON = "{\"type\":\"file\",\"id\":\"112233\",\"name\":\"my file.txt\"}";
+            string responseString = "{\"total_count\":1,\"entries\":[" + fileJSON + "]}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFile>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFile>>>(new BoxResponse<BoxCollection<BoxFile>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxFile f = await _filesManager.GetByPath("path/to/my file.txt", parentFolderId: "12345", fields: new List<string> { "name" });
+
+            /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(FilesUri.AbsolutePath, boxRequest.AbsoluteUri.AbsolutePath);
+            Assert.AreEqual("path/to/my file.txt", boxRequest.Parameters["path"]);
+            Assert.AreEqual("12345", boxRequest.Parameters["parent_id"]);
+            Assert.IsNull(boxRequest.Payload);
+
+            Assert.AreEqual("112233", f.Id);
+            Assert.AreEqual("my file.txt", f.Name);
         }
 
         [TestMethod]

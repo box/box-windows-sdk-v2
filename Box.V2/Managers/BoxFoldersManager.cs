@@ -117,6 +117,27 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        public async Task<BoxFolder> GetByPath(string path, string parentFolderId = null, IEnumerable<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri)
+                .Param("path", path)
+                .Param("parent_id", parentFolderId)
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxCollection<BoxFolder>> response = await ToResponseAsync<BoxCollection<BoxFolder>>(request).ConfigureAwait(false);
+
+            List<BoxFolder> entries = response.ResponseObject.Entries;
+
+            if (entries.Count > 0)
+            {
+                return response.ResponseObject.Entries[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// Used to create a copy of a folder in another folder. The original version of the folder will not be altered.
         /// </summary>

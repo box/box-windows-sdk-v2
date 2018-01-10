@@ -332,8 +332,35 @@ namespace Box.V2.Test
             Assert.AreEqual(f.ItemCollection.Entries[0].Name, "tigers.jpeg");
             Assert.AreEqual(f.ItemCollection.Offset, 0);
             Assert.AreEqual(f.ItemCollection.Limit, 100);
+        }
 
+        [TestMethod]
+        public async Task GetByPath_ValidResponse_ValidFile()
+        {
+            /*** Arrange ***/
+            string folderJSON = "{\"type\":\"folder\",\"id\":\"112233\",\"name\":\"my folder\"}";
+            string responseString = "{\"total_count\":1,\"entries\":[" + folderJSON + "]}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFolder>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFolder>>>(new BoxResponse<BoxCollection<BoxFolder>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
 
+            /*** Act ***/
+            BoxFolder f = await _foldersManager.GetByPath("path/to/my folder", parentFolderId: "12345", fields: new List<string> { "name" });
+
+            /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(FoldersUri.AbsolutePath, boxRequest.AbsoluteUri.AbsolutePath);
+            Assert.AreEqual("path/to/my folder", boxRequest.Parameters["path"]);
+            Assert.AreEqual("12345", boxRequest.Parameters["parent_id"]);
+            Assert.IsNull(boxRequest.Payload);
+
+            Assert.AreEqual("112233", f.Id);
+            Assert.AreEqual("my folder", f.Name);
         }
 
         [TestMethod]
