@@ -56,7 +56,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        public async Task Metadate_DeleteTemplate_LiveSession()
+        public async Task Metadata_DeleteTemplate_LiveSession()
         {
             string templateKey = "testtemplate";
             string displayName = "Test Template";
