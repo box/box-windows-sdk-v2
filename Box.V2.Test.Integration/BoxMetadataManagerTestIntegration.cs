@@ -56,6 +56,20 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task Metadate_DeleteTemplate_LiveSession()
+        {
+            string templateKey = "testtemplate";
+            string displayName = "Test Template";
+            string scope = "enterprise";
+
+            var templateToCreate = new BoxMetadataTemplate() { TemplateKey = templateKey, DisplayName = displayName, Fields = null, Hidden = true, Scope = scope };
+            await _client.MetadataManager.CreateMetadataTemplate(templateToCreate);
+
+            var templateIsDeleted = await _client.MetadataManager.DeleteMetadataTemplate(scope, templateKey);
+            Assert.IsTrue(templateIsDeleted, "Failed to delete metadata template");
+        }
+
+        [TestMethod]
         public async Task Metadata_Folder_CRUD_LiveSession()
         {
             const string FOLDER_ID = "1927308583";
