@@ -69,6 +69,10 @@ namespace Box.V2.Converter
                         return new BoxFileUploadSession();
                     case Constants.TypeRecentItem:
                         return new BoxRecentItem();
+                    case Constants.TypeCollabWhitelistEntry:
+                        return new BoxCollaborationWhitelistEntry();
+                    case Constants.TypeCollabWhitelistTargetEntry:
+                        return new BoxCollaborationWhitelistTargetEntry();
                     case Constants.TypeMetadataTemplate:
                         return new BoxMetadataTemplate();
                     case Constants.TypeTermsOfService:
