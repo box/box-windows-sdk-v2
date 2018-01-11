@@ -1,4 +1,5 @@
-﻿using Box.V2.Models;
+﻿using Box.V2.Exceptions;
+using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,14 @@ namespace Box.V2.Test.Integration
             await _client.MetadataManager.CreateMetadataTemplate(templateToCreate);
 
             var templateIsDeleted = await _client.MetadataManager.DeleteMetadataTemplate(scope, templateKey);
+
+            try
+            {
+                await _client.MetadataManager.GetMetadataTemplate(scope, templateKey);
+            } catch (BoxException e)
+            {
+                Assert.IsNotNull(e); 
+            }
             Assert.IsTrue(templateIsDeleted, "Failed to delete metadata template");
         }
 
