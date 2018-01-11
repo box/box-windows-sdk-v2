@@ -364,6 +364,43 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        public async Task GetByPath_ValidResponse_NoFile()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"total_count\":0,\"entries\":[]}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFolder>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFolder>>>(new BoxResponse<BoxCollection<BoxFolder>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            Exception thrownException = null;
+
+            /*** Act ***/
+            try
+            {
+                BoxFolder f = await _foldersManager.GetByPath("path/to/my folder", parentFolderId: "12345", fields: new List<string> { "name" });
+            } catch (Exception ex)
+            {
+                thrownException = ex;
+            }
+            
+
+            /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(FoldersUri.AbsolutePath, boxRequest.AbsoluteUri.AbsolutePath);
+            Assert.AreEqual("path/to/my folder", boxRequest.Parameters["path"]);
+            Assert.AreEqual("12345", boxRequest.Parameters["parent_id"]);
+            Assert.IsNull(boxRequest.Payload);
+
+            Assert.IsNotNull(thrownException);
+            Assert.IsInstanceOfType(thrownException, typeof(BoxItemNotFoundException));
+        }
+
+        [TestMethod]
         public async Task CopyFolder_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/

@@ -97,5 +97,24 @@ namespace Box.V2.Exceptions
             }
         }
     }
+    public class BoxItemNotFoundException : BoxException
+    {
+        /// <summary>
+        /// Instantiates a new BoxException
+        /// This exception is used when the SDK throws an exception
+        /// </summary>
+        public BoxItemNotFoundException() : base() { }
+
+        /// <summary>
+        /// Instantiates a new BoxException with the provided message
+        /// </summary>
+        /// <param name="message">The message for the exception</param>
+        public BoxItemNotFoundException(string message) : base(message) { }
+
+        /// <summary>
+        /// Http Status code for the response
+        /// </summary>
+        public new HttpStatusCode StatusCode { get; set; } = HttpStatusCode.NotFound;
+    }
 }
 

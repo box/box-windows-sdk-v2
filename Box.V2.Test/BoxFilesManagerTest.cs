@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.IO;
 using Newtonsoft.Json;
+using Box.V2.Exceptions;
 
 namespace Box.V2.Test
 {
@@ -81,6 +82,44 @@ namespace Box.V2.Test
 
             Assert.AreEqual("112233", f.Id);
             Assert.AreEqual("my file.txt", f.Name);
+        }
+
+        [TestMethod]
+        public async Task GetByPath_ValidResponse_NoFile()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"total_count\":0,\"entries\":[]}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFile>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFile>>>(new BoxResponse<BoxCollection<BoxFile>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            Exception thrownException = null;
+
+            /*** Act ***/
+            try
+            {
+                BoxFile f = await _filesManager.GetByPath("path/to/my file.txt", parentFolderId: "12345", fields: new List<string> { "name" });
+            }
+            catch (Exception ex)
+            {
+                thrownException = ex;
+            }
+
+
+            /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(FilesUri.AbsolutePath, boxRequest.AbsoluteUri.AbsolutePath);
+            Assert.AreEqual("path/to/my file.txt", boxRequest.Parameters["path"]);
+            Assert.AreEqual("12345", boxRequest.Parameters["parent_id"]);
+            Assert.IsNull(boxRequest.Payload);
+
+            Assert.IsNotNull(thrownException);
+            Assert.IsInstanceOfType(thrownException, typeof(BoxItemNotFoundException));
         }
 
         [TestMethod]

@@ -7,6 +7,7 @@ using Box.V2.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Box.V2.Exceptions;
 
 namespace Box.V2.Managers
 {
@@ -134,7 +135,7 @@ namespace Box.V2.Managers
             }
             else
             {
-                return null;
+                throw new BoxItemNotFoundException("Could not find item at given path");
             }
         }
 

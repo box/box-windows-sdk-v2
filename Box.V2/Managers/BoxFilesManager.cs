@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using Box.V2.Exceptions;
 
 namespace Box.V2.Managers
 {
@@ -62,7 +63,7 @@ namespace Box.V2.Managers
                 return response.ResponseObject.Entries[0];
             } else
             {
-                return null;
+                throw new BoxItemNotFoundException("Could not find item at given path");
             }
             
         }
