@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.IO;
 using Newtonsoft.Json;
+using Box.V2.Utility;
+using System.Reflection;
+using System.Diagnostics;
+using System.Text;
 
 namespace Box.V2.Test
 {
@@ -19,6 +23,36 @@ namespace Box.V2.Test
         public BoxFilesManagerTest()
         {
             _filesManager = new BoxFilesManager(Config.Object, Service, Converter, AuthRepository);
+        }
+
+        [TestMethod]
+        public async Task UploadNewVersionUsingSessionAsync_ValidResponse()
+        {
+            MemoryStream fileInMemoryStream = new MemoryStream(Encoding.UTF8.GetBytes("whatever"));
+
+            /*** Arrange ***/
+            string uploadSessionResponseString = "{ \"total_parts\": \"2\", \"part_size\": \"8388608\", \"session_endpoints\": { \"list_parts\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD/parts\", \"commit\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD/commit\", \"upload_part\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD\", \"status\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD\", \"abort\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD\" }, \"session_expires_at\": \"2017-04-18T01:45:15Z\", \"id\": \"F971964745A5CD0C001BBE4E58196BFD\", \"type\": \"upload_session\", \"num_parts_processed\": \"0\" }";
+            Handler.Setup(h => h.ExecuteAsync<BoxFileUploadSession>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFileUploadSession>>(new BoxResponse<BoxFileUploadSession>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = uploadSessionResponseString
+                }));
+
+
+            string responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"new name.jpg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] }";
+            Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            var fakeStream = new Mock<System.IO.Stream>();
+        
+            
+           BoxFile f = await _filesManager.UploadNewVersionUsingSessionAsync(fakeStream.Object, "fakeId", null, null, null);
+           Assert.AreEqual("file", f.Type);
         }
 
         [TestMethod]
@@ -169,6 +203,11 @@ namespace Box.V2.Test
             Assert.AreEqual("183732129", f.ModifiedBy.Id);
             Assert.AreEqual("sean rose", f.ModifiedBy.Name);
             Assert.AreEqual("sean+apitest@box.com", f.ModifiedBy.Login);
+        }
+
+        private MemoryStream GetBigFileInMemoryStream(long fileSize)
+        {
+            throw new NotImplementedException();
         }
 
         [TestMethod]

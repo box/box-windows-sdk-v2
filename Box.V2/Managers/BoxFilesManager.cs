@@ -432,16 +432,7 @@ namespace Box.V2.Managers
         public async Task<BoxFileVersion> UploadFileVersionUsingSessionAsync(Stream stream, string fileId, string fileName = null,
             TimeSpan? timeout = null, IProgress<BoxProgress> progress = null)
         {
-            // Create Upload Session
-            var fileSize = stream.Length;
-            var uploadNewVersionSessionRequest = new BoxFileUploadSessionRequest
-            {
-                FileSize = fileSize,
-                FileName = fileName
-            };
-
-            var boxFileVersionUploadSession = await CreateNewVersionUploadSessionAsync(fileId, uploadNewVersionSessionRequest);
-            var response = await UploadSessionAsync(stream, boxFileVersionUploadSession, timeout, progress);
+            var response = await UploadNewVersionUsingSessionAsync(stream, fileId, fileName, timeout, progress);
             return response.FileVersion;
         }
 
