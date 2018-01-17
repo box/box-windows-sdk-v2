@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.IO;
 using Newtonsoft.Json;
-using Box.V2.Utility;
-using System.Reflection;
-using System.Diagnostics;
 using System.Text;
 
 namespace Box.V2.Test
@@ -53,6 +50,7 @@ namespace Box.V2.Test
             
            BoxFile f = await _filesManager.UploadNewVersionUsingSessionAsync(fakeStream.Object, "fakeId", null, null, null);
            Assert.AreEqual("file", f.Type);
+           Assert.AreEqual("5000948880", f.Id);
         }
 
         [TestMethod]
