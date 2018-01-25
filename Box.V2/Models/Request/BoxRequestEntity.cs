@@ -43,5 +43,4 @@ public enum BoxType
     group,
     web_link,
     file_version
-
 }

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Utility;
+using Box.V2.Config;
 
 namespace Box.V2.Test.Integration
 {
@@ -106,6 +107,34 @@ namespace Box.V2.Test.Integration
 
             BoxFile fileLink = await _client.FilesManager.CreateSharedLinkAsync(imageFileId1, linkReq);
             Assert.AreEqual(BoxSharedLinkAccessType.open, fileLink.SharedLink.Access);
+        }
+
+        [TestMethod]
+        public async Task GetRepresentations_ValidRequest_ValidRepresentation()
+        {
+            var representationsMissingHeader = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
+            {
+                FileId = "16894927933",
+            });
+
+            var representationsAllHeaders = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
+            {
+                FileId = "16894927933",
+                XRepHints = Constants.RepresentationTypes.Pdf,
+                SetContentDispositionFilename = "New Name",
+                SetContentDispositionType = Constants.ContentDispositionTypes.Inline,
+                HandleRetry = true
+            });
+
+            var representationsMultipleXRepHints = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
+            {
+                FileId = "16894927933",
+                XRepHints = Constants.RepresentationTypes.ImageMedium
+            });
+
+            Assert.IsNotNull(representationsMissingHeader.Entries, "Failed to generate a representation for file");
+            Assert.AreEqual("pdf", representationsAllHeaders.Entries[0].Representation);
+            Assert.IsNotNull(representationsMultipleXRepHints.Entries[1], "Failed to generate second representation for file");
         }
 
         [TestMethod]
@@ -265,6 +294,22 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task GetNumberOfParts_Utility_Function_CorrectPartNumber()
+        {
+            // This file size is expected to divide evenly with the partSize
+            long fileSize = 209717000;
+            // This file size is expected to have a small remainder after dividing with partSize
+            long divisibleFileSize = 209715200;
+            long partSize = 8388608;
+
+            int numberOfPartsNoRemainder = UploadUsingSessionInternal.GetNumberOfParts(divisibleFileSize, partSize);
+            int numberOfPartsWithRemainder = UploadUsingSessionInternal.GetNumberOfParts(fileSize, partSize);
+
+            Assert.AreEqual(numberOfPartsNoRemainder, 25);
+            Assert.AreEqual(numberOfPartsWithRemainder, 26);
+        }
+
+        [TestMethod]
         public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
         {
             long fileSize = 50000000;
@@ -380,12 +425,15 @@ namespace Box.V2.Test.Integration
         {
             long fileSize = 50000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
+
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
+            string newRemoteFileName = "UploadNewVersionUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
 
             bool progressReported = false;
 
-            var progress = new Progress<BoxProgress>(val => {
+            var progress = new Progress<BoxProgress>(val =>
+            {
                 Debug.WriteLine("{0}%", val.progress);
                 progressReported = true;
             });
@@ -396,11 +444,16 @@ namespace Box.V2.Test.Integration
 
             // Assert file is committed/uploaded to box
             Assert.IsTrue(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+            string fileId = await GetFileId(parentFolderId, remoteFileName);
 
+            // Using previously uploaded Box file, upload a new file version for that Box file
+            var newBoxFile = await _client.FilesManager.UploadNewVersionUsingSessionAsync(fileInMemoryStream, fileId, newRemoteFileName, 
+                null, progress);
+
+            Assert.IsNotNull(newBoxFile.FileVersion, "Did not successfully upload a new Box file version");
             Assert.IsTrue(progressReported);
 
             // Delete file
-            string fileId = await GetFileId(parentFolderId, remoteFileName);
             if (!string.IsNullOrWhiteSpace(fileId))
             {
                 await _client.FilesManager.DeleteAsync(fileId);
@@ -462,11 +515,11 @@ namespace Box.V2.Test.Integration
             {
                 if (partSize == 0)
                     throw new Exception("Part Size cannot be 0");
-                int numberOfParts = 1;
-                if (partSize != totalSize)
+
+                int numberOfParts = Convert.ToInt32(totalSize / partSize);
+                if(totalSize % partSize != 0)
                 {
-                    numberOfParts = Convert.ToInt32(totalSize / partSize);
-                    numberOfParts += 1;
+                    numberOfParts++;
                 }
                 return numberOfParts;
             }
