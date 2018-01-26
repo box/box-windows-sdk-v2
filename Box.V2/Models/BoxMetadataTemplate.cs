@@ -8,7 +8,7 @@ namespace Box.V2.Models
     /// <summary>
     /// Box representation of a metadata template
     /// </summary>
-    public class BoxMetadataTemplate
+    public class BoxMetadataTemplate : BoxEntity
     {
         public const string FieldTemplateKey = "templateKey";
         public const string FieldScope = "scope";

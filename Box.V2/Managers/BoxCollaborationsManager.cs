@@ -19,7 +19,7 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
-        /// Used to add a collaboration for a single user or a single group to a folder. 
+        /// Used to add a collaboration for a single user or a single group to a folder or file. 
         /// Either an email address, a user ID, or a group id can be used to create the collaboration. 
         /// If the collaboration is being created with a group, access to this endpoint is granted based on the group's invitability_level.
         /// </summary>

@@ -19,12 +19,20 @@ namespace Box.V2.Models
         public const string FieldLock = "lock";
         public const string FieldExpiringEmbedLink = "expiring_embed_link";
         public const string FieldWatermarkInfo = "watermark_info";
+        public const string FieldFileVersion = "file_version";
+        public const string FieldRepresentations = "representations";
 
         /// <summary>
         /// The sha1 hash of this file
         /// </summary>
         [JsonProperty(PropertyName = FieldSha1)]
         public string Sha1 { get; private set; }
+
+        /// <summary>
+        /// The file version information for this file
+        /// </summary>
+        [JsonProperty(PropertyName = FieldFileVersion)]
+        public BoxFileVersion FileVersion { get; private set; }
 
         /// <summary>
         /// When this file was last moved to the trash
@@ -99,5 +107,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "metadata")]
         public dynamic Metadata { get; protected set; }
+
+        /// <summary>
+        /// Representation generated for this file. 
+        /// </summary>
+        [JsonProperty(PropertyName = FieldRepresentations)]
+        public BoxRepresentationCollection<BoxRepresentation> Representations { get; protected set; }
     }
 }

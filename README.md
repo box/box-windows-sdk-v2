@@ -40,6 +40,20 @@ client = new BoxClient(config, session);
 
 #### Using with Box Platform Developer or Box Platform Enterprise
 
+#### When to Use Box Platform (Enterprise and Developer)
+*Box Platform Enterprise*
+This represents your application within a Box enterprise. Use this type of authentication if you are trying to:
+Store content at the application level rather than at the individual user level. 
+Access any user and make as-user api calls to impersonate a user. 
+Apply Enterprise features such as: managing and applying retention policies, using metadata object, and accessing Events endpoint of the content api.
+
+*Box Platform Developer*
+Box account that belongs to your Box Platform application, this is different from an end-user of Box. These accounts do not have an associated login and 
+can only be accessed through the Box API. Use this type of authentication if you are trying to:
+Have Box content management functionalities in an external-facing app - customer portal
+Provide access to content stored in Box to internal users who do not have Box Managed User accounts. 
+Allow Box Managed Users to share and collaboration with external users via Box applications
+
 ##### Configure
 ```c#
 var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
@@ -67,6 +81,10 @@ var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync()
 ```
 
 #### Using with OAuth2
+
+#### When to Use Box Integration (Oauth 2.0)
+Oauth 2.0 requires user to log in to Box and grant your application permission to access files and folders.
+This is a three-legged authentication process to allow managed user and external users to interact.
 
 ##### Configure
 Set your configuration parameters and initialize the client:
@@ -237,7 +255,10 @@ var results = await client.SearchManager.SearchAsync(mdFilters: new List<BoxMeta
 ```
 
 #### Make API calls with As-User
+
+#### Example 1
 If you have an admin token with appropriate permissions, you can make API calls in the context of a managed user. In order to do this you must request Box.com to activate As-User functionality for your API key (see developer site for instructions). 
+
 ```c#
 var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri);
 var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
@@ -247,6 +268,43 @@ var userClient = new BoxClient(config, auth, asUser: userId);
 
 //returns root folder items for the user with ID '12345678'
 var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
+```
+
+#### Example 2
+
+Using the admin token we can make a call to retrieve all users or a specific user
+
+```cs
+var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
+var boxJWT = new BoxJWTAuth(boxConfig);
+
+var adminToken = boxJWT.AdminToken();
+var adminClient = boxJWT.AdminClient(adminToken);
+
+var boxUsers = await adminClient.UsersManager.GetEnterpriseUsersAsync();
+List<BoxUser> allBoxUsersList = boxUsers.Entries;
+
+// Display all users with name and id per row
+foreach(BoxUser boxUser in allBoxUsersList)
+{
+	Console.WriteLine("Box User Name: {0} and Box User Id: {1}", boxUser.Name, boxUser.Id);
+}
+
+// Get a specific user from allBoxUsersList
+var specificBoxUser = allBoxUsersList.Find(u => u.Login == "Specific User Login")
+Console.WriteLine("A Specific Box User: {0}", specificBoxUser.Name);
+```
+
+Once we have the specific user we can also find all root folders and folder items
+
+```cs
+var boxFolderItems = await someUserClient.FoldersManager.GetFolderItemsAsync("0", 100);
+List<BoxItem> boxFolderItemsList = boxFolderItems.Entries;
+
+foreach(BoxItem item in boxFolderItemsList)
+{
+	Console.WriteLine("Item Name: {0}. Item Id: {1}", item.Name, item.Id);
+}
 ```
 
 #### Suppressing Notifications
@@ -295,7 +353,7 @@ Windows 8 Sample OAuth2 uses desktop login screen instead of mobile. Pending fix
 
 ## Copyright and License
 
-Copyright 2017 Box, Inc. All rights reserved.
+Copyright 2018 Box, Inc. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

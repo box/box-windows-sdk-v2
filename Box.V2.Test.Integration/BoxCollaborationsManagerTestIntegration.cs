@@ -59,6 +59,49 @@ namespace Box.V2.Test.Integration
             Assert.IsTrue(success, "Collaboration deletion was unsucessful");
         }
 
+        // Test to add collaboration by Box User ID and Box Group ID. 
+        [TestMethod]
+        public async Task AddGroupCollaboration_File_Fields_ValidResponse()
+        {
+            const string fileId = "238288183114";
+            const string groupId = "176708848";
+            const string userId = "349294186";
+
+            // Add Group Collaboration
+            BoxCollaborationRequest addGroupRequest = new BoxCollaborationRequest()
+            {
+                Item = new BoxRequestEntity()
+                {
+                    Id = fileId,
+                    Type = BoxType.file
+                },
+                AccessibleBy = new BoxCollaborationUserRequest()
+                {
+                    Type = BoxType.group,
+                    Id = groupId
+                },
+                Role = "viewer"
+            };
+
+            //Add User Collaboration
+            BoxCollaborationRequest addUserRequest = new BoxCollaborationRequest()
+            {
+                Item = new BoxRequestEntity()
+                {
+                    Id = fileId,
+                    Type = BoxType.file
+                },
+                AccessibleBy = new BoxCollaborationUserRequest()
+                {
+                    Type = BoxType.user,
+                    Id = userId
+                },
+                Role = "editor"
+            };
+            var groupFileCollaboration = await _client.CollaborationsManager.AddCollaborationAsync(addGroupRequest, notify: false);
+            var userFileCollaboration = await _client.CollaborationsManager.AddCollaborationAsync(addUserRequest, notify: false);
+        }
+
         [TestMethod]
         public async Task CollaborationsOnFileWorkflow_LiveSession_ValidResponse()
         {
