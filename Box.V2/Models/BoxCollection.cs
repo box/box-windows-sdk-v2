@@ -68,7 +68,7 @@ namespace Box.V2.Models
         public const string FieldEntries = "entries";
         public const string FieldTotalCount = "total_count";
     }
-    
+
     /// <summary>
     /// Box representation of a collection that uses offset and limit fields for paging through results.
     /// </summary>

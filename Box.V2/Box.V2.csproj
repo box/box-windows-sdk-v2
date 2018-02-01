@@ -67,6 +67,7 @@
     <Compile Include="Extensions\BoxExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="JWTAuth\JWTAuthRepository.cs" />
+    <Compile Include="Managers\BoxCollaborationWhitelistManager.cs" />
     <Compile Include="Managers\BoxCollectionsManager.cs" />
     <Compile Include="Managers\BoxDevicePinManager.cs" />
     <Compile Include="Managers\BoxEventsManager.cs" />
@@ -121,6 +122,8 @@
     <Compile Include="Models\BoxRecentItem.cs" />
     <Compile Include="Models\BoxWebhook.cs" />
     <Compile Include="Models\BoxWebLink.cs" />
+    <Compile Include="Models\BoxCollaborationWhitelistEntry.cs" />
+    <Compile Include="Models\BoxCollaborationWhitelistTargetEntry.cs" />
     <Compile Include="Models\Permissions\BoxFilePermission.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
     <Compile Include="Models\BoxGroup.cs" />
