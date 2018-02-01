@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Box.V2.Models
 {
@@ -39,6 +40,13 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "can_view_path")]
         public bool? CanViewPath { get; set; }
+
+        /// <summary>
+        /// When the collaboration should expire and be automatically removed.  This value can only be updated if
+        /// the collaboration is already set to expire and the user has permission to update the expiration time.
+        /// </summary>
+        [JsonProperty(PropertyName = "expires_at")]
+        public DateTime? ExpiresAt { get; set; }
     }
 
     public static class BoxCollaborationRoles
