@@ -844,6 +844,11 @@ namespace Box.V2.Config
             /// Folders were added to a group in the Admin console. 
             /// </summary>
             public const string GroupAddItem = "GROUP_ADD_ITEM";
+
+            /// <summary>
+            /// An OAuth2 access token was generated for a user.
+            /// </summary>
+            public const string UserAuthenticateOAuth2AccessTokenCreate = "USER_AUTHENTICATE_OAUTH2_ACCESS_TOKEN_CREATE";
         }
         
         /*** required direction for collaboration whitelists endpoint. Can only be one of value: inbound, outbound, or both ***/
