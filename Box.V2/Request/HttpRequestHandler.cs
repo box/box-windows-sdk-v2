@@ -185,6 +185,13 @@ namespace Box.V2.Request
             {
                 HttpClientHandler handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
                 handler.AllowAutoRedirect = followRedirect;
+                // Ensure that clients use non-deprecated versions of TLS (i.e. TLSv1.1 or greater)
+#if NETSTANDARD1_0
+                handler.SslProtocols |= System.Security.Authentication.SslProtocols.Tls11 | System.Security.Authentication.SslProtocols.Tls12;
+#endif
+#if NET45
+                System.Net.ServicePointManager.SecurityProtocol |= System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
+#endif
 
                 return new HttpClient(handler);
             }
