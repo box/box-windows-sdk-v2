@@ -79,6 +79,10 @@ namespace Box.V2.Converter
                         return new BoxTermsOfService();
                     case Constants.TypeTermsOfServiceUserStatuses:
                         return new BoxTermsOfServiceUserStatuses();
+                    case Constants.TypeStoragePolicy:
+                        return new BoxStoragePolicy();
+                    case Constants.TypeStoragePolicyAssignment:
+                        return new BoxStoragePolicyAssignment();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names
