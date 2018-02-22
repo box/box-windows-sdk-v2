@@ -16,6 +16,10 @@
     <NuspecFile>Box.V2.Core.nuspec</NuspecFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_4</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\Box.V2\**\*.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**;..\Box.V2\Properties\AssemblyInfo.cs" />
   </ItemGroup>
