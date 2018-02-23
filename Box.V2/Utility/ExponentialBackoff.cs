@@ -11,13 +11,14 @@ namespace Box.V2.Utility
         public TimeSpan GetRetryTimeout(int numRetries, TimeSpan baseInterval)
         {
             const double RETRY_RANDOMIZATION_FACTOR = 0.5;
-            var minRandomization = Convert.ToInt32(1 - RETRY_RANDOMIZATION_FACTOR);
-            var maxRandomization = Convert.ToInt32(1 - RETRY_RANDOMIZATION_FACTOR);
+            var minRandomization = 1 - RETRY_RANDOMIZATION_FACTOR;
+            var maxRandomization = 1 + RETRY_RANDOMIZATION_FACTOR;
             Random random = new Random();
 
-            var randomization = random.Next(minRandomization, maxRandomization) + minRandomization;
+            var randomization = random.NextDouble() * (maxRandomization - minRandomization) + minRandomization;
             var exponential = Math.Pow(2, numRetries - 1);
-            return TimeSpan.FromMilliseconds(Math.Ceiling(exponential * Convert.ToInt32(baseInterval) * randomization));
+            var result = Math.Ceiling(exponential * baseInterval.TotalSeconds * randomization);
+            return TimeSpan.FromSeconds(result);
         }
     }
 }

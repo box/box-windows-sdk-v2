@@ -21,7 +21,7 @@ namespace Box.V2.Request
         {
             // Need to account for special cases when the return type is a stream
             bool isStream = typeof(T) == typeof(Stream);
-            var numRetries = 3;
+            var retryCounter = 0;
             ExponentialBackoff expBackoff = new ExponentialBackoff();
 
             try
@@ -84,13 +84,12 @@ namespace Box.V2.Request
                         ((response.StatusCode == TooManyRequests && !isMultiPartRequest)
                         ||
                         (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)) 
-                        && numRetries-- > 0)
+                        && retryCounter++ < 3)
                     {
                         TimeSpan delay = TimeSpan.FromSeconds(2);
                         if (retryAfterHeader.Delta.HasValue)
                         {
-                            //delay = retryAfterHeader.Delta.Value;
-                            delay = expBackoff.GetRetryTimeout(numRetries, retryAfterHeader.Delta.Value);
+                           delay = expBackoff.GetRetryTimeout(retryCounter, retryAfterHeader.Delta.Value);
                         }
 
                         Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
