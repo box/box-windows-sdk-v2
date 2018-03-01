@@ -8,8 +8,9 @@ namespace Box.V2.Utility
 {
     public class ExponentialBackoff
     {
-        public TimeSpan GetRetryTimeout(int numRetries, TimeSpan baseInterval)
+        public TimeSpan GetRetryTimeout(int numRetries)
         {
+            TimeSpan baseInterval = TimeSpan.FromSeconds(2.0);
             const double RETRY_RANDOMIZATION_FACTOR = 0.5;
             var minRandomization = 1 - RETRY_RANDOMIZATION_FACTOR;
             var maxRandomization = 1 + RETRY_RANDOMIZATION_FACTOR;

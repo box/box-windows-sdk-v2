@@ -87,10 +87,8 @@ namespace Box.V2.Request
                         && retryCounter++ < 3)
                     {
                         TimeSpan delay = TimeSpan.FromSeconds(2);
-                        if (retryAfterHeader.Delta.HasValue)
-                        {
-                           delay = expBackoff.GetRetryTimeout(retryCounter, retryAfterHeader.Delta.Value);
-                        }
+
+                        delay = expBackoff.GetRetryTimeout(retryCounter);                        
 
                         Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
 
