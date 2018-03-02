@@ -23,10 +23,10 @@ namespace Box.V2.Test
         public void ExponentialBackoff_ValidResponse()
         {
             int retryCount = 1;
-            double[] lowerBound = { 1, 2, 4};
-            double[] upperBound = { 3, 6, 12};
+            double[] lowerBound = { 1, 2, 4, 8, 16, 32};
+            double[] upperBound = { 3, 6, 12, 24, 48, 96};
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 6; i++)
             {
                 ExponentialBackoff expBackoff = new ExponentialBackoff();
                 var backoffDelay = expBackoff.GetRetryTimeout(retryCount);

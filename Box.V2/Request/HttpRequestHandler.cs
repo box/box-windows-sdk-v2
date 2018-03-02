@@ -15,6 +15,7 @@ namespace Box.V2.Request
     public class HttpRequestHandler : IRequestHandler
     {
         const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
+        const int RetryLimit = 5;
 
         public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
             where T : class
@@ -84,7 +85,7 @@ namespace Box.V2.Request
                         ((response.StatusCode == TooManyRequests && !isMultiPartRequest)
                         ||
                         (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)) 
-                        && retryCounter++ < 3)
+                        && retryCounter++ < RetryLimit)
                     {
                         TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);                        
 
