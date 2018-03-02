@@ -13,6 +13,7 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <NuspecFile>Box.V2.Core.nuspec</NuspecFile>
   </PropertyGroup>
 
   <ItemGroup>
