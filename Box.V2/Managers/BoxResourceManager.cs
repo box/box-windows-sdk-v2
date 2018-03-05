@@ -232,8 +232,17 @@ namespace Box.V2.Managers
         {
 #if NET45
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
+
+            RegistryKey ndpKey;
+            try {
+                ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey)
+            } catch (UnauthorizedAccessException ex) {
+                return "";
+            } catch (SecurityException ex) {
+                return "";
+            }
         
-            using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
+            using (ndpKey)
             {
                 if (ndpKey != null && ndpKey.GetValue("Release") != null)
                 {
