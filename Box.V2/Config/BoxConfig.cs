@@ -181,8 +181,8 @@ namespace Box.V2.Config
         public virtual Uri DevicePinUri { get { return new Uri(BoxApiUri, Constants.DevicePinString); } }
         public virtual Uri CollaborationWhitelistEntryUri { get { return new Uri(BoxApiUri, Constants.CollaborationWhitelistEntryString); } }
         public virtual Uri CollaborationWhitelistTargetEntryUri { get { return new Uri(BoxApiUri, Constants.CollaborationWhitelistTargetEntryString); } }
-        public virtual Uri StoragePoliciesTargetEntryUri { get { return new Uri(BoxApiUri, Constants.StoragePoliciesString); } }
-        public virtual Uri StoragePolicyAssignmentsTargetEntryUri { get { return new Uri(BoxApiUri, Constants.StoragePolicyAssignmentsString); } }
+        public virtual Uri StoragePoliciesUri { get { return new Uri(BoxApiUri, Constants.StoragePoliciesString); } }
+        public virtual Uri StoragePolicyAssignmentsUri { get { return new Uri(BoxApiUri, Constants.StoragePolicyAssignmentsString); } }
 
         /// <summary>
         /// Gets the shared items endpoint URI.

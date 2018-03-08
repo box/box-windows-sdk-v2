@@ -101,6 +101,8 @@ namespace Box.V2.Config
         public const string WebLinksEndpointString = BoxApiUriString + WebLinksString;
         public const string LegalHoldPoliciesEndpointString = BoxApiUriString + LegalHoldPoliciesString;
         public const string LegalHoldPolicyAssignmentsEndpointString = BoxApiUriString + LegalHoldPolicyAssignmentsString;
+        public const string StoragePoliciesEndpointString = BoxApiUriString + StoragePoliciesString;
+        public const string StoragePolicyAssignmentsEndpointString = BoxApiUriString + StoragePolicyAssignmentsString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";

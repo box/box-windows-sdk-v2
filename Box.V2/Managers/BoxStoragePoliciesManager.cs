@@ -10,12 +10,12 @@ using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Managers
 {
-    public class BoxStoragePolicies : BoxResourceManager
+    public class BoxStoragePoliciesManager : BoxResourceManager
     {
         /// <summary>
         /// Create a new BoxStoragePolicies object.
         /// </summary>
-        public BoxStoragePolicies(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
+        public BoxStoragePoliciesManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Box.V2.Managers
         /// <param name="limit">Limit result size to this number. Defults to 100, maximum is 1,000.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns the list of Storage Policies in your Enterprise that match the filer parameters (if passedin).</returns>
-        public async Task<BoxCollectionMarkerBased> GetListStoragePoliciesAsync(string fields = null, string marker = null, int limit = 100, bool autoPaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxStoragePolicy>> GetListStoragePoliciesAsync(string fields = null, string marker = null, int limit = 100, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.StoragePoliciesUri)
                 .Method(RequestMethod.Get)
@@ -94,8 +94,8 @@ namespace Box.V2.Managers
                 .Param("resolved_for_type", entityType)
                 .Param("resolved_for_id", userId);
 
-            IBoxResponse<BoxStoragePolicyAssignment> response = await ToResponseAsync<BoxStoragePolicyAssignment>(request).ConfigureAwait(false);
-            return response.ResponseObject;   
+            IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>(request).ConfigureAwait(false);
+            return response.ResponseObject.Entries[0];   
         }
 
         /// <summary>
@@ -169,5 +169,24 @@ namespace Box.V2.Managers
 
             return response.Status == ResponseStatus.Success;
         }
+
+ //       public async Task<BoxStoragePolicyAssignment> Assign(string userId, string storagePolicyId)
+ //       {
+ //           userId.ThrowIfNullOrWhiteSpace("userId");
+   //         storagePolicyId.ThrowIfNullOrWhiteSpace("storagePolicyId");
+   //
+    //       try
+     //       {
+   //             Task<BoxStoragePolicyAssignment> result = GetAssignmentForTargetAsync(userId);
+   //         } catch (Exception e)
+   //         {
+    //            if(/***status code == 404***/)
+    //            {
+    //                Task<BoxStoragePolicyAssignment> assignment = CreateAssignmentAsync(userId, storagePolicyId);
+    //                return assignment;
+    //            }
+    //            return null;
+    //        }
+    //    }
     }
 }
