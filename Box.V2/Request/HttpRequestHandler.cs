@@ -1,4 +1,5 @@
 ﻿using Box.V2.Config;
+using Box.V2.Utility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,13 +15,15 @@ namespace Box.V2.Request
     public class HttpRequestHandler : IRequestHandler
     {
         const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
+        const int RetryLimit = 5;
 
         public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
             where T : class
         {
             // Need to account for special cases when the return type is a stream
             bool isStream = typeof(T) == typeof(Stream);
-            var numRetries = 3;
+            var retryCounter = 0;
+            ExponentialBackoff expBackoff = new ExponentialBackoff();
 
             try
             {
@@ -82,13 +85,9 @@ namespace Box.V2.Request
                         ((response.StatusCode == TooManyRequests && !isMultiPartRequest)
                         ||
                         (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)) 
-                        && numRetries-- > 0)
+                        && retryCounter++ < RetryLimit)
                     {
-                        TimeSpan delay = TimeSpan.FromSeconds(2);
-                        if (retryAfterHeader.Delta.HasValue)
-                        {
-                            delay = retryAfterHeader.Delta.Value;
-                        }
+                        TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);                        
 
                         Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
 
