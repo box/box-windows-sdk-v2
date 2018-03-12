@@ -7,6 +7,7 @@ using Box.V2.Services;
 using Box.V2.Utility;
 #if NET45
 using Microsoft.Win32;
+using System.Security;
 #endif
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace Box.V2.Managers
         protected IBoxConverter _converter;
         protected IAuthRepository _auth;
         protected string _asUser;
+        protected string _boxUA;
         protected bool? _suppressNotifications;
 
         /// <summary>
@@ -225,7 +227,11 @@ namespace Box.V2.Managers
 
         protected string GetBoxUAHeader()
         {
-            return "agent=box-windows-sdk/" + AssemblyInfo.NuGetVersion + ";" + GetEnvNameAndVersion();
+            if (this._boxUA == null)
+            {
+                this._boxUA = "agent=box-windows-sdk/" + AssemblyInfo.NuGetVersion + ";" + GetEnvNameAndVersion();
+            }
+            return this._boxUA;
         }
 
         private string GetEnvNameAndVersion()
@@ -235,7 +241,7 @@ namespace Box.V2.Managers
 
             RegistryKey ndpKey;
             try {
-                ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey)
+                ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey);
             } catch (UnauthorizedAccessException ex) {
                 return "";
             } catch (SecurityException ex) {
