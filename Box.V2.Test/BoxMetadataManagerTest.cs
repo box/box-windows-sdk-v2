@@ -284,5 +284,48 @@ namespace Box.V2.Test
             Assert.AreEqual((long)1, result["$version"]);
             Assert.AreEqual("reviewed", result["currentState"]);
         }
+
+        [TestMethod]
+        public async Task GetMetadataTemplateByID_ValidResponse()
+        {
+            /*** Arrange ***/
+            string templateID = "2094c584-68e1-475c-a581-534a4609594e";
+            string responseString = @"{
+                ""id"": """ + templateID + @""",
+                ""type"": ""metadata_template"",
+                ""templateKey"": ""productInfo"",
+                ""scope"": ""enterprise_12345"",
+                ""displayName"": ""Product Info"",
+                ""hidden"": false,
+                ""fields"": [
+                    {
+                        ""id"": ""f7a9892f"",
+                        ""type"": ""float"",
+                        ""key"": ""skuNumber"",
+                        ""displayName"": ""SKU Number"",
+                        ""hidden"": false
+                    }
+                ]
+            }";
+
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxMetadataTemplate>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxMetadataTemplate>>(new BoxResponse<BoxMetadataTemplate>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxMetadataTemplate template = await _metadataManager.GetMetadataTemplateByID(templateID);
+
+            /*** Assert ***/
+            Assert.AreEqual(templateID, template.Id);
+            Assert.AreEqual("enterprise_12345", template.Scope);
+            Assert.AreEqual("productInfo", template.TemplateKey);
+            Assert.AreEqual("f7a9892f", template.Fields[0].Id);
+            Assert.AreEqual("float", template.Fields[0].Type);
+            Assert.AreEqual("skuNumber", template.Fields[0].Key);
+        }
     }
 }

@@ -137,6 +137,19 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to retrieve the schema for a given metadata template by template ID.
+        /// </summary>
+        /// <param name="templateID">Metadata template ID</param>
+        /// <returns>Returns the schema for the specified metadata template.</returns>
+        public async Task<BoxMetadataTemplate> GetMetadataTemplateByID(string templateID)
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, templateID);
+            IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Used to create a new metadata template with the specified schema.
         /// </summary>
         /// <param name="template">BoxMetadataTemplate object</param>
