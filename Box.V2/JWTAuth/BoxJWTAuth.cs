@@ -145,7 +145,7 @@ namespace Box.V2.JWTAuth
                 if (serverDate.HasValue)
                 {
                     var date = serverDate.Value;
-                    assertion = ConstructJWTAssertion(subId, subType, date.UtcDateTime);
+                    assertion = ConstructJWTAssertion(subId, subType, date.LocalDateTime);
                     result = JWTAuthPost(assertion);
                     return result.AccessToken;
                 }
@@ -166,7 +166,7 @@ namespace Box.V2.JWTAuth
             return new OAuthSession(token, null, 3600, TOKEN_TYPE);
         }
 
-        private string ConstructJWTAssertion(string sub, string boxSubType, DateTime? now = null)
+        private string ConstructJWTAssertion(string sub, string boxSubType, DateTime? nowOverride = null)
         {
             byte[] randomNumber = new byte[64];
             using (var rng = RandomNumberGenerator.Create())
@@ -180,7 +180,13 @@ namespace Box.V2.JWTAuth
                 new Claim("jti", Convert.ToBase64String(randomNumber)),
             };
 
-            var payload = new JwtPayload(this.boxConfig.ClientId, AUTH_URL, claims, null, now != null ? now : DateTime.UtcNow.AddSeconds(30));
+            DateTime expireTime = DateTime.UtcNow.AddSeconds(30);
+            if (nowOverride.HasValue)
+            {
+                expireTime = nowOverride.Value.AddSeconds(30);
+            }
+
+            var payload = new JwtPayload(this.boxConfig.ClientId, AUTH_URL, claims, null, expireTime);
 
             var header = new JwtHeader(signingCredentials: this.credentials);
             if (this.boxConfig.JWTPublicKeyId != null)
