@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.5.0
+
+- Switched to exponential backoff when the SDK receives a rate limit or server error response. 
+- Force support for TLSv1.1 or higher when available to improve the security of connections to the Box API.
+- Perform modified retry on JWT auth for when the local clock and the Box Server clock are not aligned as well as if the JWT ID has already been consumed.
+- Made `name` parameter optional on `RestoreTrashedAsync()`.
+
+## 3.4.2
+
+- Deprecated `uploadFileVersionUsingSessionAsync()`(which returned just a Box File Version) in favor of `uploadNewVersionUsingSessionAsync()`(which returns the entire Box File object containing the Box File Version).
+- Added support for OAuth2 access token creation type to the AdminEventTypesEnum 
+- Added `ExpiresAt` param to `BoxCollaborationRequest`. 
+
 ## 3.4.1 
 
 - Added support for [Collaboration Whitelist](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Managers/BoxCollaborationWhitelistManager.cs) endpoint
