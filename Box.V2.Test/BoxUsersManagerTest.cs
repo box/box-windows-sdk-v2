@@ -43,6 +43,48 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        public async Task GetUserInformation_TrackingCodes()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                ""type"": ""user"",
+                ""id"": ""12345"",
+                ""name"": ""Tracked User"",
+                ""tracking_codes"": [
+                    {
+                        ""type"": ""tracking_code"",
+                        ""name"": ""tc1"",
+                        ""value"": ""value1""
+                    },
+                    {
+                        ""type"": ""tracking_code"",
+                        ""name"": ""tc2"",
+                        ""value"": ""value2""
+                    }
+                ]
+            }";
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            string[] fields = { "name", "tracking_codes" };
+            BoxUser user = await _usersManager.GetCurrentUserInformationAsync(fields);
+
+            /*** Assert ***/
+            Assert.AreEqual("12345", user.Id);
+            Assert.AreEqual("Tracked User", user.Name);
+            Assert.AreEqual(2, user.TrackingCodes.Count);
+            Assert.AreEqual("tc1", user.TrackingCodes[0].Name);
+            Assert.AreEqual("value1", user.TrackingCodes[0].Value);
+            Assert.AreEqual("tc2", user.TrackingCodes[1].Name);
+            Assert.AreEqual("value2", user.TrackingCodes[1].Value);
+        }
+
+        [TestMethod]
         public async Task UpdateUser_ValidResponse_ValidUser()
         {
             /*** Arrange ***/
