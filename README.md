@@ -123,6 +123,20 @@ Alternatively, a completely custom OAuth2 authentication process can be used in 
 OAuthSession session = // Create session from custom implementation
 var client = new BoxClient(config, session);
 ```
+
+#### Using With App Token Auth (Box View)
+
+Box View uses App Token Auth, where the app generated long-lived access tokens
+that are used directly in place of any authentication calls to the API.  To use
+this method of aythentication, simply create a client with only the API key and
+access token provided:
+
+```c#
+var config = new BoxConfig(<API_KEY>, "", new Uri("http://localhost"));
+var session = new OAuthSession(<PRIMARY OR SECONDARY TOKEN>, "NOT_NEEDED", 3600, "bearer");
+client = new BoxClient(config, session);
+```
+
 ### Examples
 #### Get Folder Items
 ```c#
@@ -353,7 +367,7 @@ Windows 8 Sample OAuth2 uses desktop login screen instead of mobile. Pending fix
 
 ## Copyright and License
 
-Copyright 2017 Box, Inc. All rights reserved.
+Copyright 2018 Box, Inc. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

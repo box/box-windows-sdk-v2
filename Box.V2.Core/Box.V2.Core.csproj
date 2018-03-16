@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Description>Box.V2 for .Net Core</Description>
     <AssemblyTitle>Box.V2.Core</AssemblyTitle>
-    <VersionPrefix>3.3.0</VersionPrefix>
+    <VersionPrefix>3.5.1</VersionPrefix>
     <Authors>Box, Inc.</Authors>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <AssemblyName>Box.V2.Core</AssemblyName>
     <PackageId>Box.V2.Core</PackageId>
     <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
@@ -13,6 +13,11 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <NuspecFile>Box.V2.Core.nuspec</NuspecFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_6</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

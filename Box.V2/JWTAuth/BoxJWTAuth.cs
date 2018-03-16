@@ -118,9 +118,7 @@ namespace Box.V2.JWTAuth
         /// <returns>Admin token</returns>
         public string AdminToken()
         {
-            var assertion = ConstructJWTAssertion(this.boxConfig.EnterpriseId, ENTERPRISE_SUB_TYPE);
-            var result = JWTAuthPost(assertion);
-            return result.AccessToken;
+            return this.GetToken(ENTERPRISE_SUB_TYPE, this.boxConfig.EnterpriseId);
         }
         /// <summary>
         /// Once you have created an App User, you can request a User Access Token via the App Auth feature, which will return the OAuth 2.0 access token for the specified App User.
@@ -129,10 +127,35 @@ namespace Box.V2.JWTAuth
         /// <returns>User token</returns>
         public string UserToken(string userId)
         {
-            var assertion = ConstructJWTAssertion(userId, USER_SUB_TYPE);
-            var result = JWTAuthPost(assertion);
-            return result.AccessToken;
+            return this.GetToken(USER_SUB_TYPE, userId);
         }
+
+        private string GetToken(string subType, string subId)
+        {
+            var assertion = ConstructJWTAssertion(subId, subType);
+            OAuthSession result;
+            try
+            {
+                result = JWTAuthPost(assertion);
+                return result.AccessToken;
+            }
+            catch (BoxException ex)
+            {
+                var serverDate = ex.ResponseHeaders.Date;
+                if (serverDate.HasValue)
+                {
+                    var date = serverDate.Value;
+                    assertion = ConstructJWTAssertion(subId, subType, date.LocalDateTime);
+                    result = JWTAuthPost(assertion);
+                    return result.AccessToken;
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
+        }
+
         /// <summary>
         /// Create OAuth session from token
         /// </summary>
@@ -143,7 +166,7 @@ namespace Box.V2.JWTAuth
             return new OAuthSession(token, null, 3600, TOKEN_TYPE);
         }
 
-        private string ConstructJWTAssertion(string sub, string boxSubType)
+        private string ConstructJWTAssertion(string sub, string boxSubType, DateTime? nowOverride = null)
         {
             byte[] randomNumber = new byte[64];
             using (var rng = RandomNumberGenerator.Create())
@@ -157,7 +180,13 @@ namespace Box.V2.JWTAuth
                 new Claim("jti", Convert.ToBase64String(randomNumber)),
             };
 
-            var payload = new JwtPayload(this.boxConfig.ClientId, AUTH_URL, claims, null, DateTime.UtcNow.AddSeconds(30));
+            DateTime expireTime = DateTime.UtcNow.AddSeconds(30);
+            if (nowOverride.HasValue)
+            {
+                expireTime = nowOverride.Value.AddSeconds(30);
+            }
+
+            var payload = new JwtPayload(this.boxConfig.ClientId, AUTH_URL, claims, null, expireTime);
 
             var header = new JwtHeader(signingCredentials: this.credentials);
             if (this.boxConfig.JWTPublicKeyId != null)

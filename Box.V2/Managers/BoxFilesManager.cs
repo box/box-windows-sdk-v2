@@ -428,8 +428,24 @@ namespace Box.V2.Managers
         /// <param name="timeout">Timeout for subsequent UploadPart requests.</param>
         /// <param name="progress">Will report progress from 1 - 100.</param>
         /// <returns>The BoxFileVersion object.</returns>
+        [Obsolete("UploadFileVersionUsingSessionAsync is deprecated, please use UploadNewVersionUsingSessionAsync instead.")]
         public async Task<BoxFileVersion> UploadFileVersionUsingSessionAsync(Stream stream, string fileId, string fileName = null,
             TimeSpan? timeout = null, IProgress<BoxProgress> progress = null)
+        {
+            var response = await UploadNewVersionUsingSessionAsync(stream, fileId, fileName, timeout, progress);
+            return response.FileVersion;
+        }
+
+        /// <summary>
+        /// Upload a new large file version by splitting them up and uploads in a session.
+        /// </summary>
+        /// <param name="stream">The file stream.</param>
+        /// <param name="fileId">Id of the remote file.</param>
+        /// <param name="timeout">Timeout for subsequent UploadPart requests.</param>
+        /// <param name="progress">Will report progress from 1 - 100.</param>
+        /// <returns>The BoxFile object.</returns>
+        public async Task<BoxFile> UploadNewVersionUsingSessionAsync(Stream stream, string fileId, string fileName = null, TimeSpan? timeout = null,
+            IProgress<BoxProgress> progress = null)
         {
             // Create Upload Session
             var fileSize = stream.Length;
@@ -441,7 +457,7 @@ namespace Box.V2.Managers
 
             var boxFileVersionUploadSession = await CreateNewVersionUploadSessionAsync(fileId, uploadNewVersionSessionRequest);
             var response = await UploadSessionAsync(stream, boxFileVersionUploadSession, timeout, progress);
-            return response.FileVersion;
+            return response;
         }
 
         /// <summary>
@@ -964,7 +980,6 @@ namespace Box.V2.Managers
         {
             fileRequest.ThrowIfNull("fileRequest")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
-            fileRequest.Name.ThrowIfNullOrWhiteSpace("fileRequest.Name");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Post)
