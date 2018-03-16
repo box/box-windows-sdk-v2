@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.5.0
+## 3.5.1
 
 - Switched to exponential backoff when the SDK receives a rate limit or server error response. 
 - Force support for TLSv1.1 or higher when available to improve the security of connections to the Box API.
