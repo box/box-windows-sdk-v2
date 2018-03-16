@@ -15,8 +15,10 @@ namespace Box.V2.Extensions
         /// <param name="name"></param>
         internal static T ThrowIfNull<T>(this T param, string name) 
         {
-            if (param == null)
+            if (Object.Equals(param, default(T)))
+            {
                 throw new ArgumentNullException(name);
+            }
 
             return param;
         }
