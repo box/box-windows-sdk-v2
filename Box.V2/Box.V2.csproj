@@ -115,6 +115,7 @@
     <Compile Include="Models\BoxTaskAssignment.cs" />
     <Compile Include="Models\BoxTermsOfService.cs" />
     <Compile Include="Models\BoxTermsOfServiceUserStatuses.cs" />
+    <Compile Include="Models\BoxTrackingCode.cs" />
     <Compile Include="Models\BoxUserInvite.cs" />
     <Compile Include="Models\BoxWatermarkInfo.cs" />
     <Compile Include="Models\BoxWatermark.cs" />
