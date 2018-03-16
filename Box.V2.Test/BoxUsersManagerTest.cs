@@ -210,7 +210,7 @@ namespace Box.V2.Test
             Assert.AreEqual(5368709120, result.SpaceAmount);
             Assert.AreEqual(0, result.SpaceUsed);
             Assert.AreEqual(1073741824, result.MaxUploadSize);
-            Assert.AreEqual(0, result.TrackingCodes.Length);
+            Assert.AreEqual(0, result.TrackingCodes.Count);
             Assert.AreEqual(false, result.CanSeeManagedUsers);
             Assert.AreEqual(false, result.IsSyncEnabled);
             Assert.AreEqual("active", result.Status);
@@ -274,7 +274,7 @@ namespace Box.V2.Test
             Assert.AreEqual(5368709120, result.SpaceAmount);
             Assert.AreEqual(0, result.SpaceUsed);
             Assert.AreEqual(2147483648, result.MaxUploadSize);
-            Assert.AreEqual(0, result.TrackingCodes.Length);
+            Assert.AreEqual(0, result.TrackingCodes.Count);
             Assert.AreEqual(true, result.CanSeeManagedUsers);
             Assert.AreEqual(true, result.IsSyncEnabled);
             Assert.AreEqual("active", result.Status);
