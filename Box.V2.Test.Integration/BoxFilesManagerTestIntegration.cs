@@ -9,6 +9,7 @@ using Box.V2.Models;
 using Box.V2.Utility;
 using Box.V2.Config;
 using Box.V2.Auth;
+using System.Reflection;
 
 namespace Box.V2.Test.Integration
 { 
@@ -481,145 +482,36 @@ namespace Box.V2.Test.Integration
         public async Task GetRepresentationContentAsync_E2E()
         {
 
-            string pdfContent = @"%PDF-1.5
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Manually coded PDF file, authored by <ange.albertini@gmail.com> & <kurt.pfeifle@mykolab.com>    %
-% Copyright (c) 2015 <ange.albertini@gmail.com> & <kurt.pfeifle@mykolab.com>                      %
-% License: Creative Commons ""CC - BY - NC - SA"" v4.0, http://creativecommons.org/licenses/by-nc-sa/4.0/ %
-% Modified from original.                                                                         %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-1 0 obj
-<<
-
-/ Pages        3 0 R
-/ Type / Catalog
->>
-endobj
-
-2 0 obj
-<<
-    / Author(- )
-    / Creator(- )
-    / Producer(- )
-    / CreationDate(- )
-    / ModDate(- )
->>
-endobj
-
-3 0 obj
-<<
-    / Count        1
-    / Kids[4 0 R]
-    / Type / Pages
-    >>
-    endobj
-
-4 0 obj
-<<
-    / Contents     5 0 R
-    / MediaBox[0 0 595 842]
-    / Parent       3 0 R
-    / Resources <<
-  
-                        / ProcSet[ / PDF]
-                    >>
-  
-    / Type / Page
-    >>
-    endobj
-
-5 0 obj
-<<
-    / Length       6 0 R
-    >>
-    stream
-q
-        0.10  0.00  0.00   .10  0.00  0.00  cm
-
-    q
-        0 0 5950 8420                       re
-                                            W*
-                                            n
-        0   0   0                           rg
-        3230    5900                        m
-        2730    5900                        l
-        2650    5650                        l
-        2200    5650                        l
-        2740    7080                        l
-        3230    7080                        l
-        3760    5650                        l
-        3300    5650                        l
-        3230    5900                        l
-                                            h
-        3130    6200                        m
-        2980    6700                        l
-        2820    6200                        l
-                                            f
-    Q
-Q
-
-endstream
-endobj
-
-6 0 obj
-6768
-endobj
-
-xref
-0 7
-0000000000 65535 f
-0000002811 00000 n
-0000002880 00000 n
-0000003137 00000 n
-0000003226 00000 n
-0000003425 00000 n
-0000010254 00000 n
-
-trailer
-<<
-    / Info         2 0 R
-    / Root         1 0 R
-    / Size         7
-    >>
-    startxref
-10275
-%% EOF
-";
-
             // Create stream from string content
-            var fileStream = new MemoryStream();
-            var writer = new StreamWriter(fileStream, System.Text.Encoding.UTF8);
-            writer.Write(pdfContent);
-            writer.Flush();
-            fileStream.Position = 0;
-
-            var fileRequest = new BoxFileRequest();
-            var parentFolder = new BoxRequestEntity
+            var assembly = Assembly.GetExecutingAssembly();
+            using (var fileStream = assembly.GetManifestResourceStream("Box.V2.Test.Integration.TestData.smalltest.pdf"))
             {
-                Type = BoxType.folder,
-                Id = "0"
-            };
-            fileRequest.Parent = parentFolder;
-            fileRequest.Name = DateTime.Now.Ticks + ".pdf";
-            var file = await _client.FilesManager.UploadAsync(fileRequest, fileStream);
+                var fileRequest = new BoxFileRequest();
+                var parentFolder = new BoxRequestEntity
+                {
+                    Type = BoxType.folder,
+                    Id = "0"
+                };
+                fileRequest.Parent = parentFolder;
+                fileRequest.Name = DateTime.Now.Ticks + ".pdf";
+                var file = await _client.FilesManager.UploadAsync(fileRequest, fileStream);
 
-            var repRequest = new BoxRepresentationRequest
-            {
-                FileId = file.Id,
-                XRepHints = "[png?dimensions=1024x1024]"
-            };
-            Stream assetStream = await _client.FilesManager.GetRepresentationContentAsync(repRequest, "1.png");
+                var repRequest = new BoxRepresentationRequest
+                {
+                    FileId = file.Id,
+                    XRepHints = "[png?dimensions=1024x1024]"
+                };
+                Stream assetStream = await _client.FilesManager.GetRepresentationContentAsync(repRequest, "1.png");
 
-            // Delete the file when done
-            await _client.FilesManager.DeleteAsync(file.Id);
+                // Delete the file when done
+                await _client.FilesManager.DeleteAsync(file.Id);
 
-            var memStream = new MemoryStream();
-            await assetStream.CopyToAsync(memStream);
-            byte[] assetBytes = memStream.ToArray();
+                var memStream = new MemoryStream();
+                await assetStream.CopyToAsync(memStream);
+                byte[] assetBytes = memStream.ToArray();
 
-            Assert.IsTrue(assetBytes.Length > 4096, "Downlaoded asset contained " + assetBytes.Length + " but should contain more than 4 KB");
+                Assert.IsTrue(assetBytes.Length > 4096, "Downlaoded asset contained " + assetBytes.Length + " but should contain more than 4 KB");
+            }  
         }
 
         #region Private functions
