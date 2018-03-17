@@ -80,10 +80,10 @@
     <Compile Include="BoxWebLinkManagerTestIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoxGroupsManagerTestIntegration.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\smalltestpdf.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>smalltestpdf.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +98,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Properties\smalltestpdf.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>smalltestpdf.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Choose>

@@ -484,7 +484,8 @@ namespace Box.V2.Test.Integration
 
             // Create stream from string content
             var assembly = Assembly.GetExecutingAssembly();
-            using (var fileStream = assembly.GetManifestResourceStream("Box.V2.Test.Integration.TestData.smalltest.pdf"))
+            var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            using (var fileStream = assembly.GetManifestResourceStream("Box.V2.Test.Integration.Properties.smalltestpdf.resources"))
             {
                 var fileRequest = new BoxFileRequest();
                 var parentFolder = new BoxRequestEntity
