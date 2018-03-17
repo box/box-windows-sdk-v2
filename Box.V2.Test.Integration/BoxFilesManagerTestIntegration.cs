@@ -602,7 +602,7 @@ namespace Box.V2.Test.Integration
                 Id = "0"
             };
             fileRequest.Parent = parentFolder;
-            fileRequest.Name = DateTime.Now + ".pdf";
+            fileRequest.Name = DateTime.Now.Ticks + ".pdf";
             var file = await _client.FilesManager.UploadAsync(fileRequest, fileStream);
 
             var repRequest = new BoxRepresentationRequest
@@ -619,7 +619,7 @@ namespace Box.V2.Test.Integration
             await assetStream.CopyToAsync(memStream);
             byte[] assetBytes = memStream.ToArray();
 
-            Assert.IsTrue(assetBytes.Length > 1024, "Downlaoded asset should contain more than 1 KB");
+            Assert.IsTrue(assetBytes.Length > 4096, "Downlaoded asset contained " + assetBytes.Length + " but should contain more than 4 KB");
         }
 
         #region Private functions
