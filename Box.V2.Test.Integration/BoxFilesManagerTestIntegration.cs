@@ -590,7 +590,7 @@ trailer
 
             // Create stream from string content
             var fileStream = new MemoryStream();
-            var writer = new StreamWriter(fileStream);
+            var writer = new StreamWriter(fileStream, System.Text.Encoding.UTF8);
             writer.Write(pdfContent);
             writer.Flush();
             fileStream.Position = 0;
