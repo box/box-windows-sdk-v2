@@ -170,23 +170,24 @@ namespace Box.V2.Managers
             return response.Status == ResponseStatus.Success;
         }
 
- //       public async Task<BoxStoragePolicyAssignment> Assign(string userId, string storagePolicyId)
- //       {
- //           userId.ThrowIfNullOrWhiteSpace("userId");
-   //         storagePolicyId.ThrowIfNullOrWhiteSpace("storagePolicyId");
-   //
-    //       try
-     //       {
-   //             Task<BoxStoragePolicyAssignment> result = GetAssignmentForTargetAsync(userId);
-   //         } catch (Exception e)
-   //         {
-    //            if(/***status code == 404***/)
-    //            {
-    //                Task<BoxStoragePolicyAssignment> assignment = CreateAssignmentAsync(userId, storagePolicyId);
-    //                return assignment;
-    //            }
-    //            return null;
-    //        }
-    //    }
+        public async Task<BoxStoragePolicyAssignment> AssignAsync(string userId, string storagePolicyId)
+        {
+            userId.ThrowIfNullOrWhiteSpace("userId");
+            storagePolicyId.ThrowIfNullOrWhiteSpace("storagePolicyId");
+   
+           try
+            {
+                var result = await GetAssignmentForTargetAsync(userId);
+            } catch (Exception e)
+            {
+                if(true)
+                {
+                    var assignment = await CreateAssignmentAsync(userId, storagePolicyId);
+                    return assignment;
+                }
+                return null;
+            }
+            return null;
+        }
     }
 }
