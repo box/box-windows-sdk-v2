@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Box.V2 for .Net Core</Description>
     <AssemblyTitle>Box.V2.Core</AssemblyTitle>
-    <VersionPrefix>3.5.1</VersionPrefix>
+    <VersionPrefix>3.5.2</VersionPrefix>
     <Authors>Box, Inc.</Authors>
     <TargetFramework>netstandard1.6</TargetFramework>
     <AssemblyName>Box.V2.Core</AssemblyName>
@@ -13,7 +13,6 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <NuspecFile>Box.V2.Core.nuspec</NuspecFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
