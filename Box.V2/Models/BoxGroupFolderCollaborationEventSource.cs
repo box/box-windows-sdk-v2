@@ -2,7 +2,7 @@
 
 namespace Box.V2.Models
 {
-    class BoxGroupFolderCollaborationEventSource : BoxEntity
+    public class BoxGroupFolderCollaborationEventSource : BoxEntity
     {
         public const string FieldFolderId = "folder_id";
         public const string FieldFolderName = "folder_name";

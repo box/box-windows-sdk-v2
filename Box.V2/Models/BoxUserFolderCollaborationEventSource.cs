@@ -5,7 +5,7 @@ namespace Box.V2.Models
     /// <summary>
     /// There is an inconsistency in the events API where file sources have slightly different field names.
     /// </summary>
-    class BoxUserFolderCollaborationEventSource : BoxEntity
+    public class BoxUserFolderCollaborationEventSource : BoxEntity
     {
         public const string FieldFolderId = "folder_id";
         public const string FieldFolderName = "folder_name";
