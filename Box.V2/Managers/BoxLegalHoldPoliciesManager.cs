@@ -81,7 +81,7 @@ namespace Box.V2.Managers
         public async Task<BoxLegalHoldPolicy> CreateLegalHoldPolicyAsync(BoxLegalHoldPolicyRequest createRequest)
         {
             createRequest.ThrowIfNull("createRequest")
-                .PolicyName.ThrowIfNull("createRequest.PolicyName");
+                .PolicyName.ThrowIfNullOrWhiteSpace("createRequest.PolicyName");
 
             BoxRequest request = new BoxRequest(_config.LegalHoldPoliciesEndpointUri)
                 .Method(RequestMethod.Post)
