@@ -14,12 +14,12 @@ namespace Box.V2.Models
         /// The unique id of the group resource.
         /// </summary>
         [JsonProperty(PropertyName = FieldGroupId)]
-        new public string GroupId { get; private set; }
+        public string GroupId { get; private set; }
 
         /// <summary>
         /// The name of the group resource. 
         /// </summary>
         [JsonProperty(PropertyName = FieldGroupName)]
-        new public string GroupName { get; private set; }
+        public string GroupName { get; private set; }
     }
 }

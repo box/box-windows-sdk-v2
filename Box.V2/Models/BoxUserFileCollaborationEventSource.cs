@@ -11,18 +11,18 @@ namespace Box.V2.Models
         public const string FieldParent = "parent";
 
         [JsonProperty(PropertyName = FieldFileId)]
-        new public string FileId { get; private set; }
+        public string FileId { get; private set; }
 
         [JsonProperty(PropertyName = FieldFileName)]
-        new public string FileName { get; private set; }
+        public string FileName { get; private set; }
 
         [JsonProperty(PropertyName = FieldUserId)]
-        new public string GroupId { get; private set; }
+        public string UserId { get; private set; }
 
         [JsonProperty(PropertyName = FieldUserName)]
-        new public string GroupName { get; private set; }
+        public string UserName { get; private set; }
 
         [JsonProperty(PropertyName = FieldParent)]
-        new public BoxFolder Parent { get; private set; }
+        public BoxFolder Parent { get; private set; }
     }
 }

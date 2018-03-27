@@ -15,12 +15,12 @@ namespace Box.V2.Models
         /// The name of this application.
         /// </summary>
         [JsonProperty(PropertyName = FieldName)]
-        public String Name { get; set; }
+        public String Name { get; private set; }
 
         /// <summary>
         /// The API key of this application.
         /// </summary>
         [JsonProperty(PropertyName = FieldApiKey)]
-        public String ApiKey { get; set; }
+        public String ApiKey { get; private set; }
     }
 }
