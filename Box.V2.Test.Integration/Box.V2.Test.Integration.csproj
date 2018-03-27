@@ -80,6 +80,11 @@
     <Compile Include="BoxWebLinkManagerTestIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoxGroupsManagerTestIntegration.cs" />
+    <Compile Include="Properties\smalltestpdf.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>smalltestpdf.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Box.V2\Box.V2.csproj">
@@ -89,6 +94,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="TestData\smalltest.pdf" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\smalltestpdf.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>smalltestpdf.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
