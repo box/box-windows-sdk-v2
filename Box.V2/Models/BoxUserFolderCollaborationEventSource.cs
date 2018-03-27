@@ -17,7 +17,9 @@ namespace Box.V2.Models
         /// The Id of the folder.
         /// </summary>
         [JsonProperty(PropertyName = FieldFolderId)]
-        public string FolderId { get; private set; }
+        public override string Id { get; protected set; }
+
+        public override string Type { get { return "folder"; } protected set { return; }}
 
         /// <summary>
         /// The name of the folder.

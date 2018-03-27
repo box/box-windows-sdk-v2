@@ -11,7 +11,9 @@ namespace Box.V2.Models
         public const string FieldParent = "parent";
 
         [JsonProperty(PropertyName = FieldFileId)]
-        public string FileId { get; private set; }
+        public string Id { get; private set; }
+
+        public override string Type { get { return "file"; } protected set { return; } }
 
         [JsonProperty(PropertyName = FieldFileName)]
         public string FileName { get; private set; }
