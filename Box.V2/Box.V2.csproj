@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -26,7 +26,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;RELEASE;NET45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -121,6 +121,7 @@
     <Compile Include="Models\BoxTermsOfServiceUserStatuses.cs" />
     <Compile Include="Models\BoxUserFileCollaborationEventSource.cs" />
     <Compile Include="Models\BoxUserFolderCollaborationEventSource.cs" />
+    <Compile Include="Models\BoxTrackingCode.cs" />
     <Compile Include="Models\BoxUserInvite.cs" />
     <Compile Include="Models\BoxWatermarkInfo.cs" />
     <Compile Include="Models\BoxWatermark.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Utility\AssemblyInfo.cs" />
     <Compile Include="Utility\BoxProgess.cs" />
     <Compile Include="Utility\CrossPlatform.cs" />
+    <Compile Include="Utility\ExponentialBackoff.cs" />
     <Compile Include="Utility\Helper.cs" />
     <Compile Include="Utility\LRUCache.cs" />
     <Compile Include="Utility\Retry.cs" />
@@ -240,7 +242,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Box.V2.nuspec" />
+    <None Include="Box.V2.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
