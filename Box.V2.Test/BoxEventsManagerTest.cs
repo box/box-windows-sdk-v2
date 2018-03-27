@@ -135,5 +135,27 @@ namespace Box.V2.Test
             Assert.AreEqual(groupFileEventSource.Id, "47846340014");
             Assert.AreEqual(groupFileEventSource.Name, "test-picture.jpg");
         }
+
+        [TestMethod]
+        public async Task GetApplications_ValidResponse()
+        {
+            string responseString = "{\"chunk_size\": 1, \"next_stream_position\": 123, \"entries\": [{\"source\":{\"type\":\"application\",\"name\":\"AppUsersSample\",\"api_key\":\"9ektq31ca981fk2wc1dml6y1douxscx9\"},\"created_at\":\"2018-03-16T15:12:52-07:00\",\"event_id\":\"85c57bf3-bc15-4d24-93bc-955c796217c8\",\"event_type\":\"COLLABORATION_INVITE\",\"ip_address\":\"UnknownIP\",\"type\":\"event\",\"session_id\":null,\"additional_details\":null}]}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxEventCollection<BoxEnterpriseEvent>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxEventCollection<BoxEnterpriseEvent>>>(new BoxResponse<BoxEventCollection<BoxEnterpriseEvent>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            var applicationEvents = await _eventsManager.EnterpriseEventsAsync();
+
+            var applicationEventSource = applicationEvents.Entries[0].Source as BoxApplication;
+
+            Assert.AreEqual(applicationEventSource.Name, "AppUsersSample");
+            Assert.AreEqual(applicationEventSource.Type, "application");
+            Assert.AreEqual(applicationEventSource.ApiKey, "9ektq31ca981fk2wc1dml6y1douxscx9");
+        }
     }
 }

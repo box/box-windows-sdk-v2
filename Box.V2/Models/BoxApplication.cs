@@ -6,7 +6,7 @@ namespace Box.V2.Models
     /// <summary>
     /// Box representation of an application.
     /// </summary>
-    class BoxApplication : BoxEntity
+    public class BoxApplication : BoxEntity
     {
         public const string FieldName = "name";
         public const string FieldApiKey = "api_key";
