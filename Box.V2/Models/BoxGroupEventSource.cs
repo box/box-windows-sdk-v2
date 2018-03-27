@@ -16,7 +16,7 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldGroupId)]
         public string Id { get; private set; }
 
-        public override string Type { get { return "Group"; } protected set { return; } }
+        public override string Type { get { return "group"; } protected set { return; } }
 
         /// <summary>
         /// The name of the group resource. 
