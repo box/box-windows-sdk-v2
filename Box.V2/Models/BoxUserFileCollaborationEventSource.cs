@@ -16,7 +16,7 @@ namespace Box.V2.Models
         public override string Type { get { return "file"; } protected set { return; } }
 
         [JsonProperty(PropertyName = FieldFileName)]
-        public string FileName { get; private set; }
+        public string Name { get; private set; }
 
         [JsonProperty(PropertyName = FieldUserId)]
         public string UserId { get; private set; }

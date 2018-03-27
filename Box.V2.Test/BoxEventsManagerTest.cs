@@ -40,8 +40,8 @@ namespace Box.V2.Test
 
             Assert.AreEqual(groupEvents.Entries[0].EventType, "GROUP_EDITED");
             Assert.AreEqual(groupEvents.Entries[0].Source.GetType(), typeof(BoxGroupEventSource));
-            Assert.AreEqual(groupEventSource.GroupId, "942617509");
-            Assert.AreEqual(groupEventSource.GroupName, "Groupies");
+            Assert.AreEqual(groupEventSource.Id, "942617509");
+            Assert.AreEqual(groupEventSource.Name, "Groupies");
         }
 
         [TestMethod]
@@ -63,8 +63,8 @@ namespace Box.V2.Test
 
             Assert.AreEqual(userFileEvents.Entries[0].EventType, "COLLABORATION_INVITE");
             Assert.AreEqual(userFileEvents.Entries[0].Source.GetType(), typeof(BoxUserFileCollaborationEventSource));
-            Assert.AreEqual(userFileEventSource.FileId, "283257336425");
-            Assert.AreEqual(userFileEventSource.FileName, "ScreenShot2018-03-12at5.44.00PM.png");
+            Assert.AreEqual(userFileEventSource.Id, "283257336425");
+            Assert.AreEqual(userFileEventSource.Name, "ScreenShot2018-03-12at5.44.00PM.png");
         }
 
         [TestMethod]
@@ -86,8 +86,8 @@ namespace Box.V2.Test
 
             Assert.AreEqual(userFolderEvents.Entries[0].EventType, "COLLABORATION_INVITE");
             Assert.AreEqual(userFolderEvents.Entries[0].Source.GetType(), typeof(BoxUserFolderCollaborationEventSource));
-            Assert.AreEqual(userFolderEventSource.FolderId, "47846340014");
-            Assert.AreEqual(userFolderEventSource.FolderName, "SharedWithServiceAccount");
+            Assert.AreEqual(userFolderEventSource.Id, "47846340014");
+            Assert.AreEqual(userFolderEventSource.Name, "SharedWithServiceAccount");
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace Box.V2.Test
 
             Assert.AreEqual(groupFolderEvents.Entries[0].EventType, "COLLABORATION_INVITE");
             Assert.AreEqual(groupFolderEvents.Entries[0].Source.GetType(), typeof(BoxGroupFolderCollaborationEventSource));
-            Assert.AreEqual(groupFolderEventSource.GroupId, "182069272");
+            Assert.AreEqual(groupFolderEventSource.Id, "182069272");
             Assert.AreEqual(groupFolderEventSource.GroupName, "TestGroup");
         }
 
@@ -132,8 +132,8 @@ namespace Box.V2.Test
 
             Assert.AreEqual(groupFileEvents.Entries[0].EventType, "COLLABORATION_INVITE");
             Assert.AreEqual(groupFileEvents.Entries[0].Source.GetType(), typeof(BoxGroupFileCollaborationEventSource));
-            Assert.AreEqual(groupFileEventSource.FileId, "47846340014");
-            Assert.AreEqual(groupFileEventSource.FileName, "test-picture.jpg");
+            Assert.AreEqual(groupFileEventSource.Id, "47846340014");
+            Assert.AreEqual(groupFileEventSource.Name, "test-picture.jpg");
         }
     }
 }

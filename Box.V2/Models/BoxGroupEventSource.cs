@@ -22,6 +22,6 @@ namespace Box.V2.Models
         /// The name of the group resource. 
         /// </summary>
         [JsonProperty(PropertyName = FieldGroupName)]
-        public string GroupName { get; private set; }
+        public string Name { get; private set; }
     }
 }

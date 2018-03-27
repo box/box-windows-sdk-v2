@@ -25,7 +25,7 @@ namespace Box.V2.Models
         /// The name of the folder.
         /// </summary>
         [JsonProperty(PropertyName = FieldFolderName)]
-        public string FolderName { get; private set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// The Id of the user.
