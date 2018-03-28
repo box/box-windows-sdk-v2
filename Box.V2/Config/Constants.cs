@@ -849,6 +849,11 @@ namespace Box.V2.Config
             /// An OAuth2 access token was generated for a user.
             /// </summary>
             public const string UserAuthenticateOAuth2AccessTokenCreate = "USER_AUTHENTICATE_OAUTH2_ACCESS_TOKEN_CREATE";
+
+            /// <summary>
+            /// A content was accessed by a user.
+            /// </summary>
+            public const string ContentAccess = "CONTENT_ACCESS";
         }
         
         /*** required direction for collaboration whitelists endpoint. Can only be one of value: inbound, outbound, or both ***/
