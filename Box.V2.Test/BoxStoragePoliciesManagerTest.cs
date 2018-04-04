@@ -302,5 +302,117 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual(true, result);
         }
+
+        [TestMethod]
+        public async Task Assign_SameStoragePolicy_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""next_marker"": null,
+                                        ""limit"": 1000,
+                                        ""entries"": [
+                                            {
+                                                ""type"": ""storage_policy_assignment"",
+                                                ""id"": ""user_1234"",
+                                                ""storage_policy"": {
+                                                    ""type"": ""storage_policy"",
+                                                    ""id"": ""5678""
+                                                },
+                                                ""assigned_to"": {
+                                                    ""type"": ""enterprise"",
+                                                    ""id"": ""1111""
+                                                }
+                                            }
+                                        ]
+                                    }";
+
+            IBoxRequest boxRequest = null;
+            Uri storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
+            Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>> (It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>> (new BoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            var result = await _storagePoliciesManager.AssignAsync("1234", "5678");
+            //Response check
+            Assert.AreEqual("storage_policy_assignment", result.Type);
+            Assert.AreEqual("user_1234", result.Id);
+        }
+
+        [TestMethod]
+        public async Task Assign_DifferentStoragePolicy_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""next_marker"": null,
+                                        ""limit"": 1000,
+                                        ""entries"": [
+                                            {
+                                                ""type"": ""storage_policy_assignment"",
+                                                ""id"": ""user_5678"",
+                                                ""storage_policy"": {
+                                                    ""type"": ""storage_policy"",
+                                                    ""id"": ""5678""
+                                                },
+                                                ""assigned_to"": {
+                                                    ""type"": ""enterprise"",
+                                                    ""id"": ""1111""
+                                                }
+                                            }
+                                        ]
+                                    }";
+
+            IBoxRequest boxRequest = null;
+            Uri storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
+            Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>>(new BoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Arrange ***/
+            string putResponseString = @"{
+                                        ""type"": ""storage_policy_assignment"",
+                                        ""id"": ""user_7777"",
+                                        ""storage_policy"": {
+                                            ""type"": ""storage_policy"",
+                                            ""id"": ""1111"",
+                                        },
+                                        ""assigned_to"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""7777"",
+                                        }
+                                    }";
+
+
+            IBoxRequest putBoxRequest = null;
+            Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxStoragePolicyAssignment>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxStoragePolicyAssignment>>(new BoxResponse<BoxStoragePolicyAssignment>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = putResponseString
+                }))
+                .Callback<IBoxRequest>(r => putBoxRequest = r);
+
+            /*** Act ***/
+            var result = await _storagePoliciesManager.AssignAsync("1111", "7777");
+            
+            //Response check
+            Assert.AreEqual("storage_policy_assignment", result.Type);
+            Assert.AreEqual("user_7777", result.Id);
+            Assert.AreEqual("storage_policy", result.StoragePolicy.Type);
+            Assert.AreEqual("1111", result.StoragePolicy.Id);
+            Assert.AreEqual("user", result.AssignedTo.Type);
+            Assert.AreEqual("7777", result.AssignedTo.Id);
+        }
     }
 }

@@ -17,6 +17,6 @@ namespace Box.V2.Models
         /// The Box User to assign the storage policy to.
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignedTo)]
-        public BoxUser AssignedTo { get; set; }
+        public BoxEntity AssignedTo { get; set; }
     }
 }

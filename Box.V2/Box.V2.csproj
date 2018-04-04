@@ -89,9 +89,6 @@
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
     <Compile Include="Models\BoxFolderEventSource.cs" />
-    <Compile Include="Models\BoxGroupFileCollaborationEventSource.cs" />
-    <Compile Include="Models\BoxGroupFolderCollaborationEventSource.cs" />
-    <Compile Include="Models\BoxGroupEventSource.cs" />
     <Compile Include="Models\BoxRepresentation.cs" />
     <Compile Include="Models\BoxRepresentationContent.cs" />
     <Compile Include="Models\BoxRepresentationInfo.cs" />
@@ -121,8 +118,6 @@
     <Compile Include="Models\BoxTaskAssignment.cs" />
     <Compile Include="Models\BoxTermsOfService.cs" />
     <Compile Include="Models\BoxTermsOfServiceUserStatuses.cs" />
-    <Compile Include="Models\BoxUserFileCollaborationEventSource.cs" />
-    <Compile Include="Models\BoxUserFolderCollaborationEventSource.cs" />
     <Compile Include="Models\BoxUserInvite.cs" />
     <Compile Include="Models\BoxWatermarkInfo.cs" />
     <Compile Include="Models\BoxWatermark.cs" />

@@ -170,24 +170,30 @@ namespace Box.V2.Managers
             return response.Status == ResponseStatus.Success;
         }
 
+        /// <summary>
+        /// Checks if a storage policy assignment exists. If it does not then create an assignment. 
+        /// </summary>
+        /// <param name="userId">The id of the user to assign storage policy to.</param>
+        /// <param name="storagePolicyId">The storage policy id to assign to user.</param>
+        /// <returns></returns>
         public async Task<BoxStoragePolicyAssignment> AssignAsync(string userId, string storagePolicyId)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
             storagePolicyId.ThrowIfNullOrWhiteSpace("storagePolicyId");
-   
-           try
+
+            var result = await GetAssignmentForTargetAsync(userId);
+
+            if(result.StoragePolicy.Id.Equals(storagePolicyId))
             {
-                var result = await GetAssignmentForTargetAsync(userId);
-            } catch (Exception e)
-            {
-                if(true)
-                {
-                    var assignment = await CreateAssignmentAsync(userId, storagePolicyId);
-                    return assignment;
-                }
-                return null;
+                return result;
             }
-            return null;
+
+            if(result.AssignedTo.Type.Equals(userId))
+            {
+                return await CreateAssignmentAsync(userId, storagePolicyId);
+            }
+
+            return await UpdateStoragePolicyAssignment(storagePolicyId);
         }
     }
 }
