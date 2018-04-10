@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Box.V2.Models
 {
@@ -12,6 +13,7 @@ namespace Box.V2.Models
         public const string FieldAssignedTo = "assigned_to";
         public const string FieldAssignedBy = "assigned_by";
         public const string FieldAssignedAt = "assigned_at";
+        public const string FieldFilterFields = "filter_fields";
 
         /// <summary>
         /// A mini retention policy object representing the retention policy that has been assigned to this content.
@@ -37,5 +39,10 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldAssignedAt)]
         public DateTime? AssignedAt { get; set; }
 
+        /// <summary>
+        /// Optional field filters for an assignment to a metadata template
+        /// </summary>
+        [JsonProperty(PropertyName = FieldFilterFields)]
+        public List<BoxMetadataFieldFilter> FilterFields { get; set; }
     }
 }
