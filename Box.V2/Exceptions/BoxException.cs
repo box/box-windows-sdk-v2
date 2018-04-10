@@ -29,7 +29,7 @@ namespace Box.V2.Exceptions
         /// </summary>
         /// <param name="message">The exception message</param>
         /// <param name="innerException">The inner exception to be wrapped</param>
-        public BoxException(string message, Exception innerException) : base(message, innerException) { }
+        //public BoxException(string message, Exception innerException) : base(message, innerException) { }
 
         /// <summary>
         /// Instantiates a new BoxException with the provided message and error object
@@ -46,20 +46,24 @@ namespace Box.V2.Exceptions
         /// </summary>
         /// <param name="message">The message from the SDK about what happened</param>
         /// <param name="response">The HTTP response that generated the exception</param>
-        public BoxException(string message, IBoxResponse<object> response) : base(GetErrorMessage(message, response))
+        public static BoxException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
         {
-            var converter = new BoxJsonConverter();
-            StatusCode = response.StatusCode;
-            ResponseHeaders = response.Headers;
+            var ex = new BoxException(GetErrorMessage(message, response))
+            {
+                StatusCode = response.StatusCode,
+                ResponseHeaders = response.Headers
+            };
+
             if (!string.IsNullOrWhiteSpace(response.ContentString))
             {
-                response.Error = converter.Parse<BoxError>(response.ContentString);
+                var converter = new BoxJsonConverter();
+                ex.Error = converter.Parse<BoxError>(response.ContentString);
             }
 
-            Response = new BoxErrorResponse(response);
+            return ex;
         }
 
-        private static string GetErrorMessage(string message, IBoxResponse<object> response)
+        private static string GetErrorMessage<T>(string message, IBoxResponse<T> response) where T : class
         {
             var converter = new BoxJsonConverter();
             BoxError error = null;
@@ -68,7 +72,9 @@ namespace Box.V2.Exceptions
                 error = converter.Parse<BoxError>(response.ContentString);
             }
             var str = error?.RequestId;
-            return string.Format("%s [%s | %s] %s - %s", message, response.StatusCode, error?.RequestId ?? "N/A", error?.Code ?? "N/A", error?.Message ?? "N/A");
+            var requestID = error?.RequestId != null ? string.Format(" | {0}", error.RequestId) : "";
+            var errorInfo = error?.Code != null && error?.Message != null ? string.Format(" {0} - {1}", error.Code, error.Message) : "";
+            return string.Format("{0} [{1}{2}]{3}", message, response.StatusCode, requestID, errorInfo);
         }
 
         /// <summary>
@@ -85,11 +91,6 @@ namespace Box.V2.Exceptions
         /// Response headers returned by the API
         /// </summary>
         public HttpResponseHeaders ResponseHeaders { get; set; }
-
-        /// <summary>
-        /// Information about the HTTP response that caused the error
-        /// </summary>
-        public BoxErrorResponse Response { get; set; }
     }
 
 
@@ -132,35 +133,6 @@ namespace Box.V2.Exceptions
                     _conflictError.ContextInfo.Conflict :
                     null;
             }
-        }
-    }
-
-    public class BoxErrorResponse
-    {
-        /// <summary>
-        /// The status code of the response
-        /// </summary>
-        public HttpStatusCode StatusCode { get; set; }
-
-        /// <summary>
-        /// The headers of the response
-        /// </summary>
-        public HttpHeaders Headers { get; set; }
-
-        /// <summary>
-        /// The response body contents
-        /// </summary>
-        public string Body { get; set; }
-
-        /// <summary>
-        /// Instantiates a new representation of the error response from the raw response object
-        /// </summary>
-        /// <param name="response">The raw response object</param>
-        public BoxErrorResponse(BoxResponse<object> response)
-        {
-            StatusCode = response.StatusCode;
-            Headers = response.Headers;
-            Body = response.ContentString;
         }
     }
 }
