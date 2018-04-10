@@ -126,7 +126,6 @@ namespace Box.V2.Managers
         public async Task<BoxTermsOfServiceUserStatuses> UpdateTermsofServiceUserStatusesAsync(string tosId, bool isAccepted)
         {
             tosId.ThrowIfNullOrWhiteSpace("tosId");
-            isAccepted.ThrowIfNull("isAccepted");
 
             BoxRequest request = new BoxRequest(_config.TermsOfServiceUserStatusesUri, tosId)
                 .Method(RequestMethod.Put)

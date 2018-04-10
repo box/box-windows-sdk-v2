@@ -980,7 +980,6 @@ namespace Box.V2.Managers
         {
             fileRequest.ThrowIfNull("fileRequest")
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Id");
-            fileRequest.Name.ThrowIfNullOrWhiteSpace("fileRequest.Name");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileRequest.Id)
                 .Method(RequestMethod.Post)
@@ -1219,8 +1218,7 @@ namespace Box.V2.Managers
         /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
         /// for all other representation types.
         /// </summary>
-        /// <param name="boxRepresentationRequest">Object of type BoxRepresentationRequest that contains Box file id, x-rep-hints, set_content_disposition_type
-        ///     set_content_disposition_filename.</param>
+        /// <param name="boxRepresentationRequest">Object of type BoxRepresentationRequest that contains Box file id, x-rep-hints</param>
         /// <returns>A full file object containing the updated representations template_url and state is returned.</returns>
         /// </summary>
         public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(BoxRepresentationRequest representationRequest)
@@ -1245,6 +1243,68 @@ namespace Box.V2.Managers
             }
 
             return response.ResponseObject.Representations;
+        }
+
+        /// <summary>
+        /// Representations are digital assets stored in Box. We can request the following representations: PDF, Extracted Text, Thumbnail,
+        /// and Single Page depending on whether the file type is supported by passing in the corresponding x-rep-hints header. This will generate a 
+        /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
+        /// for all other representation types.
+        /// </summary>
+        /// <param name="boxRepresentationRequest">Object of type BoxRepresentationRequest that contains Box file id, x-rep-hints.</param>
+        /// <returns>A stream over the representation contents.</returns>
+        /// </summary>
+        public async Task<Stream> GetRepresentationContentAsync(BoxRepresentationRequest representationRequest, string assetPath = "")
+        {
+            var reps = await this.GetRepresentationsAsync(representationRequest);
+            if (reps.Entries.Count == 0)
+            {
+                throw new BoxException("Could not get requested representation!");
+            }
+           
+            var repInfo = reps.Entries[0];
+            IBoxRequest downloadRequest;
+            IBoxResponse<Stream> response;
+            switch (repInfo.Status.State)
+            {
+                case "success":
+                case "viewable":
+                    downloadRequest = new BoxRequest(new Uri(repInfo.Content.UrlTemplate.Replace("{+asset_path}", assetPath)));
+                    response = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
+                    return response.ResponseObject;
+                case "error":
+                    throw new BoxException("Representation had error status");
+                case "none":
+                case "pending":
+                    var urlTemplate = await this.PollRepresentationInfo(repInfo.Info.Url);
+                    downloadRequest = new BoxRequest(new Uri(urlTemplate.Replace("{+asset_path}", assetPath)));
+                    response = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
+                    return response.ResponseObject;
+                default:
+                    throw new BoxException("Representation has unknown status");
+            }
+            
+        }
+
+        private async Task<string> PollRepresentationInfo(string infoUrl)
+        {
+            var infoRequest = new BoxRequest(new Uri(infoUrl));
+            IBoxResponse<BoxRepresentation> infoResponse = await ToResponseAsync<BoxRepresentation>(infoRequest).ConfigureAwait(false);
+            var rep = infoResponse.ResponseObject;
+            switch (rep.Status.State)
+            {
+                case "success":
+                case "viewable":
+                    return rep.Content.UrlTemplate;
+                case "error":
+                    throw new BoxException("Representation had error status");
+                case "none":
+                case "pending":
+                    await Task.Delay(1000);
+                    return await this.PollRepresentationInfo(infoUrl);
+                default:
+                    throw new BoxException("Representation has unknown status");
+            }
         }
     }
 
