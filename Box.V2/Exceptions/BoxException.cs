@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Text;
+using System.Diagnostics;
 
 namespace Box.V2.Exceptions
 {
@@ -48,29 +49,32 @@ namespace Box.V2.Exceptions
         /// <param name="response">The HTTP response that generated the exception</param>
         public static BoxException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
         {
-            var ex = new BoxException(GetErrorMessage(message, response))
-            {
-                StatusCode = response.StatusCode,
-                ResponseHeaders = response.Headers
-            };
-
+            BoxError error = null;
             if (!string.IsNullOrWhiteSpace(response.ContentString))
             {
                 var converter = new BoxJsonConverter();
-                ex.Error = converter.Parse<BoxError>(response.ContentString);
+
+                try
+                {
+                    error = converter.Parse<BoxError>(response.ContentString);
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
+                }
             }
+            var ex = new BoxException(GetErrorMessage(message, response, error))
+            {
+                StatusCode = response.StatusCode,
+                ResponseHeaders = response.Headers,
+                Error = error
+            };
 
             return ex;
         }
 
-        private static string GetErrorMessage<T>(string message, IBoxResponse<T> response) where T : class
+        private static string GetErrorMessage<T>(string message, IBoxResponse<T> response, BoxError error = null) where T : class
         {
-            var converter = new BoxJsonConverter();
-            BoxError error = null;
-            if (!string.IsNullOrWhiteSpace(response.ContentString))
-            {
-                error = converter.Parse<BoxError>(response.ContentString);
-            }
             var str = error?.RequestId;
             var requestID = error?.RequestId != null ? string.Format(" | {0}", error.RequestId) : "";
             var errorInfo = error?.Code != null && error?.Message != null ? string.Format(" {0} - {1}", error.Code, error.Message) : "";
