@@ -42,5 +42,6 @@ public enum BoxType
     user,
     group,
     web_link,
-    file_version
+    file_version,
+    metadata_template
 }
