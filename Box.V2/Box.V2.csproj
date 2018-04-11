@@ -92,6 +92,7 @@
     <Compile Include="Models\BoxGroupEventSource.cs" />
     <Compile Include="Models\BoxGroupFileCollaborationEventSource.cs" />
     <Compile Include="Models\BoxGroupFolderCollaborationEventSource.cs" />
+    <Compile Include="Models\BoxMetadataFieldFilter.cs" />
     <Compile Include="Models\BoxRepresentation.cs" />
     <Compile Include="Models\BoxRepresentationContent.cs" />
     <Compile Include="Models\BoxRepresentationInfo.cs" />
