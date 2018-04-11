@@ -75,7 +75,6 @@ namespace Box.V2.Exceptions
 
         private static string GetErrorMessage<T>(string message, IBoxResponse<T> response, BoxError error = null) where T : class
         {
-            var str = error?.RequestId;
             var requestID = error?.RequestId != null ? string.Format(" | {0}", error.RequestId) : "";
             var errorInfo = error?.Code != null && error?.Message != null ? string.Format(" {0} - {1}", error.Code, error.Message) : "";
             return string.Format("{0} [{1}{2}]{3}", message, response.StatusCode, requestID, errorInfo);
