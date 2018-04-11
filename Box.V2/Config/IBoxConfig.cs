@@ -7,9 +7,9 @@ namespace Box.V2.Config
 {
     public interface IBoxConfig
     {
-        Uri BoxApiHostUri { get; }
-        Uri BoxApiUri { get; }
-        Uri BoxUploadApiUri { get; }
+        Uri BoxApiHostUri { get; set; }
+        Uri BoxApiUri { get; set; }
+        Uri BoxUploadApiUri { get; set; }
 
         string ClientId { get; }
         string ConsumerKey { get; }
