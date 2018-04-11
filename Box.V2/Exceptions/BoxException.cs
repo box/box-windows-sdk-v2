@@ -30,7 +30,7 @@ namespace Box.V2.Exceptions
         /// </summary>
         /// <param name="message">The exception message</param>
         /// <param name="innerException">The inner exception to be wrapped</param>
-        //public BoxException(string message, Exception innerException) : base(message, innerException) { }
+        public BoxException(string message, Exception innerException) : base(message, innerException) { }
 
         /// <summary>
         /// Instantiates a new BoxException with the provided message and error object
