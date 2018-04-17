@@ -183,6 +183,7 @@ namespace Box.V2.Config
         public virtual Uri CollaborationWhitelistTargetEntryUri { get { return new Uri(BoxApiUri, Constants.CollaborationWhitelistTargetEntryString); } }
         public virtual Uri StoragePoliciesUri { get { return new Uri(BoxApiUri, Constants.StoragePoliciesString); } }
         public virtual Uri StoragePolicyAssignmentsUri { get { return new Uri(BoxApiUri, Constants.StoragePolicyAssignmentsString); } }
+        public virtual Uri StoragePolicyAssignmentsForTargetUri { get { return new Uri(BoxApiUri, Constants.StoragePolicyAssignmentsForTargetString); } }
 
         /// <summary>
         /// Gets the shared items endpoint URI.

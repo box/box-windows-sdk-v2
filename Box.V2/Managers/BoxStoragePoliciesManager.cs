@@ -85,14 +85,14 @@ namespace Box.V2.Managers
         /// <param name="userId">User Id of the assignment.</param>
         /// <param name="entityType">Entity type of the storage policy assignment.</param>
         /// <returns></returns>
-        public async Task<BoxStoragePolicyAssignment> GetAssignmentForTargetAsync(string userId, string entityType = "user")
+        public async Task<BoxStoragePolicyAssignment> GetAssignmentForTargetAsync(string entityId, string entityType = "user")
         {
-            userId.ThrowIfNullOrWhiteSpace("userId");
+            entityId.ThrowIfNullOrWhiteSpace("entityId");
 
-            BoxRequest request = new BoxRequest(_config.StoragePolicyAssignmentsUri)
+            BoxRequest request = new BoxRequest(_config.StoragePolicyAssignmentsForTargetUri)
                 .Method(RequestMethod.Get)
                 .Param("resolved_for_type", entityType)
-                .Param("resolved_for_id", userId);
+                .Param("resolved_for_id", entityId);
 
             IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>(request).ConfigureAwait(false);
             return response.ResponseObject.Entries[0];   
@@ -101,19 +101,23 @@ namespace Box.V2.Managers
         /// <summary>
         /// Update the storage policy information for storage policy assignment.
         /// </summary>
-        /// <param name="policyId">Storage Policy Id to assign user to.</param>
+        /// <param name="assignmentId">Storage Policy assignment Id to update.</param>
+        /// <param name="policyId">"The Id of the Storage Policy to update to."</param>
         /// <returns></returns> The updated Storage Policy object with new assignment.
-        public async Task<BoxStoragePolicyAssignment> UpdateStoragePolicyAssignment(string policyId)
+        public async Task<BoxStoragePolicyAssignment> UpdateStoragePolicyAssignment(string assignmentId, String policyId)
         {
             policyId.ThrowIfNullOrWhiteSpace("policyId");
 
             dynamic req = new JObject();
-            req.type = "storage_policy";
-            req.id = policyId;
+            dynamic storagePolicyObject = new JObject();
+
+            storagePolicyObject.type = "storage_policy";
+            storagePolicyObject.id = policyId;
+            req.storage_policy = storagePolicyObject;
 
             string jsonStr = req.ToString();
 
-            BoxRequest request = new BoxRequest(_config.StoragePolicyAssignmentsUri)
+            BoxRequest request = new BoxRequest(_config.StoragePolicyAssignmentsUri, assignmentId)
                 .Method(RequestMethod.Put)
                 .Payload(jsonStr);
 
@@ -147,7 +151,7 @@ namespace Box.V2.Managers
 
             string jsonStr = req.ToString();
 
-            BoxRequest request = new BoxRequest(_config.StoragePolicyAssignmentsUri)
+            BoxRequest request = new BoxRequest(_config.StoragePolicyAssignmentsForTargetUri)
                 .Method(RequestMethod.Post)
                 .Payload(jsonStr);
 
@@ -188,12 +192,12 @@ namespace Box.V2.Managers
                 return result;
             }
 
-            if(result.AssignedTo.Type.Equals(userId))
+            if(result.AssignedTo.Type.Equals("enterprise"))
             {
                 return await CreateAssignmentAsync(userId, storagePolicyId);
             }
 
-            return await UpdateStoragePolicyAssignment(storagePolicyId);
+            return await UpdateStoragePolicyAssignment(result.Id, storagePolicyId);
         }
     }
 }

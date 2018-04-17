@@ -51,6 +51,7 @@ namespace Box.V2.Config
         public const string TermsOfServiceUserStatusesString = @"terms_of_service_user_statuses/";
         public const string StoragePoliciesString = @"storage_policies/";
         public const string StoragePolicyAssignmentsString = @"storage_policy_assignments/";
+        public const string StoragePolicyAssignmentsForTargetString = @"storage_policy_assignments";
 
         /// <summary>
         /// The shared items constant

@@ -66,6 +66,7 @@ namespace Box.V2.Config
         Uri TermsOfServiceUserStatusesUri { get; }
         Uri StoragePoliciesUri { get; }
         Uri StoragePolicyAssignmentsUri { get; }
+        Uri StoragePolicyAssignmentsForTargetUri { get; }
 
         /// <summary>
         /// Gets the shared items endpoint URI.
