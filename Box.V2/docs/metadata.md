@@ -54,7 +54,7 @@ Dictionary<string, object> metadata = await client.MetadataManager.
     .GetFileMetadataAsync(fileId: "11111", "enterprise", "marketingCollateral");
 ```
 
-You can also get all metadata on a file by calling `FilesManager.GetAllFileMetadataTemplatesAsync(string fileId)`.
+You can also get all metadata on a file by calling `MetadataManager.GetAllFileMetadataTemplatesAsync(string fileId)`.
 
 ```c#
 BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
@@ -140,4 +140,122 @@ with the ID of the file and the metadata template to remove.
 await client.MetadataManager.DeleteFileMetadataAsync("11111", "enterprise", "marketingCollateral");
 ```
 
+Add Metadata to a Folder
+------------------------
 
+Metadata can be created on a folder by calling
+`MetadataManager.CreateFolderMetadataAsync(string folderId, Dictionary<string, object> metadata, string scope, string template)`
+with a metadata template and an object of key/value pairs to add as metadata.
+
+```c#
+var metadataValues = new Dictionary<string, object>()
+{
+    { "audience", "internal" },
+    { "documentType", "Q1 plans" },
+    { "competitiveDocument", "no" },
+    { "status", "active" },
+    { "author": "M. Jones" },
+    { "currentState": "proposal" }
+};
+Dictionary<string, object> metadata = await client.MetadataManager
+    .CreateFolderMetadataAsync(folderId: "11111", metadataValues, "enterprise", "marketingCollateral");
+```
+
+Get Metadata on a Folder
+------------------------
+
+Retrieve a specific metadata template on a folder by calling
+`MetadataManager.GetFolderMetadataAsync(string folderId, string scope, string template)`
+with the ID of the folder and which template to fetch.
+
+```c#
+Dictionary<string, object> metadata = await client.MetadataManager.
+    .GetFolderMetadataAsync(folderId: "11111", "enterprise", "marketingCollateral");
+```
+
+You can also get all metadata on a folder by calling
+`MetadataManager.GetAllFolderMetadataTemplatesAsync(string folderId)`.
+
+```c#
+BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
+    .GetAllFolderMetadataTemplatesAsync(folderId: "11111");
+```
+
+Update Metadata on a Folder
+---------------------------
+
+Update a folder's metadata by calling
+`MetadataManager.UpdateFolderMetadataAsync(string folderId, List<BoxMetadataUpdate> updates, string scope, string template)`
+with the [JSON Patch](http://jsonpatch.com/) formatted operations to perform on the metadata.
+
+```c#
+var updates = new List<BoxMetadataUpdate>()
+{
+    new BoxMetadataUpdate()
+    {
+        Op = MetadataUpdateOp.test,
+        Path = "/competitiveDocument",
+        Value = "no"
+    },
+    new BoxMetadataUpdate()
+    {
+        Op = MetadataUpdateOp.remove,
+        Path = "/competitiveDocument"
+    },
+    new BoxMetadataUpdate()
+    {
+        Op = MetadataUpdateOp.test,
+        Path = "/status",
+        Value = "active"
+    },
+    new BoxMetadataUpdate()
+    {
+        Op = MetadataUpdateOp.replace,
+        Path = "/competitiveDocument",
+        Value = "inactive"
+    },
+    new BoxMetadataUpdate()
+    {
+        Op = MetadataUpdateOp.test,
+        Path = "/author",
+        Value = "Jones"
+    },
+    new BoxMetadataUpdate()
+    {
+        Op = MetadataUpdateOp.copy,
+        From="/author",
+        Path = "/editor"
+    },
+    new BoxMetadataUpdate()
+    {
+        Op = MetadataUpdateOp.test,
+        Path = "/currentState",
+        Value = "proposal"
+    },
+    new BoxMetadataUpdate()
+    {
+        Op = MetadataUpdateOp.move,
+        From = "/currentState",
+        Path = "/previousState"
+    },
+    new BoxMetadataUpdate()
+    {
+        Op = MetadataUpdateOp.add,
+        Path = "/currentState",
+        Value = "reviewed"
+    }
+};
+Dictionary<string, object> updatedMetadata = await client.MetadataManager
+    .UpdateFolderMetadataAsync("11111", updates, "enterprise", "marketingCollateral");
+```
+
+Remove Metadata from a Folder
+-----------------------------
+
+A metadata template can be removed from a folder by calling
+`MetadataManager.DeleteFolderMetadataAsync(string folderId, string scope, string template)`
+with the ID of the folder and the metadata template to remove.
+
+```c#
+await client.MetadataManager.DeleteFolderMetadataAsync("11111", "enterprise", "marketingCollateral");
+```
