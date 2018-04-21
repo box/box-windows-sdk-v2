@@ -21,6 +21,110 @@ key:value string pairs, with no additional schema associated with it. Properties
 are ideal for scenarios where applications want to write metadata to file objects
 in a flexible way, without pre-defined template structure.
 
+Create Metadata Template
+------------------------
+
+To create a new metadata template, call
+`MetadataManager.CreateMetadataTemplate(BoxMetadataTemplate template)`.
+
+```c#
+var templateParams = new BoxMetadataTemplate()
+{
+    TemplateKey = "marketingCollateral",
+    DisplayName = "Marketing Collateral",
+    Scope = "enterprise",
+    Fields = new List<BoxMetadataTemplateField>()
+    {
+        new BoxMetadataTemplateField()
+        {
+            Type = "enum",
+            Key = "audience",
+            DisplayName = "Audience",
+            Options = new List<BoxMetadataTemplateFieldOption>()
+            {
+                new BoxMetadataTemplateFieldOption() { Key = "internal" },
+                new BoxMetadataTemplateFieldOption() { Key = "external" }
+            }
+        },
+        new BoxMetadataTemplateField()
+        {
+            Type = "string",
+            Key = "author",
+            DisplayName = "Author"
+        }
+    }
+};
+BoxMetadataTemplate template = await client.MetadataManager.CreateMetadataTemplate(templateParams);
+```
+
+Update Metadata Template
+------------------------
+
+To update a metadata template, call the
+`MetadataManager.UpdateMetadataTemplate(IEnumerable<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)`
+method with the operations to perform on the template.  See the
+[API Documentation](https://docs.box.com/reference#update-metadata-schema)
+for more information on the operations available.
+
+```c#
+var updates = new List<BoxMetadataTemplateUpdate>()
+{
+    new BoxMetadataTemplateUpdate()
+    {
+        Op = MetadataTemplateUpdateOp.addEnumOption,
+        FieldKey = "fy",
+        Data = new {
+            key = "FY20"
+        }
+    },
+    new BoxMetadataTemplateUpdate()
+    {
+        Op = MetadataTemplateUpdateOp.editTemplate,
+        Data = new {
+            hidden = false
+        }
+    }
+};
+BoxMetadataTemplate updatedTemplate = await client.MetadataManager
+    .UpdateMetadataTemplate(updates, "enterprise", "marketingCollateral");
+```
+
+Get Metadata Template
+---------------------
+
+### Get by template scope and key
+
+To retrieve a specific metadata template by its scope and template key, call the
+`MetadataManager.GetMetadataTemplate(string scope, string template)`
+method with the scope and template key.
+
+```c#
+BoxMetadataTemplate template = await client.MetadataManager
+    .GetMetadataTemplate("enterprise", "marketingCollateral");
+```
+
+### Get by ID
+
+To get a specific metadata template by its ID, call the
+`MetadataManager.GetMetadataTemplateById(string templateId)`
+method with the ID of the template.
+
+```c#
+BoxMetadataTemplate template = await client.MetadataManager
+    .GetMetadataTemplateById("17f2d715-6acb-45f2-b96a-28b15efc9faa");
+```
+
+Get Enterprise Metadata Templates
+---------------------------------
+
+Get all metadata templates for the current enterprise and scope by calling
+`MetadataManager.GetEnterpriseMetadataAsync(string scope = "enterprise")`.
+
+```c#
+BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate> templates = await client.MetadataManager
+    .GetEnterpriseMetadataAsync();
+```
+
 Add Metadata to a File
 ----------------------
 
