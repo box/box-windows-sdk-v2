@@ -1,5 +1,9 @@
-﻿using Box.V2.Config;
+﻿using Box.V2.Auth;
+using Box.V2.Config;
+using Box.V2.Exceptions;
+using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
@@ -7,6 +11,28 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public class BoxConfigTestIntegration : BoxResourceManagerTestIntegration
     {
+        [TestMethod]
+        [TestCategory("CI-APP-USER")]
+        public async Task BoxConfig_SetWrongURIFails()
+        {
+
+            var config = new BoxConfig("CLIENET_ID", "CLIENT_SECRET", new System.Uri("http://localhost:3000"));
+            var oAuthSession = new OAuthSession("ACCESS_TOKEN", "", 3600, "bearer");
+            var client = new BoxClient(config, oAuthSession);
+            config.BoxApiUri = new System.Uri("https://example.com/2.0/");
+
+            try
+            {
+                BoxUser user = await client.UsersManager.GetCurrentUserInformationAsync();
+            }
+            catch (BoxException e)
+            {
+                Assert.AreEqual(HttpStatusCode.NotFound, e.StatusCode);
+                return;
+            }
+            Assert.Fail();
+        }
+
         [TestMethod]
         public async Task BoxConfig_SetUriString()
         {
