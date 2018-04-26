@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace Box.V2.Models
 {
@@ -16,6 +17,9 @@ namespace Box.V2.Models
         public const string FieldCreatedBy = "created_by";
         public const string FieldCreatedAt = "created_at";
         public const string FieldModifiedAt = "modified_at";
+        public const string FieldCanOwnerExtendRetention = "can_owner_extend_retention";
+        public const string FieldAreOwnersNotified = "are_owners_notified";
+        public const string FieldCustomNotificationRecipients = "custom_notification_recipients";
 
         /// <summary>
         /// The name given to the retention policy
@@ -33,6 +37,7 @@ namespace Box.V2.Models
         /// The length of the retention policy. This length specifies the duration in days that the retention policy will be active for after being assigned to content.
         /// </summary>
         [JsonProperty(PropertyName = FieldRetentionLength)]
+        // @TODO(mwiller) 2018-01-29: Change this to the correct type (int)
         public string RetentionLength { get; set; }
 
         /// <summary>
@@ -65,5 +70,22 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldModifiedAt)]
         public DateTime? ModifiedAt { get; set; }
 
+        /// <summary>
+        /// Whether owners of items under the policy can extend the retention period.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldCanOwnerExtendRetention)]
+        public bool? CanOwnerExtendRetention { get; set; }
+
+        /// <summary>
+        /// Whether owners and co-owners of items under the policy are notified when the retention period is about to end.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldAreOwnersNotified)]
+        public bool? AreOwnersNotified { get; set; }
+
+        /// <summary>
+        /// List of additional users who will be notified when the retention period is about to end.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldCustomNotificationRecipients)]
+        public List<BoxUser> CustomNotificationRecipients { get; set; }
     }
 }

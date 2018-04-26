@@ -3,9 +3,16 @@
   <PropertyGroup>
     <Description>Box.V2 for .Net Core</Description>
     <AssemblyTitle>Box.V2.Core</AssemblyTitle>
-    <VersionPrefix>3.3.0</VersionPrefix>
+    <Version>3.7.0</Version>
     <Authors>Box, Inc.</Authors>
-    <TargetFramework>netstandard1.4</TargetFramework>
+	<Owners>Box, Inc.</Owners>
+	<PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
+	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	<PackageDescription>Windows SDK for v2 of the Box API. The SDK is built for .NET Core and includes JWTAuth support.</PackageDescription>
+	<PackageReleaseNotes>Added support for assigning a Retention Policy to a Metadata Template.</PackageReleaseNotes>
+	<Copyright>Copyright 2018</Copyright>
+	<PackageTags>Box;V2;SDK;Platform;Enterprise;Collaboration;Storage;File Management</PackageTags>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <AssemblyName>Box.V2.Core</AssemblyName>
     <PackageId>Box.V2.Core</PackageId>
     <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
@@ -13,6 +20,10 @@
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_6</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
