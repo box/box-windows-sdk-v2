@@ -3,13 +3,13 @@
   <PropertyGroup>
     <Description>Box.V2 for .Net Core</Description>
     <AssemblyTitle>Box.V2.Core</AssemblyTitle>
-    <Version>3.5.2</Version>
+    <Version>3.7.0</Version>
     <Authors>Box, Inc.</Authors>
 	<Owners>Box, Inc.</Owners>
 	<PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
 	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	<PackageDescription>Windows SDK for v2 of the Box API. The SDK is built for .NET Core and includes JWTAuth support.</PackageDescription>
-	<PackageReleaseNotes>Switched to exponential backoff on error responses from the API.  Support for TLSv1.1 or higher.  Added retry logic on JWT auth failures.</PackageReleaseNotes>
+	<PackageReleaseNotes>Added support for assigning a Retention Policy to a Metadata Template.</PackageReleaseNotes>
 	<Copyright>Copyright 2018</Copyright>
 	<PackageTags>Box;V2;SDK;Platform;Enterprise;Collaboration;Storage;File Management</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>

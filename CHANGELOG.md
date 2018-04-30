@@ -1,6 +1,12 @@
 # Changelog
 
-## 3.5.1
+## 3.6.0
+
+- Fixed an issue where a "Security protocol not supported" exception could be thrown on MacOS
+- Added `client.FilesManager.GetRepresentationContentAsync()` for fetching a stream over representation contents
+- Fixed parsing of some `Source` objects on `BoxEvent` objects
+
+## 3.5.2
 
 - Switched to exponential backoff when the SDK receives a rate limit or server error response. 
 - Force support for TLSv1.1 or higher when available to improve the security of connections to the Box API.

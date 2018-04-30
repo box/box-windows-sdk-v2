@@ -168,6 +168,7 @@ namespace Box.V2.Config
         public const string TypeMetadataTemplate = "metadata_template";
         public const string TypeTermsOfService = "terms_of_service";
         public const string TypeTermsOfServiceUserStatuses = "terms_of_service_user_status";
+        public const string TypeApplication = "application";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
@@ -494,7 +495,7 @@ namespace Box.V2.Config
             /// Added device association.
             /// </summary>
             public const string AddDeviceAssociation = "ADD_DEVICE_ASSOCIATION";
-            
+
             /// <summary>
             /// Edit the permissions on a folder. 
             /// </summary>
@@ -849,8 +850,13 @@ namespace Box.V2.Config
             /// An OAuth2 access token was generated for a user.
             /// </summary>
             public const string UserAuthenticateOAuth2AccessTokenCreate = "USER_AUTHENTICATE_OAUTH2_ACCESS_TOKEN_CREATE";
+
+            /// <summary>
+            /// A content was accessed by a user.
+            /// </summary>
+            public const string ContentAccess = "CONTENT_ACCESS";
         }
-        
+
         /*** required direction for collaboration whitelists endpoint. Can only be one of value: inbound, outbound, or both ***/
         public static class WhitelistDirections
         {
