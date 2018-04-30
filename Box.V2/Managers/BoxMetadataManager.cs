@@ -155,6 +155,21 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Used to delete an existing metadata template with the specified schema.
+        /// </summary>
+        /// <param name="scope">Scope name. Currently, the only scopes supported are enterprise and global</param>
+        /// <param name="template">Metadata template name</param>
+        /// <returns></returns>Returns boolean true if metadata schema was deleted successfully. 
+        public async Task<bool> DeleteMetadataTemplate(string scope, string template)
+        {
+            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template))
+                .Method(RequestMethod.Delete);
+            IBoxResponse<Dictionary<string, object>> response = await ToResponseAsync<Dictionary<string, object>>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
+
+        /// <summary>
         /// Used to update the schema of an existing template.
         /// </summary>
         /// <param name="metadataTemplateUpdate">BoxMetadataTemplateUpdate object</param>
