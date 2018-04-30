@@ -1,10 +1,13 @@
-﻿using Box.V2.Models;
+﻿using Box.V2.Converter;
+using Box.V2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
+using Newtonsoft.Json;
 using System.Text;
+using System.Diagnostics;
 
 namespace Box.V2.Exceptions
 {
@@ -37,6 +40,44 @@ namespace Box.V2.Exceptions
         public BoxException(string message, BoxError error) : base(message)
         {
             Error = error;
+        }
+
+        /// <summary>
+        /// Instantiate a Box specific exception from a given HTTP response
+        /// </summary>
+        /// <param name="message">The message from the SDK about what happened</param>
+        /// <param name="response">The HTTP response that generated the exception</param>
+        public static BoxException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
+        {
+            BoxError error = null;
+            if (!string.IsNullOrWhiteSpace(response.ContentString))
+            {
+                var converter = new BoxJsonConverter();
+
+                try
+                {
+                    error = converter.Parse<BoxError>(response.ContentString);
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
+                }
+            }
+            var ex = new BoxException(GetErrorMessage(message, response, error))
+            {
+                StatusCode = response.StatusCode,
+                ResponseHeaders = response.Headers,
+                Error = error
+            };
+
+            return ex;
+        }
+
+        private static string GetErrorMessage<T>(string message, IBoxResponse<T> response, BoxError error = null) where T : class
+        {
+            var requestID = error?.RequestId != null ? string.Format(" | {0}", error.RequestId) : "";
+            var errorInfo = error?.Code != null && error?.Message != null ? string.Format(" {0} - {1}", error.Code, error.Message) : "";
+            return string.Format("{0} [{1}{2}]{3}", message, response.StatusCode, requestID, errorInfo);
         }
 
         /// <summary>
