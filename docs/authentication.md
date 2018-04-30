@@ -59,6 +59,11 @@ var boxConfig = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", "YOUR_ENTE
 var boxJWT = new BoxJWTAuth(boxConfig);
 var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
 BoxClient adminClient = boxJWT.AdminClient(adminToken);
+adminClient.Auth.SessionAuthenticated += delegate(object o, SessionAuthenticatedEventArgs e)
+{
+    string newAccessToken = e.Session.AccessToken;
+    // cache the new access token
+};
 ```
 
 App auth applications also often have associated App Users, which are
@@ -76,7 +81,12 @@ instance as in the above examples, similarly to creating a Service Account clien
 ```c#
 var appUserId = "12345";
 var userToken = boxJWT.UserToken(appUserID); //valid for 60 minutes so should be cached and re-used
-BoxClient adminClient = boxJWT.UserClient(userToken, appUserId);
+BoxClient appUserClient = boxJWT.UserClient(userToken, appUserId);
+appUserClient.Auth.SessionAuthenticated += delegate(object o, SessionAuthenticatedEventArgs e)
+{
+    string newAccessToken = e.Session.AccessToken;
+    // cache the new access token
+};
 ```
 
 ### Traditional 3-Legged OAuth2
