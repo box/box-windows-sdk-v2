@@ -4,6 +4,24 @@ Groups
 Groups contain a set of users, and can be used in place of individual users in some
 operations, such as collaborations.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Create Group](#create-group)
+- [Get Group](#get-group)
+- [Get All Groups](#get-all-groups)
+- [Update Group](#update-group)
+- [Delete Group](#delete-group)
+- [Get Group Collaborations](#get-group-collaborations)
+- [Add a User to a Group](#add-a-user-to-a-group)
+- [Update Membership](#update-membership)
+- [Remove Membership](#remove-membership)
+- [Get Group Memberships](#get-group-memberships)
+- [Get Group Memberships for a User](#get-group-memberships-for-a-user)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Create Group
 ------------
 

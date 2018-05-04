@@ -4,6 +4,16 @@ Collections
 Collections are used to store a custom user-defined set of items that may not
 all be in the same folder.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Get a User's Collections](#get-a-users-collections)
+- [Get the Items in a Collection](#get-the-items-in-a-collection)
+- [Set an Item's Collections](#set-an-items-collections)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Get a User's Collections
 ------------------------
 

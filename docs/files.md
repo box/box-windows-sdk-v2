@@ -5,6 +5,31 @@ File objects represent individual files in Box. They can be used to download a
 file's contents, upload new versions, and perform other common file operations
 (move, copy, delete, etc.).
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Get a File's Information](#get-a-files-information)
+- [Update a File's Information](#update-a-files-information)
+- [Download a File](#download-a-file)
+- [Get a File's Download URL](#get-a-files-download-url)
+- [Upload a File](#upload-a-file)
+- [Copy a File](#copy-a-file)
+- [Delete a File](#delete-a-file)
+- [Get Previous File Versions](#get-previous-file-versions)
+- [Upload a New Version of a File](#upload-a-new-version-of-a-file)
+- [Download a Previous Version of a File](#download-a-previous-version-of-a-file)
+- [Promote Version](#promote-version)
+- [Delete a Previous File Version](#delete-a-previous-file-version)
+- [Lock a File](#lock-a-file)
+- [Unlock a File](#unlock-a-file)
+- [Create a Shared Link](#create-a-shared-link)
+- [Get Embed Link](#get-embed-link)
+- [Get Representation Info](#get-representation-info)
+- [Get Thumbnail](#get-thumbnail)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Get a File's Information
 ------------------------
 

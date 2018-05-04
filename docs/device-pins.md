@@ -5,6 +5,16 @@ Device pins allow enterprises to control what devices can use native Box applica
 pinning, please see the
 [Device Pinning documentation](https://community.box.com/t5/For-Admins/Device-Pinning-Overview-And-FAQs/ta-p/172).
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Get Enterprise Device Pins](#get-enterprise-device-pins)
+- [Get Device Pin](#get-device-pin)
+- [Delete Device Pin](#delete-device-pin)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Get Enterprise Device Pins
 --------------------------
 

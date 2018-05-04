@@ -6,6 +6,20 @@ erased immediately.  Instead, it is moved to the Trash.  The Trash allows you to
 recover files and folders that have been deleted. By default, items in the Trash
 will be purged after 30 days.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Get Trashed Items](#get-trashed-items)
+- [Get a Trashed File](#get-a-trashed-file)
+- [Get a Trashed Folder](#get-a-trashed-folder)
+- [Purge a File from the Trash](#purge-a-file-from-the-trash)
+- [Purge a Folder from the Trash](#purge-a-folder-from-the-trash)
+- [Restore a File From Trash](#restore-a-file-from-trash)
+- [Restore a Folder from Trash](#restore-a-folder-from-trash)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Get Trashed Items
 -----------------
 

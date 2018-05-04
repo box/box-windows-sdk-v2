@@ -5,6 +5,20 @@ Folder objects represent a folder from a user's account. They can be used to
 iterate through a folder's contents, collaborate a folder with another user or
 group, and perform other common folder operations (move, copy, delete, etc.).
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Get a Folder's Items](#get-a-folders-items)
+- [Get a Folder's Information](#get-a-folders-information)
+- [Update a Folder's Information](#update-a-folders-information)
+- [Create a Folder](#create-a-folder)
+- [Copy a Folder](#copy-a-folder)
+- [Delete a Folder](#delete-a-folder)
+- [Create a Shared Link for a Folder](#create-a-shared-link-for-a-folder)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Get a Folder's Items
 --------------------
 

@@ -3,6 +3,23 @@ Tasks
 
 Tasks enable file-centric workflows in Box. User can create tasks on files and assign them to collaborators on Box.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Get a Task's Information](#get-a-tasks-information)
+- [Get Tasks on a File](#get-tasks-on-a-file)
+- [Create a Task](#create-a-task)
+- [Update a Task](#update-a-task)
+- [Delete a Task](#delete-a-task)
+- [Get Assignments for a Task](#get-assignments-for-a-task)
+- [Assign Task](#assign-task)
+- [Get Task Assignment](#get-task-assignment)
+- [Update Task Assignment](#update-task-assignment)
+- [Remove Task Assignment](#remove-task-assignment)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Get a Task's Information
 ------------------------
 
