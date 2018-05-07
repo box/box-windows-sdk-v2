@@ -7,6 +7,21 @@ automatically refreshing them when possible. See the
 [OAuth 2 overview](https://docs.box.com/reference#oauth-2-overview) for a detailed
 overview of how the Box API handles authentication.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Ways to Authenticate](#ways-to-authenticate)
+  - [Developer Token](#developer-token)
+  - [Server Auth with JWT](#server-auth-with-jwt)
+  - [Traditional 3-Legged OAuth2](#traditional-3-legged-oauth2)
+    - [AuthRepository Implementation](#authrepository-implementation)
+  - [Box View Authentication with App Tokens](#box-view-authentication-with-app-tokens)
+- [As-User](#as-user)
+- [Token Exchange](#token-exchange)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Ways to Authenticate
 --------------------
 

@@ -4,6 +4,23 @@ Collaborations
 Collaborations are used to share folders and files between users or groups. They also define what permissions a user
 has for a folder or file.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Add a Collaboration](#add-a-collaboration)
+- [Edit a Collaboration](#edit-a-collaboration)
+- [Remove a Collaboration](#remove-a-collaboration)
+- [Get a Collaboration's Information](#get-a-collaborations-information)
+- [Get the Collaborations on a Folder](#get-the-collaborations-on-a-folder)
+- [Get the Collaborations on a File](#get-the-collaborations-on-a-file)
+- [Get Pending Collaborations](#get-pending-collaborations)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+Add a Collaboration
+-------------------
+
 A collaboration can be added for an existing user by calling
 `CollaborationsManager.AddCollaborationAsync(BoxCollaborationRequest collaborationRequest, IEnumerable<string> fields = null, bool? notify = null)`.
 The `Role` field of the `collaborationRequest` parameter determines what permissions the collaborator will have on the

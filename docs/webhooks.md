@@ -5,6 +5,19 @@ A webhook object enables you to attach events triggers to Box files and folders.
 event triggers monitor events on Box objects and notify your application, via HTTP
 requests to a URL of your choosing, when they occur.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Create a Webhook](#create-a-webhook)
+- [Get All Webhooks](#get-all-webhooks)
+- [Get a Webhook"s Information](#get-a-webhooks-information)
+- [Validate a Webhook Message](#validate-a-webhook-message)
+- [Delete a Webhook](#delete-a-webhook)
+- [Update a Webhook](#update-a-webhook)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Create a Webhook
 ----------------
 

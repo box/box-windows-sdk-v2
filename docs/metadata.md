@@ -21,6 +21,27 @@ key:value string pairs, with no additional schema associated with it. Properties
 are ideal for scenarios where applications want to write metadata to file objects
 in a flexible way, without pre-defined template structure.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Create Metadata Template](#create-metadata-template)
+- [Update Metadata Template](#update-metadata-template)
+- [Get Metadata Template](#get-metadata-template)
+  - [Get by template scope and key](#get-by-template-scope-and-key)
+  - [Get by ID](#get-by-id)
+- [Get Enterprise Metadata Templates](#get-enterprise-metadata-templates)
+- [Add Metadata to a File](#add-metadata-to-a-file)
+- [Get Metadata on a File](#get-metadata-on-a-file)
+- [Update Metadata on a File](#update-metadata-on-a-file)
+- [Remove Metadata from a File](#remove-metadata-from-a-file)
+- [Add Metadata to a Folder](#add-metadata-to-a-folder)
+- [Get Metadata on a Folder](#get-metadata-on-a-folder)
+- [Update Metadata on a Folder](#update-metadata-on-a-folder)
+- [Remove Metadata from a Folder](#remove-metadata-from-a-folder)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Create Metadata Template
 ------------------------
 
