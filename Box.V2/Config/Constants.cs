@@ -49,6 +49,7 @@ namespace Box.V2.Config
         public const string CollaborationWhitelistTargetEntryString = @"collaboration_whitelist_exempt_targets/";
         public const string TermsOfServicesString = @"terms_of_services/";
         public const string TermsOfServiceUserStatusesString = @"terms_of_service_user_statuses/";
+        public const string MetadataCascadePoliciesString = @"metadata_cascade_policies/";
 
         /// <summary>
         /// The shared items constant

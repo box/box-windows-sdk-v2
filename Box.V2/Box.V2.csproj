@@ -72,6 +72,7 @@
     <Compile Include="Managers\BoxDevicePinManager.cs" />
     <Compile Include="Managers\BoxEventsManager.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
+    <Compile Include="Managers\BoxMetadataCascadePolicyManager.cs" />
     <Compile Include="Managers\BoxMetadataManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\BoxSharedItemsManager.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
     <Compile Include="Models\BoxFolderEventSource.cs" />
+    <Compile Include="Models\BoxMetadataCascadePolicy.cs" />
     <Compile Include="Models\BoxRepresentation.cs" />
     <Compile Include="Models\BoxRepresentationContent.cs" />
     <Compile Include="Models\BoxRepresentationInfo.cs" />
