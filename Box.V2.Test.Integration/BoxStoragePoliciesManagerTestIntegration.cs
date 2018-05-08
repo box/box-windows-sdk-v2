@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Box.V2.Models;
+using Box.V2.Models.Request;
+using static Box.V2.Config.Constants;
 
 namespace Box.V2.Test.Integration
 {
     [TestClass]
-    class BoxStoragePoliciesManagerTestIntegration : BoxResourceManagerTestIntegration
+    public class BoxStoragePoliciesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
         public async Task AssignStoragePolicyAsync_LiveSession()
         {
-            string userId = "235699372";
-            string storagePolicyId = "26";
-            var assignment = await _client.StoragePoliciesManager();
+            var assignment = await _client.StoragePoliciesManager.GetAssignmentAsync("user_240097255");
         }
     }
 }
