@@ -46,7 +46,7 @@ namespace Box.V2.Managers
             jsonObject.scope = scope;
             jsonObject.template_key = templateKey;
 
-            string jsonString = jsonObject.toString();
+            string jsonString = jsonObject.ToString();
 
             BoxRequest request = new BoxRequest(_config.MetadataCascadePolicyUri)
                 .Method(RequestMethod.Post)
@@ -75,7 +75,7 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-/*        public async Task<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>> GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId = null, int limit = 100, string nextMarker = null, bool autopaginate = false)
+        /*public async Task<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>> GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId = null, int limit = 100, string nextMarker = null, bool autopaginate = false)
         {
             folderId.ThrowIfNullOrWhiteSpace("folderId");
 
@@ -86,7 +86,7 @@ namespace Box.V2.Managers
 
             if (autopaginate)
             {
-                return await AutoPaginateMarker<BoxMetadataCascadePolicyManager>(request, limit);
+                return await AutoPaginateMarker<BoxMetadataCascadePolicy>(request, limit);
             } else
             {
 
@@ -106,7 +106,7 @@ namespace Box.V2.Managers
             dynamic jsonObject = new JObject();
             jsonObject.conflict_resolution = conflictResolution;
 
-            string jsonString = jsonObject.toString();
+            string jsonString = jsonObject.ToString();
 
             BoxRequest request = new BoxRequest(_config.MetadataCascadePolicyUri, policyId)
                 .Method(RequestMethod.Post)
