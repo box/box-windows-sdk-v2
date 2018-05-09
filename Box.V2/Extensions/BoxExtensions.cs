@@ -13,12 +13,30 @@ namespace Box.V2.Extensions
         /// <typeparam name="T">Type of the object being checked</typeparam>
         /// <param name="param"></param>
         /// <param name="name"></param>
-        internal static T ThrowIfNull<T>(this T param, string name) 
+        internal static T ThrowIfNull<T>(this T param, string name) where T : class
         {
             if (param == null)
+            {
                 throw new ArgumentNullException(name);
+            }
 
             return param;
+        }
+
+        /// <summary>
+        /// Checks if the object is null 
+        /// </summary>
+        /// <typeparam name="T">Type of the object being checked</typeparam>
+        /// <param name="param"></param>
+        /// <param name="name"></param>
+        internal static T ThrowIfNull<T>(this T? param, string name) where T : struct
+        {
+            if (!param.HasValue)
+            {
+                throw new ArgumentNullException(name);
+            }
+
+            return param.Value;
         }
 
         /// <summary>

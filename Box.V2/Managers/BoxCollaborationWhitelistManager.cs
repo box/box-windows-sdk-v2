@@ -25,10 +25,10 @@ namespace Box.V2.Managers
         /// <param name="domainToWhitelist">This is the domain to whitelist collaboration.</param>
         /// <param name="directionForWhitelist">Can be set to inbound, outbound, or both for the direction of the whitelist.</param>
         /// <returns>The whitelist entry if successfully created.</returns>
-        public async Task<BoxCollaborationWhitelistEntry> AddCollaborationWhitelistEntryAsync(String domainToWhitelist, String directionForWhitelist)
+        public async Task<BoxCollaborationWhitelistEntry> AddCollaborationWhitelistEntryAsync(string domainToWhitelist, string directionForWhitelist)
         {
-            domainToWhitelist.ThrowIfNull("domainToWhitelist");
-            directionForWhitelist.ThrowIfNull("directionForWhitelist");
+            domainToWhitelist.ThrowIfNullOrWhiteSpace("domainToWhitelist");
+            directionForWhitelist.ThrowIfNullOrWhiteSpace("directionForWhitelist");
 
             dynamic req = new JObject();
             req.domain = domainToWhitelist;
@@ -96,7 +96,7 @@ namespace Box.V2.Managers
         /// <returns>A boolean value indicating whether or not the collaboration whitelist was successfully deleted.</returns>
         public async Task<bool> DeleteCollaborationWhitelistEntryAsync(string id)
         {
-            id.ThrowIfNull("id");
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationWhitelistEntryUri, id)
                 .Method(RequestMethod.Delete);
@@ -113,7 +113,7 @@ namespace Box.V2.Managers
         /// <returns>The specific exempt user or user on the collaborator whitelist.</returns>
         public async Task<BoxCollaborationWhitelistTargetEntry> AddCollaborationWhitelistExemptUserAsync(string userId)
         {
-            userId.ThrowIfNull("userId");
+            userId.ThrowIfNullOrWhiteSpace("userId");
 
             dynamic user = new JObject();
             dynamic req = new JObject();
@@ -184,7 +184,7 @@ namespace Box.V2.Managers
         /// <returns>A boolean value indicating whether or not the user was successfully deleted from the collaboration whitelist.</returns>
         public async Task<bool> DeleteCollaborationWhitelistExemptUserAsync(string id)
         {
-            id.ThrowIfNull("id");
+            id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.CollaborationWhitelistTargetEntryUri, id)
                 .Method(RequestMethod.Delete);

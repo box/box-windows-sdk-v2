@@ -121,11 +121,11 @@ namespace Box.V2.Config
             return new BoxConfig(clientId, clientSecret, enterpriseId, privateKey, rsaSecret, publicKeyId);
         }
 
-        public virtual Uri BoxApiHostUri { get { return new Uri(Constants.BoxApiHostUriString); } }
-        public virtual Uri BoxAccountApiHostUri { get { return new Uri(Constants.BoxAccountApiHostUriString); } }
-        public virtual Uri BoxApiUri { get { return new Uri(Constants.BoxApiUriString); } }
-        public virtual Uri BoxUploadApiUri { get { return new Uri(Constants.BoxUploadApiUriString); } }
-        public virtual Uri BoxUploadApiUriV21 { get { return new Uri(Constants.BoxUploadApiUriV21String); } }
+        public virtual Uri BoxApiHostUri { get; set; } = new Uri(Constants.BoxApiHostUriString);
+        public virtual Uri BoxAccountApiHostUri { get; set; } = new Uri(Constants.BoxAccountApiHostUriString);
+        public virtual Uri BoxApiUri { get; set; } = new Uri(Constants.BoxApiUriString);
+        public virtual Uri BoxUploadApiUri { get; set; } = new Uri(Constants.BoxUploadApiUriString);
+        public virtual Uri BoxUploadApiUriV21 { get; set; } = new Uri(Constants.BoxUploadApiUriV21String);
 
         public virtual string ClientId { get; private set; }
         public virtual string ConsumerKey { get; private set; }

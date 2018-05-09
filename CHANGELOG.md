@@ -1,6 +1,25 @@
 # Changelog
 
-## 3.5.1
+## 3.8.0
+
+- Fixed an issue where users could not create `BoxClient` on Xamarin
+- Added `File` property to `BoxLock` objects in events
+- Added `MetadataManager.DeleteMetadataTemplate(string scope, string template)` for deleting a Metadata template 
+- Made API URLs modifiable in `BoxConfig`
+- Improved API response error objects/messages
+
+## 3.7.0
+
+- Added support for assigning a Retention Policy to a metadata template
+- Added `CONTENT_ACCESS` event type to enum
+
+## 3.6.0
+
+- Fixed an issue where a "Security protocol not supported" exception could be thrown on MacOS
+- Added `client.FilesManager.GetRepresentationContentAsync()` for fetching a stream over representation contents
+- Fixed parsing of some `Source` objects on `BoxEvent` objects
+
+## 3.5.2
 
 - Switched to exponential backoff when the SDK receives a rate limit or server error response. 
 - Force support for TLSv1.1 or higher when available to improve the security of connections to the Box API.

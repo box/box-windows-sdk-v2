@@ -575,9 +575,37 @@ namespace Box.V2.Test
             Assert.AreEqual("file", result.Entries[0].Item.Type);
             Assert.AreEqual("7287087200", result.Entries[0].Item.Id);
             Assert.AreEqual("box-logo.png", result.Entries[0].Item.Name);
+        }
 
+        [TestMethod]
+        public async Task ThrowIfNull_WorksWithNullable_NoValue()
+        {
+            string responseString = "{\"type\":\"task\",\"id\":\"1874102965\"}";
+            Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
 
+            BoxTaskCreateRequest taskRequest = new BoxTaskCreateRequest
+            {
+                Item = new BoxRequestEntity
+                {
+                    Id = "1234"
+                }
+            };
+            try
+            {
+                BoxTask task = await _tasksManager.CreateTaskAsync(taskRequest);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Assert.AreEqual("taskCreateRequest.Item.Type", ex.ParamName);
+                return;
+            }
 
+            Assert.Fail("Exception should have been thrown");
         }
     }
 }
