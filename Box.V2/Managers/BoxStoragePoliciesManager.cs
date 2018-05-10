@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Extensions;
 using Box.V2.Converter;
@@ -187,7 +187,7 @@ namespace Box.V2.Managers
 
             var result = await GetAssignmentForTargetAsync(userId);
 
-            if(result.StoragePolicy.Id.Equals(storagePolicyId))
+            if(result.BoxStoragePolicy.Id.Equals(storagePolicyId))
             {
                 return result;
             }
