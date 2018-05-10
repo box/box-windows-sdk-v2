@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.9.0
+
+- Added support for Storage Policies
+
 ## 3.8.0
 
 - Fixed an issue where users could not create `BoxClient` on Xamarin
