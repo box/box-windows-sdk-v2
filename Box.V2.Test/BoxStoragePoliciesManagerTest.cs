@@ -263,7 +263,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxStoragePolicyAssignment result = await _storagePoliciesManager.UpdateStoragePolicyAssignment("1111");
+            BoxStoragePolicyAssignment result = await _storagePoliciesManager.UpdateStoragePolicyAssignment("1111", "user+5678");
 
             /*** Assert ***/
             //Request check
