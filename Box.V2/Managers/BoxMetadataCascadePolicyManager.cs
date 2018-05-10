@@ -75,7 +75,7 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-        /*public async Task<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>> GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId = null, int limit = 100, string nextMarker = null, bool autopaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>> GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId = null, int limit = 100, string nextMarker = null, bool autopaginate = false)
         {
             folderId.ThrowIfNullOrWhiteSpace("folderId");
 
@@ -91,7 +91,7 @@ namespace Box.V2.Managers
             {
 
             }
-        }*/
+        }
 
         /// <summary>
         /// If a policy already exists on the specified folder, this will apply that new policy to the folder and the sub-folder items. 
