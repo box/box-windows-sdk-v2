@@ -4,9 +4,15 @@ using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
+using Box.V2.Utility;
+#if NET45
+using Microsoft.Win32;
+using System.Security;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,12 +24,14 @@ namespace Box.V2.Managers
     public abstract class BoxResourceManager
     {
         protected const string ParamFields = "fields";
+        protected const string HeaderBoxUA = "X-Box-UA";
 
         protected IBoxConfig _config;
         protected IBoxService _service;
         protected IBoxConverter _converter;
         protected IAuthRepository _auth;
         protected string _asUser;
+        protected string _boxUA;
         protected bool? _suppressNotifications;
 
         /// <summary>
@@ -47,6 +55,7 @@ namespace Box.V2.Managers
         {
             request
                 .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
+                .Header(HeaderBoxUA, GetBoxUAHeader())
                 .Header(Constants.RequestParameters.AcceptEncoding, _config.AcceptEncoding.ToString());
             
             if (!String.IsNullOrWhiteSpace(_asUser))
@@ -215,5 +224,112 @@ namespace Box.V2.Managers
 
             return allItemsCollection;
         }
-    }
+
+        protected string GetBoxUAHeader()
+        {
+            if (this._boxUA == null)
+            {
+                this._boxUA = "agent=box-windows-sdk/" + AssemblyInfo.NuGetVersion + ";" + GetEnvNameAndVersion();
+            }
+            return this._boxUA;
+        }
+
+        private string GetEnvNameAndVersion()
+        {
+#if NET45
+            const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
+
+            RegistryKey ndpKey;
+            try {
+                ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey);
+            } catch (UnauthorizedAccessException ex) {
+                return "";
+            } catch (SecurityException ex) {
+                return "";
+            }
+        
+            using (ndpKey)
+            {
+                if (ndpKey != null && ndpKey.GetValue("Release") != null)
+                {
+                    string frameworkVersion = CheckFor45PlusVersion((int)ndpKey.GetValue("Release"));
+                    if (frameworkVersion != null)
+                    {
+                        return "env=.NET Framework/" + frameworkVersion;
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+                else
+                {
+                    return "";  
+                }
+            }
+#elif NETSTANDARD1_6
+
+            string coreVersion = GetNetCoreVersion();
+            if (coreVersion != null)
+            {
+                return "env=.NET Core/" + coreVersion;
+            }
+            else
+            {
+                return "";
+            }
+#else
+            FAIL THE BUILD
+            return "";
+#endif
+        }
+
+        // Checking the version using >= will enable forward compatibility.
+        private string CheckFor45PlusVersion(int releaseKey)
+        {
+            if (releaseKey >= 461308)
+                return "4.7.1+";
+            if (releaseKey >= 460798)
+                return "4.7";
+            if (releaseKey >= 394802)
+                return "4.6.2";
+            if (releaseKey >= 394254)
+            {
+                return "4.6.1";
+            }
+            if (releaseKey >= 393295)
+            {
+                return "4.6";
+            }
+            if ((releaseKey >= 379893))
+            {
+                return "4.5.2";
+            }
+            if ((releaseKey >= 378675))
+            {
+                return "4.5.1";
+            }
+            if ((releaseKey >= 378389))
+            {
+                return "4.5";
+            }
+            // This code should never execute. A non-null release key should mean
+            // that 4.5 or later is installed.
+            return null;
+        }
+
+        private string GetNetCoreVersion()
+        {
+            var assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
+            var assemblyPath = assembly.CodeBase.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            int netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
+            if (netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2)
+            {
+                return assemblyPath[netCoreAppIndex + 1];
+            }
+
+            return null;
+        }
+
+}
 }

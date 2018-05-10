@@ -20,13 +20,13 @@ namespace Box.V2.Models
         /// The type of the event source
         /// </summary>
         [JsonProperty(PropertyName = FieldItemType)]
-        new public string Type { get; private set; }
+        override public string Type { get; protected set; }
 
         /// <summary>
         /// The unique id of the file
         /// </summary>
         [JsonProperty(PropertyName = FieldItemId)]
-        new public string Id { get; private set; }
+        override public string Id { get; protected set; }
 
         /// <summary>
         /// The name of the file

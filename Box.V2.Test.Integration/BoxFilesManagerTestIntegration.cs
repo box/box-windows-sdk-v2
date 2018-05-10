@@ -8,23 +8,37 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Utility;
 using Box.V2.Config;
+using Box.V2.Auth;
+using System.Reflection;
 
 namespace Box.V2.Test.Integration
-{
+{ 
     [TestClass]
     public class BoxFilesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
-        //[TestMethod]
-        //public async Task GetStreamResponse()
-        //{
-        //    const string pdfFileId = "16894929979";
-        //    const int totalPages = 227;
-        //    var filePreview = await _client.FilesManager.GetFilePreviewAsync(pdfFileId, 1);
+    //[TestMethod]
+    //public async Task GetStreamResponse()
+    //{
+    //    const string pdfFileId = "16894929979";
+    //    const int totalPages = 227;
+    //    var filePreview = await _client.FilesManager.GetFilePreviewAsync(pdfFileId, 1);
 
-        //    Assert.AreEqual(1, filePreview.CurrentPage, "Invalid current page");
-        //    Assert.AreEqual(totalPages, filePreview.TotalPages, "Invalid total pages");
-        //    Assert.AreEqual(HttpStatusCode.OK, filePreview.ReturnedStatusCode, "Invalid status code");
-        //}
+    //    Assert.AreEqual(1, filePreview.CurrentPage, "Invalid current page");
+    //    Assert.AreEqual(totalPages, filePreview.TotalPages, "Invalid total pages");
+    //    Assert.AreEqual(HttpStatusCode.OK, filePreview.ReturnedStatusCode, "Invalid status code");
+    //}
+
+        [TestMethod]
+        public async Task RestoreFile_Valid_Response()
+        {
+            const string fileId = "238288183114";
+            BoxFileRequest fileRequest = new BoxFileRequest()
+            {
+                Id = fileId
+            };
+
+            var restoredFile = await _client.FilesManager.RestoreTrashedAsync(fileRequest);
+        }
 
         [TestMethod]
         public async Task GetInformation_Fields_ValidResponse()
@@ -427,7 +441,7 @@ namespace Box.V2.Test.Integration
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
 
             string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
-            string newRemoteFileName = "UploadFileVersionUsingSession-" + DateTime.Now.TimeOfDay;
+            string newRemoteFileName = "UploadNewVersionUsingSession-" + DateTime.Now.TimeOfDay;
             string parentFolderId = "0";
 
             bool progressReported = false;
@@ -447,10 +461,10 @@ namespace Box.V2.Test.Integration
             string fileId = await GetFileId(parentFolderId, remoteFileName);
 
             // Using previously uploaded Box file, upload a new file version for that Box file
-            var newBoxFileVersion = await _client.FilesManager.UploadFileVersionUsingSessionAsync(fileInMemoryStream, fileId, newRemoteFileName, 
+            var newBoxFile = await _client.FilesManager.UploadNewVersionUsingSessionAsync(fileInMemoryStream, fileId, newRemoteFileName, 
                 null, progress);
 
-            Assert.IsNotNull(newBoxFileVersion, "Did not successfully upload a new Box file version");
+            Assert.IsNotNull(newBoxFile.FileVersion, "Did not successfully upload a new Box file version");
             Assert.IsTrue(progressReported);
 
             // Delete file
@@ -461,6 +475,44 @@ namespace Box.V2.Test.Integration
 
             // Assert file has been deleted from Box
             Assert.IsFalse(await DoesFileExistInFolder(parentFolderId, remoteFileName));
+        }
+
+        [TestMethod]
+        [TestCategory("CI-APP-USER")]
+        public async Task GetRepresentationContentAsync_E2E()
+        {
+
+            // Create stream from string content
+            var assembly = Assembly.GetExecutingAssembly();
+            var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            using (var fileStream = assembly.GetManifestResourceStream("Box.V2.Test.Integration.Properties.smalltestpdf.resources"))
+            {
+                var fileRequest = new BoxFileRequest();
+                var parentFolder = new BoxRequestEntity
+                {
+                    Type = BoxType.folder,
+                    Id = "0"
+                };
+                fileRequest.Parent = parentFolder;
+                fileRequest.Name = DateTime.Now.Ticks + ".pdf";
+                var file = await _client.FilesManager.UploadAsync(fileRequest, fileStream);
+
+                var repRequest = new BoxRepresentationRequest
+                {
+                    FileId = file.Id,
+                    XRepHints = "[png?dimensions=1024x1024]"
+                };
+                Stream assetStream = await _client.FilesManager.GetRepresentationContentAsync(repRequest, "1.png");
+
+                // Delete the file when done
+                await _client.FilesManager.DeleteAsync(file.Id);
+
+                var memStream = new MemoryStream();
+                await assetStream.CopyToAsync(memStream);
+                byte[] assetBytes = memStream.ToArray();
+
+                Assert.IsTrue(assetBytes.Length > 4096, "Downlaoded asset contained " + assetBytes.Length + " but should contain more than 4 KB");
+            }  
         }
 
         #region Private functions

@@ -12,6 +12,10 @@ namespace Box.V2.Converter
         const string ItemType = "type";
         const string EventSourceItemType = "item_type";
         const string WatermarkType = "watermark";
+        const string GroupId = "group_id";
+        const string UserId = "user_id";
+        const string FolderId = "folder_id";
+        const string FileId = "file_id";
 
         protected override BoxEntity Create(Type objectType, JObject jObject)
         {
@@ -83,6 +87,8 @@ namespace Box.V2.Converter
                         return new BoxStoragePolicy();
                     case Constants.TypeStoragePolicyAssignment:
                         return new BoxStoragePolicyAssignment();
+                    case Constants.TypeApplication:
+                        return new BoxApplication();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names
@@ -100,6 +106,30 @@ namespace Box.V2.Converter
             {
                 return new BoxWatermarkResponse();
             }
+            else if (FieldExists(GroupId, jObject))
+            {
+                if (FieldExists(FolderId, jObject))
+                {
+                    return new BoxGroupFolderCollaborationEventSource();
+                }
+                else if (FieldExists(FileId, jObject))
+                {
+                    return new BoxGroupFileCollaborationEventSource();
+                }
+                else
+                {
+                    return new BoxGroupEventSource();
+                }
+            }
+            else if (FieldExists(UserId, jObject) && FieldExists(FileId, jObject))
+            {
+                return new BoxUserFileCollaborationEventSource();
+            }
+            else if (FieldExists(UserId, jObject) && FieldExists(FolderId, jObject))
+            {
+                return new BoxUserFolderCollaborationEventSource();
+            }
+
             return new BoxEntity();
         }
 

@@ -2,15 +2,15 @@
 <package >
   <metadata>
     <id>Box.V2</id>
-    <version>3.3.0</version>
+    <version>3.8.0</version>
     <title>Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.5</description>
-    <releaseNotes>Added support for Terms of Service and Metadate Template ID. Fixed get number of parts function and added missing fields for folder model</releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <releaseNotes>Added support for deleting metadata templates.  Made API URLs modifiable in BoxConfig.  Improved API response error objects.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>
 </package>

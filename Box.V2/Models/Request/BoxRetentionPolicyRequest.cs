@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models.Request
 {
@@ -36,5 +37,23 @@ namespace Box.V2.Models.Request
         /// </summary>
         [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }
+
+        /// <summary>
+        /// Used to determine if the owner of items under the policy can extend the retention when the original period is ending.
+        /// </summary>
+        [JsonProperty(PropertyName = "can_owner_extend_retention")]
+        public bool CanOwnerExtendRetention { get; set; }
+
+        /// <summary>
+        /// Used to determine if owners and co-owners of items under the policy are notified when the retention period is ending.
+        /// </summary>
+        [JsonProperty(PropertyName = "are_owners_notified")]
+        public bool AreOwnersNotified { get; set; }
+
+        /// <summary>
+        /// List of additional users to notify when the retention period is ending.
+        /// </summary>
+        [JsonProperty(PropertyName = "custom_notification_recipients")]
+        public List<BoxRequestEntity> CustomNotificationRecipients { get; set; }
     }
 }

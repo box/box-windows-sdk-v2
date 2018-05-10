@@ -1,4 +1,5 @@
-﻿using Box.V2.Models;
+﻿using Box.V2.Exceptions;
+using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,28 @@ namespace Box.V2.Test.Integration
             //delete metadata
             var result = await _client.MetadataManager.DeleteFileMetadataAsync(FILE_ID, SCOPE, TEMPLATE_KEY);
             Assert.IsTrue(result, "Failed to delete file metadata");
+        }
+
+        [TestMethod]
+        public async Task Metadata_DeleteTemplate_LiveSession()
+        {
+            string templateKey = "testtemplate";
+            string displayName = "Test Template";
+            string scope = "enterprise";
+
+            var templateToCreate = new BoxMetadataTemplate() { TemplateKey = templateKey, DisplayName = displayName, Fields = null, Hidden = true, Scope = scope };
+            await _client.MetadataManager.CreateMetadataTemplate(templateToCreate);
+
+            var templateIsDeleted = await _client.MetadataManager.DeleteMetadataTemplate(scope, templateKey);
+
+            try
+            {
+                await _client.MetadataManager.GetMetadataTemplate(scope, templateKey);
+            } catch (BoxException e)
+            {
+                Assert.IsNotNull(e); 
+            }
+            Assert.IsTrue(templateIsDeleted, "Failed to delete metadata template");
         }
 
         [TestMethod]
