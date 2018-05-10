@@ -140,7 +140,7 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual("storage_policy_assignment", result.Type);
             Assert.AreEqual("user_5678", result.Id);
-            Assert.IsNotNull(result.StoragePolicy);
+            Assert.IsNotNull(result.BoxStoragePolicy);
             Assert.IsNotNull(result.AssignedTo);
         }
 
@@ -188,7 +188,7 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual("storage_policy_assignment", result.Type);
             Assert.AreEqual("user_5678", result.Id);
-            Assert.IsNotNull(result.StoragePolicy);
+            Assert.IsNotNull(result.BoxStoragePolicy);
             Assert.IsNotNull(result.AssignedTo);
         }
 
@@ -272,7 +272,7 @@ namespace Box.V2.Test
             Assert.AreEqual(storagePolicyAssignmentsUri, boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
-            Assert.AreEqual("1111", result.StoragePolicy.Id);
+            Assert.AreEqual("1111", result.BoxStoragePolicy.Id);
         }
 
         [TestMethod]
@@ -409,8 +409,8 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual("storage_policy_assignment", result.Type);
             Assert.AreEqual("user_7777", result.Id);
-            Assert.AreEqual("storage_policy", result.StoragePolicy.Type);
-            Assert.AreEqual("1111", result.StoragePolicy.Id);
+            Assert.AreEqual("storage_policy", result.BoxStoragePolicy.Type);
+            Assert.AreEqual("1111", result.BoxStoragePolicy.Id);
             Assert.AreEqual("user", result.AssignedTo.Type);
             Assert.AreEqual("7777", result.AssignedTo.Id);
         }

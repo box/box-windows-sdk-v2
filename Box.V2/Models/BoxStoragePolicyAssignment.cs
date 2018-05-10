@@ -11,7 +11,7 @@ namespace Box.V2.Models
         /// The storage policy to assign to user.
         /// </summary>
         [JsonProperty(PropertyName = FieldStoragePolicy)]
-        public BoxEntity StoragePolicy { get; set; }
+        public BoxEntity BoxStoragePolicy { get; set; }
 
         /// <summary>
         /// The Box User to assign the storage policy to.
