@@ -75,6 +75,7 @@
     <Compile Include="Managers\BoxMetadataManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\BoxSharedItemsManager.cs" />
+    <Compile Include="Managers\BoxStoragePoliciesManager.cs" />
     <Compile Include="Managers\BoxTasksManager.cs" />
     <Compile Include="Managers\BoxTermsOfServiceManager.cs" />
     <Compile Include="Managers\BoxWebhooksManager.cs" />
@@ -116,6 +117,8 @@
     <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
     <Compile Include="Models\BoxRetentionPolicy.cs" />
     <Compile Include="Models\BoxSessionUploadStatus.cs" />
+    <Compile Include="Models\BoxStoragePolicy.cs" />
+    <Compile Include="Models\BoxStoragePolicyAssignment.cs" />
     <Compile Include="Models\BoxTask.cs" />
     <Compile Include="Models\BoxTaskAssignment.cs" />
     <Compile Include="Models\BoxTermsOfService.cs" />

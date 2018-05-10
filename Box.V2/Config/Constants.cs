@@ -49,6 +49,9 @@ namespace Box.V2.Config
         public const string CollaborationWhitelistTargetEntryString = @"collaboration_whitelist_exempt_targets/";
         public const string TermsOfServicesString = @"terms_of_services/";
         public const string TermsOfServiceUserStatusesString = @"terms_of_service_user_statuses/";
+        public const string StoragePoliciesString = @"storage_policies/";
+        public const string StoragePolicyAssignmentsString = @"storage_policy_assignments/";
+        public const string StoragePolicyAssignmentsForTargetString = @"storage_policy_assignments";
 
         /// <summary>
         /// The shared items constant
@@ -99,6 +102,8 @@ namespace Box.V2.Config
         public const string WebLinksEndpointString = BoxApiUriString + WebLinksString;
         public const string LegalHoldPoliciesEndpointString = BoxApiUriString + LegalHoldPoliciesString;
         public const string LegalHoldPolicyAssignmentsEndpointString = BoxApiUriString + LegalHoldPolicyAssignmentsString;
+        public const string StoragePoliciesEndpointString = BoxApiUriString + StoragePoliciesString;
+        public const string StoragePolicyAssignmentsEndpointString = BoxApiUriString + StoragePolicyAssignmentsString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";
@@ -168,6 +173,8 @@ namespace Box.V2.Config
         public const string TypeMetadataTemplate = "metadata_template";
         public const string TypeTermsOfService = "terms_of_service";
         public const string TypeTermsOfServiceUserStatuses = "terms_of_service_user_status";
+        public const string TypeStoragePolicy = "storage_policy";
+        public const string TypeStoragePolicyAssignment = "storage_policy_assignment";
         public const string TypeApplication = "application";
 
         /*** File Preview ***/

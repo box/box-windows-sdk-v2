@@ -149,7 +149,7 @@ namespace Box.V2.Config
         public virtual Uri AuthCodeBaseUri { get { return new Uri(BoxAccountApiHostUri, Constants.AuthCodeString); } }
         public virtual Uri AuthCodeUri { get { return new Uri(AuthCodeBaseUri, string.Format("?response_type=code&client_id={0}&redirect_uri={1}", ClientId, RedirectUri)); } }
         public virtual Uri FoldersEndpointUri { get { return new Uri(BoxApiUri, Constants.FoldersString); } }
-        public virtual Uri TermsOfServicesUri { get { return new Uri(BoxApiUri, Constants.TermsOfServicesString);  } }
+        public virtual Uri TermsOfServicesUri { get { return new Uri(BoxApiUri, Constants.TermsOfServicesString); } }
         public virtual Uri TermsOfServiceUserStatusesUri { get { return new Uri(BoxApiUri, Constants.TermsOfServiceUserStatusesString); } }
         public virtual Uri FilesEndpointUri { get { return new Uri(BoxApiUri, Constants.FilesString); } }
         public virtual Uri FilesUploadEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesUploadString); } }
@@ -181,6 +181,9 @@ namespace Box.V2.Config
         public virtual Uri DevicePinUri { get { return new Uri(BoxApiUri, Constants.DevicePinString); } }
         public virtual Uri CollaborationWhitelistEntryUri { get { return new Uri(BoxApiUri, Constants.CollaborationWhitelistEntryString); } }
         public virtual Uri CollaborationWhitelistTargetEntryUri { get { return new Uri(BoxApiUri, Constants.CollaborationWhitelistTargetEntryString); } }
+        public virtual Uri StoragePoliciesUri { get { return new Uri(BoxApiUri, Constants.StoragePoliciesString); } }
+        public virtual Uri StoragePolicyAssignmentsUri { get { return new Uri(BoxApiUri, Constants.StoragePolicyAssignmentsString); } }
+        public virtual Uri StoragePolicyAssignmentsForTargetUri { get { return new Uri(BoxApiUri, Constants.StoragePolicyAssignmentsForTargetString); } }
 
         /// <summary>
         /// Gets the shared items endpoint URI.
