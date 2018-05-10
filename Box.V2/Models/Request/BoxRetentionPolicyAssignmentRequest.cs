@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models.Request
 {
@@ -15,5 +16,11 @@ namespace Box.V2.Models.Request
         /// </summary>
         [JsonProperty(PropertyName = "assign_to")]
         public BoxRequestEntity AssignTo { get; set; }
+
+        /// <summary>
+        /// An optional list of metadata field filters to use when applying the retention policy to a metadata template, e.g. {"field": "foo", "value": "bar"}
+        /// </summary>
+        [JsonProperty(PropertyName = "filter_fields")]
+        public List<object> FilterFields { get; set; }
     }
 }

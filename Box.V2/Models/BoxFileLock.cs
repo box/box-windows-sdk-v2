@@ -16,6 +16,7 @@ namespace Box.V2.Models
         public const string FieldCreatedBy = "created_by";
         public const string FieldExpiresAt = "expires_at";
         public const string FieldIsDownloadPrevented = "is_download_prevented";
+        public const string FieldFile = "file";
 
         /// <summary>
         /// The time the lock was created
@@ -40,6 +41,13 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldIsDownloadPrevented)]
         public bool IsDownloadPrevented { get; set; }
+
+        /// <summary>
+        /// The file the lock applies to; only set when the lock appears as the
+        /// source of an event.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldFile)]
+        public BoxFile File { get; private set; }
 
     }
 }

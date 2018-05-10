@@ -48,7 +48,7 @@ namespace Box.V2.Managers
         public async Task<BoxTaskAssignment> UpdateTaskAssignmentAsync(BoxTaskAssignmentUpdateRequest taskAssignmentUpdateRequest)
         {
             taskAssignmentUpdateRequest.ThrowIfNull("taskAssignmentUpdateRequest")
-                .Id.ThrowIfNull("taskAssignmentUpdateRequest.Id");
+                .Id.ThrowIfNullOrWhiteSpace("taskAssignmentUpdateRequest.Id");
 
             BoxRequest request = new BoxRequest(_config.TaskAssignmentsEndpointUri, taskAssignmentUpdateRequest.Id)
                 .Method(RequestMethod.Put)
@@ -66,7 +66,7 @@ namespace Box.V2.Managers
         /// <returns>The specified task assignment object will be returned upon success.</returns>
         public async Task<BoxTaskAssignment> GetTaskAssignmentAsync(string taskAssignmentId)
         {
-            taskAssignmentId.ThrowIfNull("taskAssignmentId");
+            taskAssignmentId.ThrowIfNullOrWhiteSpace("taskAssignmentId");
 
             BoxRequest request = new BoxRequest(_config.TaskAssignmentsEndpointUri, taskAssignmentId)
                 .Method(RequestMethod.Get);
@@ -83,7 +83,7 @@ namespace Box.V2.Managers
         /// <returns>True will be returned upon success.</returns>
         public async Task<bool> DeleteTaskAssignmentAsync(string taskAssignmentId)
         {
-            taskAssignmentId.ThrowIfNull("taskAssignmentId");
+            taskAssignmentId.ThrowIfNullOrWhiteSpace("taskAssignmentId");
 
             BoxRequest request = new BoxRequest(_config.TaskAssignmentsEndpointUri, taskAssignmentId)
                 .Method(RequestMethod.Delete);
@@ -142,7 +142,7 @@ namespace Box.V2.Managers
         /// <returns>True will be returned upon success.</returns>
         public async Task<bool> DeleteTaskAsync(string taskId)
         {
-            taskId.ThrowIfNull("taskId");
+            taskId.ThrowIfNullOrWhiteSpace("taskId");
 
             BoxRequest request = new BoxRequest(_config.TasksEndpointUri, taskId)
                 .Method(RequestMethod.Delete);
@@ -159,7 +159,7 @@ namespace Box.V2.Managers
         /// <returns>The specified task object will be returned upon success.</returns>
         public async Task<BoxTask> GetTaskAsync(string taskId)
         {
-            taskId.ThrowIfNull("taskId");
+            taskId.ThrowIfNullOrWhiteSpace("taskId");
 
             BoxRequest request = new BoxRequest(_config.TasksEndpointUri, taskId)
                 .Method(RequestMethod.Get);
@@ -176,7 +176,7 @@ namespace Box.V2.Managers
         /// <returns>A collection of task assignment mini objects will be returned upon success.</returns>
         public async Task<BoxCollection<BoxTaskAssignment>> GetAssignmentsAsync(string taskId)
         {
-            taskId.ThrowIfNull("taskId");
+            taskId.ThrowIfNullOrWhiteSpace("taskId");
 
             BoxRequest request = new BoxRequest(_config.TasksEndpointUri, string.Format(Constants.TaskAssignmentsPathString, taskId))
                 .Method(RequestMethod.Get);
