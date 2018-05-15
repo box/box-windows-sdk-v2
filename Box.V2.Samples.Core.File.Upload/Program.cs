@@ -41,7 +41,7 @@ namespace Box.V2.Core.Sample
 
             var auth = new OAuthSession(accessToken, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-            var config = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_ID", new Uri("http://boxsdk"));
+            var config = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://boxsdk"));
             var client = new BoxClient(config, auth);
 
             var file = File.OpenRead(localFilePath);
