@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Utility;
 using System;
 using System.Collections.Generic;
@@ -136,6 +136,7 @@ namespace Box.V2.Request
                             boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                         }
 
+                        response.Dispose();
                         return boxResponse;
                     }
                 }
