@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Utility;
 using System;
 using System.Collections.Generic;
@@ -134,6 +134,9 @@ namespace Box.V2.Request
                         else
                         {
                             boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                            // We can safely dispose the response now since all of it has been read
+                            response.Dispose();
                         }
 
                         return boxResponse;
