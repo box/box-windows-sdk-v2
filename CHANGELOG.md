@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.9.1
+
+- Fixed bug where Xamarin applications would run out of connections
+
 ## 3.9.0
 
 - Added support for Storage Policies

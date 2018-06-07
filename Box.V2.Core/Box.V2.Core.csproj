@@ -3,13 +3,13 @@
   <PropertyGroup>
     <Description>Box.V2 for .Net Core</Description>
     <AssemblyTitle>Box.V2.Core</AssemblyTitle>
-    <Version>3.9.0</Version>
+    <Version>3.9.1</Version>
     <Authors>Box, Inc.</Authors>
 	<Owners>Box, Inc.</Owners>
 	<PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
 	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	<PackageDescription>Windows SDK for v2 of the Box API. The SDK is built for .NET Core and includes JWTAuth support.</PackageDescription>
-	<PackageReleaseNotes>Added support for Storage Policies.</PackageReleaseNotes>
+	<PackageReleaseNotes>Fixed bug where Xamarin applications would run out of connections.</PackageReleaseNotes>
 	<Copyright>Copyright 2018</Copyright>
 	<PackageTags>Box;V2;SDK;Platform;Enterprise;Collaboration;Storage;File Management</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
