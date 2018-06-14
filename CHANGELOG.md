@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.9.2
+- Added support for [setting flag](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Models/Request/BoxFolderRequest.cs#L39) allowing non owners of a folder to invite collaborators.
+
 ## 3.9.1
 
 - Fixed bug where Xamarin applications would run out of connections
