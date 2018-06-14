@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Box.V2</id>
-    <version>3.9.1</version>
+    <version>3.9.2</version>
     <title>Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.5</description>
-    <releaseNotes>Fixed bug where Xamarin applications would run out of connections.</releaseNotes>
+    <releaseNotes>Added support for setting a flag allowing non owners of a folder to invite collaborators.</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>
