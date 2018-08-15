@@ -134,6 +134,7 @@ namespace Box.V2
             LegalHoldPoliciesManager = new BoxLegalHoldPoliciesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             CollaborationWhitelistManager = new BoxCollaborationWhitelistManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             TermsOfServiceManager = new BoxTermsOfServiceManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            MetadataCascadePolicyManager = new BoxMetadataCascadePolicyManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -261,8 +262,14 @@ namespace Box.V2
         /// </summary>
         public BoxCollaborationWhitelistManager CollaborationWhitelistManager { get; private set; }
 
+        /// <summary>
         /// The manager that represents the terms of service endpoint
         /// </summary>
         public BoxTermsOfServiceManager TermsOfServiceManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents the metadata cascade policy endpoint
+        /// </summary>
+        public BoxMetadataCascadePolicyManager MetadataCascadePolicyManager { get; private set; }
     }
 }

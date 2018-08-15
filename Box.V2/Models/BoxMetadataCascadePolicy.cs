@@ -2,19 +2,12 @@
 
 namespace Box.V2.Models
 {
-    public class BoxMetadataCascadePolicy
+    public class BoxMetadataCascadePolicy : BoxEntity
     {
-        public const string FieldId = "id";
         public const string FieldOwnerEnterprise = "owner_enterprise";
         public const string FieldParent = "parent";
         public const string FieldScope = "scope";
         public const string FieldTemplateKey = "templateKey";
-
-        /// <summary>
-        /// Gets the Id of the cascade policy.
-        /// </summary>
-        [JsonProperty(PropertyName = FieldId)]
-        public string Id { get; private set; }
 
         /// <summary>
         /// Gets the owner enterprise of the cascade policy.

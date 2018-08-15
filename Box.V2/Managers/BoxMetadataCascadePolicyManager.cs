@@ -81,6 +81,8 @@ namespace Box.V2.Managers
 
             BoxRequest request = new BoxRequest(_config.MetadataCascadePolicyUri)
                 .Method(RequestMethod.Get)
+                .Param("folder_id", folderId)
+                .Param("ownerEnterpriseId", ownerEnterpriseId)
                 .Param("limit", limit.ToString())
                 .Param("marker", nextMarker);
 
@@ -89,7 +91,10 @@ namespace Box.V2.Managers
                 return await AutoPaginateMarker<BoxMetadataCascadePolicy>(request, limit);
             } else
             {
+                IBoxResponse<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>> response =
+                    await ToResponseAsync<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>>(request).ConfigureAwait(false);
 
+                return response.ResponseObject;
             }
         }
 

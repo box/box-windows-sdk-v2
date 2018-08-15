@@ -79,6 +79,8 @@ namespace Box.V2.Converter
                         return new BoxTermsOfService();
                     case Constants.TypeTermsOfServiceUserStatuses:
                         return new BoxTermsOfServiceUserStatuses();
+                    case Constants.TypeMetadataCascadePolicy:
+                        return new BoxMetadataCascadePolicy();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names

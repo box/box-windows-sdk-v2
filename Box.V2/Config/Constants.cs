@@ -170,6 +170,7 @@ namespace Box.V2.Config
         public const string TypeMetadataTemplate = "metadata_template";
         public const string TypeTermsOfService = "terms_of_service";
         public const string TypeTermsOfServiceUserStatuses = "terms_of_service_user_status";
+        public const string TypeMetadataCascadePolicy = "metadata_cascade_policy";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
