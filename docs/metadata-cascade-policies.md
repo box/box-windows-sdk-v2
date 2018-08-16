@@ -67,6 +67,6 @@ string conflictResolution = "overwrite";
 client.MetadataCascadePolicyManager.ForceApplyCascadePolicyAsync(policyId, conflictResolution);
 ```
 
-The conflict_resolution field can be set to either none which will preserve the existing value on the file, and overwrite, which will force-apply the cascade policy's value over any existing value. 
+The conflict_resolution field can be set to either none which will preserve the existing value on the file, or overwrite, which will force-apply the cascade policy's value over any existing value. 
 
 
