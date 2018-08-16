@@ -37,6 +37,12 @@ namespace Box.V2
         /// </summary>
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
+
+        /// <summary>
+        /// Request ID for the request that produced the error.  This is useful for troubleshooting.
+        /// </summary>
+        [JsonProperty(PropertyName = "request_id")]
+        public string RequestId { get; set; }
     }
 
     /// <summary>

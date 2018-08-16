@@ -43,7 +43,7 @@ namespace Box.V2.Managers
         public async Task<BoxUser> CreateEnterpriseUserAsync(BoxUserRequest userRequest, IEnumerable<string> fields = null)
         {
             userRequest.ThrowIfNull("userRequest");
-            userRequest.Name.ThrowIfNull("userRequest.Name");
+            userRequest.Name.ThrowIfNullOrWhiteSpace("userRequest.Name");
 
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, "")
                 .Param(ParamFields, fields)

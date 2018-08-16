@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="BoxCollectionsManagerTest.cs" />
     <Compile Include="BoxMetadataCascadePolicyManagerTest.cs" />
+    <Compile Include="BoxEventsManagerTest.cs" />
     <Compile Include="BoxMetadataManagerTest.cs" />
     <Compile Include="BoxSharedItemsManagerTest.cs" />
     <Compile Include="BoxResourcePluginsTest.cs" />
@@ -79,11 +80,13 @@
     <Compile Include="BoxResourceManagerTest.cs" />
     <Compile Include="BoxServiceTest.cs" />
     <Compile Include="BoxSearchManagerTest.cs" />
+    <Compile Include="BoxStoragePoliciesManagerTest.cs" />
     <Compile Include="BoxTasksManagerTest.cs" />
     <Compile Include="BoxUsersManagerTest.cs" />
     <Compile Include="BoxCollaborationsManagerTest.cs" />
     <Compile Include="BoxLegalHoldPoliciesManagerTest.cs" />
     <Compile Include="BoxWebLinksManagerTest.cs" />
+    <Compile Include="BoxRetentionPoliciesManagerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BoxRequestTest.cs" />
     <Compile Include="BoxFoldersManagerTest.cs" />
