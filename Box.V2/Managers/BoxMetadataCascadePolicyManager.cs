@@ -44,7 +44,7 @@ namespace Box.V2.Managers
             dynamic jsonObject = new JObject();
             jsonObject.folder_id = folderId;
             jsonObject.scope = scope;
-            jsonObject.template_key = templateKey;
+            jsonObject.templateKey = templateKey;
 
             string jsonString = jsonObject.ToString();
 

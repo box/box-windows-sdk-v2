@@ -870,5 +870,19 @@ namespace Box.V2.Config
             /// </summary>
             public const string Both = "both";
         }
+
+        /*** The desired conflict-resolution if a template already exists on a given file or folder.***/
+        public static class ConflictResolution
+        {
+            /// <summary>
+            /// This will preserve the existing value on the file.
+            /// </summary>
+            public const string None = "none";
+
+            /// <summary>
+            /// This will force-apply the cascade policy's value over any existing value.
+            /// </summary>
+            public const string Overwrite = "overwrite";
+        }
     }
 }
