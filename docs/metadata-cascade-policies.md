@@ -23,7 +23,7 @@ To create a new metadata cascade policy, call
 `MetadataCascadePolicyManager.CreateCascadePolicyAsync(String folderId, string scope, string templateKey)`.
 
 ```c#
-var metadataCascadePolicy = await client.MetadataCascadePolicyManager.CreateCascadePolicyAsync("22222", "enterprise_11111", "templateKey");
+BoxMetadataCascadePolicy metadataCascadePolicy = await client.MetadataCascadePolicyManager.CreateCascadePolicyAsync("22222", "enterprise_11111", "templateKey");
 ```
 
 Get a Metadata Cascade Policy
@@ -33,7 +33,7 @@ To get information about a specific metadata cascade policy, call
 `MetadataCascadePolicyManager.GetCascadePolicyAsync(string policyId)`
 
 ```c#
-var retrievedCascadePolicy = await client.MetadataCascadePolicyManager.GetCascadePolicyAsync("12345");
+BoxMetadataCascadePolicy retrievedCascadePolicy = await client.MetadataCascadePolicyManager.GetCascadePolicyAsync("12345");
 ```
 
 Get Metadata Cascade Policies for Folder
@@ -43,16 +43,16 @@ To retrieve a collection of metadata cascade policies within a given folder for 
 `MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync(string folderId)`
 
 ```c#
-var metadataCascadePolicies = await client.MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync("12345");
+BoxCollectionMarkerBased<BoxMetadataCascadePolicy> metadataCascadePolicies = await client.MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync("12345");
 ```
 
-You can also specify the ID of the owner of the metadata cascade policies by calling
+You can also retrieve metadata cascade policies for another enterprise by using
 `MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId)`
 
 ```c#
-string folderId = "12345";
-string ownerEnterpriseId = "11111";
-var metadataCascadePolicies = await client.MetadataCascadePolicyManager.GetAllMetadataCascadePolicies(folderId, ownerEnterpriseId)
+string folderId = "1111";
+string ownerEnterpriseId = "2222";
+BoxCollectionMarkerBased<BoxMetadataCascadePolicy> metadataCascadePolicies = await client.MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync(folderId, ownerEnterpriseId);
 ```
 
 Force Apply Metadata Cascade Policy
@@ -64,9 +64,9 @@ To apply a policy on a folder that already has one, use
 ```c#
 string policyId = "11111";
 string conflictResolution = "overwrite";
-client.MetadataCascadePolicyManager.ForceApplyCascadePolicyAsync(policyId, conflictResolution);
+BoxMetadataCascadePolicy newCascadePolicy = client.MetadataCascadePolicyManager.ForceApplyCascadePolicyAsync(policyId, conflictResolution);
 ```
 
-The conflict_resolution field can be set to either none which will preserve the existing value on the file, or overwrite, which will force-apply the cascade policy's value over any existing value. 
+The conflict_resolution field can be set to either `none` which will preserve the existing value on the file, or `overwrite`, which will force-apply the cascade policy's value over any existing value. 
 
 
