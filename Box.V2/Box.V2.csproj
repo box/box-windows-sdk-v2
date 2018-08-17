@@ -40,8 +40,8 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.4\lib\net45\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,16 +72,18 @@
     <Compile Include="Managers\BoxDevicePinManager.cs" />
     <Compile Include="Managers\BoxEventsManager.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
-    <Compile Include="Managers\BoxMetadataCascadePolicyManager.cs" />
     <Compile Include="Managers\BoxMetadataManager.cs" />
+    <Compile Include="Managers\BoxMetadataCascadePolicyManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\BoxSharedItemsManager.cs" />
+    <Compile Include="Managers\BoxStoragePoliciesManager.cs" />
     <Compile Include="Managers\BoxTasksManager.cs" />
     <Compile Include="Managers\BoxTermsOfServiceManager.cs" />
     <Compile Include="Managers\BoxWebhooksManager.cs" />
     <Compile Include="Managers\BoxLegalHoldPoliciesManager.cs" />
     <Compile Include="Managers\BoxRecentItemsManager.cs" />
     <Compile Include="Managers\BoxWebLinksManager.cs" />
+    <Compile Include="Models\BoxApplication.cs" />
     <Compile Include="Models\BoxAssignmentCounts.cs" />
     <Compile Include="Models\BoxCollectionItem.cs" />
     <Compile Include="Models\BoxDevicePin.cs" />
@@ -89,7 +91,11 @@
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
     <Compile Include="Models\BoxFolderEventSource.cs" />
+    <Compile Include="Models\BoxGroupEventSource.cs" />
     <Compile Include="Models\BoxMetadataCascadePolicy.cs" />
+    <Compile Include="Models\BoxGroupFileCollaborationEventSource.cs" />
+    <Compile Include="Models\BoxGroupFolderCollaborationEventSource.cs" />
+    <Compile Include="Models\BoxMetadataFieldFilter.cs" />
     <Compile Include="Models\BoxRepresentation.cs" />
     <Compile Include="Models\BoxRepresentationContent.cs" />
     <Compile Include="Models\BoxRepresentationInfo.cs" />
@@ -113,10 +119,14 @@
     <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
     <Compile Include="Models\BoxRetentionPolicy.cs" />
     <Compile Include="Models\BoxSessionUploadStatus.cs" />
+    <Compile Include="Models\BoxStoragePolicy.cs" />
+    <Compile Include="Models\BoxStoragePolicyAssignment.cs" />
     <Compile Include="Models\BoxTask.cs" />
     <Compile Include="Models\BoxTaskAssignment.cs" />
     <Compile Include="Models\BoxTermsOfService.cs" />
     <Compile Include="Models\BoxTermsOfServiceUserStatuses.cs" />
+    <Compile Include="Models\BoxUserFileCollaborationEventSource.cs" />
+    <Compile Include="Models\BoxUserFolderCollaborationEventSource.cs" />
     <Compile Include="Models\BoxTrackingCode.cs" />
     <Compile Include="Models\BoxUserInvite.cs" />
     <Compile Include="Models\BoxWatermarkInfo.cs" />

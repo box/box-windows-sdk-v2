@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,11 @@ namespace Box.V2.Models
         [JsonConverter(typeof(StringEnumConverter))]
         public BoxSyncStateType? SyncState { get; set; }
 
+        /// <summary>
+        /// Setting to determine if non-owners can invite others to collaborate on the folder.
+        /// </summary>
+        [JsonProperty(PropertyName = "can_non_owners_invite")]
+        public bool? CanNonOwnersInvite { get; set; }
     }
 
 }

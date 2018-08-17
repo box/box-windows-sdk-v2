@@ -7,9 +7,9 @@ namespace Box.V2.Config
 {
     public interface IBoxConfig
     {
-        Uri BoxApiHostUri { get; }
-        Uri BoxApiUri { get; }
-        Uri BoxUploadApiUri { get; }
+        Uri BoxApiHostUri { get; set; }
+        Uri BoxApiUri { get; set; }
+        Uri BoxUploadApiUri { get; set; }
 
         string ClientId { get; }
         string ConsumerKey { get; }
@@ -65,6 +65,9 @@ namespace Box.V2.Config
         Uri TermsOfServicesUri { get; }
         Uri TermsOfServiceUserStatusesUri { get; }
         Uri MetadataCascadePolicyUri { get; }
+        Uri StoragePoliciesUri { get; }
+        Uri StoragePolicyAssignmentsUri { get; }
+        Uri StoragePolicyAssignmentsForTargetUri { get; }
 
         /// <summary>
         /// Gets the shared items endpoint URI.

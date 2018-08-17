@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Utility;
 using System;
 using System.Collections.Generic;
@@ -134,6 +134,9 @@ namespace Box.V2.Request
                         else
                         {
                             boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                            // We can safely dispose the response now since all of it has been read
+                            response.Dispose();
                         }
 
                         return boxResponse;
@@ -186,7 +189,14 @@ namespace Box.V2.Request
                 handler.AllowAutoRedirect = followRedirect;
                 // Ensure that clients use non-deprecated versions of TLS (i.e. TLSv1.1 or greater)
 #if NETSTANDARD1_6
-                handler.SslProtocols |= System.Security.Authentication.SslProtocols.Tls12;
+                try
+                {
+                    handler.SslProtocols |= System.Security.Authentication.SslProtocols.Tls12;
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("Could not set TLSv1.2 security protocol!");
+                }
 #elif NET45
                 System.Net.ServicePointManager.SecurityProtocol |= System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
 #else

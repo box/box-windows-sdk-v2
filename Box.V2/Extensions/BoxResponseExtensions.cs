@@ -41,15 +41,8 @@ namespace Box.V2.Extensions
                         var err = new BoxError() { Code = response.StatusCode.ToString(), Description = "Forbidden", Message = errorMsg.ToString() };
                         throw new BoxException(err.Message, err) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
                     }
-                    else if (!string.IsNullOrWhiteSpace(response.ContentString))
-                    {
-                        response.Error = converter.Parse<BoxError>(response.ContentString);
-                        throw new BoxException(response.ContentString, response.Error) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
-                    }
-                    else
-                    {
-                        throw new BoxException("Forbidden") { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
-                    }
+                    
+                    throw BoxException.GetResponseException("The API returned an error", response);
                 default:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                     {
@@ -75,20 +68,20 @@ namespace Box.V2.Extensions
                                     break;
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
                         }
 
-                        throw exToThrow == null ?
-                            new BoxException(response.ContentString, response.Error) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers } :
-                            exToThrow;
+                        if (exToThrow != null)
+                        {
+                            throw exToThrow;
+                        }
                     }
-                    throw new BoxException(response.ContentString) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
+                    throw BoxException.GetResponseException("The API returned an error", response);
             }
             return response;
         }
-
 
         /// <summary>
         /// Attempt to extract the number of pages in a preview from the HTTP response headers. The response contains a "Link" 

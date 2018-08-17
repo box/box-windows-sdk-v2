@@ -1218,8 +1218,7 @@ namespace Box.V2.Managers
         /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
         /// for all other representation types.
         /// </summary>
-        /// <param name="boxRepresentationRequest">Object of type BoxRepresentationRequest that contains Box file id, x-rep-hints, set_content_disposition_type
-        ///     set_content_disposition_filename.</param>
+        /// <param name="boxRepresentationRequest">Object of type BoxRepresentationRequest that contains Box file id, x-rep-hints</param>
         /// <returns>A full file object containing the updated representations template_url and state is returned.</returns>
         /// </summary>
         public async Task<BoxRepresentationCollection<BoxRepresentation>> GetRepresentationsAsync(BoxRepresentationRequest representationRequest)
@@ -1246,6 +1245,15 @@ namespace Box.V2.Managers
             return response.ResponseObject.Representations;
         }
 
+        /// <summary>
+        /// Representations are digital assets stored in Box. We can request the following representations: PDF, Extracted Text, Thumbnail,
+        /// and Single Page depending on whether the file type is supported by passing in the corresponding x-rep-hints header. This will generate a 
+        /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
+        /// for all other representation types.
+        /// </summary>
+        /// <param name="boxRepresentationRequest">Object of type BoxRepresentationRequest that contains Box file id, x-rep-hints.</param>
+        /// <returns>A stream over the representation contents.</returns>
+        /// </summary>
         public async Task<Stream> GetRepresentationContentAsync(BoxRepresentationRequest representationRequest, string assetPath = "")
         {
             var reps = await this.GetRepresentationsAsync(representationRequest);
