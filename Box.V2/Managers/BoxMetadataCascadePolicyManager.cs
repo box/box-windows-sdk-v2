@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
@@ -75,14 +75,15 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-        public async Task<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>> GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId = null, int limit = 100, string nextMarker = null, bool autopaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>> GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId = null, int limit = 100, string nextMarker = null, IEnumerable<string> fields = null, bool autopaginate = false)
         {
             folderId.ThrowIfNullOrWhiteSpace("folderId");
 
             BoxRequest request = new BoxRequest(_config.MetadataCascadePolicyUri)
                 .Method(RequestMethod.Get)
+                .Param(ParamFields, fields)
                 .Param("folder_id", folderId)
-                .Param("ownerEnterpriseId", ownerEnterpriseId)
+                .Param("owner_enterprise_id", ownerEnterpriseId)
                 .Param("limit", limit.ToString())
                 .Param("marker", nextMarker);
 

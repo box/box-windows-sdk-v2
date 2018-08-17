@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -136,7 +136,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task GetAllMetadataCascadePolicies_ValidResponse()
         {
-            string responseString = "{ \"limit\": 100, \"entries\": [ { \"id\": \"6fd4ff89-8fc1-42cf-8b29-1890dedd26d7\", \"type\": \"metadata_cascade_policy\", \"owner_enterprise\": { \"type\": \"enterprise\", \"id\": \"690678\" }, \"parent\": { \"type\": \"folder\", \"id\": \"5394022797\" }, \"scope\": \"enterprise_690678\", \"templateKey\": \"demo\" } ], \"next_marker\": null, \"prev_marker\": null }";
+            string responseString = "{ \"limit\": 100, \"entries\": [ { \"id\": \"6fd4ff89-8fc1-42cf-8b29-1890dedd26d7\", \"type\": \"metadata_cascade_policy\", \"owner_enterprise\": { \"type\": \"enterprise\", \"id\": \"1111\" }, \"parent\": { \"type\": \"folder\", \"id\": \"2222\" }, \"scope\": \"enterprise_1111\", \"templateKey\": \"demo\" } ], \"next_marker\": null, \"prev_marker\": null }";
             IBoxRequest boxRequest = null;
             Uri metadataCascadePolicyUri = new Uri(Constants.MetadataCascadePolicyEndpointString);
             Config.SetupGet(x => x.MetadataCascadePolicyUri).Returns(metadataCascadePolicyUri);
@@ -149,18 +149,18 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            var metadataCascadePolicies = await _cascadePolicyManager.GetAllMetadataCascadePoliciesAsync("12345");
+            var metadataCascadePolicies = await _cascadePolicyManager.GetAllMetadataCascadePoliciesAsync("2222", "1111");
 
             /*** Assert ***/
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(metadataCascadePolicyUri + "?folder_id=12345&limit=100", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(metadataCascadePolicyUri + "?folder_id=2222&owner_enterprise_id=1111&limit=100", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
             Assert.AreEqual("6fd4ff89-8fc1-42cf-8b29-1890dedd26d7", metadataCascadePolicies.Entries[0].Id);
             Assert.AreEqual("metadata_cascade_policy", metadataCascadePolicies.Entries[0].Type);
-            Assert.AreEqual("690678", metadataCascadePolicies.Entries[0].OwnerEnterprise.Id);
+            Assert.AreEqual("1111", metadataCascadePolicies.Entries[0].OwnerEnterprise.Id);
         }
     }
 }
