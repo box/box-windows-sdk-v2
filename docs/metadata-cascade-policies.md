@@ -46,8 +46,8 @@ To retrieve a collection of metadata cascade policies within a given folder for 
 BoxCollectionMarkerBased<BoxMetadataCascadePolicy> metadataCascadePolicies = await client.MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync("12345");
 ```
 
-You can also retrieve metadata cascade policies for another enterprise by using
-`MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId)`
+You can also retrieve metadata cascade policies for another enterprise with specific fields to retrieve by using
+`MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId, int limit, IEnumberable<string> fields)`
 
 ```c#
 string folderId = "1111";
