@@ -249,6 +249,7 @@
     <Compile Include="Request\IRequestHandler.cs" />
     <Compile Include="Converter\IBoxConverter.cs" />
     <Compile Include="Converter\BoxJsonConverter.cs" />
+    <Compile Include="Models\BoxWebLinkEventSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

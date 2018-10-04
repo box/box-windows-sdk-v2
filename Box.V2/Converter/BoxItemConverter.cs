@@ -100,6 +100,8 @@ namespace Box.V2.Converter
                         return new BoxFileEventSource();
                     case Constants.TypeFolder:
                         return new BoxFolderEventSource();
+                    case Constants.TypeWebLink:
+                        return new BoxWebLinkEventSource();
                 }
             }
             else if (FieldExists(WatermarkType, jObject))
