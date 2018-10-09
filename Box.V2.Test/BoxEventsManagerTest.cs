@@ -113,7 +113,7 @@ namespace Box.V2.Test
 
             Assert.AreEqual(groupFolderEvents.Entries[0].EventType, "COLLABORATION_INVITE");
             Assert.AreEqual(groupFolderEvents.Entries[0].Source.GetType(), typeof(BoxGroupFolderCollaborationEventSource));
-            Assert.AreEqual(groupFolderEventSource.Id, "182069272");
+            Assert.AreEqual(groupFolderEventSource.Id, "47846340014");
             Assert.AreEqual(groupFolderEventSource.GroupName, "TestGroup");
         }
 
