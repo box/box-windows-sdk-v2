@@ -41,7 +41,7 @@ namespace Box.V2.Test
             var payload = boxRequest.Payload;
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual("{\r\n  \"folder_id\": \"22222\",\r\n  \"scope\": \"enterprise_11111\",\r\n  \"template_key\": \"templateKey\"\r\n}", payload);
+            Assert.AreEqual("{\r\n  \"folder_id\": \"22222\",\r\n  \"scope\": \"enterprise_11111\",\r\n  \"templateKey\": \"templateKey\"\r\n}", payload);
 
             Assert.AreEqual("84113349-794d-445c-b93c-d8481b223434", cascadePolicy.Id);
             Assert.AreEqual("22222", cascadePolicy.Parent.Id);
@@ -68,7 +68,7 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.AreEqual("84113349-794d-445c-b93c-d8481b223434", cascadePolicy.Id);
             Assert.AreEqual("22222", cascadePolicy.Parent.Id);
-            Assert.AreEqual("enterprise_11111", cascadePolicy.OwnerEnterprise.Id);
+            Assert.AreEqual("11111", cascadePolicy.OwnerEnterprise.Id);
             Assert.AreEqual("testTemplate", cascadePolicy.TemplateKey);
         }
 
