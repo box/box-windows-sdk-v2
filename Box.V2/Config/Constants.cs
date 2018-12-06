@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -138,6 +138,7 @@ namespace Box.V2.Config
         public const string DeleteEmailAliasPathString = "{0}/email_aliases/{1}";
         public const string GetEnterpriseDevicePinsPathString = @"{0}/device_pinners";
         public const string LegalHoldPolicyAssignmentsPathString = @"{0}/assignments";
+        public const string MetadataCascadePoliciesForceApplyPathString = @"{0}/apply";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
