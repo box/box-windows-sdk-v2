@@ -114,7 +114,7 @@ namespace Box.V2.Managers
 
             string jsonString = jsonObject.ToString();
 
-            BoxRequest request = new BoxRequest(_config.MetadataCascadePolicyUri, policyId)
+            BoxRequest request = new BoxRequest(_config.MetadataCascadePolicyUri, string.Format(Constants.MetadataCascadePoliciesForceApplyPathString, policyId))
                 .Method(RequestMethod.Post)
                 .Payload(jsonString);
 

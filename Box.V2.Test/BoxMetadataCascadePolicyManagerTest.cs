@@ -26,6 +26,8 @@ namespace Box.V2.Test
             /*** Arrange ***/
             string responseString = "{ \"id\": \"84113349-794d-445c-b93c-d8481b223434\", \"type\": \"metadata_cascade_policy\", \"owner_enterprise\": { \"type\": \"enterprise\", \"id\": \"11111\" }, \"parent\": { \"type\": \"folder\", \"id\": \"22222\" }, \"scope\": \"enterprise_11111\", \"templateKey\": \"testTemplate\" }";
             IBoxRequest boxRequest = null;
+            Uri cascadePoliciesUri = new Uri(Constants.MetadataCascadePolicyEndpointString);
+            Config.SetupGet(x => x.MetadataCascadePolicyUri).Returns(cascadePoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxMetadataCascadePolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxMetadataCascadePolicy>>(new BoxResponse<BoxMetadataCascadePolicy>()
                 {
@@ -41,7 +43,8 @@ namespace Box.V2.Test
             var payload = boxRequest.Payload;
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual("{\r\n  \"folder_id\": \"22222\",\r\n  \"scope\": \"enterprise_11111\",\r\n  \"template_key\": \"templateKey\"\r\n}", payload);
+            Assert.AreEqual(cascadePoliciesUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual("{\r\n  \"folder_id\": \"22222\",\r\n  \"scope\": \"enterprise_11111\",\r\n  \"templateKey\": \"templateKey\"\r\n}", payload);
 
             Assert.AreEqual("84113349-794d-445c-b93c-d8481b223434", cascadePolicy.Id);
             Assert.AreEqual("22222", cascadePolicy.Parent.Id);
@@ -55,25 +58,32 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{ \"id\": \"84113349-794d-445c-b93c-d8481b223434\", \"type\": \"metadata_cascade_policy\", \"owner_enterprise\": { \"type\": \"enterprise\", \"id\": \"11111\" }, \"parent\": { \"type\": \"folder\", \"id\": \"22222\" }, \"scope\": \"enterprise_11111\", \"templateKey\": \"testTemplate\" }";
+            IBoxRequest boxRequest = null;
+            Uri cascadePoliciesUri = new Uri(Constants.MetadataCascadePolicyEndpointString);
+            Config.SetupGet(x => x.MetadataCascadePolicyUri).Returns(cascadePoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxMetadataCascadePolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxMetadataCascadePolicy>>(new BoxResponse<BoxMetadataCascadePolicy>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
-                }));
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
             BoxMetadataCascadePolicy cascadePolicy = await _cascadePolicyManager.GetCascadePolicyAsync("84113349-794d-445c-b93c-d8481b223434");
 
             /*** Assert ***/
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(cascadePoliciesUri + "84113349-794d-445c-b93c-d8481b223434", boxRequest.AbsoluteUri.AbsoluteUri);
+
             Assert.AreEqual("84113349-794d-445c-b93c-d8481b223434", cascadePolicy.Id);
             Assert.AreEqual("22222", cascadePolicy.Parent.Id);
-            Assert.AreEqual("enterprise_11111", cascadePolicy.OwnerEnterprise.Id);
+            Assert.AreEqual("11111", cascadePolicy.OwnerEnterprise.Id);
             Assert.AreEqual("testTemplate", cascadePolicy.TemplateKey);
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-Test")]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteMetadataCascadePolicy_ValidResponse()
         {
             string responseString = "";
@@ -102,7 +112,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-Test")]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task ForceApplyMetadataCascadePolicy_ValidResponse()
         {
             string responseString = "";
@@ -125,7 +135,7 @@ namespace Box.V2.Test
             var payload = boxRequest.Payload;
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(metadataCascadePolicyUri + "12345", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(metadataCascadePolicyUri + "12345/apply", boxRequest.AbsoluteUri.AbsoluteUri);
             Assert.AreEqual("{\r\n  \"conflict_resolution\": \"none\"\r\n}", payload);
 
             //Response check
