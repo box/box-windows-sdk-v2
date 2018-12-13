@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +49,7 @@ namespace Box.V2.Config
         public const string CollaborationWhitelistTargetEntryString = @"collaboration_whitelist_exempt_targets/";
         public const string TermsOfServicesString = @"terms_of_services/";
         public const string TermsOfServiceUserStatusesString = @"terms_of_service_user_statuses/";
+        public const string MetadataCascadePoliciesString = @"metadata_cascade_policies/";
         public const string StoragePoliciesString = @"storage_policies/";
         public const string StoragePolicyAssignmentsString = @"storage_policy_assignments/";
         public const string StoragePolicyAssignmentsForTargetString = @"storage_policy_assignments";
@@ -102,6 +103,7 @@ namespace Box.V2.Config
         public const string WebLinksEndpointString = BoxApiUriString + WebLinksString;
         public const string LegalHoldPoliciesEndpointString = BoxApiUriString + LegalHoldPoliciesString;
         public const string LegalHoldPolicyAssignmentsEndpointString = BoxApiUriString + LegalHoldPolicyAssignmentsString;
+        public const string MetadataCascadePolicyEndpointString = BoxApiUriString + MetadataCascadePoliciesString;
         public const string StoragePoliciesEndpointString = BoxApiUriString + StoragePoliciesString;
         public const string StoragePolicyAssignmentsEndpointString = BoxApiUriString + StoragePolicyAssignmentsString;
 
@@ -136,6 +138,7 @@ namespace Box.V2.Config
         public const string DeleteEmailAliasPathString = "{0}/email_aliases/{1}";
         public const string GetEnterpriseDevicePinsPathString = @"{0}/device_pinners";
         public const string LegalHoldPolicyAssignmentsPathString = @"{0}/assignments";
+        public const string MetadataCascadePoliciesForceApplyPathString = @"{0}/apply";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -173,6 +176,7 @@ namespace Box.V2.Config
         public const string TypeMetadataTemplate = "metadata_template";
         public const string TypeTermsOfService = "terms_of_service";
         public const string TypeTermsOfServiceUserStatuses = "terms_of_service_user_status";
+        public const string TypeMetadataCascadePolicy = "metadata_cascade_policy";
         public const string TypeStoragePolicy = "storage_policy";
         public const string TypeStoragePolicyAssignment = "storage_policy_assignment";
         public const string TypeApplication = "application";
@@ -879,6 +883,20 @@ namespace Box.V2.Config
             /// Passing this value into direction will limit the collaboration whitelisting to both collaborations inside and outside of an enterprise.
             /// </summary>
             public const string Both = "both";
+        }
+
+        /*** The desired conflict-resolution if a template already exists on a given file or folder.***/
+        public static class ConflictResolution
+        {
+            /// <summary>
+            /// This will preserve the existing value on the file.
+            /// </summary>
+            public const string None = "none";
+
+            /// <summary>
+            /// This will force-apply the cascade policy's value over any existing value.
+            /// </summary>
+            public const string Overwrite = "overwrite";
         }
     }
 }

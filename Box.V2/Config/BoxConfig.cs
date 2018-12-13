@@ -181,6 +181,7 @@ namespace Box.V2.Config
         public virtual Uri DevicePinUri { get { return new Uri(BoxApiUri, Constants.DevicePinString); } }
         public virtual Uri CollaborationWhitelistEntryUri { get { return new Uri(BoxApiUri, Constants.CollaborationWhitelistEntryString); } }
         public virtual Uri CollaborationWhitelistTargetEntryUri { get { return new Uri(BoxApiUri, Constants.CollaborationWhitelistTargetEntryString); } }
+        public virtual Uri MetadataCascadePolicyUri { get { return new Uri(BoxApiUri, Constants.MetadataCascadePoliciesString); } }
         public virtual Uri StoragePoliciesUri { get { return new Uri(BoxApiUri, Constants.StoragePoliciesString); } }
         public virtual Uri StoragePolicyAssignmentsUri { get { return new Uri(BoxApiUri, Constants.StoragePolicyAssignmentsString); } }
         public virtual Uri StoragePolicyAssignmentsForTargetUri { get { return new Uri(BoxApiUri, Constants.StoragePolicyAssignmentsForTargetString); } }
