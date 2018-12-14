@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Box.V2</id>
-    <version>3.9.3</version>
+    <version>3.10.0</version>
     <title>Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.5</description>
-    <releaseNotes>Strong named the assembly.</releaseNotes>
+    <releaseNotes>Added functionality for Metadata Cascade Policy</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>
