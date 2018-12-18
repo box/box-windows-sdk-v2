@@ -83,6 +83,8 @@ namespace Box.V2.Converter
                         return new BoxTermsOfService();
                     case Constants.TypeTermsOfServiceUserStatuses:
                         return new BoxTermsOfServiceUserStatuses();
+                    case Constants.TypeMetadataCascadePolicy:
+                        return new BoxMetadataCascadePolicy();
                     case Constants.TypeStoragePolicy:
                         return new BoxStoragePolicy();
                     case Constants.TypeStoragePolicyAssignment:

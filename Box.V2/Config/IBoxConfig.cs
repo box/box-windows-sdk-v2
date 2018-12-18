@@ -64,6 +64,7 @@ namespace Box.V2.Config
         Uri CollaborationWhitelistTargetEntryUri { get; }
         Uri TermsOfServicesUri { get; }
         Uri TermsOfServiceUserStatusesUri { get; }
+        Uri MetadataCascadePolicyUri { get; }
         Uri StoragePoliciesUri { get; }
         Uri StoragePolicyAssignmentsUri { get; }
         Uri StoragePolicyAssignmentsForTargetUri { get; }

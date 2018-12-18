@@ -73,6 +73,7 @@
     <Compile Include="Managers\BoxEventsManager.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Managers\BoxMetadataManager.cs" />
+    <Compile Include="Managers\BoxMetadataCascadePolicyManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\BoxSharedItemsManager.cs" />
     <Compile Include="Managers\BoxStoragePoliciesManager.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
     <Compile Include="Models\BoxFolderEventSource.cs" />
     <Compile Include="Models\BoxGroupEventSource.cs" />
+    <Compile Include="Models\BoxMetadataCascadePolicy.cs" />
     <Compile Include="Models\BoxGroupFileCollaborationEventSource.cs" />
     <Compile Include="Models\BoxGroupFolderCollaborationEventSource.cs" />
     <Compile Include="Models\BoxMetadataFieldFilter.cs" />
