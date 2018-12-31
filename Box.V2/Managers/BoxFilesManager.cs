@@ -45,6 +45,71 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+        
+        /// <summary>
+        /// Gets a file object representation of the provided file Id IF IT'S CHANGED.
+        /// </summary>
+        /// <param name="id">Id of file information to retrieve</param>
+        /// <param name="eTag">Current eTag (to check against the Box service</param>
+        /// <param name="fields">The fields to return as part of the response if changed</param>
+        /// <returns></returns>
+        public async Task<IBoxResponse<BoxFile>> RefreshInformationAsync(string id, string eTag, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            eTag.ThrowIfNullOrWhiteSpace("eTag");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+                .Param(ParamFields, fields)
+                .Header(Constants.RequestParameters.IfNoneMatch, eTag);
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Removes specified file from user's favorites Collection.
+        /// </summary>
+        /// <param name="fileId">Id of file to remove</param>
+        /// <returns></returns>
+        public async Task<bool> RemoveFileFromFavoritesAsync(string fileId)
+        {
+            fileId.ThrowIfNullOrWhiteSpace("fileId");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileId)
+                .Method(RequestMethod.Put);
+
+            string payload = "{\"collections\":[]}";
+
+            request.Payload = payload;
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return ((response != null) && (response.StatusCode < HttpStatusCode.BadRequest));
+        }
+
+        /// <summary>
+        /// Adds specified file to user's favorites Collection.
+        /// </summary>
+        /// <param name="fileId">Id of file to add</param>
+        /// <param name="myFavoritesId">Id of user's Favorites Collection</param>
+        /// <returns></returns>
+        public async Task<bool> AddFileToFavoritesAsync(string fileId, string myFavoritesId)
+        {
+            fileId.ThrowIfNullOrWhiteSpace("fileId");
+            myFavoritesId.ThrowIfNull("myFavoritesId");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileId)
+                .Method(RequestMethod.Put);
+
+            string payload = "{\"collections\":[{\"id\":\"" + myFavoritesId + "\"}]}";
+
+            request.Payload = payload;
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return ((response != null) && (response.StatusCode < HttpStatusCode.BadRequest));
+        }
 
         /// <summary>
         /// Returns the stream of the requested file.
