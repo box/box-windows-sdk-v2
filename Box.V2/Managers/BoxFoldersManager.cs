@@ -442,6 +442,49 @@ namespace Box.V2.Managers
 
             return response.Status == ResponseStatus.Success;
         }
+        
+        /// <summary>
+        /// Removes specified folder from user's favorites Collection.
+        /// </summary>
+        /// <param name="folderId">Id of folder to remove</param>
+        /// <returns></returns>
+        public async Task<bool> RemoveFolderFromFavoritesAsync(string folderId)
+        {
+            folderId.ThrowIfNullOrWhiteSpace("folderId");
 
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderId)
+                .Method(RequestMethod.Put);
+
+            string payload = "{\"collections\":[]}";
+
+            request.Payload = payload;
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
+
+            return ((response != null) && (response.StatusCode < HttpStatusCode.BadRequest));
+        }
+
+        /// <summary>
+        /// Adds specified folder to user's favorites Collection.
+        /// </summary>
+        /// <param name="folderId">Id of folder to add</param>
+        /// <param name="myFavoritesId">Id of user's Favorites Collection</param>
+        /// <returns></returns>
+        public async Task<bool> AddFolderToFavoritesAsync(string folderId, string myFavoritesId)
+        {
+            folderId.ThrowIfNullOrWhiteSpace("folderId");
+            myFavoritesId.ThrowIfNull("myFavoritesId");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderId)
+                .Method(RequestMethod.Put);
+
+            string payload = "{\"collections\":[{\"id\":\"" + myFavoritesId + "\"}]}";
+
+            request.Payload = payload;
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
+
+            return ((response != null) && (response.StatusCode < HttpStatusCode.BadRequest));
+        }
     }
 }
