@@ -7,6 +7,7 @@ using Box.V2.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Box.V2.Managers
 {
