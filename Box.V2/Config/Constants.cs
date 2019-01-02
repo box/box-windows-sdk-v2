@@ -241,7 +241,8 @@ namespace Box.V2.Config
             public const string Pending = "pending";
 
             public const string IfMatch = "If-Match";
-
+            public const string IfNoneMatch = "If-None-Match";
+            
             /*** Values for specifically representations endpoint ***/
             public const string XRepHints = "x-rep-hints";
             public const string SetContentDispositionType = "set_content_disposition_type";

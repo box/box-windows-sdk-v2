@@ -7,6 +7,7 @@ using Box.V2.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Box.V2.Managers
 {
@@ -35,6 +36,52 @@ namespace Box.V2.Managers
 
             return response.ResponseObject;
         }
+
+        /// <summary>
+        /// Removes specified folder from user's favorites Collection.
+        /// </summary>
+        /// <param name="folderId">Id of folder to remove</param>
+        /// <returns></returns>
+        public async Task<bool> RemoveFolderFromFavoritesAsync(string folderId)
+        {
+            folderId.ThrowIfNullOrWhiteSpace("folderId");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderId)
+                .Method(RequestMethod.Put);
+
+            string payload = "{\"collections\":[]}";
+
+            request.Payload = payload;
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
+
+            return ((response != null) && (response.StatusCode < HttpStatusCode.BadRequest));
+        }
+
+
+        /// <summary>
+        /// Adds specified folder to user's favorites Collection.
+        /// </summary>
+        /// <param name="folderId">Id of folder to add</param>
+        /// <param name="myFavoritesId">Id of user's Favorites Collection</param>
+        /// <returns></returns>
+        public async Task<bool> AddFolderToFavoritesAsync(string folderId, string myFavoritesId)
+        {
+            folderId.ThrowIfNullOrWhiteSpace("folderId");
+            myFavoritesId.ThrowIfNull("myFavoritesId");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderId)
+                .Method(RequestMethod.Put);
+
+            string payload = "{\"collections\":[{\"id\":\"" + myFavoritesId + "\"}]}";
+
+            request.Payload = payload;
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
+
+            return ((response != null) && (response.StatusCode < HttpStatusCode.BadRequest));
+        }
+
 
         /// <summary>
         /// Retrieves the files and/or folders contained within this folder without any other metadata about the folder. 
@@ -115,6 +162,27 @@ namespace Box.V2.Managers
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Gets a folder object representation of the provided folder Id if it's changed.
+        /// </summary>
+        /// <param name="id">Id of file information to retrieve</param>
+        /// <param name="eTag">Current eTag (to check against the Box service</param>
+        /// <param name="fields">The fields to return as part of the response if changed</param>
+        /// <returns></returns>
+        public async Task<IBoxResponse<BoxFolder>> RefreshInformationAsync(string id, string eTag, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            eTag.ThrowIfNullOrWhiteSpace("eTag");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
+                .Param(ParamFields, fields)
+                .Header(Constants.RequestParameters.IfNoneMatch, eTag);
+
+            IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
+
+            return response;
         }
 
         /// <summary>
