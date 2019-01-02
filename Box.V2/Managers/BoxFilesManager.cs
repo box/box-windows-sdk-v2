@@ -47,6 +47,73 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Gets a file object representation of the provided file Id IF IT'S CHANGED.
+        /// </summary>
+        /// <param name="id">Id of file information to retrieve</param>
+        /// <param name="eTag">Current eTag (to check against the Box service</param>
+        /// <param name="fields">The fields to return as part of the response if changed</param>
+        /// <returns></returns>
+        public async Task<IBoxResponse<BoxFile>> RefreshInformationAsync(string id, string eTag, List<string> fields = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+            eTag.ThrowIfNullOrWhiteSpace("eTag");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
+                .Param(ParamFields, fields)
+                .Header(Constants.RequestParameters.IfNoneMatch, eTag);
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Removes specified file from user's favorites Collection.
+        /// </summary>
+        /// <param name="fileId">Id of file to remove</param>
+        /// <returns></returns>
+        public async Task<bool> RemoveFileFromFavoritesAsync(string fileId)
+        {
+            fileId.ThrowIfNullOrWhiteSpace("fileId");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileId)
+                .Method(RequestMethod.Put);
+
+            string payload = "{\"collections\":[]}";
+
+            request.Payload = payload;
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return ((response != null) && (response.StatusCode < HttpStatusCode.BadRequest));
+        }
+
+
+        /// <summary>
+        /// Adds specified file to user's favorites Collection.
+        /// </summary>
+        /// <param name="fileId">Id of file to add</param>
+        /// <param name="myFavoritesId">Id of user's Favorites Collection</param>
+        /// <returns></returns>
+        public async Task<bool> AddFileToFavoritesAsync(string fileId, string myFavoritesId)
+        {
+            fileId.ThrowIfNullOrWhiteSpace("fileId");
+            myFavoritesId.ThrowIfNull("myFavoritesId");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, fileId)
+                .Method(RequestMethod.Put);
+
+            string payload = "{\"collections\":[{\"id\":\"" + myFavoritesId + "\"}]}";
+
+            request.Payload = payload;
+
+            IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+
+            return ((response != null) && (response.StatusCode < HttpStatusCode.BadRequest));
+        }
+
+
+        /// <summary>
         /// Returns the stream of the requested file.
         /// </summary>
         /// <param name="id">Id of the file to download.</param>
@@ -475,6 +542,7 @@ namespace Box.V2.Managers
         {
             // Create Upload Session
             var fileSize = stream.Length;
+            System.Diagnostics.Debug.WriteLine(string.Format("UploadUsingSessionAsync: Total Size: {0}", fileSize));
             var uploadSessionRequest = new BoxFileUploadSessionRequest
             {
                 FileName = fileName,
@@ -482,8 +550,13 @@ namespace Box.V2.Managers
                 FolderId = folderId
             };
 
+            System.Diagnostics.Debug.WriteLine(string.Format("UploadUsingSessionAsync: Got new BoxFileUploadSessionRequest for {0}", fileName));
+
             var boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest);
+            System.Diagnostics.Debug.WriteLine(string.Format("UploadUsingSessionAsync: Got new boxFileUploadSession for {0}", fileName));
+
             var response = await UploadSessionAsync(stream, boxFileUploadSession, timeout, progress);
+            System.Diagnostics.Debug.WriteLine(string.Format("UploadUsingSessionAsync: Got Response for {0}", fileName));
 
             return response;
         }
@@ -509,22 +582,27 @@ namespace Box.V2.Managers
             long partSizeLong;
             if (long.TryParse(partSize, out partSizeLong) == false)
             {
+                System.Diagnostics.Debug.WriteLine("File part size is wrong!");
                 throw new BoxException("File part size is wrong!");
             }
+            System.Diagnostics.Debug.WriteLine(string.Format("UploadSessionAsync: PartSize {0}", partSizeLong));
 
             var numberOfParts = UploadUsingSessionInternal.GetNumberOfParts(fileSize,
                 partSizeLong);
 
+            System.Diagnostics.Debug.WriteLine(string.Format("UploadSessionAsync: PartSize {0}, NumParts {1}", partSizeLong, numberOfParts));
             // Full file sha1 for final commit
             var fullFileSha1 = await Task.Run(() =>
             {
                 return Helper.GetSha1Hash(stream);
             });
+            System.Diagnostics.Debug.WriteLine(string.Format("UploadSessionAsync: Stream SHA1Hash {0}", fullFileSha1));
 
             // Upload parts in session
             var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri,
                 numberOfParts, partSizeLong, stream,
                 fileSize, timeout, progress);
+            System.Diagnostics.Debug.WriteLine("UploadSessionAsync: UploadPartsInSessionAsync Returned");
 
             var allSessionPartsList = allSessionParts.ToList();
 
@@ -538,9 +616,10 @@ namespace Box.V2.Managers
             const int retryCount = 5;
             var retryInterval = allSessionPartsList.Count * 100;
 
+            System.Diagnostics.Debug.WriteLine("UploadSessionAsync: Committing Session Now");
             // Depending on the calling function a different commit function will be used
             // to commit file upload parts
-            if(callingMethod=="UploadUsingSessionAsync")
+            if (callingMethod=="UploadUsingSessionAsync")
             {
                 var fileResponse =
                 await Retry.ExecuteAsync(

@@ -76,6 +76,25 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Use to get information about the web link.
+        /// </summary>
+        /// <param name="webLinkId">Id of the weblink.</param>
+        /// <returns>The BoxResponse with the web link object is returned, or Response Info if unchanged.</returns>
+        public async Task<IBoxResponse<BoxWebLink>> RefreshInformationAsync(string webLinkId, string eTag, List<string> fields = null)
+        {
+            webLinkId.ThrowIfNullOrWhiteSpace("webLinkId");
+            eTag.ThrowIfNullOrWhiteSpace("eTag");
+
+            BoxRequest request = new BoxRequest(_config.WebLinksEndpointUri, webLinkId)
+                .Param(ParamFields, fields)
+                .Header(Constants.RequestParameters.IfNoneMatch, eTag);
+
+            IBoxResponse<BoxWebLink> response = await ToResponseAsync<BoxWebLink>(request).ConfigureAwait(false);
+
+            return response;
+        }
+
+        /// <summary>
         /// Updates information for a web link.
         /// </summary>
         /// <param name="webLinkId">Id of the weblink.</param>
