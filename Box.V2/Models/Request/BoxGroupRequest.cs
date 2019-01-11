@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +22,24 @@ namespace Box.V2.Models.Request
         /// </summary>
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// A description of the group.
+        /// </summary>
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Used to track the external source where the group is coming from.
+        /// </summary>
+        [JsonProperty(PropertyName = "provenance")]
+        public string Provenance { get; set; }
+
+        /// <summary>
+        /// Used as a group identifier for groups coming from an external source.
+        /// </summary>
+        [JsonProperty(PropertyName = "external_sync_identifier")]
+        public string ExternalSyncIdentifier { get; set; }
 
         /// <summary>
         /// Specifies who can invite this group to folders. Retrieved through the fields parameter.

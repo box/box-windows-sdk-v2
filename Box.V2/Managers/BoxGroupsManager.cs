@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
@@ -125,7 +125,7 @@ namespace Box.V2.Managers
         public async Task<BoxGroup> UpdateAsync(string id, BoxGroupRequest groupRequest, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
-            groupRequest.ThrowIfNull("groupRequest").Name.ThrowIfNullOrWhiteSpace("groupRequest.Name");
+            groupRequest.ThrowIfNull("groupRequest");
 
             BoxRequest request = new BoxRequest(_config.GroupsEndpointUri, id).
                 Method(RequestMethod.Put).

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Managers;
 using System.Threading.Tasks;
@@ -133,6 +133,54 @@ namespace Box.V2.Test
             Assert.AreEqual<string>("159322", group.Id, "Wrong group id");
             Assert.AreEqual(DateTime.Parse("2013-11-12T15:19:47-08:00"), group.ModifiedAt, "Wrong modified at");
             Assert.AreEqual(DateTime.Parse("2013-11-12T15:19:47-08:00"), group.CreatedAt, "Wrong created at");
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task UpdateGroup_ExtraFields_ValidGroup()
+        {
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxGroup>>(new BoxResponse<BoxGroup>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = @"{
+                        ""type"": ""group"",
+                        ""id"": ""159322"",
+                        ""description"": ""A group from Okta"",
+                        ""external_sync_identifier"": ""foo"",
+                        ""provenance"": ""Okta"",
+                        ""invitability_level"": ""admins_only"",
+                        ""member_viewability_level"": ""admins_only""
+                    }"
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            BoxGroupRequest request = new BoxGroupRequest() {
+                Description = "A group from Okta",
+                ExternalSyncIdentifier = "foo",
+                Provenance = "Okta",
+                InvitabilityLevel = "admins_only",
+                MemberViewabilityLevel = "admins_only"
+            };
+
+            var fields = new string[]
+            {
+               BoxGroup.FieldDescription,
+               BoxGroup.FieldExternalSyncIdentifier,
+               BoxGroup.FieldProvenance,
+               BoxGroup.FieldInvitabilityLevel,
+               BoxGroup.FieldMemberViewabilityLevel
+            };
+
+            BoxGroup group = await _groupsManager.UpdateAsync("123", request, fields: fields);
+
+            Assert.AreEqual("{\"description\":\"A group from Okta\",\"provenance\":\"Okta\",\"external_sync_identifier\":\"foo\",\"invitability_level\":\"admins_only\",\"member_viewability_level\":\"admins_only\"}", boxRequest.Payload);
+            Assert.AreEqual("A group from Okta", group.Description);
+            Assert.AreEqual("foo", group.ExternalSyncIdentifier);
+            Assert.AreEqual("Okta", group.Provenance);
+            Assert.AreEqual("admins_only", group.InvitabilityLevel);
+            Assert.AreEqual("admins_only", group.MemberViewabilityLevel);
         }
 
         [TestMethod]
