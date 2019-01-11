@@ -462,7 +462,6 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// Upload a large file by splitting them up and uploads in a session.
-        /// This method is in BETA, not ready for production use yet, but welcome to try and give us feedback.
         /// </summary>
         /// <param name="stream">The file stream.</param>
         /// <param name="fileName">Name of the remote file name.</param>
