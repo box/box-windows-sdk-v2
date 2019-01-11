@@ -19,6 +19,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetGroupItems_ValidResponse_ValidGroups()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroup>>(It.IsAny<IBoxRequest>()))
@@ -45,6 +46,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetGroup_ValidResponse_ValidGroup()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
@@ -64,6 +66,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetGroupItems_ValidResponse_NoGroups()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroup>>(It.IsAny<IBoxRequest>()))
@@ -82,6 +85,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateGroup_ValidResponse_NewGroup()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<BoxRequest>()))
@@ -102,6 +106,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteGroup_ValidResponse_ValidGroup()
         {
             Handler.Setup(h=>h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
@@ -116,6 +121,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateGroup_ValidResponse_ValidGroup()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
@@ -184,6 +190,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task AddGroupMembership_ValidResponse()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxGroupMembership>(It.IsAny<IBoxRequest>()))
@@ -216,6 +223,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteMembership_ValidResponse_ValidGroup()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
@@ -230,6 +238,7 @@ namespace Box.V2.Test
         }
         
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAllMemberships_ValidResponse_ValidGroup()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroupMembership>>(It.IsAny<IBoxRequest>()))
@@ -255,6 +264,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAllMemberships_ValidResponse_ValidUser()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroupMembership>>(It.IsAny<IBoxRequest>()))
@@ -280,6 +290,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetGroupMembership_ValidResponse()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxGroupMembership>(It.IsAny<IBoxRequest>()))
@@ -306,6 +317,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateGroupMembership_ValidResponse()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxGroupMembership>(It.IsAny<IBoxRequest>()))
