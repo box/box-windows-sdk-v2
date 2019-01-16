@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Exceptions;
@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Managers
 {
@@ -260,9 +261,8 @@ namespace Box.V2.Managers
                                                          string etag = null, IEnumerable<string> fields = null,
                                                          TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                          bool setStreamPositionToZero = true,
-                                                         Uri uploadUri = null)
+                                                         Uri uploadUri = null, DateTime? contentModifiedTime = null)
         {
-            fileName.ThrowIfNullOrWhiteSpace("fileName");
             fileId.ThrowIfNullOrWhiteSpace("fileId");
             stream.ThrowIfNull("stream");
 
@@ -271,9 +271,24 @@ namespace Box.V2.Managers
 
             uploadUri = uploadUri == null ? new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)) : uploadUri;
 
+            dynamic attributes = new JObject();
+            if (fileName != null)
+            {
+                attributes.name = fileName;
+            }
+            if (contentModifiedTime.HasValue)
+            {
+                attributes.content_modified_at = contentModifiedTime.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss-00:00");
+            }
+
             BoxMultiPartRequest request = new BoxMultiPartRequest(uploadUri) { Timeout = timeout }
                 .Header(Constants.RequestParameters.IfMatch, etag)
                 .Param(ParamFields, fields)
+                .FormPart(new BoxStringFormPart()
+                {
+                    Name = "attributes",
+                    Value = _converter.Serialize(attributes)
+                })
                 .FormPart(new BoxFileFormPart()
                 {
                     Name = "filename",
