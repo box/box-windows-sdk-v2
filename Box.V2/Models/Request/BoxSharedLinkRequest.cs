@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 
@@ -16,11 +16,31 @@ namespace Box.V2.Models
         [JsonConverter(typeof(StringEnumConverter))]
         public BoxSharedLinkAccessType? Access { get; set; }
 
+        private bool IsUnsharedAtSet = false;
+        private DateTime? _unsharedAt;
+
         /// <summary>
         /// The day that this link should be disabled at. Timestamps are rounded off to the given day.
         /// </summary>
-        [JsonProperty(PropertyName = "unshared_at")]
-        public DateTime? UnsharedAt { get; set; }
+        [JsonProperty(PropertyName = "unshared_at", NullValueHandling = NullValueHandling.Include)]
+        public DateTime? UnsharedAt
+        {
+            get
+            {
+                return _unsharedAt;
+            }
+
+            set
+            {
+                _unsharedAt = value;
+                IsUnsharedAtSet = true;
+            }
+        }
+
+        public bool ShouldSerializeUnsharedAt()
+        {
+            return IsUnsharedAtSet;
+        }
 
         /// <summary>
         /// The set of permissions that apply to this link
