@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.11.0
+
+- Added support for reading and writing more Group fields
+- Fixed an issue where the `UnsharedAt` field of a shared link could not be set to `null`
+- Fixed renaming a file on new version upload
+- Added the ability to set the content modification timestamp on file version upload
+- Fixed issues around reading the source of an event when the source item is a web link
+
+## 3.10.0
+
+- Added support for Metadata Cascade Policies
+
 ## 3.9.3
 
 - Strong named the assembly.

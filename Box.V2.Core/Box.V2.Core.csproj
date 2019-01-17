@@ -3,13 +3,13 @@
   <PropertyGroup>
     <Description>Box.V2 for .Net Core</Description>
     <AssemblyTitle>Box.V2.Core</AssemblyTitle>
-    <Version>3.10.0</Version>
+    <Version>3.11.0</Version>
     <Authors>Box, Inc.</Authors>
 	<Owners>Box, Inc.</Owners>
 	<PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
 	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	<PackageDescription>Windows SDK for v2 of the Box API. The SDK is built for .NET Core and includes JWTAuth support.</PackageDescription>
-	<PackageReleaseNotes>N/A</PackageReleaseNotes>
+	<PackageReleaseNotes>Fixed renaming file on version upload, setting and reading Group properties, and clearing shared link expiration.</PackageReleaseNotes>
 	<Copyright>Copyright 2018</Copyright>
 	<PackageTags>Box;V2;SDK;Platform;Enterprise;Collaboration;Storage;File Management</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>
