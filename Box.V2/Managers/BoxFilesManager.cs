@@ -766,7 +766,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to create a shared link for this particular file. Please see here for more information on the permissions available for shared links. 
+        /// Used to create a shared link for a file.
         /// </summary>
         /// <param name="id">Id of the file.</param>
         /// <param name="sharedLinkRequest">BoxSharedLinkRequest object.</param>
@@ -789,16 +789,18 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to delete the shared link for this particular file.
+        /// Used to delete the shared link for a file.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<BoxFile> DeleteSharedLinkAsync(string id)
+        /// <param name="id">The Id of the file to remove the shared link from.</param>
+        /// <returns>A full file object with the shared link removed is returned
+        /// if the ID is valid and if the update is successful.</returns>
+        public async Task<BoxFile> DeleteSharedLinkAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
+                .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(new BoxDeleteSharedLinkRequest()));
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
