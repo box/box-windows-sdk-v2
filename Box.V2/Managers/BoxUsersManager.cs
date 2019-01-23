@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
@@ -7,6 +7,7 @@ using Box.V2.Models.Request;
 using Box.V2.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Box.V2.Managers
@@ -326,6 +327,20 @@ namespace Box.V2.Managers
                 IBoxResponse<BoxCollection<BoxGroupMembership>> response = await ToResponseAsync<BoxCollection<BoxGroupMembership>>(request).ConfigureAwait(false);
                 return response.ResponseObject;
             }
+        }
+
+        /// <summary>
+        /// Retrieves a user's avatar image.
+        /// </summary>
+        /// <param name="userId">The Id of the user.</param>
+        /// <returns>A stream of the bytes for the user's avatar image.</returns>
+        public async Task<Stream> GetUserAvatar(string userId)
+        {
+            var request = new BoxRequest(_config.UserEndpointUri, userId + "/avatar")
+                   .Method(RequestMethod.Get);
+
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
+            return response.ResponseObject;
         }
     }
 }
