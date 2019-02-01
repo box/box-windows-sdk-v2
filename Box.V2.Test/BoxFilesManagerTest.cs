@@ -605,14 +605,12 @@ namespace Box.V2.Test
                     {
                         Status = ResponseStatus.Success,
                         ResponseObject = thumb
-
                     }));
 
                 /*** Act ***/
                 Stream result = await _filesManager.GetThumbnailAsync("34122832467");
 
                 /*** Assert ***/
-
                 Assert.IsNotNull(result, "Stream is Null");
 
             }

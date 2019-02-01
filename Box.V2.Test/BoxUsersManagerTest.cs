@@ -1,10 +1,11 @@
-﻿using Box.V2.Managers;
+using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -546,6 +547,36 @@ namespace Box.V2.Test
             Assert.AreEqual("13130406", result.Entries[0].User.Id);
             Assert.AreEqual("119720", result.Entries[0].Group.Id);
             Assert.AreEqual("member", result.Entries[0].Role);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task GetUserAvatar_ValidResponse_ValidStream()
+        {
+            byte[] avatarBytes = { 1, 2, 3 };
+            IBoxRequest boxRequest = null;
+            using (var avatar = new MemoryStream(avatarBytes))
+            {
+                /*** Arrange ***/
+
+                Handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
+
+                    .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
+                    {
+                        Status = ResponseStatus.Success,
+                        ResponseObject = avatar
+                    }))
+                    .Callback<IBoxRequest>(r => boxRequest = r);
+
+                /*** Act ***/
+                Stream result = await _usersManager.GetUserAvatar("88888");
+
+                /*** Assert ***/
+                Assert.AreEqual(new Uri("https://api.box.com/2.0/users/88888/avatar"), boxRequest.AbsoluteUri);
+                Assert.IsNotNull(result, "Stream is Null");
+                Assert.AreEqual(3, result.Length);
+
+            }
         }
     }
 }
