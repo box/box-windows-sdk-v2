@@ -766,7 +766,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to create a shared link for this particular file. Please see here for more information on the permissions available for shared links. 
+        /// Used to create a shared link for a file.
         /// </summary>
         /// <param name="id">Id of the file.</param>
         /// <param name="sharedLinkRequest">BoxSharedLinkRequest object.</param>
@@ -789,16 +789,18 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to delete the shared link for this particular file.
+        /// Used to delete the shared link for a file.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<BoxFile> DeleteSharedLinkAsync(string id)
+        /// <param name="id">The Id of the file to remove the shared link from.</param>
+        /// <returns>A full file object with the shared link removed is returned
+        /// if the ID is valid and if the update is successful.</returns>
+        public async Task<BoxFile> DeleteSharedLinkAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Method(RequestMethod.Put)
+                .Param(ParamFields, fields)
                 .Payload(_converter.Serialize(new BoxDeleteSharedLinkRequest()));
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
@@ -811,7 +813,8 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">Id of the file</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
-        /// <returns>List of all the collaborations on a file</returns>
+        /// <returns>Collection of the collaborations on a file</returns>
+        [Obsolete("Use GetCollaborationsCollectionAsync() instead; this method does not return the data needed to page through the collection.")]
         public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, IEnumerable<string> fields = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
@@ -822,6 +825,43 @@ namespace Box.V2.Managers
             IBoxResponse<BoxCollection<BoxCollaboration>> response = await ToResponseAsync<BoxCollection<BoxCollaboration>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Use this to get a list of all the collaborations on a file
+        /// </summary>
+        /// <param name="id">Id of the file</param>
+        /// <param name="marker">Paging marker; use null to retrieve the first page of results</param>
+        /// <param name="limit">Number of records to return per page</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="autoPaginate">Whether to automatically gather the entire result set</param>
+        /// <returns>Collection of the collaborations on a file</returns>
+        public async Task<BoxCollectionMarkerBasedV2<BoxCollaboration>> GetCollaborationsCollectionAsync(string id, string marker = null, int? limit = null, IEnumerable<string> fields = null, bool autoPaginate = false)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.CollaborationsPathString, id))
+                .Param(ParamFields, fields)
+                .Param("limit", limit?.ToString())
+                .Param("marker", marker);
+
+            if (autoPaginate)
+            {
+                if (!limit.HasValue)
+                {
+                    limit = 100;
+                    request.Param("limit", limit.ToString());
+                }
+
+                return await AutoPaginateMarkerV2<BoxCollaboration>(request, limit.Value);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBasedV2<BoxCollaboration>> response = await ToResponseAsync<BoxCollectionMarkerBasedV2<BoxCollaboration>>(request).ConfigureAwait(false);
+
+                return response.ResponseObject;
+            }
+           
         }
 
         /// <summary>

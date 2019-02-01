@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,6 +20,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateWeblink_ValidResponse()
         {
             /*** Arrange ***/
@@ -129,6 +130,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteWeblink_ValidResponse()
         {
             /*** Arrange ***/
@@ -158,6 +160,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetWeblink_ValidResponse()
         {
             /*** Arrange ***/
@@ -252,6 +255,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateWeblink_ValidResponse()
         {
             /*** Arrange ***/
@@ -355,5 +359,171 @@ namespace Box.V2.Test
             Assert.AreEqual("10523870", result.OwnedBy.Id);
         }
 
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task Copy_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""type"": ""web_link"",
+                                        ""id"": ""6743065"",
+                                        ""sequence_id"": ""0"",
+                                        ""etag"": ""0"",
+                                        ""name"": ""Box Website!"",
+                                        ""url"": ""https://www.box.com"",
+                                        ""created_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""10523870"",
+                                            ""name"": ""Ted Blosser"",
+                                            ""login"": ""ted+demo@box.com""
+                                        },
+                                        ""created_at"": ""2015-05-07T15:00:01-07:00"",
+                                        ""modified_at"": ""2015-05-07T15:00:01-07:00"",
+                                        ""parent"": {
+                                            ""type"": ""folder"",
+                                            ""id"": ""848123342"",
+                                            ""sequence_id"": ""1"",
+                                            ""etag"": ""1"",
+                                            ""name"": ""Documentation""
+                                        },
+                                        ""description"": ""Cloud Content Management"",
+                                        ""item_status"": ""active"",
+                                        ""trashed_at"": null,
+                                        ""purged_at"": null,
+                                        ""shared_link"": null,
+                                        ""path_collection"": {
+                                            ""total_count"": 2,
+                                            ""entries"": [
+                                                {
+                                                    ""type"": ""folder"",
+                                                    ""id"": ""0"",
+                                                    ""sequence_id"": null,
+                                                    ""etag"": null,
+                                                    ""name"": ""All Files""
+                                                },
+                                                {
+                                                    ""type"": ""folder"",
+                                                    ""id"": ""848123342"",
+                                                    ""sequence_id"": ""1"",
+                                                    ""etag"": ""1"",
+                                                    ""name"": ""Documentation""
+                                                }
+                                            ]
+                                        },
+                                        ""modified_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""10523870"",
+                                            ""name"": ""Ted Blosser"",
+                                            ""login"": ""ted+demo@box.com""
+                                        },
+                                        ""owned_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""10523870"",
+                                            ""name"": ""Ted Blosser"",
+                                            ""login"": ""ted+demo@box.com""
+                                        }
+                                    }";
+            IBoxRequest boxRequest = null;
+            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            var webLinkId = "11111";
+            var destinationFolderId = "22222";
+
+            /*** Act ***/
+            BoxWebLink result = await _webLinkManager.CopyAsync(webLinkId, destinationFolderId);
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(new Uri("https://api.box.com/2.0/web_links/11111/copy"), boxRequest.AbsoluteUri);
+            Assert.AreEqual("{\"parent\":{\"id\":\"22222\"}}", boxRequest.Payload);
+
+            //Response check
+            Assert.AreEqual("web_link", result.Type);
+            Assert.AreEqual("6743065", result.Id);
+            Assert.AreEqual(new Uri("https://www.box.com"), result.Url);
+            Assert.AreEqual("Cloud Content Management", result.Description);
+            Assert.AreEqual("0", result.PathCollection.Entries[0].Id);
+            Assert.AreEqual("All Files", result.PathCollection.Entries[0].Name);
+            Assert.AreEqual("848123342", result.PathCollection.Entries[1].Id);
+            Assert.AreEqual("Documentation", result.PathCollection.Entries[1].Name);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task CreateWebLinkSharedLink_ValidResponse_ValidFile()
+        {
+            /*** Arrange ***/
+            string responseString = "{ \"type\": \"web_link\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
+            IBoxRequest boxRequest = null;
+            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            BoxSharedLinkRequest sharedLink = new BoxSharedLinkRequest()
+            {
+                Access = BoxSharedLinkAccessType.collaborators
+            };
+
+            /*** Act ***/
+            BoxWebLink w = await _webLinkManager.CreateSharedLinkAsync("12345", sharedLink);
+
+            /*** Assert ***/
+            Assert.AreEqual(new Uri("https://api.box.com/2.0/web_links/12345"), boxRequest.AbsoluteUri);
+            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
+            Assert.AreEqual("{\"shared_link\":{\"access\":\"collaborators\"}}", boxRequest.Payload);
+
+            Assert.AreEqual("5000948880", w.Id);
+            Assert.AreEqual("3", w.SequenceId);
+            Assert.AreEqual("3", w.ETag);
+            Assert.AreEqual("https://www.box.com/s/rh935iit6ewrmw0unyul", w.SharedLink.Url);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task DeleteWebLinkSharedLink_ValidResponse_ValidFile()
+        {
+            /*** Arrange ***/
+            string responseString = "{ \"type\": \"web_link\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": null, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
+            IBoxRequest boxRequest = null;
+            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxWebLink w = await _webLinkManager.DeleteSharedLinkAsync("12345");
+
+            /*** Assert ***/
+            Assert.AreEqual(new Uri("https://api.box.com/2.0/web_links/12345"), boxRequest.AbsoluteUri);
+            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
+            Assert.AreEqual("{\"shared_link\":null}", boxRequest.Payload);
+
+            Assert.AreEqual("5000948880", w.Id);
+            Assert.AreEqual("3", w.SequenceId);
+            Assert.AreEqual("3", w.ETag);
+            Assert.AreEqual("web_link", w.Type);
+            Assert.IsNull(w.SharedLink);
+        }
     }
 }
