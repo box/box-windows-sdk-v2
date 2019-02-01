@@ -9,8 +9,6 @@ using System.Net.Http.Headers;
 using System.IO;
 using Newtonsoft.Json;
 using System.Text;
-using Box.V2.Config;
-using Box.V2.Auth;
 
 namespace Box.V2.Test
 {
