@@ -46,11 +46,32 @@ namespace Box.V2.Test
                 }));
 
             var fakeStream = new Mock<System.IO.Stream>();
-        
             
            BoxFile f = await _filesManager.UploadNewVersionUsingSessionAsync(fakeStream.Object, "fakeId", null, null, null);
            Assert.AreEqual("file", f.Type);
            Assert.AreEqual("5000948880", f.Id);
+        }
+
+        [TestMethod]
+        public async Task GetCollaborationsCollectionAsync_ValidResponse_NextMarker()
+        {
+            string responseJSON = "{\"next_marker\":\"ZmlsZS0xLTE%3D\",\"previous_marker\":\"\",\"entries\":[{\"type\":\"collaboration\",\"id\":\"11111\",\"created_by\":{\"type\":\"user\",\"id\":\"33333\",\"name\":\"Test User\",\"login\":\"testuser@example.com\"},\"created_at\":\"2019-01-21T07:58:18-08:00\",\"modified_at\":\"2019-01-21T14:49:18-08:00\",\"expires_at\":null,\"status\":\"accepted\",\"accessible_by\":{\"type\":\"user\",\"id\":\"44444\",\"name\":\"Test User 2\",\"login\":\"testuser2@example.com\"},\"role\":\"editor\",\"acknowledged_at\":\"2019-01-21T07:58:18-08:00\",\"item\":{\"type\":\"file\",\"id\":\"22222\",\"file_version\":{\"type\":\"file_version\",\"id\":\"12345\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\"},\"sequence_id\":\"26\",\"etag\":\"26\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\",\"name\":\"Meeting Notes.boxnote\"}}]}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBasedV2<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBasedV2<BoxCollaboration>>>(new BoxResponse<BoxCollectionMarkerBasedV2<BoxCollaboration>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseJSON
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            var collabs = await _filesManager.GetCollaborationsCollectionAsync("22222", limit: 1);
+
+            Assert.AreEqual("https://api.box.com/2.0/files/22222/collaborations?limit=1", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            Assert.AreEqual(1, collabs.Entries.Count);
+            Assert.AreEqual("Test User", collabs.Entries[0].CreatedBy.Name);
+            Assert.AreEqual("ZmlsZS0xLTE%3D", collabs.NextMarker);
         }
 
         [TestMethod]
