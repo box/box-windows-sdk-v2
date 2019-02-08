@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.12.0
+
+- Added `client.FilesManager.GetCollaborationsCollectionAsync()` and deprecated
+  `client.FilesManager.GetCollaborationsAsync()` to enable paging through the entire
+  collection of collaborations on a file
+- Added `client.WebLinksManager.CopyAsync()`, `client.WebLinksManager.CreateSharedLinkAsync()`,
+  and `client.WebLinksManager.DeleteSharedLinkAsync()`
+- Added `client.UsersManager.GetUserAvatarAsync()` for retrieving a user's avatar image
+
 ## 3.11.0
 
 - Added support for reading and writing more Group fields

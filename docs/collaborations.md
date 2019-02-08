@@ -100,13 +100,13 @@ Get the Collaborations on a File
 --------------------------------
 
 You can get the collection of collaborations on a file by calling
-`FilesManager.GetCollaborationsAsync(string id, IEnumerable<string> fields = null)`
+`FilesManager.GetCollaborationsCollectionAsync(string id, string marker = null, int? limit = null, IEnumerable<string> fields = null, bool autoPaginate = false)`
 with the ID of the file.
 
 ```c#
 string fileId = "98765";
-BoxCollection<BoxCollaboration> collaborations = await client.FilesManager
-    .GetCollaborationsAsync(fileId);
+BoxCollectionMarkerBasedV2<BoxCollaboration> collaborations = await client.FilesManager
+    .GetCollaborationsCollectionAsync(fileId);
 ```
 
 Get Pending Collaborations

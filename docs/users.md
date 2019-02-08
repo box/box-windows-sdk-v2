@@ -9,6 +9,7 @@ Users represent an individual's account on Box.
 
 - [Get the Current User's Information](#get-the-current-users-information)
 - [Get User's Information](#get-users-information)
+- [Get User Avatar](#get-user-avatar)
 - [Add New User](#add-new-user)
 - [Add New App User](#add-new-app-user)
 - [Update User](#update-user)
@@ -38,6 +39,16 @@ To get a user call `UsersManager.GetUserInformationAsync(string userId)` with th
 
 ```c#
 BoxUser user = await client.UsersManager.GetUserInformationAsync(userId: "33333");
+```
+
+Get User Avatar
+---------------
+
+To retrieve the avatar image for a user, call
+`UsersManager.GetUserAvatar(string userId)` with the ID of the user.
+
+```c#
+Stream imageStream = await client.UsersManager.GetUserAvatar(string userId);
 ```
 
 Add New User
