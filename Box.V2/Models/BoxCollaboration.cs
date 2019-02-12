@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -18,6 +18,7 @@ namespace Box.V2.Models
         public const string FieldAcknowledgedAt = "acknowledged_at";
         public const string FieldItem = "item";
         public const string FieldCanViewPath = "can_view_path";
+        public const string FieldInviteEmail = "invite_email";
 
         /// <summary>
         /// The user who created this collaboration
@@ -80,5 +81,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldCanViewPath)]
         public bool? CanViewPath { get; set; }
+
+        /// <summary>
+        /// The email address of the pending collaborator.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldInviteEmail)]
+        public string InviteEmail { get; set; }
     }
 }
