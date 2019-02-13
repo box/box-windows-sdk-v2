@@ -22,6 +22,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetUserInformation_ValidResponse_ValidUser()
         {
             /*** Arrange ***/
@@ -44,6 +45,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetUserInformation_TrackingCodes()
         {
             /*** Arrange ***/
@@ -86,6 +88,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetUserInformation_ExtraFields()
         {
             /*** Arrange ***/
@@ -121,6 +124,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateUser_ValidResponse_ValidUser()
         {
             /*** Arrange ***/
@@ -160,6 +164,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task InviteUser_ValidResponse_ValidUser()
         {
             /*** Arrange ***/
@@ -203,6 +208,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetUserInvite_ValidResponse_ValidUser()
         {
             /*** Arrange ***/
@@ -222,6 +228,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetEnterpriseUsers_ValidReponse()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxUser>>(It.IsAny<IBoxRequest>()))
@@ -239,6 +246,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public async Task GetEnterpriseUsers_LimitLow()
         {
@@ -246,6 +254,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public async Task GetEnterpriseUsers_LimitHigh()
         {
@@ -253,6 +262,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task ChangeUsersLogin_ValidReponse()
         {
             /*** Arrange ***/
@@ -300,6 +310,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateEnterpriseUser_ValidReponse()
         {
             /*** Arrange ***/
@@ -364,6 +375,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteEnterpriseUser_ValidReponse()
         {
             /*** Arrange ***/
@@ -391,6 +403,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteEmailAliasAsync_ValidReponse()
         {
             /*** Arrange ***/
@@ -418,6 +431,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetUserInformationByUserId_ValidResponse_ValidUser()
         {
             /*** Arrange ***/
@@ -446,6 +460,7 @@ namespace Box.V2.Test
             Assert.AreEqual("user", user.Type);
         }
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetEmailAliases_ValidResponse_ValidUser()
         {
             IBoxRequest boxRequest = null;
@@ -489,6 +504,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task AddEmailAlias_ValidResponse_ValidUser()
         {
             IBoxRequest boxRequest = null;
@@ -521,6 +537,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task MoveUserFolder_ValidResponse_ValidFolder()
         {
             IBoxRequest boxRequest = null;
@@ -554,6 +571,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetMembershipsForUser_ValidResponse_ValidFolder()
         {
             IBoxRequest boxRequest = null;
