@@ -86,6 +86,41 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        public async Task GetUserInformation_ExtraFields()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                ""type"": ""user"",
+                ""id"": ""12345"",
+                ""name"": ""Example User"",
+                ""timezone"": ""America/Los_Angeles"",
+                ""is_external_collab_restricted"": true,
+                ""my_tags"": [
+                    ""important""
+                ],
+                ""hostname"": ""https://example.app.box.com/""
+            }";
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+            string[] fields = { "name", "timezone", "is_external_collab_restricted", "my_tags", "hostname" };
+            BoxUser user = await _usersManager.GetCurrentUserInformationAsync(fields);
+
+            /*** Assert ***/
+            Assert.AreEqual("12345", user.Id);
+            Assert.AreEqual("America/Los_Angeles", user.Timezone);
+            Assert.IsTrue(user.IsExternalCollabRestricted.HasValue);
+            Assert.IsTrue(user.IsExternalCollabRestricted.Value);
+            Assert.AreEqual("important", user.Tags[0]);
+            Assert.AreEqual("https://example.app.box.com/", user.Hostname);
+        }
+
+        [TestMethod]
         public async Task UpdateUser_ValidResponse_ValidUser()
         {
             /*** Arrange ***/

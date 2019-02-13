@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -30,6 +30,10 @@ namespace Box.V2.Models
         public const string FieldIsExemptFromLoginVerification = "is_exempt_from_login_verification";
         public const string FieldEnterprise = "enterprise";
         public const string FieldIsPlatformAccessOnly = "is_platform_access_only";
+        public const string FieldTimezone = "timezone";
+        public const string FieldIsExternalCollabRestricted = "is_external_collab_restricted";
+        public const string FieldMyTags = "my_tags";
+        public const string FieldHostname = "hostname";
 
         /// <summary>
         /// The name of this user
@@ -157,5 +161,28 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldIsPlatformAccessOnly)]
         public bool? IsPlatformAccessOnly { get; private set; }
 
+        /// <summary>
+        /// The user's timezone
+        /// </summary>
+        [JsonProperty(PropertyName = FieldTimezone)]
+        public string Timezone { get; private set; }
+
+        /// <summary>
+        /// Whether the user has been restricted from collaborating with parties outside their enterprise
+        /// </summary>
+        [JsonProperty(PropertyName = FieldIsExternalCollabRestricted)]
+        public bool? IsExternalCollabRestricted { get; private set; }
+
+        /// <summary>
+        /// Tags for all files and folders owned by the user
+        /// </summary>
+        [JsonProperty(PropertyName = FieldMyTags)]
+        public string[] Tags { get; private set; }
+
+        /// <summary>
+        /// The root (protocol, subdomain, domain) of any Box URLs that need to be generated for the user
+        /// </summary>
+        [JsonProperty(PropertyName = FieldHostname)]
+        public string Hostname { get; private set; }
     }
 }
