@@ -1,4 +1,4 @@
-﻿using Box.V2.Managers;
+using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -137,6 +137,7 @@ namespace Box.V2.Test
                             },
                             ""role"": ""Editor"",
                             ""acknowledged_at"": null,
+                            ""invite_email"": ""collab@example.com"",
                             ""item"": null
                         }
                     ]
@@ -162,7 +163,7 @@ namespace Box.V2.Test
             Assert.AreEqual("collaboration", collaborations.Entries[0].Type);
             Assert.AreEqual("user", collaborations.Entries[0].AccessibleBy.Type);
             Assert.AreEqual("181216415", collaborations.Entries[0].AccessibleBy.Id);
-          
+            Assert.AreEqual("collab@example.com", collaborations.Entries[0].InviteEmail);          
         }
 
         [TestMethod]
