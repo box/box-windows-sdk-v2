@@ -2,14 +2,15 @@
 <package >
   <metadata>
     <id>Box.V2</id>
-    <version>3.12.0</version>
+    <version>3.13.0</version>
     <title>Box Windows SDK V2</title>
     <authors>Box, Inc.</authors>
     <owners>Box, Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
+    <license type="expression">Apache-2.0</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.5</description>
-    <releaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/master/CHANGELOG.md#3120</releaseNotes>
+    <releaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/master/CHANGELOG.md#3130</releaseNotes>
     <copyright>Copyright 2019</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
   </metadata>

@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.13.0
+
+- Added the `.InviteEmail` property to `BoxCollaboration` objects, which displays the email address for the invited
+  user in a pending collaboration
+- Added `.Timezone`, `.IsExternalCollabRestricted`, `.Tags`, and `.Hostname` properties to `BoxUser` objects
+
 ## 3.12.0
 
 - Added `client.FilesManager.GetCollaborationsCollectionAsync()` and deprecated
