@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -14,8 +14,11 @@ namespace Box.V2.Models
         /// The unique id of the group resource.
         /// </summary>
         [JsonProperty(PropertyName = FieldGroupId)]
-        public string Id { get; private set; }
+        public override string Id { get; protected set; }
 
+        /// <summary>
+        /// The type of the object.
+        /// </summary>
         public override string Type { get { return "group"; } protected set { return; } }
 
         /// <summary>
