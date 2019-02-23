@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -242,6 +242,61 @@ namespace Box.V2.Test
             Assert.AreEqual("11993747", result.AssignedBy.Id);
             Assert.AreEqual("rhaegar@box.com", result.AssignedTo.Login);
             Assert.AreEqual("1992432", result.AssignedTo.Id);
+        }
+
+        [TestMethod]
+        public async Task GetTaskAssignment_TranslatedStatus()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""type"": ""task_assignment"",
+                                        ""id"": ""12345"",
+                                        ""item"": {
+                                            ""type"": ""file"",
+                                            ""id"": ""11111"",
+                                            ""sequence_id"": ""0"",
+                                            ""etag"": ""0"",
+                                            ""sha1"": ""7840095ee096ee8297676a138d4e316eabb3ec96"",
+                                            ""name"": ""script.js""
+                                        },
+                                        ""assigned_to"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""22222"",
+                                            ""name"": ""rhaegar@example.com"",
+                                            ""login"": ""rhaegar@example.com""
+                                        },
+                                        ""message"": null,
+                                        ""completed_at"": null,
+                                        ""assigned_at"": ""2013-05-10T11:43:41-07:00"",
+                                        ""reminded_at"": null,
+                                        ""resolution_state"": ""未完了"",
+                                        ""status"": ""incomplete"",
+                                        ""assigned_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""33333"",
+                                            ""name"": ""sean"",
+                                            ""login"": ""sean@example.com""
+                                        }
+                                    }";
+
+            Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
+            Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+
+            /*** Act ***/
+
+            BoxTaskAssignment result = await _tasksManager.GetTaskAssignmentAsync("12345");
+
+            /*** Assert ***/
+
+            Assert.AreEqual("incomplete", result.Status);
+            Assert.AreEqual("未完了", result.StatusTranslated);
+            Assert.AreEqual(ResolutionStateType.incomplete, result.ResolutionState);
         }
 
         [TestMethod]

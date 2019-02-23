@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 
@@ -16,6 +16,7 @@ namespace Box.V2.Models
         public const string FieldAssignedAt = "assigned_at";
         public const string FieldRemindedAt = "reminded_at";
         public const string FieldResolutionState = "resolution_state";
+        public const string FieldStatus = "status";
         public const string FieldAssignedBy = "assigned_by";
 
         /// <summary>
@@ -57,9 +58,25 @@ namespace Box.V2.Models
         /// <summary>
         /// Gets the state of the resolution.
         /// </summary>
+        [Obsolete("This field is deprecated, and may not work consistently.  Use Status or StatusTranslated instead.")]
+        public ResolutionStateType? ResolutionState {
+            get
+            {
+                return (ResolutionStateType) System.Enum.Parse(typeof(ResolutionStateType), Status, ignoreCase: true);
+            }
+        }
+
+        /// <summary>
+        /// Gets the resolution status of the task assignment.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldStatus)]
+        public string Status { get; private set; }
+
+        /// <summary>
+        /// Gets the translated/human-readable resolution status of the task assignment.
+        /// </summary>
         [JsonProperty(PropertyName = FieldResolutionState)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public ResolutionStateType? ResolutionState { get; private set; }
+        public string StatusTranslated { get; private set; }
 
         /// <summary>
         ///Gets user assigned by.
