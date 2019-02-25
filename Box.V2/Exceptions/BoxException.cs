@@ -76,8 +76,8 @@ namespace Box.V2.Exceptions
         private static string GetErrorMessage<T>(string message, IBoxResponse<T> response, BoxError error = null) where T : class
         {
             var requestID = error?.RequestId != null ? string.Format(" | {0}", error.RequestId) : "";
-            var traceIDHeaders = response.Headers.GetValues("BOX-REQUEST-ID");
-            if (traceIDHeaders != null)
+            IEnumerable<string> traceIDHeaders;
+            if (response.Headers.TryGetValues("BOX-REQUEST-ID", out traceIDHeaders))
             {
                 foreach (var id in traceIDHeaders)
                 {
