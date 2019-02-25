@@ -58,7 +58,7 @@ namespace Box.V2.Models
         /// <summary>
         /// Gets the state of the resolution.
         /// </summary>
-        [Obsolete("This field is deprecated, and may not work consistently.  Use Status or StatusTranslated instead.")]
+        [Obsolete("This field is deprecated, and may not work consistently.  Use Status or LocalizedStatus instead.")]
         public ResolutionStateType? ResolutionState {
             get
             {
@@ -73,10 +73,10 @@ namespace Box.V2.Models
         public string Status { get; private set; }
 
         /// <summary>
-        /// Gets the translated/human-readable resolution status of the task assignment.
+        /// Gets the localized/human-readable resolution status of the task assignment.
         /// </summary>
         [JsonProperty(PropertyName = FieldResolutionState)]
-        public string StatusTranslated { get; private set; }
+        public string LocalizedStatus { get; private set; }
 
         /// <summary>
         ///Gets user assigned by.

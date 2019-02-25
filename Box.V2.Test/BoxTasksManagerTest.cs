@@ -295,7 +295,7 @@ namespace Box.V2.Test
             /*** Assert ***/
 
             Assert.AreEqual("incomplete", result.Status);
-            Assert.AreEqual("未完了", result.StatusTranslated);
+            Assert.AreEqual("未完了", result.LocalizedStatus);
             Assert.AreEqual(ResolutionStateType.incomplete, result.ResolutionState);
         }
 
