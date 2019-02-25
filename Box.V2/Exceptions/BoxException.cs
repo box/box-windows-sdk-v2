@@ -1,4 +1,4 @@
-﻿using Box.V2.Converter;
+using Box.V2.Converter;
 using Box.V2.Models;
 using System;
 using System.Collections.Generic;
@@ -58,9 +58,9 @@ namespace Box.V2.Exceptions
                 {
                     error = converter.Parse<BoxError>(response.ContentString);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    Debug.WriteLine(string.Format("Unable to parse error message: {0}", response.ContentString));
+                    Debug.WriteLine(string.Format("Unable to parse error message: {0} ({1})", response.ContentString, e.Message));
                 }
             }
             var ex = new BoxException(GetErrorMessage(message, response, error))
@@ -76,6 +76,12 @@ namespace Box.V2.Exceptions
         private static string GetErrorMessage<T>(string message, IBoxResponse<T> response, BoxError error = null) where T : class
         {
             var requestID = error?.RequestId != null ? string.Format(" | {0}", error.RequestId) : "";
+            foreach (var id in response.Headers.GetValues("BOX-REQUEST-ID"))
+            {
+                // Take the first trace ID header value (there should only be one)
+                requestID += "." + id;
+                break;
+            }
             var errorInfo = error?.Code != null && error?.Message != null ? string.Format(" {0} - {1}", error.Code, error.Message) : "";
             return string.Format("{0} [{1}{2}]{3}", message, response.StatusCode, requestID, errorInfo);
         }

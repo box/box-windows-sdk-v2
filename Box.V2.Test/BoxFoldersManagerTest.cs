@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Exceptions;
 using Box.V2.Managers;
 using Box.V2.Models;
@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
@@ -176,6 +177,45 @@ namespace Box.V2.Test
             Assert.AreEqual(f.ItemCollection.Entries.Count, 0);
             //Assert.AreEqual(f.Offset, 0); // Need to add property
             //Assert.AreEqual(f.Limit, 100); // Need to add property
+        }
+
+        [TestMethod]
+        public async Task CreateFolder_ValidResponse_BadRequest()
+        {
+            HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+            headers.Add("BOX-REQUEST-ID", "0vsm9dam264cpub3esr293i4ssm");
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Status = ResponseStatus.Error,
+                    Headers = headers,
+                    ContentString = @"{
+                        ""type"": ""error"",
+                        ""status"": 400,
+                        ""code"": ""item_name_invalid"",
+                        ""context_info"": ""Names cannot contain non-printable ASCII, / or \\, leading or trailing whitespace. The special names \"".\"" or \""..\"" are also unsupported."",
+                        ""help_url"": ""http://developers.box.com/docs/#errors"",
+                        ""message"": ""Item name invalid"",
+                        ""request_id"": ""z7a3ykg0j9lacnnm""
+                    }"
+                }));
+
+            var folderReq = new BoxFolderRequest()
+            {
+                Name = ".",
+                Parent = new BoxRequestEntity() { Id = "0" }
+            };
+
+            try
+            {
+                BoxFolder f = await _foldersManager.CreateAsync(folderReq);
+                throw new Exception("Invalid error type returned");
+            }
+            catch (BoxException ex)
+            {
+                Assert.AreEqual("The API returned an error [BadRequest | z7a3ykg0j9lacnnm.0vsm9dam264cpub3esr293i4ssm] item_name_invalid - Item name invalid", ex.Message);
+            }
         }
 
         [TestMethod]
