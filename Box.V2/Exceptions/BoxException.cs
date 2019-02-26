@@ -77,7 +77,7 @@ namespace Box.V2.Exceptions
         {
             var requestID = error?.RequestId != null ? string.Format(" | {0}", error.RequestId) : "";
             IEnumerable<string> traceIDHeaders;
-            if (response.Headers.TryGetValues("BOX-REQUEST-ID", out traceIDHeaders))
+            if (response.Headers != null && response.Headers.TryGetValues("BOX-REQUEST-ID", out traceIDHeaders))
             {
                 foreach (var id in traceIDHeaders)
                 {
