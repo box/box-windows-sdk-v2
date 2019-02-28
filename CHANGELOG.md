@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.14.0 [2019-02-28]
+
+- Added trace ID to API response exception message.
+- Fix deserialization of translated task assignment status.
+
 ## 3.13.1 [2019-02-21]
 
 - Fixed an issue where some objects related to Events did not have their `.Id` property correctly deserialized from JSON
