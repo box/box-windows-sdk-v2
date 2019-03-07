@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.14.1 [2019-03-07]
+
+- Removed unnecessary package.config from sample files.
+
 ## 3.14.0 [2019-02-28]
 
 - Added trace ID to API response exception message.
