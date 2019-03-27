@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Exceptions;
@@ -33,15 +33,19 @@ namespace Box.V2.JWTAuth
 
         readonly DateTime UNIX_EPOCH = new DateTime(1970, 1, 1);
 
+        private readonly IBoxService boxService;
         private readonly IBoxConfig boxConfig;
         private readonly SigningCredentials credentials;
+
         /// <summary>
         /// Constructor for JWT authentication
         /// </summary>
         /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
-        public BoxJWTAuth(IBoxConfig boxConfig)
+        /// <param name="boxService">Box service is used to perform GetToken requests</param>
+        public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService)
         {
             this.boxConfig = boxConfig;
+            this.boxService = boxService;
 
             // the following allows creation of a BoxJWTAuth object without valid keys but with a valid JWT UserToken
             // this allows code like this:
@@ -81,6 +85,15 @@ namespace Box.V2.JWTAuth
 
                 credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
             }
+        }
+
+        /// <summary>
+        /// Constructor for JWT authentication with default boxService
+        /// </summary>
+        /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
+        public BoxJWTAuth(IBoxConfig boxConfig) : this(boxConfig, new BoxService(new HttpRequestHandler()))
+        {
+            
         }
 
         /// <summary>
@@ -207,12 +220,9 @@ namespace Box.V2.JWTAuth
                                             .Payload(Constants.RequestParameters.Assertion, assertion)
                                             .Payload(Constants.RequestParameters.ClientId, this.boxConfig.ClientId)
                                             .Payload(Constants.RequestParameters.ClientSecret, this.boxConfig.ClientSecret);
-
-            var handler = new HttpRequestHandler();
+            
             var converter = new BoxJsonConverter();
-            var service = new BoxService(handler);
-
-            IBoxResponse<OAuthSession> boxResponse = service.ToResponseAsync<OAuthSession>(boxRequest).Result;
+            IBoxResponse<OAuthSession> boxResponse = this.boxService.ToResponseAsync<OAuthSession>(boxRequest).Result;
             boxResponse.ParseResults(converter);
 
             return boxResponse.ResponseObject;
