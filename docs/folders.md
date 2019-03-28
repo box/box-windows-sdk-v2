@@ -27,6 +27,7 @@ Folder items can be retrieved by calling the
 method. Use the `fields` option to specify the desired fields.
 Requesting information for only the fields you need can improve performance and reduce the size of the network request.
 
+<!-- sample get_folders_id_items -->
 ```c#
 BoxCollection<BoxItem> folderItems = await client.FoldersManager.GetFolderItemsAsync("11111", 100);
 ```
@@ -38,6 +39,7 @@ Folder information can be retrieved by calling
 `FoldersManager.GetInformationAsync(string id, IEnumerable<string> fields = null)`
 with the ID of the folder.
 
+<!-- sample get_folders_id -->
 ```c#
 BoxFolder folder = await client.FoldersManager.GetInformationAsync("11111");
 ```
@@ -49,6 +51,7 @@ Updating a folder's information is done by calling the
 `FoldersManager.UpdateInformationAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null, string etag = null)`
 method.
 
+<!-- sample put_folders_id -->
 ```c#
 var requestParams = new BoxFolderRequest()
 {
@@ -64,6 +67,7 @@ Create a Folder
 Create a subfolder inside of another folder by calling
 `FoldersManager.CreateAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null)`.
 
+<!-- sample post_folders -->
 ```c#
 // Create a new folder in the user's root folder
 var folderParams = new BoxFolderRequest()
@@ -83,6 +87,7 @@ Copy a Folder
 To copy a folder from its current location into a different folder, call
 `FoldersManager.CopyAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null)`.
 
+<!-- sample post_folders_id_copy -->
 ```c#
 // Copy folder 11111 into folder 22222
 var requestParams = new BoxFolderRequest()
@@ -103,6 +108,7 @@ A folder can be deleted by calling `FoldersManager.DeleteAsync(string id, bool r
 with the ID of the folder to delete.  By default, the folder will only be deleted if it is empty; to delete the
 folder and all of its contents, set the optional `recursive` parameter to `true`.
 
+<!-- sample delete_folders_id -->
 ```c#
 await client.FoldersManager.DeleteAsync("11111", recursive: true);
 ```
