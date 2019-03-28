@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.15.0 [2019-03-28]
+
+- Added support for passing custom IBoxService to BoxJWTAuth constructor.
+
 ## 3.14.1 [2019-03-07]
 
 - Removed unnecessary package.config from sample files.
