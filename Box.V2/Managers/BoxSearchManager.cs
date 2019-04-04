@@ -64,7 +64,7 @@ namespace Box.V2.Managers
                                                                 string trashContent = null,
                                                                 List<BoxMetadataFilterRequest> mdFilters = null,
                                                                 string sort = null,
-                                                                string direction = null)
+                                                                BoxSortDirection? direction = null)
                                                              
         {
 
@@ -98,7 +98,7 @@ namespace Box.V2.Managers
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
                 .Param("sort", sort)
-                .Param("direction", direction)
+                .Param("direction", direction.ToString())
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);

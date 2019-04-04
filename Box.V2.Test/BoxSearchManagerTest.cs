@@ -32,7 +32,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxCollection<BoxItem> results = await _searchManager.SearchAsync("fakeKeyword", 10, sort: "modified_at", direction: "ASC");
+            BoxCollection<BoxItem> results = await _searchManager.SearchAsync("fakeKeyword", 10, sort: "modified_at", direction: BoxSortDirection.ASC);
             var queryParams = boxRequest.Parameters;
             /*** Assert ***/
             Assert.AreEqual(4, results.TotalCount);
