@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
@@ -42,6 +42,8 @@ namespace Box.V2.Managers
         /// <param name="type">The type you want to return in your search. Can be file, folder, or web_link</param>
         /// <param name="trashContent">Allows you to search within the trash. Can be trashed_only or non_trashed_only. Searches without this parameter default to non_trashed_only</param>
         /// <param name="mdFilters">Filters for a specific metadata template for files with metadata object associations. NOTE: For searches with the mdfilters param, a query string is not required. Currenly only one BoxMetadataFilterRequest element is allowed.</param>
+        /// <param name="sort">The field to sort the search results by, e.g. "modified_at.</param>
+        /// <param name="direction">The direction to return the results. "ASC" for ascending and "DESC" for descending.</param>
         /// <returns>A collection of search results is returned. If there are no matching search results, the collection will be empty.</returns>
         public async Task<BoxCollection<BoxItem>> SearchAsync(  string keyword = null,
                                                                 int limit = 30,
@@ -60,7 +62,9 @@ namespace Box.V2.Managers
                                                                 IEnumerable<string> contentTypes = null,
                                                                 string type = null,
                                                                 string trashContent = null,
-                                                                List<BoxMetadataFilterRequest> mdFilters = null)
+                                                                List<BoxMetadataFilterRequest> mdFilters = null,
+                                                                string sort = null,
+                                                                string direction = null)
                                                              
         {
 
@@ -93,6 +97,8 @@ namespace Box.V2.Managers
                 .Param("mdfilters", mdFiltersString)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
+                .Param("sort", sort)
+                .Param("direction", direction)
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
