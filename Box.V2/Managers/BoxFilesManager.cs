@@ -894,15 +894,26 @@ namespace Box.V2.Managers
         /// <param name="minWidth">The minimum width of the thumbnail.</param>
         /// <param name="maxHeight">The maximum height of the thumbnail.</param>
         /// <param name="maxWidth">The maximum width of the thumbnail.</param>
+        /// <param name="thumbnailType">The type of thumbnail to retrieve.</param>
         /// <param name="handleRetry">Specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay.</param>
         /// <param name="throttle">Whether the requests will be throttled. Recommended to be left true to prevent spamming the server.</param>
         /// <returns>Contents of thumbnail as Stream.</returns>
-        public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true, bool handleRetry = true)
+        public async Task<Stream> GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true, bool handleRetry = true, string thumbnailType = "png")
         {
             id.ThrowIfNullOrWhiteSpace("id");
+            string extensionPath = "";
 
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ThumbnailPathString, id))
+            if (thumbnailType.Equals("png"))
+            {
+                extensionPath = @"{0}/thumbnail.png";
+            }
+            else if (thumbnailType.Equals("jpg"))
+            {
+                extensionPath = @"{0}/thumbnail.jpg";
+            }
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(extensionPath, id))
                 .Param("min_height", minHeight.ToString())
                 .Param("min_width", minWidth.ToString())
                 .Param("max_height", maxHeight.ToString())
