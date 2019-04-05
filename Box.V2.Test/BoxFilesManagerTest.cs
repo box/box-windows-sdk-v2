@@ -615,6 +615,32 @@ namespace Box.V2.Test
 
             }
         }
+
+        [TestMethod]
+        public async Task GetThumbnail_ValidResponse_EndpointJpg()
+        {
+            using (FileStream thumb = new FileStream(string.Format(getSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
+            {
+                /*** Arrange ***/
+                var endpoint = "";
+                Handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
+                    .Callback<IBoxRequest>(r => endpoint = r.AbsoluteUri.Segments.LastOrDefault())
+                    .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
+                    {
+                        Status = ResponseStatus.Success,
+                        ResponseObject = thumb
+                    }));
+
+                /*** Act ***/
+                Stream result = await _filesManager.GetThumbnailAsync("34122832467", extension:"jpg");
+
+                /*** Assert ***/
+                Assert.IsNotNull(result, "Stream is Null");
+                Assert.AreEqual("thumbnail.jpg", endpoint);
+
+            }
+        }
+
         private string getSaveFolderPath()
         {
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
