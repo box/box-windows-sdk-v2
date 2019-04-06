@@ -47,6 +47,7 @@ namespace Box.V2.Test
                                         ""assigned_at"": ""2013-05-10T18:43:41Z"",
                                         ""reminded_at"": null,
                                         ""resolution_state"": ""incomplete"",
+                                        ""status"": ""incomplete"",
                                         ""assigned_by"": {
                                             ""type"": ""user"",
                                             ""id"": ""11993747"",
