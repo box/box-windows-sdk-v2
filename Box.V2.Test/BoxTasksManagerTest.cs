@@ -43,7 +43,7 @@ namespace Box.V2.Test
                                         },
                                         ""message"": null,
                                         ""completed_at"": null,
-                                        ""assigned_at"": ""2013-05-10T11:43:41-07:00"",
+                                        ""assigned_at"": ""2013-05-10T18:43:41Z"",
                                         ""reminded_at"": null,
                                         ""resolution_state"": ""incomplete"",
                                         ""assigned_by"": {
