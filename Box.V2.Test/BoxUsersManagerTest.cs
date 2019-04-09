@@ -260,7 +260,7 @@ namespace Box.V2.Test
 
             BoxCollection<BoxUser> items = await _usersManager.GetEnterpriseUsersAsync(filterTerm: "user+alias@example.com");
 
-            Assert.AreEqual("filter_term=user%2Balias%40example.com", boxRequest.GetQueryString());
+            Assert.AreEqual("filter_term=user%2Balias%40example.com&offset=0&limit=100", boxRequest.GetQueryString());
         }
 
         [TestMethod]
