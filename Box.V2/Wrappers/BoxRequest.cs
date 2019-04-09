@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
 
 namespace Box.V2
 {
@@ -90,7 +91,7 @@ namespace Box.V2
 
             var paramStrings = Parameters
                                 .Where(p => !string.IsNullOrEmpty(p.Value))
-                                .Select(p => string.Format("{0}={1}", p.Key, p.Value));
+                                .Select(p => string.Format("{0}={1}", p.Key, WebUtility.UrlEncode(p.Value)));
 
             return string.Join("&", paramStrings);
         }
