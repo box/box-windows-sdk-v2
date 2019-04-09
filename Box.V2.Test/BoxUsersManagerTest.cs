@@ -249,14 +249,14 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task GetEnterpriseUsers_EmailSpecialCharacters_ValidReponse()
         {
-            IBoxRequest boxRequest;
+            IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxUser>>(It.IsAny<IBoxRequest>()))
            .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxUser>>>(new BoxResponse<BoxCollection<BoxUser>>()
            {
                Status = ResponseStatus.Success,
                ContentString = "{\"total_count\":2,\"entries\":[{\"type\":\"user\",\"id\":\"1923882\",\"name\":\"Joey Burns\",\"role\":\"coadmin\"},{\"type\":\"user\",\"id\":\"23412412\",\"name\":\"John Covertino\",\"role\":\"coadmin\"}]}"
-           })
-           .Callback(r => boxRequest = r));
+           }))
+           .Callback<IBoxRequest>(r => boxRequest = r);
 
             BoxCollection<BoxUser> items = await _usersManager.GetEnterpriseUsersAsync(filterTerm: "user+alias@example.com");
 
