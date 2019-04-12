@@ -81,8 +81,14 @@ namespace Box.V2.Request
                     // If we get a 429 error code and this is not a multi part request (meaning a file upload, which cannot be retried
                     // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
                     // If we get a 202 code and has a retry-after header, we will retry after
-                    if (
-                        ((response.StatusCode == TooManyRequests && !isMultiPartRequest)
+                    if (!isMultiPartRequest &&
+                        (response.StatusCode == TooManyRequests
+                        ||
+                        response.StatusCode == HttpStatusCode.InternalServerError
+                        ||
+                        response.StatusCode == HttpStatusCode.GatewayTimeout
+                        ||
+                        response.StatusCode == HttpStatusCode.BadGateway
                         ||
                         (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)) 
                         && retryCounter++ < RetryLimit)
