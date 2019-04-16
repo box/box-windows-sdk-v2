@@ -1,6 +1,7 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
+using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
@@ -96,6 +97,80 @@ namespace Box.V2.Managers
         public async Task<Dictionary<string, object>> UpdateFolderMetadataAsync(string folderId, List<BoxMetadataUpdate> updates, string scope, string template)
         {
             return await UpdateMetadata(_config.FoldersEndpointUri, folderId, updates, scope, template);
+        }
+
+        /// <summary>
+        /// Sets the provided metadata, overwriting any existing metadata on the file.
+        /// </summary>
+        /// <param name="fileId">The ID of the file to write metadata on.</param>
+        /// <param name="metadata">The metadata key/value pairs to write.</param>
+        /// <param name="scope">The scope of the metadata template to write to.</param>
+        /// <param name="template">The key of the metadata template to write to.</param>
+        /// <returns>The full metadata on the file, after writes are applied.</returns>
+        public async Task<Dictionary<string, object>> SetFileMetadataAsync(string fileId, Dictionary<string, object> metadata, string scope, string template)
+        {
+            try
+            {
+                return await CreateFileMetadataAsync(fileId, metadata, scope, template);
+            }
+            catch (BoxException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Conflict)
+                {
+                    // Metadata already exists, try updating instead
+                    var updates = new List<BoxMetadataUpdate>();
+                    foreach (KeyValuePair<string, object> md in metadata)
+                    {
+                        updates.Add(new BoxMetadataUpdate()
+                        {
+                            Op = MetadataUpdateOp.add,
+                            Path = "/" + md.Key,
+                            Value = md.Value,
+                        });
+                    }
+                    return await UpdateFileMetadataAsync(fileId, updates, scope, template);
+                }
+
+                // Some other exception, just rethrow it
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Sets the provided metadata, overwriting any existing metadata on the folder.
+        /// </summary>
+        /// <param name="folderId">The ID of the folder to write metadata on.</param>
+        /// <param name="metadata">The metadata key/value pairs to write.</param>
+        /// <param name="scope">The scope of the metadata template to write to.</param>
+        /// <param name="template">The key of the metadata template to write to.</param>
+        /// <returns>The full metadata on the folder, after writes are applied.</returns>
+        public async Task<Dictionary<string, object>> SetFolderMetadataAsync(string folderId, Dictionary<string, object> metadata, string scope, string template)
+        {
+            try
+            {
+                return await CreateFolderMetadataAsync(folderId, metadata, scope, template);
+            }
+            catch (BoxException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.Conflict)
+                {
+                    // Metadata already exists, try updating instead
+                    var updates = new List<BoxMetadataUpdate>();
+                    foreach (KeyValuePair<string, object> md in metadata)
+                    {
+                        updates.Add(new BoxMetadataUpdate()
+                        {
+                            Op = MetadataUpdateOp.add,
+                            Path = "/" + md.Key,
+                            Value = md.Value,
+                        });
+                    }
+                    return await UpdateFolderMetadataAsync(folderId, updates, scope, template);
+                }
+
+                // Some other exception, just rethrow it
+                throw ex;
+            }
         }
 
         /// <summary>
