@@ -31,13 +31,11 @@ in a flexible way, without pre-defined template structure.
   - [Get by template scope and key](#get-by-template-scope-and-key)
   - [Get by ID](#get-by-id)
 - [Get Enterprise Metadata Templates](#get-enterprise-metadata-templates)
-- [Add Metadata to a File](#add-metadata-to-a-file)
+- [Set Metadata on a File](#set-metadata-on-a-file)
 - [Get Metadata on a File](#get-metadata-on-a-file)
-- [Update Metadata on a File](#update-metadata-on-a-file)
 - [Remove Metadata from a File](#remove-metadata-from-a-file)
-- [Add Metadata to a Folder](#add-metadata-to-a-folder)
+- [Set Metadata on a Folder](#set-metadata-on-a-folder)
 - [Get Metadata on a Folder](#get-metadata-on-a-folder)
-- [Update Metadata on a Folder](#update-metadata-on-a-folder)
 - [Remove Metadata from a Folder](#remove-metadata-from-a-folder)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -146,12 +144,38 @@ BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate> templates = await c
     .GetEnterpriseMetadataAsync();
 ```
 
-Add Metadata to a File
+Set Metadata on a File
 ----------------------
 
-Metadata can be created on a file by calling
+To set metadata on a file, call
+`MetadataManager.SetFileMetadataAsync(string fileId, Dictionary<string, object> metadata, string scope, string template)`
+with the scope and template key of the metadata template, as well as a `Dictionary` containing the metadata keys
+and values to set.
+
+> __Note:__ This method will unconditionally apply the provided metadata, overwriting existing metadata
+> for the keys provided.  To specifically create or update metadata, see the `CreateFileMetadataAsync()`
+> and `UpdateFileMetadataAsync()` methods below.
+
+```c#
+var metadataValues = new Dictionary<string, object>()
+{
+    { "audience", "internal" },
+    { "documentType", "Q1 plans" },
+    { "competitiveDocument", "no" },
+    { "status", "active" },
+    { "author": "M. Jones" },
+    { "currentState": "proposal" }
+};
+Dictionary<string, object> metadata = await client.MetadataManager
+    .SetFileMetadataAsync(fileId: "11111", metadataValues, "enterprise", "marketingCollateral");
+```
+
+To add new metadata to a file, call 
 `MetadataManager.CreateFileMetadataAsync(string fileId, Dictionary<string, object> metadata, string scope, string template)`
-with a metadata template and an object of key/value pairs to add as metadata.
+with a metadata template and a `Dictionary` of key/value pairs to add as metadata.
+
+> __Note:__: This method will only succeed if the provided metadata template is not current applied to the file,
+> otherwise it will fail with a Conflict error.
 
 ```c#
 var metadataValues = new Dictionary<string, object>()
@@ -167,31 +191,14 @@ Dictionary<string, object> metadata = await client.MetadataManager
     .CreateFileMetadataAsync(fileId: "11111", metadataValues, "enterprise", "marketingCollateral");
 ```
 
-Get Metadata on a File
-----------------------
-
-Retrieve a specific metadata template on a file by calling
-`MetadataManager.GetFileMetadataAsync(string fileId, string scope, string template)`
-with the ID of the file and which template to fetch.
-
-```c#
-Dictionary<string, object> metadata = await client.MetadataManager.
-    .GetFileMetadataAsync(fileId: "11111", "enterprise", "marketingCollateral");
-```
-
-You can also get all metadata on a file by calling `MetadataManager.GetAllFileMetadataTemplatesAsync(string fileId)`.
-
-```c#
-BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
-    .GetAllFileMetadataTemplatesAsync(fileId: "11111");
-```
-
-Update Metadata on a File
--------------------------
-
-Update a file's metadata by calling
+Update a file's existing metadata by calling
 `MetadataManager.UpdateFileMetadataAsync(string fileId, List<BoxMetadataUpdate> updates, string scope, string template)`
-with the [JSON Patch](http://jsonpatch.com/) formatted operations to perform on the metadata.
+with a list of update operations to apply.
+
+> __Note:__ This method will only succeed if the provided metadata template has already been applied to
+> the file; if the file does not have existing metadata, this method will fail with a Not Found error.
+> This is useful in cases where you know the file will already have metadata applied, since it will
+> save an API call compared to `SetFileMetadataAsync()`.
 
 ```c#
 var updates = new List<BoxMetadataUpdate>()
@@ -254,6 +261,25 @@ Dictionary<string, object> updatedMetadata = await client.MetadataManager
     .UpdateFileMetadataAsync("11111", updates, "enterprise", "marketingCollateral");
 ```
 
+Get Metadata on a File
+----------------------
+
+Retrieve a specific metadata template on a file by calling
+`MetadataManager.GetFileMetadataAsync(string fileId, string scope, string template)`
+with the ID of the file and which template to fetch.
+
+```c#
+Dictionary<string, object> metadata = await client.MetadataManager.
+    .GetFileMetadataAsync(fileId: "11111", "enterprise", "marketingCollateral");
+```
+
+You can also get all metadata on a file by calling `MetadataManager.GetAllFileMetadataTemplatesAsync(string fileId)`.
+
+```c#
+BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
+    .GetAllFileMetadataTemplatesAsync(fileId: "11111");
+```
+
 Remove Metadata from a File
 ---------------------------
 
@@ -265,12 +291,38 @@ with the ID of the file and the metadata template to remove.
 await client.MetadataManager.DeleteFileMetadataAsync("11111", "enterprise", "marketingCollateral");
 ```
 
-Add Metadata to a Folder
+Set Metadata on a Folder
 ------------------------
 
-Metadata can be created on a folder by calling
+To set metadata on a folder, call
+`MetadataManager.SetFolderMetadataAsync(string folderId, Dictionary<string, object> metadata, string scope, string template)`
+with the scope and template key of the metadata template, as well as a `Dictionary` containing the metadata keys
+and values to set.
+
+> __Note:__ This method will unconditionally apply the provided metadata, overwriting existing metadata
+> for the keys provided.  To specifically create or update metadata, see the `CreateFileMetadataAsync()`
+> and `UpdateFileMetadataAsync()` methods below.
+
+```c#
+var metadataValues = new Dictionary<string, object>()
+{
+    { "audience", "internal" },
+    { "documentType", "Q1 plans" },
+    { "competitiveDocument", "no" },
+    { "status", "active" },
+    { "author": "M. Jones" },
+    { "currentState": "proposal" }
+};
+Dictionary<string, object> metadata = await client.MetadataManager
+    .SetFolderMetadataAsync(folderId: "11111", metadataValues, "enterprise", "marketingCollateral");
+```
+
+To add new metadata to a folder, call 
 `MetadataManager.CreateFolderMetadataAsync(string folderId, Dictionary<string, object> metadata, string scope, string template)`
-with a metadata template and an object of key/value pairs to add as metadata.
+with a metadata template and a `Dictionary` of key/value pairs to add as metadata.
+
+> __Note:__: This method will only succeed if the provided metadata template is not current applied to the folder,
+> otherwise it will fail with a Conflict error.
 
 ```c#
 var metadataValues = new Dictionary<string, object>()
@@ -286,32 +338,14 @@ Dictionary<string, object> metadata = await client.MetadataManager
     .CreateFolderMetadataAsync(folderId: "11111", metadataValues, "enterprise", "marketingCollateral");
 ```
 
-Get Metadata on a Folder
-------------------------
-
-Retrieve a specific metadata template on a folder by calling
-`MetadataManager.GetFolderMetadataAsync(string folderId, string scope, string template)`
-with the ID of the folder and which template to fetch.
-
-```c#
-Dictionary<string, object> metadata = await client.MetadataManager.
-    .GetFolderMetadataAsync(folderId: "11111", "enterprise", "marketingCollateral");
-```
-
-You can also get all metadata on a folder by calling
-`MetadataManager.GetAllFolderMetadataTemplatesAsync(string folderId)`.
-
-```c#
-BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
-    .GetAllFolderMetadataTemplatesAsync(folderId: "11111");
-```
-
-Update Metadata on a Folder
----------------------------
-
-Update a folder's metadata by calling
+Update a folder's existing metadata by calling
 `MetadataManager.UpdateFolderMetadataAsync(string folderId, List<BoxMetadataUpdate> updates, string scope, string template)`
-with the [JSON Patch](http://jsonpatch.com/) formatted operations to perform on the metadata.
+with a list of update operations to apply.
+
+> __Note:__ This method will only succeed if the provided metadata template has already been applied to
+> the folder; if the folder does not have existing metadata, this method will fail with a Not Found error.
+> This is useful in cases where you know the folder will already have metadata applied, since it will
+> save an API call compared to `SetFolderMetadataAsync()`.
 
 ```c#
 var updates = new List<BoxMetadataUpdate>()
@@ -372,6 +406,26 @@ var updates = new List<BoxMetadataUpdate>()
 };
 Dictionary<string, object> updatedMetadata = await client.MetadataManager
     .UpdateFolderMetadataAsync("11111", updates, "enterprise", "marketingCollateral");
+```
+
+Get Metadata on a Folder
+------------------------
+
+Retrieve a specific metadata template on a folder by calling
+`MetadataManager.GetFolderMetadataAsync(string folderId, string scope, string template)`
+with the ID of the folder and which template to fetch.
+
+```c#
+Dictionary<string, object> metadata = await client.MetadataManager.
+    .GetFolderMetadataAsync(folderId: "11111", "enterprise", "marketingCollateral");
+```
+
+You can also get all metadata on a folder by calling
+`MetadataManager.GetAllFolderMetadataTemplatesAsync(string folderId)`.
+
+```c#
+BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
+    .GetAllFolderMetadataTemplatesAsync(folderId: "11111");
 ```
 
 Remove Metadata from a Folder

@@ -1,10 +1,12 @@
-﻿using Box.V2.Managers;
+using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Box.V2;
+using Box.V2.Exceptions;
 
 namespace Box.V2.Test
 {
@@ -19,6 +21,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFileMetadata_ValidResponse_ValidMetadata()
         {
             /*** Arrange ***/
@@ -75,6 +78,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFileMetadata_ValidResponse_ValidMetadata()
         {
             /*** Arrange ***/
@@ -107,7 +111,7 @@ namespace Box.V2.Test
 
             /*** Assert ***/
             /*** Request ***/
-            Assert.AreEqual(string.Format("{0}/metadata/{1}/{2}","5010739061", "enterprise", "bandInfo"), boxRequest.Path);
+            Assert.AreEqual(string.Format("{0}/metadata/{1}/{2}", "5010739061", "enterprise", "bandInfo"), boxRequest.Path);
             /*** Response ***/
             Assert.AreEqual("internal", metadata["audience1"]);
             Assert.AreEqual("Q1 plans", metadata["documentType"]);
@@ -118,6 +122,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAllFileMetadataTemplates_ValidResponse_ValidEntries()
         {
             /*** Arrange ***/
@@ -183,6 +188,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateFileMetadata_ValidResponse_ValidEntries()
         {
             /*** Arrange ***/
@@ -283,6 +289,278 @@ namespace Box.V2.Test
             Assert.AreEqual("Q1 plans", result["documentType"]);
             Assert.AreEqual((long)1, result["$version"]);
             Assert.AreEqual("reviewed", result["currentState"]);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task SetFileMetadataAsync_Create_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""foo"": ""bar"",
+                                        ""baz"": ""quux"",
+                                        ""num"": 123,
+                                        ""$type"": ""marketingCollateral-d086c908-2498-4d3e-8a1f-01e82bfc2abe"",
+                                        ""$parent"": ""file_11111"",
+                                        ""$id"": ""2094c584-68e1-475c-a581-534a4609594e"",
+                                        ""$version"": 1,
+                                        ""$typeVersion"": 0,
+                                        ""$template"": ""marketingCollateral"",
+                                        ""$scope"": ""enterprise_12345""
+                                    }";
+
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            var md = new Dictionary<string, object>()
+            {
+                { "foo", "bar" },
+                { "baz", "quux" },
+                { "num", 123 }
+            };
+
+            /*** Act ***/
+            var metadata = await _metadataManager.SetFileMetadataAsync("11111", md, "enterprise", "marketingCollateral");
+
+            /*** Assert ***/
+            Assert.AreEqual("bar", metadata["foo"]);
+            Assert.AreEqual("quux", metadata["baz"]);
+            Assert.AreEqual((System.Int64)123, metadata["num"]);
+
+            Assert.AreEqual("https://api.box.com/2.0/files/11111/metadata/enterprise/marketingCollateral", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual("{\"foo\":\"bar\",\"baz\":\"quux\",\"num\":123}", boxRequest.Payload);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task SetFileMetadataAsync_Update_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""foo"": ""blargh"",
+                                        ""baz"": ""quux"",
+                                        ""num"": 456,
+                                        ""$type"": ""marketingCollateral-d086c908-2498-4d3e-8a1f-01e82bfc2abe"",
+                                        ""$parent"": ""file_11111"",
+                                        ""$id"": ""2094c584-68e1-475c-a581-534a4609594e"",
+                                        ""$version"": 1,
+                                        ""$typeVersion"": 0,
+                                        ""$template"": ""marketingCollateral"",
+                                        ""$scope"": ""enterprise_12345""
+                                    }";
+
+            IBoxRequest boxRequest = null;
+            var responses = new Queue<Task<IBoxResponse<Dictionary<string, object>>>>(new[]
+            {
+                Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Error,
+                    StatusCode = System.Net.HttpStatusCode.Conflict,
+                    ContentString = ""
+                }),
+                Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })
+            });
+            Handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+                .Returns(() => responses.Dequeue())
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            var md = new Dictionary<string, object>()
+            {
+                { "foo", "blargh" },
+                { "num", 456 }
+            };
+
+            /*** Act ***/
+            var metadata = await _metadataManager.SetFileMetadataAsync("11111", md, "enterprise", "marketingCollateral");
+
+            /*** Assert ***/
+            Assert.AreEqual("blargh", metadata["foo"]);
+            Assert.AreEqual("quux", metadata["baz"]);
+            Assert.AreEqual((System.Int64)456, metadata["num"]);
+
+            Assert.AreEqual("https://api.box.com/2.0/files/11111/metadata/enterprise/marketingCollateral", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
+            Assert.AreEqual("[{\"op\":\"add\",\"path\":\"/foo\",\"value\":\"blargh\"},{\"op\":\"add\",\"path\":\"/num\",\"value\":456}]", boxRequest.Payload);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task SetFileMetadataAsync_Create_Error()
+        {
+            /*** Arrange ***/
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Error,
+                    StatusCode = System.Net.HttpStatusCode.BadGateway,
+                    ContentString = ""
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            var md = new Dictionary<string, object>()
+            {
+                { "foo", "bar" },
+                { "baz", "quux" },
+                { "num", 123 }
+            };
+
+            /*** Act ***/
+            try
+            {
+                var metadata = await _metadataManager.SetFileMetadataAsync("11111", md, "enterprise", "marketingCollateral");
+
+                Assert.Fail("Expected metadata set operation to throw when create operation throws with non-Conflict error");
+            }
+            catch (BoxException ex)
+            {
+                Assert.AreEqual(System.Net.HttpStatusCode.BadGateway, ex.StatusCode);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task SetFolderMetadataAsync_Create_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""foo"": ""bar"",
+                                        ""baz"": ""quux"",
+                                        ""num"": 123,
+                                        ""$type"": ""marketingCollateral-d086c908-2498-4d3e-8a1f-01e82bfc2abe"",
+                                        ""$parent"": ""folder_11111"",
+                                        ""$id"": ""2094c584-68e1-475c-a581-534a4609594e"",
+                                        ""$version"": 1,
+                                        ""$typeVersion"": 0,
+                                        ""$template"": ""marketingCollateral"",
+                                        ""$scope"": ""enterprise_12345""
+                                    }";
+
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            var md = new Dictionary<string, object>()
+            {
+                { "foo", "bar" },
+                { "baz", "quux" },
+                { "num", 123 }
+            };
+
+            /*** Act ***/
+            var metadata = await _metadataManager.SetFolderMetadataAsync("11111", md, "enterprise", "marketingCollateral");
+
+            /*** Assert ***/
+            Assert.AreEqual("bar", metadata["foo"]);
+            Assert.AreEqual("quux", metadata["baz"]);
+            Assert.AreEqual((System.Int64)123, metadata["num"]);
+
+            Assert.AreEqual("https://api.box.com/2.0/folders/11111/metadata/enterprise/marketingCollateral", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual("{\"foo\":\"bar\",\"baz\":\"quux\",\"num\":123}", boxRequest.Payload);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task SetFolderMetadataAsync_Update_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""foo"": ""blargh"",
+                                        ""baz"": ""quux"",
+                                        ""num"": 456,
+                                        ""$type"": ""marketingCollateral-d086c908-2498-4d3e-8a1f-01e82bfc2abe"",
+                                        ""$parent"": ""folder_11111"",
+                                        ""$id"": ""2094c584-68e1-475c-a581-534a4609594e"",
+                                        ""$version"": 1,
+                                        ""$typeVersion"": 0,
+                                        ""$template"": ""marketingCollateral"",
+                                        ""$scope"": ""enterprise_12345""
+                                    }";
+
+            IBoxRequest boxRequest = null;
+            var responses = new Queue<Task<IBoxResponse<Dictionary<string, object>>>>(new[]
+            {
+                Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Error,
+                    StatusCode = System.Net.HttpStatusCode.Conflict,
+                    ContentString = ""
+                }),
+                Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })
+            });
+            Handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+                .Returns(() => responses.Dequeue())
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            var md = new Dictionary<string, object>()
+            {
+                { "foo", "blargh" },
+                { "num", 456 }
+            };
+
+            /*** Act ***/
+            var metadata = await _metadataManager.SetFolderMetadataAsync("11111", md, "enterprise", "marketingCollateral");
+
+            /*** Assert ***/
+            Assert.AreEqual("blargh", metadata["foo"]);
+            Assert.AreEqual("quux", metadata["baz"]);
+            Assert.AreEqual((System.Int64)456, metadata["num"]);
+
+            Assert.AreEqual("https://api.box.com/2.0/folders/11111/metadata/enterprise/marketingCollateral", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
+            Assert.AreEqual("[{\"op\":\"add\",\"path\":\"/foo\",\"value\":\"blargh\"},{\"op\":\"add\",\"path\":\"/num\",\"value\":456}]", boxRequest.Payload);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task SetFolderMetadataAsync_Create_Error()
+        {
+            /*** Arrange ***/
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<Dictionary<string, object>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<Dictionary<string, object>>>(new BoxResponse<Dictionary<string, object>>()
+                {
+                    Status = ResponseStatus.Error,
+                    StatusCode = System.Net.HttpStatusCode.BadGateway,
+                    ContentString = ""
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            var md = new Dictionary<string, object>()
+            {
+                { "foo", "bar" },
+                { "baz", "quux" },
+                { "num", 123 }
+            };
+
+            /*** Act ***/
+            try
+            {
+                var metadata = await _metadataManager.SetFolderMetadataAsync("11111", md, "enterprise", "marketingCollateral");
+
+                Assert.Fail("Expected metadata set operation to throw when create operation throws with non-Conflict error");
+            }
+            catch (BoxException ex)
+            {
+                Assert.AreEqual(System.Net.HttpStatusCode.BadGateway, ex.StatusCode);
+            }
         }
     }
 }
