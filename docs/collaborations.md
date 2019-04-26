@@ -26,6 +26,7 @@ A collaboration can be added for an existing user by calling
 The `Role` field of the `collaborationRequest` parameter determines what permissions the collaborator will have on the
 folder or file. 
 
+<!-- sample post_collaborations -->
 ```c#
 // collaborate folder 11111 with user 22222
 BoxCollaborationRequest requestParams = new BoxCollaborationRequest()
@@ -54,6 +55,7 @@ A collaboration can be edited by calling
 `CollaborationsManager.EditCollaborationAsync(BoxCollaborationRequest collaborationRequest, IEnumerable<string> fields = null)`
 with the fields to be updated.  For example, to change the role of a collaboration:
 
+<!-- sample put_collaborations_id -->
 ```c#
 BoxCollaborationRequest requestParams = new BoxCollaborationRequest()
 {
@@ -69,6 +71,7 @@ Remove a Collaboration
 A collaboration can be removed by calling `CollaborationsManager.RemoveCollaborationAsync(string id)`.
 This will generally remove the user or group's access to the collaborated item.
 
+<!-- sample delete_collaborations_id -->
 ```c#
 await client.CollaborationsManager.RemoveCollaborationAsync(id: "12345");
 ```
@@ -80,6 +83,7 @@ To get information about a specific collaboration record, call
 `CollaborationsManager.GetCollaborationAsync(string id, IEnumerable<string> fields = null)` with the
 ID of the collaboration.
 
+<!-- get delete_collaborations_id -->
 ```c#
 BoxCollaboration collab = await client.CollaborationsManager.GetCollaborationAsync(id: "22222");
 ```
@@ -90,6 +94,7 @@ Get the Collaborations on a Folder
 You can get all of the collaborations on a folder by calling
 `FoldersManager.GetCollaborationsAsync(string id, IEnumerable<string> fields = null)` with the ID of the folder.
 
+<!-- sample delete_collaborations_id -->
 ```c#
 string folderId = "11111";
 BoxCollection<BoxCollaboration> collaborations = await client.FoldersManager
@@ -115,6 +120,7 @@ Get Pending Collaborations
 A collection of all the user's pending collaborations can be retrieved with
 `CollaborationsManager.GetPendingCollaborationAsync(IEnumerable<string> fields = null)`.
 
+<!-- sample get_collaborations -->
 ```c#
 BoxCollection<BoxCollaboration> pendingCollabs = await CollaborationsManager
     .GetPendingCollaborationAsync();

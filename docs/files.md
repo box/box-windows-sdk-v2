@@ -37,6 +37,7 @@ To get information about a specific file, call
 `FilesManager.GetInformationAsync(string id, IEnumerable<string> fields = null)` with the
 ID of the file.
 
+<!-- sample get_files_id -->
 ```c#
 BoxFile file = await client.FilesManager.GetInformationAsync(id: "11111");
 ```
@@ -48,6 +49,7 @@ Updating a file's information is done by calling
 `FilesManager.UpdateInformationAsync(BoxFileRequest fileRequest, string etag = null, IEnumerable<string> fields = null)`
 with the fields of the file object to update.
 
+<!-- sample put_files_id -->
 ```c#
 // Rename file 11111
 var requestParams = new BoxFileRequest()
@@ -65,6 +67,7 @@ A file can be downloaded by calling
 `FilesManager.DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null, int? startOffsetInBytes = null, int? endOffsetInBytes = null)`,
 which provides a `Stream` that will yield the file's contents.
 
+<!-- sample get_files_id_content -->
 ```c#
 Stream fileContents = await client.FilesManager.DownloadStreamAsync(id: "11111");
 ```
@@ -87,6 +90,7 @@ The simplest way to upload a file to a folder is by calling
 `FilesManager.UploadAsync(BoxFileRequest fileRequest, Stream stream, IEnumerable<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null, bool setStreamPositionToZero = true, Uri uploadUri = null)`
 with the upload parameters and a stream of the file contents to upload.
 
+<!-- sample post_files_id_content -->
 ```c#
 using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
 {
@@ -107,6 +111,7 @@ A file can be copied to a new folder with the
 `FilesManager.CopyAsync(BoxFileRequest fileRequest, IEnumerable<string> fields = null)`
 method.
 
+<!-- sample post_files_id_copy -->
 ```c#
 string fileId = "11111";
 string destinationFolderId = "22222";
@@ -129,6 +134,7 @@ Calling the
 `FilesManager.DeleteAsync(string id, string etag = null)`
 method will move the file to the user's trash.
 
+<!-- sample delete_files_id -->
 ```c#
 await client.FilesManager.DeleteAsync(id: "11111");
 ```
@@ -140,6 +146,7 @@ Retrieve a list of previous versions of a file by calling
 `FilesManager.ViewVersionsAsync(string id, IEnumerable<string> fields = null)`
 with the ID of the file.
 
+<!-- sample get_files_id_versions -->
 ```c#
 BoxCollection<BoxFileVersion> previousVersions = await client.FilesManager
     .ViewVersionsAsync(id: "11111");
@@ -152,6 +159,7 @@ A new version of a file can be uploaded by calling
 `FilesManager.UploadNewVersionAsync(string fileName, string fileId, Stream stream, string etag = null, IEnumerable<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null, bool setStreamPositionToZero = true, Uri uploadUri = null)`
 with the name and ID of the file, and a `Stream` of the new contents of the file.
 
+<!-- sample post_files_id_content -->
 ```c#
 using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
 {
@@ -180,6 +188,7 @@ Promote file version to the top of the stack by calling `FilesManager.PromoteVer
 with the ID of the file and the ID of the version to make the current version.  This will create a new file version with
 the same contents as the previous version, as the current version.
 
+<!-- sample post_files_id_versions_current -->
 ```c#
 string fileId = "11111";
 BoxFileVersion current = await client.FilesManager.PromoteVersionAsync(fileId, versionId: "22222");
@@ -192,6 +201,7 @@ An old version of a file can be moved to the trash by calling
 `FilesManager.DeleteOldVersionAsync(string id, string versionId, string etag = null)`
 with the ID of the file and the ID of the file version to delete.
 
+<!-- sample delete_files_id_versions_id -->
 ```c#
 string fileId = "11111";
 await client.FilesManager.DeleteOldVersionAsync(fileId, versionId: "22222");

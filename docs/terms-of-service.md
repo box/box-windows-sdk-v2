@@ -25,6 +25,7 @@ To create a terms of service call the
 `TermsOfServiceManager.CreateTermsOfServicesAsync(BoxTermsOfServicesRequest termsOfServicesRequest)`
 method with the parameters for the new terms of service.
 
+<!-- sample post_terms_of_services -->
 ```c#
 var tosParams = new CreateTermsOfServicesAsync()
 {
@@ -42,6 +43,7 @@ To update a terms of service call
 `TermsOfServiceManager.UpdateTermsOfServicesAsync(string tosId, BoxTermsOfServicesRequest termsOfServicesRequest)`
 method with the fields to update and their new values.
 
+<!-- sample put_terms_of_services_id -->
 ```c#
 var updates = new BoxTermsOfServicesRequest()
 {
@@ -59,6 +61,7 @@ To get the terms of service with an ID call
 `TermsOfServiceManager.GetTermsOfServicesByIdAsync(string tosId)`
 with the ID of the terms of service object.
 
+<!-- sample get_terms_of_services_id -->
 ```c#
 BoxTermsOfService tos = await client.TermsOfServiceManager.GetTermsOfServicesByIdAsync("11111");
 ```
@@ -69,6 +72,7 @@ Get Terms of Service for an Enterprise
 To get the terms of service for an enterprise, call
 `TermsOfServiceManager.GetTermsOfServicesAsync(string tosType = null)`.
 
+<!-- sample get_terms_of_services -->
 ```c#
 BoxTermsOfServiceCollection<BoxTermsOfService> termsOfService = await client.TermsOfServiceManager
     .GetTermsOfServicesAsync();
@@ -85,6 +89,7 @@ It is important to note that this will accept or decline a custom terms of servi
 taken action in this terms of service, this will update their status. If the user has never taken action on this terms
 of service then this will return a 404 Not Found error. 
 
+<!-- sample put_terms_of_service_user_statuses_id -->
 ```c#
 BoxTermsOfServiceUserStatuses updatedStatus = await client.TermsOfServiceManager
     .UpdateTermsofServiceUserStatusesAsync("12345", false);
@@ -98,6 +103,7 @@ To get user status on a terms of service call the
 method with the ID of the terms of service.  If no user ID is provided, the method defaults to the
 current user.
 
+<!-- sample get_terms_of_service_user_statuses_id -->
 ```c#
 BoxTermsOfServiceUserStatusesCollection<BoxTermsOfServiceUserStatuses> tosStatuses = await client.TermsOfServiceManager
     .GetTermsOfServiceUserStatusesAsync(tosId: "11111", userId: "22222");

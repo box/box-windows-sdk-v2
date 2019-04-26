@@ -12,6 +12,7 @@ To get a list of the storage policies that are available for the current user's 
 `StoragePoliciesManager.GetListStoragePoliciesAsync(string fields = null, string marker = null, int limit = 100, bool autoPaginate = false)`
 method.
 
+<!-- sample get_storage_policies -->
 ```c#
 BoxCollectionMarkerBased<BoxStoragePolicy> policies = await client.StoragePoliciesManager
     .GetListStoragePoliciesAsync();
@@ -25,6 +26,7 @@ Information about a specific storage policy (by its ID) can be retrieved by call
 the `StoragePoliciesManager.GetStoragePolicyAsync(String policyId)` method with the ID of
 the storage policy to retrieve.
 
+<!-- sample get_storage_policies_id -->
 ```c#
 BoxStoragePolicy policy = await client.StoragePoliciesManager.GetStoragePolicyAsync(policyId: "6");
 ```
@@ -39,6 +41,7 @@ method with the ID of the storage policy to assign and the ID of the user to whi
 > __Note:__ This method will check if an assignment already exists for the user and take appropriate action.
 > It should work regardless of the current status of the user.
 
+<!-- sample post_storage_policy_assignments -->
 ```c#
 BoxStoragePolicyAssignment assignment = await client.StoragePoliciesManager
     .AssignAsync(userId: "22222", storagePolicyId: "6");
@@ -51,6 +54,7 @@ To get information about a specific storage policy assignment by ID, call the
 `StoragePoliciesManager.GetAssignmentAsync(string assignmentId)` method
 with the ID of the storage policy assignment.
 
+<!-- sample get_storage_policy_assignments_id -->
 ```c#
 BoxStoragePolicyAssignment assignment = await client.StoragePoliciesManager
     .GetAssignmentAsync(assignmentId: "dXNlcl8yMjIyMg==");
@@ -63,6 +67,7 @@ To determine which storage policy is assigned to a user, call
 `StoragePoliciesManager.GetAssignmentForTargetAsync(string entityId, string entityType = "user")`
 with the ID of the user.
 
+<!-- sample get_storage_policy_assignments -->
 ```c#
 BoxStoragePolicyAssignment assignment = client.StoragePoliciesManager
     .GetAssignmentForTargetAsync("22222");
@@ -79,6 +84,7 @@ with the ID of the storage policy to assign and the ID of the user to assign it 
 > If the current state of the user is not known, use the [`AssignAsync()`](#assign-a-storage-policy-to-a-user)
 > method instead.
 
+<!-- sample post_storage_policy_assignments -->
 ```c#
 BoxStoragePolicyAssignment assignment = client.StoragePoliciesManager
     .CreateAssignmentAsync(userId: "22222", policyId: "6");
@@ -91,6 +97,7 @@ To update a storage policy assignment, for example to update which storage polic
 asisgned to a user, call the `StoragePoliciesManager.UpdateStoragePolicyAssignment(string assignmentId, String policyId)`
 method with the ID of the assignment to update and the new policy ID to assign.
 
+<!-- sample put_storage_policy_assignments -->
 ```c#
 // Reassign user 1234 to storage policy 7
 BoxStoragePolicyAssignment assignment = await client.StoragePoliciesManager
@@ -105,6 +112,7 @@ default storage policy for the enterprise, call
 `StoragePoliciesManager.DeleteAssignmentAsync(string assignmentId)` with
 the ID of the assignment to remove.
 
+<!-- sample delete_storage_policy_assignments -->
 ```c#
 await client.StoragePoliciesManager.DeleteAssignmentAsync(assignmentId: "dXNlcl8yMjIyMg==");
 ```

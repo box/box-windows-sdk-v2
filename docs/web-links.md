@@ -24,6 +24,7 @@ Create a Web Link
 
 To create a web link call `WebLinksManager.CreateWebLinkAsync(BoxWebLinkRequest createWebLinkRequest)`.
 
+<!-- sample post_web_links -->
 ```c#
 var weblinkParams = new BoxWebLinkRequest()
 {
@@ -42,6 +43,7 @@ Get a Web Link's information
 You can request a web link object by ID by calling `WebLinksManager.GetWebLinkAsync(string webLinkId)`
 with the ID of the web link object.
 
+<!-- sample get_web_links_id -->
 ```c#
 BoxWebLink link = await client.WebLinksManager.GetWebLinkAsync("11111");
 ```
@@ -53,6 +55,7 @@ To update a web link call the
 `WebLinksManager.UpdateWebLinkAsync(string webLinkId, BoxWebLinkRequest updateWebLinkRequest)`
 method with the fields to update and their new values.
 
+<!-- sample put_web_links_id -->
 ```c#
 var updates = new BoxWebLinkRequest()
 {

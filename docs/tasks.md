@@ -25,6 +25,7 @@ Get a Task's Information
 
 To get a task information call `TasksManager.GetTaskAsync(string taskId)` with the ID of the task.
 
+<!-- sample get_tasks_id -->
 ```c#
 BoxTask task = await client.TasksManager.GetTaskAsync("11111");
 ```
@@ -35,6 +36,7 @@ Get Tasks on a File
 Calling the `FilesManager.GetFileTasks(string id, IEnumerable<string> fields = null)`
 method will retrieve all of the tasks for the given file.
 
+<!-- sample get_files_id_tasks -->
 ```c#
 BoxCollection<BoxTask> tasks = await client.FilesManager.FilesManager.GetFileTasks("11111");
 ```
@@ -45,6 +47,8 @@ Create a Task
 To create a task, call `TasksManager.CreateTaskAsync(BoxTaskCreateRequest taskCreateRequest)` with the
 parameters of the task.
 
+
+<!-- sample post_tasks -->
 ```c#
 var taskParams = new BoxTaskCreateRequest()
 {
@@ -64,6 +68,7 @@ Update a Task
 To update a task, call
 `TasksManager.UpdateTaskAsync(BoxTaskUpdateRequest taskUpdateRequest)`.
 
+<!-- sample put_tasks_id -->
 ```c#
 var updates = new BoxTaskUpdateRequest()
 {
@@ -78,6 +83,7 @@ Delete a Task
 
 To delete a task, call the `TasksManager.DeleteTaskAsync(string taskId)` method with the ID of the task to be deleted.
 
+<!-- sample delete_tasks_id -->
 ```c#
 await client.TasksManager.DeleteTaskAsync("11111");
 ```
@@ -88,6 +94,7 @@ Get Assignments for a Task
 To get a list of assignments for a task, which associate the task to users who
 must complete it, call `TasksManager.GetAssignmentsAsync(string taskId)` with the ID of the task.
 
+<!-- sample get_tasks_id_assignments -->
 ```c#
 BoxCollection<BoxTaskAssignment> assignments = await client.TasksManager
     .GetAssignmentsAsync(taskId: "11111");
@@ -101,6 +108,7 @@ To assign a task to a user, call
 with the ID of the task to assign and either the ID or login email address of the
 user to whom the task should be assigned.
 
+<!-- sample post_task_assignments_id -->
 ```c#
 // Assign task 11111 to user 22222
 var assignmentParams = new BoxTaskAssignmentRequest()
@@ -140,6 +148,7 @@ To retrieve information about a specific task assignment, call the
 `TasksManager.GetTaskAssignmentAsync(string taskAssignmentId)`
 method with the ID of the assignment to get.
 
+<!-- sample get_task_assignments_id -->
 ```c#
 BoxTaskAssignment assignment = await client.TasksManager.GetTaskAssignmentAsync("12345");
 ```
@@ -151,6 +160,7 @@ To update a task assignment, call the
 `TasksManager.UpdateTaskAssignmentAsync(BoxTaskAssignmentUpdateRequest taskAssignmentUpdateRequest)`
 method.  This can be used to resolve or complete a task.
 
+<!-- sample put_task_assignments_id -->
 ```c#
 var requestParams = new BoxTaskAssignmentUpdateRequest()
 {
@@ -167,6 +177,7 @@ To delete a task assignment, effectively unassigning a user from the task, call 
 `TasksManager.DeleteTaskAssignmentAsync(string taskAssignmentId)`
 method with the ID of the assignment to remove.
 
+<!-- sample delete_task_assignments_id -->
 ```c#
 await client.TasksManager.DeleteTaskAssignmentAsync("12345");
 ```

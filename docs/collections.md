@@ -20,6 +20,7 @@ Get a User's Collections
 Get a list of all collections the user has defined by calling `CollectionsManager.GetCollectionsAsync()`.
 A user always has a default collection called "Favorites" which they can add items to.
 
+<!-- sample get_collections -->
 ```c#
 BoxCollection<BoxCollectionItem> collections = await client.CollectionsManager.GetCollectionsAsync();
 ```
@@ -30,6 +31,7 @@ Get the Items in a Collection
 Get a list of the items in a collection by passing the ID of the collection to
 `CollectionsManager.GetCollectionItemsAsync(string collectionId, int limit = 100, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate = false)`.
 
+<!-- sample get_collections_id_items -->
 ```c#
 BoxCollection<BoxItem> items = await client.CollectionsManager.GetCollectionItemsAsync(id: "11111");
 ```
