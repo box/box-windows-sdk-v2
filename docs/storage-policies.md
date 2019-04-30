@@ -41,7 +41,6 @@ method with the ID of the storage policy to assign and the ID of the user to whi
 > __Note:__ This method will check if an assignment already exists for the user and take appropriate action.
 > It should work regardless of the current status of the user.
 
-<!-- sample post_storage_policy_assignments -->
 ```c#
 BoxStoragePolicyAssignment assignment = await client.StoragePoliciesManager
     .AssignAsync(userId: "22222", storagePolicyId: "6");
@@ -97,7 +96,7 @@ To update a storage policy assignment, for example to update which storage polic
 asisgned to a user, call the `StoragePoliciesManager.UpdateStoragePolicyAssignment(string assignmentId, String policyId)`
 method with the ID of the assignment to update and the new policy ID to assign.
 
-<!-- sample put_storage_policy_assignments -->
+<!-- sample put_storage_policy_assignments_id -->
 ```c#
 // Reassign user 1234 to storage policy 7
 BoxStoragePolicyAssignment assignment = await client.StoragePoliciesManager

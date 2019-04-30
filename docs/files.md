@@ -90,7 +90,7 @@ The simplest way to upload a file to a folder is by calling
 `FilesManager.UploadAsync(BoxFileRequest fileRequest, Stream stream, IEnumerable<string> fields = null, TimeSpan? timeout = null, byte[] contentMD5 = null, bool setStreamPositionToZero = true, Uri uploadUri = null)`
 with the upload parameters and a stream of the file contents to upload.
 
-<!-- sample post_files_id_content -->
+<!-- sample post_files_content -->
 ```c#
 using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
 {

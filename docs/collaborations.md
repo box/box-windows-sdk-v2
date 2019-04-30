@@ -83,7 +83,7 @@ To get information about a specific collaboration record, call
 `CollaborationsManager.GetCollaborationAsync(string id, IEnumerable<string> fields = null)` with the
 ID of the collaboration.
 
-<!-- get delete_collaborations_id -->
+<!-- sample get_collaborations_id -->
 ```c#
 BoxCollaboration collab = await client.CollaborationsManager.GetCollaborationAsync(id: "22222");
 ```
@@ -94,7 +94,7 @@ Get the Collaborations on a Folder
 You can get all of the collaborations on a folder by calling
 `FoldersManager.GetCollaborationsAsync(string id, IEnumerable<string> fields = null)` with the ID of the folder.
 
-<!-- sample delete_collaborations_id -->
+<!-- sample get_folders_id_collaborations -->
 ```c#
 string folderId = "11111";
 BoxCollection<BoxCollaboration> collaborations = await client.FoldersManager

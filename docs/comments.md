@@ -35,7 +35,7 @@ You can get all of the comments on a file by calling
 `FilesManager.GetCommentsAsync(string id, IEnumerable<string> fields = null)`
 with the ID of the file.
 
-<!-- sample get_comments_id -->
+<!-- sample get_comments -->
 ```c#
 string fileId = "11111";
 BoxCollection<BoxComment> comments = await client.FilesManager.GetCommentsAsync(fileId);

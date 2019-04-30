@@ -108,7 +108,7 @@ To assign a task to a user, call
 with the ID of the task to assign and either the ID or login email address of the
 user to whom the task should be assigned.
 
-<!-- sample post_task_assignments_id -->
+<!-- sample post_task_assignments -->
 ```c#
 // Assign task 11111 to user 22222
 var assignmentParams = new BoxTaskAssignmentRequest()

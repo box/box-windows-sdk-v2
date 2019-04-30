@@ -49,7 +49,7 @@ Get Metadata Cascade Policies for Folder
 To retrieve a collection of metadata cascade policies within a given folder for the current enterprise, use
 `MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId = null, int limit = 100, string nextMarker = null, IEnumerable<string> fields = null, bool autopaginate = false)`
 
-<!-- sample post_metadata_cascade_policies -->
+<!-- sample get_metadata_cascade_policies -->
 ```c#
 BoxCollectionMarkerBased<BoxMetadataCascadePolicy> metadataCascadePolicies = await client.MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync("12345");
 ```
@@ -57,7 +57,6 @@ BoxCollectionMarkerBased<BoxMetadataCascadePolicy> metadataCascadePolicies = awa
 You can also retrieve metadata cascade policies for another enterprise with specific fields to retrieve by using
 `MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId, int limit, IEnumberable<string> fields)`
 
-<!-- sample get_metadata_cascade_policies -->
 ```c#
 string folderId = "1111";
 string ownerEnterpriseId = "2222";
