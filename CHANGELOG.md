@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.16.0 [2019-04-29]
+
+- Added `sort` and `direction` parameters to `client.SearchManager.SearchAsync()` to  control sort order
+- Added `extension` parameter to `client.FilesManager.GetThumbnailAsync()` to control which thumbnail format is returned (thanks @guilmori!)
+- Fixed a bug where query string parameters were not correctly encoded
+- Added `SetFileMetadataAsync()` and `SetFolderMetadataAsync()` methods to `client.MetadataManager` to set metadata
+  keys and values, overwriting existing values for the provided keys.
+- Automatically retry most API calls when the API responds with a transient error status code
+
 ## 3.15.0 [2019-03-28]
 
 - Added support for passing custom IBoxService to BoxJWTAuth constructor.
