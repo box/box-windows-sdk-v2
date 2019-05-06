@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Models;
@@ -39,19 +39,8 @@ namespace Box.V2.Managers
                                                                         DateTime? createdAfter = null,
                                                                         DateTime? createdBefore = null)
         {
-            var createdAfterString = createdAfter.HasValue ? createdAfter.Value.ToUniversalTime().ToString("o") : null;
-            var createdBeforeString = createdBefore.HasValue ? createdBefore.Value.ToUniversalTime().ToString("o") : null;
-
-            // url encode 
-            if (!string.IsNullOrEmpty(createdAfterString))
-            {
-                createdAfterString = WebUtility.UrlEncode(createdAfterString);
-            }
-            
-            if (!string.IsNullOrEmpty(createdBeforeString))
-            {
-                createdBeforeString = WebUtility.UrlEncode(createdBeforeString);
-            }
+            var createdAfterString = createdAfter.HasValue ? createdAfter.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : null;
+            var createdBeforeString = createdBefore.HasValue ? createdBefore.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : null;
 
             BoxRequest request = new BoxRequest(_config.EventsUri)
                 .Param("stream_type", ENTERPRISE_EVENTS_STREAM_TYPE)
