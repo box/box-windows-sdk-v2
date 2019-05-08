@@ -791,7 +791,7 @@ namespace Box.V2.Test
                    .Callback<IBoxRequest>(r => boxRequest = r); ;
 
                 /*** Act ***/
-                Stream result = await _filesManager.DownloadAsync("34122832467", startOffsetInBytes: 0x1111111111111111, endOffsetInBytes: 0x2222222222222222);
+                Stream result = await _filesManager.DownloadAsync("34122832467", startOffsetInBytes: 5_000_000_000, endOffsetInBytes: 6_000_000_000);
 
                 /*** Assert ***/
 
