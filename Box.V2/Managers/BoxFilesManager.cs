@@ -304,7 +304,7 @@ namespace Box.V2.Managers
             }
             if (contentModifiedTime.HasValue)
             {
-                attributes.content_modified_at = contentModifiedTime.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss-00:00");
+                attributes.content_modified_at = contentModifiedTime.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC);
             }
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(uploadUri) { Timeout = timeout }
