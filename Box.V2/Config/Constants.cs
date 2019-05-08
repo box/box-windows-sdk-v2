@@ -187,7 +187,7 @@ namespace Box.V2.Config
 
         /*** Date Format ***/
         public const string RFC3339DateFormat = "yyyy-MM-ddTHH:mm:sszzz";
-        public const string RFC3339DateFormat_UTC = "yyyy-MM-dd'T'HH:mm:ss.fffK";
+        public const string RFC3339DateFormat_UTC = "yyyy-MM-dd'T'HH:mm:ssK";
 
         public static class RequestParameters
         {

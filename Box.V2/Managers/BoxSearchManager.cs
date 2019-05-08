@@ -72,15 +72,11 @@ namespace Box.V2.Managers
             if (mdFilters != null)
             {               
                 mdFiltersString = _converter.Serialize(mdFilters);
-                mdFiltersString = WebUtility.UrlEncode(mdFiltersString);
             }
 
             var createdAtRangeString = BuildDateRangeField(createdAtRangeFromDate, createdAtRangeToDate);
             var updatedAtRangeString = BuildDateRangeField(updatedAtRangeFromDate, updatedAtRangeToDate);
             var sizeRangeString = BuildSizeRangeField(sizeRangeLowerBoundBytes, sizeRangeUpperBoundBytes);
-            createdAtRangeString = WebUtility.UrlEncode(createdAtRangeString);
-            updatedAtRangeString = WebUtility.UrlEncode(updatedAtRangeString);
-            sizeRangeString = WebUtility.UrlEncode(sizeRangeString);
 
             BoxRequest request = new BoxRequest(_config.SearchEndpointUri)
                 .Param("query", keyword)
@@ -108,8 +104,8 @@ namespace Box.V2.Managers
 
         private string BuildDateRangeField(DateTime? from, DateTime? to)
         {
-            var fromString = from.HasValue ? from.Value.ToString(Constants.RFC3339DateFormat) : String.Empty;
-            var toString = to.HasValue ? to.Value.ToString(Constants.RFC3339DateFormat) : String.Empty;
+            var fromString = from.HasValue ? from.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : String.Empty;
+            var toString = to.HasValue ? to.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : String.Empty;
 
             return BuildRangeString(fromString, toString);
         }
