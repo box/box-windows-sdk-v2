@@ -56,7 +56,33 @@ namespace Box.V2.Managers
         /// <param name="startOffsetInBytes">Optional timeout for response.</param>
         /// <param name="endOffsetInBytes">Optional timeout for response.</param>
         /// <returns>Stream of the requested file.</returns>
+        [Obsolete("This method is deprecated in favor of DownloadAsync()")]
         public async Task<Stream> DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null, int? startOffsetInBytes = null, int? endOffsetInBytes = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.ContentPathString, id)) { Timeout = timeout }
+                .Param("version", versionId);
+
+            if (startOffsetInBytes.HasValue && endOffsetInBytes.HasValue)
+            {
+                request = request.Header("Range", $"bytes={startOffsetInBytes}-{endOffsetInBytes}");
+            }
+
+            IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Returns the stream of the requested file.
+        /// </summary>
+        /// <param name="id">Id of the file to download.</param>
+        /// <param name="versionId">The ID specific version of this file to download.</param>
+        /// <param name="timeout">Optional timeout for response.</param>
+        /// <param name="startOffsetInBytes">Starting byte of the chunk to download.</param>
+        /// <param name="endOffsetInBytes">Ending byte of the chunk to download.</param>
+        /// <returns>Stream of the requested file.</returns>
+        public async Task<Stream> DownloadAsync(string id, string versionId = null, TimeSpan? timeout = null, long? startOffsetInBytes = null, long? endOffsetInBytes = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
