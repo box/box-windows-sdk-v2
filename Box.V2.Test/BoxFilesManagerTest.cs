@@ -192,7 +192,7 @@ namespace Box.V2.Test
 
             /*** Assert ***/
             Assert.AreEqual("attributes", attrPart.Name);
-            Assert.AreEqual("{\"name\":\"fakeFile\",\"content_modified_at\":\"2020-01-01T08:00:00-00:00\"}", attrPart.Value);
+            Assert.AreEqual("{\"name\":\"fakeFile\",\"content_modified_at\":\"2020-01-01T08:00:00Z\"}", attrPart.Value);
             Assert.AreEqual("5000948880", f.Id);
             Assert.AreEqual("3", f.SequenceId);
             Assert.AreEqual("tigers.jpeg", f.Name);
