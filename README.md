@@ -305,7 +305,7 @@ foreach(BoxUser boxUser in allBoxUsersList)
 }
 
 // Get a specific user from allBoxUsersList
-var specificBoxUser = allBoxUsersList.Find(u => u.Login == "Specific User Login")
+var specificBoxUser = allBoxUsersList.Find(u => u.Login == "Specific User Login");
 Console.WriteLine("A Specific Box User: {0}", specificBoxUser.Name);
 ```
 
