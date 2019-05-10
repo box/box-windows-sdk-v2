@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.17.0 [2019-05-09]
+
+- Fixed the encoding of dates in the query parameters for Events and Search endpoints
+- Deprecated `FilesManager.DownloadStreamAsync()` and introduced a replacement method with correct parameter types for byte offsets: `FilesManager.DownloadAsync()`
+
 ## 3.16.0 [2019-04-29]
 
 - Added `sort` and `direction` parameters to `client.SearchManager.SearchAsync()` to  control sort order

@@ -1,4 +1,4 @@
-﻿using Box.V2.Managers;
+using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -19,6 +19,26 @@ namespace Box.V2.Test
         public BoxEventsManagerTest()
         {
             _eventsManager = new BoxEventsManager(Config.Object, Service, Converter, AuthRepository);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task EnterpriseEventsAsync_DateEncodingUTC_ValidResponse()
+        {
+            string responseString = "{\"chunk_size\": 1, \"next_stream_position\": 123, \"entries\": [{\"source\":{\"group_id\":\"942617509\",\"group_name\":\"Groupies\"},\"created_by\":{\"type\":\"user\",\"id\":\"275035869\",\"name\":\"MattWiller\",\"login\":\"mwiller + appusers@box.com\"},\"created_at\":\"2018-03-16T15:12:52-07:00\",\"event_id\":\"85c57bf3-bc15-4d24-93bc-955c796217c8\",\"event_type\":\"GROUP_EDITED\",\"ip_address\":\"UnknownIP\",\"type\":\"event\",\"session_id\":null,\"additional_details\":null}]}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxEventCollection<BoxEnterpriseEvent>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxEventCollection<BoxEnterpriseEvent>>>(new BoxResponse<BoxEventCollection<BoxEnterpriseEvent>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            var events = await _eventsManager.EnterpriseEventsAsync(createdAfter: new DateTime(1988, 11, 18, 9, 30, 0, DateTimeKind.Utc), createdBefore: new DateTime(2018, 11, 18, 9, 30, 0, DateTimeKind.Utc));
+
+            /*** Assert ***/
+            Assert.AreEqual("stream_type=admin_logs&limit=500&created_after=1988-11-18T09%3A30%3A00Z&created_before=2018-11-18T09%3A30%3A00Z", boxRequest.GetQueryString());
         }
 
         [TestMethod]
