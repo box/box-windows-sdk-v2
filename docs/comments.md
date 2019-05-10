@@ -23,6 +23,7 @@ To get information about a specific comment, call
 `CommentsManager.GetInformationAsync(string id, IEnumerable<string> fields = null)`
 with the ID of the comment.
 
+<!-- sample get_comments_id -->
 ```c#
 BoxComment comment = await client.CommentsManager.GetInformationAsync(id: "11111");
 ```
@@ -34,6 +35,7 @@ You can get all of the comments on a file by calling
 `FilesManager.GetCommentsAsync(string id, IEnumerable<string> fields = null)`
 with the ID of the file.
 
+<!-- sample get_comments -->
 ```c#
 string fileId = "11111";
 BoxCollection<BoxComment> comments = await client.FilesManager.GetCommentsAsync(fileId);
@@ -45,6 +47,7 @@ Add a Comment to a File
 A comment can be added to a file by calling
 `CommentsManager.AddCommentAsync(BoxCommentRequest commentRequest, IEnumerable<string> fields = null)`.
 
+<!-- sample post_comments -->
 ```c#
 var requestParams = new BoxCommentRequest()
 {
@@ -65,6 +68,7 @@ The message of a comment can be changed by calling
 `CommentsManager.UpdateAsync(string id, BoxCommentRequest commentsRequest, IEnumerable<string> fields = null)`
 with the ID of the comment and the fields to update.
 
+<!-- sample put_comments_id -->
 ```c#
 var requestParams = new BoxCommentRequest()
 {
@@ -78,6 +82,7 @@ Delete a Comment
 
 A comment can be deleted by calling `CommentsManager.DeleteAsync(string id)` with the ID of the comment.
 
+<!-- sample delete_comments_id -->
 ```c#
 await client.CommentsManager.DeleteAsync(id: "11111");
 ```

@@ -36,6 +36,7 @@ SearchManager.SearchAsync(string keyword = null,
 method.  There are many possible options for advanced search filtering, which are
 documented in the [Search API Reference](https://docs.box.com/reference#searching-for-content).
 
+<!-- sample get_search -->
 ```c#
 // Search for PDF or Word documents matching "Meeting Notes"
 BoxCollection<BoxItem> results = await client.SearchManager

@@ -26,6 +26,7 @@ Get Trashed Items
 To retrieve files and folders that have been moved to the Trash, call
 `FoldersManager.GetTrashItemsAsync(int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false)`.
 
+<!-- sample get_folders_trash_items -->
 ```c#
 BoxCollection<BoxItem> trashedItems = await client.FoldersManager.GetTrashItemsAsync(limit: 100);
 ```
@@ -37,6 +38,7 @@ Information about a file in the trash can be retrieved by calling the
 `FilesManager.GetTrashedAsync(string id, IEnumerable<string> fields = null)`
 method with the ID of the file in the trash.
 
+<!-- sample get_files_id_trash -->
 ```c#
 BoxFile trashedFile = await client.FilesManager.GetTrashedAsync("11111");
 ```
@@ -48,6 +50,7 @@ Information about a folder in the trash can be retrieved by calling the
 `FoldersManager.GetTrashedFolderAsync(string id, IEnumerable<string> fields = null)`
 method with the ID of the folder in the trash.
 
+<!-- sample get_folders_id_trash -->
 ```c#
 BoxFolder trashedFolder = await client.FoldersManager.GetTrashedFolderAsync("22222");
 ```
@@ -57,6 +60,7 @@ Purge a File from the Trash
 
 Calling the `FilesManager.PurgeTrashedAsync(string id)` method will remove the file permanently from the user's trash.
 
+<!-- sample delete_files_id_trash -->
 ```c#
 await client.FilesManager.PurgeTrashedAsync("11111");
 ```
@@ -67,6 +71,7 @@ Purge a Folder from the Trash
 Calling the `FoldersManager.PurgeTrashedFolderAsync(string id)` method will remove the folder permanently from
 the user's trash.
 
+<!-- sample delete_folders_id_trash -->
 ```c#
 await client.FoldersManager.PurgeTrashedFolderAsync("22222");
 ```
@@ -82,6 +87,7 @@ folder's old location, the restored folder can be given an alternate name with
 the `Name` option.  If the folder's old location no longer exists, it can be
 placed inside a new parent folder with the `Parent.Id` option.
 
+<!-- sample post_files_id -->
 ```c#
 var requestParams = new BoxFileRequest()
 {
@@ -107,6 +113,7 @@ restored folder can be given an alternate name with the `Name` option.  If the
 folder's old location no longer exists, it can be placed inside a new parent
 folder with the `Parent.Id` option.
 
+<!-- sample post_folders_id -->
 ```c#
 var requestParams = new BoxFolderRequest()
 {
