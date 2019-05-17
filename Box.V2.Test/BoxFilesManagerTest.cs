@@ -732,7 +732,6 @@ namespace Box.V2.Test
                 HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
                 headers.Location = location;
                 Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
-
                     .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                     {
                         Status = ResponseStatus.Success,
@@ -741,7 +740,6 @@ namespace Box.V2.Test
                     }));
                 IBoxRequest boxRequest = null;
                 Handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
-
                    .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
                    {
                        Status = ResponseStatus.Success,
