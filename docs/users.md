@@ -28,6 +28,7 @@ Get the Current User's Information
 To get the current user call the `UsersManager.GetCurrentUserInformationAsync(IEnumerable<string> fields = null)`
 method.
 
+<!-- sample get_users_me -->
 ```c#
 BoxUser currentUser = await client.UsersManager.GetCurrentUserInformationAsync();
 ```
@@ -37,6 +38,7 @@ Get User's Information
 
 To get a user call `UsersManager.GetUserInformationAsync(string userId)` with the ID of the user.
 
+<!-- sample get_users_id -->
 ```c#
 BoxUser user = await client.UsersManager.GetUserInformationAsync(userId: "33333");
 ```
@@ -47,6 +49,7 @@ Get User Avatar
 To retrieve the avatar image for a user, call
 `UsersManager.GetUserAvatar(string userId)` with the ID of the user.
 
+<!-- sample get_users_id_avatar -->
 ```c#
 Stream imageStream = await client.UsersManager.GetUserAvatar(string userId);
 ```
@@ -58,6 +61,7 @@ To provision a new managed user within the current enterprise, call the
 `UsersManager.CreateEnterpriseUserAsync(BoxUserRequest userRequest, IEnumerable<string> fields = null)`
 method with the email address the user will use to log in and the user's name.
 
+<!-- sample post_users -->
 ```c#
 var userParams = new BoxUserRequest()
 {
@@ -91,7 +95,7 @@ To update a user's information, call
 `UsersManager.UpdateUserInformationAsync(BoxUserRequest userRequest, IEnumerable<string> fields = null)`
 with the fields to update.
 
-
+<!-- sample put_users_id -->
 ```c#
 var updates = new BoxUserRequest()
 {
@@ -110,6 +114,7 @@ To delete a user call the
 method.  If the user still has files in their account and the `force` parameter
 is not sent, an error is returned.
 
+<!-- sample delete_users_id -->
 ```c#
 await client.UsersManager.DeleteEnterpriseUserAsync("44444", notify: false, force: true);
 ```
@@ -120,6 +125,7 @@ Get Email Aliases
 To get a users email aliases, call `UsersManager.GetEmailAliasesAsync(string userId)`
 with the ID of the user.
 
+<!-- sample get_users_id_email_aliases -->
 ```c#
 BoxCollection<BoxEmailAlias> aliases = await client.UsersManager
     .GetEmailAliasesAsync(userId: "33333");
@@ -131,6 +137,7 @@ Add Email Alias
 To add an email alias for a user, call `UsersManager.AddEmailAliasAsync(string userId, string email)`
 with the ID of the user and the email address to add as an alias.
 
+<!-- sample post_users_id_email_aliases -->
 ```c#
 BoxEmailAlias alias = await client.UsersManager
     .AddEmailAliasAsync(userId: "33333", email: "user+foo@example.com");
@@ -142,6 +149,7 @@ Delete Email Alias
 To delete a users email alias, call `UsersManager.DeleteEmailAliasAsync(string userId, string emailAliasId)`
 with the ID of the user to whom the alias belongs and the ID of the email alias.
 
+<!-- sample delete_users_id_email_aliases_id -->
 ```c#
 await client.UsersManager.DeleteEmailAliasAsync(userId: "33333", emailAliasId: "12345");
 ```
@@ -153,6 +161,7 @@ Get a list of users in the current enterprise by calling the
 `UsersManager.GetEnterpriseUsersAsync(string filterTerm = null, uint offset = 0, uint limit = 100, IEnumerable<string> fields = null, string userType = null, string externalAppUserId = null, bool autoPaginate = false)`
 method.
 
+<!-- sample get_users -->
 ```c#
 BoxCollection<BoxUser> users = await client.UsersManager.GetEnterpriseUsersAsync();
 ```
@@ -166,6 +175,7 @@ method with the IDs of the source and destination users.
 
 > __Note:__ Currently, only moving the user's root folder (with ID "0") is supported.
 
+<!-- sample put_users_id_folders_id -->
 ```c#
 var sourceUserId = "33333";
 var destinationUserId = "44444";

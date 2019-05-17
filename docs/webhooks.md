@@ -26,6 +26,7 @@ To attach a webhook to an item, call the
 method with the type and ID of the item, a URL to send notifications to, and a list
 of triggers.
 
+<!-- sample post_webhooks -->
 ```c#
 var webhookParams = new BoxWebhookRequest()
 {
@@ -51,6 +52,7 @@ Get a list of all webhooks for the requesting application and user by calling th
 `WebhooksManager.GetWebhooksAsync (int limit = 100, string nextMarker = null, bool autoPaginate=false)`
 method.  The maximum limit per page of results is 200, Box uses the default limit of 100.
 
+<!-- sample get_webhooks -->
 ```c#
 BoxCollectionMarkerBased<BoxWebhook> webhooks = await client.WebhooksManager.GetWebhooksAsync();
 ```
@@ -61,6 +63,7 @@ Get a Webhook"s Information
 Retrieve information about a specific webhook by calling `WebhooksManager.GetWebhookAsync(string id)`
 to retrieve a webhook by ID.
 
+<!-- sample get_webhooks_id -->
 ```c#
 BoxWebhook webhook = await client.WebhooksManager.GetWebhookAsync("12345");
 ```
@@ -104,6 +107,7 @@ Delete a Webhook
 A file or folder's webhook can be removed by calling `WebhooksManager.DeleteWebhookAsync(string id)`
 with the ID of the webhook object.
 
+<!-- sample delete_webhooks_id -->
 ```c#
 await client.WebhooksManager.DeleteWebhookAsync("11111");
 ```
@@ -114,6 +118,7 @@ Update a Webhook
 Update a file or folder's webhook by calling `WebhooksManager.UpdateWebhookAsync(BoxWebhookRequest webhookRequest)`
 with the fields of the webhook object to update.
 
+<!-- sample put_webhooks_id -->
 ```c#
 var updates = new BoxWebhookRequest()
 {

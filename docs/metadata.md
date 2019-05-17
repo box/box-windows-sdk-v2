@@ -46,6 +46,7 @@ Create Metadata Template
 To create a new metadata template, call
 `MetadataManager.CreateMetadataTemplate(BoxMetadataTemplate template)`.
 
+<!-- sample post_metadata_templates_schema -->
 ```c#
 var templateParams = new BoxMetadataTemplate()
 {
@@ -85,6 +86,7 @@ method with the operations to perform on the template.  See the
 [API Documentation](https://docs.box.com/reference#update-metadata-schema)
 for more information on the operations available.
 
+<!-- sample put_metadata_templates_id_id_schema -->
 ```c#
 var updates = new List<BoxMetadataTemplateUpdate>()
 {
@@ -117,6 +119,7 @@ To retrieve a specific metadata template by its scope and template key, call the
 `MetadataManager.GetMetadataTemplate(string scope, string template)`
 method with the scope and template key.
 
+<!-- sample get_metadata_templates_id_id_schema -->
 ```c#
 BoxMetadataTemplate template = await client.MetadataManager
     .GetMetadataTemplate("enterprise", "marketingCollateral");
@@ -128,6 +131,7 @@ To get a specific metadata template by its ID, call the
 `MetadataManager.GetMetadataTemplateById(string templateId)`
 method with the ID of the template.
 
+<!-- sample get_metadata_templates_id -->
 ```c#
 BoxMetadataTemplate template = await client.MetadataManager
     .GetMetadataTemplateById("17f2d715-6acb-45f2-b96a-28b15efc9faa");
@@ -139,6 +143,7 @@ Get Enterprise Metadata Templates
 Get all metadata templates for the current enterprise and scope by calling
 `MetadataManager.GetEnterpriseMetadataAsync(string scope = "enterprise")`.
 
+<!-- sample get_metadata_templates_enterprise -->
 ```c#
 BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate> templates = await client.MetadataManager
     .GetEnterpriseMetadataAsync();
@@ -177,6 +182,7 @@ with a metadata template and a `Dictionary` of key/value pairs to add as metadat
 > __Note:__: This method will only succeed if the provided metadata template is not current applied to the file,
 > otherwise it will fail with a Conflict error.
 
+<!-- sample post_files_id_metadata_id_id -->
 ```c#
 var metadataValues = new Dictionary<string, object>()
 {
@@ -200,6 +206,7 @@ with a list of update operations to apply.
 > This is useful in cases where you know the file will already have metadata applied, since it will
 > save an API call compared to `SetFileMetadataAsync()`.
 
+<!-- sample put_files_id_metadata_id_id -->
 ```c#
 var updates = new List<BoxMetadataUpdate>()
 {
@@ -268,6 +275,7 @@ Retrieve a specific metadata template on a file by calling
 `MetadataManager.GetFileMetadataAsync(string fileId, string scope, string template)`
 with the ID of the file and which template to fetch.
 
+<!-- sample get_files_id_metadata_id_id -->
 ```c#
 Dictionary<string, object> metadata = await client.MetadataManager.
     .GetFileMetadataAsync(fileId: "11111", "enterprise", "marketingCollateral");
@@ -275,6 +283,7 @@ Dictionary<string, object> metadata = await client.MetadataManager.
 
 You can also get all metadata on a file by calling `MetadataManager.GetAllFileMetadataTemplatesAsync(string fileId)`.
 
+<!-- sample get_files_id_metadata -->
 ```c#
 BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
     .GetAllFileMetadataTemplatesAsync(fileId: "11111");
@@ -287,6 +296,7 @@ A metadata template can be removed from a file by calling
 `MetadataManager.DeleteFileMetadataAsync(string fileId, string scope, string template)`
 with the ID of the file and the metadata template to remove.
 
+<!-- sample delete_files_id_metadata_id_id -->
 ```c#
 await client.MetadataManager.DeleteFileMetadataAsync("11111", "enterprise", "marketingCollateral");
 ```
@@ -324,6 +334,7 @@ with a metadata template and a `Dictionary` of key/value pairs to add as metadat
 > __Note:__: This method will only succeed if the provided metadata template is not current applied to the folder,
 > otherwise it will fail with a Conflict error.
 
+<!-- sample post_folders_id_metadata_id_id -->
 ```c#
 var metadataValues = new Dictionary<string, object>()
 {
@@ -347,6 +358,7 @@ with a list of update operations to apply.
 > This is useful in cases where you know the folder will already have metadata applied, since it will
 > save an API call compared to `SetFolderMetadataAsync()`.
 
+<!-- sample put_folders_id_metadata_id_id -->
 ```c#
 var updates = new List<BoxMetadataUpdate>()
 {
@@ -415,6 +427,7 @@ Retrieve a specific metadata template on a folder by calling
 `MetadataManager.GetFolderMetadataAsync(string folderId, string scope, string template)`
 with the ID of the folder and which template to fetch.
 
+<!-- sample get_folders_id_metadata_id_id -->
 ```c#
 Dictionary<string, object> metadata = await client.MetadataManager.
     .GetFolderMetadataAsync(folderId: "11111", "enterprise", "marketingCollateral");
@@ -423,6 +436,7 @@ Dictionary<string, object> metadata = await client.MetadataManager.
 You can also get all metadata on a folder by calling
 `MetadataManager.GetAllFolderMetadataTemplatesAsync(string folderId)`.
 
+<!-- sample post_folders_id_metadata -->
 ```c#
 BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
     .GetAllFolderMetadataTemplatesAsync(folderId: "11111");
@@ -435,6 +449,7 @@ A metadata template can be removed from a folder by calling
 `MetadataManager.DeleteFolderMetadataAsync(string folderId, string scope, string template)`
 with the ID of the folder and the metadata template to remove.
 
+<!-- sample delete_folders_id_metadata_id_id -->
 ```c#
 await client.MetadataManager.DeleteFolderMetadataAsync("11111", "enterprise", "marketingCollateral");
 ```

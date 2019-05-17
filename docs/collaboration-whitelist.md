@@ -28,6 +28,7 @@ You can whitelist a certain domain to allow collaboration with that domain for y
 enterprise by calling
 `CollaborationWhitelistManager.AddCollaborationWhitelistEntryAsync(string domainToWhitelist, string directionForWhitelist)`.
 
+<!-- sample post_collaboration_whitelist_entries -->
 ```c#
 BoxCollaborationWhitelistEntry entry = await client.CollaborationWhitelistManager.AddCollaborationWhitelistEntryAsync(
     "example.com",
@@ -42,6 +43,7 @@ Information about a specific collaboration whitelist record, which shows
 the domain that is whitelisted, can be retrieved by calling
 `CollaborationWhitelistManager.GetCollaborationWhitelistEntryAsync(string id, IEnumerable<string> fields = null)`.
 
+<!-- sample get_collaboration_whitelist_entries_id -->
 ```c#
 string entryID = "11111";
 BoxCollaborationWhitelistEntry entry = await client.CollaborationWhitelistManager.GetCollaborationWhitelistEntryAsync(
@@ -55,6 +57,7 @@ Get Whitelisted Domains for an Enterprise
 You can retrieve the collection of whitelisted domains for an enterprise by calling
 `CollaborationWhitelistManager.GetAllCollaborationWhitelistEntriesAsync(int limit= 100, string nextMarker = null, bool autoPaginate = false)`.
 
+<!-- sample get_collaboration_whitelist_entries -->
 ```c#
 BoxCollectionMarkerBased<BoxCollaborationWhitelistEntry> whitelistedDomains = await client.CollaborationWhitelistManager
     .GetAllCollaborationWhitelistEntriesAsync();
@@ -70,6 +73,7 @@ Remove a Domain from Collaboration Whitelist
 You can remove a domain from the collaboration whitelist by calling
 `CollaborationWhitelistManager.DeleteCollaborationWhitelistEntryAsync(string id)`.
 
+<!-- sample delete_collaboration_whitelist_entries_id -->
 ```c#
 string entryID = "11111";
 await client.CollaborationWhitelistManager.DeleteCollaborationWhitelistEntryAsync(entryID);
@@ -82,6 +86,7 @@ You can make a specific user exempt from the collaboration whitelist, which
 allows them to collaborate with users from any domain, by calling
 `CollaborationWhitelistManager.AddCollaborationWhitelistExemptUserAsync(string userId)`.
 
+<!-- sample post_collaboration_whitelist_exempt_targets -->
 ```c#
 string userId = "22222";
 BoxCollaborationWhitelistTargetEntry exemptUser = await client.CollaborationWhitelistManager
@@ -94,6 +99,7 @@ Get an Exempt User's Information
 To retrieve information about a specific user exemption record, you can use
 `CollaborationWhitelistManager.GetCollaborationWhitelistExemptUserAsync(string id, IEnumerable<string> fields = null)`.
 
+<!-- sample get_collaboration_whitelist_exempt_targets_id -->
 ```c#
 string exemptionID = "33333";
 BoxCollaborationWhitelistTargetEntry exemptUser = await client.CollaborationWhitelistManager
@@ -107,6 +113,7 @@ To retrieve a collection of users who are exempt from the collaboration whitelis
 for an enterprise, call
 `CollaborationWhitelistManager.GetAllCollaborationWhitelistExemptUsersAsync(int limit = 100, string nextMarker = null, bool autoPaginate = false)`.
 
+<!-- sample get_collaboration_whitelist_exempt_targets -->
 ```c#
 BoxCollectionMarkerBased<BoxCollaborationWhitelistTargetEntry> = await client.CollaborationWhitelistManager
     .GetAllCollaborationWhitelistExemptUsersAsync();
@@ -122,6 +129,7 @@ To remove a user exemption from collaboration whitelist and make that user
 subject to whitelist restrictions again, you can call
 `CollaborationWhitelistManager.DeleteCollaborationWhitelistExemptUserAsync(string id)`.
 
+<!-- sample delete_ollaboration_whitelist_exempt_targets_id -->
 ```c#
 string exemptionId = "55555";
 await client.CollaborationWhitelistManager.DeleteCollaborationWhitelistExemptUserAsync(exemptionId);

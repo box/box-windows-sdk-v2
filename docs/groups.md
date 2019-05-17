@@ -29,6 +29,7 @@ To create a new group, call
 `GroupsManager.CreateAsync(BoxGroupRequest groupRequest, IEnumerable<string> fields = null)`
 with the parameters for the group being created.
 
+<!-- sample post_groups -->
 ```c#
 var groupParams = new BoxGroupRequest()
 {
@@ -44,6 +45,7 @@ To retrieve the information for a group, call
 `GroupsManager.GetGroupAsync(string id, IEnumerable<string> fields = null)`
 with the ID of the group.
 
+<!-- sample get_groups_id -->
 ```c#
 BoxGroup group = await client.GroupsManager.GetGroupAsync("11111");
 ```
@@ -55,6 +57,7 @@ To get a list of all groups in the calling user's enterprise, call
 `GroupsManager.GetAllGroupsAsync(int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false)`.
 Note that this requires permission to view an enterprise's groups, which is reserved for enterprise administrators.
 
+<!-- sample get_groups -->
 ```c#
 BoxCollection<BoxGroup> groups = await client.GroupsManager.GetAllGroupsAsync();
 ```
@@ -66,6 +69,7 @@ To change the properties of a group object, call the
 `GroupsManager.UpdateAsync(string id, BoxGroupRequest groupRequest, IEnumerable<string> fields = null)`
 method with the set of properties to update.
 
+<!-- sample put_groups_id -->
 ```c#
 var updates = new BoxGroupRequest()
 {
@@ -79,6 +83,7 @@ Delete Group
 
 To delete a group, call `(string id)` with the ID of the group to delete.
 
+<!-- sample delete_groups_id -->
 ```c#
 await client.GroupsManager.DeleteAsync("11111");
 ```
@@ -91,6 +96,7 @@ access to, call
 `GroupsManager.GetCollaborationsForGroupAsync(string groupId, int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false)`
 with the ID of the group.
 
+<!-- sample get_groups_id_collaborations -->
 ```c#
 BoxCollection<BoxCollaboration> groupCollaborations = await client.GroupsManager
     .GetCollaborationsForGroupAsync(groupId: "11111");
@@ -102,6 +108,7 @@ Add a User to a Group
 To add a user to a group, call
 `GroupsManager.AddMemberToGroupAsync(BoxGroupMembershipRequest membershipRequest, IEnumerable<string> fields = null)`.
 
+<!-- sample post_group_memberships -->
 ```c#
 var requestParams = new BoxGroupMembershipRequest()
 {
@@ -133,6 +140,7 @@ To update a membership record, call
 `GroupsManager.UpdateGroupMembershipAsync(string membershipId, BoxGroupMembershipRequest memRequest, IEnumerable<string> fields = null)`
 with the ID of the membership object and the fields to update.
 
+<!-- sample put_group_memberships_id -->
 ```c#
 var updates = new BoxGroupMembershipRequest()
 {
@@ -148,6 +156,7 @@ Remove Membership
 To remove a specific membership record, which removes a user from the group, call the
 `GroupsManager.DeleteGroupMembershipAsync(string id)` method with the ID of the membership record to remove.
 
+<!-- sample delete_group_memberships_id -->
 ```c#
 await client.GroupsManager.DeleteGroupMembershipAsync("33333");
 ```
@@ -159,6 +168,7 @@ To get a list of all memberships to a group, call the
 `GroupsManager.GetAllGroupMembershipsForGroupAsync(string groupId, int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false)`
 method with the ID of the group to get the list of memberships for.
 
+<!-- sample get_groups_id_memberships -->
 ```c#
 BoxCollection<BoxGroupMembership> memberships = await client.GroupsManager
     .GetAllGroupMembershipsForGroupAsync("11111");
@@ -172,6 +182,7 @@ To get a list of groups to which a user belongs, call the
 method.  Note that this method requires the calling user to have permission to
 view groups, which is restricted to enterprise administrators.
 
+<!-- sample get_users_id_memberships -->
 ```c#
 BoxCollection<BoxGroupMembership> memberships = await client.GroupsManager
     .GetAllGroupMembershipsForUserAsync(userId: "11111");

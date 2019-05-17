@@ -18,6 +18,7 @@ Get a User's Recent Items
 Get a list of all recent items the user has by calling
 `GetRecentItemsAsync(int limit = 100, string marker = null, IEnumerable<string> fields = null, bool autoPaginate = false)`.
 
+<!-- sample get_recent_items -->
 ```c#
 BoxCollectionMarkerBasedV2<BoxRecentItem> recentItems = await client.RecentItemsManager
     .GetRecentItemsAsync(limit: 500);
