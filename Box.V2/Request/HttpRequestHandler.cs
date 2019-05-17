@@ -17,6 +17,7 @@ namespace Box.V2.Request
     {
         const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
         const int RetryLimit = 5;
+        readonly TimeSpan defaultRequestTimeout = new TimeSpan(0, 0, 100); // 100 seconds, same as default HttpClient timeout
 
         public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
             where T : class
@@ -78,7 +79,13 @@ namespace Box.V2.Request
                     {
                         if (request.Timeout.HasValue)
                         {
-                            cts.CancelAfter(request.Timeout.Value);
+                            if (request.Timeout.Value != Timeout.InfiniteTimeSpan)
+                            {
+                                cts.CancelAfter(request.Timeout.Value);
+                            }
+                        } else
+                        {
+                            cts.CancelAfter(defaultRequestTimeout);
                         }
 
                         var timeoutToken = cts.Token;
@@ -215,7 +222,9 @@ namespace Box.V2.Request
                 FAIL THE BUILD
 #endif
 
-                return new HttpClient(handler);
+                var client = new HttpClient(handler);
+                client.Timeout = Timeout.InfiniteTimeSpan; // Don't let HttpClient time out the request, since we manually handle timeout cancellation
+                return client;
             }
         }
 
