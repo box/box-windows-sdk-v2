@@ -36,6 +36,7 @@ token from your application's
 
 The following example creates an API client with a developer token:
 
+<!-- sample get_authorize -->
 ```c#
 var config = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://localhost"));
 var session = new OAuthSession("YOUR_DEVELOPER_TOKEN", "N/A", 3600, "bearer");

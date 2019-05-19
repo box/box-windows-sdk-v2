@@ -29,6 +29,7 @@ To create a new retention policy, call
 `RetentionPoliciesManager.CreateRetentionPolicyAsync(BoxRetentionPolicyRequest retentionPolicyRequest)`
 with the parameters for the new retention policy.
 
+<!-- sample post_retention_policies -->
 ```c#
 var policyParams = new BoxRetentionPolicyRequest()
 {
@@ -48,6 +49,7 @@ To retrieve information about a specific retention policy, call
 `RetentionPoliciesManager.GetRetentionPolicyAsync(string id, IEnumerable<string> fields = null)`
 with the ID of the policy.
 
+<!-- sample get_retention_policies_id -->
 ```c#
 BoxRetentionPolicy policy = await client.RetentionPoliciesManager.GetRetentionPolicyAsync("11111");
 ```
@@ -59,6 +61,7 @@ To update or modify an existing retention policy, call
 `RetentionPoliciesManager.UpdateRetentionPolicyAsync(string id, BoxRetentionPolicyRequest retentionPolicyRequest, IEnumerable<string> fields = null)`
 with the ID of the policy to update and the set of fields to update.
 
+<!-- sample put_retention_policies_id -->
 ```c#
 var updates = new BoxRetentionPolicyRequest()
 {
@@ -74,6 +77,7 @@ Get Enterprise Retention Policies
 To retrieve all of the retention policies for the given enterprise, call
 `RetentionPoliciesManager.GetRetentionPoliciesAsync(string policyName = null, string policyType = null, string createdByUserId = null, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)`.
 
+<!-- sample get_retention_policies -->
 ```c#
 BoxCollectionMarkerBased<BoxRetentionPolicy> policies = await client.RetentionPoliciesManager
     .GetRetentionPoliciesAsync();
@@ -86,6 +90,7 @@ To get a list of all retention policy assignments associated with a specified re
 `RetentionPoliciesManager.GetRetentionPolicyAssignmentsAsync(string retentionPolicyId, string type = null, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)`
 with the ID of the policy to get asisgnments for.
 
+<!-- sample get_retention_policies_id_assignments -->
 ```c#
 BoxCollectionMarkerBased<BoxRetentionPolicyAssignment> assignments = await client.RetentionPoliciesManager
     .GetRetentionPolicyAssignmentsAsync(retentionPolicyId: "11111");
@@ -98,6 +103,7 @@ To assign a retention policy, call
 `RetentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(BoxRetentionPolicyAssignmentRequest policyAssignmentRequest, IEnumerable<string> fields = null)`
 with the parameters of the assignment.
 
+<!-- sample post_retention_policy_assignments -->
 ```c#
 var assignmentParams = new BoxRetentionPolicyAssignmentRequest()
 {
@@ -119,6 +125,7 @@ To retrieve information about a retention policy assignment, call
 `RetentionPoliciesManager.GetRetentionPolicyAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null)`
 with the ID of the assignment.
 
+<!-- sample get_retention_policy_assignments_id -->
 ```c#
 BoxRetentionPolicyAssignment assignment = await client.RetentionPoliciesManager
     .GetRetentionPolicyAssignmentAsync("33333");
@@ -132,6 +139,7 @@ for a specific file version retention record, call the
 `RetentionPoliciesManager.GetFileVersionRetentionAsync(string fileVersionRetentionId, IEnumerable<string> fields = null)`
 method with the ID of the retention object.
 
+<!-- sample get_file_version_retentions_id -->
 ```c#
 BoxFileVersionRetention retention = await client.RetentionPoliciesManager
     .GetFileVersionRetentionAsync("55555");
@@ -144,6 +152,7 @@ To retrieve a list of all file version retentions for the given enterprise or to
 some category of file version retention records, call
 `RetentionPoliciesManager.GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)`.
 
+<!-- sample get_file_version_retentions -->
 ```c#
 BoxCollectionMarkerBased<BoxFileVersionRetention> retentions = await client.RetentionPoliciesManager
     .GetFileVersionRetentionsAsync();

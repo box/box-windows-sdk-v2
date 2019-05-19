@@ -25,6 +25,7 @@ Create Metadata Cascade Policy
 To create a new metadata cascade policy, call
 `MetadataCascadePolicyManager.CreateCascadePolicyAsync(string folderId, string scope, string templateKey)`.
 
+<!-- sample post_metadata_cascade_policies -->
 ```c#
 BoxMetadataCascadePolicy metadataCascadePolicy = await client.MetadataCascadePolicyManager
     .CreateCascadePolicyAsync("22222", "enterprise_11111", "templateKey");
@@ -36,6 +37,7 @@ Get a Metadata Cascade Policy
 To get information about a specific metadata cascade policy, call
 `MetadataCascadePolicyManager.GetCascadePolicyAsync(string policyId)`
 
+<!-- sample get_metadata_cascade_policies_id -->
 ```c#
 BoxMetadataCascadePolicy retrievedCascadePolicy = await client.MetadataCascadePolicyManager
     .GetCascadePolicyAsync("12345", IEnumerable<string> fields = null);
@@ -47,6 +49,7 @@ Get Metadata Cascade Policies for Folder
 To retrieve a collection of metadata cascade policies within a given folder for the current enterprise, use
 `MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync(string folderId, string ownerEnterpriseId = null, int limit = 100, string nextMarker = null, IEnumerable<string> fields = null, bool autopaginate = false)`
 
+<!-- sample get_metadata_cascade_policies -->
 ```c#
 BoxCollectionMarkerBased<BoxMetadataCascadePolicy> metadataCascadePolicies = await client.MetadataCascadePolicyManager.GetAllMetadataCascadePoliciesAsync("12345");
 ```
@@ -66,6 +69,7 @@ Force Apply Metadata Cascade Policy
 To apply a policy on a folder that already has one, use
 `MetadataCascadePolicyManager.ForceApplyCascadePolicyAsync(string policyId, string conflictResolution)`
 
+<!-- sample post_metadata_cascade_policies_id_apply -->
 ```c#
 string policyId = "11111";
 string conflictResolution = Constants.ConflictResolution.Overwrite
