@@ -45,6 +45,7 @@ namespace Box.V2.Managers
         /// <param name="sort">The field to sort the search results by, e.g. "modified_at.</param>
         /// <param name="direction">The direction to return the results. "ASC" for ascending and "DESC" for descending.</param>
         /// <returns>A collection of search results is returned. If there are no matching search results, the collection will be empty.</returns>
+        [Obsolete("Method is deprecated; use QueryAsync() instead")]
         public async Task<BoxCollection<BoxItem>> SearchAsync(  string keyword = null,
                                                                 int limit = 30,
                                                                 int offset = 0,
@@ -102,6 +103,63 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
+        public async Task<BoxCollection<BoxItem>> QueryAsync(string query,
+                                                                string scope = null,
+                                                                IEnumerable<string> fileExtensions = null,
+                                                                DateTime? createdAfter = null,
+                                                                DateTime? createdBefore = null,
+                                                                DateTime? updatedAfter = null,
+                                                                DateTime? updatedBefore = null,
+                                                                long? sizeLowerBound = null,
+                                                                long? sizeUpperBound = null,
+                                                                IEnumerable<string> ownerUserIds = null,
+                                                                IEnumerable<string> ancestorFolderIds = null,
+                                                                IEnumerable<string> contentTypes = null,
+                                                                string type = null,
+                                                                string trashContent = null,
+                                                                List<BoxMetadataFilterRequest> mdFilters = null,
+                                                                int limit = 30,
+                                                                int offset = 0,
+                                                                IEnumerable<string> fields = null,
+                                                                string sort = null,
+                                                                BoxSortDirection? direction = null)
+
+        {
+
+            string mdFiltersString = null;
+            if (mdFilters != null)
+            {
+                mdFiltersString = _converter.Serialize(mdFilters);
+            }
+
+            var createdAtRangeString = BuildDateRangeField(createdAfter, createdBefore);
+            var updatedAtRangeString = BuildDateRangeField(updatedAfter, updatedBefore);
+            var sizeRangeString = BuildSizeRangeField(sizeLowerBound, sizeUpperBound);
+
+            BoxRequest request = new BoxRequest(_config.SearchEndpointUri)
+                .Param("query", query)
+                .Param("scope", scope)
+                .Param("file_extensions", fileExtensions)
+                .Param("created_at_range", createdAtRangeString)
+                .Param("updated_at_range", updatedAtRangeString)
+                .Param("size_range", sizeRangeString)
+                .Param("owner_user_ids", ownerUserIds)
+                .Param("ancestor_folder_ids", ancestorFolderIds)
+                .Param("content_types", contentTypes)
+                .Param("type", type)
+                .Param("trash_content", trashContent)
+                .Param("mdfilters", mdFiltersString)
+                .Param("limit", limit.ToString())
+                .Param("offset", offset.ToString())
+                .Param("sort", sort)
+                .Param("direction", direction.ToString())
+                .Param(ParamFields, fields);
+
+            IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
         private string BuildDateRangeField(DateTime? from, DateTime? to)
         {
             var fromString = from.HasValue ? from.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : String.Empty;
@@ -110,7 +168,7 @@ namespace Box.V2.Managers
             return BuildRangeString(fromString, toString);
         }
 
-        private string BuildSizeRangeField(int? lowerBoundBytes, int? upperBoundBytes)
+        private string BuildSizeRangeField(long? lowerBoundBytes, long? upperBoundBytes)
         {
             var lowerBoundString = lowerBoundBytes.HasValue ? lowerBoundBytes.Value.ToString() : String.Empty;
             var upperBoundString = upperBoundBytes.HasValue ? upperBoundBytes.Value.ToString() : String.Empty;
