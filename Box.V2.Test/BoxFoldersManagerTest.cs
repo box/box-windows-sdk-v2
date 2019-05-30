@@ -24,6 +24,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderItems_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
@@ -57,6 +58,26 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task GetFolderItems_ValidResponse_SortDirection()
+        {
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = "{\"total_count\":24,\"entries\":[{\"type\":\"folder\",\"id\":\"192429928\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"Stephen Curry Three Pointers\"},{\"type\":\"file\",\"id\":\"818853862\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Warriors.jpg\"}],\"offset\":0,\"limit\":2,\"order\":[{\"by\":\"type\",\"direction\":\"ASC\"},{\"by\":\"name\",\"direction\":\"ASC\"}]}"
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            BoxCollection<BoxItem> items = await _foldersManager.GetFolderItemsAsync("0", 2, sort: "name", direction: BoxSortDirection.DESC);
+
+            Assert.AreEqual("name", boxRequest.Parameters["sort"]);
+            Assert.AreEqual("DESC", boxRequest.Parameters["direction"]);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolder_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -111,6 +132,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -180,6 +202,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_BadRequest()
         {
             HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
@@ -219,6 +242,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_NameConflict()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -296,6 +320,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderInformation_ValidResponse_ValidFolder()
         {
             IBoxRequest boxRequest = null;
@@ -314,7 +339,7 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(FoldersUri + "11446498?fields=f1,f2,f3", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "11446498?fields=f1%2Cf2%2Cf3", boxRequest.AbsoluteUri.AbsoluteUri);
 
             Assert.AreEqual(f.Type, "folder");
             Assert.AreEqual(f.Id, "11446498");
@@ -377,6 +402,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CopyFolder_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -405,6 +431,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateFolderInformation_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -435,6 +462,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolderSharedLink_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -462,6 +490,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderCollaborators_ValidResponse_ValidCollaborators()
         {
             /*** Arrange ***/
@@ -488,6 +517,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderCollaborators_ValidResponseWithGroups_ValidCollaborators()
         {
             /*** Arrange ***/
@@ -522,6 +552,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashedItems_ValidResponse_ValidFiles()
         {
             /*** Arrange ***/
@@ -553,6 +584,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task RestoreTrashedFolder_ValidResponse_ValidFolder()
         {
             IBoxRequest boxRequest = null;
@@ -579,7 +611,7 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(FoldersUri + "fakeId?fields=field1,field2", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "fakeId?fields=field1%2Cfield2", boxRequest.AbsoluteUri.AbsoluteUri);
             Assert.IsTrue(AreJsonStringsEqual(
                "{\"parent\":{\"id\":\"fakeId\"},\"name\":\"fakeName\"}",
                boxRequest.Payload));
@@ -592,6 +624,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashedFolder_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -612,7 +645,9 @@ namespace Box.V2.Test
             Assert.AreEqual("1", f.ETag);
             Assert.AreEqual("heloo world", f.Name);
         }
+
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteFolder_ValidResponse_FolderDeleted()
         {
             /*** Arrange ***/
@@ -635,6 +670,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashItems_ValidResponse_ValidCountAndEntries()
         {
             /*** Arrange ***/
@@ -679,6 +715,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task PurgeTrashedFolder_ValidResponse_FolderDeleted()
         {
             /*** Arrange ***/
@@ -701,6 +738,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetWatermarkForFolder_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
@@ -734,6 +772,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task ApplyWatermarkToFolder_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
@@ -769,6 +808,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task RemoveWatermarkFromFolder_ValidResponse_RemovedWatermark()
         {
             /*** Arrange ***/

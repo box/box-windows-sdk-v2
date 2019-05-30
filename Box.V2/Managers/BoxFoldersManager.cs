@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
@@ -50,16 +50,20 @@ namespace Box.V2.Managers
         /// The default is 0.</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <param name="sort">The field to sort items on</param>
+        /// <param name="direction">The direction to sort results in: ascending or descending</param>
         /// <returns>A collection of items contained in the folder is returned. An error is thrown if the folder does not exist, 
         /// or if any of the parameters are invalid. The total_count returned may not match the number of entries when using enterprise scope, 
         /// because external folders are hidden the list of entries.</returns>
-        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false)
+        public async Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate = false, string sort = null, BoxSortDirection? direction = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.ItemsPathString, id))
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString())
+                .Param("sort", sort)
+                .Param("direction", direction.ToString())
                 .Param(ParamFields, fields);
 
             if (autoPaginate)
