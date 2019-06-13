@@ -113,7 +113,7 @@ namespace Box.V2.Config
         Uri FileVersionLegalHoldsEndpointUri { get; }
 
         /// <summary>
-        /// The web proxy for HttpClient
+        /// The web proxy for HttpRequestHandler
         /// </summary>
         IWebProxy WebProxy { get; set; }
     }
