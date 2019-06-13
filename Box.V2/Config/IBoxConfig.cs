@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
+using System.Net;
 
 namespace Box.V2.Config
 {
@@ -113,5 +111,10 @@ namespace Box.V2.Config
         /// Gets the file viersion legal holds endpoint URI.
         /// </summary>
         Uri FileVersionLegalHoldsEndpointUri { get; }
+
+        /// <summary>
+        /// The web proxy for HttpClient
+        /// </summary>
+        IWebProxy WebProxy { get; set; }
     }
 }
