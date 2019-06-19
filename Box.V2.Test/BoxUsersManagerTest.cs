@@ -142,7 +142,8 @@ namespace Box.V2.Test
             BoxUserRequest userRequest = new BoxUserRequest()
             {
                 Id = "181216415",
-                Name = "sean"
+                Name = "sean",
+                IsExternalCollabRestricted = true
             };
             BoxUser user = await _usersManager.UpdateUserInformationAsync(userRequest);
 
@@ -155,6 +156,7 @@ namespace Box.V2.Test
             BoxUserRequest payload = JsonConvert.DeserializeObject<BoxUserRequest>(boxRequest.Payload);
             Assert.AreEqual(userRequest.Id, payload.Id);
             Assert.AreEqual(userRequest.Name, payload.Name);
+            Assert.AreEqual(userRequest.IsExternalCollabRestricted, payload.IsExternalCollabRestricted);
 
             //Response check
             Assert.AreEqual("181216415", user.Id);

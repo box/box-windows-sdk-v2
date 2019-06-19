@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Box.V2.Models
@@ -115,5 +115,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "external_app_user_id")]
         public string ExternalAppUserId { get; set; }
+
+        /// <summary>
+        /// Whether this user is restricted from external collaboration
+        /// </summary>
+        [JsonProperty(PropertyName = "is_external_collab_restricted")]
+        public bool? IsExternalCollabRestricted { get; set; }
     }
 }
