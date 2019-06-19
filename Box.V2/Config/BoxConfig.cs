@@ -1,7 +1,8 @@
-﻿using Box.V2.Utility;
+using Box.V2.Utility;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Net;
 using System.Text;
 
 namespace Box.V2.Config
@@ -230,6 +231,10 @@ namespace Box.V2.Config
         /// Gets the file viersion legal holds endpoint URI.
         /// </summary>
         public virtual Uri FileVersionLegalHoldsEndpointUri { get { return new Uri(BoxApiUri, Constants.FileVersionLegalHoldsString); } }
+        /// <summary>
+        /// The web proxy for HttpRequestHandler
+        /// </summary>
+        public IWebProxy WebProxy { get; set; }
     }
 
     public enum CompressionType
