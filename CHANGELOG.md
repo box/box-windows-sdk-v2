@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.18.0 [2019-06-20]
+
+- Added `sort` and `direction` parameters to `FoldersManager.GetFolderItemsAsync()` to enable
+  sorting the folder items returned
+- Added a new `SearchManager.QueryAsync()` method with correct types for file size filter parameters
+- Deprecated the `SearchManager.SearchAsync()` method, which is superseded by `SearchManager.QueryAsync()`
+- Added support for setting the `IsExternalCollabRestricted` parameter when creating and updating Users
+- Added a `WebProxy` property to `BoxConfig` instances, which can be used to manually set the network proxy
+  used by the SDK
+
 ## 3.17.0 [2019-05-09]
 
 - Fixed the encoding of dates in the query parameters for Events and Search endpoints
