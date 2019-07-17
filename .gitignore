@@ -161,3 +161,6 @@ $RECYCLE.BIN/
 .DS_Store
 *.nupkg
 /.vs
+/Box.V2.Samples.JWTAuth
+/Box.V2.Samples.TransactionalAuth
+/Box.V2.Test.Integration
