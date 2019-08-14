@@ -25,7 +25,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task EnterpriseEventsAsync_DateEncodingUTC_ValidResponse()
         {
-            string responseString = "{\"chunk_size\": 1, \"next_stream_position\": 123, \"entries\": [{\"source\":{\"group_id\":\"942617509\",\"group_name\":\"Groupies\"},\"created_by\":{\"type\":\"user\",\"id\":\"275035869\",\"name\":\"MattWiller\",\"login\":\"mwiller + appusers@box.com\"},\"action_by\": null,\"created_at\":\"2018-03-16T15:12:52-07:00\",\"event_id\":\"85c57bf3-bc15-4d24-93bc-955c796217c8\",\"event_type\":\"GROUP_EDITED\",\"ip_address\":\"UnknownIP\",\"type\":\"event\",\"session_id\":null,\"additional_details\":null}]}";
+            string responseString = "{\"chunk_size\": 1, \"next_stream_position\": 123, \"entries\": [{\"source\":{\"group_id\":\"942617509\",\"group_name\":\"Groupies\"},\"created_by\":{\"type\":\"user\",\"id\":\"275035869\",\"name\":\"MattWiller\",\"login\":\"mwiller + appusers@box.com\"},\"action_by\":{\"type\":\"user\",\"id\":\"12345\",\"name\":\"Test User\",\"login\":\"test@user.com\"},\"created_at\":\"2018-03-16T15:12:52-07:00\",\"event_id\":\"85c57bf3-bc15-4d24-93bc-955c796217c8\",\"event_type\":\"GROUP_EDITED\",\"ip_address\":\"UnknownIP\",\"type\":\"event\",\"session_id\":null,\"additional_details\":null}]}";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxEventCollection<BoxEnterpriseEvent>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxEventCollection<BoxEnterpriseEvent>>>(new BoxResponse<BoxEventCollection<BoxEnterpriseEvent>>()
@@ -40,7 +40,10 @@ namespace Box.V2.Test
 
             /*** Assert ***/
             Assert.AreEqual("stream_type=admin_logs&limit=500&created_after=1988-11-18T09%3A30%3A00Z&created_before=2018-11-18T09%3A30%3A00Z", boxRequest.GetQueryString());
-            Assert.AreEqual(null, firstEvent.ActionBy);
+            Assert.AreEqual("12345", firstEvent.ActionBy.Id);
+            Assert.AreEqual("user", firstEvent.ActionBy.Type);
+            Assert.AreEqual("Test User", firstEvent.ActionBy.Name);
+            Assert.AreEqual("test@user.com", firstEvent.ActionBy.Login);
             Assert.AreEqual("942617509", firstEvent.Source.Id);
             Assert.AreEqual("85c57bf3-bc15-4d24-93bc-955c796217c8", firstEvent.EventId);
         }

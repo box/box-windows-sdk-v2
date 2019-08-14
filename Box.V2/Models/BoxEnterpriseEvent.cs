@@ -79,7 +79,7 @@ namespace Box.V2.Models
         /// The action by field on the event.
         /// </summary>
         [JsonProperty(PropertyName = FieldActionBy)]
-        public string ActionBy { get; private set; }
+        public BoxUser ActionBy { get; private set; }
 
     }
 
