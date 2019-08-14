@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -15,6 +15,7 @@ namespace Box.V2.Models
         public const string FieldType = "type";
         public const string FieldSessionId = "session_id";
         public const string FieldAdditionalDetails = "additional_details";
+        public const string FieldActionBy = "action_by";
 
 
         /// <summary>
@@ -73,6 +74,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldAdditionalDetails)]
         public Dictionary<string,object> AdditionalDetails { get; private set; }
+
+        /// <summary>
+        /// The action by field on the event.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldActionBy)]
+        public BoxUser ActionBy { get; private set; }
 
     }
 
