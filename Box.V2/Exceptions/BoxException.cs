@@ -75,20 +75,33 @@ namespace Box.V2.Exceptions
 
         private static string GetErrorMessage<T>(string message, IBoxResponse<T> response, BoxError error = null) where T : class
         {
-            var requestID = error?.RequestId != null ? string.Format(" | {0}", error.RequestId) : "";
+            string requestID = error?.RequestId;
+            string traceID = null;
             IEnumerable<string> traceIDHeaders;
             if (response.Headers != null && response.Headers.TryGetValues("BOX-REQUEST-ID", out traceIDHeaders))
             {
-                foreach (var id in traceIDHeaders)
-                {
-                    // Take the first trace ID header value (there should only be one)
-                    requestID += "." + id;
-                    break;
-                }
+                traceID = traceIDHeaders.FirstOrDefault();
             }
-            
-            var errorInfo = error?.Code != null && error?.Message != null ? string.Format(" {0} - {1}", error.Code, error.Message) : "";
-            return string.Format("{0} [{1}{2}]{3}", message, response.StatusCode, requestID, errorInfo);
+ 
+            var errorCode = error?.Code ?? error?.Name;
+            var errorDescription = error?.Message ?? error?.Description;
+
+            string exceptionMessage = message;
+            exceptionMessage += " [" + response.StatusCode;
+            if (requestID != null || traceID != null)
+            {
+                exceptionMessage += string.Format(" | {0}.{1}", requestID, traceID);
+            }
+            exceptionMessage += "]";
+            if (errorCode != null)
+            {
+                exceptionMessage += " " + errorCode;
+            }
+            if (errorDescription != null)
+            {
+                exceptionMessage += " - " + errorDescription;
+            }
+            return exceptionMessage;
         }
 
         /// <summary>

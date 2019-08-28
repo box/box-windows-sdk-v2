@@ -243,6 +243,41 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
+        public async Task CreateFolder_Unauthorized()
+        {
+            HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+            headers.Add("BOX-REQUEST-ID", "0vsm9dam264cpub3esr293i4ssm");
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Status = ResponseStatus.Error,
+                    Headers = headers,
+                    ContentString = @"{
+                        ""error"": ""auth_error"",
+                        ""error_description"": ""Authorization failed"",
+                    }"
+                }));
+
+            var folderReq = new BoxFolderRequest()
+            {
+                Name = ".",
+                Parent = new BoxRequestEntity() { Id = "0" }
+            };
+
+            try
+            {
+                BoxFolder f = await _foldersManager.CreateAsync(folderReq);
+                throw new Exception("Invalid error type returned");
+            }
+            catch (BoxException ex)
+            {
+                Assert.AreEqual("The API returned an error [BadRequest | .0vsm9dam264cpub3esr293i4ssm] auth_error - Authorization failed", ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_NameConflict()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
