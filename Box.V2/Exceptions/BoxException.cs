@@ -80,12 +80,7 @@ namespace Box.V2.Exceptions
             IEnumerable<string> traceIDHeaders;
             if (response.Headers != null && response.Headers.TryGetValues("BOX-REQUEST-ID", out traceIDHeaders))
             {
-                foreach (var id in traceIDHeaders)
-                {
-                    // Take the first trace ID header value (there should only be one)
-                    traceID = id;
-                    break;
-                }
+                traceID = traceIDHeaders.FirstOrDefault();
             }
  
             var errorCode = error?.Code ?? error?.Name;
