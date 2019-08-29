@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.19.0 [2019-08-29]
+- Added `FILE_VERSION_RESTORE` constant to Admin Event.
+- Added action_by field to Enterprise Event.
+- Audited missing fields on BoxFile and BoxFolder objects.
+- Better error handling and messaging for errors pertaining to OAuth2 error responses.
+
 ## 3.18.0 [2019-06-20]
 
 - Added `sort` and `direction` parameters to `FoldersManager.GetFolderItemsAsync()` to enable
