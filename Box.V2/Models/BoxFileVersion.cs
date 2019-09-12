@@ -87,6 +87,6 @@ namespace Box.V2.Models
         /// mini user object
         /// </summary>
         [JsonProperty(PropertyName = FieldRestoredBy)]
-        public DateTime? RestoredBy { get; private set; }
+        public BoxUser RestoredBy { get; private set; }
     }
 }
