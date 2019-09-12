@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -14,6 +14,11 @@ namespace Box.V2.Models
         public const string FieldCreatedAt = "created_at";
         public const string FieldModifiedAt = "modified_at";
         public const string FieldModifiedBy = "modified_by";
+        public const string FieldTrashedAt = "trashed_at";
+        public const string FieldTrashedBy = "trashed_by";
+        public const string FieldPurgedAt = "purged_at";
+        public const string FieldRestoredAt = "restored_at";
+        public const string FieldRestoredBy = "restored_by";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -51,5 +56,37 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedBy)]
         public BoxUser ModifiedBy { get; private set; }
+
+        /// <summary>
+        /// The time the item or its contents were trashed at
+        /// </summary>
+        [JsonProperty(PropertyName = FieldTrashedAt)]
+        public DateTime? TrashedAt { get; private set; }
+
+        /// <summary>
+        /// The user who trashed the contents of this item
+        /// mini user object
+        /// </summary>
+        [JsonProperty(PropertyName = FieldTrashedBy)]
+        public BoxUser TrashedBy { get; private set; }
+
+        /// <summary>
+        /// The time the item or its contents were purged at
+        /// </summary>
+        [JsonProperty(PropertyName = FieldPurgedAt)]
+        public DateTime? PurgedAt { get; private set; }
+
+        /// <summary>
+        /// The time the item or its contents were restored at
+        /// </summary>
+        [JsonProperty(PropertyName = FieldRestoredAt)]
+        public DateTime? RestoredAt { get; private set; }
+
+        /// <summary>
+        /// The user who restored the contents of this item
+        /// mini user object
+        /// </summary>
+        [JsonProperty(PropertyName = FieldRestoredBy)]
+        public BoxUser RestoredBy { get; private set; }
     }
 }
