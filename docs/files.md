@@ -294,6 +294,7 @@ Get Thumbnail
 A thumbnail for a file can be retrieved by calling
 `FilesManager.GetThumbnailAsync(string id, int? minHeight = null, int? minWidth = null, int? maxHeight = null, int? maxWidth = null, bool throttle = true, bool handleRetry = true)`.
 
+<!-- sample get_files_id_thumbnail_id -->
 ```c#
 Stream thumbnailContents = await client.FilesManager.GetThumbnailAsync("11111", maxWidth: 160, maxHeight: 160);
 ```
