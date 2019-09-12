@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -14,6 +14,7 @@ namespace Box.V2.Models
         public const string FieldCreatedAt = "created_at";
         public const string FieldModifiedAt = "modified_at";
         public const string FieldModifiedBy = "modified_by";
+        public const string FieldTrashedAt = "trashed_at";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -44,6 +45,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
         public DateTime? ModifiedAt { get; private set; }
+
+        /// <summary>
+        /// The time the item or its contents were trashed at
+        /// </summary>
+        [JsonProperty(PropertyName = FieldTrashedAt)]
+        public DateTime? TrashedAt { get; private set; }
 
         /// <summary>
         /// The user who last modified this item
