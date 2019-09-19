@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.20.0 [2019-09-19]
+- Added missing fields for File Version object.
+
 ## 3.19.0 [2019-08-29]
 - Added `FILE_VERSION_RESTORE` constant to Admin Event.
 - Added action_by field to Enterprise Event.
