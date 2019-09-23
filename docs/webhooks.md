@@ -40,7 +40,7 @@ var webhookParams = new BoxWebhookRequest()
     {
         "FILE.PREVIEWED"
     },
-    Address = "https://example.com/webhook
+    Address = "https://example.com/webhook"
 };
 BoxWebhook webhook = await client.WebhooksManager.CreateWebhookAsync(webhookParams);
 ```
