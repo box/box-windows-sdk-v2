@@ -26,7 +26,28 @@ To attach a webhook to an item, call the
 method with the type and ID of the item, a URL to send notifications to, and a list
 of triggers.
 
+
 <!-- sample post_webhooks -->
+```c#
+var webhookParams = new BoxWebhookRequest()
+{
+    Target = new BoxRequestEntity()
+    {
+        Type = BoxType.file,
+        Id = "22222"
+    },
+    Triggers = new List<string>()
+    {
+        "FILE.PREVIEWED"
+    },
+    Address = "https://example.com/webhook
+};
+BoxWebhook webhook = await client.WebhooksManager.CreateWebhookAsync(webhookParams);
+```
+
+Similarly, webhooks can be created for folders.
+
+<!-- sample post_webhooks for_folder -->
 ```c#
 var webhookParams = new BoxWebhookRequest()
 {
