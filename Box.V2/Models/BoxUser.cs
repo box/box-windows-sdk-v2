@@ -34,6 +34,7 @@ namespace Box.V2.Models
         public const string FieldIsExternalCollabRestricted = "is_external_collab_restricted";
         public const string FieldMyTags = "my_tags";
         public const string FieldHostname = "hostname";
+        public const string FieldExternalAppUserId = "external_app_user_id";
 
         /// <summary>
         /// The name of this user
@@ -184,5 +185,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldHostname)]
         public string Hostname { get; private set; }
+
+        /// <summary>
+        /// The external app user id that has been set for the app user.  An arbitrary identifier that can be used by external user sync tools to link this Box User to an external user.
+        /// Example values of this field could be an Active Directory Object ID or primary key from a user-tracking database. We recommend use of this field in order to avoid issues when email addresses and names are updated in either Box or external systems.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldExternalAppUserId)]
+        public string ExternalAppUserId { get; private set; }
     }
 }
