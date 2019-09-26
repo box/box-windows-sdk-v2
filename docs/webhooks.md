@@ -75,6 +75,7 @@ When you receive a webhook message from Box, you should validate it by calling
 the static `WebhooksManager.VerifyWebhook(string deliveryTimestamp, string signaturePrimary, string signatureSecondary, string payload, string primaryWebhookKey, string secondaryWebhookKey)`
 method with the components of the webhook message.
 
+<!-- sample x_webhooks validate_signatures -->
 ```c#
 using Box.V2.Managers;
 
