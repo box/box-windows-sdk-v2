@@ -220,7 +220,7 @@ namespace Box.V2.Managers
         /// Retrieves information about a user in the enterprise. Requires enterprise administration authorization.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <returns>Returns the complete user object.</returns>
+        /// <returns>Returns the default representation of the user object.</returns>
         public async Task<BoxUser> GetUserInformationAsync(string userId)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId);
