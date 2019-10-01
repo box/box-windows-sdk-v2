@@ -220,46 +220,10 @@ namespace Box.V2.Managers
         /// Retrieves information about a user in the enterprise. Requires enterprise administration authorization.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns the complete user object.</returns>
-        public async Task<BoxUser> GetUserInformationAsync(string userId, IEnumerable<string> fields = null)
+        public async Task<BoxUser> GetUserInformationAsync(string userId)
         {
-            //This is supposed to retrieve the "complete" user object according to the API, so it should probably return all of the actual fields available by default.
-            if(fields == null)
-            {
-                fields = new List<string>()
-                {
-                    BoxUser.FieldAddress,
-                    BoxUser.FieldAvatarUrl,
-                    BoxUser.FieldCanSeeManagedUsers,
-                    BoxUser.FieldCreatedAt,
-                    BoxUser.FieldEnterprise,
-                    BoxUser.FieldExternalAppUserId, //This was previously missing from the default call 
-                    BoxUser.FieldHostname,
-                    BoxUser.FieldIsExemptFromDeviceLimits,
-                    BoxUser.FieldIsExemptFromLoginVerification,
-                    BoxUser.FieldIsExternalCollabRestricted,
-                    BoxUser.FieldIsSyncEnabled,
-                    BoxUser.FieldIsPlatformAccessOnly,
-                    BoxUser.FieldJobTitle,
-                    BoxUser.FieldLanguage,
-                    BoxUser.FieldLogin,
-                    BoxUser.FieldMaxUploadSize,
-                    BoxUser.FieldModifiedAt,
-                    BoxUser.FieldMyTags,
-                    BoxUser.FieldName,
-                    BoxUser.FieldPhone,
-                    BoxUser.FieldRole,
-                    BoxUser.FieldSpaceAmount,
-                    BoxUser.FieldSpaceUsed,
-                    BoxUser.FieldStatus,
-                    BoxUser.FieldTimezone,
-                    BoxUser.FieldTrackingCodes
-                };
-            }
-
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
-                .Param(ParamFields, fields);
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId);
 
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
 
