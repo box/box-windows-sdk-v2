@@ -36,7 +36,7 @@ token from your application's
 
 The following example creates an API client with a developer token:
 
-<!-- sample get_authorize -->
+<!-- sample x_auth init_with_dev_token -->
 ```c#
 var config = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://localhost"));
 var session = new OAuthSession("YOUR_DEVELOPER_TOKEN", "N/A", 3600, "bearer");
@@ -60,6 +60,7 @@ If you generated your public and private keys automatically through the
 to configure the SDK and create a client to make calls as the
 Service Account:
 
+<!-- sample x_auth init_with_jwt_enterprise -->
 ```c#
 var config = BoxConfig.CreateFromJsonString(jsonConfig);
 var session = new BoxJWTAuth(config);
@@ -70,6 +71,7 @@ BoxClient adminClient = session.AdminClient(adminToken);
 Otherwise, you'll need to provide the necessary configuration fields directly
 to the `BoxConfig` constructor:
 
+<!-- sample x_auth init_with_jwt_enterprise_with_config -->
 ```c#
 var boxConfig = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", "YOUR_ENTERPRISE_ID", "ENCRYPTED_PRIVATE_KEY", "PRIVATE_KEY_PASSWORD", "PUBLIC_KEY_ID");
 var boxJWT = new BoxJWTAuth(boxConfig);
@@ -94,6 +96,7 @@ for detailed instructions on how to use app auth.
 Clients for making calls as an App User can be created with the same `BoxJWTAuth`
 instance as in the above examples, similarly to creating a Service Account client:
 
+<!-- sample x_auth init_with_jwt_with_user_id -->
 ```c#
 var appUserId = "12345";
 var userToken = boxJWT.UserToken(appUserID); //valid for 60 minutes so should be cached and re-used
@@ -150,6 +153,7 @@ your application code.
 To use the primary or secondary access token generated in the Developer Console,
 simply create a basic client with that token:
 
+<!-- sample x_auth init_with_app_token -->
 ```c#
 var config = new BoxConfig("YOUR_CLIENT_ID", "N/A", new Uri("http://localhost"));
 var session = new OAuthSession("YOUR_APP_TOKEN", "N/A", 3600, "bearer");
@@ -167,6 +171,7 @@ their enterprise's users. This requires the API request to pass an
 Constructing a `BoxClient` with the `asUser` parameter set will create a client
 that will make calls on behalf of the specified user:
 
+<!-- sample x_auth init_with_as_user_header -->
 ```c#
 var userId = "12345";
 var client = new BoxClient(config, session, asUser: userId);
@@ -185,6 +190,7 @@ To exchange the token held by a client for a new token with only `item_preview`
 scope, restricted to a single file, suitable for the
 [Content Preview UI Kit](https://developer.box.com/docs/box-content-preview):
 
+<!-- sample post_oauth2_token downscope_token -->
 ```c#
 var exchanger = new TokenExchange(client.Auth.Session.AccessToken, "item_preview");
 exchanger.SetResource("https://api.box.com/2.0/files/123456789");
