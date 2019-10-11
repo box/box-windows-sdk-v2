@@ -14,7 +14,7 @@ namespace Box.V2.Managers
     /// <summary>
     /// The class managing the Box API's Metadata Cascade Policies endpoint.
     /// </summary>
-    public class BoxMetadataCascadePolicyManager : BoxResourceManager
+    public class BoxMetadataCascadePolicyManager : BoxResourceManager, IBoxMetadataCascadePolicyManager
     {
         /// <summary>
         /// Create a new BoxMetadataCascadePolicy object.

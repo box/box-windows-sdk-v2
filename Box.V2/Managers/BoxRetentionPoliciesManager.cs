@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Models;
@@ -15,7 +15,7 @@ namespace Box.V2.Managers
     /// Retention Management is a feature of the Box Governance package, which can be added on to any Business Plus or Enterprise account.
     /// To use this feature, you must have the manage retention policies scope enabled for your API key via your application management console.
     /// </summary>
-    public class BoxRetentionPoliciesManager : BoxResourceManager
+    public class BoxRetentionPoliciesManager : BoxResourceManager, IBoxRetentionPoliciesManager
     {
         public BoxRetentionPoliciesManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }

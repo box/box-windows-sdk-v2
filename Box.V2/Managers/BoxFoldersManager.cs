@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
-    public class BoxFoldersManager : BoxResourceManager
+    public class BoxFoldersManager : BoxResourceManager, IBoxFoldersManager
     {
         public BoxFoldersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }

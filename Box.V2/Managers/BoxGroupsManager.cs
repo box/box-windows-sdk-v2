@@ -13,7 +13,7 @@ namespace Box.V2.Managers
     /// <summary>
     /// The class managing the Box API's Groups endpoint.
     /// </summary>
-    public class BoxGroupsManager : BoxResourceManager
+    public class BoxGroupsManager : BoxResourceManager, IBoxGroupsManager
     {
         /// <summary>
         /// Create a new Boxgroupmanager object.
