@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Managers;
@@ -13,7 +13,7 @@ namespace Box.V2
     /// The central entrypoint for all SDK interaction. The BoxClient houses all of the API endpoints and are represented 
     /// as resource managers for each distinct endpoint
     /// </summary>
-    public class BoxClient
+    public class BoxClient : IBoxClient
     {
         protected readonly IBoxService _service;
         protected readonly IBoxConverter _converter;
@@ -147,7 +147,7 @@ namespace Box.V2
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public BoxClient AddResourcePlugin<T>() where T : BoxResourceManager
+        public IBoxClient AddResourcePlugin<T>() where T : BoxResourceManager
         {
             ResourcePlugins.Register<T>(() => (T)Activator.CreateInstance(typeof(T), Config, _service, _converter, Auth, _asUser, _suppressNotifications));
             return this;
@@ -161,72 +161,72 @@ namespace Box.V2
         /// <summary>
         /// The manager that represents the files endpoint
         /// </summary>
-        public BoxFilesManager FilesManager { get; private set; }
+        public IBoxFilesManager FilesManager { get; private set; }
         
         /// <summary>
         /// The manager that represents the folders endpoint
         /// </summary>
-        public BoxFoldersManager FoldersManager { get; private set; }
+        public IBoxFoldersManager FoldersManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the comments endpoint
         /// </summary>
-        public BoxCommentsManager CommentsManager { get; private set; }
+        public IBoxCommentsManager CommentsManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the collaboration endpoint
         /// </summary>
-        public BoxCollaborationsManager CollaborationsManager { get; private set; }
+        public IBoxCollaborationsManager CollaborationsManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the search endpoint
         /// </summary>
-        public BoxSearchManager SearchManager { get; private set; }
+        public IBoxSearchManager SearchManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the events endpoint
         /// </summary>
-        public BoxEventsManager EventsManager { get; private set; }
+        public IBoxEventsManager EventsManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the users endpoint
         /// </summary>
-        public BoxUsersManager UsersManager { get; private set; }
+        public IBoxUsersManager UsersManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the groups endpoint
         /// </summary>
-        public BoxGroupsManager GroupsManager { get; private set; }
+        public IBoxGroupsManager GroupsManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the retention policies endpoint
         /// </summary>
-        public BoxRetentionPoliciesManager RetentionPoliciesManager { get; private set; }
+        public IBoxRetentionPoliciesManager RetentionPoliciesManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the file and folder metadata endpoint
         /// </summary>
-        public BoxMetadataManager MetadataManager { get; private set; }
+        public IBoxMetadataManager MetadataManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the webhooks V2 endpoint
         /// </summary>
-        public BoxWebhooksManager WebhooksManager { get; private set; }
+        public IBoxWebhooksManager WebhooksManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the recent items endpoint
         /// </summary>
-        public BoxRecentItemsManager RecentItemsManager { get; private set; }
+        public IBoxRecentItemsManager RecentItemsManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the tasks endpoint
         /// </summary>
-        public BoxTasksManager TasksManager { get; private set; }
+        public IBoxTasksManager TasksManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the legal hold policies endpoint
         /// </summary>
-        public BoxLegalHoldPoliciesManager LegalHoldPoliciesManager { get; private set; }
+        public IBoxLegalHoldPoliciesManager LegalHoldPoliciesManager { get; private set; }
 
         /// <summary>
         /// The Auth repository that holds the auth session
@@ -241,40 +241,40 @@ namespace Box.V2
         /// <summary>
         /// The manager that represents the shared items endpoint
         /// </summary>
-        public BoxSharedItemsManager SharedItemsManager { get; private set; }
+        public IBoxSharedItemsManager SharedItemsManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the collections endpoint
         /// </summary>
-        public BoxCollectionsManager CollectionsManager { get; private set; }
+        public IBoxCollectionsManager CollectionsManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the device pin endpoint
         /// </summary>
-        public BoxDevicePinManager DevicePinManager { get; private set; }
+        public IBoxDevicePinManager DevicePinManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the weblinks endpoint
         /// </summary>
-        public BoxWebLinksManager WebLinksManager { get; private set; }
+        public IBoxWebLinksManager WebLinksManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the collaboration whitelist endpoint
         /// </summary>
-        public BoxCollaborationWhitelistManager CollaborationWhitelistManager { get; private set; }
+        public IBoxCollaborationWhitelistManager CollaborationWhitelistManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the terms of service endpoint
         /// </summary>
-        public BoxTermsOfServiceManager TermsOfServiceManager { get; private set; }
+        public IBoxTermsOfServiceManager TermsOfServiceManager { get; private set; }
 
         /// <summary>
         /// The manager that represents the metadata cascade policy endpoint
         /// </summary>
-        public BoxMetadataCascadePolicyManager MetadataCascadePolicyManager { get; private set; }
+        public IBoxMetadataCascadePolicyManager MetadataCascadePolicyManager { get; private set; }
 
         /// The manager that represents the storage policies endpoint
         /// </summary>
-        public BoxStoragePoliciesManager StoragePoliciesManager { get; private set; }
+        public IBoxStoragePoliciesManager StoragePoliciesManager { get; private set; }
     }
 }
