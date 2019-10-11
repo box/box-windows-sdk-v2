@@ -1,4 +1,4 @@
-﻿using Box.V2.Models;
+using Box.V2.Models;
 using Newtonsoft.Json;
 using System;
 
@@ -50,7 +50,7 @@ namespace Box.V2.Auth
         /// The token used to retrieve all data that requires authorization
         /// </summary>
         [JsonProperty(PropertyName = FieldAccessToken)]
-        public string AccessToken { get; private set; }
+        public virtual string AccessToken { get; private set; }
 
         /// <summary>
         /// Refresh token used to exchange for a new access token. This token is only good 
@@ -58,20 +58,20 @@ namespace Box.V2.Auth
         /// will be invalidated.
         /// </summary>
         [JsonProperty(PropertyName = FieldRefreshToken)]
-        public string RefreshToken { get; private set; }
+        public virtual string RefreshToken { get; private set; }
 
         /// <summary>
         /// Seconds the access token will be active.
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresIn)]
-        public int ExpiresIn { get; private set; }
+        public virtual int ExpiresIn { get; private set; }
 
         /// <summary>
         /// Represents how the access token will be generated and presented
         /// Most commonly this will be "bearer", anybody with a bearer token will have access.
         /// </summary>
         [JsonProperty(PropertyName = FieldTokenType)]
-        public string TokenType { get; private set; }
+        public virtual string TokenType { get; private set; }
    
         /// <summary>
         /// Gets the restricted to.
@@ -80,12 +80,12 @@ namespace Box.V2.Auth
         /// The restricted to.
         /// </value>
         [JsonProperty(PropertyName = FieldRestrictedTo)]
-        public BoxRestrictedTo[] RestrictedTo { get; private set; }
+        public virtual BoxRestrictedTo[] RestrictedTo { get; private set; }
 
         /// <summary>
         /// Read-only property to provide support for legacy V1 authentication
         /// </summary>
-        public AuthVersion AuthVersion { get; private set; }
+        public virtual AuthVersion AuthVersion { get; private set; }
     }
 
     /// <summary>

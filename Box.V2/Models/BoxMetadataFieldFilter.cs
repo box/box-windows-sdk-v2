@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -14,12 +14,12 @@ namespace Box.V2.Models
         /// The field key
         /// </summary>
         [JsonProperty(PropertyName = FieldField)]
-        public string Field { get; private set; }
+        public virtual string Field { get; private set; }
 
         /// <summary>
         /// The value to filter against
         /// </summary>
         [JsonProperty(PropertyName = FieldValue)]
-        public string Value { get; private set; }
+        public virtual string Value { get; private set; }
     }
 }

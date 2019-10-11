@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -15,12 +15,12 @@ namespace Box.V2.Models
         /// The item’s ID
         /// </summary>
         [JsonProperty(PropertyName = FieldId)]
-        virtual public string Id { get; protected set; }
+        public virtual string Id { get; protected set; }
 
         /// <summary>
         /// The type of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldType)]
-        virtual public string Type { get; protected set; }
+        public virtual string Type { get; protected set; }
     }
 }

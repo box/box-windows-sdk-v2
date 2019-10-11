@@ -24,68 +24,68 @@ namespace Box.V2.Models
         /// The user who created this collaboration
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedBy)]
-        public BoxUser CreatedBy { get; set; }
+        public virtual BoxUser CreatedBy { get; set; }
 
         /// <summary>
         /// The time this collaboration was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; set; }
+        public virtual DateTime? CreatedAt { get; set; }
 
         /// <summary>
         /// The time this collaboration was last modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; set; }
+        public virtual DateTime? ModifiedAt { get; set; }
 
         /// <summary>
         /// The time this collaboration will expire
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresAt)]
-        public DateTime? ExpiresAt { get; set; }
+        public virtual DateTime? ExpiresAt { get; set; }
 
         /// <summary>
         /// The status of this collab. Can be accepted, pending, or rejected
         /// </summary>
         [JsonProperty(PropertyName = FieldStatus)]
-        public string Status { get; set; }
+        public virtual string Status { get; set; }
 
         /// <summary>
         /// The user or group who the collaboration applies to
         /// </summary>
         [JsonProperty(PropertyName = FieldAccessibleBy)]
-        public BoxEntity AccessibleBy { get; set; }
+        public virtual BoxEntity AccessibleBy { get; set; }
 
         /// <summary>
         /// The level of access this user or group has. Can be editor, viewer, previewer, uploader, previewer uploader, 
         /// viewer uploader, or co-owner
         /// </summary>
         [JsonProperty(PropertyName = FieldRole)]
-        public string Role { get; set; }
+        public virtual string Role { get; set; }
 
         /// <summary>
         /// When the status of this collab was changed
         /// </summary>
         [JsonProperty(PropertyName = FieldAcknowledgedAt)]
-        public DateTime? AcknowledgedAt { get; set; }
+        public virtual DateTime? AcknowledgedAt { get; set; }
 
         /// <summary>
         /// The item this collaboration is related to
         /// </summary>
         [JsonProperty(PropertyName = FieldItem)]
-        public BoxItem Item { get; set; }
+        public virtual BoxItem Item { get; set; }
 
         /// <summary>
         /// Whether view path collaboration feature is enabled or not. View path collaborations allow the invitee to see the entire ancestral path to the associated folder. 
         /// The user will not gain privileges in any ancestral folder (e.g. see content the user is not collaborated on).
         /// </summary>
         [JsonProperty(PropertyName = FieldCanViewPath)]
-        public bool? CanViewPath { get; set; }
+        public virtual bool? CanViewPath { get; set; }
 
         /// <summary>
         /// The email address of the pending collaborator.
         /// </summary>
         [JsonProperty(PropertyName = FieldInviteEmail)]
-        public string InviteEmail { get; set; }
+        public virtual string InviteEmail { get; set; }
     }
 }

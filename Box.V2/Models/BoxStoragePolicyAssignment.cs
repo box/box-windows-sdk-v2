@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -11,12 +11,12 @@ namespace Box.V2.Models
         /// The storage policy to assign to user.
         /// </summary>
         [JsonProperty(PropertyName = FieldStoragePolicy)]
-        public BoxEntity BoxStoragePolicy { get; set; }
+        public virtual BoxEntity BoxStoragePolicy { get; set; }
 
         /// <summary>
         /// The Box User to assign the storage policy to.
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignedTo)]
-        public BoxEntity AssignedTo { get; set; }
+        public virtual BoxEntity AssignedTo { get; set; }
     }
 }

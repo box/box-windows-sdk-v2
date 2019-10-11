@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -17,30 +17,30 @@ namespace Box.V2.Models
         /// Session expiration time in RFC 3339.
         /// </summary>
         [JsonProperty(PropertyName = FieldSessionExpiresAt)]
-        public string SessionExpiresAt { get; private set; }
+        public virtual string SessionExpiresAt { get; private set; }
 
         /// <summary>
         /// The part sizein bytesthat must be used for all parts of this session. Only the last part is allowed to be of a smaller size.
         /// </summary>
         [JsonProperty(PropertyName = FieldPartSize)]
-        public string PartSize { get; private set; }
+        public virtual string PartSize { get; private set; }
 
         /// <summary>
         /// URLs for all other possible calls to this session.
         /// </summary>
         [JsonProperty(PropertyName = FieldSessionEndpoints)]
-        public BoxSessionEndpoint SessionEndpoints { get; private set; }
+        public virtual BoxSessionEndpoint SessionEndpoints { get; private set; }
 
         /// <summary>
         /// Total number of parts.
         /// </summary>
         [JsonProperty(PropertyName = FieldTotalParts)]
-        public int TotalParts { get; private set; }
+        public virtual int TotalParts { get; private set; }
 
         /// <summary>
         /// Number of parts processed.
         /// </summary>
         [JsonProperty(PropertyName = FieldNumPartsProcessed)]
-        public int NumPartsProcessed { get; private set; }
+        public virtual int NumPartsProcessed { get; private set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -13,24 +13,24 @@ namespace Box.V2.Models
         /// Gets the owner enterprise of the cascade policy.
         /// </summary>
         [JsonProperty(PropertyName = FieldOwnerEnterprise)]
-        public BoxEntity OwnerEnterprise { get; private set; }
+        public virtual BoxEntity OwnerEnterprise { get; private set; }
 
         /// <summary>
         /// Gets the parent of the cascade policy.
         /// </summary>
         [JsonProperty(PropertyName = FieldParent)]
-        public BoxEntity Parent { get; private set; }
+        public virtual BoxEntity Parent { get; private set; }
 
         /// <summary>
         /// Gets the scope of the cascade policy.
         /// </summary>
         [JsonProperty(PropertyName = FieldScope)]
-        public string Scope { get; private set; }
+        public virtual string Scope { get; private set; }
 
         /// <summary>
         /// Gets the template key of the cascade policy.
         /// </summary>
         [JsonProperty(PropertyName = FieldTemplateKey)]
-        public string TemplateKey { get; private set; }
+        public virtual string TemplateKey { get; private set; }
     }
 }

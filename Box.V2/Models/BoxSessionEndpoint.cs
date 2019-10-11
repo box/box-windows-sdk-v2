@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -18,36 +18,36 @@ namespace Box.V2.Models
         /// Endpoint to list parts.
         /// </summary>
         [JsonProperty(PropertyName = FieldListParts)]
-        public string ListParts { get; private set; }
+        public virtual string ListParts { get; private set; }
 
         /// <summary>
         /// Endpoint to commit.
         /// </summary>
         [JsonProperty(PropertyName = FieldCommit)]
-        public string Commit { get; private set; }
+        public virtual string Commit { get; private set; }
 
         /// <summary>
         /// Endpoint to log event.
         /// </summary>
         [JsonProperty(PropertyName = FieldLogEvent)]
-        public string LogEvent { get; private set; }
+        public virtual string LogEvent { get; private set; }
 
         /// <summary>
         /// Endpoint to upload part.
         /// </summary>
         [JsonProperty(PropertyName = FieldUploadPart)]
-        public string UploadPart { get; private set; }
+        public virtual string UploadPart { get; private set; }
 
         /// <summary>
         /// Endpoint to abort.
         /// </summary>
         [JsonProperty(PropertyName = FieldAbort)]
-        public string Abort { get; private set; }
+        public virtual string Abort { get; private set; }
 
         /// <summary>
         /// Endpoint to get status.
         /// </summary>
         [JsonProperty(PropertyName = FieldStatus)]
-        public string Status { get; private set; }
+        public virtual string Status { get; private set; }
     }
 }
