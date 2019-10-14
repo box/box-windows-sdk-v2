@@ -221,7 +221,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
-        /// <returns>>Returns the default representation of the user object.</returns>
+        /// <returns>Returns the default representation of the user object.</returns>
         public async Task<BoxUser> GetUserInformationAsync(string userId, IEnumerable<string> fields = null)
         {
             BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
