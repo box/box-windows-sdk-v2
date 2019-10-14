@@ -223,7 +223,19 @@ namespace Box.V2.Managers
         /// <returns>Returns the default representation of the user object.</returns>
         public async Task<BoxUser> GetUserInformationAsync(string userId)
         {
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId);
+            return await GetUserInformationAsync(userId: userId, fields: null);
+        }
+
+        /// <summary>
+        /// Retrieves information about a user in the enterprise with the specified fields. Requires enterprise administration authorization.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>>Returns the default representation of the user object.</returns>
+        public async Task<BoxUser> GetUserInformationAsync(string userId, IEnumerable<string> fields = null)
+        {
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
+            .Param(ParamFields, fields);
 
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
 
