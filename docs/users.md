@@ -78,6 +78,7 @@ To provision a new app user within the current enterprise, call the
 `UsersManager.CreateEnterpriseUserAsync(BoxUserRequest userRequest, IEnumerable<string> fields = null)`
 method with the `BoxUserRequest.IsPlatformAccessOnly` property set to `true`.
 
+<!-- sample post_users_app -->
 ```c#
 var userParams = new BoxUserRequest()
 {
