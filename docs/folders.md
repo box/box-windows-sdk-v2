@@ -120,6 +120,7 @@ You can create a shared link for a folder by calling
 `FoldersManager.CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, IEnumerable<string> fields = null)`
 with the ID of the folder and the shared link parameters.
 
+<!-- sample put_folders_id_shared_link_create -->
 ```c#
 var sharedLinkParams = new BoxSharedLinkRequest()
 {
