@@ -25,7 +25,7 @@ Get a Folder's Items
 Folder items can be retrieved by calling the
 `FoldersManager.GetFolderItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false)`
 method. Use the `fields` option to specify the desired fields.
-Requesting information for only the fields you need can improve performance and reduce the size of the network response.
+Requesting information for only the fields you need can improve performance by reducing the size of the network response.
 
 <!-- sample get_folders_id_items -->
 ```c#
