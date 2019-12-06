@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.21.0 [2019-12-05]
+- Added `fields` parameter to `UsersManager.GetUserInformationAsync()`
+- Added `ExternalAppUserId` property to `BoxUser` model
+- Added the ability to set the `TrackingCodes` property when updating or creating a user (thanks @Cpcrook!)
+
 ## 3.20.0 [2019-09-19]
 - Added missing fields for File Version object.
 
