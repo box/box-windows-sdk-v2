@@ -5,7 +5,7 @@
         public const string AssemblyTitle = "Box.V2";
         public const string AssemblyProduct = "Box.V2";
 
-        public const string NuGetVersion = "3.20.0";
+        public const string NuGetVersion = "3.21.0";
         public const string AssemblyVersion = "1.0.0.0";
         public const string AssemblyFileVersion = "1.0.0.0";
     }
