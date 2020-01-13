@@ -79,6 +79,7 @@ The download URL of a file an be retrieved by calling
 `FilesManager.GetDownloadUriAsync(string id, string versionId = null)` with the ID
 of the file.
 
+<!-- sample get_files_id_content get_url -->
 ```c#
 Uri downloadUri = await client.FilesManager.GetDownloadUriAsync(id: "11111");
 ```
@@ -176,6 +177,7 @@ by calling
 `FilesManager.DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null, int? startOffsetInBytes = null, int? endOffsetInBytes = null)`
 with the ID of the file and the optional version ID.
 
+<!-- sample get_files_id_content for_version -->
 ```c#
 string fileId = "11111";
 Stream versionContents = await client.FilesManager.DownloadStreamAsync(fileId, versionId: "22222");
