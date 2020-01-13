@@ -43,6 +43,7 @@ You can set the collections an item belongs to by calling
 `CollectionsManager.CreateOrDeleteCollectionsForFolderAsync(string folderId, BoxCollectionsRequest collectionsRequest)`
 or `CollectionsManager.CreateOrDeleteCollectionsForFileAsync(string fileId, BoxCollectionsRequest collectionsRequest)`.
 
+<!-- sample put_files_id add_to_collection -->
 ```c#
 // Put file 11111 into collection 22222
 BoxCollectionsRequest requestParams = new BoxCollectionsRequest()
