@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Box.V2.Request
@@ -16,6 +17,7 @@ namespace Box.V2.Request
     {
         const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
         const int RetryLimit = 5;
+        readonly TimeSpan defaultRequestTimeout = new TimeSpan(0, 0, 100); // 100 seconds, same as default HttpClient timeout
 
         public HttpRequestHandler(IWebProxy webProxy = null)
         {
@@ -77,8 +79,40 @@ namespace Box.V2.Request
 
                     HttpClient client = GetClient(request);
 
-                    // Not disposing the reponse since it will affect stream response 
-                    var response = await client.SendAsync(httpRequest, completionOption).ConfigureAwait(false);
+                    HttpResponseMessage response;
+                    using (var cts = new CancellationTokenSource())
+                    {
+                        if (request.Timeout.HasValue)
+                        {
+                            if (request.Timeout.Value != Timeout.InfiniteTimeSpan)
+                            {
+                                cts.CancelAfter(request.Timeout.Value);
+                            }
+                        } else
+                        {
+                            cts.CancelAfter(defaultRequestTimeout);
+                        }
+
+                        var timeoutToken = cts.Token;
+
+                        try
+                        {
+                            // Not disposing the reponse since it will affect stream response
+                            
+                            response = await client.SendAsync(httpRequest, completionOption, timeoutToken).ConfigureAwait(false);
+                        }
+                        catch (TaskCanceledException ex)
+                        {
+                            if (timeoutToken.IsCancellationRequested)
+                            {
+                                // Request timed out
+                                throw new TimeoutException("Request timed out", ex);
+                            }
+
+                            // Request was canceled for unknown reason
+                            throw ex;
+                        }
+                    }
 
                     //need to wait for Retry-After seconds and then retry request
                     var retryAfterHeader = response.Headers.RetryAfter;
@@ -169,32 +203,11 @@ namespace Box.V2.Request
             private static readonly Lazy<HttpClient> nonAutoRedirectClient =
                 new Lazy<HttpClient>(() => CreateClient(false, WebProxy));
 
-            private static IDictionary<TimeSpan, HttpClient> httpClientCache = new Dictionary<TimeSpan, HttpClient>();
-
             public static IWebProxy WebProxy { get; set; }
 
             // reuseable HttpClient instance
             public static HttpClient AutoRedirectClient { get { return autoRedirectClient.Value; } }
             public static HttpClient NonAutoRedirectClient { get { return nonAutoRedirectClient.Value; } }
-
-            // Create new HttpClient per timeout
-            public static HttpClient CreateClientWithTimeout(bool followRedirect, TimeSpan timeout)
-            {
-                lock (httpClientCache)
-                {
-                    HttpClient client = null;
-                    if (!httpClientCache.ContainsKey(timeout))
-                    {
-                        // create new client with timeout
-                        client = CreateClient(followRedirect, WebProxy);
-                        client.Timeout = timeout;
-                        // cache it
-                        httpClientCache.Add(timeout, client);
-                    }
-
-                    return httpClientCache[timeout];
-                }
-            }
 
             private static HttpClient CreateClient(bool followRedirect, IWebProxy webProxy)
             {
@@ -223,32 +236,23 @@ namespace Box.V2.Request
                 FAIL THE BUILD
 #endif
 
-                return new HttpClient(handler);
+                var client = new HttpClient(handler);
+                client.Timeout = Timeout.InfiniteTimeSpan; // Don't let HttpClient time out the request, since we manually handle timeout cancellation
+                return client;
             }
         }
 
         private HttpClient GetClient(IBoxRequest request)
         {
-            HttpClient client = null;
 
-            if (request.Timeout.HasValue)
+            if (request.FollowRedirect)
             {
-                var timeout = request.Timeout.Value;
-                client = ClientFactory.CreateClientWithTimeout(request.FollowRedirect, timeout);
+                return ClientFactory.AutoRedirectClient;
             }
             else
             {
-                if (request.FollowRedirect)
-                {
-                    client = ClientFactory.AutoRedirectClient;
-                }
-                else
-                {
-                    client = ClientFactory.NonAutoRedirectClient;
-                }
+                return ClientFactory.NonAutoRedirectClient;
             }
-
-            return client;
         }
 
         private HttpRequestMessage BuildRequest(IBoxRequest request)
