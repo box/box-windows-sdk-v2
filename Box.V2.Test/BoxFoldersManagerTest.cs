@@ -24,6 +24,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderItems_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
@@ -57,6 +58,26 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task GetFolderItems_ValidResponse_SortDirection()
+        {
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = "{\"total_count\":24,\"entries\":[{\"type\":\"folder\",\"id\":\"192429928\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"Stephen Curry Three Pointers\"},{\"type\":\"file\",\"id\":\"818853862\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Warriors.jpg\"}],\"offset\":0,\"limit\":2,\"order\":[{\"by\":\"type\",\"direction\":\"ASC\"},{\"by\":\"name\",\"direction\":\"ASC\"}]}"
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            BoxCollection<BoxItem> items = await _foldersManager.GetFolderItemsAsync("0", 2, sort: "name", direction: BoxSortDirection.DESC);
+
+            Assert.AreEqual("name", boxRequest.Parameters["sort"]);
+            Assert.AreEqual("DESC", boxRequest.Parameters["direction"]);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolder_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -111,6 +132,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -180,6 +202,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_BadRequest()
         {
             HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
@@ -219,6 +242,42 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task CreateFolder_Unauthorized()
+        {
+            HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+            headers.Add("BOX-REQUEST-ID", "0vsm9dam264cpub3esr293i4ssm");
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
+                {
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                    Status = ResponseStatus.Error,
+                    Headers = headers,
+                    ContentString = @"{
+                        ""error"": ""auth_error"",
+                        ""error_description"": ""Authorization failed"",
+                    }"
+                }));
+
+            var folderReq = new BoxFolderRequest()
+            {
+                Name = ".",
+                Parent = new BoxRequestEntity() { Id = "0" }
+            };
+
+            try
+            {
+                BoxFolder f = await _foldersManager.CreateAsync(folderReq);
+                throw new Exception("Invalid error type returned");
+            }
+            catch (BoxException ex)
+            {
+                Assert.AreEqual("The API returned an error [BadRequest | .0vsm9dam264cpub3esr293i4ssm] auth_error - Authorization failed", ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_NameConflict()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -296,6 +355,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderInformation_ValidResponse_ValidFolder()
         {
             IBoxRequest boxRequest = null;
@@ -304,7 +364,90 @@ namespace Box.V2.Test
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = "{ \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\", \"created_at\": \"2012-12-12T10:53:43-08:00\", \"modified_at\": \"2012-12-12T11:15:04-08:00\", \"description\": \"Some pictures I took\", \"size\": 629644, \"path_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" } ] }, \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/vspke7y05sb214wjokpk\", \"download_url\": \"https://www.box.com/shared/static/vspke7y05sb214wjokpk\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"folder_upload_email\": { \"access\": \"open\", \"email\": \"upload.Picture.k13sdz1@u.box.com\" }, \"parent\": { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, \"item_status\": \"active\", \"item_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\" } ], \"offset\": 0, \"limit\": 100 } }"
+                    ContentString = @"{
+                        ""type"": ""folder"",
+                        ""id"": ""11446498"",
+                        ""sequence_id"": ""1"",
+                        ""etag"": ""1"",
+                        ""name"": ""Pictures"",
+                        ""created_at"": ""2012-12-12T10:53:43-08:00"",
+                        ""modified_at"": ""2012-12-12T11:15:04-08:00"",
+                        ""description"": ""Some pictures I took"",
+                        ""size"": 629644,
+                        ""path_collection"": {
+                            ""total_count"": 1,
+                            ""entries"": [
+                                {
+                                    ""type"": ""folder"",
+                                    ""id"": ""0"",
+                                    ""sequence_id"": null,
+                                    ""etag"": null,
+                                    ""name"": ""All Files""
+                                }
+                            ]
+                        },
+                        ""created_by"": {
+                            ""type"": ""user"",
+                            ""id"": ""17738362"",
+                            ""name"": ""sean rose"",
+                            ""login"": ""sean@box.com""
+                        },
+                        ""modified_by"": {
+                            ""type"": ""user"",
+                            ""id"": ""17738362"",
+                            ""name"": ""sean rose"",
+                            ""login"": ""sean@box.com""
+                        },
+                        ""owned_by"": {
+                            ""type"": ""user"",
+                            ""id"": ""17738362"",
+                            ""name"": ""sean rose"",
+                            ""login"": ""sean@box.com""
+                        },
+                        ""shared_link"": {
+                            ""url"": ""https://www.box.com/s/vspke7y05sb214wjokpk"",
+                            ""download_url"": ""https://www.box.com/shared/static/vspke7y05sb214wjokpk"",
+                            ""vanity_url"": null,
+                            ""is_password_enabled"": false,
+                            ""unshared_at"": null,
+                            ""download_count"": 0,
+                            ""preview_count"": 0,
+                            ""access"": ""open"",
+                            ""permissions"": {
+                                ""can_download"": true,
+                                ""can_preview"": true
+                            }
+                        },
+                        ""folder_upload_email"": {
+                            ""access"": ""open"",
+                            ""email"": ""upload.Picture.k13sdz1@u.box.com""
+                        },
+                        ""parent"": {
+                            ""type"": ""folder"",
+                            ""id"": ""0"",
+                            ""sequence_id"": null,
+                            ""etag"": null,
+                            ""name"": ""All Files""
+                        },
+                        ""item_status"": ""active"",
+                        ""item_collection"": {
+                            ""total_count"": 1,
+                            ""entries"": [
+                                {
+                                    ""type"": ""file"",
+                                    ""id"": ""5000948880"",
+                                    ""sequence_id"": ""3"",
+                                    ""etag"": ""3"",
+                                    ""sha1"": ""134b65991ed521fcfe4724b7d814ab8ded5185dc"",
+                                    ""name"": ""tigers.jpeg""
+                                }
+                            ],
+                            ""offset"": 0,
+                            ""limit"": 100
+                        },
+                        ""expires_at"": ""2020-11-03T22:00:00Z"",
+                        ""is_collaboration_restricted_to_enterprise"": true
+                    }"
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r); ;
 
@@ -314,7 +457,7 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(FoldersUri + "11446498?fields=f1,f2,f3", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "11446498?fields=f1%2Cf2%2Cf3", boxRequest.AbsoluteUri.AbsoluteUri);
 
             Assert.AreEqual(f.Type, "folder");
             Assert.AreEqual(f.Id, "11446498");
@@ -372,11 +515,13 @@ namespace Box.V2.Test
             Assert.AreEqual(f.ItemCollection.Entries[0].Name, "tigers.jpeg");
             Assert.AreEqual(f.ItemCollection.Offset, 0);
             Assert.AreEqual(f.ItemCollection.Limit, 100);
-
+            Assert.AreEqual("2020-11-03T22:00:00Z", f.ExpiresAt.Value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ssZ", System.Globalization.DateTimeFormatInfo.InvariantInfo));
+            Assert.IsTrue(f.IsCollaborationRestrictedToEnterprise.Value);
 
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CopyFolder_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -405,6 +550,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateFolderInformation_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -435,6 +581,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolderSharedLink_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -462,6 +609,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderCollaborators_ValidResponse_ValidCollaborators()
         {
             /*** Arrange ***/
@@ -488,6 +636,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderCollaborators_ValidResponseWithGroups_ValidCollaborators()
         {
             /*** Arrange ***/
@@ -522,6 +671,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashedItems_ValidResponse_ValidFiles()
         {
             /*** Arrange ***/
@@ -553,6 +703,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task RestoreTrashedFolder_ValidResponse_ValidFolder()
         {
             IBoxRequest boxRequest = null;
@@ -579,7 +730,7 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(FoldersUri + "fakeId?fields=field1,field2", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(FoldersUri + "fakeId?fields=field1%2Cfield2", boxRequest.AbsoluteUri.AbsoluteUri);
             Assert.IsTrue(AreJsonStringsEqual(
                "{\"parent\":{\"id\":\"fakeId\"},\"name\":\"fakeName\"}",
                boxRequest.Payload));
@@ -592,6 +743,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashedFolder_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -612,7 +764,9 @@ namespace Box.V2.Test
             Assert.AreEqual("1", f.ETag);
             Assert.AreEqual("heloo world", f.Name);
         }
+
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteFolder_ValidResponse_FolderDeleted()
         {
             /*** Arrange ***/
@@ -635,6 +789,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashItems_ValidResponse_ValidCountAndEntries()
         {
             /*** Arrange ***/
@@ -679,6 +834,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task PurgeTrashedFolder_ValidResponse_FolderDeleted()
         {
             /*** Arrange ***/
@@ -701,6 +857,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetWatermarkForFolder_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
@@ -734,6 +891,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task ApplyWatermarkToFolder_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
@@ -769,6 +927,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task RemoveWatermarkFromFolder_ValidResponse_RemovedWatermark()
         {
             /*** Arrange ***/

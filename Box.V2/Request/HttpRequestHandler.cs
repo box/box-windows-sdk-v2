@@ -19,6 +19,11 @@ namespace Box.V2.Request
         const int RetryLimit = 5;
         readonly TimeSpan defaultRequestTimeout = new TimeSpan(0, 0, 100); // 100 seconds, same as default HttpClient timeout
 
+        public HttpRequestHandler(IWebProxy webProxy = null)
+        {
+            ClientFactory.WebProxy = webProxy;
+        }
+
         public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
             where T : class
         {
@@ -193,19 +198,28 @@ namespace Box.V2.Request
         private class ClientFactory
         {
             private static readonly Lazy<HttpClient> autoRedirectClient =
-                new Lazy<HttpClient>(() => CreateClient(true));
+                new Lazy<HttpClient>(() => CreateClient(true, WebProxy));
 
             private static readonly Lazy<HttpClient> nonAutoRedirectClient =
-                new Lazy<HttpClient>(() => CreateClient(false));
+                new Lazy<HttpClient>(() => CreateClient(false, WebProxy));
+
+            public static IWebProxy WebProxy { get; set; }
 
             // reuseable HttpClient instance
             public static HttpClient AutoRedirectClient { get { return autoRedirectClient.Value; } }
             public static HttpClient NonAutoRedirectClient { get { return nonAutoRedirectClient.Value; } }
 
-            private static HttpClient CreateClient(bool followRedirect)
+            private static HttpClient CreateClient(bool followRedirect, IWebProxy webProxy)
             {
                 HttpClientHandler handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
                 handler.AllowAutoRedirect = followRedirect;
+
+                if (webProxy != null)
+                {
+                    handler.UseProxy = true;
+                    handler.Proxy = webProxy;
+                }
+
                 // Ensure that clients use non-deprecated versions of TLS (i.e. TLSv1.1 or greater)
 #if NETSTANDARD1_6
                 try

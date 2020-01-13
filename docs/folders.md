@@ -25,7 +25,7 @@ Get a Folder's Items
 Folder items can be retrieved by calling the
 `FoldersManager.GetFolderItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false)`
 method. Use the `fields` option to specify the desired fields.
-Requesting information for only the fields you need can improve performance and reduce the size of the network request.
+Requesting information for only the fields you need can improve performance by reducing the size of the network response.
 
 <!-- sample get_folders_id_items -->
 ```c#
@@ -120,6 +120,7 @@ You can create a shared link for a folder by calling
 `FoldersManager.CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, IEnumerable<string> fields = null)`
 with the ID of the folder and the shared link parameters.
 
+<!-- sample put_folders_id_shared_link_create -->
 ```c#
 var sharedLinkParams = new BoxSharedLinkRequest()
 {

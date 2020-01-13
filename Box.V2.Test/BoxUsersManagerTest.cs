@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,6 +43,37 @@ namespace Box.V2.Test
             Assert.AreEqual("sean rose", user.Name);
             Assert.AreEqual("sean@box.com", user.Login);
             Assert.AreEqual("user", user.Type);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task GetUserInformation_WithField_ValidResponse_ValidUser()
+        {
+            /*** Arrange ***/
+            IBoxRequest boxRequest = null;
+            string responseString = "{\"type\": \"user\", \"id\": \"12345\", \"status\": \"active\"}";
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            string[] fields = { "status" };
+            BoxUser user = await _usersManager.GetUserInformationAsync(userId:"12345", fields: fields);
+
+            /*** Request Check ***/
+            var parameter = boxRequest.Parameters.Values.FirstOrDefault();
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual("status", parameter);
+
+            /*** Assert ***/
+            Assert.AreEqual("12345", user.Id);
+            Assert.AreEqual("user", user.Type);
+            Assert.AreEqual("active", user.Status);
         }
 
         [TestMethod]
@@ -142,7 +174,8 @@ namespace Box.V2.Test
             BoxUserRequest userRequest = new BoxUserRequest()
             {
                 Id = "181216415",
-                Name = "sean"
+                Name = "sean",
+                IsExternalCollabRestricted = true
             };
             BoxUser user = await _usersManager.UpdateUserInformationAsync(userRequest);
 
@@ -155,6 +188,7 @@ namespace Box.V2.Test
             BoxUserRequest payload = JsonConvert.DeserializeObject<BoxUserRequest>(boxRequest.Payload);
             Assert.AreEqual(userRequest.Id, payload.Id);
             Assert.AreEqual(userRequest.Name, payload.Name);
+            Assert.AreEqual(userRequest.IsExternalCollabRestricted, payload.IsExternalCollabRestricted);
 
             //Response check
             Assert.AreEqual("181216415", user.Id);

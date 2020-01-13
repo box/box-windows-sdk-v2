@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Box.V2.Models
@@ -21,6 +22,10 @@ namespace Box.V2.Models
         public const string FieldWatermarkInfo = "watermark_info";
         public const string FieldFileVersion = "file_version";
         public const string FieldRepresentations = "representations";
+        public const string FieldExpiresAt = "expires_at";
+        public const string FieldAllowedInviteeRoles = "allowed_invitee_roles";
+        public const string FieldHasCollaborations = "has_collaborations";
+        public const string FieldIsExternallyOwned = "is_externally_owned";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -113,5 +118,29 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldRepresentations)]
         public BoxRepresentationCollection<BoxRepresentation> Representations { get; protected set; }
+
+        /// <summary>
+        /// The date when the file will be automatically deleted due to item expiration settings.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldExpiresAt)]
+        public DateTime? ExpiresAt { get; protected set; }
+
+        /// <summary>
+        /// The set of allowed roles for collaborators invited to this file.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldAllowedInviteeRoles)]
+        public List<string> AllowedInviteeRoles { get; protected set; }
+
+        /// <summary>
+        /// Whether the item has collaborations or not.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldHasCollaborations)]
+        public bool? HasCollaborations { get; protected set; }
+
+        /// <summary>
+        /// Whether the item is owned by an entity external to the user's enterprise.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldIsExternallyOwned)]
+        public bool? IsExternallyOwned { get; protected set; }
     }
 }

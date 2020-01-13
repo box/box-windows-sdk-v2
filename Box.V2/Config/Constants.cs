@@ -867,6 +867,11 @@ namespace Box.V2.Config
             /// A content was accessed by a user.
             /// </summary>
             public const string ContentAccess = "CONTENT_ACCESS";
+
+            /// <summary>
+            /// A file version was made current.
+            /// </summary>
+            public const string FileVersionRestore = "FILE_VERSION_RESTORE";
         }
 
         /*** required direction for collaboration whitelists endpoint. Can only be one of value: inbound, outbound, or both ***/

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -22,6 +22,8 @@ namespace Box.V2.Models
         public const string FieldCanNonOwnersInvite = "can_non_owners_invite";
         public const string FieldIsExternallyOwned = "is_externally_owned";
         public const string FieldAllowedSharedLinkAccessLevels = "allowed_shared_link_access_levels";
+        public const string FieldExpiresAt = "expires_at";
+        public const string FieldIsCollaborationRestrictedToEnterprise = "is_collaboration_restricted_to_enterprise";
 
         /// <summary>
         /// The upload email address for this folder
@@ -113,5 +115,17 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldIsExternallyOwned)]
         public Boolean? IsExternallyOwned { get; set; }
+
+        /// <summary>
+        /// The date when the folder will be automatically deleted due to item expiration settings.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldExpiresAt)]
+        public DateTime? ExpiresAt { get; protected set; }
+
+        /// <summary>
+        /// The date when the folder will be automatically deleted due to item expiration settings.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldIsCollaborationRestrictedToEnterprise)]
+        public bool? IsCollaborationRestrictedToEnterprise { get; protected set; }
     }
 }
