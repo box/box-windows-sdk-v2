@@ -1,5 +1,8 @@
 # Changelog
 
+## Next Release
+- Updated retry logic to retry on 503 status codes returned by the API
+
 ## 3.21.0 [2019-12-05]
 - Added `fields` parameter to `UsersManager.GetUserInformationAsync()`
 - Added `ExternalAppUserId` property to `BoxUser` model
