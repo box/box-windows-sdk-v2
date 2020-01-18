@@ -125,9 +125,11 @@ namespace Box.V2.Request
                         ||
                         response.StatusCode == HttpStatusCode.InternalServerError
                         ||
-                        response.StatusCode == HttpStatusCode.GatewayTimeout
-                        ||
                         response.StatusCode == HttpStatusCode.BadGateway
+                        ||
+                        response.StatusCode == HttpStatusCode.ServiceUnavailable
+                        ||
+                        response.StatusCode == HttpStatusCode.GatewayTimeout
                         ||
                         (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)) 
                         && retryCounter++ < RetryLimit)

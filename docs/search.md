@@ -37,7 +37,7 @@ SearchManager.QueryAsync(string query,
     BoxSortDirection? direction = null)
 ```
 method.  There are many possible options for advanced search filtering, which are
-documented in the [Search API Reference](https://docs.box.com/reference#searching-for-content).
+documented in the [Search API Reference](https://developer.box.com/en/guides/search/).
 For most types of searches, a query string is required; for example, it is not possible to
 search for all files created after a certain date through the Search API.
 
