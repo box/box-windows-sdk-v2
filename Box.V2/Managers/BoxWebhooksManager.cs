@@ -118,7 +118,7 @@ namespace Box.V2.Managers
         /// Used to validate an incoming webhook by computing cryptographic digests of the notification's payload and comparing them
         /// to the digests computed by Box and placed in the BOX-SIGNATURE-PRIMARY and BOX-SIGNATURE-SECONDARY request headers.
         /// 
-        /// For more information about validating webhooks see  <see cref="https://docs.box.com/reference#signatures"/>
+        /// For more information about validating webhooks see  <see cref="https://developer.box.com/en/guides/webhooks/handle/setup-signatures/"/>
         /// </summary>
         /// <param name="deliveryTimestamp">Value in BOX-DELIVERY-TIMESTAMP header.</param>
         /// <param name="signaturePrimary">Value in BOX-SIGNATURE-PRIMARY header.</param>

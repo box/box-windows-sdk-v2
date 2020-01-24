@@ -22,7 +22,7 @@ namespace Box.V2.JWTAuth
     /// Box’s new authentication model allows applications to authenticate directly to Box using a JSON Web Token (JWT) signed with an RSA key. This authentication method is meant for server-to-server applications and replaces the first leg of the standard 3-legged OAuth 2.0 process in which users grant an application authorization to access their Box account.
     ///</summary>
     ///<remarks>
-    ///https://docs.box.com/docs/getting-started-box-platform
+    /// https://developer.box.com/en/guides/applications/custom-apps/
     ///</remarks>
     public class BoxJWTAuth
     {
