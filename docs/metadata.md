@@ -448,7 +448,7 @@ Dictionary<string, object> metadata = await client.MetadataManager.
 You can also get all metadata on a folder by calling
 `MetadataManager.GetAllFolderMetadataTemplatesAsync(string folderId)`.
 
-<!-- sample post_folders_id_metadata -->
+<!-- sample get_folders_id_metadata -->
 ```c#
 BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
     .GetAllFolderMetadataTemplatesAsync(folderId: "11111");
