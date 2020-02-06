@@ -83,5 +83,15 @@ namespace Box.V2.Test.Integration
 
             Assert.IsTrue(users.TotalCount > 2);
         }
+
+        [TestMethod]
+        public async Task EnterpriseUsersMarkerBasedPagination_LiveSession_ValidResponse()
+        {
+            BoxCollectionMarkerBased<BoxUser> users = await _client.UsersManager.GetEnterpriseUsersWithMarkerAsync(limit: 1);
+            Assert.IsTrue(users.Entries.Count == 1);
+
+            BoxCollectionMarkerBased<BoxUser> users2 = await _client.UsersManager.GetEnterpriseUsersWithMarkerAsync(marker: users.NextMarker, limit: 2);
+            Assert.IsTrue(users2.Entries.Count == 2);
+        }
     }
 }
