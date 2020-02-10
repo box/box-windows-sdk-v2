@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2;
 using Box.V2.Exceptions;
+using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Test
 {
@@ -561,6 +562,61 @@ namespace Box.V2.Test
             {
                 Assert.AreEqual(System.Net.HttpStatusCode.BadGateway, ex.StatusCode);
             }
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task ExecuteMetadataQuery_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"entries\":[{\"item\":{\"type\":\"file\",\"id\":\"1617554169109\",\"file_version\":{\"type\":\"file_version\",\"id\":\"1451884469385\",\"sha1\":\"69888bb1bff455d1b2f8afea75ed1ff0b4879bf6\"},\"sequence_id\":\"0\",\"etag\":\"0\",\"sha1\":\"69888bb1bff455d1b2f8afea75ed1ff0b4879bf6\",\"name\":\"My Contract.docx\",\"description\":\"\",\"size\":25600,\"path_collection\":{\"total_count\":4,\"entries\":[{\"type\":\"folder\",\"id\":\"0\",\"sequence_id\":null,\"etag\":null,\"name\":\"All Files\"},{\"type\":\"folder\",\"id\":\"15017998644\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Contracts\"},{\"type\":\"folder\",\"id\":\"15286891196\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"North America\"},{\"type\":\"folder\",\"id\":\"16125613433\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"2017\"}]},\"created_at\":\"2017-04-20T12:55:27-07:00\",\"modified_at\":\"2017-04-20T12:55:27-07:00\",\"trashed_at\":null,\"purged_at\":null,\"content_created_at\":\"2017-01-06T17:59:01-08:00\",\"content_modified_at\":\"2017-01-06T17:59:01-08:00\",\"created_by\":{\"type\":\"user\",\"id\":\"193973366\",\"name\":\"Box Admin\",\"login\":\"admin@company.com\"},\"modified_by\":{\"type\":\"user\",\"id\":\"193973366\",\"name\":\"Box Admin\",\"login\":\"admin@company.com\"},\"owned_by\":{\"type\":\"user\",\"id\":\"193973366\",\"name\":\"Box Admin\",\"login\":\"admin@company.com\"},\"shared_link\":null,\"parent\":{\"type\":\"folder\",\"id\":\"16125613433\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"2017\"},\"item_status\":\"active\"},\"metadata\":{\"enterprise_123456\":{\"someTemplate\":{\"$parent\":\"file_161753469109\",\"$version\":0,\"customerName\":\"Phoenix Corp\",\"$type\":\"someTemplate-3d5fcaca-f496-4bb6-9046-d25c37bc5594\",\"$typeVersion\":0,\"$id\":\"ba52e2cc-371d-4659-8d53-50f1ac642e35\",\"amount\":100,\"claimDate\":\"2016-04-10T00:00:00Z\",\"region\":\"West\",\"$typeScope\":\"enterprise_123456\"}}}}],\"next_marker\":\"AAAAAmVYB1FWec8GH6yWu2nwmanfMh07IyYInaa7DZDYjgO1H4KoLW29vPlLY173OKsci6h6xGh61gG73gnaxoS+o0BbI1/h6le6cikjlupVhASwJ2Cj0tOD9wlnrUMHHw3/ISf+uuACzrOMhN6d5fYrbidPzS6MdhJOejuYlvsg4tcBYzjauP3+VU51p77HFAIuObnJT0ff\"}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = responseString
+                 }))
+                 .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            dynamic queryParams = new JObject();
+            queryParams["arg"] = 100;
+            List <BoxMetadataQueryOrderBy> orderByList = new List<BoxMetadataQueryOrderBy>();
+            var orderBy = new BoxMetadataQueryOrderBy()
+            {
+                FieldKey = "amount",
+                Direction = BoxSortDirection.ASC
+            };
+            orderByList.Add(orderBy);
+            string marker = "AAAAAmVYB1FWec8GH6yWu2nwmanfMh07IyYInaa7DZDYjgO1H4KoLW29vPlLY173OKsci6h6xGh61gG73gnaxoS+o0BbI1/h6le6cikjlupVhASwJ2Cj0tOD9wlnrUMHHw3/ISf+uuACzrOMhN6d5fYrbidPzS6MdhJOejuYlvsg4tcBYzjauP3+VU51p77HFAIuObnJT0ff";
+            BoxCollection<BoxItem> items = await _metadataManager.executeMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, marker: marker, autoPaginate: true);
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(FilesUri + "fileid/versions/current", boxRequest.AbsoluteUri.AbsoluteUri);
+            JObject payload = JsonConvert.DeserializeObject<JObject>(boxRequest.Payload);
+            //Assert.AreEqual("871399", payload.from);
+            //Assert.AreEqual("file_version", payload.Type);
+
+            // Response check
+            Assert.AreEqual(items.TotalCount, 24);
+            Assert.AreEqual(items.Entries.Count, 2);
+            Assert.AreEqual(items.Entries[0].Type, "folder");
+            Assert.AreEqual(items.Entries[0].Id, "192429928");
+            Assert.AreEqual(items.Entries[0].SequenceId, "1");
+            Assert.AreEqual(items.Entries[0].ETag, "1");
+            Assert.AreEqual(items.Entries[0].Name, "Stephen Curry Three Pointers");
+            Assert.AreEqual(items.Entries[1].Type, "file");
+            Assert.AreEqual(items.Entries[1].Id, "818853862");
+            Assert.AreEqual(items.Entries[1].SequenceId, "0");
+            Assert.AreEqual(items.Entries[1].ETag, "0");
+            Assert.AreEqual(items.Entries[1].Name, "Warriors.jpg");
+            Assert.AreEqual(items.Offset, 0);
+            Assert.AreEqual(items.Limit, 2);
         }
     }
 }

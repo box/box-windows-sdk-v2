@@ -140,6 +140,7 @@
     <Compile Include="Models\BoxWebLink.cs" />
     <Compile Include="Models\BoxCollaborationWhitelistEntry.cs" />
     <Compile Include="Models\BoxCollaborationWhitelistTargetEntry.cs" />
+    <Compile Include="Models\BoxMetadataQueryItem.cs" />
     <Compile Include="Models\Permissions\BoxFilePermission.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
     <Compile Include="Models\BoxGroup.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
+    <Compile Include="Models\Request\BoxMetadataQueryRequest.cs" />
     <Compile Include="Models\Request\BoxRepresentationRequest.cs" />
     <Compile Include="Models\Request\BoxTaskAssignmentUpdateRequest.cs" />
     <Compile Include="Models\Request\BoxAssignmentRequest.cs" />

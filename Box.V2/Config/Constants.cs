@@ -41,6 +41,7 @@ namespace Box.V2.Config
         public const string EventsString = @"events";
         public const string MetadataTemplatesString = @"metadata_templates/";
         public const string CreateMetadataTemplateString = @"metadata_templates/schema";
+        public const string MetadataQueryString = @"metadata_queries/execute_read";
         public const string WebhooksString = @"webhooks/";
         public const string RecentItemsString = @"recent_items/";
         public const string EnterprisesString = @"enterprises/";

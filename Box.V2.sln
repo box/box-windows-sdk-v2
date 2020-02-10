@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{A5BC8AA0-5191-4B1D-845F-B4F0BD0287A4}"
 EndProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.V2.Samples.Core.AppUser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box.V2", "Box.V2\Box.V2.csproj", "{602FF1B8-DF8B-4CFF-88C6-8B34468C45AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box.V2.Samples.Core.HttpProxy", "Box.V2.Samples.Core.HttpProxy\Box.V2.Samples.Core.HttpProxy.csproj", "{3CE48886-2A12-4DEB-874B-D2E3511A4F6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.V2.Samples.Core.HttpProxy", "Box.V2.Samples.Core.HttpProxy\Box.V2.Samples.Core.HttpProxy.csproj", "{3CE48886-2A12-4DEB-874B-D2E3511A4F6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

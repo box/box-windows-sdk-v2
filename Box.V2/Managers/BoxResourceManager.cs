@@ -1,14 +1,16 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 using Box.V2.Services;
 using Box.V2.Utility;
 #if NET45
 using Microsoft.Win32;
 using System.Security;
 #endif
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -173,8 +175,9 @@ namespace Box.V2.Managers
         /// <typeparam name="T">The type of BoxCollectionMarkerBased item to expect.</typeparam>
         /// <param name="request">The pre-configured BoxRequest object.</param>
         /// <param name="limit">The limit specific to the endpoint.</param>
+        /// <param name="isPost">A boolean that determines whether the interator should pass the marker in the body.</param>
         /// <returns></returns>
-        protected async Task<BoxCollectionMarkerBased<T>> AutoPaginateMarker<T>(BoxRequest request, int limit) where T : BoxEntity, new()
+        protected async Task<BoxCollectionMarkerBased<T>> AutoPaginateMarker<T>(BoxRequest request, int limit, Boolean isPost = false) where T : BoxEntity, new()
         {
             var allItemsCollection = new BoxCollectionMarkerBased<T>();
             allItemsCollection.Entries = new List<T>();
@@ -187,10 +190,15 @@ namespace Box.V2.Managers
                 allItemsCollection.Entries.AddRange(newItems.Entries);
                 allItemsCollection.Order = newItems.Order;
 
-                request.Param("marker", newItems.NextMarker);
+                if (isPost) {
+                    JObject body = JObject.Parse(request.Payload);
+                    body["marker"] = newItems.NextMarker;
+                    request.Payload = body.ToString();
+                } else {
+                    request.Param("marker", newItems.NextMarker);
+                }
 
                 keepGoing = !string.IsNullOrWhiteSpace(newItems.NextMarker);
-
             } while (keepGoing);
 
             return allItemsCollection;
