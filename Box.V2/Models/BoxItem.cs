@@ -13,6 +13,7 @@ namespace Box.V2.Models
         public const string FieldName = "name";
         public const string FieldCreatedAt = "created_at";
         public const string FieldModifiedAt = "modified_at";
+        public const string FieldTrashedAt = "trashed_at";
         public const string FieldDescription = "description";
         public const string FieldSize = "size";
         public const string FieldPathCollection = "path_collection";
@@ -72,6 +73,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
         public DateTime? ModifiedAt { get; private set; }
+
+        /// <summary>
+        /// Trashed at timestamp for item
+        /// </summary>
+        [JsonProperty(PropertyName = FieldTrashedAt)]
+        public DateTime? TrashedAt { get; set; }
 
         /// <summary>
         /// The user who created this item

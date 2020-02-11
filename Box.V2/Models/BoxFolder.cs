@@ -15,7 +15,6 @@ namespace Box.V2.Models
         public const string FieldHasCollaborations = "has_collaborations";
         public const string FieldAllowedInviteeRoles = "allowed_invitee_roles";
         public const string FieldWatermarkInfo = "watermark_info";
-        public const string FieldTrashedAt = "trashed_at";
         public const string FieldPurgedAt = "purged_at";
         public const string FieldContentCreatedAt = "content_created_at";
         public const string FieldContentModifiedAt = "content_modified_at";
@@ -73,12 +72,6 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "metadata")]
         public dynamic Metadata { get; protected set; }
-
-        /// <summary>
-        /// Trashed at timestamp for folder
-        /// </summary>
-        [JsonProperty(PropertyName = FieldTrashedAt)]
-        public DateTime? TrashedAt { get; set; }
 
         /// <summary>
         /// Purged at timestamp for folder
