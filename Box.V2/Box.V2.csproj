@@ -99,6 +99,7 @@
     <Compile Include="Models\BoxGroupFileCollaborationEventSource.cs" />
     <Compile Include="Models\BoxGroupFolderCollaborationEventSource.cs" />
     <Compile Include="Models\BoxMetadataFieldFilter.cs" />
+    <Compile Include="Models\BoxMetadataQueryItem.cs" />
     <Compile Include="Models\BoxRepresentation.cs" />
     <Compile Include="Models\BoxRepresentationContent.cs" />
     <Compile Include="Models\BoxRepresentationInfo.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
+    <Compile Include="Models\Request\BoxMetadataQueryOrderBy.cs" />
     <Compile Include="Models\Request\BoxRepresentationRequest.cs" />
     <Compile Include="Models\Request\BoxTaskAssignmentUpdateRequest.cs" />
     <Compile Include="Models\Request\BoxAssignmentRequest.cs" />

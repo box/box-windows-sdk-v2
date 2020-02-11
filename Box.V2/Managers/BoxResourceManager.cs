@@ -1,14 +1,16 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 using Box.V2.Services;
 using Box.V2.Utility;
 #if NET45
 using Microsoft.Win32;
 using System.Security;
 #endif
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -217,6 +219,37 @@ namespace Box.V2.Managers
                 allItemsCollection.Order = newItems.Order;
 
                 request.Param("marker", newItems.NextMarker);
+
+                keepGoing = !string.IsNullOrWhiteSpace(newItems.NextMarker);
+
+            } while (keepGoing);
+
+            return allItemsCollection;
+        }
+
+        /// <summary>
+        /// Used to fetch all results using pagination for metadata queries
+        /// </summary>
+        /// <typeparam name="T">The type of BoxCollectionMarkerBased item to expect.</typeparam>
+        /// <param name="request">The pre-configured BoxRequest object.</param>
+        /// <param name="limit">The limit specific to the endpoint.</param>
+        /// <returns></returns>
+        protected async Task<BoxCollectionMarkerBased<T>> AutoPaginateMarkerMetadataQuery<T>(BoxRequest request, int limit) where T : BoxMetadataQueryItem, new()
+        {
+            var allItemsCollection = new BoxCollectionMarkerBased<T>();
+            allItemsCollection.Entries = new List<T>();
+
+            bool keepGoing;
+            do
+            {
+                var response = await ToResponseAsync<BoxCollectionMarkerBased<T>>(request).ConfigureAwait(false);
+                var newItems = response.ResponseObject;
+                allItemsCollection.Entries.AddRange(newItems.Entries);
+                allItemsCollection.Order = newItems.Order;
+
+                dynamic body = JObject.Parse(request.Payload);
+                body.marker = newItems.NextMarker;
+                request.Payload = body.ToString();
 
                 keepGoing = !string.IsNullOrWhiteSpace(newItems.NextMarker);
 

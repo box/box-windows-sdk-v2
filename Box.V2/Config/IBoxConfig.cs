@@ -53,6 +53,7 @@ namespace Box.V2.Config
         Uri FileVersionRetentionsUri { get; }
         Uri EventsUri { get; }
         Uri MetadataTemplatesUri { get; }
+        Uri MetadataQueryUri { get; }
         Uri CreateMetadataTemplateUri { get; }
         Uri WebhooksUri { get; }
         Uri RecentItemsUri { get; }
