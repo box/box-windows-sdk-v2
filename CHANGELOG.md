@@ -2,6 +2,7 @@
 
 ## Next Release
 - Updated retry logic to retry on 503 status codes returned by the API
+- Added `TrashedAt` field to `BoxItem`
 
 ## 3.21.0 [2019-12-05]
 - Added `fields` parameter to `UsersManager.GetUserInformationAsync()`
