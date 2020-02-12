@@ -83,7 +83,7 @@ Update Metadata Template
 To update a metadata template, call the
 `MetadataManager.UpdateMetadataTemplate(IEnumerable<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)`
 method with the operations to perform on the template.  See the
-[API Documentation](https://docs.box.com/reference#update-metadata-schema)
+[API Documentation](https://developer.box.com/en/reference/put-metadata-templates-id-id-schema/)
 for more information on the operations available.
 
 <!-- sample put_metadata_templates_id_id_schema -->
@@ -147,6 +147,18 @@ Get all metadata templates for the current enterprise and scope by calling
 ```c#
 BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate> templates = await client.MetadataManager
     .GetEnterpriseMetadataAsync();
+```
+
+Get Global Metadata Templates
+---------------------------------
+
+Get all metadata templates available to all enterprises by calling
+`MetadataManager.GetEnterpriseMetadataAsync(string scope = "global")`.
+
+<!-- sample get_metadata_templates_global -->
+```c#
+BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate> templates = await client.MetadataManager
+    .GetEnterpriseMetadataAsync("global");
 ```
 
 Set Metadata on a File
@@ -436,7 +448,7 @@ Dictionary<string, object> metadata = await client.MetadataManager.
 You can also get all metadata on a folder by calling
 `MetadataManager.GetAllFolderMetadataTemplatesAsync(string folderId)`.
 
-<!-- sample post_folders_id_metadata -->
+<!-- sample get_folders_id_metadata -->
 ```c#
 BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
     .GetAllFolderMetadataTemplatesAsync(folderId: "11111");
