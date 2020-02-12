@@ -116,7 +116,7 @@ namespace Box.V2.Request
                     BoxResponse<T> boxResponse = new BoxResponse<T>();
                     boxResponse.Headers = response.Headers;
 
-                    // Translate the status codes that interest us 
+                    // Translate the status codes that interest us
                     boxResponse.StatusCode = response.StatusCode;
                     switch (response.StatusCode)
                     {
