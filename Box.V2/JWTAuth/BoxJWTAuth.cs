@@ -15,6 +15,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using Box.V2.Utility;
+using System.Net;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Box.V2.JWTAuth
 {
@@ -145,27 +149,61 @@ namespace Box.V2.JWTAuth
 
         private string GetToken(string subType, string subId)
         {
+            int retryCounter = 0;
+            ExponentialBackoff expBackoff = new ExponentialBackoff();
+
             var assertion = ConstructJWTAssertion(subId, subType);
             OAuthSession result;
-            try
+
+            while (true)
             {
-                result = JWTAuthPost(assertion);
-                return result.AccessToken;
-            }
-            catch (BoxException ex)
-            {
-                var serverDate = ex.ResponseHeaders.Date;
-                if (serverDate.HasValue)
+                try
                 {
-                    var date = serverDate.Value;
-                    assertion = ConstructJWTAssertion(subId, subType, date.LocalDateTime);
                     result = JWTAuthPost(assertion);
                     return result.AccessToken;
                 }
-                else
+                catch (BoxException ex)
                 {
-                    throw ex;
-                }
+                    //need to wait for Retry-After seconds and then retry request
+                    var retryAfterHeader = ex.ResponseHeaders.RetryAfter;
+
+                    // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
+                    // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
+                    // If we get a 202 code and has a retry-after header, we will retry after
+                    if ((ex.StatusCode == HttpRequestHandler.TooManyRequests
+                        ||
+                        ex.StatusCode == HttpStatusCode.InternalServerError
+                        ||
+                        ex.StatusCode == HttpStatusCode.BadGateway
+                        ||
+                        ex.StatusCode == HttpStatusCode.ServiceUnavailable
+                        ||
+                        ex.StatusCode == HttpStatusCode.GatewayTimeout
+                        ||
+                        (ex.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null))
+                        && retryCounter++ < HttpRequestHandler.RetryLimit)
+                    {
+                        // Before we retry the JWT Authentication request, we must regenerate the JTI claim with an updated datetime.
+                        var serverDate = ex.ResponseHeaders.Date;
+                        if (serverDate.HasValue)
+                        {
+                            var date = serverDate.Value;
+                            assertion = ConstructJWTAssertion(subId, subType, date.LocalDateTime);
+                        }
+                        else
+                        {
+                            assertion = ConstructJWTAssertion(subId, subType, DateTime.Now);
+                        }
+
+                        TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
+                        Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry JWT Authentication request.", ex.StatusCode, delay.Seconds);
+                        System.Threading.Tasks.Task.Delay(delay).Wait();
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                } /**/
             }
         }
 
@@ -222,7 +260,7 @@ namespace Box.V2.JWTAuth
                                             .Payload(Constants.RequestParameters.ClientSecret, this.boxConfig.ClientSecret);
             
             var converter = new BoxJsonConverter();
-            IBoxResponse<OAuthSession> boxResponse = this.boxService.ToResponseAsync<OAuthSession>(boxRequest).Result;
+            IBoxResponse<OAuthSession> boxResponse = this.boxService.ToResponseAsyncWithoutRetry<OAuthSession>(boxRequest).Result;
             boxResponse.ParseResults(converter);
 
             return boxResponse.ResponseObject;

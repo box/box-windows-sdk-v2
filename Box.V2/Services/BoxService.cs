@@ -1,4 +1,4 @@
-﻿using Box.V2.Request;
+using Box.V2.Request;
 using System.Threading;
 // using Nito.AsyncEx;
 using System.Threading.Tasks;
@@ -20,6 +20,19 @@ namespace Box.V2.Services
         public BoxService(IRequestHandler handler)
         {
             _handler = handler;
+        }
+
+        /// <summary>
+        /// Executes the request according to the default TaskScheduler
+        /// This will allow for concurrent requests and is managed by the thread pool
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<IBoxResponse<T>> ToResponseAsyncWithoutRetry<T>(IBoxRequest request)
+            where T : class
+        {
+            return await _handler.ExecuteAsyncWithoutRetry<T>(request).ConfigureAwait(false);
         }
 
         /// <summary>

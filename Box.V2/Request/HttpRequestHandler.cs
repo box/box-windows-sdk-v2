@@ -15,13 +15,155 @@ namespace Box.V2.Request
 {
     public class HttpRequestHandler : IRequestHandler
     {
-        const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
-        const int RetryLimit = 5;
+        public const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
+        public const int RetryLimit = 5;
         readonly TimeSpan defaultRequestTimeout = new TimeSpan(0, 0, 100); // 100 seconds, same as default HttpClient timeout
 
         public HttpRequestHandler(IWebProxy webProxy = null)
         {
             ClientFactory.WebProxy = webProxy;
+        }
+
+        public async Task<IBoxResponse<T>> ExecuteAsyncWithoutRetry<T>(IBoxRequest request)
+            where T : class
+        {
+            // Need to account for special cases when the return type is a stream
+            bool isStream = typeof(T) == typeof(Stream);
+            var retryCounter = 0;
+            ExponentialBackoff expBackoff = new ExponentialBackoff();
+
+            try
+            {
+                // TODO: yhu@ better handling of different request
+                var isMultiPartRequest = request.GetType() == typeof(BoxMultiPartRequest);
+                var isBinaryRequest = request.GetType() == typeof(BoxBinaryRequest);
+
+                    HttpRequestMessage httpRequest = null;
+
+                    if (isMultiPartRequest)
+                    {
+                        httpRequest = BuildMultiPartRequest(request as BoxMultiPartRequest);
+                    }
+                    else if (isBinaryRequest)
+                    {
+                        httpRequest = BuildBinaryRequest(request as BoxBinaryRequest);
+                    }
+                    else
+                    {
+                        httpRequest = BuildRequest(request);
+                    }
+
+                    // Add headers
+                    foreach (var kvp in request.HttpHeaders)
+                    {
+                        // They could not be added to the headers directly
+                        if (kvp.Key == Constants.RequestParameters.ContentMD5
+                            || kvp.Key == Constants.RequestParameters.ContentRange)
+                        {
+                            httpRequest.Content.Headers.Add(kvp.Key, kvp.Value);
+                        }
+                        else
+                        {
+                            httpRequest.Headers.TryAddWithoutValidation(kvp.Key, kvp.Value);
+                        }
+                    }
+
+                    // If we are retrieving a stream, we should return without reading the entire response
+                    HttpCompletionOption completionOption = isStream ?
+                        HttpCompletionOption.ResponseHeadersRead :
+                        HttpCompletionOption.ResponseContentRead;
+
+                    Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
+
+                    HttpClient client = GetClient(request);
+
+                    HttpResponseMessage response;
+                    using (var cts = new CancellationTokenSource())
+                    {
+                        if (request.Timeout.HasValue)
+                        {
+                            if (request.Timeout.Value != Timeout.InfiniteTimeSpan)
+                            {
+                                cts.CancelAfter(request.Timeout.Value);
+                            }
+                        }
+                        else
+                        {
+                            cts.CancelAfter(defaultRequestTimeout);
+                        }
+
+                        var timeoutToken = cts.Token;
+
+                        try
+                        {
+                            // Not disposing the reponse since it will affect stream response
+
+                            response = await client.SendAsync(httpRequest, completionOption, timeoutToken).ConfigureAwait(false);
+                        }
+                        catch (TaskCanceledException ex)
+                        {
+                            if (timeoutToken.IsCancellationRequested)
+                            {
+                                // Request timed out
+                                throw new TimeoutException("Request timed out", ex);
+                            }
+
+                            // Request was canceled for unknown reason
+                            throw ex;
+                        }
+                    }
+
+                    BoxResponse<T> boxResponse = new BoxResponse<T>();
+                    boxResponse.Headers = response.Headers;
+
+                    // Translate the status codes that interest us 
+                    boxResponse.StatusCode = response.StatusCode;
+                    switch (response.StatusCode)
+                    {
+                        case HttpStatusCode.OK:
+                        case HttpStatusCode.Created:
+                        case HttpStatusCode.NoContent:
+                        case HttpStatusCode.Found:
+                        case HttpStatusCode.PartialContent: // Download with range
+                            boxResponse.Status = ResponseStatus.Success;
+                            break;
+                        case HttpStatusCode.Accepted:
+                            boxResponse.Status = ResponseStatus.Pending;
+                            break;
+                        case HttpStatusCode.Unauthorized:
+                            boxResponse.Status = ResponseStatus.Unauthorized;
+                            break;
+                        case HttpStatusCode.Forbidden:
+                            boxResponse.Status = ResponseStatus.Forbidden;
+                            break;
+                        case TooManyRequests:
+                            boxResponse.Status = ResponseStatus.TooManyRequests;
+                            break;
+                        default:
+                            boxResponse.Status = ResponseStatus.Error;
+                            break;
+                    }
+
+                    if (isStream && boxResponse.Status == ResponseStatus.Success)
+                    {
+                        var resObj = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                        boxResponse.ResponseObject = resObj as T;
+                    }
+                    else
+                    {
+                        boxResponse.ContentString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                        // We can safely dispose the response now since all of it has been read
+                        response.Dispose();
+                    }
+
+                    return boxResponse;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(string.Format("Exception: {0}", ex.Message));
+                throw;
+            }
         }
 
         public async Task<IBoxResponse<T>> ExecuteAsync<T>(IBoxRequest request)
