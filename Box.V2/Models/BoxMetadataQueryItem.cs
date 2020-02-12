@@ -21,6 +21,6 @@ namespace Box.V2.Models
         /// The metadata
         /// </summary>
         [JsonProperty(PropertyName = "metadata")]
-        public string Metadata { get; private set; }
+        public Dictionary<string, object> Metadata { get; private set; }
     }
 }

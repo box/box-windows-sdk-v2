@@ -98,6 +98,7 @@ namespace Box.V2.Config
         public const string CollaborationsEndpointString = BoxApiUriString + CollaborationsString;
         public const string EventsEndpointString = BoxApiUriString + EventsString;
         public const string MetadataTemplatesEndpointString = BoxApiUriString + MetadataTemplatesString;
+        public const string MetadataQueryEndpointString = BoxApiUriString + MetadataQueryString;
         public const string TaskAssignmentsEndpointString = BoxApiUriString + TaskAssignmentsString;
         public const string TasksEndpointString = BoxApiUriString + TasksString;
         public const string CollectionsEndpointString = BoxApiUriString + CollectionsString;

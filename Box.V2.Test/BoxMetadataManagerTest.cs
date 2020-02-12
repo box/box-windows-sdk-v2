@@ -589,33 +589,41 @@ namespace Box.V2.Test
                 Direction = BoxSortDirection.ASC
             };
             orderByList.Add(orderBy);
-            string marker = "AAAAAmVYB1FWec8GH6yWu2nwmanfMh07IyYInaa7DZDYjgO1H4KoLW29vPlLY173OKsci6h6xGh61gG73gnaxoS+o0BbI1/h6le6cikjlupVhASwJ2Cj0tOD9wlnrUMHHw3/ISf+uuACzrOMhN6d5fYrbidPzS6MdhJOejuYlvsg4tcBYzjauP3+VU51p77HFAIuObnJT0ff";
-            BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.executeMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, marker: marker, autoPaginate: true);
-
+            string marker = "q3f87oqf3qygou5t478g9gwrbul";
+            BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.executeMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, marker: marker, autoPaginate: false);
             /*** Assert ***/
 
             // Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(FilesUri + "fileid/versions/current", boxRequest.AbsoluteUri.AbsoluteUri);
-            JObject payload = JsonConvert.DeserializeObject<JObject>(boxRequest.Payload);
-            //Assert.AreEqual("871399", payload.from);
+            //Assert.AreEqual(MetadataQueryUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            JObject payload = JObject.Parse(boxRequest.Payload);
+            Assert.AreEqual("enterprise_123456.someTemplate", payload["from"]);
+            Assert.AreEqual("amount >= :arg", payload["query"]);
+            Assert.AreEqual("100", payload["query_params"]["arg"]);
+            Assert.AreEqual("5555", payload["ancestor_folder_id"]);
+            Assert.AreEqual("amountAsc", payload["use_index"]);
+            //JArray payloadOrderBy = payload["order_by"].Children();
+            //BoxMetadataQueryOrderBy payloadOrderBy = JsonConvert.DeserializeObject<BoxMetadataQueryOrderBy>(payload["order_by"].Children.ToString());
+            //Assert.AreEqual("amount", payloadOrderBy.FieldKey);
+            //Assert.AreEqual("asc", payloadOrderBy.Direction);
+            Assert.AreEqual(marker, payload["marker"]);
+            
+            //Assert.AreEqual("100", payloadQueryParams["arg"]);
             //Assert.AreEqual("file_version", payload.Type);
 
             // Response check
-            //Assert.AreEqual(items.Entries.Count, 2);
-            //Assert.AreEqual(items.Entries[0].Type, "folder");
-            //Assert.AreEqual(items.Entries[0].Id, "192429928");
-            //Assert.AreEqual(items.Entries[0].SequenceId, "1");
-            //Assert.AreEqual(items.Entries[0].ETag, "1");
-            //Assert.AreEqual(items.Entries[0].Name, "Stephen Curry Three Pointers");
-            //Assert.AreEqual(items.Entries[1].Type, "file");
-            //Assert.AreEqual(items.Entries[1].Id, "818853862");
-            //Assert.AreEqual(items.Entries[1].SequenceId, "0");
-            //Assert.AreEqual(items.Entries[1].ETag, "0");
-            //Assert.AreEqual(items.Entries[1].Name, "Warriors.jpg");
-            //Assert.AreEqual(items.Offset, 0);
-            //Assert.AreEqual(items.Limit, 2);
+            Assert.AreEqual(items.Entries[0].Item.Type, "file");
+            Assert.AreEqual(items.Entries[0].Item.Id, "1617554169109");
+            Assert.AreEqual(items.Entries[0].Item.Name, "My Contract.docx");
+            Assert.AreEqual(items.Entries[0].Item.SequenceId, "0");
+            Assert.AreEqual(items.Entries[0].Item.CreatedBy.Type, "user");
+            Assert.AreEqual(items.Entries[0].Item.CreatedBy.Login, "admin@company.com");
+            Assert.AreEqual(items.Entries[0].Item.Parent.Id, "16125613433");
+            Assert.AreEqual(items.NextMarker, "AAAAAmVYB1FWec8GH6yWu2nwmanfMh07IyYInaa7DZDYjgO1H4KoLW29vPlLY173OKsci6h6xGh61gG73gnaxoS+o0BbI1/h6le6cikjlupVhASwJ2Cj0tOD9wlnrUMHHw3/ISf+uuACzrOMhN6d5fYrbidPzS6MdhJOejuYlvsg4tcBYzjauP3+VU51p77HFAIuObnJT0ff");
+            JObject metadata = JObject.Parse(items.Entries[0].Metadata);
+            Assert.AreEqual("file_161753469109", metadata["enterprise_123456"]["someTemplate"]["$parent"]);
+
         }
     }
 }

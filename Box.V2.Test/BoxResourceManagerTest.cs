@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Request;
@@ -23,6 +23,7 @@ namespace Box.V2.Test
         protected Uri FoldersUri = new Uri(Constants.FoldersEndpointString);
         protected Uri FilesUploadUri = new Uri(Constants.FilesUploadEndpointString);
         protected Uri FilesUri = new Uri(Constants.FilesEndpointString);
+        protected Uri MetadataQueryUri = new Uri(Constants.MetadataQueryEndpointString);
         protected Uri UserUri = new Uri(Constants.UserEndpointString);
         protected Uri InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
 

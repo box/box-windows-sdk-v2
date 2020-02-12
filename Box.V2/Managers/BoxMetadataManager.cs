@@ -352,8 +352,8 @@ namespace Box.V2.Managers
 
             if (queryParameters != null)
             {
-                //JObject parameters = JObject.FromObject(queryParameters);
-               // queryObject.query_params = parameters.ToString();
+                JObject parameters = JObject.FromObject(queryParameters);
+                queryObject.query_params = parameters.ToString();
             }
 
             if (indexName != null)
