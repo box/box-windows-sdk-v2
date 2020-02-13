@@ -5,7 +5,6 @@ using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -317,11 +316,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Retrieves the files and/or folders contained within this folder without any other metadata about the folder. 
-        /// Any attribute in the full files or folders objects can be passed in with the fields parameter to get specific attributes, 
-        /// and only those specific attributes back; otherwise, the mini format is returned for each item by default.
-        /// Multiple attributes can be passed in using the fields parameter. Paginated results can be 
-        /// retrieved using the limit and offset parameters.
+        /// Allows you to query by metadata on Box items
         /// </summary>
         /// <param name="from">The template used in the query. Must be in the form scope.templateKey</param>
         /// <param name="ancestorFolderId">The folder_id to which to restrain the query</param>
@@ -332,9 +327,7 @@ namespace Box.V2.Managers
         /// <param name="limit">The maximum number of items to return in a page. The default is 100 and the max is 1000.</param>
         /// <param name="marker">The marker to use for requesting the next page</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
-        /// <returns>A collection of items contained in the folder is returned. An error is thrown if the folder does not exist, 
-        /// or if any of the parameters are invalid. The total_count returned may not match the number of entries when using enterprise scope, 
-        /// because external folders are hidden the list of entries.</returns>
+        /// <returns>A collection of items and their associated metadata</returns>
         public async Task<BoxCollectionMarkerBased<BoxMetadataQueryItem>> executeMetadataQueryAsync(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             from.ThrowIfNullOrWhiteSpace("from");
