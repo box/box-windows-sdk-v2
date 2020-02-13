@@ -75,7 +75,7 @@ namespace Box.V2.Models
         public DateTime? ModifiedAt { get; private set; }
 
         /// <summary>
-        /// Trashed at timestamp for item
+        /// The time at which this item was put in the trash.
         /// </summary>
         [JsonProperty(PropertyName = FieldTrashedAt)]
         public DateTime? TrashedAt { get; set; }
