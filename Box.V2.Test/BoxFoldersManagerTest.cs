@@ -679,7 +679,7 @@ namespace Box.V2.Test
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = "{ \"total_count\": 49542, \"entries\": [ { \"type\": \"file\", \"id\": \"2701979016\", \"sequence_id\": \"1\", \"etag\": \"1\", \"sha1\": \"9d976863fc849f6061ecf9736710bd9c2bce488c\", \"name\": \"file Tue Jul 24 145436 2012KWPX5S.csv\" }, { \"type\": \"file\", \"id\": \"2698211586\", \"sequence_id\": \"1\", \"etag\": \"1\", \"sha1\": \"09b0e2e9760caf7448c702db34ea001f356f1197\", \"name\": \"file Tue Jul 24 010055 20129Z6GS3.csv\" } ], \"offset\": 0, \"limit\": 2 }"
+                    ContentString = "{ \"total_count\": 49542, \"entries\": [ { \"type\": \"file\", \"id\": \"2701979016\", \"sequence_id\": \"1\", \"etag\": \"1\", \"sha1\": \"9d976863fc849f6061ecf9736710bd9c2bce488c\", \"name\": \"file Tue Jul 24 145436 2012KWPX5S.csv\" }, { \"type\": \"file\", \"id\": \"2698211586\", \"sequence_id\": \"1\", \"etag\": \"1\", \"sha1\": \"09b0e2e9760caf7448c702db34ea001f356f1197\", \"name\": \"file Tue Jul 24 010055 20129Z6GS3.csv\", \"trashed_at\": \"2012-12-12T10:55:30-08:00\" } ], \"offset\": 0, \"limit\": 2 }"
                 }));
 
             /*** Act ***/
@@ -699,6 +699,7 @@ namespace Box.V2.Test
             Assert.AreEqual("1", i2.SequenceId);
             Assert.AreEqual("1", i1.ETag);
             Assert.AreEqual("file Tue Jul 24 010055 20129Z6GS3.csv", i2.Name);
+            Assert.AreEqual(DateTime.Parse("2012-12-12T10:55:30-08:00"), i2.TrashedAt);
 
         }
 
