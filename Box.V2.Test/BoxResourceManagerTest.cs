@@ -38,6 +38,7 @@ namespace Box.V2.Test
             Config.SetupGet(x => x.FoldersEndpointUri).Returns(FoldersUri);
             Config.SetupGet(x => x.FilesEndpointUri).Returns(FilesUri);
             Config.SetupGet(x => x.FilesUploadEndpointUri).Returns(FilesUploadUri);
+            Config.SetupGet(x => x.MetadataQueryUri).Returns(MetadataQueryUri);
             Config.SetupGet(x => x.UserEndpointUri).Returns(UserUri);
             Config.SetupGet(x => x.InviteEndpointUri).Returns(InviteUri);
 

@@ -590,13 +590,13 @@ namespace Box.V2.Test
             };
             orderByList.Add(orderBy);
             string marker = "q3f87oqf3qygou5t478g9gwrbul";
-            BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.executeMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, marker: marker, autoPaginate: false);
+            BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, marker: marker, autoPaginate: false);
             /*** Assert ***/
 
             // Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-          //  Assert.AreEqual(MetadataQueryUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(MetadataQueryUri, boxRequest.AbsoluteUri.AbsoluteUri);
             JObject payload = JObject.Parse(boxRequest.Payload);
             Assert.AreEqual("enterprise_123456.someTemplate", payload["from"]);
             Assert.AreEqual("amount >= :arg", payload["query"]);
