@@ -5,7 +5,7 @@ namespace Box.V2.Models
     /// <summary>
     /// Box object to order results returned by a metadata query
     /// </summary>
-    public class BoxMetadataQueryOrderBy : BoxEntity
+    public class BoxMetadataQueryOrderBy
     {
         /// <summary>
         /// A string which specifies the key property for a field property to order results by

@@ -5,6 +5,7 @@ using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -352,8 +353,7 @@ namespace Box.V2.Managers
 
             if (queryParameters != null)
             {
-                JObject parameters = JObject.FromObject(queryParameters);
-                queryObject.query_params = parameters.ToString();
+                queryObject.query_params = _converter.Serialize(queryParameters);
             }
 
             if (indexName != null)
@@ -363,7 +363,15 @@ namespace Box.V2.Managers
 
             if (orderBy != null)
             {
-                queryObject.order_by = _converter.Serialize(orderBy);
+                List<JObject> orderByList = new List<JObject>();
+                foreach (var order in orderBy)
+                {
+                    dynamic orderByObject = new JObject();
+                    orderByObject.field_key = order.FieldKey;
+                    orderByObject.direction = order.Direction.ToString();
+                    orderByList.Add(orderByObject);
+                }
+                queryObject.order_by = _converter.Serialize(orderByList); ;
             }
 
             if (marker != null)
@@ -373,7 +381,7 @@ namespace Box.V2.Managers
 
             string queryStr = queryObject.ToString();
 
-            BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
+            BoxRequest request = new BoxRequest(_config.CommentsEndpointUri, "test")
                 .Method(RequestMethod.Post)
                 .Payload(queryStr);
 
