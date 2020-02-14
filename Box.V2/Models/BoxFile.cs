@@ -10,7 +10,6 @@ namespace Box.V2.Models
     public class BoxFile : BoxItem
     {
         public const string FieldSha1 = "sha1";
-        public const string FieldTrashedAt = "trashed_at";
         public const string FieldPurgedAt = "purged_at";
         public const string FieldContentCreatedAt = "content_created_at";
         public const string FieldContentModifiedAt = "content_modified_at";
@@ -38,12 +37,6 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldFileVersion)]
         public BoxFileVersion FileVersion { get; private set; }
-
-        /// <summary>
-        /// When this file was last moved to the trash
-        /// </summary>
-        [JsonProperty(PropertyName = FieldTrashedAt)]
-        public DateTime? TrashedAt { get; private set; }
 
         /// <summary>
         /// When this file will be permanently deleted

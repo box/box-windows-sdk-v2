@@ -161,7 +161,7 @@ To update a task assignment, call the
 method.  This can be used to resolve or complete a task.
 
 Updating the resolution state:
-<!-- sample put_task_assignments_id resolution_state-->
+<!-- sample put_task_assignments_id -->
 ```c#
 var requestParams = new BoxTaskAssignmentUpdateRequest()
 {
@@ -172,7 +172,7 @@ BoxTaskAssignment updatedAssignment = await client.TasksManager.UpdateTaskAssign
 ```
 
 Updating the message:
-<!-- sample put_task_assignments_id message-->
+<!-- sample put_task_assignments_id message -->
 ```c#
 var requestParams = new BoxTaskAssignmentUpdateRequest()
 {
