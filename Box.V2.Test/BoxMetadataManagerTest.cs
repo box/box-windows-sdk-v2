@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2;
 using Box.V2.Exceptions;
+using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Test
 {
@@ -561,6 +562,67 @@ namespace Box.V2.Test
             {
                 Assert.AreEqual(System.Net.HttpStatusCode.BadGateway, ex.StatusCode);
             }
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task ExecuteMetadataQuery_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"entries\":[{\"item\":{\"type\":\"file\",\"id\":\"1617554169109\",\"file_version\":{\"type\":\"file_version\",\"id\":\"1451884469385\",\"sha1\":\"69888bb1bff455d1b2f8afea75ed1ff0b4879bf6\"},\"sequence_id\":\"0\",\"etag\":\"0\",\"sha1\":\"69888bb1bff455d1b2f8afea75ed1ff0b4879bf6\",\"name\":\"My Contract.docx\",\"description\":\"\",\"size\":25600,\"path_collection\":{\"total_count\":4,\"entries\":[{\"type\":\"folder\",\"id\":\"0\",\"sequence_id\":null,\"etag\":null,\"name\":\"All Files\"},{\"type\":\"folder\",\"id\":\"15017998644\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Contracts\"},{\"type\":\"folder\",\"id\":\"15286891196\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"North America\"},{\"type\":\"folder\",\"id\":\"16125613433\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"2017\"}]},\"created_at\":\"2017-04-20T12:55:27-07:00\",\"modified_at\":\"2017-04-20T12:55:27-07:00\",\"trashed_at\":null,\"purged_at\":null,\"content_created_at\":\"2017-01-06T17:59:01-08:00\",\"content_modified_at\":\"2017-01-06T17:59:01-08:00\",\"created_by\":{\"type\":\"user\",\"id\":\"193973366\",\"name\":\"Box Admin\",\"login\":\"admin@company.com\"},\"modified_by\":{\"type\":\"user\",\"id\":\"193973366\",\"name\":\"Box Admin\",\"login\":\"admin@company.com\"},\"owned_by\":{\"type\":\"user\",\"id\":\"193973366\",\"name\":\"Box Admin\",\"login\":\"admin@company.com\"},\"shared_link\":null,\"parent\":{\"type\":\"folder\",\"id\":\"16125613433\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"2017\"},\"item_status\":\"active\"},\"metadata\":{\"enterprise_123456\":{\"someTemplate\":{\"$parent\":\"file_161753469109\",\"$version\":0,\"customerName\":\"Phoenix Corp\",\"$type\":\"someTemplate-3d5fcaca-f496-4bb6-9046-d25c37bc5594\",\"$typeVersion\":0,\"$id\":\"ba52e2cc-371d-4659-8d53-50f1ac642e35\",\"amount\":100,\"claimDate\":\"2016-04-10T00:00:00Z\",\"region\":\"West\",\"$typeScope\":\"enterprise_123456\"}}}}],\"next_marker\":\"AAAAAmVYB1FWec8GH6yWu2nwmanfMh07IyYInaa7DZDYjgO1H4KoLW29vPlLY173OKsci6h6xGh61gG73gnaxoS+o0BbI1/h6le6cikjlupVhASwJ2Cj0tOD9wlnrUMHHw3/ISf+uuACzrOMhN6d5fYrbidPzS6MdhJOejuYlvsg4tcBYzjauP3+VU51p77HFAIuObnJT0ff\"}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxMetadataQueryItem>>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxMetadataQueryItem>>>(new BoxResponse<BoxCollectionMarkerBased<BoxMetadataQueryItem>>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = responseString
+                 }))
+                 .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            var queryParams = new Dictionary<string, object>();
+            queryParams.Add("arg", 100);
+            List<BoxMetadataQueryOrderBy> orderByList = new List<BoxMetadataQueryOrderBy>();
+            var orderBy = new BoxMetadataQueryOrderBy()
+            {
+                FieldKey = "amount",
+                Direction = BoxSortDirection.ASC
+            };
+            orderByList.Add(orderBy);
+            string marker = "q3f87oqf3qygou5t478g9gwrbul";
+            BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, marker: marker, autoPaginate: false);
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(MetadataQueryUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            JObject payload = JObject.Parse(boxRequest.Payload);
+            Assert.AreEqual("enterprise_123456.someTemplate", payload["from"]);
+            Assert.AreEqual("amount >= :arg", payload["query"]);
+            JObject payloadQueryParam = JObject.Parse(payload["query_params"].ToString());
+            Assert.AreEqual(100, payloadQueryParam["arg"]);
+            Assert.AreEqual("5555", payload["ancestor_folder_id"]);
+            Assert.AreEqual("amountAsc", payload["use_index"]);
+            JArray payloadOrderBy = JArray.Parse(payload["order_by"].ToString());
+            Assert.AreEqual("amount", payloadOrderBy[0]["field_key"]);
+            Assert.AreEqual("ASC", payloadOrderBy[0]["direction"]);
+            Assert.AreEqual(marker, payload["marker"]);
+
+            // Response check
+            Assert.AreEqual(items.Entries[0].Item.Type, "file");
+            Assert.AreEqual(items.Entries[0].Item.Id, "1617554169109");
+            Assert.AreEqual(items.Entries[0].Item.Name, "My Contract.docx");
+            Assert.AreEqual(items.Entries[0].Item.SequenceId, "0");
+            Assert.AreEqual(items.Entries[0].Item.CreatedBy.Type, "user");
+            Assert.AreEqual(items.Entries[0].Item.CreatedBy.Login, "admin@company.com");
+            Assert.AreEqual(items.Entries[0].Item.Parent.Id, "16125613433");
+            Assert.AreEqual(items.NextMarker, "AAAAAmVYB1FWec8GH6yWu2nwmanfMh07IyYInaa7DZDYjgO1H4KoLW29vPlLY173OKsci6h6xGh61gG73gnaxoS+o0BbI1/h6le6cikjlupVhASwJ2Cj0tOD9wlnrUMHHw3/ISf+uuACzrOMhN6d5fYrbidPzS6MdhJOejuYlvsg4tcBYzjauP3+VU51p77HFAIuObnJT0ff");
+            var metadata = JObject.FromObject(items.Entries[0].Metadata["enterprise_123456"]);
+            Assert.AreEqual(metadata["someTemplate"]["$parent"], "file_161753469109");
+            Assert.AreEqual(metadata["someTemplate"]["customerName"], "Phoenix Corp");
+            Assert.AreEqual(metadata["someTemplate"]["$typeVersion"], 0);
+            Assert.AreEqual(metadata["someTemplate"]["region"], "West");
         }
     }
 }

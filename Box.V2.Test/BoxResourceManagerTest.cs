@@ -23,6 +23,7 @@ namespace Box.V2.Test
         protected Uri FoldersUri = new Uri(Constants.FoldersEndpointString);
         protected Uri FilesUploadUri = new Uri(Constants.FilesUploadEndpointString);
         protected Uri FilesUri = new Uri(Constants.FilesEndpointString);
+        protected Uri MetadataQueryUri = new Uri(Constants.MetadataQueryEndpointString);
         protected Uri UserUri = new Uri(Constants.UserEndpointString);
         protected Uri InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
 
@@ -37,6 +38,7 @@ namespace Box.V2.Test
             Config.SetupGet(x => x.FoldersEndpointUri).Returns(FoldersUri);
             Config.SetupGet(x => x.FilesEndpointUri).Returns(FilesUri);
             Config.SetupGet(x => x.FilesUploadEndpointUri).Returns(FilesUploadUri);
+            Config.SetupGet(x => x.MetadataQueryUri).Returns(MetadataQueryUri);
             Config.SetupGet(x => x.UserEndpointUri).Returns(UserUri);
             Config.SetupGet(x => x.InviteEndpointUri).Returns(InviteUri);
 
