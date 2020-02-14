@@ -106,6 +106,7 @@ namespace Box.V2.Config
         public const string MetadataCascadePolicyEndpointString = BoxApiUriString + MetadataCascadePoliciesString;
         public const string StoragePoliciesEndpointString = BoxApiUriString + StoragePoliciesString;
         public const string StoragePolicyAssignmentsEndpointString = BoxApiUriString + StoragePolicyAssignmentsString;
+        public const string StoragePolicyAssignmentsForTargetEndpointString = BoxApiUriString + StoragePolicyAssignmentsForTargetString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";
