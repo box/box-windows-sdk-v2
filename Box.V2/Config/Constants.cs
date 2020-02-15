@@ -41,6 +41,7 @@ namespace Box.V2.Config
         public const string EventsString = @"events";
         public const string MetadataTemplatesString = @"metadata_templates/";
         public const string CreateMetadataTemplateString = @"metadata_templates/schema";
+        public const string MetadataQueryString = @"metadata_queries/execute_read";
         public const string WebhooksString = @"webhooks/";
         public const string RecentItemsString = @"recent_items/";
         public const string EnterprisesString = @"enterprises/";
@@ -97,6 +98,7 @@ namespace Box.V2.Config
         public const string CollaborationsEndpointString = BoxApiUriString + CollaborationsString;
         public const string EventsEndpointString = BoxApiUriString + EventsString;
         public const string MetadataTemplatesEndpointString = BoxApiUriString + MetadataTemplatesString;
+        public const string MetadataQueryEndpointString = BoxApiUriString + MetadataQueryString;
         public const string TaskAssignmentsEndpointString = BoxApiUriString + TaskAssignmentsString;
         public const string TasksEndpointString = BoxApiUriString + TasksString;
         public const string CollectionsEndpointString = BoxApiUriString + CollectionsString;
@@ -106,6 +108,7 @@ namespace Box.V2.Config
         public const string MetadataCascadePolicyEndpointString = BoxApiUriString + MetadataCascadePoliciesString;
         public const string StoragePoliciesEndpointString = BoxApiUriString + StoragePoliciesString;
         public const string StoragePolicyAssignmentsEndpointString = BoxApiUriString + StoragePolicyAssignmentsString;
+        public const string StoragePolicyAssignmentsForTargetEndpointString = BoxApiUriString + StoragePolicyAssignmentsForTargetString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";
