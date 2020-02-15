@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Box.V2.Services;
 using System.Threading.Tasks;
@@ -69,6 +69,36 @@ namespace Box.V2.Test
             // Act
             OAuthSession session = await AuthRepository.AuthenticateAsync("fakeauthorizationcode");
         }
+
+        //[TestMethod]
+        //[TestCategory("CI-UNIT-TEST")]
+        //public async Task Authenticate_ErrorResponseRetried_ValidSession()
+        //{
+        //    // Arrange
+        //    Handler.Setup(h => h.ExecuteAsyncWithoutRetry<OAuthSession>(It.IsAny<IBoxRequest>()))
+        //        .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
+        //        {
+        //            Status = ResponseStatus.Error,
+        //            ContentString = "{\"error\": \"invalid_grant\",\"error_description\": \"Invalid user credentials\"}"
+        //        }));
+
+        //    // Arrange
+        //    Handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
+        //        .Returns(Task<IBoxResponse<OAuthSession>>.Factory.StartNew(() => new BoxResponse<OAuthSession>()
+        //        {
+        //            Status = ResponseStatus.Success,
+        //            ContentString = "{\"access_token\": \"T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
+        //        }));
+
+        //    // Act
+        //    OAuthSession session = await AuthRepository.AuthenticateAsync("sampleauthorizationcode");
+
+        //    // Assert
+        //    Assert.AreEqual(session.AccessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");
+        //    Assert.AreEqual(session.ExpiresIn, 3600);
+        //    Assert.AreEqual(session.RefreshToken, "J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR");
+        //    Assert.AreEqual(session.TokenType, "bearer");
+        //}
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]

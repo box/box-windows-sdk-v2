@@ -165,7 +165,7 @@ namespace Box.V2.JWTAuth
                 catch (BoxException ex)
                 {
                     //need to wait for Retry-After seconds and then retry request
-                    var retryAfterHeader = ex.ResponseHeaders.RetryAfter;
+                    var retryAfterHeader = ex.ResponseHeaders != null ? ex.ResponseHeaders.RetryAfter : null;
 
                     // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
                     // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
@@ -184,7 +184,7 @@ namespace Box.V2.JWTAuth
                         && retryCounter++ < HttpRequestHandler.RetryLimit)
                     {
                         // Before we retry the JWT Authentication request, we must regenerate the JTI claim with an updated datetime.
-                        var serverDate = ex.ResponseHeaders.Date;
+                        var serverDate = ex.ResponseHeaders != null ? ex.ResponseHeaders.Date : null;
                         if (serverDate.HasValue)
                         {
                             var date = serverDate.Value;

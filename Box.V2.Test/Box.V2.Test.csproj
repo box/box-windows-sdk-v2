@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="BoxCollectionsManagerTest.cs" />
     <Compile Include="BoxEventsManagerTest.cs" />
+    <Compile Include="BoxJWTAuthTest.cs" />
     <Compile Include="BoxMetadataCascadePolicyManagerTest.cs" />
     <Compile Include="BoxMetadataManagerTest.cs" />
     <Compile Include="BoxSharedItemsManagerTest.cs" />
