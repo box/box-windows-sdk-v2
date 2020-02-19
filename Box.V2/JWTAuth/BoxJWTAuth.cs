@@ -169,7 +169,8 @@ namespace Box.V2.JWTAuth
 
                     // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
                     // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
-                    // If we get a 202 code and has a retry-after header, we will retry after
+                    // If we get a 202 code and has a retry-after header, we will retry after.
+                    // If we get a 400 due to exp claim issue, this can happen if the current system time is too different from the Box server time, so retry.
                     if ((ex.StatusCode == HttpRequestHandler.TooManyRequests
                         ||
                         ex.StatusCode == HttpStatusCode.InternalServerError
@@ -180,23 +181,35 @@ namespace Box.V2.JWTAuth
                         ||
                         ex.StatusCode == HttpStatusCode.GatewayTimeout
                         ||
-                        (ex.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null))
+                        (ex.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)
+                        ||
+                        (ex.StatusCode == HttpStatusCode.BadRequest && ex.Error.Code.Contains("invalid_grant") && ex.Error.Description.Contains("exp")))
                         && retryCounter++ < HttpRequestHandler.RetryLimit)
                     {
-                        // Before we retry the JWT Authentication request, we must regenerate the JTI claim with an updated datetime.
+
+                        TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
+
+                        // If the response contains a Retry-After header, override the exponential back-off delay value
+                        int timeToWait;
+                        if (retryAfterHeader != null && int.TryParse(retryAfterHeader.ToString(), out timeToWait))
+                        {
+                            delay = new TimeSpan(0, 0, 0, 0, timeToWait);
+                        }
+
+                        // Before we retry the JWT Authentication request, we must regenerate the JTI claim with an updated DateTime.
+                        // A delay is added to the JWT time, to account for the time of the upcoming wait.
                         var serverDate = ex.ResponseHeaders != null ? ex.ResponseHeaders.Date : null;
                         if (serverDate.HasValue)
                         {
                             var date = serverDate.Value;
-                            assertion = ConstructJWTAssertion(subId, subType, date.LocalDateTime);
+                            assertion = ConstructJWTAssertion(subId, subType, date.LocalDateTime.Add(delay));
                         }
                         else
                         {
-                            assertion = ConstructJWTAssertion(subId, subType, DateTime.Now);
+                            assertion = ConstructJWTAssertion(subId, subType, DateTime.UtcNow.Add(delay));
                         }
 
-                        TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
-                        Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry JWT Authentication request.", ex.StatusCode, delay.Seconds);
+                        Debug.WriteLine("HttpCode: {0}. Waiting for {1} seconds to retry JWT Authentication request.", ex.StatusCode, delay.Seconds);
                         System.Threading.Tasks.Task.Delay(delay).Wait();
                     }
                     else
