@@ -372,11 +372,12 @@ namespace Box.V2.Managers
                 queryObject.marker = marker;
             }
 
-            string queryStr = queryObject.ToString();
+            string queryStr = _converter.Serialize(queryObject);
 
             BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
                 .Method(RequestMethod.Post)
                 .Payload(queryStr);
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
             if (autoPaginate)
             {
