@@ -346,7 +346,7 @@ namespace Box.V2.Managers
 
             if (queryParameters != null)
             {
-                queryObject.query_params = _converter.Serialize(queryParameters);
+                queryObject.query_params = JObject.FromObject(queryParameters);
             }
 
             if (indexName != null)
@@ -364,7 +364,7 @@ namespace Box.V2.Managers
                     orderByObject.direction = order.Direction.ToString();
                     orderByList.Add(orderByObject);
                 }
-                queryObject.order_by = _converter.Serialize(orderByList); ;
+                queryObject.order_by = JArray.FromObject(orderByList);
             }
 
             if (marker != null)
@@ -381,7 +381,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarkerMetadataQuery<BoxMetadataQueryItem>(request, limit);
+                return await AutoPaginateMarkerMetadataQuery<BoxMetadataQueryItem>(request);
             }
             else
             {

@@ -601,7 +601,7 @@ namespace Box.V2.Test
             Assert.AreEqual("enterprise_123456.someTemplate", payload["from"]);
             Assert.AreEqual("amount >= :arg", payload["query"]);
             JObject payloadQueryParam = JObject.Parse(payload["query_params"].ToString());
-            Assert.AreEqual(100, payloadQueryParam["arg"]);
+            Assert.AreEqual(100, payload["query_params"]["arg"]);
             Assert.AreEqual("5555", payload["ancestor_folder_id"]);
             Assert.AreEqual("amountAsc", payload["use_index"]);
             JArray payloadOrderBy = JArray.Parse(payload["order_by"].ToString());
