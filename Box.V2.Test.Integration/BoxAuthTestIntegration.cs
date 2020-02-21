@@ -13,12 +13,12 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public class BoxAuthTestIntegration : BoxResourceManagerTestIntegration
     {
-        public const string ClientId = "";
-        public const string ClientSecret = "";
-        public const string EnterpriseId = "";
-        public const string publicKeyID = "";
-        public const string privateKey = "";
-        public const string passphrase = "";
+        public const string ClientId = "YOUR_CLIENT_ID";
+        public const string ClientSecret = "YOUR_CLIENT_SECRET";
+        public const string EnterpriseId = "YOUR_ENTERPRISE_ID";
+        public const string publicKeyID = "YOUR_PUBLIC_KEY_ID";
+        public const string privateKey = "-----BEGIN ENCRYPTED PRIVATE KEY-----\nYOUR_PRIVATE_KEY\n-----END ENCRYPTED PRIVATE KEY-----\n";
+        public const string passphrase = "YOUR_PASSPHRASE";
 
         [TestMethod]
         public void retriesWithNewJWTAssertionOnErrorResponseAndSucceeds()
