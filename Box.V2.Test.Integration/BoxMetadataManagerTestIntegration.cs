@@ -139,26 +139,6 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(metadataTemplate.Type, "metadata_template");
         }
 
-        [TestMethod]
-        public async Task Metadata_ExecuteQuery_LiveSession()
-        {
-            /*** Act ***/
-            var queryParams = new Dictionary<string, object>();
-            queryParams.Add("arg", 5);
-            List <BoxMetadataQueryOrderBy> orderByList = new List<BoxMetadataQueryOrderBy>();
-            var orderBy = new BoxMetadataQueryOrderBy()
-            {
-                FieldKey = "amount",
-                Direction = BoxSortDirection.ASC
-            };
-            orderByList.Add(orderBy);
-            BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _client.MetadataManager.ExecuteMetadataQueryAsync(from: "enterprise_243888861.test", query: "numberfield >= :arg", queryParameters: queryParams, orderBy: orderByList, ancestorFolderId: "0", autoPaginate: false, limit: 1);
-            /*** Assert ***/
-            Assert.AreEqual(items.Entries.Count, 1);
-            Assert.IsNotNull(items.Entries[0].Item);
-            Assert.IsNotNull(items.Entries[0].Metadata);
-        }
-
         // This test is disabled because our test account has hit the maximum number of metadata templates (50).
         // Until we can figure out how to delete some templates or increase the limit this test will fail.
         //[TestMethod]

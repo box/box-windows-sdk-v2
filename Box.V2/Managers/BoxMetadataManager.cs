@@ -373,7 +373,6 @@ namespace Box.V2.Managers
             }
 
             string queryStr = _converter.Serialize(queryObject);
-
             BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
                 .Method(RequestMethod.Post)
                 .Payload(queryStr);
