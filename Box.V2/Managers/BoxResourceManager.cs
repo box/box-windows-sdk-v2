@@ -232,9 +232,8 @@ namespace Box.V2.Managers
         /// </summary>
         /// <typeparam name="T">The type of BoxCollectionMarkerBased item to expect.</typeparam>
         /// <param name="request">The pre-configured BoxRequest object.</param>
-        /// <param name="limit">The limit specific to the endpoint.</param>
         /// <returns></returns>
-        protected async Task<BoxCollectionMarkerBased<T>> AutoPaginateMarkerMetadataQuery<T>(BoxRequest request, int limit) where T : BoxMetadataQueryItem, new()
+        protected async Task<BoxCollectionMarkerBased<T>> AutoPaginateMarkerMetadataQuery<T>(BoxRequest request) where T : BoxMetadataQueryItem, new()
         {
             var allItemsCollection = new BoxCollectionMarkerBased<T>();
             allItemsCollection.Entries = new List<T>();
