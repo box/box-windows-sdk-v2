@@ -1,4 +1,4 @@
-﻿using Box.V2.Exceptions;
+using Box.V2.Exceptions;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -137,6 +137,77 @@ namespace Box.V2.Test.Integration
             var metadataTemplate = await _client.MetadataManager.GetMetadataTemplateById(templates.Entries[0].Id);
             Assert.IsNotNull(metadataTemplate);
             Assert.AreEqual(metadataTemplate.Type, "metadata_template");
+        }
+
+        [TestMethod]
+        public async Task Metadata_ExecuteQueryAsync_LiveSession()
+        {
+
+            string folderName = ".NET Metadata Query Test Folder";
+            string metadataTemplateScope = "enterprise";
+            string metadataTemplateName = "testMetadataQueryTemplate";
+            string metadataTemplateField = "testField";
+            string metadataTemplateFieldValue = "testValue";
+
+            // Create a new folder in the user's root folder
+            var folderParams = new BoxFolderRequest()
+            {
+                Name = folderName,
+                Parent = new BoxRequestEntity()
+                {
+                    Id = "0"
+                }
+            };
+            BoxFolder folder = await _client.FoldersManager.CreateAsync(folderParams);
+
+            BoxMetadataTemplate template;
+            try
+            {
+                template = await _client.MetadataManager.GetMetadataTemplate(metadataTemplateScope, metadataTemplateName);
+            }
+            catch (BoxException e)
+            {
+                var templateParams = new BoxMetadataTemplate()
+                {
+                    TemplateKey = metadataTemplateName,
+                    DisplayName = "Test Metadata Query Template",
+                    Scope = metadataTemplateScope,
+                    Fields = new List<BoxMetadataTemplateField>()
+                    {
+                        new BoxMetadataTemplateField()
+                        {
+                            Type = "string",
+                            Key = metadataTemplateField,
+                            DisplayName = "Test Field"
+                        }
+                    }
+                };
+                template = await _client.MetadataManager.CreateMetadataTemplate(templateParams);
+            }
+
+            var metadataValues = new Dictionary<string, object>()
+            {
+                { metadataTemplateField, metadataTemplateFieldValue }
+            };
+            Dictionary<string, object> metadata = await _client.MetadataManager.SetFolderMetadataAsync(folderId: folder.Id, metadataValues, template.Scope, template.TemplateKey);
+
+            /*** Act ***/
+            string from = template.Scope + "." + template.TemplateKey;
+            string query = metadataTemplateField + " = :arg";
+            var queryParams = new Dictionary<string, object>();
+            queryParams.Add("arg", metadataTemplateFieldValue);
+            List<BoxMetadataQueryOrderBy> orderByList = new List<BoxMetadataQueryOrderBy>();
+            var orderBy = new BoxMetadataQueryOrderBy()
+            {
+                FieldKey = metadataTemplateField,
+                Direction = BoxSortDirection.DESC
+            };
+            orderByList.Add(orderBy);
+            BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _client.MetadataManager.ExecuteMetadataQueryAsync(from: from, query: query, queryParameters: queryParams, orderBy: orderByList, ancestorFolderId: "0", autoPaginate: false);
+            await _client.FoldersManager.DeleteAsync(folder.Id, recursive: true);
+            /*** Assert ***/
+            Assert.AreEqual(items.Entries.Count, 1);
+            Assert.AreEqual(items.Entries[0].Item.Name, folderName);
         }
 
         // This test is disabled because our test account has hit the maximum number of metadata templates (50).
