@@ -142,24 +142,13 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task Metadata_ExecuteQueryAsync_LiveSession()
         {
-
-            string folderName = ".NET Metadata Query Test Folder";
+            string folderName = ".Net Metadata Query Integration Test";
             string metadataTemplateScope = "enterprise";
             string metadataTemplateName = "testMetadataQueryTemplate";
             string metadataTemplateField = "testField";
             string metadataTemplateFieldValue = "testValue";
 
-            // Create a new folder in the user's root folder
-            var folderParams = new BoxFolderRequest()
-            {
-                Name = folderName,
-                Parent = new BoxRequestEntity()
-                {
-                    Id = "0"
-                }
-            };
-            BoxFolder folder = await _client.FoldersManager.CreateAsync(folderParams);
-
+            // Check that test metadata template exists or create if not there
             BoxMetadataTemplate template;
             try
             {
@@ -185,11 +174,26 @@ namespace Box.V2.Test.Integration
                 template = await _client.MetadataManager.CreateMetadataTemplate(templateParams);
             }
 
-            var metadataValues = new Dictionary<string, object>()
+            // Create folder and apply test metadata template. If folder is already there, assume that the folder has the correct metadata template from a previous integration test that might not have been able to delete the folder.
+            BoxFolder folder = null;
+            try
             {
-                { metadataTemplateField, metadataTemplateFieldValue }
-            };
-            Dictionary<string, object> metadata = await _client.MetadataManager.SetFolderMetadataAsync(folderId: folder.Id, metadataValues, template.Scope, template.TemplateKey);
+                var folderParams = new BoxFolderRequest()
+                {
+                    Name = folderName,
+                    Parent = new BoxRequestEntity()
+                    {
+                        Id = "0"
+                    }
+                };
+                folder = await _client.FoldersManager.CreateAsync(folderParams);
+                var metadataValues = new Dictionary<string, object>()
+                {
+                    { metadataTemplateField, metadataTemplateFieldValue }
+                };
+                Dictionary<string, object> metadata = await _client.MetadataManager.SetFolderMetadataAsync(folderId: folder.Id, metadataValues, template.Scope, template.TemplateKey);
+            }
+            catch { }
 
             /*** Act ***/
             string from = template.Scope + "." + template.TemplateKey;
@@ -203,8 +207,12 @@ namespace Box.V2.Test.Integration
                 Direction = BoxSortDirection.DESC
             };
             orderByList.Add(orderBy);
+            // Run metadata query
             BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _client.MetadataManager.ExecuteMetadataQueryAsync(from: from, query: query, queryParameters: queryParams, orderBy: orderByList, ancestorFolderId: "0", autoPaginate: false);
-            await _client.FoldersManager.DeleteAsync(folder.Id, recursive: true);
+            // Delete folder if this test created a folder
+            if (folder != null) {
+                await _client.FoldersManager.DeleteAsync(folder.Id, recursive: true);
+            }
             /*** Assert ***/
             Assert.AreEqual(items.Entries.Count, 1);
             Assert.AreEqual(items.Entries[0].Item.Name, folderName);
