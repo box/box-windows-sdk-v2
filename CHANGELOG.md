@@ -4,7 +4,7 @@
 - 
 - 
 
-## 3.22.0 [2020-02-25]=
+## 3.22.0 [2020-02-25]
 - Fixed Authentication Request Retries
 - Added the ability to query Box items based on their metadata. The method to do so is `MetadataManager.ExecuteMetadataQueryAsync()`.
 - Added `TrashedAt` field to `BoxItem` objects (file, folder, weblink).
