@@ -1,10 +1,16 @@
 # Changelog
 
 ## Next Release
-- Updated retry logic to retry on 503 status codes returned by the API
+- 
+- 
+
+## 3.22.0 [2020-02-25]=
+- Fixed Authentication Request Retries
 - Added the ability to query Box items based on their metadata. The method to do so is `MetadataManager.ExecuteMetadataQueryAsync()`.
 - Added `TrashedAt` field to `BoxItem` objects (file, folder, weblink).
-- Fix Authentication Request Retries
+- Added marker based pagination for get users methods
+- Updated retry logic to retry on 503 status codes returned by the API
+- Provide better details for debugging, if the HttpClient used to make API requests times out
 
 ## 3.21.0 [2019-12-05]
 - Added `fields` parameter to `UsersManager.GetUserInformationAsync()`
