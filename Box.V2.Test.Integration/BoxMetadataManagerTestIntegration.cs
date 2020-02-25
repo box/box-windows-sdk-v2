@@ -191,7 +191,7 @@ namespace Box.V2.Test.Integration
                 {
                     { metadataTemplateField, metadataTemplateFieldValue }
                 };
-                Dictionary<string, object> metadata = await _client.MetadataManager.SetFolderMetadataAsync(folderId: folder.Id, metadataValues, template.Scope, template.TemplateKey);
+                Dictionary<string, object> metadata = await _client.MetadataManager.SetFolderMetadataAsync(folder.Id, metadataValues, template.Scope, template.TemplateKey);
             }
             catch { }
 
