@@ -1,8 +1,7 @@
 # Changelog
 
 ## Next Release
-- 
-- 
+- Add ability to get and set notification email field
 
 ## 3.22.0 [2020-02-25]
 - Fixed Authentication Request Retries
