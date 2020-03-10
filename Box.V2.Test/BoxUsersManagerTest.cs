@@ -160,7 +160,7 @@ namespace Box.V2.Test
         public async Task UpdateUser_ValidResponse_ValidUser()
         {
             /*** Arrange ***/
-            string responseString = "{\"type\":\"user\",\"id\":\"181216415\",\"name\":\"sean\",\"login\":\"sean+awesome@box.com\",\"created_at\":\"2012-05-03T21:39:11-07:00\",\"modified_at\":\"2012-12-06T18:17:16-08:00\",\"role\":\"admin\",\"language\":\"en\",\"space_amount\":5368709120,\"space_used\":1237179286,\"max_upload_size\":2147483648,\"tracking_codes\":[],\"can_see_managed_users\":true,\"is_sync_enabled\":true,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"6509241374\",\"address\":\"\",\"avatar_url\":\"https://www.box.com/api/avatar/large/181216415\",\"is_exempt_from_device_limits\":false,\"is_exempt_from_login_verification\":false}";
+            string responseString = "{\"type\":\"user\",\"id\":\"181216415\",\"name\":\"sean\",\"login\":\"sean+awesome@box.com\",\"created_at\":\"2012-05-03T21:39:11-07:00\",\"modified_at\":\"2012-12-06T18:17:16-08:00\",\"role\":\"admin\",\"language\":\"en\",\"space_amount\":5368709120,\"space_used\":1237179286,\"max_upload_size\":2147483648,\"tracking_codes\":[],\"can_see_managed_users\":true,\"is_sync_enabled\":true,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"6509241374\",\"address\":\"\",\"avatar_url\":\"https://www.box.com/api/avatar/large/181216415\",\"is_exempt_from_device_limits\":false,\"is_exempt_from_login_verification\":false, \"notification_email\": { \"email\": \"test@example.com\", \"is_confirmed\": true}}";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
@@ -175,7 +175,11 @@ namespace Box.V2.Test
             {
                 Id = "181216415",
                 Name = "sean",
-                IsExternalCollabRestricted = true
+                IsExternalCollabRestricted = true,
+                NotificationEmail = new BoxNotificationEmailField
+                {
+                    Email = "test@example.com"
+                }
             };
             BoxUser user = await _usersManager.UpdateUserInformationAsync(userRequest);
 
@@ -189,12 +193,14 @@ namespace Box.V2.Test
             Assert.AreEqual(userRequest.Id, payload.Id);
             Assert.AreEqual(userRequest.Name, payload.Name);
             Assert.AreEqual(userRequest.IsExternalCollabRestricted, payload.IsExternalCollabRestricted);
+            Assert.AreEqual(userRequest.NotificationEmail.Email, payload.NotificationEmail.Email);
 
             //Response check
             Assert.AreEqual("181216415", user.Id);
             Assert.AreEqual("sean", user.Name);
             Assert.AreEqual("sean+awesome@box.com", user.Login);
             Assert.AreEqual("user", user.Type);
+            Assert.AreEqual("test@example.com", user.NotificationEmail.Email);
         }
 
         [TestMethod]
