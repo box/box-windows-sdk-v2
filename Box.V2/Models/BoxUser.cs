@@ -35,6 +35,7 @@ namespace Box.V2.Models
         public const string FieldMyTags = "my_tags";
         public const string FieldHostname = "hostname";
         public const string FieldExternalAppUserId = "external_app_user_id";
+        public const string FieldNotificationEmail = "notification_email";
 
         /// <summary>
         /// The name of this user
@@ -192,5 +193,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldExternalAppUserId)]
         public string ExternalAppUserId { get; private set; }
+
+        /// <summary>
+        /// An alternate notification email address to which email notifications are sent. When it's confirmed, this will be the email address to which notifications are sent instead
+        /// of to the primary email address.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldNotificationEmail)]
+        public BoxNotificationEmail NotificationEmail { get; set; }
     }
 }
