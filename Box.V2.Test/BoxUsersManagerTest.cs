@@ -293,7 +293,7 @@ namespace Box.V2.Test
            .Returns(() => Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxUser>>>(new BoxResponse<BoxCollectionMarkerBased<BoxUser>>()
            {
                Status = ResponseStatus.Success,
-               ContentString = "{\"entries\":[{\"type\":\"user\",\"id\":\"1234567890\",\"name\":\"Joey Burns\",\"login\":\"jburns@example.com\",\"created_at\":\"2020-01-01T01:01:01-07:00\",\"modified_at\":\"2020-01-01T01:01:01-08:00\",\"language\":\"en\",\"timezone\":\"America/Los_Angeles\",\"space_amount\":10737418240,\"space_used\":0,\"max_upload_size\":5368709120,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"\",\"address\":\"\",\"avatar_url\":\"https://example.app.box.com/api/avatar/large/1234567890\",\"notification_email\":[]}],\"limit\":1,\"next_marker\":\"zxcvbnmasdfghjklqwertyuiop1234567890QWERTYUIOPASDFGHJKLZXCVBNM\"}"
+               ContentString = "{\"entries\":[{\"type\":\"user\",\"id\":\"1234567890\",\"name\":\"Joey Burns\",\"login\":\"jburns@example.com\",\"created_at\":\"2020-01-01T01:01:01-07:00\",\"modified_at\":\"2020-01-01T01:01:01-08:00\",\"language\":\"en\",\"timezone\":\"America/Los_Angeles\",\"space_amount\":10737418240,\"space_used\":0,\"max_upload_size\":5368709120,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"\",\"address\":\"\",\"avatar_url\":\"https://example.app.box.com/api/avatar/large/1234567890\",\"notification_email\":{}}],\"limit\":1,\"next_marker\":\"zxcvbnmasdfghjklqwertyuiop1234567890QWERTYUIOPASDFGHJKLZXCVBNM\"}"
            }));
 
             String marker = "qwertyuiopASDFGHJKLzxcvbnm1234567890QWERTYUIOPasdfghjklZXCVBNM";
