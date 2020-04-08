@@ -2,6 +2,7 @@
 
 ## Next Release
 - Add ability to get and set a notification email address for a user
+- Fix deadlock issue for JWT authentication in UI elements
 
 ## 3.22.0 [2020-02-25]
 - Fixed Authentication Request Retries
