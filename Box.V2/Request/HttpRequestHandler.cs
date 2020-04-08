@@ -38,8 +38,8 @@ namespace Box.V2.Request
 
                 HttpRequestMessage httpRequest = getHttpRequest(request, isMultiPartRequest, isBinaryRequest);
                 Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
-                HttpResponseMessage response = await getResponse(request, isStream, httpRequest);
-                BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response);
+                HttpResponseMessage response = await getResponse(request, isStream, httpRequest).ConfigureAwait(false);
+                BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response).ConfigureAwait(false);
 
                 return boxResponse;
             }
@@ -68,7 +68,7 @@ namespace Box.V2.Request
                 {
                     HttpRequestMessage httpRequest = getHttpRequest(request, isMultiPartRequest, isBinaryRequest);
                     Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
-                    HttpResponseMessage response = await getResponse(request, isStream, httpRequest);
+                    HttpResponseMessage response = await getResponse(request, isStream, httpRequest).ConfigureAwait(false);
 
                     //need to wait for Retry-After seconds and then retry request
                     var retryAfterHeader = response.Headers.RetryAfter;
@@ -98,7 +98,7 @@ namespace Box.V2.Request
                     }
                     else
                     {
-                        BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response);
+                        BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response).ConfigureAwait(false);
 
                         return boxResponse;
                     }
