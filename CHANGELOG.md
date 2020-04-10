@@ -2,6 +2,7 @@
 
 ## Next Release
 - Add ability to get and set a notification email address for a user
+- Add support for the uploader display name field for Files and File Versions
 
 ## 3.22.0 [2020-02-25]
 - Fixed Authentication Request Retries
