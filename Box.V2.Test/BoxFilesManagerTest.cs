@@ -116,6 +116,7 @@ namespace Box.V2.Test
                 ""purged_at"": null,
                 ""content_created_at"": ""2013-02-04T16:57:52-08:00"",
                 ""content_modified_at"": ""2013-02-04T16:57:52-08:00"",
+                ""uploader_display_name"": ""sean rose"",
                 ""created_by"": {
                     ""type"": ""user"",
                     ""id"": ""17738362"",
@@ -183,6 +184,7 @@ namespace Box.V2.Test
             Assert.AreEqual("tigers.jpeg", f.Name);
             Assert.AreEqual("134b65991ed521fcfe4724b7d814ab8ded5185dc", f.Sha1);
             Assert.AreEqual(629644, f.Size);
+            Assert.AreEqual("sean rose", f.UploaderDisplayName);
             Assert.AreEqual("https://www.box.com/s/rh935iit6ewrmw0unyul", f.SharedLink.Url);
             Assert.AreEqual("important", f.Tags[0]);
             Assert.AreEqual("needs review", f.Tags[1]);
@@ -1067,7 +1069,7 @@ namespace Box.V2.Test
         public async Task PromoteVersion_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = "{\"type\":\"file_version\",\"id\":\"871399\",\"sha1\":\"12039d6dd9a7e6eefc78846802e\",\"name\":\"Stark Family Lineage.doc\",\"size\":11,\"created_at\":\"2013-11-20T13:20:50-08:00\",\"modified_at\":\"2013-11-20T13:26:48-08:00\",\"modified_by\":{\"type\":\"user\",\"id\":\"13711334\",\"name\":\"Eddard Stark\",\"login\":\"ned@winterfell.com\"}}";
+            string responseString = "{\"type\":\"file_version\",\"id\":\"871399\",\"sha1\":\"12039d6dd9a7e6eefc78846802e\",\"name\":\"Stark Family Lineage.doc\",\"size\":11,\"uploader_display_name\":\"Arya Stark\",\"created_at\":\"2013-11-20T13:20:50-08:00\",\"modified_at\":\"2013-11-20T13:26:48-08:00\",\"modified_by\":{\"type\":\"user\",\"id\":\"13711334\",\"name\":\"Eddard Stark\",\"login\":\"ned@winterfell.com\"}}";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFileVersion>(It.IsAny<IBoxRequest>()))
                  .Returns(Task.FromResult<IBoxResponse<BoxFileVersion>>(new BoxResponse<BoxFileVersion>()
@@ -1094,6 +1096,7 @@ namespace Box.V2.Test
             Assert.AreEqual("871399", result.Id);
             Assert.AreEqual("file_version", result.Type);
             Assert.AreEqual("Stark Family Lineage.doc", result.Name);
+            Assert.AreEqual("Arya Stark", result.UploaderDisplayName);
             Assert.AreEqual(DateTime.Parse("2013-11-20T13:20:50-08:00"), result.CreatedAt);
             Assert.AreEqual(DateTime.Parse("2013-11-20T13:26:48-08:00"), result.ModifiedAt);
         }
