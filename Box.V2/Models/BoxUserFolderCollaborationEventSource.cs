@@ -12,6 +12,7 @@ namespace Box.V2.Models
         public const string FieldUserId = "user_id";
         public const string FieldUserName = "user_name";
         public const string FieldParent = "parent";
+        public const string FieldOwnedBy = "owned_by";
 
         /// <summary>
         /// The unique ID of the folder being collaborated on.
@@ -22,7 +23,7 @@ namespace Box.V2.Models
         /// <summary>
         /// The type of the object.
         /// </summary>
-        public override string Type { get { return "folder"; } protected set { return; }}
+        public override string Type { get { return "folder"; } protected set { return; } }
 
         /// <summary>
         /// The name of the folder  being collaborated on.
@@ -47,5 +48,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldParent)]
         public BoxFolder Parent { get; private set; }
+
+        /// <summary>
+        /// The Box User that owns this source
+        /// </summary>
+        [JsonProperty(PropertyName = FieldOwnedBy)]
+        public BoxUser OwnedBy { get; private set; }
     }
 }
