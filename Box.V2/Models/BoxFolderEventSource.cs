@@ -15,6 +15,7 @@ namespace Box.V2.Models
         public const string FieldItemId = "item_id";
         public const string FieldItemName = "item_name";
         public const string FieldItemParent = "parent";
+        public const string FieldOwnedBy = "owned_by";
 
         /// <summary>
         /// The type of the event source
@@ -39,5 +40,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldItemParent)]
         public BoxFolder Parent { get; private set; }
+
+        /// <summary>
+        /// The Box User that owns this source
+        /// </summary>
+        [JsonProperty(PropertyName = FieldOwnedBy)]
+        public BoxUser OwnedBy { get; private set; }
     }
 }
