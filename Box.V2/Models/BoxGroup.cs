@@ -30,13 +30,13 @@ namespace Box.V2.Models
         /// When this group was created on Box's servers
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; private set; }
+        public DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// When this group was last updated on Box's servers
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; private set; }
+        public DateTimeOffset? ModifiedAt { get; private set; }
 
         /// <summary>
         /// A description of the group.

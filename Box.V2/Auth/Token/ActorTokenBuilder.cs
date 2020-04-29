@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Box.V2.Utility;
 
 namespace Box.V2.Auth.Token
@@ -51,7 +51,7 @@ namespace Box.V2.Auth.Token
         /// </summary>
         /// <returns>The actorToken in string.</returns>
         public string Build() {
-            var exp = Helper.ConvertToUnixTimestamp(DateTime.UtcNow.AddSeconds(30));
+            var exp = Helper.ConvertToUnixTimestamp(DateTimeOffset.UtcNow.AddSeconds(30));
             var jti = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
 
             var header = Helper.Base64Encode(ACTOR_HEADER);

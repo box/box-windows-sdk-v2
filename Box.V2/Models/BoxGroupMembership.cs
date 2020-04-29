@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,13 +27,13 @@ namespace Box.V2.Models
         /// Date and time this membership was created
         /// </summary>
         [JsonProperty (PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// Date and time this membership was modified
         /// </summary>
         [JsonProperty (PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         /// <summary>
         /// The user in this membership

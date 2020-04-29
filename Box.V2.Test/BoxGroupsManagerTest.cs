@@ -39,8 +39,8 @@ namespace Box.V2.Test
             Assert.AreEqual(items.Entries[0].Type, "group", "Wrong type");
             Assert.AreEqual(items.Entries[0].Id, "26477", "Wrong id");
             Assert.AreEqual(items.Entries[0].Name, "adfasdf", "Wrong name");
-            Assert.AreEqual(items.Entries[0].CreatedAt, DateTime.Parse("2011-02-15T14:07:22-08:00"), "Wrong created at");
-            Assert.AreEqual(items.Entries[0].ModifiedAt, DateTime.Parse("2011-10-05T19:04:40-07:00"), "Wrong modified at");
+            Assert.AreEqual(items.Entries[0].CreatedAt, DateTimeOffset.Parse("2011-02-15T14:07:22-08:00"), "Wrong created at");
+            Assert.AreEqual(items.Entries[0].ModifiedAt, DateTimeOffset.Parse("2011-10-05T19:04:40-07:00"), "Wrong modified at");
             Assert.AreEqual(items.Offset, 0, "Wrong offset");
             Assert.AreEqual(items.Limit, 2, "Wrong limit");
         }
@@ -61,8 +61,8 @@ namespace Box.V2.Test
             Assert.AreEqual("26477", group.Id, "Wrong Id");
             Assert.AreEqual("group", group.Type, "Wrong type");
             Assert.AreEqual("adfasdf", group.Name, "Wrong name");
-            Assert.AreEqual(DateTime.Parse("2011-02-15T14:07:22-08:00"), group.CreatedAt, "Wrong created at");
-            Assert.AreEqual(DateTime.Parse("2011-10-05T19:04:40-07:00"), group.ModifiedAt, "Wrong modified at");
+            Assert.AreEqual(DateTimeOffset.Parse("2011-02-15T14:07:22-08:00"), group.CreatedAt, "Wrong created at");
+            Assert.AreEqual(DateTimeOffset.Parse("2011-10-05T19:04:40-07:00"), group.ModifiedAt, "Wrong modified at");
         }
 
         [TestMethod]
@@ -101,8 +101,8 @@ namespace Box.V2.Test
 
             Assert.AreEqual<string>("TestGroup2", group.Name, "Wrong group name");
             Assert.AreEqual<string>("159322", group.Id, "Wrong id");
-            Assert.AreEqual(DateTime.Parse("2013-11-12T15:19:47-08:00"), group.ModifiedAt, "Wrong modified at");
-            Assert.AreEqual(DateTime.Parse("2013-11-12T15:19:47-08:00"), group.CreatedAt, "Wrong created at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-12T15:19:47-08:00"), group.ModifiedAt, "Wrong modified at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-12T15:19:47-08:00"), group.CreatedAt, "Wrong created at");
         }
 
         [TestMethod]
@@ -137,8 +137,8 @@ namespace Box.V2.Test
 
             Assert.AreEqual<string>("TestGroup2", group.Name, "Wrong Group name");
             Assert.AreEqual<string>("159322", group.Id, "Wrong group id");
-            Assert.AreEqual(DateTime.Parse("2013-11-12T15:19:47-08:00"), group.ModifiedAt, "Wrong modified at");
-            Assert.AreEqual(DateTime.Parse("2013-11-12T15:19:47-08:00"), group.CreatedAt, "Wrong created at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-12T15:19:47-08:00"), group.ModifiedAt, "Wrong modified at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-12T15:19:47-08:00"), group.CreatedAt, "Wrong created at");
         }
 
         [TestMethod]
@@ -218,8 +218,8 @@ namespace Box.V2.Test
             Assert.AreEqual("159622", response.Group.Id, "Wrong group id");
             Assert.AreEqual("4940223", response.User.Id, "Wrong user id");
             Assert.AreEqual("member", response.Role, "Wrong role");
-            Assert.AreEqual(DateTime.Parse("2013-11-13T13:19:44-08:00"), response.CreatedAt, "Wrong created at");
-            Assert.AreEqual(DateTime.Parse("2013-11-13T13:19:44-08:00"), response.ModifiedAt, "Wrong modified at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-13T13:19:44-08:00"), response.CreatedAt, "Wrong created at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-13T13:19:44-08:00"), response.ModifiedAt, "Wrong modified at");
         }
 
         [TestMethod]
@@ -312,8 +312,8 @@ namespace Box.V2.Test
             Assert.AreEqual("159622", response.Group.Id, "Wrong group id");
             Assert.AreEqual("4940223", response.User.Id, "Wrong user id");
             Assert.AreEqual("member", response.Role, "Wrong role");
-            Assert.AreEqual(DateTime.Parse("2013-11-13T13:19:44-08:00"), response.CreatedAt, "Wrong created at");
-            Assert.AreEqual(DateTime.Parse("2013-11-13T13:19:44-08:00"), response.ModifiedAt, "Wrong modified at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-13T13:19:44-08:00"), response.CreatedAt, "Wrong created at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-13T13:19:44-08:00"), response.ModifiedAt, "Wrong modified at");
         }
 
         [TestMethod]
@@ -341,8 +341,8 @@ namespace Box.V2.Test
             Assert.AreEqual("159622", response.Group.Id, "Wrong group id");
             Assert.AreEqual("4940223", response.User.Id, "Wrong user id");
             Assert.AreEqual("admin", response.Role, "Wrong role");
-            Assert.AreEqual(DateTime.Parse("2013-11-13T13:19:44-08:00"), response.CreatedAt, "Wrong created at");
-            Assert.AreEqual(DateTime.Parse("2013-11-13T13:19:44-08:00"), response.ModifiedAt, "Wrong modified at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-13T13:19:44-08:00"), response.CreatedAt, "Wrong created at");
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-13T13:19:44-08:00"), response.ModifiedAt, "Wrong modified at");
         }
     }
 }

@@ -338,7 +338,7 @@ namespace Box.V2.Test.Integration
         {
             long fileSize = 50000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
-            string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
+            string remoteFileName = "UploadedUsingSession-" + DateTimeOffset.Now.TimeOfDay;
             string parentFolderId = "0";
 
             BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest()
@@ -376,7 +376,7 @@ namespace Box.V2.Test.Integration
         {
             long fileSize = 50000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
-            string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
+            string remoteFileName = "UploadedUsingSession-" + DateTimeOffset.Now.TimeOfDay;
             string parentFolderId = "0";
 
             BoxFileUploadSessionRequest boxFileUploadSessionRequest = new BoxFileUploadSessionRequest()
@@ -450,8 +450,8 @@ namespace Box.V2.Test.Integration
             long fileSize = 50000000;
             MemoryStream fileInMemoryStream = GetBigFileInMemoryStream(fileSize);
 
-            string remoteFileName = "UploadedUsingSession-" + DateTime.Now.TimeOfDay;
-            string newRemoteFileName = "UploadNewVersionUsingSession-" + DateTime.Now.TimeOfDay;
+            string remoteFileName = "UploadedUsingSession-" + DateTimeOffset.Now.TimeOfDay;
+            string newRemoteFileName = "UploadNewVersionUsingSession-" + DateTimeOffset.Now.TimeOfDay;
             string parentFolderId = "0";
 
             bool progressReported = false;
@@ -504,7 +504,7 @@ namespace Box.V2.Test.Integration
                     Id = "0"
                 };
                 fileRequest.Parent = parentFolder;
-                fileRequest.Name = DateTime.Now.Ticks + ".pdf";
+                fileRequest.Name = DateTimeOffset.Now.Ticks + ".pdf";
                 var file = await _client.FilesManager.UploadAsync(fileRequest, fileStream);
 
                 var repRequest = new BoxRepresentationRequest

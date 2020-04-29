@@ -36,8 +36,8 @@ namespace Box.V2.Managers
         public async Task<BoxEventCollection<BoxEnterpriseEvent>> EnterpriseEventsAsync(int limit = 500,
                                                                         string streamPosition = null,
                                                                         IEnumerable<string> eventTypes = null,
-                                                                        DateTime? createdAfter = null,
-                                                                        DateTime? createdBefore = null)
+                                                                        DateTimeOffset? createdAfter = null,
+                                                                        DateTimeOffset? createdBefore = null)
         {
             var createdAfterString = createdAfter.HasValue ? createdAfter.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : null;
             var createdBeforeString = createdBefore.HasValue ? createdBefore.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : null;

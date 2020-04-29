@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -68,7 +68,7 @@ namespace Box.V2.Utility
             public CacheNode Prev { get; set; }
             public K Key { get; set; }
             public V Value { get; set; }
-            public DateTime LastAccessed { get; set; }
+            public DateTimeOffset LastAccessed { get; set; }
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Box.V2.Utility
                             // Reset with new values
                             entry.Key = key;
                             entry.Value = value;
-                            entry.LastAccessed = DateTime.UtcNow;
+                            entry.LastAccessed = DateTimeOffset.UtcNow;
 
                             // Next and Prev don't need to be reset.
                             // Move to front will do the right thing.
@@ -169,7 +169,7 @@ namespace Box.V2.Utility
                             {
                                 Key = key,
                                 Value = value,
-                                LastAccessed = DateTime.UtcNow
+                                LastAccessed = DateTimeOffset.UtcNow
                             };
                         }
                         _entries.Add(key, entry);
@@ -244,7 +244,7 @@ namespace Box.V2.Utility
             lock (this)
             {
                 var current = this._tail;
-                var now = DateTime.UtcNow;
+                var now = DateTimeOffset.UtcNow;
 
                 while (null != current
                     && (now - current.LastAccessed) > this._ttl)

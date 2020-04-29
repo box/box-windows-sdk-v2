@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -44,12 +44,12 @@ namespace Box.V2.Models
         /// The time this comment was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
         /// <summary>
         /// The time this comment was last modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         /// <summary>
         /// The object this comment was placed on

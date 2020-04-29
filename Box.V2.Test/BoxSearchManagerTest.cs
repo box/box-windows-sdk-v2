@@ -59,12 +59,12 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            var startDate = new DateTime(1988, 11, 18, 9, 30, 0, DateTimeKind.Utc);
-            var endDate = new DateTime(2018, 11, 18, 9, 30, 0, DateTimeKind.Utc);
+            var startDate = new DateTimeOffset(1988, 11, 18, 9, 30, 0, TimeSpan.Zero);
+            var endDate = new DateTimeOffset(2018, 11, 18, 9, 30, 0, TimeSpan.Zero);
             var results = await _searchManager.SearchAsync("test", createdAtRangeFromDate: startDate, createdAtRangeToDate: endDate, updatedAtRangeFromDate: startDate, updatedAtRangeToDate: endDate);
 
             /*** Assert ***/
-            Assert.AreEqual("query=test&created_at_range=1988-11-18T09%3A30%3A00Z%2C2018-11-18T09%3A30%3A00Z&updated_at_range=1988-11-18T09%3A30%3A00Z%2C2018-11-18T09%3A30%3A00Z&limit=30&offset=0", boxRequest.GetQueryString());
+            Assert.AreEqual("query=test&created_at_range=1988-11-18T09%3A30%3A00%2B00%3A00%2C2018-11-18T09%3A30%3A00%2B00%3A00&updated_at_range=1988-11-18T09%3A30%3A00%2B00%3A00%2C2018-11-18T09%3A30%3A00%2B00%3A00&limit=30&offset=0", boxRequest.GetQueryString());
         }
 
         [TestMethod]
@@ -84,12 +84,12 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            var startDate = new DateTime(1988, 11, 18, 9, 30, 0, DateTimeKind.Utc);
-            var endDate = new DateTime(2018, 11, 18, 9, 30, 0, DateTimeKind.Utc);
+            var startDate = new DateTimeOffset(1988, 11, 18, 9, 30, 0, TimeSpan.Zero);
+            var endDate = new DateTimeOffset(2018, 11, 18, 9, 30, 0, TimeSpan.Zero);
             var results = await _searchManager.SearchAsync("test", createdAtRangeFromDate: startDate, updatedAtRangeToDate: endDate);
 
             /*** Assert ***/
-            Assert.AreEqual("query=test&created_at_range=1988-11-18T09%3A30%3A00Z%2C&updated_at_range=%2C2018-11-18T09%3A30%3A00Z&limit=30&offset=0", boxRequest.GetQueryString());
+            Assert.AreEqual("query=test&created_at_range=1988-11-18T09%3A30%3A00%2B00%3A00%2C&updated_at_range=%2C2018-11-18T09%3A30%3A00%2B00%3A00&limit=30&offset=0", boxRequest.GetQueryString());
         }
 
         [TestMethod]
@@ -134,12 +134,12 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            var startDate = new DateTime(1988, 11, 18, 9, 30, 0, DateTimeKind.Utc);
-            var endDate = new DateTime(2018, 11, 18, 9, 30, 0, DateTimeKind.Utc);
+            var startDate = new DateTimeOffset(1988, 11, 18, 9, 30, 0, TimeSpan.Zero);
+            var endDate = new DateTimeOffset(2018, 11, 18, 9, 30, 0, TimeSpan.Zero);
             var results = await _searchManager.QueryAsync("test", createdAfter: startDate, createdBefore: endDate, updatedAfter: startDate, updatedBefore: endDate);
 
             /*** Assert ***/
-            Assert.AreEqual("query=test&created_at_range=1988-11-18T09%3A30%3A00Z%2C2018-11-18T09%3A30%3A00Z&updated_at_range=1988-11-18T09%3A30%3A00Z%2C2018-11-18T09%3A30%3A00Z&limit=30&offset=0", boxRequest.GetQueryString());
+            Assert.AreEqual("query=test&created_at_range=1988-11-18T09%3A30%3A00%2B00%3A00%2C2018-11-18T09%3A30%3A00%2B00%3A00&updated_at_range=1988-11-18T09%3A30%3A00%2B00%3A00%2C2018-11-18T09%3A30%3A00%2B00%3A00&limit=30&offset=0", boxRequest.GetQueryString());
         }
 
         [TestMethod]
@@ -159,12 +159,12 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            var startDate = new DateTime(1988, 11, 18, 9, 30, 0, DateTimeKind.Utc);
-            var endDate = new DateTime(2018, 11, 18, 9, 30, 0, DateTimeKind.Utc);
+            var startDate = new DateTimeOffset(1988, 11, 18, 9, 30, 0, TimeSpan.Zero);
+            var endDate = new DateTimeOffset(2018, 11, 18, 9, 30, 0, TimeSpan.Zero);
             var results = await _searchManager.QueryAsync("test", createdAfter: startDate, updatedBefore: endDate);
 
             /*** Assert ***/
-            Assert.AreEqual("query=test&created_at_range=1988-11-18T09%3A30%3A00Z%2C&updated_at_range=%2C2018-11-18T09%3A30%3A00Z&limit=30&offset=0", boxRequest.GetQueryString());
+            Assert.AreEqual("query=test&created_at_range=1988-11-18T09%3A30%3A00%2B00%3A00%2C&updated_at_range=%2C2018-11-18T09%3A30%3A00%2B00%3A00&limit=30&offset=0", boxRequest.GetQueryString());
         }
     }
 }

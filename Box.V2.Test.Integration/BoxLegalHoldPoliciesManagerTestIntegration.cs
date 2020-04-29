@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
@@ -17,8 +17,8 @@ namespace Box.V2.Test.Integration
             var policyName = "PN" + Guid.NewGuid().ToString().Substring(0,4);
             var newPolicyName = "N" + policyName;
             var description = "DESC";
-            var filterStarted = DateTime.Now.AddDays(-30);
-            var filterEnded = DateTime.Now.AddDays(-15);
+            var filterStarted = DateTimeOffset.Now.AddDays(-30);
+            var filterEnded = DateTimeOffset.Now.AddDays(-15);
 
             // Create with filter_date
             var legalHold = await _client.LegalHoldPoliciesManager.CreateLegalHoldPolicyAsync(new BoxLegalHoldPolicyRequest() {

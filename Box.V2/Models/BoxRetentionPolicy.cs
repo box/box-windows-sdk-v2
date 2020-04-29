@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -62,13 +62,13 @@ namespace Box.V2.Models
         /// The time that the retention policy was created.
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// The time that the retention policy was last modified.
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         /// <summary>
         /// Whether owners of items under the policy can extend the retention period.

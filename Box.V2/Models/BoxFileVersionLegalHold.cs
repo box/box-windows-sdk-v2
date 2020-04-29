@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -29,7 +29,7 @@ namespace Box.V2.Models
         /// Time that this File-Version-Legal-Hold was deleted. If this is deleted, the file-version is not under Legal Hold.
         /// </summary>
         [JsonProperty(PropertyName = FieldDeletedAt)]
-        public DateTime? DeletedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
 
         /// <summary>
         /// List of assignments contributing to this Hold.

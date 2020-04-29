@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -66,19 +66,19 @@ namespace Box.V2.Models
         /// The time the item was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; private set; }
+        public DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time the item or its contents were last modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; private set; }
+        public DateTimeOffset? ModifiedAt { get; private set; }
 
         /// <summary>
         /// The time at which this item was put in the trash.
         /// </summary>
         [JsonProperty(PropertyName = FieldTrashedAt)]
-        public DateTime? TrashedAt { get; set; }
+        public DateTimeOffset? TrashedAt { get; set; }
 
         /// <summary>
         /// The user who created this item

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -30,13 +30,13 @@ namespace Box.V2.Models
         /// The time that this file version retention was created.
         /// </summary>
         [JsonProperty(PropertyName = FieldAppliedAt)]
-        public DateTime? AppliedAt { get; set; }
+        public DateTimeOffset? AppliedAt { get; set; }
 
         /// <summary>
         /// The time that the retention period expires on this file version retention.
         /// </summary>
         [JsonProperty(PropertyName = FieldDispositionAt)]
-        public DateTime? DispositionAt { get; set; }
+        public DateTimeOffset? DispositionAt { get; set; }
 
         /// <summary>
         /// The winning retention policy applied to this file_version_retention. A file version can have multiple retention policies applied.

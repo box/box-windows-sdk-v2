@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -18,13 +18,13 @@ namespace Box.V2.Models
         /// The domain to be whitelisted for collaboration.
         /// </summary>
         [JsonProperty(PropertyName = FieldDomain)]
-        public String Domain { get; set; }
+        public string Domain { get; set; }
 
         /// <summary>
         /// The direction of the whitelist for collaboration.
         /// </summary>
         [JsonProperty(PropertyName = FieldDirection)]
-        public String Direction { get; set; }
+        public string Direction { get; set; }
 
         /// <summary>
         /// The enterprise the collaboration whitelist belongs to.
@@ -36,12 +36,12 @@ namespace Box.V2.Models
         /// The time this collaboration whitelist was created.
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// The time this collaboration whitelist was modified.
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
     }
 }

@@ -287,7 +287,7 @@ namespace Box.V2.Managers
                                                          string etag = null, IEnumerable<string> fields = null,
                                                          TimeSpan? timeout = null, byte[] contentMD5 = null,
                                                          bool setStreamPositionToZero = true,
-                                                         Uri uploadUri = null, DateTime? contentModifiedTime = null)
+                                                         Uri uploadUri = null, DateTimeOffset? contentModifiedTime = null)
         {
             fileId.ThrowIfNullOrWhiteSpace("fileId");
             stream.ThrowIfNull("stream");

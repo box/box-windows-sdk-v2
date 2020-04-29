@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
@@ -54,20 +54,20 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(0, results.Entries.Count, "Incorrect number of search results using extension");
 
             //search using a created at daterange that should return results
-            var start = new DateTime(2014, 5, 1);
-            var end = new DateTime(2014, 5, 30);
+            var start = new DateTimeOffset(2014, 5, 1, 0, 0, 0, TimeSpan.Zero);
+            var end = new DateTimeOffset(2014, 5, 30, 0, 0, 0, TimeSpan.Zero);
             results = await _client.SearchManager.SearchAsync(keyword, 200, createdAtRangeFromDate: start, createdAtRangeToDate: end);
             Assert.AreEqual(13, results.Entries.Count, "Incorrect number of search results using created at date range");
 
             //search using a created at daterange that should not return results
-            start = new DateTime(2014, 6, 1);
-            end = new DateTime(2014, 6, 30);
+            start = new DateTimeOffset(2014, 6, 1, 0, 0, 0, TimeSpan.Zero);
+            end = new DateTimeOffset(2014, 6, 30, 0, 0, 0, TimeSpan.Zero);
             results = await _client.SearchManager.SearchAsync(keyword, 200, createdAtRangeFromDate: start, createdAtRangeToDate: end);
             Assert.AreEqual(0, results.Entries.Count, "Incorrect number of search results using created at date range");
 
             //search using a updated at daterange that should return results
-            start = new DateTime(2014, 5, 1);
-            end = new DateTime(2014, 5, 30);
+            start = new DateTimeOffset(2014, 5, 1, 0, 0, 0, TimeSpan.Zero);
+            end = new DateTimeOffset(2014, 5, 30, 0, 0, 0, TimeSpan.Zero);
             results = await _client.SearchManager.SearchAsync(keyword, 200, updatedAtRangeFromDate: start, updatedAtRangeToDate: end);
             Assert.AreEqual(12, results.Entries.Count, "Incorrect number of search results using updated at date range");
 
@@ -136,7 +136,11 @@ namespace Box.V2.Test.Integration
             {
                 attr1 = "blah",
                 attr2 = new { gt = 5, lt = 5 },
-                attr3 = new { gt = new DateTime(2016, 10, 1), lt = new DateTime(2016, 11, 5) },
+                attr3 = new
+                {
+                    gt = new DateTimeOffset(2016, 10, 1, 0, 0, 0, TimeSpan.Zero),
+                    lt = new DateTimeOffset(2016, 11, 5, 0, 0, 0, TimeSpan.Zero)
+                },
                 attr4 = "value1"
             };
 

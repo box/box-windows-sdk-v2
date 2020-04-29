@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -28,7 +28,7 @@ namespace Box.V2.Models
         /// The time the webhook was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; private set; }
+        public DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time the webhook was created

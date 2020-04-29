@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 
@@ -47,7 +47,7 @@ namespace Box.V2.Models
         /// When the item's share link will expire
         /// </summary>
         [JsonProperty(PropertyName = FieldUnsharedAt)]
-        public DateTime? UnsharedAt { get; private set; }
+        public DateTimeOffset? UnsharedAt { get; private set; }
 
         /// <summary>
         /// Number of downloads

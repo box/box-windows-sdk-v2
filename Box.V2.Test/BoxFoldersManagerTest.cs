@@ -155,8 +155,8 @@ namespace Box.V2.Test
             Assert.AreEqual(f.SequenceId, "1");
             Assert.AreEqual(f.ETag, "1");
             Assert.AreEqual(f.Name, "Pictures");
-            Assert.AreEqual(f.CreatedAt, DateTime.Parse("2012-12-12T10:53:43-08:00"));
-            Assert.AreEqual(f.ModifiedAt, DateTime.Parse("2012-12-12T11:15:04-08:00"));
+            Assert.AreEqual(f.CreatedAt, DateTimeOffset.Parse("2012-12-12T10:53:43-08:00"));
+            Assert.AreEqual(f.ModifiedAt, DateTimeOffset.Parse("2012-12-12T11:15:04-08:00"));
             Assert.AreEqual(f.Description, "Some pictures I took");
             Assert.AreEqual(f.Size, 629644);
             Assert.AreEqual(f.PathCollection.TotalCount, 1);
@@ -309,8 +309,8 @@ namespace Box.V2.Test
                 Assert.AreEqual(f.SequenceId, "1");
                 Assert.AreEqual(f.ETag, "1");
                 Assert.AreEqual(f.Name, "Pictures");
-                Assert.AreEqual(f.CreatedAt, DateTime.Parse("2012-12-12T10:53:43-08:00"));
-                Assert.AreEqual(f.ModifiedAt, DateTime.Parse("2012-12-12T11:15:04-08:00"));
+                Assert.AreEqual(f.CreatedAt, DateTimeOffset.Parse("2012-12-12T10:53:43-08:00"));
+                Assert.AreEqual(f.ModifiedAt, DateTimeOffset.Parse("2012-12-12T11:15:04-08:00"));
                 Assert.AreEqual(f.Description, "Some pictures I took");
                 Assert.AreEqual(f.Size, 629644);
                 Assert.AreEqual(f.PathCollection.TotalCount, 1);
@@ -464,8 +464,8 @@ namespace Box.V2.Test
             Assert.AreEqual(f.SequenceId, "1");
             Assert.AreEqual(f.ETag, "1");
             Assert.AreEqual(f.Name, "Pictures");
-            Assert.AreEqual(f.CreatedAt, DateTime.Parse("2012-12-12T10:53:43-08:00"));
-            Assert.AreEqual(f.ModifiedAt, DateTime.Parse("2012-12-12T11:15:04-08:00"));
+            Assert.AreEqual(f.CreatedAt, DateTimeOffset.Parse("2012-12-12T10:53:43-08:00"));
+            Assert.AreEqual(f.ModifiedAt, DateTimeOffset.Parse("2012-12-12T11:15:04-08:00"));
             Assert.AreEqual(f.Description, "Some pictures I took");
             Assert.AreEqual(f.Size, 629644);
             Assert.AreEqual(f.PathCollection.TotalCount, 1);
@@ -699,7 +699,7 @@ namespace Box.V2.Test
             Assert.AreEqual("1", i2.SequenceId);
             Assert.AreEqual("1", i1.ETag);
             Assert.AreEqual("file Tue Jul 24 010055 20129Z6GS3.csv", i2.Name);
-            Assert.AreEqual(DateTime.Parse("2012-12-12T10:55:30-08:00"), i2.TrashedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2012-12-12T10:55:30-08:00"), i2.TrashedAt);
 
         }
 
@@ -887,8 +887,8 @@ namespace Box.V2.Test
             Assert.AreEqual(FoldersUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
         }
 
         [TestMethod]
@@ -923,8 +923,8 @@ namespace Box.V2.Test
             Assert.AreEqual("default", payload.Watermark.Imprint);
 
             //Response check
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
         }
 
         [TestMethod]

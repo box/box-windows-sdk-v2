@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -33,12 +33,12 @@ namespace Box.V2.Models
         /// The time this legal hold policy was assigned
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignedAt)]
-        public DateTime AssignedAt { get; private set; }
+        public DateTimeOffset AssignedAt { get; private set; }
 
         /// <summary>
         /// The time this legal hold policy assignment was deleted
         /// </summary>
         [JsonProperty(PropertyName = FieldDeletedAt)]
-        public DateTime? DeletedAt { get; private set; }
+        public DateTimeOffset? DeletedAt { get; private set; }
     }
 }

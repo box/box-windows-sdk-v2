@@ -35,11 +35,11 @@ namespace Box.V2.Test
                 })).Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            var events = await _eventsManager.EnterpriseEventsAsync(createdAfter: new DateTime(1988, 11, 18, 9, 30, 0, DateTimeKind.Utc), createdBefore: new DateTime(2018, 11, 18, 9, 30, 0, DateTimeKind.Utc));
+            var events = await _eventsManager.EnterpriseEventsAsync(createdAfter: new DateTimeOffset(1988, 11, 18, 9, 30, 0, TimeSpan.Zero), createdBefore: new DateTimeOffset(2018, 11, 18, 9, 30, 0, TimeSpan.Zero));
             var firstEvent = events.Entries.First<BoxEnterpriseEvent>();
 
             /*** Assert ***/
-            Assert.AreEqual("stream_type=admin_logs&limit=500&created_after=1988-11-18T09%3A30%3A00Z&created_before=2018-11-18T09%3A30%3A00Z", boxRequest.GetQueryString());
+            Assert.AreEqual("stream_type=admin_logs&limit=500&created_after=1988-11-18T09%3A30%3A00%2B00%3A00&created_before=2018-11-18T09%3A30%3A00%2B00%3A00", boxRequest.GetQueryString());
             Assert.AreEqual("12345", firstEvent.ActionBy.Id);
             Assert.AreEqual("user", firstEvent.ActionBy.Type);
             Assert.AreEqual("Test User", firstEvent.ActionBy.Name);

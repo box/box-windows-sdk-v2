@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -20,7 +20,7 @@ namespace Box.V2.Test.Integration
                     Type = BoxType.file
                 },
                 Message = "REVIEW PLZ K THX",
-                DueAt = DateTime.Now.AddDays(30)
+                DueAt = DateTimeOffset.Now.AddDays(30)
             });
 
             // Creat task assignment

@@ -77,19 +77,19 @@ namespace Box.V2.Models
         /// Purged at timestamp for folder
         /// </summary>
         [JsonProperty(PropertyName = FieldPurgedAt)]
-        public DateTime? PurgedAt { get; set; }
+        public DateTimeOffset? PurgedAt { get; set; }
 
         /// <summary>
         /// Content created at timestamp for folder
         /// </summary>
         [JsonProperty(PropertyName = FieldContentCreatedAt)]
-        public DateTime? ContentCreatedAt { get; set; }
+        public DateTimeOffset? ContentCreatedAt { get; set; }
 
         /// <summary>
         /// Content modified at timestamp for folder
         /// </summary>
         [JsonProperty(PropertyName = FieldContentModifiedAt)]
-        public DateTime? ContentModifiedAt { get; set; }
+        public DateTimeOffset? ContentModifiedAt { get; set; }
 
         /// <summary>
         /// Can owners invite field for folder
@@ -113,7 +113,7 @@ namespace Box.V2.Models
         /// The date when the folder will be automatically deleted due to item expiration settings.
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresAt)]
-        public DateTime? ExpiresAt { get; protected set; }
+        public DateTimeOffset? ExpiresAt { get; protected set; }
 
         /// <summary>
         /// The date when the folder will be automatically deleted due to item expiration settings.

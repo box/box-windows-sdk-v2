@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -37,7 +37,7 @@ namespace Box.V2.Models
         /// The time that the retention policy assignment was created.
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignedAt)]
-        public DateTime? AssignedAt { get; set; }
+        public DateTimeOffset? AssignedAt { get; set; }
 
         /// <summary>
         /// Optional field filters for an assignment to a metadata template

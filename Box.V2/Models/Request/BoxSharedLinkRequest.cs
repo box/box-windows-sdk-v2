@@ -17,13 +17,13 @@ namespace Box.V2.Models
         public BoxSharedLinkAccessType? Access { get; set; }
 
         private bool IsUnsharedAtSet = false;
-        private DateTime? _unsharedAt;
+        private DateTimeOffset? _unsharedAt;
 
         /// <summary>
         /// The day that this link should be disabled at. Timestamps are rounded off to the given day.
         /// </summary>
         [JsonProperty(PropertyName = "unshared_at", NullValueHandling = NullValueHandling.Include)]
-        public DateTime? UnsharedAt
+        public DateTimeOffset? UnsharedAt
         {
             get
             {

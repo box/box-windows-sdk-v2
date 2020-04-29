@@ -16,7 +16,7 @@ namespace Box.V2.Test.Integration
         const string SCOPE = "enterprise";
         const string ATTR1 = "blah";
         const int ATTR2 = 5;
-        readonly DateTime ATTR3 = new DateTime(2015, 1, 1);
+        readonly DateTimeOffset ATTR3 = new DateTimeOffset(2015, 1, 1, 0, 0, 0, TimeSpan.Zero);
         const string ATTR4 = "value1";
 
         [TestMethod]

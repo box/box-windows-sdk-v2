@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 
 namespace Box.V2.Models
@@ -12,12 +12,12 @@ namespace Box.V2.Models
         public const string FieldPartSize = "part_size";
         public const string FieldTotalParts = "total_parts";
         public const string FieldNumberOfPartsProcessed = "num_parts_processed";
-        
+
         /// <summary>
-        /// Expiry in DateTime format for the upload session.
+        /// Expiry in DateTimeOffset format for the upload session.
         /// </summary>
         [JsonProperty(PropertyName = FieldSessionExpiryDate)]
-        public DateTime SessionExpiryDate { get; private set; }
+        public DateTimeOffset SessionExpiryDate { get; private set; }
 
         /// <summary>
         /// Size in bytes for the file parts that was returned in Create Session.

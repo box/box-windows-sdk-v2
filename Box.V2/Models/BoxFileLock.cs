@@ -22,7 +22,7 @@ namespace Box.V2.Models
         /// The time the lock was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; private set; }
+        public DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The user who created this lock
@@ -34,7 +34,7 @@ namespace Box.V2.Models
         /// The expiration date of this lock
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresAt)]
-        public DateTime? ExpiresAt { get; set; }
+        public DateTimeOffset? ExpiresAt { get; set; }
 
         /// <summary>
         /// Is download prevented for this lock?

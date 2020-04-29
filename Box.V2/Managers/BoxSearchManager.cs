@@ -52,10 +52,10 @@ namespace Box.V2.Managers
                                                                 IEnumerable<string> fields = null,
                                                                 string scope = null,
                                                                 IEnumerable<string> fileExtensions = null,
-                                                                DateTime? createdAtRangeFromDate = null,
-                                                                DateTime? createdAtRangeToDate = null,
-                                                                DateTime? updatedAtRangeFromDate = null,
-                                                                DateTime? updatedAtRangeToDate = null,
+                                                                DateTimeOffset? createdAtRangeFromDate = null,
+                                                                DateTimeOffset? createdAtRangeToDate = null,
+                                                                DateTimeOffset? updatedAtRangeFromDate = null,
+                                                                DateTimeOffset? updatedAtRangeToDate = null,
                                                                 int? sizeRangeLowerBoundBytes = null,
                                                                 int? sizeRangeUpperBoundBytes = null,
                                                                 IEnumerable<string> ownerUserIds = null,
@@ -130,10 +130,10 @@ namespace Box.V2.Managers
         public async Task<BoxCollection<BoxItem>> QueryAsync(string query,
                                                                 string scope = null,
                                                                 IEnumerable<string> fileExtensions = null,
-                                                                DateTime? createdAfter = null,
-                                                                DateTime? createdBefore = null,
-                                                                DateTime? updatedAfter = null,
-                                                                DateTime? updatedBefore = null,
+                                                                DateTimeOffset? createdAfter = null,
+                                                                DateTimeOffset? createdBefore = null,
+                                                                DateTimeOffset? updatedAfter = null,
+                                                                DateTimeOffset? updatedBefore = null,
                                                                 long? sizeLowerBound = null,
                                                                 long? sizeUpperBound = null,
                                                                 IEnumerable<string> ownerUserIds = null,
@@ -184,7 +184,7 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-        private string BuildDateRangeField(DateTime? from, DateTime? to)
+        private string BuildDateRangeField(DateTimeOffset? from, DateTimeOffset? to)
         {
             var fromString = from.HasValue ? from.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : String.Empty;
             var toString = to.HasValue ? to.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : String.Empty;

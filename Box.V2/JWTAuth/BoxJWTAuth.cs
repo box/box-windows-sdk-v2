@@ -35,8 +35,6 @@ namespace Box.V2.JWTAuth
         const string USER_SUB_TYPE = "user";
         const string TOKEN_TYPE = "bearer";
 
-        readonly DateTime UNIX_EPOCH = new DateTime(1970, 1, 1);
-
         private readonly IBoxService boxService;
         private readonly IBoxConfig boxConfig;
         private readonly SigningCredentials credentials;
@@ -196,7 +194,7 @@ namespace Box.V2.JWTAuth
                             delay = new TimeSpan(0, 0, 0, 0, timeToWait);
                         }
 
-                        // Before we retry the JWT Authentication request, we must regenerate the JTI claim with an updated DateTime.
+                        // Before we retry the JWT Authentication request, we must regenerate the JTI claim with an updated DateTimeOffset.
                         // A delay is added to the JWT time, to account for the time of the upcoming wait.
                         var serverDate = ex.ResponseHeaders != null ? ex.ResponseHeaders.Date : null;
                         if (serverDate.HasValue)
@@ -206,7 +204,7 @@ namespace Box.V2.JWTAuth
                         }
                         else
                         {
-                            assertion = ConstructJWTAssertion(subId, subType, DateTime.UtcNow.Add(delay));
+                            assertion = ConstructJWTAssertion(subId, subType, DateTimeOffset.UtcNow.Add(delay));
                         }
 
                         Debug.WriteLine("HttpCode: {0}. Waiting for {1} seconds to retry JWT Authentication request.", ex.StatusCode, delay.Seconds);
@@ -230,7 +228,7 @@ namespace Box.V2.JWTAuth
             return new OAuthSession(token, null, 3600, TOKEN_TYPE);
         }
 
-        private string ConstructJWTAssertion(string sub, string boxSubType, DateTime? nowOverride = null)
+        private string ConstructJWTAssertion(string sub, string boxSubType, DateTimeOffset? nowOverride = null)
         {
             byte[] randomNumber = new byte[64];
             using (var rng = RandomNumberGenerator.Create())
@@ -244,13 +242,13 @@ namespace Box.V2.JWTAuth
                 new Claim("jti", Convert.ToBase64String(randomNumber)),
             };
 
-            DateTime expireTime = DateTime.UtcNow.AddSeconds(30);
+            DateTimeOffset expireTime = DateTimeOffset.UtcNow.AddSeconds(30);
             if (nowOverride.HasValue)
             {
                 expireTime = nowOverride.Value.AddSeconds(30);
             }
 
-            var payload = new JwtPayload(this.boxConfig.ClientId, AUTH_URL, claims, null, expireTime);
+            var payload = new JwtPayload(this.boxConfig.ClientId, AUTH_URL, claims, null, expireTime.DateTime);
 
             var header = new JwtHeader(signingCredentials: this.credentials);
             if (this.boxConfig.JWTPublicKeyId != null)

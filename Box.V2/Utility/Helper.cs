@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,13 +13,13 @@ namespace Box.V2.Utility
     public class Helper
     {
         /// <summary>
-        /// Convert DateTime to unix timestamp.
+        /// Convert DateTimeOffset to unix timestamp.
         /// </summary>
-        /// <param name="date">DateTime object.</param>
+        /// <param name="date">DateTimeOffset object.</param>
         /// <returns>unix timestamp.</returns>
-        public static double ConvertToUnixTimestamp(DateTime date)
+        public static double ConvertToUnixTimestamp(DateTimeOffset date)
         {
-            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            DateTimeOffset origin = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
             TimeSpan diff = date.ToUniversalTime() - origin;
             return Math.Floor(diff.TotalSeconds);
         }

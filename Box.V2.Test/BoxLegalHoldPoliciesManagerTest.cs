@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -77,11 +77,11 @@ namespace Box.V2.Test
             Assert.AreEqual(0, result.AssignmentCounts.Folder);
             Assert.AreEqual(0, result.AssignmentCounts.File);
             Assert.AreEqual(0, result.AssignmentCounts.Version);
-            Assert.AreEqual(DateTime.Parse("2016-05-18T10:28:45-07:00"), result.CreatedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-18T11:25:59-07:00"), result.ModifiedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-18T10:28:45-07:00"), result.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-18T11:25:59-07:00"), result.ModifiedAt);
             Assert.IsNull(result.DeletedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-17T01:00:00-07:00"), result.FilterStartedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-21T01:00:00-07:00"), result.FilterEndedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-17T01:00:00-07:00"), result.FilterStartedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-21T01:00:00-07:00"), result.FilterEndedAt);
 
         }
 
@@ -181,8 +181,8 @@ namespace Box.V2.Test
             {
                 PolicyName = "Policy 3",
                 Description = "postman created policy",
-                FilterStartedAt = DateTime.Parse("2016-05-11T00:00:00-08:00"),
-                FilterEndedAt = DateTime.Parse("2016-05-13T00:00:00-08:00")
+                FilterStartedAt = DateTimeOffset.Parse("2016-05-11T00:00:00-08:00"),
+                FilterEndedAt = DateTimeOffset.Parse("2016-05-13T00:00:00-08:00")
 
             };
             BoxLegalHoldPolicy result = await _legalHoldPoliciesManager.CreateLegalHoldPolicyAsync(createRequest);
@@ -195,8 +195,8 @@ namespace Box.V2.Test
             BoxLegalHoldPolicyRequest payLoad = JsonConvert.DeserializeObject<BoxLegalHoldPolicyRequest>(boxRequest.Payload);
             Assert.AreEqual("Policy 3", payLoad.PolicyName);
             Assert.AreEqual("postman created policy", payLoad.Description);
-            Assert.AreEqual(DateTime.Parse("2016-05-11T00:00:00-08:00"), payLoad.FilterStartedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-13T00:00:00-08:00"), payLoad.FilterEndedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-11T00:00:00-08:00"), payLoad.FilterStartedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-13T00:00:00-08:00"), payLoad.FilterEndedAt);
 
             //Response check
             Assert.AreEqual("legal_hold_policy", result.Type);
@@ -204,10 +204,10 @@ namespace Box.V2.Test
             Assert.AreEqual("Policy 3", result.PolicyName);
             Assert.AreEqual("postman created policy", result.Description);
             Assert.IsNull(result.Status);
-            Assert.AreEqual(DateTime.Parse("2016-05-18T16:18:49-07:00"), result.CreatedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-18T16:18:49-07:00"), result.ModifiedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-11T01:00:00-07:00"), result.FilterStartedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-13T01:00:00-07:00"), result.FilterEndedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-18T16:18:49-07:00"), result.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-18T16:18:49-07:00"), result.ModifiedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-11T01:00:00-07:00"), result.FilterStartedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-13T01:00:00-07:00"), result.FilterEndedAt);
 
         }
 
@@ -268,10 +268,10 @@ namespace Box.V2.Test
             Assert.IsNull(result.Status);
             Assert.AreEqual("2030388321", result.CreatedBy.Id);
             Assert.AreEqual("Ryan Churchill", result.CreatedBy.Name);
-            Assert.AreEqual(DateTime.Parse("2016-05-18T16:18:49-07:00"), result.CreatedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-18T16:20:47-07:00"), result.ModifiedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-11T01:00:00-07:00"), result.FilterStartedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-13T01:00:00-07:00"), result.FilterEndedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-18T16:18:49-07:00"), result.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-18T16:20:47-07:00"), result.ModifiedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-11T01:00:00-07:00"), result.FilterStartedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-13T01:00:00-07:00"), result.FilterEndedAt);
 
         }
 
@@ -362,7 +362,7 @@ namespace Box.V2.Test
             Assert.AreEqual("Steve Boxuser", result.AssignedBy.Name);
             Assert.AreEqual("sboxuser@box.com", result.AssignedBy.Login);
             Assert.IsNull(result.DeletedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-18T10:32:19-07:00"), result.AssignedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-18T10:32:19-07:00"), result.AssignedAt);
 
 
         }
@@ -491,7 +491,7 @@ namespace Box.V2.Test
             Assert.AreEqual("Steve Boxuser", result.AssignedBy.Name);
             Assert.AreEqual("sboxuser@box.com", result.AssignedBy.Login);
             Assert.IsNull(result.DeletedAt);
-            Assert.AreEqual(DateTime.Parse("2016-05-18T17:38:03-07:00"), result.AssignedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-05-18T17:38:03-07:00"), result.AssignedAt);
 
 
         }
