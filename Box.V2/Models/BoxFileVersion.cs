@@ -11,6 +11,7 @@ namespace Box.V2.Models
         public const string FieldSha1 = "sha1";
         public const string FieldName = "name";
         public const string FieldSize = "size";
+        public const string FieldUploaderDisplayName = "uploader_display_name";
         public const string FieldCreatedAt = "created_at";
         public const string FieldModifiedAt = "modified_at";
         public const string FieldModifiedBy = "modified_by";
@@ -37,6 +38,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldSize)]
         public long? Size { get; private set; }
+
+        /// <summary>
+        /// The user's name at the time of upload
+        /// </summary>
+        [JsonProperty(PropertyName = FieldUploaderDisplayName)]
+        public string UploaderDisplayName { get; private set; }
 
         /// <summary>
         /// The time the item was created
