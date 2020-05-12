@@ -1,6 +1,6 @@
 # Changelog
 
-## Next Release
+## 3.23.0 [2020-05-12]
 - Add ability to get and set a notification email address for a user
 - Fix deadlock issue for JWT authentication in UI elements
 - Add support for the uploader display name field for Files and File Versions
