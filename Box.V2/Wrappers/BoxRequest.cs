@@ -24,7 +24,7 @@ namespace Box.V2
         public BoxRequest(Uri hostUri, string path)
         {
             string pattern = @"\/\.+";
-            if (Regex.IsMatch(path, pattern) == true)
+            if (path != null && Regex.IsMatch(path, pattern) == true)
             {
                 throw new BoxException($"An invalid path parameter exists in {path}. Relative path parameters cannot be passed.");
             }
