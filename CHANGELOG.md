@@ -1,5 +1,8 @@
 # Changelog
 
+## Next Release
+- Add path parameter sanitization
+
 ## 3.23.0 [2020-05-12]
 - Add ability to get and set a notification email address for a user
 - Fix deadlock issue for JWT authentication in UI elements
