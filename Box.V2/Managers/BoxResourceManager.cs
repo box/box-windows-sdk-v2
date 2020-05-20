@@ -154,7 +154,7 @@ namespace Box.V2.Managers
             {
                 var response = await ToResponseAsync<BoxCollection<T>>(request).ConfigureAwait(false);
                 var newItems = response.ResponseObject;
-                allItemsCollection.Entries.AddRange(newItems.Entries);
+                allItemsCollection.Entries.AddRange(newItems.Entries ??= new List<T>());
                 allItemsCollection.Order = newItems.Order;
 
                 offset += limit;
