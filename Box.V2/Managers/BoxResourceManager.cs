@@ -154,7 +154,7 @@ namespace Box.V2.Managers
             {
                 var response = await ToResponseAsync<BoxCollection<T>>(request).ConfigureAwait(false);
                 var newItems = response.ResponseObject;
-                allItemsCollection.Entries.AddRange(newItems.Entries ??= new List<T>());
+                allItemsCollection.Entries.AddRange(newItems.Entries ?? new List<T>());
                 allItemsCollection.Order = newItems.Order;
 
                 offset += limit;
@@ -186,7 +186,7 @@ namespace Box.V2.Managers
             {
                 var response = await ToResponseAsync<BoxCollectionMarkerBased<T>>(request).ConfigureAwait(false);
                 var newItems = response.ResponseObject;
-                allItemsCollection.Entries.AddRange(newItems.Entries);
+                allItemsCollection.Entries.AddRange(newItems.Entries ?? new List<T>());
                 allItemsCollection.Order = newItems.Order;
 
                 request.Param("marker", newItems.NextMarker);
@@ -215,7 +215,7 @@ namespace Box.V2.Managers
             {
                 var response = await ToResponseAsync<BoxCollectionMarkerBasedV2<T>>(request).ConfigureAwait(false);
                 var newItems = response.ResponseObject;
-                allItemsCollection.Entries.AddRange(newItems.Entries);
+                allItemsCollection.Entries.AddRange(newItems.Entries ?? new List<T>());
                 allItemsCollection.Order = newItems.Order;
 
                 request.Param("marker", newItems.NextMarker);
@@ -243,7 +243,7 @@ namespace Box.V2.Managers
             {
                 var response = await ToResponseAsync<BoxCollectionMarkerBased<T>>(request).ConfigureAwait(false);
                 var newItems = response.ResponseObject;
-                allItemsCollection.Entries.AddRange(newItems.Entries);
+                allItemsCollection.Entries.AddRange(newItems.Entries ?? new List<T>());
                 allItemsCollection.Order = newItems.Order;
 
                 dynamic body = JObject.Parse(request.Payload);
