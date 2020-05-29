@@ -1,9 +1,11 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using Box.V2.Auth;
+using System;
 
 namespace Box.V2.Test.Integration
 {
@@ -13,13 +15,17 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task RestoreFolder_ValidResponse()
         {
-            const string folderId = "44086997331";
-            BoxFolderRequest folderRequest = new BoxFolderRequest()
-            {
-                Id = folderId
-            };
+            //const string folderId = "44086997331";
+            //BoxFolderRequest folderRequest = new BoxFolderRequest()
+            //{
+            //    Id = folderId
+            //};
 
-            var restoredFolder = await _client.FoldersManager.RestoreTrashedFolderAsync(folderRequest);
+            //var restoredFolder = await _client.FoldersManager.RestoreTrashedFolderAsync(folderRequest);
+            var config = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://localhost"));
+            var session = new OAuthSession("RbrZF8avxQy0UFe73ypSCsdJ9i63zzg9", "N/A", 3600, "bearer");
+            var client = new BoxClient(config, session);
+            BoxFolder folder = await client.FoldersManager.GetInformationAsync("559104530677/../../../oauth2/authorize?client_id=io284hojwubaghlbpzooc1o342wf6u37&");
         }
 
         [TestMethod]

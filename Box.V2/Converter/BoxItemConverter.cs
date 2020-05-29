@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Models;
 using Box.V2.Utility;
 using Newtonsoft.Json;
@@ -166,6 +166,10 @@ namespace Box.V2.Converter
 
             // Load JObject from stream
             JObject jObject = JObject.Load(reader);
+            if (jObject.GetValue("notification_email") != null)
+            {
+                //Console.WriteLine(jObject.GetValue("notification_email").Type);
+            }
 
             // Create target object based on JObject
             T target = Create(objectType, jObject);
@@ -181,4 +185,6 @@ namespace Box.V2.Converter
             throw new NotImplementedException();
         }
     }
+
+
 }

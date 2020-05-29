@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Box.V2.Models
 {
@@ -198,7 +199,8 @@ namespace Box.V2.Models
         /// An alternate notification email address to which email notifications are sent. When it's confirmed, this will be the email address to which notifications are sent instead
         /// of to the primary email address.
         /// </summary>
-        [JsonProperty(PropertyName = FieldNotificationEmail)]
+        [DefaultValue(null)]
+        [JsonProperty(PropertyName = FieldNotificationEmail, DefaultValueHandling = DefaultValueHandling.Populate)]
         public BoxNotificationEmail NotificationEmail { get; set; }
     }
 }

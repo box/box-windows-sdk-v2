@@ -133,7 +133,8 @@ namespace Box.V2.Test
                 ""my_tags"": [
                     ""important""
                 ],
-                ""hostname"": ""https://example.app.box.com/""
+                ""hostname"": ""https://example.app.box.com/"",
+                ""notification_email"": []
             }";
             Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
@@ -143,7 +144,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            string[] fields = { "name", "timezone", "is_external_collab_restricted", "my_tags", "hostname" };
+            string[] fields = { "name", "timezone", "is_external_collab_restricted", "my_tags", "hostname", "notification_email" };
             BoxUser user = await _usersManager.GetCurrentUserInformationAsync(fields);
 
             /*** Assert ***/
@@ -153,6 +154,7 @@ namespace Box.V2.Test
             Assert.IsTrue(user.IsExternalCollabRestricted.Value);
             Assert.AreEqual("important", user.Tags[0]);
             Assert.AreEqual("https://example.app.box.com/", user.Hostname);
+            Assert.AreEqual(user.SpaceAmount, null);
         }
 
         [TestMethod]
