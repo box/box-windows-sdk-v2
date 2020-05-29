@@ -2,6 +2,7 @@
 
 ## Next Release
 - Add path parameter sanitization
+- Add support for the classification field for Files and Folders
 
 ## 3.23.0 [2020-05-12]
 - Add ability to get and set a notification email address for a user
