@@ -446,7 +446,12 @@ namespace Box.V2.Test
                             ""limit"": 100
                         },
                         ""expires_at"": ""2020-11-03T22:00:00Z"",
-                        ""is_collaboration_restricted_to_enterprise"": true
+                        ""is_collaboration_restricted_to_enterprise"": true,
+                        ""classification"": {
+                            ""name"": ""Top Secret"",
+                            ""definition"": ""Content that should not be shared outside the company."",
+                            ""color"": ""#FF0000""
+                          }
                     }"
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r); ;
@@ -516,6 +521,9 @@ namespace Box.V2.Test
             Assert.AreEqual(f.ItemCollection.Offset, 0);
             Assert.AreEqual(f.ItemCollection.Limit, 100);
             Assert.AreEqual("2020-11-03T22:00:00Z", f.ExpiresAt.Value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ssZ", System.Globalization.DateTimeFormatInfo.InvariantInfo));
+            Assert.AreEqual("Top Secret", f.Classification.Name);
+            Assert.AreEqual("Content that should not be shared outside the company.", f.Classification.Definition);
+            Assert.AreEqual("#FF0000", f.Classification.Color);
             Assert.IsTrue(f.IsCollaborationRestrictedToEnterprise.Value);
 
         }

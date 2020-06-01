@@ -160,7 +160,12 @@ namespace Box.V2.Test
                 ""expires_at"": ""2020-11-03T22:00:00Z"",
                 ""allowed_invitee_roles"": [ ""editor"" ],
                 ""has_collaborations"": false,
-                ""is_externally_owned"": false
+                ""is_externally_owned"": false,
+                ""classification"": {
+                    ""name"": ""Top Secret"",
+                    ""definition"": ""Content that should not be shared outside the company."",
+                    ""color"": ""#FF0000""
+                  }
             }";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
@@ -190,6 +195,9 @@ namespace Box.V2.Test
             Assert.AreEqual("needs review", f.Tags[1]);
             Assert.AreEqual("2020-11-03T22:00:00Z", f.ExpiresAt.Value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ssZ", DateTimeFormatInfo.InvariantInfo));
             Assert.AreEqual("editor", f.AllowedInviteeRoles.First());
+            Assert.AreEqual("Top Secret", f.Classification.Name);
+            Assert.AreEqual("Content that should not be shared outside the company.", f.Classification.Definition);
+            Assert.AreEqual("#FF0000", f.Classification.Color);
             Assert.IsFalse(f.HasCollaborations.Value);
             Assert.IsFalse(f.IsExternallyOwned.Value);
         }
