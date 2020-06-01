@@ -88,6 +88,7 @@
     <Compile Include="Managers\BoxWebLinksManager.cs" />
     <Compile Include="Models\BoxApplication.cs" />
     <Compile Include="Models\BoxAssignmentCounts.cs" />
+    <Compile Include="Models\BoxClassification.cs" />
     <Compile Include="Models\BoxCollectionItem.cs" />
     <Compile Include="Models\BoxDevicePin.cs" />
     <Compile Include="Models\BoxEmailAlias.cs" />
