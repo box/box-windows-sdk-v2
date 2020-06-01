@@ -126,7 +126,6 @@ namespace Box.V2.Config
         public virtual Uri BoxAccountApiHostUri { get; set; } = new Uri(Constants.BoxAccountApiHostUriString);
         public virtual Uri BoxApiUri { get; set; } = new Uri(Constants.BoxApiUriString);
         public virtual Uri BoxUploadApiUri { get; set; } = new Uri(Constants.BoxUploadApiUriString);
-        public virtual Uri BoxUploadApiUriV21 { get; set; } = new Uri(Constants.BoxUploadApiUriV21String);
 
         public virtual string ClientId { get; private set; }
         public virtual string ConsumerKey { get; private set; }
