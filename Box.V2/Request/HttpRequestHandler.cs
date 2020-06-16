@@ -17,7 +17,7 @@ namespace Box.V2.Request
     {
         public const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
         public const int RetryLimit = 5;
-        readonly TimeSpan defaultRequestTimeout = new TimeSpan(0, 0, 100); // 100 seconds, same as default HttpClient timeout
+        readonly TimeSpan defaultRequestTimeout = new TimeSpan(0, 0, 1000); // 100 seconds, same as default HttpClient timeout
 
         public HttpRequestHandler(IWebProxy webProxy = null)
         {

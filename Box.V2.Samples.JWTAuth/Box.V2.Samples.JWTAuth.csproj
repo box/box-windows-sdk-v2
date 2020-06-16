@@ -71,10 +71,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="private_key.pem">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="private_key.pem.example" />
+    <None Include="private_key.pem" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Box.V2\Box.V2.csproj">
