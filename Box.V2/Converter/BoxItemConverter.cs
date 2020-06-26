@@ -166,9 +166,10 @@ namespace Box.V2.Converter
 
             // Load JObject from stream
             JObject jObject = JObject.Load(reader);
-            if (jObject.GetValue("notification_email") != null)
+            // The notification_email field for the user object is an object when a value exists and is an empty array when it isn't. The code below converts the array to null to avoid deserialization issues.  
+            if (jObject["type"] != null && jObject["type"].ToString() == "user" && jObject["notification_email"] != null && jObject["notification_email"].Type == JTokenType.Array)
             {
-                //Console.WriteLine(jObject.GetValue("notification_email").Type);
+                jObject["notification_email"] = null;
             }
 
             // Create target object based on JObject

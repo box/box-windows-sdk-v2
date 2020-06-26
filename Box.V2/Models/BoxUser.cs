@@ -199,8 +199,7 @@ namespace Box.V2.Models
         /// An alternate notification email address to which email notifications are sent. When it's confirmed, this will be the email address to which notifications are sent instead
         /// of to the primary email address.
         /// </summary>
-        [DefaultValue(null)]
-        [JsonProperty(PropertyName = FieldNotificationEmail, DefaultValueHandling = DefaultValueHandling.Populate)]
-        public BoxNotificationEmail NotificationEmail { get; set; }
+        [JsonProperty(PropertyName = FieldNotificationEmail)]
+        public BoxNotificationEmail NotificationEmail { get; private set; }
     }
 }
