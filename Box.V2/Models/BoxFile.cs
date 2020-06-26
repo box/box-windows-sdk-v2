@@ -26,6 +26,7 @@ namespace Box.V2.Models
         public const string FieldHasCollaborations = "has_collaborations";
         public const string FieldIsExternallyOwned = "is_externally_owned";
         public const string FieldUploaderDisplayName = "uploader_display_name";
+        public const string FieldClassification = "classification";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -142,5 +143,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldUploaderDisplayName)]
         public string UploaderDisplayName { get; private set; }
+
+        /// <summary>
+        /// Represents the classification information for a File on Box.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldClassification)]
+        public BoxClassification Classification { get; private set; }
     }
 }
