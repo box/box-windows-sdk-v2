@@ -4,8 +4,6 @@ using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
-using Box.V2.Auth;
-using System;
 
 namespace Box.V2.Test.Integration
 {

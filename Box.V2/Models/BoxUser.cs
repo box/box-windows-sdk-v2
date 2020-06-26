@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Box.V2.Models
 {
@@ -200,6 +199,6 @@ namespace Box.V2.Models
         /// of to the primary email address.
         /// </summary>
         [JsonProperty(PropertyName = FieldNotificationEmail)]
-        public BoxNotificationEmail NotificationEmail { get; private set; }
+        public BoxNotificationEmail NotificationEmail { get; set; }
     }
 }
