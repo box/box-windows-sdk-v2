@@ -12,7 +12,6 @@ namespace Box.V2.Config
         public const string BoxAccountApiHostUriString = "https://account.box.com/api/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
-        public const string BoxUploadApiUriV21String = "https://upload.box.com/api/2.1/";
 
 
         /*** API Endpoints ***/
@@ -90,7 +89,7 @@ namespace Box.V2.Config
         public const string FilesEndpointString = BoxApiUriString + FilesString;
         public const string FilesUploadEndpointString = BoxUploadApiUriString + FilesUploadString;
         public const string FilesNewVersionEndpointString = BoxUploadApiUriString + FilesNewVersionString;
-        public const string FilesNewVersionUploadSessionEndpointString = BoxUploadApiUriV21String + FilesNewVersionUploadSessionString;
+        public const string FilesNewVersionUploadSessionEndpointString = BoxUploadApiUriString + FilesNewVersionUploadSessionString;
         public const string FilesPreflightCheckNewVersionString = BoxApiUriString + FilesNewVersionString;
         public const string CommentsEndpointString = BoxApiUriString + CommentsString;
         public const string SearchEndpointString = BoxApiUriString + SearchString;

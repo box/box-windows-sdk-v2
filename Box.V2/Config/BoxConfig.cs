@@ -126,7 +126,6 @@ namespace Box.V2.Config
         public virtual Uri BoxAccountApiHostUri { get; set; } = new Uri(Constants.BoxAccountApiHostUriString);
         public virtual Uri BoxApiUri { get; set; } = new Uri(Constants.BoxApiUriString);
         public virtual Uri BoxUploadApiUri { get; set; } = new Uri(Constants.BoxUploadApiUriString);
-        public virtual Uri BoxUploadApiUriV21 { get; set; } = new Uri(Constants.BoxUploadApiUriV21String);
 
         public virtual string ClientId { get; private set; }
         public virtual string ConsumerKey { get; private set; }
@@ -159,10 +158,7 @@ namespace Box.V2.Config
         /// Upload session
         /// </summary>
         public virtual Uri FilesUploadSessionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesUploadSessionString); } }
-
-        //public virtual Uri FilesNewVersionEndpointUri { get { return new Uri(BoxUploadApiUri, Constants.FilesNewVersionString); } }
         public virtual Uri FilesPreflightCheckUri { get { return new Uri(BoxApiUri, Constants.FilesUploadString); } }
-        //public virtual Uri FilesPreflightCheckNewVersionUri { get { return new Uri(BoxApiUri, Constants.FilesNewVersionString); } }
         public virtual Uri CommentsEndpointUri { get { return new Uri(BoxApiUri, Constants.CommentsString); } }
         public virtual Uri SearchEndpointUri { get { return new Uri(BoxApiUri, Constants.SearchString); } }
         public virtual Uri UserEndpointUri { get { return new Uri(BoxApiUri, Constants.UserString); } }
