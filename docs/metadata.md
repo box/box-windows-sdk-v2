@@ -471,7 +471,7 @@ Execute Metadata Query
 ------------------------
 There are two types of methods for executing a metadata query, methods without the fields parameter and with it. The methods without the fields parameters return data that is a `BoxMetadataQueryItem`. The methods with the fields parameters return a `BoxItem` object. Examples of these two types are shown below.
 
-The `MetadataManager.ExecuteMetadataQueryAsync(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false)` method queries files and folders based on their metadata.
+The `MetadataManager.ExecuteMetadataQueryAsync(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters, string indexName, List<BoxMetadataQueryOrderBy> orderBy, int limit, string marker, bool autoPaginate)` method queries files and folders based on their metadata.
 ```c#
 var queryParams = new Dictionary<string, object>();
 queryParams.Add("arg", 100);
@@ -482,10 +482,10 @@ var orderBy = new BoxMetadataQueryOrderBy()
     Direction = BoxSortDirection.ASC
 };
 orderByList.Add(orderBy);
-BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, autoPaginate: false);
+BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, autoPaginate: true);
 ```
 
-The `MetadataManager.ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false)` method queries files and folders based on their metadata and allows for fields to be passed in.
+The `MetadataManager.ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query, Dictionary<string, object> queryParameters, string indexName, List<BoxMetadataQueryOrderBy> orderBy, int limit, string marker, bool autoPaginate)` method queries files and folders based on their metadata and allows for fields to be passed in.
 ```c#
 var queryParams = new Dictionary<string, object>();
 queryParams.Add("arg", "Bob Dylan");
@@ -494,8 +494,7 @@ fields.Add("id");
 fields.Add("name");
 fields.Add("sha1");
 fields.Add("metadata.enterprise_240748.catalogImages.photographer");
-BoxCollectionMarkerBased<BoxItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_67890.catalogImages", query: "photographer = :arg", fields: fields, queryParameters: queryParams, ancestorFolderId: "0", autoPaginate: false);
-
+BoxCollectionMarkerBased<BoxItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_67890.catalogImages", query: "photographer = :arg", fields: fields, queryParameters: queryParams, ancestorFolderId: "0", autoPaginate: true);
 ```
 
 
