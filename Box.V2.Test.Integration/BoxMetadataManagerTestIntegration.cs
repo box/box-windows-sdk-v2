@@ -242,7 +242,7 @@ namespace Box.V2.Test.Integration
         // This test is disabled because our test account has hit the maximum number of metadata templates (50).
         // Until we can figure out how to delete some templates or increase the limit this test will fail.
         [TestMethod]
-        // [TestCategory("CI-APP-USER")]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_UpdateTemplate_LiveSession()
         {
             /*

@@ -29,7 +29,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        // [TestCategory("CI-APP-USER")]
+        [TestCategory("CI-APP-USER")]
         public async Task ExternalAppUserId_LiveSession_ValidResponse()
         {
             // Works only on adminClient
