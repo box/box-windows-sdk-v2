@@ -1,4 +1,4 @@
-﻿using Box.V2.Models;
+using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -8,7 +8,7 @@ namespace Box.V2.Test.Integration
     public class BoxRecentItemsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task RecentItemsTests_LiveSession()
         {
             // Get 3 recents items w/o auto paging

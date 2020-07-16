@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
@@ -94,7 +94,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task FolderGetTrashItems_LiveSession_ValidResponse()
         {
             var results = await _client.FoldersManager.GetTrashItemsAsync(10);
@@ -102,7 +102,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task Watermark_Folders_CRUD()
         {
             string testName = GetUniqueName();
@@ -140,7 +140,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task FolderWorkflow_LiveSession_ValidResponse()
         {
             string testName = GetUniqueName();
@@ -205,7 +205,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task FolderSharedLink_CreateAndDelete_ValidResponse()
         {
             string testName = GetUniqueName();

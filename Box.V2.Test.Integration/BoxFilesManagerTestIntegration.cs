@@ -70,7 +70,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         [ExpectedException(typeof(TimeoutException))]
         public async Task Download_ValidRequest_Timeout()
         {
@@ -371,7 +371,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_CommitSession_FilePresent()
         {
             long fileSize = 50000000;
@@ -444,7 +444,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_Utility_Function_FilePresent()
         {
             long fileSize = 50000000;
@@ -488,7 +488,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task GetRepresentationContentAsync_E2E()
         {
 
