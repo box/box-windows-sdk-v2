@@ -356,11 +356,11 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="from">The template used in the query. Must be in the form scope.templateKey</param>
         /// <param name="ancestorFolderId">The folder_id to which to restrain the query</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
         /// <param name="query">The logical expression of the query</param>
         /// <param name="queryParameters">Required if query present. The arguments for the query</param>
         /// <param name="indexName">The name of the Index to use</param>
         /// <param name="orderBy">A list of BoxMetadataQueryOrderBy objects that contain field_key(s) to order on and the corresponding direction(s)</param>
-        /// <param name="fields">Attribute(s) to include in the response</param>
         /// <param name="limit">The maximum number of items to return in a page. The default is 100 and the max is 1000.</param>
         /// <param name="marker">The marker to use for requesting the next page</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
