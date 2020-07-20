@@ -5,6 +5,7 @@
 - Add support for the classification field for Files and Folders
 - Fix bug with notification email field deserializing for `BoxUser` 
 - Add `fields` parameter for metadata query
+- Add ability to set a request timeout for `FoldersManager.UpdateInformationAsync()` and `UsersManager.MoverUserFolderAsync`
 
 ## 3.23.0 [2020-05-12]
 - Add ability to get and set a notification email address for a user
