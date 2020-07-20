@@ -333,50 +333,11 @@ namespace Box.V2.Managers
             from.ThrowIfNullOrWhiteSpace("from");
             ancestorFolderId.ThrowIfNullOrWhiteSpace("ancestorFolderId");
 
-            dynamic queryObject = new JObject();
-
-            queryObject.from = from;
-            queryObject.ancestor_folder_id = ancestorFolderId;
-            queryObject.limit = limit;
-
-            if (query != null)
-            {
-                queryObject.query = query;
-            }
-
-            if (queryParameters != null)
-            {
-                queryObject.query_params = JObject.FromObject(queryParameters);
-            }
-
-            if (indexName != null)
-            {
-                queryObject.use_index = indexName;
-            }
-
-            if (orderBy != null)
-            {
-                List<JObject> orderByList = new List<JObject>();
-                foreach (var order in orderBy)
-                {
-                    dynamic orderByObject = new JObject();
-                    orderByObject.field_key = order.FieldKey;
-                    orderByObject.direction = order.Direction.ToString();
-                    orderByList.Add(orderByObject);
-                }
-                queryObject.order_by = JArray.FromObject(orderByList);
-            }
-
-            if (marker != null)
-            {
-                queryObject.marker = marker;
-            }
-
-            string queryStr = _converter.Serialize(queryObject);
+            JObject bodyObject = getMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, null, limit, marker);
 
             BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
                 .Method(RequestMethod.Post)
-                .Payload(queryStr);
+                .Payload(_converter.Serialize(bodyObject));
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
             if (autoPaginate)
@@ -390,9 +351,104 @@ namespace Box.V2.Managers
             }
         }
 
+        /// <summary>
+        /// Allows you to query by metadata on Box items with fields passed in
+        /// </summary>
+        /// <param name="from">The template used in the query. Must be in the form scope.templateKey</param>
+        /// <param name="ancestorFolderId">The folder_id to which to restrain the query</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="query">The logical expression of the query</param>
+        /// <param name="queryParameters">Required if query present. The arguments for the query</param>
+        /// <param name="indexName">The name of the Index to use</param>
+        /// <param name="orderBy">A list of BoxMetadataQueryOrderBy objects that contain field_key(s) to order on and the corresponding direction(s)</param>
+        /// <param name="limit">The maximum number of items to return in a page. The default is 100 and the max is 1000.</param>
+        /// <param name="marker">The marker to use for requesting the next page</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <returns>A collection of items and their associated metadata</returns>
+        public async Task<BoxCollectionMarkerBased<BoxItem>> ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        {
+            from.ThrowIfNullOrWhiteSpace("from");
+            ancestorFolderId.ThrowIfNullOrWhiteSpace("ancestorFolderId");
+            if (fields == null)
+            {
+                throw new ArgumentException("Required field cannot be null", "fields");
+            }
+
+            JObject bodyObject = getMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, fields, limit, marker);
+
+            BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(bodyObject));
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarkerMetadataQueryV2<BoxItem>(request);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxItem>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxItem>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
+        }
+
         //************************************
         //Private methods
         //************************************
+
+        private JObject getMetadataQueryBody(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, IEnumerable<string> fields = null, int limit = 100, string marker = null)
+        {
+            dynamic bodyObject = new JObject();
+
+            bodyObject.from = from;
+            bodyObject.ancestor_folder_id = ancestorFolderId;
+            bodyObject.limit = limit;
+
+            if (query != null)
+            {
+                bodyObject.query = query;
+            }
+
+            if (queryParameters != null)
+            {
+                bodyObject.query_params = JObject.FromObject(queryParameters);
+            }
+
+            if (indexName != null)
+            {
+                bodyObject.use_index = indexName;
+            }
+
+            if (orderBy != null)
+            {
+                List<JObject> orderByList = new List<JObject>();
+                foreach (var order in orderBy)
+                {
+                    dynamic orderByObject = new JObject();
+                    orderByObject.field_key = order.FieldKey;
+                    orderByObject.direction = order.Direction.ToString();
+                    orderByList.Add(orderByObject);
+                }
+                bodyObject.order_by = JArray.FromObject(orderByList);
+            }
+
+            if (fields != null)
+            {
+                JArray fieldArray = new JArray();
+                foreach (var field in fields)
+                {
+                    fieldArray.Add(field);
+                }
+                bodyObject.fields = fieldArray;
+            }
+
+            if (marker != null)
+            {
+                bodyObject.marker = marker;
+            }
+
+            return bodyObject;
+        }
 
         private async Task<Dictionary<string, object>> UpdateMetadata(Uri hostUri, string id, List<BoxMetadataUpdate> updates, string scope, string template)
         {
