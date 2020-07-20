@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.JWTAuth;
 using Box.V2.Models;
 using System;
@@ -31,7 +31,7 @@ namespace Box.V2.Samples.JWTAuth
         static async Task MainAsync()
         {
             // rename the private_key.pem.example to private_key.pem and put your JWT private key in the file
-            var privateKey = File.ReadAllText("private_key.pem");
+            var privateKey = File.ReadAllText("private_key.pem.example");
 
             var boxConfig = new BoxConfig(CLIENT_ID, CLIENT_SECRET, ENTERPRISE_ID, privateKey, JWT_PRIVATE_KEY_PASSWORD, JWT_PUBLIC_KEY_ID);
             var boxJWT = new BoxJWTAuth(boxConfig);
