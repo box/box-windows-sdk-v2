@@ -258,7 +258,7 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Used to fetch all results using pagination for metadata queries. V2 is for when a BoxItem is returned when fields are passed in.
+        /// Used to fetch all results using pagination for metadata queries. V2 of this method expects a fields parameter to be passed in and returns a collection of BoxItem objects.
         /// </summary>
         /// <typeparam name="T">The type of BoxCollectionMarkerBased item to expect.</typeparam>
         /// <param name="request">The pre-configured BoxRequest object.</param>
