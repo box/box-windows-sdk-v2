@@ -1,6 +1,6 @@
 # Changelog
 
-## Next Release
+## 3.24.0 [2020-07-21]
 - Add path parameter sanitization
 - Add support for the classification field for Files and Folders
 - Fix bug with notification email field deserializing for `BoxUser` 

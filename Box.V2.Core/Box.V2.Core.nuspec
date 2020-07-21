@@ -4,8 +4,8 @@
     <id>Box.V2.Core</id>
     <version>3.5.2</version>
     <title>Box Windows SDK V2 Core</title>
-    <authors>Box, Inc.</authors>
-    <owners>Box, Inc.</owners>
+    <authors>Box Inc.</authors>
+    <owners>Box Inc.</owners>
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Windows SDK for v2 of the Box API. The SDK is built for .NET Core and includes JWTAuth support.</description>
