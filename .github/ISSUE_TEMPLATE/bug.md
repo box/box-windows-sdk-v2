@@ -45,4 +45,4 @@ Windows: <!-- Replace with the version of Windows your application is running on
 [sdk-docs]: ./docs
 [api-docs]: https://developer.box.com/docs
 [dev-forums]: https://community.box.com/t5/Platform-and-Development-Forum/bd-p/DeveloperForum
-[github-repo]: https://github.com/box/box-java-sdk/search?type=Issues
+[github-repo]: https://github.com/box/box-windows-sdk-v2/search?type=Issues
