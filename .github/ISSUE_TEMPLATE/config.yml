@@ -2,13 +2,13 @@ blank_issues_enabled: false
 contact_links:
   - name: SDK documentation
     url: https://github.com/box/box-windows-sdk-v2/tree/master/docs
-    about: I have checked that the SDK documentation doesn't solve my issue.
+    about: Before creating an issue, I have checked that the SDK documentation doesn't solve my issue.
   - name: API documentation
     url: https://developer.box.com/docs
-    about: I have checked that the API documentation doesn't solve my issue.
+    about: Before creating an issue, I have checked that the API documentation doesn't solve my issue.
   - name: Box Developer Forums
     url: https://community.box.com/t5/Platform-and-Development-Forum/bd-p/DeveloperForum
-    about: I have searched the Box Developer Forums and my issue isn't already reported there.
+    about: Before creating an issue, I have searched the Box Developer Forums and my issue isn't already reported there.
   - name: Issues in this repo
     url: https://github.com/box/box-windows-sdk-v2/search?type=Issues
-    about: I have searched Issues in this repo and my issue isn't already reported.
+    about: Before creating an issue, I have searched Issues in this repo and my issue isn't already reported.
