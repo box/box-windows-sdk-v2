@@ -9,6 +9,6 @@ contact_links:
   - name: Box Developer Forums
     url: https://community.box.com/t5/Platform-and-Development-Forum/bd-p/DeveloperForum
     about: I have searched the Box Developer Forums and my issue isn't already reported there.
-  - name: SDK documentation
+  - name: Issues in this repo
     url: https://github.com/box/box-windows-sdk-v2/search?type=Issues
     about: I have searched Issues in this repo and my issue isn't already reported.
