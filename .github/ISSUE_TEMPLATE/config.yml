@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Bug
+    url: https://github.com/box/box-windows-sdk-v2/issues/new?assignees=PJSimon%2C+sujaygarlanka&labels=bug&template=bug.md&title=
+    about: Report your bug
   - name: SDK documentation
     url: https://github.com/box/box-windows-sdk-v2/tree/master/docs
     about: I have checked that the SDK documentation doesn't solve my issue.
