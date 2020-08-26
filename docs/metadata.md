@@ -485,7 +485,7 @@ orderByList.Add(orderBy);
 BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, autoPaginate: true);
 ```
 
-The `MetadataManager.ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query, Dictionary<string, object> queryParameters, string indexName, List<BoxMetadataQueryOrderBy> orderBy, int limit, string marker, bool autoPaginate)` method queries files and folders based on their metadata and allows for fields to be passed in.
+The `MetadataManager.ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query, Dictionary<string, object> queryParameters, string indexName, List<BoxMetadataQueryOrderBy> orderBy, int limit, string marker, bool autoPaginate)` method queries files and folders based on their metadata and allows for fields to be passed in. A returned `BoxItem` must be cast to a `BoxFile` or `BoxFolder` to get its metadata.
 ```c#
 var queryParams = new Dictionary<string, object>();
 queryParams.Add("arg", "Bob Dylan");
@@ -493,8 +493,12 @@ List<string> fields = new List<string>();
 fields.Add("id");
 fields.Add("name");
 fields.Add("sha1");
-fields.Add("metadata.enterprise_240748.catalogImages.photographer");
+fields.Add("metadata.enterprise_240748.catalogImages.catalogImages");
 BoxCollectionMarkerBased<BoxItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_67890.catalogImages", query: "photographer = :arg", fields: fields, queryParameters: queryParams, ancestorFolderId: "0", autoPaginate: true);
+BoxFile file = (BoxFile) items.Entries[0];
+BoxFolder folder = (BoxFolder) items.Entries[1];
+string metadataFile = file.Metadata["enterprise_240748"]["catalogImages"]["photographer"].Value;
+string metadataFolder = folder.Metadata["enterprise_240748"]["catalogImages"]["photographer"].Value;
 ```
 
 
