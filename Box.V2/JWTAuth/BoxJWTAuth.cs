@@ -171,35 +171,25 @@ namespace Box.V2.JWTAuth
                     // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
                     // If we get a 202 code and has a retry-after header, we will retry after.
                     // If we get a 400 due to exp claim issue, this can happen if the current system time is too different from the Box server time, so retry.
-                    if ((ex.StatusCode != null
-                            &&
-                            (ex.StatusCode == HttpRequestHandler.TooManyRequests
-                            ||
-                            ex.StatusCode == HttpStatusCode.InternalServerError
-                            ||
-                            ex.StatusCode == HttpStatusCode.BadGateway
-                            ||
-                            ex.StatusCode == HttpStatusCode.ServiceUnavailable
-                            ||
-                            ex.StatusCode == HttpStatusCode.GatewayTimeout
-                            ||
-                            (ex.StatusCode == HttpStatusCode.Accepted 
-                                && 
-                                retryAfterHeader != null)
-                            ||
-                            (ex.StatusCode == HttpStatusCode.BadRequest 
-                                && 
-                                ex.Error != null 
-                                && 
-                                ex.Error.Code != null 
-                                && 
-                                ex.Error.Code.Contains("invalid_grant") 
-                                && 
-                                ex.Error.Description != null 
-                                && 
-                                ex.Error.Description.Contains("exp"))))
-                        && 
-                        retryCounter++ < HttpRequestHandler.RetryLimit)
+                    var errorCode = ex.Error?.Code ?? ex.Error?.Name;
+                    var errorDescription = ex.Error?.Message ?? ex.Error?.Description;
+
+                    if ((ex.StatusCode == HttpRequestHandler.TooManyRequests
+                        ||
+                        ex.StatusCode == HttpStatusCode.InternalServerError
+                        ||
+                        ex.StatusCode == HttpStatusCode.BadGateway
+                        ||
+                        ex.StatusCode == HttpStatusCode.ServiceUnavailable
+                        ||
+                        ex.StatusCode == HttpStatusCode.GatewayTimeout
+                        ||
+                        (ex.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)
+                        ||
+                        (ex.StatusCode == HttpStatusCode.BadRequest
+                        && errorCode != null && errorCode.Contains("invalid_grant")
+                        && errorDescription != null && errorDescription.Contains("exp")))
+                        && retryCounter++ < HttpRequestHandler.RetryLimit)
                     {
 
                         TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
