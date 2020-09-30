@@ -488,6 +488,7 @@ string metadataFolder = folder.Metadata["enterprise_240748"]["catalogImages"]["p
 ```
 
 **Deprecated**
+
 The `MetadataManager.ExecuteMetadataQueryAsync(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters, string indexName, List<BoxMetadataQueryOrderBy> orderBy, int limit, string marker, bool autoPaginate)` method queries files and folders based on their metadata.
 ```c#
 var queryParams = new Dictionary<string, object>();
