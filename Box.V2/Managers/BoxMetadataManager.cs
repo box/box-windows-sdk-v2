@@ -328,6 +328,7 @@ namespace Box.V2.Managers
         /// <param name="marker">The marker to use for requesting the next page</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>A collection of items and their associated metadata</returns>
+        [Obsolete("This method is deprecated in favor of ExecuteMetadataQueryAsync() that has a fields parameter. The API will eventually not support this method.")]
         public async Task<BoxCollectionMarkerBased<BoxMetadataQueryItem>> ExecuteMetadataQueryAsync(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             from.ThrowIfNullOrWhiteSpace("from");
