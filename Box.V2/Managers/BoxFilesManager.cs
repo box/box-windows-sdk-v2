@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
+using Box.V2.Models.Request;
 
 namespace Box.V2.Managers
 {
@@ -1327,6 +1328,24 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Creates a zip and downloads it to a given Stream.
+        /// </summary>
+        /// <param name="boxZipRequest">Object of type BoxZipRequest that contains name and items.</param>
+        /// <param name="output">The stream to where the zip file will be written.</param>
+        /// <returns>The status of the download.</returns>
+        /// </summary>
+        public async Task<Stream> DownloadZip(BoxZipRequest zipRequest, Stream output)
+        {
+            BoxZip createdZip = await CreateZip(zipRequest);
+
+            IBoxRequest downloadRequest;
+            IBoxResponse<Stream> response;
+            downloadRequest = new BoxRequest(createdZip.DownloadUrl);
+            response = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
+
+        /// <summary>
         /// Representations are digital assets stored in Box. We can request the following representations: PDF, Extracted Text, Thumbnail,
         /// and Single Page depending on whether the file type is supported by passing in the corresponding x-rep-hints header. This will generate a 
         /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
@@ -1367,6 +1386,16 @@ namespace Box.V2.Managers
             
         }
 
+        private async Task<BoxZip> CreateZip(BoxZipRequest zipRequest)
+        {
+            BoxRequest request = new BoxRequest(_config.FilesEndpointUri)
+               .Method(RequestMethod.Post)
+               .Payload(_converter.Serialize(zipRequest));
+
+            IBoxResponse<BoxZip> response = await ToResponseAsync<BoxZip>(request).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
+
         private async Task<string> PollRepresentationInfo(string infoUrl)
         {
             var infoRequest = new BoxRequest(new Uri(infoUrl));
@@ -1387,6 +1416,7 @@ namespace Box.V2.Managers
                     throw new BoxException("Representation has unknown status");
             }
         }
+
     }
 
     internal static class UploadUsingSessionInternal

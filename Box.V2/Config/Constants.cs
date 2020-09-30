@@ -53,6 +53,7 @@ namespace Box.V2.Config
         public const string StoragePoliciesString = @"storage_policies/";
         public const string StoragePolicyAssignmentsString = @"storage_policy_assignments/";
         public const string StoragePolicyAssignmentsForTargetString = @"storage_policy_assignments";
+        public const string ZipDownloadsString = @"zip_downloads";
 
         /// <summary>
         /// The shared items constant
