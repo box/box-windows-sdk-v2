@@ -1116,7 +1116,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task DownloadZip_ValidResponse()
         {
-            using (FileStream exampleFile = new FileStream(string.Format(getSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
+            using (FileStream exampleFile = new FileStream(string.Format("../.././TestData/smalltest.pdf"), FileMode.OpenOrCreate))
             {
                 /*** Arrange ***/
                 string responseStringCreateZip = "{\"download_url\": \"https://api.box.com/zip_downloads/124hfiowk3fa8kmrwh/content\",\"status_url\": \"https://api.box.com/zip_downloads/124hfiowk3fa8kmrwh/status\",\"expires_at\": \"2018-04-25T11:00:18-07:00\", \"name_conflicts\":[[{\"id\":\"100\",\"type\":\"file\",\"original_name\":\"salary.pdf\",\"download_name\":\"aqc823.pdf\"},{\"id\":\"200\",\"type\": \"file\",\"original_name\":\"salary.pdf\",\"download_name\": \"aci23s.pdf\"}],[{\"id\":\"1000\",\"type\": \"folder\",\"original_name\":\"employees\",\"download_name\":\"3d366a_employees\"},{\"id\":\"2000\",\"type\": \"folder\",\"original_name\":\"employees\",\"download_name\": \"3aa6a7_employees\"}]]}";
@@ -1168,7 +1168,7 @@ namespace Box.V2.Test
                 };
                 request.Items.Add(file);
                 request.Items.Add(folder);
-                FileStream fs = File.Create(@"C:\Users\sgarlanka\Documents\test.png");
+                Stream fs = new MemoryStream(100);
 
                 BoxZipDownloadStatus status = await _filesManager.DownloadZip(request, fs);
                 /*** Assert ***/
@@ -1182,11 +1182,11 @@ namespace Box.V2.Test
                 Assert.AreEqual("466239504569", items[0]["id"]);
                 Assert.AreEqual("file", items[0]["type"]);
 
-                // Response check
+                // Reponse Check
                 Assert.AreEqual(status.TotalFileCount, 20);
                 Assert.AreEqual(status.State, BoxZipDownloadState.succeeded);
                 Assert.AreEqual(status.NameConflicts[0][0].OriginalName, "salary.pdf");
-                // Assert.IsNotNull(rsp, "Stream is Null");
+                Assert.AreNotEqual(fs.Length, 0);
             }
         }
     }

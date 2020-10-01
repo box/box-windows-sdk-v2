@@ -1337,7 +1337,6 @@ namespace Box.V2.Managers
         public async Task<BoxZipDownloadStatus> DownloadZip(BoxZipRequest zipRequest, Stream output)
         {
             BoxZip createdZip = await CreateZip(zipRequest);
-            Console.WriteLine(createdZip.DownloadUrl);
             IBoxRequest downloadRequest = new BoxRequest(createdZip.DownloadUrl);
             IBoxResponse<Stream> streamResponse = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
             Stream fileStream = streamResponse.ResponseObject;
