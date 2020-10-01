@@ -1,5 +1,8 @@
 # Changelog
 
+## Next Release
+- Add zip functionality
+
 ## 3.24.0 [2020-07-21]
 - Add path parameter sanitization
 - Add support for the classification field for Files and Folders
