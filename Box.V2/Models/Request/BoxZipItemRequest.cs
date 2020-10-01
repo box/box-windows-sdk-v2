@@ -27,7 +27,7 @@ namespace Box.V2.Models.Request
     /// </summary>
     public enum BoxZipItemType
     {
-        File,
-        Folder
+        file,
+        folder
     }
 }

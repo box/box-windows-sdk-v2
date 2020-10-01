@@ -1334,15 +1334,32 @@ namespace Box.V2.Managers
         /// <param name="output">The stream to where the zip file will be written.</param>
         /// <returns>The status of the download.</returns>
         /// </summary>
-        public async Task<Stream> DownloadZip(BoxZipRequest zipRequest, Stream output)
+        public async Task<BoxZipDownloadStatus> DownloadZip(BoxZipRequest zipRequest, Stream output)
         {
             BoxZip createdZip = await CreateZip(zipRequest);
+            IBoxRequest downloadRequest = new BoxRequest(createdZip.DownloadUrl);
+            IBoxResponse<Stream> streamResponse = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
+            Stream fileStream = streamResponse.ResponseObject;
 
-            IBoxRequest downloadRequest;
-            IBoxResponse<Stream> response;
-            downloadRequest = new BoxRequest(createdZip.DownloadUrl);
-            response = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
-            return response.ResponseObject;
+            // Default the buffer size to 4K.
+            const int bufferSize = 4096;
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead = 0;
+            do
+            {
+                bytesRead = fileStream.Read(buffer, 0, bufferSize);
+                if (bytesRead > 0)
+                {
+                    output.Write(buffer, 0, bytesRead);
+                }
+            } while (bytesRead > 0);
+
+            BoxRequest downloadStatusRequest = new BoxRequest(createdZip.StatusUrl)
+               .Method(RequestMethod.Get);
+            IBoxResponse<BoxZipDownloadStatus> response = await ToResponseAsync<BoxZipDownloadStatus>(downloadStatusRequest).ConfigureAwait(false);
+            BoxZipDownloadStatus finalResponse = response.ResponseObject;
+            finalResponse.NameConflicts = createdZip.NameConflicts;
+            return finalResponse;
         }
 
         /// <summary>

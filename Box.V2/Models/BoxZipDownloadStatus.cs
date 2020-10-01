@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -6,7 +7,7 @@ namespace Box.V2.Models.Request
     /// <summary>
     /// Box representation of the status of a download for a zip file
     /// </summary>
-    class BoxZipDownloadStatus
+    public class BoxZipDownloadStatus
     {
         public const string FieldTotalFileCount = "total_file_count";
         public const string FieldDownloadedFileCount = "downloaded_file_count";
@@ -44,6 +45,12 @@ namespace Box.V2.Models.Request
         [JsonProperty(PropertyName = FieldState)]
         [JsonConverter(typeof(StringEnumConverter))]
         public BoxZipDownloadState State { get; set; }
+
+        /// <summary>
+        /// A list of naming conflicts among the files and folders in the zip. This is manually appended in the BoxFilesManager.DownloadZip() method.
+        /// </summary>
+        [JsonProperty(PropertyName = "none")]
+        public List<List<BoxZipConflictItem>> NameConflicts { get; set; }
     }
 
     /// <summary>
@@ -51,8 +58,8 @@ namespace Box.V2.Models.Request
     /// </summary>
     public enum BoxZipDownloadState
     {
-        Succeeded,
-        InProgress,
-        Failed
+        succeeded,
+        in_progress,
+        failed
     }
 }
