@@ -1,5 +1,8 @@
 # Changelog
 
+## Next Release
+- Deprecate one of the overloaded `ExecuteMetadataQueryAsync()` methods
+
 ## 3.24.0 [2020-07-21]
 - Add path parameter sanitization
 - Add support for the classification field for Files and Folders
