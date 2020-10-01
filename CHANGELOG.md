@@ -2,6 +2,7 @@
 
 ## Next Release
 - Add support for `copyInstanceOnItemCopy` field for metadata templates
+- Deprecate an `ExecuteMetadataQueryAsync()` method
 
 ## 3.24.0 [2020-07-21]
 - Add path parameter sanitization
