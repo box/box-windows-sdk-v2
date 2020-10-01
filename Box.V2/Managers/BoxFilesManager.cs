@@ -1337,6 +1337,7 @@ namespace Box.V2.Managers
         public async Task<BoxZipDownloadStatus> DownloadZip(BoxZipRequest zipRequest, Stream output)
         {
             BoxZip createdZip = await CreateZip(zipRequest);
+            Console.WriteLine(createdZip.DownloadUrl);
             IBoxRequest downloadRequest = new BoxRequest(createdZip.DownloadUrl);
             IBoxResponse<Stream> streamResponse = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
             Stream fileStream = streamResponse.ResponseObject;
@@ -1405,7 +1406,7 @@ namespace Box.V2.Managers
 
         private async Task<BoxZip> CreateZip(BoxZipRequest zipRequest)
         {
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri)
+            BoxRequest request = new BoxRequest(_config.ZipDownloadsEndpointUri)
                .Method(RequestMethod.Post)
                .Payload(_converter.Serialize(zipRequest));
 

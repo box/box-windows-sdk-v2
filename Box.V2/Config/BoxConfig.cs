@@ -231,7 +231,7 @@ namespace Box.V2.Config
         /// <summary>
         /// Gets the zip downloads endpoint URI.
         /// </summary>
-        public virtual Uri ZipDownloadsEndpointURI { get { return new Uri(BoxApiUri, Constants.ZipDownloadsString); } }
+        public virtual Uri ZipDownloadsEndpointUri { get { return new Uri(BoxApiUri, Constants.ZipDownloadsString); } }
         /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>
