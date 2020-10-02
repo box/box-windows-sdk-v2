@@ -27,7 +27,7 @@ file's contents, upload new versions, and perform other common file operations
 - [Get Embed Link](#get-embed-link)
 - [Get Representation Info](#get-representation-info)
 - [Get Thumbnail](#get-thumbnail)
-- [Download a Zip File] (#download-a-zip-file)
+- [Download a Zip File](#download-a-zip-file)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
