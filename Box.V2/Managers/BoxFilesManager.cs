@@ -1330,7 +1330,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Creates a zip and downloads it to a given Stream.
         /// </summary>
-        /// <param name="boxZipRequest">Object of type BoxZipRequest that contains name and items.</param>
+        /// <param name="zipRequest">Object of type BoxZipRequest that contains name and items.</param>
         /// <param name="output">The stream to where the zip file will be written.</param>
         /// <returns>The status of the download.</returns>
         /// </summary>
