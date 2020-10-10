@@ -1433,7 +1433,6 @@ namespace Box.V2.Managers
                     throw new BoxException("Representation has unknown status");
             }
         }
-
     }
 
     internal static class UploadUsingSessionInternal
