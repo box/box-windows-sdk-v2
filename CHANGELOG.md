@@ -4,6 +4,7 @@
 - Add support for `copyInstanceOnItemCopy` field for metadata templates
 - Deprecate one of the overloaded `ExecuteMetadataQueryAsync()` methods
 - Fix bug with JWT Authentication automatic retry
+- Add support for filtering when getting Groups
 
 ## 3.24.0 [2020-07-21]
 - Add path parameter sanitization
