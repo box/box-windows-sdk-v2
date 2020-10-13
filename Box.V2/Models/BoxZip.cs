@@ -36,7 +36,13 @@ namespace Box.V2.Models
         /// A list of naming conflicts among the files and folders in the zip
         /// </summary>
         [JsonProperty(PropertyName = FieldNameConflicts)]
-        public List<List<BoxZipConflictItem>> NameConflicts { get; private set; }
+        public List<List<BoxZipConflictItem>> NameConflicts {
+            get;
+            private set
+            {
+                RealProperty = DeserializeRealProperty(value);
+            }
+        }
     }
 }
 

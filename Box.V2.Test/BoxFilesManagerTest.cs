@@ -1185,7 +1185,7 @@ namespace Box.V2.Test
                 // Reponse Check
                 Assert.AreEqual(status.TotalFileCount, 20);
                 Assert.AreEqual(status.State, BoxZipDownloadState.succeeded);
-                Assert.AreEqual(status.NameConflicts[0][0].OriginalName, "salary.pdf");
+                Assert.AreEqual(status.NameConflicts[0].items[0].OriginalName, "salary.pdf");
                 Assert.AreNotEqual(fs.Length, 0);
             }
         }

@@ -145,6 +145,7 @@
     <Compile Include="Models\BoxCollaborationWhitelistEntry.cs" />
     <Compile Include="Models\BoxCollaborationWhitelistTargetEntry.cs" />
     <Compile Include="Models\BoxZip.cs" />
+    <Compile Include="Models\BoxZipConflict.cs" />
     <Compile Include="Models\BoxZipConflictItem.cs" />
     <Compile Include="Models\BoxZipDownloadStatus.cs" />
     <Compile Include="Models\Permissions\BoxFilePermission.cs" />

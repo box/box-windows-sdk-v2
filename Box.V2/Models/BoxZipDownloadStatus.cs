@@ -50,7 +50,7 @@ namespace Box.V2.Models.Request
         /// A list of naming conflicts among the files and folders in the zip. This is manually appended in the BoxFilesManager.DownloadZip() method.
         /// </summary>
         [JsonProperty(PropertyName = "none")]
-        public List<List<BoxZipConflictItem>> NameConflicts { get; set; }
+        public List<BoxZipConflict> NameConflicts { get; set; }
     }
 
     /// <summary>
