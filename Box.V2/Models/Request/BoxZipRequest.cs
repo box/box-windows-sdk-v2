@@ -16,6 +16,6 @@ namespace Box.V2.Models.Request
         /// The list of files or folders to be part of the created zip
         /// </summary>
         [JsonProperty(PropertyName = "items")]
-        public List<BoxZipItemRequest> Items { get; set; }
+        public List<BoxZipRequestItem> Items { get; set; }
     }
 }

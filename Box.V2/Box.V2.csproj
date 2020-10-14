@@ -190,7 +190,7 @@
     <Compile Include="Models\Request\BoxUserInviteRequest.cs" />
     <Compile Include="Models\Request\BoxWatermarkRequest.cs" />
     <Compile Include="Models\Request\BoxWebhookRequest.cs" />
-    <Compile Include="Models\Request\BoxZipItemRequest.cs" />
+    <Compile Include="Models\Request\BoxZipRequestItem.cs" />
     <Compile Include="Plugin\BoxResourcePlugins.cs" />
     <Compile Include="Plugin\IBoxMetadataManager.cs" />
     <Compile Include="Plugin\IResourcePlugin.cs" />
