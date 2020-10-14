@@ -312,12 +312,12 @@ BoxZipRequest request = new BoxZipRequest();
 request.Name = "test";
 request.Items = new List<BoxZipItemRequest>();
 
-var file = new BoxZipItemRequest()
+var file = new BoxZipRequestItem()
 {
     Id = "466239504569",
     Type = BoxZipItemType.file
 };
-var folder = new BoxZipItemRequest()
+var folder = new BoxZipRequestItem()
 {
     Id = "466239504580",
     Type = BoxZipItemType.folder
