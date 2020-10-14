@@ -28,6 +28,7 @@ namespace Box.V2.Converter
                 serializer.Populate(conflictObject.CreateReader(), zipConflict);
                 conflicts.Add(zipConflict);
             }
+
             return conflicts;
         }
 
