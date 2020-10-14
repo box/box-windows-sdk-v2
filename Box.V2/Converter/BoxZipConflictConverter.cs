@@ -15,7 +15,6 @@ namespace Box.V2.Converter
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-
             List<BoxZipConflict> conflicts = new List<BoxZipConflict>();
 
             // Load JObject from stream
