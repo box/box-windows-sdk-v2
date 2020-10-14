@@ -1186,6 +1186,9 @@ namespace Box.V2.Test
                 Assert.AreEqual(status.TotalFileCount, 20);
                 Assert.AreEqual(status.State, BoxZipDownloadState.succeeded);
                 Assert.AreEqual(status.NameConflicts[0].items[0].OriginalName, "salary.pdf");
+                Assert.AreEqual(status.NameConflicts[0].items[1].OriginalName, "salary.pdf");
+                Assert.AreEqual(status.NameConflicts[1].items[0].OriginalName, "employees");
+                Assert.AreEqual(status.NameConflicts[1].items[1].OriginalName, "employees");
                 Assert.AreNotEqual(fs.Length, 0);
             }
         }

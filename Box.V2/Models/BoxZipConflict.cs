@@ -12,7 +12,7 @@ namespace Box.V2.Models
         /// <summary>
         /// The items that have a conflict
         /// </summary>
-        [JsonProperty(PropertyName = "none")]
+        [JsonProperty(PropertyName = "items")]
         public List<BoxZipConflictItem> items { get; private set; }
     }
 }
