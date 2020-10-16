@@ -112,6 +112,10 @@ namespace Box.V2.Config
         /// Gets the file viersion legal holds endpoint URI.
         /// </summary>
         Uri FileVersionLegalHoldsEndpointUri { get; }
+        /// <summary>
+        /// Gets the zip downloads endpoint URI.
+        /// </summary>
+        Uri ZipDownloadsEndpointUri { get; }
 
         /// <summary>
         /// The web proxy for HttpRequestHandler

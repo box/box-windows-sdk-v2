@@ -64,6 +64,7 @@
     <Compile Include="Auth\Token\ActorTokenBuilder.cs" />
     <Compile Include="Auth\Token\TokenExchange.cs" />
     <Compile Include="BoxClient.cs" />
+    <Compile Include="Converter\BoxZipConflictConverter.cs" />
     <Compile Include="JWTAuth\BoxJWTAuth.cs" />
     <Compile Include="Converter\BoxItemConverter.cs" />
     <Compile Include="Exceptions\BoxAuthenticationFailedException.cs" />
@@ -144,6 +145,10 @@
     <Compile Include="Models\BoxWebLink.cs" />
     <Compile Include="Models\BoxCollaborationWhitelistEntry.cs" />
     <Compile Include="Models\BoxCollaborationWhitelistTargetEntry.cs" />
+    <Compile Include="Models\BoxZip.cs" />
+    <Compile Include="Models\BoxZipConflict.cs" />
+    <Compile Include="Models\BoxZipConflictItem.cs" />
+    <Compile Include="Models\BoxZipDownloadStatus.cs" />
     <Compile Include="Models\Permissions\BoxFilePermission.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
     <Compile Include="Models\BoxGroup.cs" />
@@ -151,6 +156,7 @@
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
     <Compile Include="Models\BoxSessionParts.cs" />
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
+    <Compile Include="Models\Request\BoxZipRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxMetadataQueryOrderBy.cs" />
@@ -184,6 +190,7 @@
     <Compile Include="Models\Request\BoxUserInviteRequest.cs" />
     <Compile Include="Models\Request\BoxWatermarkRequest.cs" />
     <Compile Include="Models\Request\BoxWebhookRequest.cs" />
+    <Compile Include="Models\Request\BoxZipRequestItem.cs" />
     <Compile Include="Plugin\BoxResourcePlugins.cs" />
     <Compile Include="Plugin\IBoxMetadataManager.cs" />
     <Compile Include="Plugin\IResourcePlugin.cs" />

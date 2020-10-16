@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
+using Box.V2.Models.Request;
 
 namespace Box.V2.Managers
 {
@@ -1327,6 +1328,41 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Creates a zip and downloads it to a given Stream.
+        /// </summary>
+        /// <param name="zipRequest">Object of type BoxZipRequest that contains name and items.</param>
+        /// <param name="output">The stream to where the zip file will be written.</param>
+        /// <returns>The status of the download.</returns>
+        /// </summary>
+        public async Task<BoxZipDownloadStatus> DownloadZip(BoxZipRequest zipRequest, Stream output)
+        {
+            BoxZip createdZip = await CreateZip(zipRequest);
+            IBoxRequest downloadRequest = new BoxRequest(createdZip.DownloadUrl);
+            IBoxResponse<Stream> streamResponse = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
+            Stream fileStream = streamResponse.ResponseObject;
+
+            // Default the buffer size to 4K.
+            const int bufferSize = 4096;
+            byte[] buffer = new byte[bufferSize];
+            int bytesRead = 0;
+            do
+            {
+                bytesRead = fileStream.Read(buffer, 0, bufferSize);
+                if (bytesRead > 0)
+                {
+                    output.Write(buffer, 0, bytesRead);
+                }
+            } while (bytesRead > 0);
+
+            BoxRequest downloadStatusRequest = new BoxRequest(createdZip.StatusUrl)
+               .Method(RequestMethod.Get);
+            IBoxResponse<BoxZipDownloadStatus> response = await ToResponseAsync<BoxZipDownloadStatus>(downloadStatusRequest).ConfigureAwait(false);
+            BoxZipDownloadStatus finalResponse = response.ResponseObject;
+            finalResponse.NameConflicts = createdZip.NameConflicts;
+            return finalResponse;
+        }
+
+        /// <summary>
         /// Representations are digital assets stored in Box. We can request the following representations: PDF, Extracted Text, Thumbnail,
         /// and Single Page depending on whether the file type is supported by passing in the corresponding x-rep-hints header. This will generate a 
         /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string
@@ -1365,6 +1401,16 @@ namespace Box.V2.Managers
                     throw new BoxException("Representation has unknown status");
             }
             
+        }
+
+        private async Task<BoxZip> CreateZip(BoxZipRequest zipRequest)
+        {
+            BoxRequest request = new BoxRequest(_config.ZipDownloadsEndpointUri)
+               .Method(RequestMethod.Post)
+               .Payload(_converter.Serialize(zipRequest));
+
+            IBoxResponse<BoxZip> response = await ToResponseAsync<BoxZip>(request).ConfigureAwait(false);
+            return response.ResponseObject;
         }
 
         private async Task<string> PollRepresentationInfo(string infoUrl)

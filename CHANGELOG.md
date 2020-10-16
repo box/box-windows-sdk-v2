@@ -1,9 +1,16 @@
 # Changelog
 
 ## Next Release
-- Add support for `copyInstanceOnItemCopy` field for metadata templates
-- Deprecate one of the overloaded `ExecuteMetadataQueryAsync()` methods
-- Fix bug with JWT Authentication automatic retry
+
+**New Features and Enhancements:**
+
+- Add zip functionality (#700)
+- Deprecate one of the overloaded `ExecuteMetadataQueryAsync()` methods (#699)
+- Add support for `copyInstanceOnItemCopy` field for metadata templates  (#698) 
+
+**Bug Fixes:**
+
+- Fix bug with JWT Authentication automatic retry (#697)
 
 ## 3.24.0 [2020-07-21]
 - Add path parameter sanitization
