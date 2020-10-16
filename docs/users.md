@@ -176,7 +176,7 @@ method with the IDs of the source and destination users.
 
 > __Note:__ Currently, only moving the user's root folder (with ID "0") is supported.
 
-<!-- sample put_users_id_folders_id -->
+<!-- sample put_users_id_folders_0 -->
 ```c#
 var sourceUserId = "33333";
 var destinationUserId = "44444";
