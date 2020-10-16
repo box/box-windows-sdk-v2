@@ -16,7 +16,7 @@ namespace Box.V2.Models.Request
         public const string FieldState = "state";
 
         /// <summary>
-        /// The total number of files of the zip 
+        /// The total number of files in the zip file
         /// </summary>
         [JsonProperty(PropertyName = FieldTotalFileCount)]
         public int TotalFileCount { get; set; }
