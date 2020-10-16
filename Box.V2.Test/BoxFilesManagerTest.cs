@@ -10,6 +10,9 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Text;
 using System.Globalization;
+using Box.V2.Models.Request;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Test
 {
@@ -1107,6 +1110,87 @@ namespace Box.V2.Test
             Assert.AreEqual("Arya Stark", result.UploaderDisplayName);
             Assert.AreEqual(DateTime.Parse("2013-11-20T13:20:50-08:00"), result.CreatedAt);
             Assert.AreEqual(DateTime.Parse("2013-11-20T13:26:48-08:00"), result.ModifiedAt);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task DownloadZip_ValidResponse()
+        {
+            using (FileStream exampleFile = new FileStream(string.Format("../.././TestData/smalltest.pdf"), FileMode.OpenOrCreate))
+            {
+                /*** Arrange ***/
+                string responseStringCreateZip = "{\"download_url\": \"https://api.box.com/zip_downloads/124hfiowk3fa8kmrwh/content\",\"status_url\": \"https://api.box.com/zip_downloads/124hfiowk3fa8kmrwh/status\",\"expires_at\": \"2018-04-25T11:00:18-07:00\", \"name_conflicts\":[[{\"id\":\"100\",\"type\":\"file\",\"original_name\":\"salary.pdf\",\"download_name\":\"aqc823.pdf\"},{\"id\":\"200\",\"type\": \"file\",\"original_name\":\"salary.pdf\",\"download_name\": \"aci23s.pdf\"}],[{\"id\":\"1000\",\"type\": \"folder\",\"original_name\":\"employees\",\"download_name\":\"3d366a_employees\"},{\"id\":\"2000\",\"type\": \"folder\",\"original_name\":\"employees\",\"download_name\": \"3aa6a7_employees\"}]]}";
+                string responseStringDownloadStatus = "{\"total_file_count\": 20, \"downloaded_file_count\": 10, \"skipped_file_count\": 10, \"skipped_folder_count\": 10, \"state\": \"succeeded\"}";
+                IBoxRequest boxRequest = null;
+                IBoxRequest boxRequest2 = null;
+                IBoxRequest boxRequest3 = null;
+                Handler.Setup(h => h.ExecuteAsync<BoxZip>(It.IsAny<IBoxRequest>()))
+                     .Returns(Task.FromResult<IBoxResponse<BoxZip>>(new BoxResponse<BoxZip>()
+                     {
+                         Status = ResponseStatus.Success,
+                         ContentString = responseStringCreateZip
+                     }))
+                     .Callback<IBoxRequest>(r => boxRequest = r);
+
+                Handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
+                   .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
+                   {
+                       Status = ResponseStatus.Success,
+                       ResponseObject = exampleFile
+
+                   }))
+                   .Callback<IBoxRequest>(r => boxRequest2 = r);
+
+                Handler.Setup(h => h.ExecuteAsync<BoxZipDownloadStatus>(It.IsAny<IBoxRequest>()))
+                     .Returns(Task.FromResult<IBoxResponse<BoxZipDownloadStatus>>(new BoxResponse<BoxZipDownloadStatus>()
+                     {
+                         Status = ResponseStatus.Success,
+                         ContentString = responseStringDownloadStatus
+                     }))
+                     .Callback<IBoxRequest>(r => boxRequest3 = r);
+
+
+
+                /*** Act ***/
+                BoxZipRequest request = new BoxZipRequest();
+                request.Name = "test";
+                request.Items = new List<BoxZipRequestItem>();
+
+                var file = new BoxZipRequestItem()
+                {
+                    Id = "466239504569",
+                    Type = BoxZipItemType.file
+                };
+                var folder = new BoxZipRequestItem()
+                {
+                    Id = "466239504580",
+                    Type = BoxZipItemType.folder
+                };
+                request.Items.Add(file);
+                request.Items.Add(folder);
+                Stream fs = new MemoryStream(100);
+
+                BoxZipDownloadStatus status = await _filesManager.DownloadZip(request, fs);
+                /*** Assert ***/
+
+                // Request check
+                Assert.IsNotNull(boxRequest);
+                Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+                JObject payload = JObject.Parse(boxRequest.Payload);
+                Assert.AreEqual("test", payload["name"]);
+                JArray items = JArray.Parse(payload["items"].ToString());
+                Assert.AreEqual("466239504569", items[0]["id"]);
+                Assert.AreEqual("file", items[0]["type"]);
+
+                // Reponse Check
+                Assert.AreEqual(status.TotalFileCount, 20);
+                Assert.AreEqual(status.State, BoxZipDownloadState.succeeded);
+                Assert.AreEqual(status.NameConflicts[0].items[0].OriginalName, "salary.pdf");
+                Assert.AreEqual(status.NameConflicts[0].items[1].OriginalName, "salary.pdf");
+                Assert.AreEqual(status.NameConflicts[1].items[0].OriginalName, "employees");
+                Assert.AreEqual(status.NameConflicts[1].items[1].OriginalName, "employees");
+                Assert.AreNotEqual(fs.Length, 0);
+            }
         }
     }
 }
