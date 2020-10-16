@@ -32,13 +32,19 @@ namespace Box.V2.Managers
         /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all groups; defaults to false.</param>
+        /// <param name="filterTerm">Limits the results to only groups whose name starts with the search term.</param>
         /// <returns>A collection of groups.</returns>
-        public async Task<BoxCollection<BoxGroup>> GetAllGroupsAsync(int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false)
+        public async Task<BoxCollection<BoxGroup>> GetAllGroupsAsync(int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false, string filterTerm = null)
         {
             BoxRequest request = new BoxRequest(_config.GroupsEndpointUri)
                 .Param(ParamFields, fields)
                 .Param("limit", limit.ToString())
                 .Param("offset", offset.ToString());
+
+            if (filterTerm != null)
+            {
+                request.Param("filter_term", filterTerm);
+            }
 
             if (autoPaginate)
             {

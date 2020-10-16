@@ -4,6 +4,7 @@
 
 **New Features and Enhancements:**
 
+- Add support for filtering when getting Groups (#703)
 - Add zip functionality (#700)
 - Deprecate one of the overloaded `ExecuteMetadataQueryAsync()` methods (#699)
 - Add support for `copyInstanceOnItemCopy` field for metadata templates  (#698) 
