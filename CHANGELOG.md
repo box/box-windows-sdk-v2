@@ -1,6 +1,6 @@
 # Changelog
 
-## Next Release
+## 3.25.0 [2020-10-19]
 
 **New Features and Enhancements:**
 
