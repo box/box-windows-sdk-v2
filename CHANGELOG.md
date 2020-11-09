@@ -1,7 +1,28 @@
 # Changelog
 
-## Next Release
+## 3.25.0 [2020-10-19]
+
+**New Features and Enhancements:**
+
+- Add support for filtering when getting Groups (#703)
+- Add zip functionality (#700)
+- Deprecate one of the overloaded `ExecuteMetadataQueryAsync()` methods (#699)
+- Add support for `copyInstanceOnItemCopy` field for metadata templates  (#698) 
+
+**Bug Fixes:**
+
+- Fix bug with JWT Authentication automatic retry (#697)
+
+## 3.24.0 [2020-07-21]
+- Add path parameter sanitization
+- Add support for the classification field for Files and Folders
+- Fix bug with notification email field deserializing for `BoxUser` 
+- Add `fields` parameter for metadata query
+- Add ability to set a request timeout for `FoldersManager.UpdateInformationAsync()` and `UsersManager.MoverUserFolderAsync()`
+
+## 3.23.0 [2020-05-12]
 - Add ability to get and set a notification email address for a user
+- Fix deadlock issue for JWT authentication in UI elements
 - Add support for the uploader display name field for Files and File Versions
 
 ## 3.22.0 [2020-02-25]

@@ -320,14 +320,15 @@ namespace Box.V2.Managers
         /// <param name="ownedByUserId">The ID of the user who the folder will be transferred to.</param>
         /// <param name="folderId">Currently only moving of the root folder (0) is supported.</param>
         /// <param name="notify">Determines if the destination user should receive email notification of the transfer.</param>
+        /// <param name="timeout">Optional timeout for response.</param>
         /// <returns>Returns the information for the newly created destination folder. An error is thrown if you do not have the necessary permissions to move the folder.</returns>
-        public async Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false)
+        public async Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false, TimeSpan? timeout = null)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
             ownedByUserId.ThrowIfNullOrWhiteSpace("ownedByUserId");
             folderId.ThrowIfNullOrWhiteSpace("folderId");
 
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.MoveUserFolderPathString, userId, folderId))
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.MoveUserFolderPathString, userId, folderId)) { Timeout = timeout }
                 .Param("notify", notify.ToString())
                 .Payload(_converter.Serialize(new BoxMoveUserFolderRequest()
                 {

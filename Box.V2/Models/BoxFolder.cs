@@ -23,6 +23,7 @@ namespace Box.V2.Models
         public const string FieldAllowedSharedLinkAccessLevels = "allowed_shared_link_access_levels";
         public const string FieldExpiresAt = "expires_at";
         public const string FieldIsCollaborationRestrictedToEnterprise = "is_collaboration_restricted_to_enterprise";
+        public const string FieldClassification = "classification";
 
         /// <summary>
         /// The upload email address for this folder
@@ -120,5 +121,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldIsCollaborationRestrictedToEnterprise)]
         public bool? IsCollaborationRestrictedToEnterprise { get; protected set; }
+
+        /// <summary>
+        /// Represents the classification information for a File on Box.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldClassification)]
+        public BoxClassification Classification { get; private set; }
     }
 }

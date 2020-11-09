@@ -10,7 +10,7 @@
   <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	<PackageDescription>Windows SDK for v2 of the Box API. The SDK is built for .NET Core and includes JWTAuth support.</PackageDescription>
-	<PackageReleaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/master/CHANGELOG.md#3220-2020-02-25</PackageReleaseNotes>
+	<PackageReleaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/master/CHANGELOG.md#3250-2020-10-19</PackageReleaseNotes>
 	<Copyright>Copyright 2020</Copyright>
 	<PackageTags>Box;V2;SDK;Platform;Enterprise;Collaboration;Storage;File Management</PackageTags>
     <TargetFramework>netstandard1.6</TargetFramework>

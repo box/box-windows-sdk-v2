@@ -176,13 +176,14 @@ namespace Box.V2.Managers
         /// <param name="folderRequest">BoxFolderRequest object</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <param name="etag">This ‘etag’ field of the folder object to set in the If-Match header</param>
+        /// <param name="timeout">Optional timeout for response.</param>
         /// <returns>The updated folder is returned if the name is valid. Errors generally occur only if there is a name collision.</returns>
-        public async Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null, string etag = null)
+        public async Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null, string etag = null, TimeSpan? timeout = null)
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
 
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id) { Timeout = timeout }
                     .Header(Constants.RequestParameters.IfMatch, etag)
                     .Param(ParamFields, fields)
                     .Payload(_converter.Serialize(folderRequest))

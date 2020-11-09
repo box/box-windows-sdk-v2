@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Box.V2;
 using Box.V2.Exceptions;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Box.V2.Test
 {
@@ -622,6 +623,59 @@ namespace Box.V2.Test
             Assert.AreEqual(metadata["someTemplate"]["customerName"], "Phoenix Corp");
             Assert.AreEqual(metadata["someTemplate"]["$typeVersion"], 0);
             Assert.AreEqual(metadata["someTemplate"]["region"], "West");
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task ExecuteMetadataQueryWithFields_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"entries\":[{\"type\":\"file\",\"id\":\"1244738582\",\"etag\":\"1\",\"sha1\":\"012b5jdunwkfu438991344044\",\"name\":\"Very Important.docx\",\"metadata\":{\"enterprise_67890\":{\"catalogImages\":{\"$parent\":\"file_50347290\",\"$version\":2,\"$template\":\"catalogImages\",\"$scope\":\"enterprise_67890\",\"photographer\":\"Bob Dylan\"}}}},{\"type\":\"folder\",\"id\":\"124242482\",\"etag\":\"1\",\"sha1\":\"012b5ir8391344044\",\"name\":\"Also Important.docx\",\"metadata\":{\"enterprise_67890\":{\"catalogImages\":{\"$parent\":\"file_50427290\",\"$version\":2,\"$template\":\"catalogImages\",\"$scope\":\"enterprise_67890\",\"photographer\":\"Bob Dylan\"}}}}],\"limit\":2,\"next_marker\":\"0!WkeoDQ3mm5cI_RzSN--UOG1ICuw0gz3729kfhwuoagt54nbvqmgfhsygreh98nfu94344PpctrcgVa8AMIe7gRwSNBNloVR-XuGmfqTw\"}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxItem>>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxItem>>>(new BoxResponse<BoxCollectionMarkerBased<BoxItem>>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = responseString
+                 }))
+                 .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            var queryParams = new Dictionary<string, object>();
+            queryParams.Add("arg", "Bob Dylan");
+            List<string> fields = new List<string>();
+            fields.Add("id");
+            fields.Add("name");
+            fields.Add("sha1");
+            fields.Add("metadata.enterprise_240748.catalogImages.photographer");
+            string marker = "q3f87oqf3qygou5t478g9gwrbul";
+            BoxCollectionMarkerBased<BoxItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_67890.catalogImages", query: "photographer = :arg", fields: fields, queryParameters: queryParams, ancestorFolderId: "0", marker: marker, autoPaginate: false);
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(MetadataQueryUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            JObject payload = JObject.Parse(boxRequest.Payload);
+            Assert.AreEqual("enterprise_67890.catalogImages", payload["from"]);
+            Assert.AreEqual("photographer = :arg", payload["query"]);
+            Assert.AreEqual("0", payload["ancestor_folder_id"]);
+            JArray payloadFields = JArray.Parse(payload["fields"].ToString());
+            Assert.AreEqual("id", payloadFields[0]);
+            Assert.AreEqual("name", payloadFields[1]);
+            Assert.AreEqual("sha1", payloadFields[2]);
+            Assert.AreEqual("metadata.enterprise_240748.catalogImages.photographer", payloadFields[3]);
+            Assert.AreEqual(marker, payload["marker"]);
+
+            // Response check
+            Assert.AreEqual(items.Entries[0].Type, "file");
+            Assert.AreEqual(items.Entries[0].Id, "1244738582");
+            Assert.AreEqual(items.Entries[0].Name, "Very Important.docx");
+            Assert.AreEqual(items.Entries[1].Type, "folder");
+            Assert.AreEqual(items.Entries[1].Id, "124242482");
+            Assert.AreEqual(items.Entries[1].Name, "Also Important.docx");
+            BoxFile file = (BoxFile) items.Entries[0];
+            Assert.AreEqual(file.Metadata["enterprise_67890"]["catalogImages"]["photographer"].Value, "Bob Dylan");
         }
     }
 }

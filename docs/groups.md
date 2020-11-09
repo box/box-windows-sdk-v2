@@ -54,7 +54,7 @@ Get All Groups
 --------------
 
 To get a list of all groups in the calling user's enterprise, call
-`GroupsManager.GetAllGroupsAsync(int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false)`.
+`GroupsManager.GetAllGroupsAsync(int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false, string filterTerm = null)`.
 Note that this requires permission to view an enterprise's groups, which is reserved for enterprise administrators.
 
 <!-- sample get_groups -->
