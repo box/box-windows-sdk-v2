@@ -18,6 +18,7 @@ namespace Box.V2.Models
         public const string FieldPreviewCount = "preview_count";
         public const string FieldAccess = "access";
         public const string FieldPermissions = "permissions";
+        public const string FieldEffectiveAccess = "effective_access";
 
         /// <summary>
         /// The Url of the shared link
@@ -73,5 +74,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldPermissions)]
         public BoxPermission Permissions { get; private set; }
+
+        /// <summary>
+        /// Type of effective access
+        /// </summary>
+        [JsonProperty(PropertyName = FieldEffectiveAccess)]
+        public BoxSharedLinkAccessType? EffectiveAccess { get; private set; }
     }
 }
