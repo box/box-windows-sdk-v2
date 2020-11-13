@@ -107,6 +107,22 @@ var updates = new BoxUserRequest()
 BoxUser updatedUser = await client.UsersManager.UpdateUserInformationAsync(updates);
 ```
 
+Roll User Out of Enterprise
+---------------------------
+
+To update a user's information, call
+`UsersManager.UpdateUserInformationAsync(BoxUserRollOutRequest userRequest, IEnumerable<string> fields = null)`
+with only the id.
+
+<!-- sample put_users_id -->
+```c#
+var updates = new BoxUserRollOutRequest()
+{
+    Id = "44444"
+};
+BoxUser updatedUser = await client.UsersManager.UpdateUserInformationAsync(updates);
+```
+
 Delete User
 -----------
 
