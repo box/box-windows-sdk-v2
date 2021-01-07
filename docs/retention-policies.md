@@ -150,7 +150,7 @@ Get File Version Retentions
 
 To retrieve a list of all file version retentions for the given enterprise or to filter for
 some category of file version retention records, call
-`RetentionPoliciesManager.GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)`.
+`RetentionPoliciesManager.GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false, string fileId = null, string fileVersionId = null, string policyId = null, DateTime? dispositionBefore = null, DateTime? dispositionAfter = null, DispositionAction? dispositionAction = null)`.
 
 <!-- sample get_file_version_retentions -->
 ```c#
