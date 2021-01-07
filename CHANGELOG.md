@@ -1,5 +1,11 @@
 # Changelog
 
+## Next Release
+
+**New Features and Enhancements:**
+
+- Add filter fields to get file version retentions (#717)
+
 ## 3.25.0 [2020-10-19]
 
 **New Features and Enhancements:**
