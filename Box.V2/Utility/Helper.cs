@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Box.V2.Config;
 
 namespace Box.V2.Utility
 {
@@ -22,6 +23,16 @@ namespace Box.V2.Utility
             DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             TimeSpan diff = date.ToUniversalTime() - origin;
             return Math.Floor(diff.TotalSeconds);
+        }
+
+        /// <summary>
+        /// Convert DateTime to RFC3339 string.
+        /// </summary>
+        /// <param name="date">DateTime object.</param>
+        /// <returns>RFC3339 string.</returns>
+        public static string ConvertToRFCString(DateTime? date)
+        {
+            return date.HasValue ? date.Value.ToString(Constants.RFC3339DateFormat) : null;
         }
 
         /// <summary>
