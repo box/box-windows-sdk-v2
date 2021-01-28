@@ -1,10 +1,12 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using Box.V2.Extensions;
 using Box.V2.Services;
+using Box.V2.Utility;
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -177,13 +179,25 @@ namespace Box.V2.Managers
         /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
         /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <param name="fileId">Filters results by files with this ID.</param>
+        /// <param name="fileVersionId">Filters results by file versions with this ID.</param>
+        /// <param name="policyId">Filters results by the retention policy with this ID.</param>
+        /// <param name="dispositionBefore">Filters results by files that will have their disposition come into effect before this date.</param>
+        /// <param name="dispositionAfter">Filters results by files that will have their disposition come into effect after this date.</param>
+        /// <param name="dispositionAction">Filters results by the retention policy with this disposition action.</param>
         /// <returns>The specified file version retention will be returned upon success.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false, string fileId = null, string fileVersionId = null, string policyId = null, DateTime? dispositionBefore = null, DateTime? dispositionAfter = null, DispositionAction? dispositionAction = null)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)
                 .Param(ParamFields, fields)
                 .Param("limit", limit.ToString())
-                .Param("marker", marker);
+                .Param("marker", marker)
+                .Param("file_id", fileId)
+                .Param("file_version_id", fileVersionId)
+                .Param("policy_id", policyId)
+                .Param("disposition_before", Helper.ConvertToRFCString(dispositionBefore))
+                .Param("disposition_after", Helper.ConvertToRFCString(dispositionAfter))
+                .Param("disposition_action", dispositionAction.ToString());
 
             if (autoPaginate)
             {
