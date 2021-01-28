@@ -1,13 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Managers;
 using Box.V2.Models;
-using Box.V2.Config;
-using Box.V2.Auth;
+using Box.V2.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Box.V2.Models.Request;
-using System;
 
 namespace Box.V2.Test
 {
