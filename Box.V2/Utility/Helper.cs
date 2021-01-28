@@ -1,10 +1,10 @@
+using Box.V2.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using Box.V2.Config;
 
 namespace Box.V2.Utility
 {

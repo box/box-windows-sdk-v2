@@ -6,9 +6,9 @@ using Box.V2.Models.Request;
 using Box.V2.Extensions;
 using Box.V2.Services;
 using Box.V2.Utility;
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System;
 
 namespace Box.V2.Managers
 {
