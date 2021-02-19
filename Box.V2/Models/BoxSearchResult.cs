@@ -13,7 +13,7 @@ namespace Box.V2.Models
 
         /// <summary>
         /// The optional shared link through which the user has access to this item.
-        /// This value is only returned for items for which the user has recently accessed the file through a shared link. For all other items this value will return nil.
+        /// This value is only returned for items for which the user has recently accessed the file through a shared link. For all other items this value will return null.
         /// </summary>
         [JsonProperty(PropertyName = "accessible_via_shared_link")]
         public Uri AccessibleViaSharedLink { get; private set; }
@@ -25,4 +25,3 @@ namespace Box.V2.Models
         public BoxItem Item { get; private set; }
     }
 }
-
