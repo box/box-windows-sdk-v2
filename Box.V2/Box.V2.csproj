@@ -109,6 +109,7 @@
     <Compile Include="Models\BoxRepresentationInfo.cs" />
     <Compile Include="Models\BoxRepresentationProperties.cs" />
     <Compile Include="Models\BoxRepresentationStatus.cs" />
+    <Compile Include="Models\BoxSearchResult.cs" />
     <Compile Include="Models\BoxSessionEndpoint.cs" />
     <Compile Include="Models\BoxFileUploadSession.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />

@@ -5,6 +5,7 @@
 **New Features and Enhancements:**
 
 - Add filter fields to get file version retentions ([#717](https://github.com/box/box-windows-sdk-v2/pull/717))
+- Add support for search param to get shared link items ([#721](https://github.com/box/box-windows-sdk-v2/pull/721))
 
 ## 3.25.0 [2020-10-19]
 
