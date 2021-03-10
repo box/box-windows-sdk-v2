@@ -54,7 +54,7 @@ namespace Box.V2.Config
         public const string StoragePolicyAssignmentsString = @"storage_policy_assignments/";
         public const string StoragePolicyAssignmentsForTargetString = @"storage_policy_assignments";
         public const string ZipDownloadsString = @"zip_downloads";
-        public const string FolderLocksString = @"folder_locks";
+        public const string FolderLocksString = @"folder_locks/";
 
 
         /// <summary>

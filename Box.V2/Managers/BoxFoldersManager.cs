@@ -471,14 +471,12 @@ namespace Box.V2.Managers
             bodyObject.Add("folder", folderObject);
             bodyObject.Add("locked_operations", lockOperationsObject);
 
-            BoxRequest request = new BoxRequest(new Uri(Constants.FolderLocksEndpointString))
+            BoxRequest request = new BoxRequest(_config.FolderLocksEndpointUri)
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize(bodyObject));
-
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
             IBoxResponse<BoxFolderLock> response = await ToResponseAsync<BoxFolderLock>(request).ConfigureAwait(false);
-
             return response.ResponseObject;
         }
 
@@ -491,7 +489,7 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(new Uri(Constants.FolderLocksEndpointString))
+            BoxRequest request = new BoxRequest(_config.FolderLocksEndpointUri)
                 .Method(RequestMethod.Get)
                 .Param("folder_id", id);
 
@@ -508,11 +506,10 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(new Uri(Constants.FolderLocksEndpointString), id)
+            BoxRequest request = new BoxRequest(_config.FolderLocksEndpointUri, id)
                 .Method(RequestMethod.Delete);
 
             IBoxResponse<BoxFolderLock> response = await ToResponseAsync<BoxFolderLock>(request).ConfigureAwait(false);
-
             return response.Status == ResponseStatus.Success;
         }
     }

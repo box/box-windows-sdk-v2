@@ -26,6 +26,7 @@ namespace Box.V2.Test
         protected Uri MetadataQueryUri = new Uri(Constants.MetadataQueryEndpointString);
         protected Uri UserUri = new Uri(Constants.UserEndpointString);
         protected Uri InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
+        protected Uri FolderLocksUri = new Uri(Constants.FolderLocksEndpointString);
 
         protected BoxResourceManagerTest()
         {
@@ -41,6 +42,7 @@ namespace Box.V2.Test
             Config.SetupGet(x => x.MetadataQueryUri).Returns(MetadataQueryUri);
             Config.SetupGet(x => x.UserEndpointUri).Returns(UserUri);
             Config.SetupGet(x => x.InviteEndpointUri).Returns(InviteUri);
+            Config.SetupGet(x => x.FolderLocksEndpointUri).Returns(FolderLocksUri);
 
             AuthRepository = new AuthRepository(Config.Object, Service, Converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
