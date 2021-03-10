@@ -4,6 +4,7 @@ using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -448,5 +449,71 @@ namespace Box.V2.Managers
             return response.Status == ResponseStatus.Success;
         }
 
+        /// <summary>
+        /// Creates a folder lock on a folder, preventing it from being moved and/or deleted.
+        /// </summary>
+        /// <param name="id">Id of the folder to create a lock on</param>
+        /// <returns>An object representing the lock on the folder</returns>
+        public async Task<BoxFolderLock> CreateLockAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            JObject bodyObject = new JObject();
+            JObject folderObject = new JObject();
+            JObject lockOperationsObject = new JObject();
+
+            folderObject.Add("id", id);
+            folderObject.Add("type", "folder");
+
+            lockOperationsObject.Add("move", true);
+            lockOperationsObject.Add("delete", true);
+
+            bodyObject.Add("folder", folderObject);
+            bodyObject.Add("locked_operations", lockOperationsObject);
+
+            BoxRequest request = new BoxRequest(new Uri(Constants.FolderLocksEndpointString))
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(bodyObject));
+
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            IBoxResponse<BoxFolderLock> response = await ToResponseAsync<BoxFolderLock>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Lists all folder locks for a given folder.
+        /// </summary>
+        /// <param name="id">Id of the folder</param>
+        /// <returns>A collection of locks on the folder</returns>
+        public async Task<BoxCollection<BoxFolderLock>> GetLocksAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(new Uri(Constants.FolderLocksEndpointString))
+                .Method(RequestMethod.Get)
+                .Param("folder_id", id);
+
+            IBoxResponse<BoxCollection<BoxFolderLock>> response = await ToResponseAsync<BoxCollection<BoxFolderLock>>(request).ConfigureAwait(false);
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Delete a folder lock on a folder
+        /// </summary>
+        /// <param name="id">Id of the folder lock</param>
+        /// <returns>True will be returned upon successful deletionr</returns>
+        public async Task<bool> DeleteLockAsync(string id)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(new Uri(Constants.FolderLocksEndpointString), id)
+                .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxFolderLock> response = await ToResponseAsync<BoxFolderLock>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
+        }
     }
 }

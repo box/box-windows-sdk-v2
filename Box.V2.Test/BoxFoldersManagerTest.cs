@@ -5,6 +5,7 @@ using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -962,6 +963,101 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual(true, result);
 
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task GetFolderLocks_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"entries\":[{\"folder\":{\"id\":\"12345\",\"etag\":\"1\",\"type\":\"folder\",\"sequence_id\":\"3\",\"name\":\"Contracts\"},\"id\":\"12345678\",\"type\":\"folder_lock\",\"created_by\":{\"id\":\"11446498\",\"type\":\"user\"},\"created_at\":\"2020-09-14T23:12:53Z\",\"locked_operations\":{\"move\":true,\"delete\":true},\"lock_type\":\"freeze\"}],\"limit\":1000,\"next_marker\":null}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFolderLock>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFolderLock>>>(new BoxResponse<BoxCollection<BoxFolderLock>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxCollection<BoxFolderLock> result = await _foldersManager.GetLocksAsync("5010739069");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(Constants.FolderLocksEndpointString + "?folder_id=5010739069", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual("12345678", result.Entries[0].Id);
+            Assert.AreEqual("freeze", result.Entries[0].LockType);
+            Assert.AreEqual(true, result.Entries[0].LockedOperations.Delete);
+
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task CreatFolderLock_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"id\":12345678,\"type\":\"folder_lock\",\"created_at\":\"2020-09-14T23:12:53Z\",\"created_by\":{\"id\":11446498,\"type\":\"user\"},\"folder\":{\"id\":12345,\"type\":\"folder\",\"etag\":1,\"name\":\"Contracts\",\"sequence_id\":3},\"lock_type\":\"freeze\",\"locked_operations\":{\"delete\":true,\"move\":true}}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxFolderLock>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFolderLock>>(new BoxResponse<BoxFolderLock>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+           BoxFolderLock result = await _foldersManager.CreateLockAsync("5010739069");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(Constants.FolderLocksEndpointString, boxRequest.AbsoluteUri.AbsoluteUri);
+            JObject payload = JObject.Parse(boxRequest.Payload);
+            Assert.AreEqual("folder", payload["folder"]["type"]);
+            Assert.AreEqual("5010739069", payload["folder"]["id"]);
+            Assert.AreEqual(true, payload["locked_operations"]["move"]);
+            Assert.AreEqual(true, payload["locked_operations"]["delete"]);
+
+            //Response check
+            Assert.AreEqual("12345678", result.Id);
+            Assert.AreEqual("freeze", result.LockType);
+            Assert.AreEqual(true, result.LockedOperations.Delete);
+
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task DeleteFolderLock_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxFolderLock>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFolderLock>>(new BoxResponse<BoxFolderLock>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            bool result = await _foldersManager.DeleteLockAsync("5010739069");
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(Constants.FolderLocksEndpointString + "/5010739069", boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual(true, result);
         }
     }
 }

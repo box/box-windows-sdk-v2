@@ -91,6 +91,8 @@ namespace Box.V2.Converter
                         return new BoxStoragePolicyAssignment();
                     case Constants.TypeApplication:
                         return new BoxApplication();
+                    case Constants.TypeFolderLock:
+                        return new BoxFolderLock();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names

@@ -116,7 +116,10 @@ namespace Box.V2.Config
         /// Gets the zip downloads endpoint URI.
         /// </summary>
         Uri ZipDownloadsEndpointUri { get; }
-
+        /// <summary>
+        /// Gets the folder locks endpoint URI.
+        /// </summary>
+        Uri FolderLocksEndpointUri { get; }
         /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>

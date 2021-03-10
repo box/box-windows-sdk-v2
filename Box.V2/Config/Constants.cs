@@ -54,6 +54,8 @@ namespace Box.V2.Config
         public const string StoragePolicyAssignmentsString = @"storage_policy_assignments/";
         public const string StoragePolicyAssignmentsForTargetString = @"storage_policy_assignments";
         public const string ZipDownloadsString = @"zip_downloads";
+        public const string FolderLocksString = @"folder_locks";
+
 
         /// <summary>
         /// The shared items constant
@@ -109,6 +111,7 @@ namespace Box.V2.Config
         public const string StoragePoliciesEndpointString = BoxApiUriString + StoragePoliciesString;
         public const string StoragePolicyAssignmentsEndpointString = BoxApiUriString + StoragePolicyAssignmentsString;
         public const string StoragePolicyAssignmentsForTargetEndpointString = BoxApiUriString + StoragePolicyAssignmentsForTargetString;
+        public const string FolderLocksEndpointString = BoxApiUriString + FolderLocksString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";
@@ -184,6 +187,7 @@ namespace Box.V2.Config
         public const string TypeStoragePolicy = "storage_policy";
         public const string TypeStoragePolicyAssignment = "storage_policy_assignment";
         public const string TypeApplication = "application";
+        public const string TypeFolderLock = "folder_lock";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds

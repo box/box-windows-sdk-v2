@@ -233,6 +233,10 @@ namespace Box.V2.Config
         /// </summary>
         public virtual Uri ZipDownloadsEndpointUri { get { return new Uri(BoxApiUri, Constants.ZipDownloadsString); } }
         /// <summary>
+        /// Gets the folder locks endpoint URI.
+        /// </summary>
+        public virtual Uri FolderLocksEndpointUri { get { return new Uri(BoxApiUri, Constants.FolderLocksString); } }
+        /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>
         public IWebProxy WebProxy { get; set; }
