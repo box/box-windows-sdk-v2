@@ -96,6 +96,8 @@
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
     <Compile Include="Models\BoxFolderEventSource.cs" />
+    <Compile Include="Models\BoxFolderLock.cs" />
+    <Compile Include="Models\BoxFolderLockOperations.cs" />
     <Compile Include="Models\BoxGroupEventSource.cs" />
     <Compile Include="Models\BoxMetadataCascadePolicy.cs" />
     <Compile Include="Models\BoxGroupFileCollaborationEventSource.cs" />
