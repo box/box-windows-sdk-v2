@@ -15,19 +15,19 @@ namespace Box.V2.Models
         public const string FieldLockedOperations = "locked_operations";
 
         /// <summary>
-        /// The time the item was created
+        /// The time the lock was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
         public DateTime? CreatedAt { get; private set; }
 
         /// <summary>
-        /// The user who created this item
+        /// The user who created this lock
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedBy)]
         public BoxUser CreatedBy { get; private set; }
 
         /// <summary>
-        /// The user who created this item
+        /// The folder that the lock applies to
         /// </summary>
         [JsonProperty(PropertyName = FieldFolder)]
         public BoxFolder Folder { get; private set; }
