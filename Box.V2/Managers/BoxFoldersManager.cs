@@ -484,8 +484,9 @@ namespace Box.V2.Managers
         /// Lists all folder locks for a given folder.
         /// </summary>
         /// <param name="id">Id of the folder</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all locks. Currently only one lock can exist per folder; defaults to false.</param>
         /// <returns>A collection of locks on the folder</returns>
-        public async Task<BoxCollection<BoxFolderLock>> GetLocksAsync(string id)
+        public async Task<BoxCollection<BoxFolderLock>> GetLocksAsync(string id, bool autoPaginate = false)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -493,8 +494,15 @@ namespace Box.V2.Managers
                 .Method(RequestMethod.Get)
                 .Param("folder_id", id);
 
-            IBoxResponse<BoxCollection<BoxFolderLock>> response = await ToResponseAsync<BoxCollection<BoxFolderLock>>(request).ConfigureAwait(false);
-            return response.ResponseObject;
+            if (autoPaginate)
+            {
+                return await AutoPaginateLimitOffset<BoxFolderLock>(request, 1000);
+            }
+            else
+            {
+                IBoxResponse<BoxCollection<BoxFolderLock>> response = await ToResponseAsync<BoxCollection<BoxFolderLock>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
