@@ -484,7 +484,7 @@ namespace Box.V2.Managers
         /// Lists all folder locks for a given folder.
         /// </summary>
         /// <param name="id">Id of the folder</param>
-        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all locks. Currently only one lock can exist per folder; defaults to false.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all locks. Currently only one lock can exist per folder.; defaults to false.</param>
         /// <returns>A collection of locks on the folder</returns>
         public async Task<BoxCollection<BoxFolderLock>> GetLocksAsync(string id, bool autoPaginate = false)
         {
