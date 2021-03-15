@@ -137,7 +137,7 @@ Create a Folder Lock
 -------------
 
 To lock a folder, call
-[`FoldersManager.CreateLockAsync(string id)`][create-folder-lock]
+`FoldersManager.CreateLockAsync(string id)`
 with the ID of the folder. This prevents the folder from being moved and/or deleted.
 
 <!-- sample post_folder_locks -->
@@ -149,7 +149,7 @@ Get Folder Locks
 -------------------------
 
 To retrieve a list of the locks on a folder, call
-[`FoldersManager.GetLocksAsync(string id, bool autoPaginate`][get-folder-locks]
+`FoldersManager.GetLocksAsync(string id, bool autoPaginate`
 with the ID of the folder. Currently only one lock can exist per folder. Folder locks define access restrictions placed by folder owners to prevent specific folders from being moved or deleted.
 
 <!-- sample get_folder_locks -->
@@ -162,7 +162,7 @@ Delete a Folder Lock
 ------------------
 
 To remove a folder lock, call
-[`FoldersManger.DeleteLockAsync(string id)`][delete-folder-lock]
+`FoldersManger.DeleteLockAsync(string id)`
 with the ID of the folder lock.
 
 <!-- sample delete_folder_lock -->
