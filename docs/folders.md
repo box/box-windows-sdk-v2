@@ -149,8 +149,8 @@ Get Folder Locks
 -------------------------
 
 To retrieve a list of the locks on a folder, call
-[`FoldersManager.GetLocksAsync(string id`][get-folder-locks]
-with the ID of the folder. Folder locks define access restrictions placed by folder owners to prevent specific folders from being moved or deleted.
+[`FoldersManager.GetLocksAsync(string id, bool autoPaginate`][get-folder-locks]
+with the ID of the folder. Currently only one lock can exist per folder. Folder locks define access restrictions placed by folder owners to prevent specific folders from being moved or deleted.
 
 <!-- sample get_folder_locks -->
 ```c#
