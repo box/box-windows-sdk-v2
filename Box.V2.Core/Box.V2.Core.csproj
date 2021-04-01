@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Box.V2 for .Net Core</Description>
     <AssemblyTitle>Box.V2.Core</AssemblyTitle>
-    <Version>3.25.0</Version>
+    <Version>3.26.0</Version>
     <Authors>Box, Inc.</Authors>
 	<Owners>Box, Inc.</Owners>
 	<PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
