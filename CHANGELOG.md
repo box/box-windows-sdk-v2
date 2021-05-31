@@ -1,5 +1,8 @@
 # Changelog
 
+## Next release
+- Add ability to get files under retention for assignment and file versions under retention for assignment
+
 ## 3.26.0 [2021-04-01]
 
 **New Features and Enhancements:**
