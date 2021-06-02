@@ -5,6 +5,10 @@ using Box.V2.Plugins;
 
 namespace Box.V2
 {
+    /// <summary>
+    /// The central entrypoint for all SDK interaction. The BoxClient houses all of the API endpoints and are represented 
+    /// as resource managers for each distinct endpoint
+    /// </summary>
     public interface IBoxClient
     {
         /// <summary>

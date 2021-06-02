@@ -78,7 +78,7 @@ namespace Box.V2.Models
         /// The time at which this item was put in the trash.
         /// </summary>
         [JsonProperty(PropertyName = FieldTrashedAt)]
-        public DateTime? TrashedAt { get; set; }
+        public virtual DateTime? TrashedAt { get; set; }
 
         /// <summary>
         /// The user who created this item

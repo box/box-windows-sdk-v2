@@ -5,6 +5,9 @@ using Box.V2.Models.Request;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The class managing the Box API's Groups endpoint.
+    /// </summary>
     public interface IBoxGroupsManager
     {
         /// <summary>

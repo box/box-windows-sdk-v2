@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// Shared items are any files or folders that are represented by a shared link. 
+    /// </summary>
+    /// <seealso cref="Box.V2.Managers.BoxResourceManager" />
     public interface IBoxSharedItemsManager
     {
         /// <summary>

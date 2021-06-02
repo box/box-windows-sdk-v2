@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents all of the comment endpoints
+    /// </summary>
     public interface IBoxCommentsManager
     {
         /// <summary>

@@ -13,6 +13,7 @@ namespace Box.V2.Managers
         /// <param name="id"></param>
         /// <param name="limit"></param>
         /// <param name="offset"></param>
+        [Obsolete("This endpoint is not officially supported by the API and is not guaranteed to be available in the next version. Please use GetFolderItemsAsync")]
         Task<BoxFolder> GetItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null);
 
         /// <summary>
@@ -136,6 +137,7 @@ namespace Box.V2.Managers
         /// <param name="offset">The item at which to begin the response</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
+        [Obsolete("This method will be removed in a future update. Please use the GetTrashItemsAsync(int, int, IEnumerable<string>) overload")]
         Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null);
 
         /// <summary>
@@ -184,5 +186,27 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the folder.</param>
         /// <returns>True to confirm the watermark has been removed. If the folder did not have a watermark applied to it, than False will be returned.</returns>
         Task<bool> RemoveWatermarkAsync(string id);
+
+        /// <summary>
+        /// Creates a folder lock on a folder, preventing it from being moved and/or deleted.
+        /// </summary>
+        /// <param name="id">Id of the folder to create a lock on</param>
+        /// <returns>An object representing the lock on the folder</returns>
+        Task<BoxFolderLock> CreateLockAsync(string id);
+
+        /// <summary>
+        /// Lists all folder locks for a given folder.
+        /// </summary>
+        /// <param name="id">Id of the folder</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all locks. Currently only one lock can exist per folder.; defaults to false.</param>
+        /// <returns>A collection of locks on the folder</returns>
+        Task<BoxCollection<BoxFolderLock>> GetLocksAsync(string id, bool autoPaginate = false);
+
+        /// <summary>
+        /// Delete a folder lock on a folder
+        /// </summary>
+        /// <param name="id">Id of the folder lock</param>
+        /// <returns>True will be returned upon successful deletionr</returns>
+        Task<bool> DeleteLockAsync(string id);
     }
 }

@@ -4,6 +4,9 @@ using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// Allow create, update, get, delete weblink for folder.
+    /// </summary>
     public interface IBoxWebLinksManager
     {
         /// <summary>

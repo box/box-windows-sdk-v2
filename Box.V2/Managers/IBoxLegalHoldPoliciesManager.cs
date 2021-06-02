@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// Allow create, update, get, delete legal hold and legal hold assignment.
+    /// </summary>
     public interface IBoxLegalHoldPoliciesManager
     {
         /// <summary>

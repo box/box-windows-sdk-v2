@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 using Box.V2.Utility;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// File objects represent that metadata about individual files in Box, with attributes describing who created the file, 
+    /// when it was last modified, and other information. 
+    /// </summary>
     public interface IBoxFilesManager
     {
         /// <summary>
@@ -26,6 +31,7 @@ namespace Box.V2.Managers
         /// <param name="startOffsetInBytes">Optional timeout for response.</param>
         /// <param name="endOffsetInBytes">Optional timeout for response.</param>
         /// <returns>Stream of the requested file.</returns>
+        [Obsolete("This method is deprecated in favor of DownloadAsync()")]
         Task<Stream> DownloadStreamAsync(string id, string versionId = null, TimeSpan? timeout = null, int? startOffsetInBytes = null, int? endOffsetInBytes = null);
 
         /// <summary>
@@ -182,6 +188,7 @@ namespace Box.V2.Managers
         /// <param name="timeout">Timeout for subsequent UploadPart requests.</param>
         /// <param name="progress">Will report progress from 1 - 100.</param>
         /// <returns>The BoxFileVersion object.</returns>
+        [Obsolete("UploadFileVersionUsingSessionAsync is deprecated, please use UploadNewVersionUsingSessionAsync instead.")]
         Task<BoxFileVersion> UploadFileVersionUsingSessionAsync(Stream stream, string fileId, string fileName = null,
             TimeSpan? timeout = null, IProgress<BoxProgress> progress = null);
 
@@ -280,6 +287,7 @@ namespace Box.V2.Managers
         /// <param name="id">Id of the file</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <returns>Collection of the collaborations on a file</returns>
+        [Obsolete("Use GetCollaborationsCollectionAsync() instead; this method does not return the data needed to page through the collection.")]
         Task<BoxCollection<BoxCollaboration>> GetCollaborationsAsync(string id, IEnumerable<string> fields = null);
 
         /// <summary>
@@ -334,6 +342,7 @@ namespace Box.V2.Managers
         /// <param name="page"></param>
         /// /// <param name="handleRetry"></param>
         /// <returns>A PNG of the preview</returns>
+        [Obsolete("Please use GetPreviewLinkAsync instead.  This functionality is not supported by Box.")]
         Task<Stream> GetPreviewAsync(string id, int page, bool handleRetry = true);
 
         /// <summary>
@@ -344,6 +353,7 @@ namespace Box.V2.Managers
         /// <param name="handleRetry">specifies whether the method handles retries. If true, then the method would retry the call if the HTTP response is 'Accepted'. The delay for the retry is determined 
         /// by the RetryAfter header, or if that header is not set, by the constant DefaultRetryDelay.</param>
         /// <returns>BoxFilePreview that contains the stream, current page number and total number of pages in the file.</returns>
+        [Obsolete("Please use GetPreviewLinkAsync instead.  This functionality is not supported by Box.")]
         Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true);
 
         /// <summary>
@@ -472,5 +482,14 @@ namespace Box.V2.Managers
         /// <returns>A stream over the representation contents.</returns>
         /// </summary>
         Task<Stream> GetRepresentationContentAsync(BoxRepresentationRequest representationRequest, string assetPath = "");
+
+        /// <summary>
+        /// Creates a zip and downloads it to a given Stream.
+        /// </summary>
+        /// <param name="zipRequest">Object of type BoxZipRequest that contains name and items.</param>
+        /// <param name="output">The stream to where the zip file will be written.</param>
+        /// <returns>The status of the download.</returns>
+        /// </summary>
+        Task<BoxZipDownloadStatus> DownloadZip(BoxZipRequest zipRequest, Stream output);
     }
 }

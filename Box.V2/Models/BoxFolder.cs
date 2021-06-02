@@ -120,12 +120,12 @@ namespace Box.V2.Models
         /// The date when the folder will be automatically deleted due to item expiration settings.
         /// </summary>
         [JsonProperty(PropertyName = FieldIsCollaborationRestrictedToEnterprise)]
-        public bool? IsCollaborationRestrictedToEnterprise { get; protected set; }
+        public virtual bool? IsCollaborationRestrictedToEnterprise { get; protected set; }
 
         /// <summary>
         /// Represents the classification information for a File on Box.
         /// </summary>
         [JsonProperty(PropertyName = FieldClassification)]
-        public BoxClassification Classification { get; private set; }
+        public virtual BoxClassification Classification { get; private set; }
     }
 }

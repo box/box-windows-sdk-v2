@@ -1,9 +1,12 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents all of the terms of service endpoints.
+    /// </summary>
     public interface IBoxTermsOfServiceManager
     {
         /// <summary>

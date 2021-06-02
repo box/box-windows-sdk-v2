@@ -6,6 +6,9 @@ using Box.V2.Models.Request;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents the search endpoint
+    /// </summary>
     public interface IBoxSearchManager
     {
         /// <summary>
@@ -32,6 +35,7 @@ namespace Box.V2.Managers
         /// <param name="sort">The field to sort the search results by, e.g. "modified_at.</param>
         /// <param name="direction">The direction to return the results. "ASC" for ascending and "DESC" for descending.</param>
         /// <returns>A collection of search results is returned. If there are no matching search results, the collection will be empty.</returns>
+        [Obsolete("Method is deprecated; use QueryAsync() instead")]
         Task<BoxCollection<BoxItem>> SearchAsync(  string keyword = null,
             int limit = 30,
             int offset = 0,

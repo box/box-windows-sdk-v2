@@ -6,6 +6,9 @@ using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents all of the user endpoints
+    /// </summary>
     public interface IBoxUsersManager
     {
         /// <summary>
@@ -51,6 +54,24 @@ namespace Box.V2.Managers
             string userType = null,
             string externalAppUserId = null,
             bool autoPaginate = false);
+
+        /// <summary>
+        /// Get information about users in an enterprise. This method only works for enterprise admins.
+        /// </summary>
+        /// <param name="filterTerm">Filter the results to only users starting with this value in either the name or the login.</param>
+        /// <param name="marker">Position to return results from.</param>
+        /// <param name="limit">The number of records to return. (min: 1; default: 100; max: 1000)</param>
+        /// <param name="fields">The fields to populate for each returned user.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all users; defaults to false.</param>
+        /// <param name="externalAppUserId">The external app user id.</param>
+        /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
+        Task<BoxCollectionMarkerBased<BoxUser>> GetEnterpriseUsersWithMarkerAsync(string marker = null,
+                                                                          string filterTerm = null,
+                                                                          uint limit = 100,
+                                                                          IEnumerable<string> fields = null,
+                                                                          string externalAppUserId = null,
+                                                                          bool autoPaginate = false);
 
         /// <summary>
         /// Deletes a user in an enterprise account.

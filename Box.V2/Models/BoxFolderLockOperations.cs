@@ -15,12 +15,12 @@ namespace Box.V2.Models
         /// Whether deleting the folder is restricted
         /// </summary>
         [JsonProperty(PropertyName = FieldDelete)]
-        public bool Delete { get; private set; }
+        public virtual bool Delete { get; private set; }
 
         /// <summary>
         /// Whether deleting the folder is restricted
         /// </summary>
         [JsonProperty(PropertyName = FieldMove)]
-        public bool Move { get; private set; }
+        public virtual bool Move { get; private set; }
     }
 }

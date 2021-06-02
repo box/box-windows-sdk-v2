@@ -6,6 +6,9 @@ using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents the events endpoint
+    /// </summary>
     public interface IBoxEventsManager
     {
         /// <summary>

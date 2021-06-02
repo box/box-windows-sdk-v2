@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// Managing collections  
+    /// </summary>
     public interface IBoxCollectionsManager
     {
         /// <summary>

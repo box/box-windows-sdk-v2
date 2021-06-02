@@ -16,24 +16,24 @@ namespace Box.V2.Models
         /// The Id of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldId)]
-        public string Id { get; private set; }
+        public virtual string Id { get; private set; }
 
         /// <summary>
         /// The type of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldType)]
-        public string Type { get; private set; }
+        public virtual string Type { get; private set; }
 
         /// <summary>
         /// The original name of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldOriginalName)]
-        public string OriginalName { get; private set; }
+        public virtual string OriginalName { get; private set; }
 
         /// <summary>
         /// the new name of the item when it downloads that resolves the conflict
         /// </summary>
         [JsonProperty(PropertyName = FieldDownloadName)]
-        public string DownloadName { get; private set; }
+        public virtual string DownloadName { get; private set; }
     }
 }

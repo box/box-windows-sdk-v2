@@ -185,20 +185,20 @@ namespace Box.V2.Models
         /// The root (protocol, subdomain, domain) of any Box URLs that need to be generated for the user
         /// </summary>
         [JsonProperty(PropertyName = FieldHostname)]
-        public string Hostname { get; private set; }
+        public virtual string Hostname { get; private set; }
 
         /// <summary>
         /// The external app user id that has been set for the app user.  An arbitrary identifier that can be used by external user sync tools to link this Box User to an external user.
         /// Example values of this field could be an Active Directory Object ID or primary key from a user-tracking database. We recommend use of this field in order to avoid issues when email addresses and names are updated in either Box or external systems.
         /// </summary>
         [JsonProperty(PropertyName = FieldExternalAppUserId)]
-        public string ExternalAppUserId { get; private set; }
+        public virtual string ExternalAppUserId { get; private set; }
 
         /// <summary>
         /// An alternate notification email address to which email notifications are sent. When it's confirmed, this will be the email address to which notifications are sent instead
         /// of to the primary email address.
         /// </summary>
         [JsonProperty(PropertyName = FieldNotificationEmail)]
-        public BoxNotificationEmail NotificationEmail { get; set; }
+        public virtual BoxNotificationEmail NotificationEmail { get; set; }
     }
 }

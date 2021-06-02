@@ -45,13 +45,13 @@ namespace Box.V2.Models
         /// Whether this template is hidden in the UI. Defaults to false.
         /// </summary>
         [JsonProperty(PropertyName = FieldHidden)]
-        public bool? Hidden { get; set; }
+        public virtual bool? Hidden { get; set; }
 
         /// <summary>
         /// Whether the metadata template instance will be copied when the Box item is copied.
         /// </summary>
         [JsonProperty(PropertyName = FieldCopyInstanceOnItemCopy)]
-        public bool? CopyInstanceOnItemCopy { get; set; }
+        public virtual bool? CopyInstanceOnItemCopy { get; set; }
     }
 
     /// <summary>

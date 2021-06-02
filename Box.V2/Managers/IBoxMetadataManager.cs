@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// Metadata allows users and applications to define and store custom data associated with their files/folders
+    /// </summary>
     public interface IBoxMetadataManager
     {
         /// <summary>
@@ -161,5 +165,37 @@ namespace Box.V2.Managers
         /// <param name="scope">Scope name. Currently, the only scopes support are enterprise and global</param>
         /// <returns>Collection of enterprise metadata instances associated with the file.</returns>
         Task<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> GetEnterpriseMetadataAsync(string scope = "enterprise");
+
+        /// <summary>
+        /// Allows you to query by metadata on Box items
+        /// </summary>
+        /// <param name="from">The template used in the query. Must be in the form scope.templateKey</param>
+        /// <param name="ancestorFolderId">The folder_id to which to restrain the query</param>
+        /// <param name="query">The logical expression of the query</param>
+        /// <param name="queryParameters">Required if query present. The arguments for the query</param>
+        /// <param name="indexName">The name of the Index to use</param>
+        /// <param name="orderBy">A list of BoxMetadataQueryOrderBy objects that contain field_key(s) to order on and the corresponding direction(s)</param>
+        /// <param name="limit">The maximum number of items to return in a page. The default is 100 and the max is 1000.</param>
+        /// <param name="marker">The marker to use for requesting the next page</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <returns>A collection of items and their associated metadata</returns>
+        [Obsolete("This method is deprecated in favor of ExecuteMetadataQueryAsync() that has a fields parameter. The API will eventually not support this method.")]
+        Task<BoxCollectionMarkerBased<BoxMetadataQueryItem>> ExecuteMetadataQueryAsync(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false);
+
+        /// <summary>
+        /// Allows you to query by metadata on Box items with fields passed in
+        /// </summary>
+        /// <param name="from">The template used in the query. Must be in the form scope.templateKey</param>
+        /// <param name="ancestorFolderId">The folder_id to which to restrain the query</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="query">The logical expression of the query</param>
+        /// <param name="queryParameters">Required if query present. The arguments for the query</param>
+        /// <param name="indexName">The name of the Index to use</param>
+        /// <param name="orderBy">A list of BoxMetadataQueryOrderBy objects that contain field_key(s) to order on and the corresponding direction(s)</param>
+        /// <param name="limit">The maximum number of items to return in a page. The default is 100 and the max is 1000.</param>
+        /// <param name="marker">The marker to use for requesting the next page</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <returns>A collection of items and their associated metadata</returns>
+        Task<BoxCollectionMarkerBased<BoxItem>> ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false);
     }
 }

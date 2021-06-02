@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The manager that represents the webhooks V2 endpoints.
+    /// </summary>
     public interface IBoxWebhooksManager
     {
         /// <summary>

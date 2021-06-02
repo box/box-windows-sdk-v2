@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// Returns information about files that have been accessed by a user not long ago.
+    /// </summary>
     public interface IBoxRecentItemsManager
     {
         /// <summary>

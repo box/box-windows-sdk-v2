@@ -43,7 +43,7 @@ namespace Box.V2.Models
         /// The user's name at the time of upload
         /// </summary>
         [JsonProperty(PropertyName = FieldUploaderDisplayName)]
-        public string UploaderDisplayName { get; private set; }
+        public virtual string UploaderDisplayName { get; private set; }
 
         /// <summary>
         /// The time the item was created

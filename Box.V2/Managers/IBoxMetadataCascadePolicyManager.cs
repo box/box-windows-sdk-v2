@@ -4,6 +4,9 @@ using Box.V2.Models;
 
 namespace Box.V2.Managers
 {
+    /// <summary>
+    /// The class managing the Box API's Metadata Cascade Policies endpoint.
+    /// </summary>
     public interface IBoxMetadataCascadePolicyManager
     {
         /// <summary>

@@ -136,18 +136,18 @@ namespace Box.V2.Models
         /// Whether the item is owned by an entity external to the user's enterprise.
         /// </summary>
         [JsonProperty(PropertyName = FieldIsExternallyOwned)]
-        public bool? IsExternallyOwned { get; protected set; }
+        public virtual bool? IsExternallyOwned { get; protected set; }
 
         /// <summary>
         /// The user's name at the time of upload
         /// </summary>
         [JsonProperty(PropertyName = FieldUploaderDisplayName)]
-        public string UploaderDisplayName { get; private set; }
+        public virtual string UploaderDisplayName { get; private set; }
 
         /// <summary>
         /// Represents the classification information for a File on Box.
         /// </summary>
         [JsonProperty(PropertyName = FieldClassification)]
-        public BoxClassification Classification { get; private set; }
+        public virtual BoxClassification Classification { get; private set; }
     }
 }
