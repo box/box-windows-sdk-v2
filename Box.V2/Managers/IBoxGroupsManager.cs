@@ -14,8 +14,9 @@ namespace Box.V2.Managers
         /// <param name="offset">The offset of the results. Refer to the Box API for more details.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all groups; defaults to false.</param>
+        /// <param name="filterTerm">Limits the results to only groups whose name starts with the search term.</param>
         /// <returns>A collection of groups.</returns>
-        Task<BoxCollection<BoxGroup>> GetAllGroupsAsync(int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false);
+        Task<BoxCollection<BoxGroup>> GetAllGroupsAsync(int? limit = null, int? offset = null, IEnumerable<string> fields = null, bool autoPaginate = false, string filterTerm = null);
 
         /// <summary>
         /// Returns the group with the specified id.

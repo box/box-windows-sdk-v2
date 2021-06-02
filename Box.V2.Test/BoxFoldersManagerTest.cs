@@ -5,6 +5,7 @@ using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -446,7 +447,12 @@ namespace Box.V2.Test
                             ""limit"": 100
                         },
                         ""expires_at"": ""2020-11-03T22:00:00Z"",
-                        ""is_collaboration_restricted_to_enterprise"": true
+                        ""is_collaboration_restricted_to_enterprise"": true,
+                        ""classification"": {
+                            ""name"": ""Top Secret"",
+                            ""definition"": ""Content that should not be shared outside the company."",
+                            ""color"": ""#FF0000""
+                          }
                     }"
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r); ;
@@ -516,6 +522,9 @@ namespace Box.V2.Test
             Assert.AreEqual(f.ItemCollection.Offset, 0);
             Assert.AreEqual(f.ItemCollection.Limit, 100);
             Assert.AreEqual("2020-11-03T22:00:00Z", f.ExpiresAt.Value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ssZ", System.Globalization.DateTimeFormatInfo.InvariantInfo));
+            Assert.AreEqual("Top Secret", f.Classification.Name);
+            Assert.AreEqual("Content that should not be shared outside the company.", f.Classification.Definition);
+            Assert.AreEqual("#FF0000", f.Classification.Color);
             Assert.IsTrue(f.IsCollaborationRestrictedToEnterprise.Value);
 
         }
@@ -679,7 +688,7 @@ namespace Box.V2.Test
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = "{ \"total_count\": 49542, \"entries\": [ { \"type\": \"file\", \"id\": \"2701979016\", \"sequence_id\": \"1\", \"etag\": \"1\", \"sha1\": \"9d976863fc849f6061ecf9736710bd9c2bce488c\", \"name\": \"file Tue Jul 24 145436 2012KWPX5S.csv\" }, { \"type\": \"file\", \"id\": \"2698211586\", \"sequence_id\": \"1\", \"etag\": \"1\", \"sha1\": \"09b0e2e9760caf7448c702db34ea001f356f1197\", \"name\": \"file Tue Jul 24 010055 20129Z6GS3.csv\" } ], \"offset\": 0, \"limit\": 2 }"
+                    ContentString = "{ \"total_count\": 49542, \"entries\": [ { \"type\": \"file\", \"id\": \"2701979016\", \"sequence_id\": \"1\", \"etag\": \"1\", \"sha1\": \"9d976863fc849f6061ecf9736710bd9c2bce488c\", \"name\": \"file Tue Jul 24 145436 2012KWPX5S.csv\" }, { \"type\": \"file\", \"id\": \"2698211586\", \"sequence_id\": \"1\", \"etag\": \"1\", \"sha1\": \"09b0e2e9760caf7448c702db34ea001f356f1197\", \"name\": \"file Tue Jul 24 010055 20129Z6GS3.csv\", \"trashed_at\": \"2012-12-12T10:55:30-08:00\" } ], \"offset\": 0, \"limit\": 2 }"
                 }));
 
             /*** Act ***/
@@ -699,6 +708,7 @@ namespace Box.V2.Test
             Assert.AreEqual("1", i2.SequenceId);
             Assert.AreEqual("1", i1.ETag);
             Assert.AreEqual("file Tue Jul 24 010055 20129Z6GS3.csv", i2.Name);
+            Assert.AreEqual(DateTime.Parse("2012-12-12T10:55:30-08:00"), i2.TrashedAt);
 
         }
 
@@ -953,6 +963,104 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual(true, result);
 
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task GetFolderLocks_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"entries\":[{\"folder\":{\"id\":\"12345\",\"etag\":\"1\",\"type\":\"folder\",\"sequence_id\":\"3\",\"name\":\"Contracts\"},\"id\":\"12345678\",\"type\":\"folder_lock\",\"created_by\":{\"id\":\"11446498\",\"type\":\"user\"},\"created_at\":\"2020-09-14T23:12:53Z\",\"locked_operations\":{\"move\":true,\"delete\":true},\"lock_type\":\"freeze\"}],\"limit\":1000,\"next_marker\":null}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFolderLock>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFolderLock>>>(new BoxResponse<BoxCollection<BoxFolderLock>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            string id = "5010739069";
+            BoxCollection<BoxFolderLock> result = await _foldersManager.GetLocksAsync(id);
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(Constants.FolderLocksEndpointString + "?folder_id=" + id, boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual("12345678", result.Entries[0].Id);
+            Assert.AreEqual("freeze", result.Entries[0].LockType);
+            Assert.AreEqual(true, result.Entries[0].LockedOperations.Delete);
+
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task CreateFolderLock_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"id\":12345678,\"type\":\"folder_lock\",\"created_at\":\"2020-09-14T23:12:53Z\",\"created_by\":{\"id\":11446498,\"type\":\"user\"},\"folder\":{\"id\":12345,\"type\":\"folder\",\"etag\":1,\"name\":\"Contracts\",\"sequence_id\":3},\"lock_type\":\"freeze\",\"locked_operations\":{\"delete\":true,\"move\":true}}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxFolderLock>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFolderLock>>(new BoxResponse<BoxFolderLock>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            string id = "5010739069";
+            BoxFolderLock result = await _foldersManager.CreateLockAsync(id);
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(Constants.FolderLocksEndpointString, boxRequest.AbsoluteUri.AbsoluteUri);
+            JObject payload = JObject.Parse(boxRequest.Payload);
+            Assert.AreEqual("folder", payload["folder"]["type"]);
+            Assert.AreEqual(id, payload["folder"]["id"]);
+            Assert.AreEqual(true, payload["locked_operations"]["move"]);
+            Assert.AreEqual(true, payload["locked_operations"]["delete"]);
+
+            //Response check
+            Assert.AreEqual("12345678", result.Id);
+            Assert.AreEqual("freeze", result.LockType);
+            Assert.AreEqual(true, result.LockedOperations.Delete);
+
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task DeleteFolderLock_ValidResponse()
+        {
+            /*** Arrange ***/
+            string responseString = "";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxFolderLock>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxFolderLock>>(new BoxResponse<BoxFolderLock>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            string id = "5010739069";
+            bool result = await _foldersManager.DeleteLockAsync(id);
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(Constants.FolderLocksEndpointString + id, boxRequest.AbsoluteUri.AbsoluteUri);
+
+            //Response check
+            Assert.AreEqual(true, result);
         }
     }
 }

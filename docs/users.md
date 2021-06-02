@@ -78,6 +78,7 @@ To provision a new app user within the current enterprise, call the
 `UsersManager.CreateEnterpriseUserAsync(BoxUserRequest userRequest, IEnumerable<string> fields = null)`
 method with the `BoxUserRequest.IsPlatformAccessOnly` property set to `true`.
 
+<!-- sample post_users_app -->
 ```c#
 var userParams = new BoxUserRequest()
 {
@@ -175,7 +176,7 @@ method with the IDs of the source and destination users.
 
 > __Note:__ Currently, only moving the user's root folder (with ID "0") is supported.
 
-<!-- sample put_users_id_folders_id -->
+<!-- sample put_users_id_folders_0 -->
 ```c#
 var sourceUserId = "33333";
 var destinationUserId = "44444";

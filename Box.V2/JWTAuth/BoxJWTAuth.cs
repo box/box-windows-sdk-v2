@@ -15,6 +15,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using Box.V2.Utility;
+using System.Net;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Box.V2.JWTAuth
 {
@@ -22,7 +26,7 @@ namespace Box.V2.JWTAuth
     /// Box’s new authentication model allows applications to authenticate directly to Box using a JSON Web Token (JWT) signed with an RSA key. This authentication method is meant for server-to-server applications and replaces the first leg of the standard 3-legged OAuth 2.0 process in which users grant an application authorization to access their Box account.
     ///</summary>
     ///<remarks>
-    ///https://docs.box.com/docs/getting-started-box-platform
+    /// https://developer.box.com/en/guides/applications/custom-apps/
     ///</remarks>
     public class BoxJWTAuth
     {
@@ -145,27 +149,79 @@ namespace Box.V2.JWTAuth
 
         private string GetToken(string subType, string subId)
         {
+            int retryCounter = 0;
+            ExponentialBackoff expBackoff = new ExponentialBackoff();
+
             var assertion = ConstructJWTAssertion(subId, subType);
             OAuthSession result;
-            try
+
+            while (true)
             {
-                result = JWTAuthPost(assertion);
-                return result.AccessToken;
-            }
-            catch (BoxException ex)
-            {
-                var serverDate = ex.ResponseHeaders.Date;
-                if (serverDate.HasValue)
+                try
                 {
-                    var date = serverDate.Value;
-                    assertion = ConstructJWTAssertion(subId, subType, date.LocalDateTime);
                     result = JWTAuthPost(assertion);
                     return result.AccessToken;
                 }
-                else
+                catch (BoxException ex)
                 {
-                    throw ex;
-                }
+                    //need to wait for Retry-After seconds and then retry request
+                    var retryAfterHeader = ex.ResponseHeaders != null ? ex.ResponseHeaders.RetryAfter : null;
+
+                    // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
+                    // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
+                    // If we get a 202 code and has a retry-after header, we will retry after.
+                    // If we get a 400 due to exp claim issue, this can happen if the current system time is too different from the Box server time, so retry.
+                    var errorCode = ex.Error?.Code ?? ex.Error?.Name;
+                    var errorDescription = ex.Error?.Message ?? ex.Error?.Description;
+
+                    if ((ex.StatusCode == HttpRequestHandler.TooManyRequests
+                        ||
+                        ex.StatusCode == HttpStatusCode.InternalServerError
+                        ||
+                        ex.StatusCode == HttpStatusCode.BadGateway
+                        ||
+                        ex.StatusCode == HttpStatusCode.ServiceUnavailable
+                        ||
+                        ex.StatusCode == HttpStatusCode.GatewayTimeout
+                        ||
+                        (ex.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)
+                        ||
+                        (ex.StatusCode == HttpStatusCode.BadRequest
+                        && errorCode != null && errorCode.Contains("invalid_grant")
+                        && errorDescription != null && errorDescription.Contains("exp")))
+                        && retryCounter++ < HttpRequestHandler.RetryLimit)
+                    {
+
+                        TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
+
+                        // If the response contains a Retry-After header, override the exponential back-off delay value
+                        int timeToWait;
+                        if (retryAfterHeader != null && int.TryParse(retryAfterHeader.ToString(), out timeToWait))
+                        {
+                            delay = new TimeSpan(0, 0, 0, 0, timeToWait);
+                        }
+
+                        // Before we retry the JWT Authentication request, we must regenerate the JTI claim with an updated DateTime.
+                        // A delay is added to the JWT time, to account for the time of the upcoming wait.
+                        var serverDate = ex.ResponseHeaders != null ? ex.ResponseHeaders.Date : null;
+                        if (serverDate.HasValue)
+                        {
+                            var date = serverDate.Value;
+                            assertion = ConstructJWTAssertion(subId, subType, date.LocalDateTime.Add(delay));
+                        }
+                        else
+                        {
+                            assertion = ConstructJWTAssertion(subId, subType, DateTime.UtcNow.Add(delay));
+                        }
+
+                        Debug.WriteLine("HttpCode: {0}. Waiting for {1} seconds to retry JWT Authentication request.", ex.StatusCode, delay.Seconds);
+                        System.Threading.Tasks.Task.Delay(delay).Wait();
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                } /**/
             }
         }
 
@@ -222,7 +278,7 @@ namespace Box.V2.JWTAuth
                                             .Payload(Constants.RequestParameters.ClientSecret, this.boxConfig.ClientSecret);
             
             var converter = new BoxJsonConverter();
-            IBoxResponse<OAuthSession> boxResponse = this.boxService.ToResponseAsync<OAuthSession>(boxRequest).Result;
+            IBoxResponse<OAuthSession> boxResponse = this.boxService.ToResponseAsyncWithoutRetry<OAuthSession>(boxRequest).Result;
             boxResponse.ParseResults(converter);
 
             return boxResponse.ResponseObject;

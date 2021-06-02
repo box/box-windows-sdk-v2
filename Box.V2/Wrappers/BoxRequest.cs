@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
+using System.Text.RegularExpressions;
+using Box.V2.Exceptions;
 
 namespace Box.V2
 {
@@ -21,9 +23,14 @@ namespace Box.V2
         /// <param name="path"></param>
         public BoxRequest(Uri hostUri, string path)
         {
+            string pattern = @"\/\.+";
+            if (path != null && Regex.IsMatch(path, pattern) == true)
+            {
+                throw new BoxException($"An invalid path parameter exists in {path}. Relative path parameters cannot be passed.");
+            }
+
             Host = hostUri;
             Path = path;
-
             HttpHeaders = new Dictionary<string, string>();
             Parameters = new Dictionary<string, string>();
             PayloadParameters = new Dictionary<string, string>();
@@ -75,7 +82,7 @@ namespace Box.V2
                 {
                     newQuery = Parameters.Count == 0 ? existingQuery : string.Format("{0}&{1}", existingQuery, GetQueryString());
                 }
-
+            
                 return new Uri(Uri, newQuery);
             }
         }

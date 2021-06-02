@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -118,8 +118,8 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            Uri storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
-            Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
+            Uri storagePolicyAssignmentsForTargetUri = new Uri(Constants.StoragePolicyAssignmentsForTargetEndpointString);
+            Config.SetupGet(x => x.StoragePolicyAssignmentsForTargetUri).Returns(storagePolicyAssignmentsForTargetUri);
             Handler.Setup(h => h.ExecuteAsync<BoxStoragePolicyAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxStoragePolicyAssignment>>(new BoxResponse<BoxStoragePolicyAssignment>()
                 {
@@ -135,7 +135,7 @@ namespace Box.V2.Test
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(storagePolicyAssignmentsUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(storagePolicyAssignmentsForTargetUri, boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
             Assert.AreEqual("storage_policy_assignment", result.Type);
@@ -166,8 +166,8 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            Uri storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
-            Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
+            Uri storagePolicyAssignmentsForTargetUri = new Uri(Constants.StoragePolicyAssignmentsForTargetEndpointString);
+            Config.SetupGet(x => x.StoragePolicyAssignmentsForTargetUri).Returns(storagePolicyAssignmentsForTargetUri);
             Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>>(new BoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>()
                 {
@@ -183,7 +183,7 @@ namespace Box.V2.Test
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual(storagePolicyAssignmentsUri + "?resolved_for_type=user&resolved_for_id=5678", boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(storagePolicyAssignmentsForTargetUri + "?resolved_for_type=user&resolved_for_id=5678", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
             Assert.AreEqual("storage_policy_assignment", result.Type);
@@ -269,7 +269,7 @@ namespace Box.V2.Test
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
-            Assert.AreEqual(storagePolicyAssignmentsUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.AreEqual(storagePolicyAssignmentsUri + "1111", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
             Assert.AreEqual("1111", result.BoxStoragePolicy.Id);

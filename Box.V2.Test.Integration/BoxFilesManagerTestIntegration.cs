@@ -70,6 +70,16 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
+        [ExpectedException(typeof(TimeoutException))]
+        public async Task Download_ValidRequest_Timeout()
+        {
+            var timeout = new TimeSpan(0, 0, 0, 0, 1); // 1ms timeout, should always cancel the request
+            const string fileId = "16894947279";
+            var responseStream = await _client.FilesManager.DownloadStreamAsync(fileId, timeout: timeout);
+        }
+
+        [TestMethod]
         public async Task Download_ValidRequest_ValidStream()
         {
             const string fileId = "16894947279";
@@ -434,7 +444,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_Utility_Function_FilePresent()
         {
             long fileSize = 50000000;
@@ -478,7 +488,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
+        // [TestCategory("CI-APP-USER")]
         public async Task GetRepresentationContentAsync_E2E()
         {
 

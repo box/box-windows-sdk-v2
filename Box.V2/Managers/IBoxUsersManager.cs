@@ -100,8 +100,9 @@ namespace Box.V2.Managers
         /// Retrieves information about a user in the enterprise. Requires enterprise administration authorization.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
+        /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns the complete user object.</returns>
-        Task<BoxUser> GetUserInformationAsync(string userId);
+        Task<BoxUser> GetUserInformationAsync(string userId, IEnumerable<string> fields = null);
 
         /// <summary>
         /// Retrieves all email aliases for this user. The collection of email aliases does not include the primary login for the user.
@@ -127,8 +128,9 @@ namespace Box.V2.Managers
         /// <param name="ownedByUserId">The ID of the user who the folder will be transferred to.</param>
         /// <param name="folderId">Currently only moving of the root folder (0) is supported.</param>
         /// <param name="notify">Determines if the destination user should receive email notification of the transfer.</param>
+        /// <param name="timeout">Optional timeout for response.</param>
         /// <returns>Returns the information for the newly created destination folder. An error is thrown if you do not have the necessary permissions to move the folder.</returns>
-        Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false);
+        Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false, TimeSpan? timeout = null);
 
         /// <summary>
         /// Retrieves all of the group memberships for a given user. 

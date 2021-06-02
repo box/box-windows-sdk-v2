@@ -119,6 +119,48 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Get information about users in an enterprise. This method only works for enterprise admins.
+        /// </summary>
+        /// <param name="filterTerm">Filter the results to only users starting with this value in either the name or the login.</param>
+        /// <param name="marker">Position to return results from.</param>
+        /// <param name="limit">The number of records to return. (min: 1; default: 100; max: 1000)</param>
+        /// <param name="fields">The fields to populate for each returned user.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all users; defaults to false.</param>
+        /// <param name="externalAppUserId">The external app user id.</param>
+        /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
+        public async Task<BoxCollectionMarkerBased<BoxUser>> GetEnterpriseUsersWithMarkerAsync(string marker = null,
+                                                                          string filterTerm = null,
+                                                                          uint limit = 100,
+                                                                          IEnumerable<string> fields = null,
+                                                                          string externalAppUserId = null,
+                                                                          bool autoPaginate = false)
+        {
+            if (limit == 0 || limit > 1000) throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
+
+
+
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri)
+                .Param("filter_term", filterTerm)
+                .Param("usemarker", "true")
+                .Param("marker", marker)
+                .Param("limit", limit.ToString())
+                .Param("user_type", "")
+                .Param("external_app_user_id", externalAppUserId)
+                .Param(ParamFields, fields);
+
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxUser>(request, (int)limit);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxUser>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxUser>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
+        }
+
+        /// <summary>
         /// Deletes a user in an enterprise account.
         /// </summary>
         /// <param name="userId">Id of the user.</param>
@@ -217,13 +259,15 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
-        /// Retrieves information about a user in the enterprise. Requires enterprise administration authorization.
+        /// Retrieves information about a user in the enterprise with the specified fields. Requires enterprise administration authorization.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <returns>Returns the complete user object.</returns>
-        public async Task<BoxUser> GetUserInformationAsync(string userId)
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <returns>Returns the default representation of the user object.</returns>
+        public async Task<BoxUser> GetUserInformationAsync(string userId, IEnumerable<string> fields = null)
         {
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId);
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, userId)
+            .Param(ParamFields, fields);
 
             IBoxResponse<BoxUser> response = await ToResponseAsync<BoxUser>(request).ConfigureAwait(false);
 
@@ -276,14 +320,15 @@ namespace Box.V2.Managers
         /// <param name="ownedByUserId">The ID of the user who the folder will be transferred to.</param>
         /// <param name="folderId">Currently only moving of the root folder (0) is supported.</param>
         /// <param name="notify">Determines if the destination user should receive email notification of the transfer.</param>
+        /// <param name="timeout">Optional timeout for response.</param>
         /// <returns>Returns the information for the newly created destination folder. An error is thrown if you do not have the necessary permissions to move the folder.</returns>
-        public async Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false)
+        public async Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false, TimeSpan? timeout = null)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
             ownedByUserId.ThrowIfNullOrWhiteSpace("ownedByUserId");
             folderId.ThrowIfNullOrWhiteSpace("folderId");
 
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.MoveUserFolderPathString, userId, folderId))
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.MoveUserFolderPathString, userId, folderId)) { Timeout = timeout }
                 .Param("notify", notify.ToString())
                 .Payload(_converter.Serialize(new BoxMoveUserFolderRequest()
                 {

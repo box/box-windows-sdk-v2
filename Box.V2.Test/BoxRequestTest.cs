@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Utility;
+using Box.V2.Exceptions;
 
 namespace Box.V2.Test
 {
@@ -17,6 +18,25 @@ namespace Box.V2.Test
             Assert.AreEqual(request.Method, RequestMethod.Get);
             Assert.AreEqual(baseUri, request.Host);
             Assert.IsNotNull(request.Parameters);
+        }
+
+        [TestMethod]
+        public void InvalidParameters_InvalidRequest()
+        {
+            Uri baseUri = new Uri("http://api.box.com/v2");
+            try
+            {
+                IBoxRequest request = new BoxRequest(baseUri, "auth/../oauth2/../");
+                Assert.Fail(); // raises AssertionException
+            }
+            catch (BoxException) {}
+
+            try
+            {
+                IBoxRequest request = new BoxRequest(baseUri, "auth/../../oauth2/../");
+                Assert.Fail(); // raises AssertionException
+            }
+            catch (BoxException) {}
         }
 
         [TestMethod]

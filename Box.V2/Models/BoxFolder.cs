@@ -15,7 +15,6 @@ namespace Box.V2.Models
         public const string FieldHasCollaborations = "has_collaborations";
         public const string FieldAllowedInviteeRoles = "allowed_invitee_roles";
         public const string FieldWatermarkInfo = "watermark_info";
-        public const string FieldTrashedAt = "trashed_at";
         public const string FieldPurgedAt = "purged_at";
         public const string FieldContentCreatedAt = "content_created_at";
         public const string FieldContentModifiedAt = "content_modified_at";
@@ -24,6 +23,7 @@ namespace Box.V2.Models
         public const string FieldAllowedSharedLinkAccessLevels = "allowed_shared_link_access_levels";
         public const string FieldExpiresAt = "expires_at";
         public const string FieldIsCollaborationRestrictedToEnterprise = "is_collaboration_restricted_to_enterprise";
+        public const string FieldClassification = "classification";
 
         /// <summary>
         /// The upload email address for this folder
@@ -75,12 +75,6 @@ namespace Box.V2.Models
         public virtual dynamic Metadata { get; protected set; }
 
         /// <summary>
-        /// Trashed at timestamp for folder
-        /// </summary>
-        [JsonProperty(PropertyName = FieldTrashedAt)]
-        public virtual DateTime? TrashedAt { get; set; }
-
-        /// <summary>
         /// Purged at timestamp for folder
         /// </summary>
         [JsonProperty(PropertyName = FieldPurgedAt)]
@@ -126,6 +120,12 @@ namespace Box.V2.Models
         /// The date when the folder will be automatically deleted due to item expiration settings.
         /// </summary>
         [JsonProperty(PropertyName = FieldIsCollaborationRestrictedToEnterprise)]
-        public virtual bool? IsCollaborationRestrictedToEnterprise { get; protected set; }
+        public bool? IsCollaborationRestrictedToEnterprise { get; protected set; }
+
+        /// <summary>
+        /// Represents the classification information for a File on Box.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldClassification)]
+        public BoxClassification Classification { get; private set; }
     }
 }

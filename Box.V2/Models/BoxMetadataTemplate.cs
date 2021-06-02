@@ -15,6 +15,7 @@ namespace Box.V2.Models
         public const string FieldDisplayName = "displayName";
         public const string FieldFields = "fields";
         public const string FieldHidden = "hidden";
+        public const string FieldCopyInstanceOnItemCopy = "copyInstanceOnItemCopy";
 
         /// <summary>
         /// A unique identifier for the template. The identifier must be unique across the scope of the enterprise to which the metadata template is being applied to. Defaults to a string derived from the displayName if no value is provided.
@@ -44,7 +45,13 @@ namespace Box.V2.Models
         /// Whether this template is hidden in the UI. Defaults to false.
         /// </summary>
         [JsonProperty(PropertyName = FieldHidden)]
-        public virtual bool? Hidden { get; set; }
+        public bool? Hidden { get; set; }
+
+        /// <summary>
+        /// Whether the metadata template instance will be copied when the Box item is copied.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldCopyInstanceOnItemCopy)]
+        public bool? CopyInstanceOnItemCopy { get; set; }
     }
 
     /// <summary>

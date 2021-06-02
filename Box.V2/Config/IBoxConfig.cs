@@ -53,6 +53,7 @@ namespace Box.V2.Config
         Uri FileVersionRetentionsUri { get; }
         Uri EventsUri { get; }
         Uri MetadataTemplatesUri { get; }
+        Uri MetadataQueryUri { get; }
         Uri CreateMetadataTemplateUri { get; }
         Uri WebhooksUri { get; }
         Uri RecentItemsUri { get; }
@@ -111,7 +112,14 @@ namespace Box.V2.Config
         /// Gets the file viersion legal holds endpoint URI.
         /// </summary>
         Uri FileVersionLegalHoldsEndpointUri { get; }
-
+        /// <summary>
+        /// Gets the zip downloads endpoint URI.
+        /// </summary>
+        Uri ZipDownloadsEndpointUri { get; }
+        /// <summary>
+        /// Gets the folder locks endpoint URI.
+        /// </summary>
+        Uri FolderLocksEndpointUri { get; }
         /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>

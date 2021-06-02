@@ -15,7 +15,7 @@ namespace Box.V2.Models
         public BoxRequestEntity Target { get; set; }
 
         /// <summary>
-        /// Event types that trigger notifications for the target. For a list of triggers see https://docs.box.com/reference#event-triggers.
+        /// Event types that trigger notifications for the target. For a list of triggers see https://developer.box.com/en/guides/webhooks/manage/triggers/.
         /// </summary>
         [JsonProperty(PropertyName = "triggers")]
         public IList<string> Triggers { get; set; }

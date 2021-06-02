@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -79,8 +80,14 @@ namespace Box.V2.Managers
         /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
         /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <param name="fileId">Filters results by files with this ID.</param>
+        /// <param name="fileVersionId">Filters results by file versions with this ID.</param>
+        /// <param name="policyId">Filters results by the retention policy with this ID.</param>
+        /// <param name="dispositionBefore">Filters results by files that will have their disposition come into effect before this date.</param>
+        /// <param name="dispositionAfter">Filters results by files that will have their disposition come into effect after this date.</param>
+        /// <param name="dispositionAction">Filters results by the retention policy with this disposition action.</param>
         /// <returns>The specified file version retention will be returned upon success.</returns>
-        Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false);
+        Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false, string fileId = null, string fileVersionId = null, string policyId = null, DateTime? dispositionBefore = null, DateTime? dispositionAfter = null, DispositionAction? dispositionAction = null);
 
         /// <summary>
         /// Used to retrieve information about a file version retention.

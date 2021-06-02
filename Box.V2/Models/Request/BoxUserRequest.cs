@@ -121,5 +121,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "is_external_collab_restricted")]
         public bool? IsExternalCollabRestricted { get; set; }
+
+        /// <summary>
+        /// Adds secondary notification email for Box User.
+        /// </summary>
+        [JsonProperty(PropertyName = "notification_email")]
+        public BoxNotificationEmailField NotificationEmail { get; set; }
     }
 }

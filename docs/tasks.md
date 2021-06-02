@@ -160,12 +160,24 @@ To update a task assignment, call the
 `TasksManager.UpdateTaskAssignmentAsync(BoxTaskAssignmentUpdateRequest taskAssignmentUpdateRequest)`
 method.  This can be used to resolve or complete a task.
 
+Updating the resolution state:
 <!-- sample put_task_assignments_id -->
 ```c#
 var requestParams = new BoxTaskAssignmentUpdateRequest()
 {
     Id = "12345",
     ResolutionState = ResolutionStateType.approved
+};
+BoxTaskAssignment updatedAssignment = await client.TasksManager.UpdateTaskAssignmentAsync(requestParams);
+```
+
+Updating the message:
+<!-- sample put_task_assignments_id message -->
+```c#
+var requestParams = new BoxTaskAssignmentUpdateRequest()
+{
+    Id = "12345",
+    Message = "Updated message"
 };
 BoxTaskAssignment updatedAssignment = await client.TasksManager.UpdateTaskAssignmentAsync(requestParams);
 ```

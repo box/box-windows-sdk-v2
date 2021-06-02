@@ -10,7 +10,6 @@ namespace Box.V2.Models
     public class BoxFile : BoxItem
     {
         public const string FieldSha1 = "sha1";
-        public const string FieldTrashedAt = "trashed_at";
         public const string FieldPurgedAt = "purged_at";
         public const string FieldContentCreatedAt = "content_created_at";
         public const string FieldContentModifiedAt = "content_modified_at";
@@ -26,6 +25,8 @@ namespace Box.V2.Models
         public const string FieldAllowedInviteeRoles = "allowed_invitee_roles";
         public const string FieldHasCollaborations = "has_collaborations";
         public const string FieldIsExternallyOwned = "is_externally_owned";
+        public const string FieldUploaderDisplayName = "uploader_display_name";
+        public const string FieldClassification = "classification";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -38,12 +39,6 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldFileVersion)]
         public virtual BoxFileVersion FileVersion { get; private set; }
-
-        /// <summary>
-        /// When this file was last moved to the trash
-        /// </summary>
-        [JsonProperty(PropertyName = FieldTrashedAt)]
-        public virtual DateTime? TrashedAt { get; private set; }
 
         /// <summary>
         /// When this file will be permanently deleted
@@ -141,6 +136,18 @@ namespace Box.V2.Models
         /// Whether the item is owned by an entity external to the user's enterprise.
         /// </summary>
         [JsonProperty(PropertyName = FieldIsExternallyOwned)]
-        public virtual bool? IsExternallyOwned { get; protected set; }
+        public bool? IsExternallyOwned { get; protected set; }
+
+        /// <summary>
+        /// The user's name at the time of upload
+        /// </summary>
+        [JsonProperty(PropertyName = FieldUploaderDisplayName)]
+        public string UploaderDisplayName { get; private set; }
+
+        /// <summary>
+        /// Represents the classification information for a File on Box.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldClassification)]
+        public BoxClassification Classification { get; private set; }
     }
 }

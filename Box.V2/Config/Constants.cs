@@ -12,7 +12,6 @@ namespace Box.V2.Config
         public const string BoxAccountApiHostUriString = "https://account.box.com/api/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
-        public const string BoxUploadApiUriV21String = "https://upload.box.com/api/2.1/";
 
 
         /*** API Endpoints ***/
@@ -41,6 +40,7 @@ namespace Box.V2.Config
         public const string EventsString = @"events";
         public const string MetadataTemplatesString = @"metadata_templates/";
         public const string CreateMetadataTemplateString = @"metadata_templates/schema";
+        public const string MetadataQueryString = @"metadata_queries/execute_read";
         public const string WebhooksString = @"webhooks/";
         public const string RecentItemsString = @"recent_items/";
         public const string EnterprisesString = @"enterprises/";
@@ -53,6 +53,9 @@ namespace Box.V2.Config
         public const string StoragePoliciesString = @"storage_policies/";
         public const string StoragePolicyAssignmentsString = @"storage_policy_assignments/";
         public const string StoragePolicyAssignmentsForTargetString = @"storage_policy_assignments";
+        public const string ZipDownloadsString = @"zip_downloads";
+        public const string FolderLocksString = @"folder_locks/";
+
 
         /// <summary>
         /// The shared items constant
@@ -89,7 +92,7 @@ namespace Box.V2.Config
         public const string FilesEndpointString = BoxApiUriString + FilesString;
         public const string FilesUploadEndpointString = BoxUploadApiUriString + FilesUploadString;
         public const string FilesNewVersionEndpointString = BoxUploadApiUriString + FilesNewVersionString;
-        public const string FilesNewVersionUploadSessionEndpointString = BoxUploadApiUriV21String + FilesNewVersionUploadSessionString;
+        public const string FilesNewVersionUploadSessionEndpointString = BoxUploadApiUriString + FilesNewVersionUploadSessionString;
         public const string FilesPreflightCheckNewVersionString = BoxApiUriString + FilesNewVersionString;
         public const string CommentsEndpointString = BoxApiUriString + CommentsString;
         public const string SearchEndpointString = BoxApiUriString + SearchString;
@@ -97,6 +100,7 @@ namespace Box.V2.Config
         public const string CollaborationsEndpointString = BoxApiUriString + CollaborationsString;
         public const string EventsEndpointString = BoxApiUriString + EventsString;
         public const string MetadataTemplatesEndpointString = BoxApiUriString + MetadataTemplatesString;
+        public const string MetadataQueryEndpointString = BoxApiUriString + MetadataQueryString;
         public const string TaskAssignmentsEndpointString = BoxApiUriString + TaskAssignmentsString;
         public const string TasksEndpointString = BoxApiUriString + TasksString;
         public const string CollectionsEndpointString = BoxApiUriString + CollectionsString;
@@ -106,6 +110,8 @@ namespace Box.V2.Config
         public const string MetadataCascadePolicyEndpointString = BoxApiUriString + MetadataCascadePoliciesString;
         public const string StoragePoliciesEndpointString = BoxApiUriString + StoragePoliciesString;
         public const string StoragePolicyAssignmentsEndpointString = BoxApiUriString + StoragePolicyAssignmentsString;
+        public const string StoragePolicyAssignmentsForTargetEndpointString = BoxApiUriString + StoragePolicyAssignmentsForTargetString;
+        public const string FolderLocksEndpointString = BoxApiUriString + FolderLocksString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";
@@ -181,6 +187,7 @@ namespace Box.V2.Config
         public const string TypeStoragePolicy = "storage_policy";
         public const string TypeStoragePolicyAssignment = "storage_policy_assignment";
         public const string TypeApplication = "application";
+        public const string TypeFolderLock = "folder_lock";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds

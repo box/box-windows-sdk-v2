@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Models;
@@ -81,8 +82,9 @@ namespace Box.V2.Managers
         /// <param name="folderRequest">BoxFolderRequest object</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <param name="etag">This ‘etag’ field of the folder object to set in the If-Match header</param>
+        /// <param name="timeout">Optional timeout for response.</param>
         /// <returns>The updated folder is returned if the name is valid. Errors generally occur only if there is a name collision.</returns>
-        Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null, string etag = null);
+        Task<BoxFolder> UpdateInformationAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null, string etag = null, TimeSpan? timeout = null);
 
         /// <summary>
         /// Used to create a shared link for this particular folder. In order to get default shared link status, set it to an empty access level.

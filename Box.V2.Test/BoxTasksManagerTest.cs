@@ -45,7 +45,7 @@ namespace Box.V2.Test
                                         ""completed_at"": null,
                                         ""assigned_at"": ""2013-05-10T11:43:41-07:00"",
                                         ""reminded_at"": null,
-                                        ""resolution_state"": ""incomplete"",
+                                        ""status"": ""incomplete"",
                                         ""assigned_by"": {
                                             ""type"": ""user"",
                                             ""id"": ""11993747"",
@@ -95,7 +95,7 @@ namespace Box.V2.Test
             Assert.AreEqual("8018809384", result.Item.Id);
             Assert.AreEqual("file", result.Item.Type);
             Assert.AreEqual("0", result.Item.ETag);
-            Assert.AreEqual(ResolutionStateType.incomplete, result.ResolutionState);
+            Assert.AreEqual("incomplete", result.Status);
             Assert.AreEqual("sean@box.com", result.AssignedBy.Login);
             Assert.AreEqual("11993747", result.AssignedBy.Id);
             Assert.AreEqual("rhaegar@box.com", result.AssignedTo.Login);
@@ -127,7 +127,7 @@ namespace Box.V2.Test
                                             ""completed_at"": null,
                                             ""assigned_at"": ""2013-05-10T11:43:41-07:00"",
                                             ""reminded_at"": null,
-                                            ""resolution_state"": ""incomplete"",
+                                            ""status"": ""incomplete"",
                                             ""assigned_by"": {
                                                 ""type"": ""user"",
                                                 ""id"": ""11993747"",
@@ -170,7 +170,7 @@ namespace Box.V2.Test
             Assert.AreEqual("8018809384", result.Item.Id);
             Assert.AreEqual("file", result.Item.Type);
             Assert.AreEqual("0", result.Item.ETag);
-            Assert.AreEqual(ResolutionStateType.incomplete, result.ResolutionState);
+            Assert.AreEqual("incomplete", result.Status);
             Assert.AreEqual("sean@box.com", result.AssignedBy.Login);
             Assert.AreEqual("11993747", result.AssignedBy.Id);
             Assert.AreEqual("rhaegar@box.com", result.AssignedTo.Login);
@@ -202,7 +202,7 @@ namespace Box.V2.Test
                                         ""completed_at"": null,
                                         ""assigned_at"": ""2013-05-10T11:43:41-07:00"",
                                         ""reminded_at"": null,
-                                        ""resolution_state"": ""incomplete"",
+                                        ""status"": ""incomplete"",
                                         ""assigned_by"": {
                                             ""type"": ""user"",
                                             ""id"": ""11993747"",
@@ -237,7 +237,7 @@ namespace Box.V2.Test
             Assert.AreEqual("8018809384", result.Item.Id);
             Assert.AreEqual("file", result.Item.Type);
             Assert.AreEqual("0", result.Item.ETag);
-            Assert.AreEqual(ResolutionStateType.incomplete, result.ResolutionState);
+            Assert.AreEqual("incomplete", result.Status);
             Assert.AreEqual("sean@box.com", result.AssignedBy.Login);
             Assert.AreEqual("11993747", result.AssignedBy.Id);
             Assert.AreEqual("rhaegar@box.com", result.AssignedTo.Login);

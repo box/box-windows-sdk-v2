@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,6 +43,38 @@ namespace Box.V2.Test
             Assert.AreEqual("sean rose", user.Name);
             Assert.AreEqual("sean@box.com", user.Login);
             Assert.AreEqual("user", user.Type);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task GetUserInformation_WithField_ValidResponse_ValidUser()
+        {
+            /*** Arrange ***/
+            IBoxRequest boxRequest = null;
+            string responseString = "{\"type\": \"user\", \"id\": \"12345\", \"status\": \"active\", \"notification_field\": []}";
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            string[] fields = { "status", "notification_email" };
+            BoxUser user = await _usersManager.GetUserInformationAsync(userId:"12345", fields: fields);
+
+            /*** Request Check ***/
+            var parameter = boxRequest.Parameters.Values.FirstOrDefault();
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual("status,notification_email", parameter);
+
+            /*** Assert ***/
+            Assert.AreEqual("12345", user.Id);
+            Assert.AreEqual("user", user.Type);
+            Assert.AreEqual("active", user.Status);
+            Assert.AreEqual(null, user.NotificationEmail);
         }
 
         [TestMethod]
@@ -101,7 +134,8 @@ namespace Box.V2.Test
                 ""my_tags"": [
                     ""important""
                 ],
-                ""hostname"": ""https://example.app.box.com/""
+                ""hostname"": ""https://example.app.box.com/"",
+                ""notification_email"": null
             }";
             Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
@@ -111,7 +145,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            string[] fields = { "name", "timezone", "is_external_collab_restricted", "my_tags", "hostname" };
+            string[] fields = { "name", "timezone", "is_external_collab_restricted", "my_tags", "hostname", "notification_email" };
             BoxUser user = await _usersManager.GetCurrentUserInformationAsync(fields);
 
             /*** Assert ***/
@@ -121,6 +155,8 @@ namespace Box.V2.Test
             Assert.IsTrue(user.IsExternalCollabRestricted.Value);
             Assert.AreEqual("important", user.Tags[0]);
             Assert.AreEqual("https://example.app.box.com/", user.Hostname);
+            Assert.AreEqual(user.SpaceAmount, null);
+            Assert.AreEqual(user.NotificationEmail, null);
         }
 
         [TestMethod]
@@ -128,7 +164,7 @@ namespace Box.V2.Test
         public async Task UpdateUser_ValidResponse_ValidUser()
         {
             /*** Arrange ***/
-            string responseString = "{\"type\":\"user\",\"id\":\"181216415\",\"name\":\"sean\",\"login\":\"sean+awesome@box.com\",\"created_at\":\"2012-05-03T21:39:11-07:00\",\"modified_at\":\"2012-12-06T18:17:16-08:00\",\"role\":\"admin\",\"language\":\"en\",\"space_amount\":5368709120,\"space_used\":1237179286,\"max_upload_size\":2147483648,\"tracking_codes\":[],\"can_see_managed_users\":true,\"is_sync_enabled\":true,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"6509241374\",\"address\":\"\",\"avatar_url\":\"https://www.box.com/api/avatar/large/181216415\",\"is_exempt_from_device_limits\":false,\"is_exempt_from_login_verification\":false}";
+            string responseString = "{\"type\":\"user\",\"id\":\"181216415\",\"name\":\"sean\",\"login\":\"sean+awesome@box.com\",\"created_at\":\"2012-05-03T21:39:11-07:00\",\"modified_at\":\"2012-12-06T18:17:16-08:00\",\"role\":\"admin\",\"language\":\"en\",\"space_amount\":5368709120,\"space_used\":1237179286,\"max_upload_size\":2147483648,\"tracking_codes\":[],\"can_see_managed_users\":true,\"is_sync_enabled\":true,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"6509241374\",\"address\":\"\",\"avatar_url\":\"https://www.box.com/api/avatar/large/181216415\",\"is_exempt_from_device_limits\":false,\"is_exempt_from_login_verification\":false, \"notification_email\": { \"email\": \"test@example.com\", \"is_confirmed\": true}}";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
@@ -143,7 +179,11 @@ namespace Box.V2.Test
             {
                 Id = "181216415",
                 Name = "sean",
-                IsExternalCollabRestricted = true
+                IsExternalCollabRestricted = true,
+                NotificationEmail = new BoxNotificationEmailField
+                {
+                    Email = "test@example.com"
+                }
             };
             BoxUser user = await _usersManager.UpdateUserInformationAsync(userRequest);
 
@@ -157,12 +197,14 @@ namespace Box.V2.Test
             Assert.AreEqual(userRequest.Id, payload.Id);
             Assert.AreEqual(userRequest.Name, payload.Name);
             Assert.AreEqual(userRequest.IsExternalCollabRestricted, payload.IsExternalCollabRestricted);
+            Assert.AreEqual(userRequest.NotificationEmail.Email, payload.NotificationEmail.Email);
 
             //Response check
             Assert.AreEqual("181216415", user.Id);
             Assert.AreEqual("sean", user.Name);
             Assert.AreEqual("sean+awesome@box.com", user.Login);
             Assert.AreEqual("user", user.Type);
+            Assert.AreEqual("test@example.com", user.NotificationEmail.Email);
         }
 
         [TestMethod]
@@ -245,6 +287,24 @@ namespace Box.V2.Test
             Assert.AreEqual(items.Entries.Count(), 2);
             Assert.AreEqual(items.Entries.First().Name, "Joey Burns");
             Assert.AreEqual(items.Entries.Last().Name, "John Covertino");
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task GetEnterpriseUsersWithMarker_ValidReponse()
+        {
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxUser>>(It.IsAny<IBoxRequest>()))
+           .Returns(() => Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxUser>>>(new BoxResponse<BoxCollectionMarkerBased<BoxUser>>()
+           {
+               Status = ResponseStatus.Success,
+               ContentString = "{\"entries\":[{\"type\":\"user\",\"id\":\"1234567890\",\"name\":\"Joey Burns\",\"login\":\"jburns@example.com\",\"created_at\":\"2020-01-01T01:01:01-07:00\",\"modified_at\":\"2020-01-01T01:01:01-08:00\",\"language\":\"en\",\"timezone\":\"America/Los_Angeles\",\"space_amount\":10737418240,\"space_used\":0,\"max_upload_size\":5368709120,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"\",\"address\":\"\",\"avatar_url\":\"https://example.app.box.com/api/avatar/large/1234567890\",\"notification_email\":{}}],\"limit\":1,\"next_marker\":\"zxcvbnmasdfghjklqwertyuiop1234567890QWERTYUIOPASDFGHJKLZXCVBNM\"}"
+           }));
+
+            String marker = "qwertyuiopASDFGHJKLzxcvbnm1234567890QWERTYUIOPasdfghjklZXCVBNM";
+            BoxCollectionMarkerBased<BoxUser> items = await _usersManager.GetEnterpriseUsersWithMarkerAsync(marker);
+            Assert.AreEqual(items.Limit, 1);
+            Assert.AreEqual(items.Entries.Count(), 1);
+            Assert.AreEqual(items.Entries.First().Name, "Joey Burns");
         }
 
         [TestMethod]

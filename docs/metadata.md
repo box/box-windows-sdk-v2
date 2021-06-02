@@ -37,6 +37,7 @@ in a flexible way, without pre-defined template structure.
 - [Set Metadata on a Folder](#set-metadata-on-a-folder)
 - [Get Metadata on a Folder](#get-metadata-on-a-folder)
 - [Remove Metadata from a Folder](#remove-metadata-from-a-folder)
+- [Execute Metadata Query](#execute-metadata-query)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -83,7 +84,7 @@ Update Metadata Template
 To update a metadata template, call the
 `MetadataManager.UpdateMetadataTemplate(IEnumerable<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)`
 method with the operations to perform on the template.  See the
-[API Documentation](https://docs.box.com/reference#update-metadata-schema)
+[API Documentation](https://developer.box.com/en/reference/put-metadata-templates-id-id-schema/)
 for more information on the operations available.
 
 <!-- sample put_metadata_templates_id_id_schema -->
@@ -147,6 +148,18 @@ Get all metadata templates for the current enterprise and scope by calling
 ```c#
 BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate> templates = await client.MetadataManager
     .GetEnterpriseMetadataAsync();
+```
+
+Get Global Metadata Templates
+---------------------------------
+
+Get all metadata templates available to all enterprises by calling
+`MetadataManager.GetEnterpriseMetadataAsync(string scope = "global")`.
+
+<!-- sample get_metadata_templates_global -->
+```c#
+BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate> templates = await client.MetadataManager
+    .GetEnterpriseMetadataAsync("global");
 ```
 
 Set Metadata on a File
@@ -436,7 +449,7 @@ Dictionary<string, object> metadata = await client.MetadataManager.
 You can also get all metadata on a folder by calling
 `MetadataManager.GetAllFolderMetadataTemplatesAsync(string folderId)`.
 
-<!-- sample post_folders_id_metadata -->
+<!-- sample get_folders_id_metadata -->
 ```c#
 BoxMetadataTemplateCollection<Dictionary<string, object>> metadataInstances = await client.MetadataManager
     .GetAllFolderMetadataTemplatesAsync(folderId: "11111");
@@ -453,3 +466,42 @@ with the ID of the folder and the metadata template to remove.
 ```c#
 await client.MetadataManager.DeleteFolderMetadataAsync("11111", "enterprise", "marketingCollateral");
 ```
+
+Execute Metadata Query
+------------------------
+There are two types of methods for executing a metadata query, methods without the fields parameter and with it. The method with the fields parameters returns a `BoxItem` object. The method without the fields parameters returns data that is a `BoxMetadataQueryItem` and is **deprecated**. The API will eventually not support this method and the other method should be used instead. Examples of these two types are shown below.
+
+The `MetadataManager.ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query, Dictionary<string, object> queryParameters, string indexName, List<BoxMetadataQueryOrderBy> orderBy, int limit, string marker, bool autoPaginate)` method queries files and folders based on their metadata and allows for fields to be passed in. A returned `BoxItem` must be cast to a `BoxFile` or `BoxFolder` to get its metadata.
+```c#
+var queryParams = new Dictionary<string, object>();
+queryParams.Add("arg", "Bob Dylan");
+List<string> fields = new List<string>();
+fields.Add("id");
+fields.Add("name");
+fields.Add("sha1");
+fields.Add("metadata.enterprise_240748.catalogImages.photographer");
+BoxCollectionMarkerBased<BoxItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_67890.catalogImages", query: "photographer = :arg", fields: fields, queryParameters: queryParams, ancestorFolderId: "0", autoPaginate: true);
+BoxFile file = (BoxFile) items.Entries[0];
+BoxFolder folder = (BoxFolder) items.Entries[1];
+string metadataFile = file.Metadata["enterprise_240748"]["catalogImages"]["photographer"].Value;
+string metadataFolder = folder.Metadata["enterprise_240748"]["catalogImages"]["photographer"].Value;
+```
+
+**Deprecated**
+
+The `MetadataManager.ExecuteMetadataQueryAsync(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters, string indexName, List<BoxMetadataQueryOrderBy> orderBy, int limit, string marker, bool autoPaginate)` method queries files and folders based on their metadata.
+```c#
+var queryParams = new Dictionary<string, object>();
+queryParams.Add("arg", 100);
+List<BoxMetadataQueryOrderBy> orderByList = new List<BoxMetadataQueryOrderBy>();
+var orderBy = new BoxMetadataQueryOrderBy()
+{
+    FieldKey = "amount",
+    Direction = BoxSortDirection.ASC
+};
+orderByList.Add(orderBy);
+BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, autoPaginate: true);
+```
+
+
+

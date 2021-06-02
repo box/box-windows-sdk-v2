@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -95,5 +95,11 @@ namespace Box.V2.Models
         all,
         changes,
         sync
+    }
+
+    public enum DispositionAction
+    {
+        permanently_delete,
+        remove_retention
     }
 }
