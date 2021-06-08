@@ -25,7 +25,7 @@ namespace Box.V2.Managers
     /// File objects represent that metadata about individual files in Box, with attributes describing who created the file, 
     /// when it was last modified, and other information. 
     /// </summary>
-    public class BoxFilesManager : BoxResourceManager
+    public class BoxFilesManager : BoxResourceManager, IBoxFilesManager
     {
         public BoxFilesManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }

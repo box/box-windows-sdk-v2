@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,6 @@ namespace Box.V2.Models
         /// Watermark wrapper
         /// </summary>
         [JsonProperty(PropertyName = FieldWatermark)]
-        public BoxWatermark Watermark { get; private set; }
+        public virtual BoxWatermark Watermark { get; private set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -14,12 +14,12 @@ namespace Box.V2.Models
         /// The available access
         /// </summary>
         [JsonProperty(PropertyName = FieldAccess)]
-        public string Acesss { get; private set; }
+        public virtual string Acesss { get; private set; }
 
         /// <summary>
         /// The email address
         /// </summary>
         [JsonProperty(PropertyName = FieldEmail)]
-        public string Address { get; private set; }
+        public virtual string Address { get; private set; }
     }
 }

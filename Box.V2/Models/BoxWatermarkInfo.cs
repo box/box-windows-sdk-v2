@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -10,6 +10,6 @@ namespace Box.V2.Models
         ///  Whether it is watermarked or not.
         /// </summary>
         [JsonProperty(PropertyName = FieldIsWatermarked)]
-        public bool IsWatermarked { get; private set; }
+        public virtual bool IsWatermarked { get; private set; }
     }
 }

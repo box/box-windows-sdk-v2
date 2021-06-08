@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Models;
@@ -17,7 +17,7 @@ namespace Box.V2.Managers
     /// Shared items are any files or folders that are represented by a shared link. 
     /// </summary>
     /// <seealso cref="Box.V2.Managers.BoxResourceManager" />
-    public class BoxSharedItemsManager : BoxResourceManager
+    public class BoxSharedItemsManager : BoxResourceManager, IBoxSharedItemsManager
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BoxSharedItemsManager"/> class.

@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
@@ -15,7 +15,7 @@ namespace Box.V2.Managers
     /// <summary>
     /// The manager that represents all of the comment endpoints
     /// </summary>
-    public class BoxCommentsManager : BoxResourceManager
+    public class BoxCommentsManager : BoxResourceManager, IBoxCommentsManager
     {
         public BoxCommentsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }

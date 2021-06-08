@@ -19,7 +19,7 @@ namespace Box.V2.Managers
     /// <summary>
     /// Metadata allows users and applications to define and store custom data associated with their files/folders
     /// </summary>
-    public class BoxMetadataManager : BoxResourceManager
+    public class BoxMetadataManager : BoxResourceManager, IBoxMetadataManager
     {
         public BoxMetadataManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }

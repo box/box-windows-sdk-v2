@@ -23,43 +23,43 @@ namespace Box.V2.Models
         /// Gets assigned item 
         /// </summary>
         [JsonProperty(PropertyName = FieldItem)]
-        public BoxItem Item { get; private set; }
+        public virtual BoxItem Item { get; private set; }
 
         /// <summary>
         /// Gets user assigned to.
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignedTo)]
-        public BoxUser AssignedTo { get; private set; }
+        public virtual BoxUser AssignedTo { get; private set; }
 
         /// <summary>
         /// Gets the message.
         /// </summary>
         [JsonProperty(PropertyName = FieldMessage)]
-        public string Message { get; private set; }
+        public virtual string Message { get; private set; }
 
         /// <summary>
         /// Completed at.
         /// </summary>
         [JsonProperty(PropertyName = FieldCompletedAt)]
-        public DateTime? CompletedAt { get; private set; }
+        public virtual DateTime? CompletedAt { get; private set; }
 
         /// <summary>
         /// Assigned at.
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignedAt)]
-        public DateTime? AssignedAt { get; private set; }
+        public virtual DateTime? AssignedAt { get; private set; }
 
         /// <summary>
         /// Reminded at.
         /// </summary>
         [JsonProperty(PropertyName = FieldRemindedAt)]
-        public DateTime? RemindedAt { get; private set; }
+        public virtual DateTime? RemindedAt { get; private set; }
 
         /// <summary>
         /// Gets the state of the resolution.
         /// </summary>
         [Obsolete("This field is deprecated, and may not work consistently.  Use Status or LocalizedStatus instead.")]
-        public ResolutionStateType? ResolutionState {
+        public virtual ResolutionStateType? ResolutionState {
             get
             {
                 return (ResolutionStateType) System.Enum.Parse(typeof(ResolutionStateType), Status, ignoreCase: true);
@@ -70,18 +70,18 @@ namespace Box.V2.Models
         /// Gets the resolution status of the task assignment.
         /// </summary>
         [JsonProperty(PropertyName = FieldStatus)]
-        public string Status { get; private set; }
+        public virtual string Status { get; private set; }
 
         /// <summary>
         /// Gets the localized/human-readable resolution status of the task assignment.
         /// </summary>
         [JsonProperty(PropertyName = FieldResolutionState)]
-        public string LocalizedStatus { get; private set; }
+        public virtual string LocalizedStatus { get; private set; }
 
         /// <summary>
         ///Gets user assigned by.
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignedBy)]
-        public BoxUser AssignedBy { get; private set; }
+        public virtual BoxUser AssignedBy { get; private set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -20,42 +20,42 @@ namespace Box.V2.Models
         /// Whether or not this comment is a reply to another comment
         /// </summary>
         [JsonProperty(PropertyName = FieldIsReplyComment)]
-        public bool IsReplyComment { get; set; }
+        public virtual bool IsReplyComment { get; set; }
 
         /// <summary>
         /// The comment text that the user typed
         /// </summary>
         [JsonProperty(PropertyName = FieldMessage)]
-        public string Message { get; set; }
+        public virtual string Message { get; set; }
 
         /// <summary>
         /// The string representing the comment text with @mentions included. 
         /// @mention format is @[id:username]. Field is not included by default.
         /// </summary>
         [JsonProperty(PropertyName = FieldTaggedMessage)]
-        public string TaggedMessage { get; set; }
+        public virtual string TaggedMessage { get; set; }
 
         /// <summary>
         /// A mini user object representing the author of the comment
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedBy)]
-        public BoxUser CreatedBy { get; set; }
+        public virtual BoxUser CreatedBy { get; set; }
         /// <summary>
         /// The time this comment was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; set; }
+        public virtual DateTime? CreatedAt { get; set; }
         /// <summary>
         /// The time this comment was last modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; set; }
+        public virtual DateTime? ModifiedAt { get; set; }
 
         /// <summary>
         /// The object this comment was placed on
         /// </summary>
         [JsonProperty(PropertyName = FieldItem)]
-        public BoxEntity Item { get; set; }
+        public virtual BoxEntity Item { get; set; }
     }
 }
 
