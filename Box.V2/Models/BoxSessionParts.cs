@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Box.V2.Models
@@ -12,7 +12,7 @@ namespace Box.V2.Models
         /// List of session parts uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "parts")]
-        public IEnumerable<BoxSessionPartInfo> Parts { get; set; }
+        public virtual IEnumerable<BoxSessionPartInfo> Parts { get; set; }
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ namespace Box.V2.Models
         /// List of session parts uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "part")]
-        public BoxSessionPartInfo Part { get; set; }
+        public virtual BoxSessionPartInfo Part { get; set; }
     }
 
     /// <summary>
@@ -36,24 +36,24 @@ namespace Box.V2.Models
         /// String representing the Unique 8 digit part ID.
         /// </summary>
         [JsonProperty(PropertyName = "part_id")]
-        public string PartId { get; set; }
+        public virtual string PartId { get; set; }
 
         /// <summary>
         /// Offset in bytes for the file part that was uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "offset")]
-        public long Offset { get; set; }
+        public virtual long Offset { get; set; }
 
         /// <summary>
         /// Size in bytes for the file part that was uploaded.
         /// </summary>
         [JsonProperty(PropertyName = "size")]
-        public long Size { get; set; }
+        public virtual long Size { get; set; }
 
         /// <summary>
         /// String with hexadecimal representation of part’s SHA-1.
         /// </summary>
         [JsonProperty(PropertyName = "sha1")]
-        public string Sha1 { get; set; }
+        public virtual string Sha1 { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Box.V2.Models
@@ -76,19 +76,19 @@ namespace Box.V2.Models
     public class BoxCollection<T> : BoxCollection where T : class, new()
     {
         [JsonProperty(PropertyName = FieldTotalCount)]
-        public int TotalCount { get; set; }
+        public virtual int TotalCount { get; set; }
 
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; set; }
+        public virtual List<T> Entries { get; set; }
 
         [JsonProperty(PropertyName = FieldOffset)]
-        public int Offset { get; set; }
+        public virtual int Offset { get; set; }
 
         [JsonProperty(PropertyName = FieldLimit)]
-        public int Limit { get; set; }
+        public virtual int Limit { get; set; }
 
         [JsonProperty(PropertyName = FieldOrder)]
-        public List<BoxSortOrder> Order { get; set; }
+        public virtual List<BoxSortOrder> Order { get; set; }
 
     }
 
@@ -103,25 +103,25 @@ namespace Box.V2.Models
         /// Number of items to return per request.
         /// </summary>
         [JsonProperty(PropertyName = FieldLimit)]
-        public int Limit { get; set; }
+        public virtual int Limit { get; set; }
 
         /// <summary>
         /// Should be empty for first invocation of the API. Use the one returned in response for each subsequent call.
         /// </summary>
         [JsonProperty(PropertyName = FieldMarker)]
-        public string NextMarker { get; set; }
+        public virtual string NextMarker { get; set; }
 
         /// <summary>
         /// List of items returned.
         /// </summary>
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; set; }
+        public virtual List<T> Entries { get; set; }
 
         /// <summary>
         /// Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.
         /// </summary>
         [JsonProperty(PropertyName = FieldOrder)]
-        public List<BoxSortOrder> Order { get; set; }
+        public virtual List<BoxSortOrder> Order { get; set; }
     }
 
     /// <summary>
@@ -135,85 +135,85 @@ namespace Box.V2.Models
         /// Number of items to return per request.
         /// </summary>
         [JsonProperty(PropertyName = FieldLimit)]
-        public int Limit { get; set; }
+        public virtual int Limit { get; set; }
 
         /// <summary>
         /// Should be empty for first invocation of the API. Use the one returned in response for each subsequent call.
         /// </summary>
         [JsonProperty(PropertyName = FieldMarker)]
-        public string NextMarker { get; set; }
+        public virtual string NextMarker { get; set; }
 
         /// <summary>
         /// List of items returned.
         /// </summary>
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; set; }
+        public virtual List<T> Entries { get; set; }
 
         /// <summary>
         /// Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.
         /// </summary>
         [JsonProperty(PropertyName = FieldOrder)]
 
-        public BoxSortOrder Order { get; set; }
+        public virtual BoxSortOrder Order { get; set; }
     }
 
     public class BoxEventCollection<T> : BoxEventCollection where T: BoxEnterpriseEvent
     {
         [JsonProperty(PropertyName = FieldChunkSize)]
-        public int ChunkSize { get; set; }
+        public virtual int ChunkSize { get; set; }
 
         [JsonProperty(PropertyName = FieldNextStreamPosition)]
-        public string NextStreamPosition { get; set; }
+        public virtual string NextStreamPosition { get; set; }
 
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; set; }
+        public virtual List<T> Entries { get; set; }
     }
 
     public class BoxLongPollInfoCollection<T> : BoxLongPollInfoCollection where T : BoxLongPollInfo
     {
         [JsonProperty(PropertyName = FieldChunkSize)]
-        public int ChunkSize { get; private set; }
+        public virtual int ChunkSize { get; private set; }
 
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
+        public virtual List<T> Entries { get; private set; }
     }
 
     public class BoxMetadataTemplateCollection<T> : BoxMetadataTemplateCollection where T: Dictionary<string,object>
     {
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
+        public virtual List<T> Entries { get; private set; }
     }
 
     public class BoxRepresentationCollection<T> : BoxRepresentationCollection where T: BoxRepresentation
     {
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
+        public virtual List<T> Entries { get; private set; }
     }
 
     public class BoxTermsOfServiceCollection<T> : BoxTermsOfServiceCollection where T : BoxTermsOfService
     {
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
+        public virtual List<T> Entries { get; private set; }
 
         [JsonProperty(PropertyName = FieldTotalCount)]
-        public int TotalCount { get; private set; }
+        public virtual int TotalCount { get; private set; }
     }
 
     public class BoxTermsOfServiceUserStatusesCollection<T> : BoxTermsOfServiceUserStatusesCollection where T : BoxTermsOfServiceUserStatuses
     {
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
+        public virtual List<T> Entries { get; private set; }
 
         [JsonProperty(PropertyName = FieldTotalCount)]
-        public int TotalCount { get; private set; }
+        public virtual int TotalCount { get; private set; }
     }
 
     public class BoxEnterpriseMetadataTemplateCollection<T> : BoxEnterpriseMetadataTemplateCollection where T : BoxMetadataTemplate
     {
         [JsonProperty(PropertyName = FieldEntries)]
-        public List<T> Entries { get; private set; }
+        public virtual List<T> Entries { get; private set; }
 
         [JsonProperty(PropertyName = FieldTotalCount)]
-        public int TotalCount { get; private set; }
+        public virtual int TotalCount { get; private set; }
     }
 }

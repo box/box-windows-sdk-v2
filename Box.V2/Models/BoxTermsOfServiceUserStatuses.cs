@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,30 +18,30 @@ namespace Box.V2.Models
         /// The Terms of Service object
         /// </summary>
         [JsonProperty(PropertyName = FieldTos)]
-        public BoxEntity TermsOfService { get; set; }
+        public virtual BoxEntity TermsOfService { get; set; }
 
         /// <summary>
         /// The Box user this Terms of Service is associated with
         /// </summary>
         [JsonProperty(PropertyName = FieldUser)]
-        public BoxUser User { get; set; }
+        public virtual BoxUser User { get; set; }
 
         /// <summary>
         /// The acceptance status of the Terms of Service object
         /// </summary>
         [JsonProperty(PropertyName = FieldIsAccepted)]
-        public Boolean IsAccepted { get; set; }
+        public virtual Boolean IsAccepted { get; set; }
 
         /// <summary>
         /// The time this terms of service was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; private set; }
+        public virtual DateTime? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time this terms of service was modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; private set; }
+        public virtual DateTime? ModifiedAt { get; private set; }
     }
 }

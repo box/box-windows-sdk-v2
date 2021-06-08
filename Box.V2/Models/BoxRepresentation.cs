@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -15,30 +15,30 @@ namespace Box.V2.Models
         /// Contains the url template of the representation requested
         /// </summary>
         [JsonProperty(PropertyName = FieldContent)]
-        public BoxRepresentationContent Content { get; set; }
+        public virtual BoxRepresentationContent Content { get; set; }
 
         /// <summary>
         /// The url info regarding the representation
         /// </summary>
         [JsonProperty(PropertyName = FieldInfo)]
-        public BoxRepresentationInfo Info { get; set; }
+        public virtual BoxRepresentationInfo Info { get; set; }
 
         /// <summary>
         /// The properties of the generated representation
         /// </summary>
         [JsonProperty(PropertyName = FieldProperties)]
-        public BoxRepresentationProperties Properties { get; set; }
+        public virtual BoxRepresentationProperties Properties { get; set; }
 
         /// <summary>
         /// The representation type requested 
         /// </summary>
         [JsonProperty(PropertyName = FieldRepresentation)]
-        public string Representation { get; set; }
+        public virtual string Representation { get; set; }
 
         /// <summary>
         /// The status state of the representation requested
         /// </summary>
         [JsonProperty(PropertyName = FieldStatus)]
-        public BoxRepresentationStatus Status { get; set; }
+        public virtual BoxRepresentationStatus Status { get; set; }
     }
 }

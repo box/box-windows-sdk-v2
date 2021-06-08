@@ -15,7 +15,7 @@ namespace Box.V2.Managers
     /// <summary>
     /// Allow create, update, get, delete weblink for folder.
     /// </summary>
-    public class BoxWebLinksManager : BoxResourceManager
+    public class BoxWebLinksManager : BoxResourceManager, IBoxWebLinksManager
     {
 
         public BoxWebLinksManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)

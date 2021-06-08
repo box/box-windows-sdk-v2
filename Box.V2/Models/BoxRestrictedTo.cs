@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -14,7 +14,7 @@ namespace Box.V2.Models
         /// The scope.
         /// </value>
         [JsonProperty(PropertyName = FieldScope)]
-        public string Scope
+        public virtual string Scope
         {
             get;
             set;
@@ -27,7 +27,7 @@ namespace Box.V2.Models
         /// The restricted entity.
         /// </value>
         [JsonProperty(PropertyName = FieldObject)]
-        public BoxItem RestrictedEntity
+        public virtual BoxItem RestrictedEntity
         {
             get;
             set;

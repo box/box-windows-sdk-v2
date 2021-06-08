@@ -11,6 +11,6 @@ namespace Box.V2.Models
         public const string email = "email";
 
         [JsonProperty(PropertyName = email)]
-        public string Email { get; set; }
+        public virtual string Email { get; set; }
     }
 }

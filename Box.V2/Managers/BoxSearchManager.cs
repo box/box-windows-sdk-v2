@@ -15,7 +15,7 @@ namespace Box.V2.Managers
     /// <summary>
     /// The manager that represents the search endpoint
     /// </summary>
-    public class BoxSearchManager : BoxResourceManager
+    public class BoxSearchManager : BoxResourceManager, IBoxSearchManager
     {
         public BoxSearchManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
