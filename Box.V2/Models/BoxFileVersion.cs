@@ -101,6 +101,6 @@ namespace Box.V2.Models
         /// Represents a version of a file on Box
         /// </summary>
         [JsonProperty(PropertyName = FieldFileVersion)]
-        public BoxFileVersion FileVersion { get; private set; }
+        public virtual BoxFileVersion FileVersion { get; private set; }
     }
 }
