@@ -92,6 +92,7 @@ namespace Box.V2.Managers
         /// <param name="dispositionAfter">Filters results by files that will have their disposition come into effect after this date.</param>
         /// <param name="dispositionAction">Filters results by the retention policy with this disposition action.</param>
         /// <returns>The specified file version retention will be returned upon success.</returns>
+        [Obsolete ("This method will be deprecated in the future. Please use GetFilesUnderRetentionForAssignmentAsync() and GetFileVersionsUnderRetentionForAssignmentAsync() instead.")]
         Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false, string fileId = null, string fileVersionId = null, string policyId = null, DateTime? dispositionBefore = null, DateTime? dispositionAfter = null, DispositionAction? dispositionAction = null);
 
         /// <summary>
@@ -101,5 +102,31 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns the list of all file version retentions for the enterprise.</returns>
         Task<BoxFileVersionRetention> GetFileVersionRetentionAsync(string fileVersionRetentionId, IEnumerable<string> fields = null);
+
+        /// <summary>
+        /// Used to retrieve files under retention by each assignment
+        /// To use this feature, you must have the manage retention policies scope enabled
+        /// for your API key via your application management console.
+        /// </summary>
+        /// <param name="retentionPolicyAssignmentId">The Box ID of the policy assignment object to fetch
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
+        /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <returns>Returns the list of all files under retentions for the assignment.</returns>
+        Task<BoxCollectionMarkerBased<BoxFile>> GetFilesUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false);
+
+        /// <summary>
+        /// Used to retrieve file versions under retention by each assignment
+        /// To use this feature, you must have the manage retention policies scope enabled
+        /// for your API key via your application management console.
+        /// </summary>
+        /// <param name="retentionPolicyAssignmentId">The Box ID of the policy assignment object to fetch
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
+        /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <returns>Returns the list of all file versions under retentions for the assignment.</returns>
+        Task<BoxCollectionMarkerBased<BoxFileVersion>> GetFileVersionsUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false);
     }
 }
