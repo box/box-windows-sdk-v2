@@ -18,7 +18,9 @@ policies scope enabled for your API key via your application management console.
 - [Assign Retention Policy](#assign-retention-policy)
 - [Get Retention Policy Assignment](#get-retention-policy-assignment)
 - [Get File Version Retention](#get-file-version-retention)
-- [Get File Version Retentions](#get-file-version-retentions)
+- [Get File Version Retentions](#get-file-version-retentions) (will be deprecated in the future, use [Get Files Under Retention For Assignment](#get-files-under-retention-for-assignment) and [Get File Version Under Retention For Assignment](#get-file-versions-under-retention-for-assignment) instead)
+- [Get Files Under Retention For Assignment](#get-files-under-retention-for-assignment)
+- [Get File Version Under Retention For Assignment](#get-file-versions-under-retention-for-assignment)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -157,3 +159,28 @@ some category of file version retention records, call
 BoxCollectionMarkerBased<BoxFileVersionRetention> retentions = await client.RetentionPoliciesManager
     .GetFileVersionRetentionsAsync();
 ```
+
+Get Files Under Retention For Assignment
+----------------------------------------
+
+To retrieve a list of all files under retention for assignment, call
+`RetentionPoliciesManager.GetFilesUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)`.
+
+<!-- sample get_files_under_retention_for_assignment -->
+```c#
+BoxCollectionMarkerBased<BoxFile> filesUnderRetentionForAssignment = await client.RetentionPoliciesManager
+    .GetFilesUnderRetentionForAssignmentAsync("55555");
+```
+
+Get File Versions Under Retention For Assignment
+------------------------------------------------
+
+To retrieve a list of all file versions under retention for assignment, call
+`RetentionPoliciesManager.GetFileVersionsUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)`.
+
+<!-- sample get_files_under_retention_for_assignment -->
+```c#
+BoxCollectionMarkerBased<BoxFileVersion> fileVersionsUnderRetentionForAssignment = await client.RetentionPoliciesManager
+    .GetFileVersionsUnderRetentionForAssignmentAsync("55555");
+```
+

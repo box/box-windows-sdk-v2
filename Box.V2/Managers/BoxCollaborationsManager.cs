@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
-    public class BoxCollaborationsManager : BoxResourceManager
+    public class BoxCollaborationsManager : BoxResourceManager, IBoxCollaborationsManager
     {
 
         public BoxCollaborationsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)

@@ -19,37 +19,37 @@ namespace Box.V2.Models.Request
         /// The total number of files in the zip file
         /// </summary>
         [JsonProperty(PropertyName = FieldTotalFileCount)]
-        public int TotalFileCount { get; set; }
+        public virtual int TotalFileCount { get; set; }
 
         /// <summary>
         /// The number of files in the zip that were downloaded
         /// </summary>
         [JsonProperty(PropertyName = FieldDownloadedFileCount)]
-        public int DownloadedlFileCount { get; set; }
+        public virtual int DownloadedlFileCount { get; set; }
 
         /// <summary>
         /// The number of files in the zip that were skipped when downloading
         /// </summary>
         [JsonProperty(PropertyName = FieldSkippedFileCount)]
-        public int SkippedFileCount { get; set; }
+        public virtual int SkippedFileCount { get; set; }
 
         /// <summary>
         /// The number of folders in the zip that were skipped when downloading
         /// </summary>
         [JsonProperty(PropertyName = FieldSkippedFolderCount)]
-        public int SkippedFolderCount { get; set; }
+        public virtual int SkippedFolderCount { get; set; }
 
         /// <summary>
         /// The state of the download of the zip file
         /// </summary>
         [JsonProperty(PropertyName = FieldState)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public BoxZipDownloadState State { get; set; }
+        public virtual BoxZipDownloadState State { get; set; }
 
         /// <summary>
         /// A list of naming conflicts among the files and folders in the zip. This is manually appended in the BoxFilesManager.DownloadZip() method.
         /// </summary>
-        public List<BoxZipConflict> NameConflicts { get; set; }
+        public virtual List<BoxZipConflict> NameConflicts { get; set; }
     }
 
     /// <summary>

@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Managers
 {
-    public class BoxStoragePoliciesManager : BoxResourceManager
+    public class BoxStoragePoliciesManager : BoxResourceManager, IBoxStoragePoliciesManager
     {
         /// <summary>
         /// Create a new BoxStoragePolicies object.

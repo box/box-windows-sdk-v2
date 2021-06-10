@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
@@ -9,7 +9,7 @@ using Box.V2.Services;
 
 namespace Box.V2.Managers
 {
-    public class BoxTasksManager : BoxResourceManager
+    public class BoxTasksManager : BoxResourceManager, IBoxTasksManager
     {
         public BoxTasksManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }

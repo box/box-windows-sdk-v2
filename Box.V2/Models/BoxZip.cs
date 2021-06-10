@@ -19,26 +19,26 @@ namespace Box.V2.Models
         /// A URL to download the zip from
         /// </summary>
         [JsonProperty(PropertyName = FieldDownloadUrl)]
-        public Uri DownloadUrl { get; private set; }
+        public virtual Uri DownloadUrl { get; private set; }
 
         /// <summary>
         /// A URL to get the download status of a zip
         /// </summary>
         [JsonProperty(PropertyName = FieldStatusUrl)]
-        public Uri StatusUrl { get; private set; }
+        public virtual Uri StatusUrl { get; private set; }
 
         /// <summary>
         /// The date after which the zip can no longer be downloaded
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresAt)]
-        public DateTime ExpiresAt { get; private set; }
+        public virtual DateTime ExpiresAt { get; private set; }
 
         /// <summary>
         /// A list of naming conflicts among the files and folders in the zip
         /// </summary>
         [JsonProperty(PropertyName = FieldNameConflicts)]
         [JsonConverter(typeof(BoxZipConflictConverter))]
-        public List<BoxZipConflict> NameConflicts { get; private set; }
+        public virtual List<BoxZipConflict> NameConflicts { get; private set; }
     }
 }
 

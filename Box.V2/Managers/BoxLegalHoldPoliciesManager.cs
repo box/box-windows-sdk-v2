@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Extensions;
 using Box.V2.Converter;
@@ -13,7 +13,7 @@ namespace Box.V2.Managers
     /// <summary>
     /// Allow create, update, get, delete legal hold and legal hold assignment.
     /// </summary>
-    public class BoxLegalHoldPoliciesManager : BoxResourceManager
+    public class BoxLegalHoldPoliciesManager : BoxResourceManager, IBoxLegalHoldPoliciesManager
     {
         private const string ParamPolicyId = "policy_id";
 
