@@ -13,7 +13,7 @@ namespace Box.V2.Models
         /// The items that have a conflict
         /// </summary>
         [JsonProperty(PropertyName = "items")]
-        public List<BoxZipConflictItem> items { get; private set; }
+        public virtual List<BoxZipConflictItem> items { get; private set; }
     }
 }
 

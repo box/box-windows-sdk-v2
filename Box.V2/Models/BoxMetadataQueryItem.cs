@@ -15,12 +15,12 @@ namespace Box.V2.Models
         /// The Box item
         /// </summary>
         [JsonProperty(PropertyName = "item")]
-        public BoxItem Item { get; private set; }
+        public virtual BoxItem Item { get; private set; }
 
         /// <summary>
         /// The metadata
         /// </summary>
         [JsonProperty(PropertyName = "metadata")]
-        public Dictionary<string, object> Metadata { get; private set; }
+        public virtual Dictionary<string, object> Metadata { get; private set; }
     }
 }

@@ -129,6 +129,8 @@ namespace Box.V2.Config
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
         public const string RetentionPolicyAssignmentsEndpointString = @"{0}/assignments";
+        public const string FilesUnderRetentionEndpointString = @"{0}/files_under_retention";
+        public const string FileVersionsUnderRetentionEndpointString = @"{0}/file_versions_under_retention";
         public const string MetadataPathString = @"{0}/metadata/{1}/{2}";
         public const string AllFileMetadataPathString = @"{0}/metadata";
         public const string AllFolderMetadataPathString = @"{0}/metadata";

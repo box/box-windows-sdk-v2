@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -17,12 +17,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldUploadUrl)]
         [Obsolete]
-        public string UploadUrl { get; private set; }
+        public virtual string UploadUrl { get; private set; }
 
         /// <summary>
         /// Convenience method to create Uri instance from UploadUrl string value
         /// </summary>
-        public Uri UploadUri
+        public virtual Uri UploadUri
         {
             get
             {
@@ -35,11 +35,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldUploadToken)]
         [Obsolete]
-        public string UploadToken { get; private set; }
+        public virtual string UploadToken { get; private set; }
 
         /// <summary>
         /// True if the upload would be successful;
         /// </summary>
-        public bool Success { get; set; }
+        public virtual bool Success { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -30,98 +30,98 @@ namespace Box.V2.Models
         /// A unique ID for use with the /events endpoint
         /// </summary>
         [JsonProperty(PropertyName = FieldSequence)]
-        public string SequenceId { get; private set; }
+        public virtual string SequenceId { get; private set; }
 
         /// <summary>
         /// A unique string identifying the version of this item
         /// </summary>
         [JsonProperty(PropertyName = FieldEtag)]
-        public string ETag { get; private set; }
+        public virtual string ETag { get; private set; }
 
         /// <summary>
         /// The name of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldName)]
-        public string Name { get; private set; }
+        public virtual string Name { get; private set; }
 
         /// <summary>
         /// The description of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldDescription)]
-        public string Description { get; private set; }
+        public virtual string Description { get; private set; }
 
         /// <summary>
         /// The folder size in bytes
         /// </summary>
         [JsonProperty(PropertyName = FieldSize)]
-        public long? Size { get; private set; }
+        public virtual long? Size { get; private set; }
 
         /// <summary>
         /// The path of folders to this item, starting at the root
         /// </summary>
         [JsonProperty(PropertyName = FieldPathCollection)]
-        public BoxCollection<BoxFolder> PathCollection { get; private set; }
+        public virtual BoxCollection<BoxFolder> PathCollection { get; private set; }
 
         /// <summary>
         /// The time the item was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; private set; }
+        public virtual DateTime? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time the item or its contents were last modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; private set; }
+        public virtual DateTime? ModifiedAt { get; private set; }
 
         /// <summary>
         /// The time at which this item was put in the trash.
         /// </summary>
         [JsonProperty(PropertyName = FieldTrashedAt)]
-        public DateTime? TrashedAt { get; set; }
+        public virtual DateTime? TrashedAt { get; set; }
 
         /// <summary>
         /// The user who created this item
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedBy)]
-        public BoxUser CreatedBy { get; private set; }
+        public virtual BoxUser CreatedBy { get; private set; }
 
         /// <summary>
         /// The user who last modified this item
         /// mini user object
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedBy)]
-        public BoxUser ModifiedBy { get; private set; }
+        public virtual BoxUser ModifiedBy { get; private set; }
 
         /// <summary>
         /// The user who owns this item
         /// mini user object
         /// </summary>
         [JsonProperty(PropertyName = FieldOwnedBy)]
-        public BoxUser OwnedBy { get; private set; }
+        public virtual BoxUser OwnedBy { get; private set; }
 
         /// <summary>
         /// The folder that contains this one
         /// </summary>
         [JsonProperty(PropertyName = FieldParent)]
-        public BoxFolder Parent { get; private set; }
+        public virtual BoxFolder Parent { get; private set; }
 
         /// <summary>
         /// Whether this item is deleted or not
         /// </summary>
         [JsonProperty(PropertyName = FieldItemStatus)]
-        public string ItemStatus { get; private set; }
+        public virtual string ItemStatus { get; private set; }
 
         /// <summary>
         /// The shared link for this item
         /// </summary>
         [JsonProperty(PropertyName = FieldSharedLink)]
-        public BoxSharedLink SharedLink { get; private set; }
+        public virtual BoxSharedLink SharedLink { get; private set; }
 
         /// <summary>
         /// The tag for this item
         /// </summary>
         [JsonProperty(PropertyName = FieldTags)]
-        public string[] Tags { get; private set; }
+        public virtual string[] Tags { get; private set; }
     }
 }
