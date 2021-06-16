@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -43,6 +43,13 @@ namespace Box.V2.Converter
         /// <returns>JSON string</returns>
         public string Serialize<T>(T entity)
         {
+            if (entity is Box.V2.Models. BoxUserRollOutRequest)
+            {
+                return JsonConvert.SerializeObject(entity, new JsonSerializerSettings()
+                {
+                    DateFormatString = Constants.RFC3339DateFormat
+                });
+            }
             return JsonConvert.SerializeObject(entity, _settings);
         }
     }

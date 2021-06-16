@@ -58,12 +58,13 @@ namespace Box.V2.Managers
 
         /// <summary>
         /// Used to edit the settings and information about a user. This method only works for enterprise admins. To roll a user out 
-        /// of the enterprise (and convert them to a standalone free user), update the special enterprise attribute to be null.
+        /// of the enterprise (and convert them to a standalone free user), use the BoxUserRollOutRequest object for user request and set their user ID.
         /// </summary>
-        /// <param name="userRequest">BoxUserRequest object.</param>
+        /// <typeparam name="T">The type of Request to make. Must inherit from BoxRequestEntity</typeparam>
+        /// <param name="userRequest">An object that inherits from the class BoxRequestEntity. At this point only BoxUserRequest and BoxUserRollOutRequest.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>Returns the user object for the updated user. Errors may be thrown when the fields are invalid or this API call is made from a non-admin account.</returns>
-        public async Task<BoxUser> UpdateUserInformationAsync(BoxUserRequest userRequest, IEnumerable<string> fields = null)
+        public async Task<BoxUser> UpdateUserInformationAsync<T>(T userRequest, IEnumerable<string> fields = null) where T : BoxRequestEntity
         {
             userRequest.ThrowIfNull("userRequest")
                 .Id.ThrowIfNullOrWhiteSpace("userRequest.Id");
