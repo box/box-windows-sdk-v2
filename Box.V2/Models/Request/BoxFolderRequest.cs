@@ -19,7 +19,7 @@ namespace Box.V2.Models
         public BoxEmailRequest FolderUploadEmail { get; set; }
 
         /// <summary>
-        /// The user who owns the folder. Only used when moving a collaborated folder that you are not the owner of to a folder you are the owner of. 
+        /// The user who owns the folder. Only used when moving a collaborated folder that you are not the owner of to a folder you are the owner of.
         /// Not a substitute for changing folder owners, please reference collaborations <see cref="http://developers.box.com/docs/#collaborations"/>
         /// to accomplish folder ownership changes.
         /// </summary>
@@ -38,6 +38,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "can_non_owners_invite")]
         public bool? CanNonOwnersInvite { get; set; }
-    }
 
+        /// <summary>
+        /// Setting to determine if collaboration on a folder is restricted to be within an enterprise only.
+        /// </summary>
+        [JsonProperty(PropertyName = "is_collaboration_restricted_to_enterprise")]
+        public bool? CollaborationRestricted { get; set; }
+    }
 }

@@ -575,7 +575,8 @@ namespace Box.V2.Test
             {
                 Id = "fakeId",
                 Name = "New Folder Name!",
-                FolderUploadEmail = new BoxEmailRequest() { Access = "open" }
+                FolderUploadEmail = new BoxEmailRequest() { Access = "open" },
+                CollaborationRestricted = true
             };
 
             BoxFolder f = await _foldersManager.UpdateInformationAsync(folderReq);

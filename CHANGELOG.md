@@ -1,8 +1,13 @@
 # Changelog
 
 ## Next release
+
+**Breaking changes:**
 - Extract interfaces for BoxClient and Managers to improve testability ([#603](https://github.com/box/box-windows-sdk-v2/pull/603))
+
+**New Features and Enhancements:**
 - Add ability to get files under retention for assignment and file versions under retention for assignment ([#734](https://github.com/box/box-windows-sdk-v2/pull/734))
+- Add `is_collaboration_restricted_to_enterprise` flag support for `Folder` update ([#732](https://github.com/box/box-windows-sdk-v2/pull/732))
 
 ## 3.26.0 [2021-04-01]
 
