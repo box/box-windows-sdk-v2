@@ -2,6 +2,7 @@
 
 ## Next release
 
+
 **Breaking changes:**
 - Extract interfaces for BoxClient and Managers to improve testability ([#603](https://github.com/box/box-windows-sdk-v2/pull/603))
 
