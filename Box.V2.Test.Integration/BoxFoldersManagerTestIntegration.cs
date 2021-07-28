@@ -32,7 +32,9 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse_GzipCompression()
         {
-            var boxConfig = new BoxConfig(ClientId, ClientSecret, RedirectUri){AcceptEncoding = CompressionType.gzip};
+            var boxConfig = new BoxConfigBuilder(ClientId, ClientSecret, RedirectUri)
+                .SetAcceptEncoding(CompressionType.gzip)
+                .Build();
             var boxClient = new BoxClient(boxConfig, _auth);
             await AssertFolderContents(boxClient);
         }
@@ -40,7 +42,9 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse_DeflateCompression()
         {
-            var boxConfig = new BoxConfig(ClientId, ClientSecret, RedirectUri) { AcceptEncoding = CompressionType.deflate };
+            var boxConfig = new BoxConfigBuilder(ClientId, ClientSecret, RedirectUri)
+                .SetAcceptEncoding(CompressionType.deflate)
+                .Build();
             var boxClient = new BoxClient(boxConfig, _auth);
             await AssertFolderContents(boxClient);
         }

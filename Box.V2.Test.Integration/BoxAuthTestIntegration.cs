@@ -22,7 +22,8 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public void retriesWithNewJWTAssertionOnErrorResponseAndSucceeds()
         {
-            var config = new BoxConfig(ClientId, ClientSecret, EnterpriseId, privateKey, passphrase, publicKeyID);
+            var config = new BoxConfigBuilder(ClientId, ClientSecret, EnterpriseId, privateKey, passphrase, publicKeyID)
+                .Build();
             var session = new BoxJWTAuth(config);
             var adminToken = session.AdminToken();
             adminClient = session.AdminClient(adminToken);

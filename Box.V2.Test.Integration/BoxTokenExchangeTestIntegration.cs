@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Auth.Token;
 using Box.V2.Config;
 using Box.V2.Exceptions;
@@ -16,7 +16,8 @@ namespace Box.V2.Test.Integration
         {
             var auth = new OAuthSession(token, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-            var config = new BoxConfig(string.Empty, string.Empty, new Uri("http://boxsdk"));
+            var config = new BoxConfigBuilder(string.Empty, string.Empty, new Uri("http://boxsdk"))
+                .Build();
             var client = new BoxClient(config, auth);
 
             return client;

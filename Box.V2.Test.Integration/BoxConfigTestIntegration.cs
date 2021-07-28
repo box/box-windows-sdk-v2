@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -24,11 +24,15 @@ namespace Box.V2.Test.Integration
               'webhooks': {},
               'enterpriseID': 'eid-123'
             }";
-            var config = BoxConfig.CreateFromJsonString(jsonString);
+            var config = BoxConfigBuilder
+                .CreateFromJsonString(jsonString)
+                .Build();
             Assert.AreEqual(config.BoxApiUri, new System.Uri(Constants.BoxApiUriString));
 
             System.Uri exampleUri = new System.Uri("https://example.com/");
-            config.BoxApiUri = exampleUri;
+            config = BoxConfigBuilder.CreateFromJsonString(jsonString)
+                .SetBoxApiUri(exampleUri)
+                .Build();
             Assert.AreEqual(config.BoxApiUri, exampleUri);
         }
 
@@ -49,7 +53,8 @@ namespace Box.V2.Test.Integration
               'webhooks': {},
               'enterpriseID': 'eid-123'
             }";
-            var config = BoxConfig.CreateFromJsonString(jsonString);
+            var config = BoxConfigBuilder.CreateFromJsonString(jsonString)
+                .Build();
 
             Assert.AreEqual(config.ClientId, "cid-123");
             Assert.AreEqual(config.ClientSecret, "cre-123");
