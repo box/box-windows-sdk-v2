@@ -9,6 +9,9 @@
 - Add ability to get files under retention for assignment and file versions under retention for assignment ([#734](https://github.com/box/box-windows-sdk-v2/pull/734))
 - Add `is_collaboration_restricted_to_enterprise` flag support for `Folder` update ([#732](https://github.com/box/box-windows-sdk-v2/pull/732))
 
+**Bug Fixes:**
+- Fix `Cannot access a closed Stream.Request` exception during part upload ([#739](https://github.com/box/box-windows-sdk-v2/pull/739))
+
 ## 3.26.0 [2021-04-01]
 
 **New Features and Enhancements:**

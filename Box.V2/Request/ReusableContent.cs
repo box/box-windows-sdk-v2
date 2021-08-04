@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Request
 {
-    public class ReusableContent : HttpContent
+    class ReusableContent : HttpContent
     {
         private HttpContent _innerContent;
 

@@ -22,7 +22,7 @@ namespace Box.V2.Request
         {
             ClientFactory.WebProxy = webProxy;
 #if NET45
-                    System.Net.ServicePointManager.Expect100Continue = false;
+            System.Net.ServicePointManager.Expect100Continue = false;
 #endif
         }
 
