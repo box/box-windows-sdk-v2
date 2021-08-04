@@ -13,6 +13,7 @@ Box Platform.
 - [Update a Terms of Service for an Enterprise](#update-a-terms-of-service-for-an-enterprise)
 - [Get a Terms of Service By ID](#get-a-terms-of-service-by-id)
 - [Get Terms of Service for an Enterprise](#get-terms-of-service-for-an-enterprise)
+- [Create User Status on Terms of Service](#create-user-status-on-terms-of-service)
 - [Update User Status on Terms of Service](#update-user-status-on-terms-of-service)
 - [Get Terms of Service Status for User](#get-terms-of-service-status-for-user)
 
@@ -76,6 +77,35 @@ To get the terms of service for an enterprise, call
 ```c#
 BoxTermsOfServiceCollection<BoxTermsOfService> termsOfService = await client.TermsOfServiceManager
     .GetTermsOfServicesAsync();
+```
+
+Create User Status on Terms of Service 
+--------------------------------------
+
+For create user status on a terms of service call the
+`TermsOfServiceManager.CreateBoxTermsOfServiceUserStatusesAsync(BoxTermsOfServiceUserStatusCreateRequest termsOfServiceUserStatusCreateRequest)`
+
+You can only create a user status on a terms of service if the user has never accepted/declined a terms of service.
+If they have then you will need to make the update call..
+
+<!-- sample post_terms_of_service_user_statuses -->
+```c#
+var createStatusRequest = new BoxTermsOfServiceUserStatusCreateRequest()
+{
+    TermsOfService = new BoxRequestEntity()
+    {
+        Id = "11111",
+        Type = BoxType.terms_of_service
+    },
+    User = new BoxRequestEntity()
+    {
+        Id = "22222",
+        Type = BoxType.user
+    },
+    IsAccepted = true
+};
+BoxTermsOfServiceUserStatuses termsOfServiceUserStatuses =
+    await client.TermsOfServiceManager.CreateBoxTermsOfServiceUserStatusesAsync(createStatusRequest);
 ```
 
 Update User Status on Terms of Service 
