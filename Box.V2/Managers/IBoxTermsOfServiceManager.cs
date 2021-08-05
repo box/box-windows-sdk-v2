@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 
 namespace Box.V2.Managers
 {
@@ -51,7 +52,15 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="termsOfServiceUserStatusesRequest">The request object for terms of service user status.</param>
         /// <returns>The status of the terms of service for a user.</returns>
+        [Obsolete("Use CreateBoxTermsOfServiceUserStatusesAsync(BoxTermsOfServiceStatusCreateRequest termsOfServiceUserStatusCreateRequest) instead.")]
         Task<BoxTermsOfServiceUserStatuses> CreateBoxTermsOfServiceUserStatusesAsync(BoxTermsOfServiceUserStatusesRequest termsOfServicesUserStatusesRequest);
+
+        /// <summary>
+        /// Create a terms of service status for user.
+        /// </summary>
+        /// <param name="termsOfServiceUserStatusCreateRequest">The request object for terms of service user status.</param>
+        /// <returns>The status of the terms of service for a user.</returns>
+        Task<BoxTermsOfServiceUserStatuses> CreateBoxTermsOfServiceUserStatusesAsync(BoxTermsOfServiceUserStatusCreateRequest termsOfServiceUserStatusCreateRequest);
 
         /// <summary>
         /// Updates information on a terms of service for a user.

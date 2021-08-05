@@ -84,6 +84,7 @@
     <Compile Include="BoxSearchManagerTest.cs" />
     <Compile Include="BoxStoragePoliciesManagerTest.cs" />
     <Compile Include="BoxTasksManagerTest.cs" />
+    <Compile Include="BoxTermsOfServiceManagerTest.cs" />
     <Compile Include="BoxUsersManagerTest.cs" />
     <Compile Include="BoxCollaborationsManagerTest.cs" />
     <Compile Include="BoxLegalHoldPoliciesManagerTest.cs" />
