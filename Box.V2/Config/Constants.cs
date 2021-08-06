@@ -441,12 +441,24 @@ namespace Box.V2.Config
             /// <summary>
             /// Free user accepts invitation to become a managed user. 
             /// </summary>
+            [Obsolete("Use AdminInviteAccept instead")]
             public const string MasterInviteAccept = "MASTER_INVITE_ACCEPT";
 
             /// <summary>
             /// Free user rejects invitation to become a managed user. 
             /// </summary>
+            [Obsolete("Use AdminInviteReject instead")]
             public const string MasterInviteReject = "MASTER_INVITE_REJECT";
+
+            /// <summary>
+            /// Free user accepts invitation to become a managed user. 
+            /// </summary>
+            public const string AdminInviteAccept = "MASTER_INVITE_ACCEPT";
+
+            /// <summary>
+            /// Free user rejects invitation to become a managed user. 
+            /// </summary>
+            public const string AdminInviteReject = "MASTER_INVITE_REJECT";
 
             /// <summary>
             /// Revoke Box access to account. 
