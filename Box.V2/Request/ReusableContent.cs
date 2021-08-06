@@ -7,22 +7,25 @@ namespace Box.V2.Request
 {
     class ReusableContent : HttpContent
     {
-        private HttpContent _innerContent;
+        private Stream _innerContent;
+        private long _contentLength;
 
         public ReusableContent(Stream stream)
         {
-            _innerContent = new StreamContent(stream);
+            _innerContent = stream;
+            _contentLength = stream.Length;
         }
 
         protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
         {
-            await _innerContent.CopyToAsync(stream);
+            _innerContent.Position = 0;
+            await _innerContent.CopyToAsync(stream); 
         }
 
         protected override bool TryComputeLength(out long length)
         {
-            length = -1;
-            return false;
+            length = _contentLength;
+            return true;
         }
 
         protected override void Dispose(bool disposing)
