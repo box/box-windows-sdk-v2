@@ -69,42 +69,40 @@ namespace Box.V2.Request
                 while (true)
                 {
                     using (HttpRequestMessage httpRequest = getHttpRequest(request, isMultiPartRequest, isBinaryRequest))
+                    using (HttpResponseMessage response = await getResponse(request, isStream, httpRequest).ConfigureAwait(false))
                     {
                         Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
-                        using (HttpResponseMessage response = await getResponse(request, isStream, httpRequest).ConfigureAwait(false))
+                        //need to wait for Retry-After seconds and then retry request
+                        var retryAfterHeader = response.Headers.RetryAfter;
+
+                        // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
+                        // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
+                        // If we get a 202 code and has a retry-after header, we will retry after
+                        if (!isMultiPartRequest &&
+                            (response.StatusCode == TooManyRequests
+                            ||
+                            response.StatusCode == HttpStatusCode.InternalServerError
+                            ||
+                            response.StatusCode == HttpStatusCode.BadGateway
+                            ||
+                            response.StatusCode == HttpStatusCode.ServiceUnavailable
+                            ||
+                            response.StatusCode == HttpStatusCode.GatewayTimeout
+                            ||
+                            (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null))
+                            && retryCounter++ < RetryLimit)
                         {
-                            //need to wait for Retry-After seconds and then retry request
-                            var retryAfterHeader = response.Headers.RetryAfter;
+                            TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
 
-                            // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
-                            // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
-                            // If we get a 202 code and has a retry-after header, we will retry after
-                            if (!isMultiPartRequest &&
-                                (response.StatusCode == TooManyRequests
-                                ||
-                                response.StatusCode == HttpStatusCode.InternalServerError
-                                ||
-                                response.StatusCode == HttpStatusCode.BadGateway
-                                ||
-                                response.StatusCode == HttpStatusCode.ServiceUnavailable
-                                ||
-                                response.StatusCode == HttpStatusCode.GatewayTimeout
-                                ||
-                                (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null))
-                                && retryCounter++ < RetryLimit)
-                            {
-                                TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
+                            Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
 
-                                Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
+                            await Task.Delay(delay);
+                        }
+                        else
+                        {
+                            BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response).ConfigureAwait(false);
 
-                                await Task.Delay(delay);
-                            }
-                            else
-                            {
-                                BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response).ConfigureAwait(false);
-
-                                return boxResponse;
-                            }
+                            return boxResponse;
                         }
                     }
                 }
