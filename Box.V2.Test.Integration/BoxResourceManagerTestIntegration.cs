@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Box.V2.Auth;
@@ -44,7 +44,8 @@ namespace Box.V2.Test.Integration
             {
                 Debug.WriteLine("json config content length : " + jsonConfig.Length);
 
-                var config = BoxConfig.CreateFromJsonString(jsonConfig);
+                var config = BoxConfigBuilder.CreateFromJsonString(jsonConfig)
+                    .Build();
                 var session = new BoxJWTAuth(config);
 
                 // create a new app user
@@ -99,12 +100,14 @@ namespace Box.V2.Test.Integration
                 // Legacy way of getting the token
                 _auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-                _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
+                _config = new BoxConfigBuilder(ClientId, ClientSecret, RedirectUri)
+                    .Build();
                 _client = new BoxClient(_config, _auth);
             }
             else
             {
-                _config = BoxConfig.CreateFromJsonString(jsonConfig);
+                _config = BoxConfigBuilder.CreateFromJsonString(jsonConfig)
+                    .Build();
 
                 _client = userClient;
                 _auth = new OAuthSession(userToken, "", 3600, "bearer");

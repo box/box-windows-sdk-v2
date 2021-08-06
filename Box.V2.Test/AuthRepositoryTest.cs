@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Box.V2.Services;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace Box.V2.Test
             // Arrange
             IRequestHandler handler = new HttpRequestHandler();
             IBoxService service = new BoxService(handler);
-            IBoxConfig config = new BoxConfig(null, null, null);
+            IBoxConfig config = new BoxConfigBuilder(null, null, null).Build();
 
             IAuthRepository authRepository = new AuthRepository(config, service, Converter);
 

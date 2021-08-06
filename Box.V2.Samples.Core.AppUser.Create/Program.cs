@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.JWTAuth;
 using Box.V2.Models;
 using System;
@@ -86,7 +86,7 @@ namespace Box.V2.Samples.Core.AppUser.Create
             IBoxConfig config = null;
             using (FileStream fs = new FileStream(@"YOUR_JSON_FILE_HERE", FileMode.Open))
             {
-                config = BoxConfig.CreateFromJsonFile(fs);
+                config = BoxConfigBuilder.CreateFromJsonFile(fs).Build();
             }
 
             return config;

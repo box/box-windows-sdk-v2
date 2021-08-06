@@ -54,7 +54,7 @@ namespace Box.V2.JWTAuth
             // the following allows creation of a BoxJWTAuth object without valid keys but with a valid JWT UserToken
             // this allows code like this:
 
-            // var boxConfig = new BoxConfig("", "", "", "", "", "");
+            // var boxConfig = new BoxConfigBuilder("", "", "", "", "", "").Build();
             // var boxJwt = new BoxJWTAuth(boxConfig);
             // const string userToken = "TOKEN_OBTAINED_BY_CALLING_FULL_BOXJWTAUTH";  // token valid for 1 hr.
             // UserClient = boxJwt.UserClient(userToken, null);  // this user client can do normal file operations.
