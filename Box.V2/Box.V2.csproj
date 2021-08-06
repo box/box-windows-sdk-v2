@@ -64,6 +64,7 @@
     <Compile Include="Auth\Token\ActorTokenBuilder.cs" />
     <Compile Include="Auth\Token\TokenExchange.cs" />
     <Compile Include="BoxClient.cs" />
+    <Compile Include="Config\BoxConfigBuilder.cs" />
     <Compile Include="IBoxClient.cs" />
     <Compile Include="Converter\BoxZipConflictConverter.cs" />
     <Compile Include="JWTAuth\BoxJWTAuth.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
     <Compile Include="Models\BoxSessionParts.cs" />
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
+    <Compile Include="Models\Request\BoxTermsOfServiceUserStatusCreateRequest.cs" />
     <Compile Include="Models\Request\BoxZipRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />

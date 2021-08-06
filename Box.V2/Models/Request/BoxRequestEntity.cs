@@ -1,4 +1,4 @@
-﻿using Box.V2.Services;
+using Box.V2.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -43,5 +43,6 @@ public enum BoxType
     group,
     web_link,
     file_version,
-    metadata_template
+    metadata_template,
+    terms_of_service
 }
