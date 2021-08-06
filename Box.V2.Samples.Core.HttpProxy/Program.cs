@@ -10,10 +10,10 @@ namespace Box.V2.Samples.Core.HttpProxy
     {
         static void Main(string[] args)
         {
-            var boxConfig = BoxConfig.CreateFromJsonString(GetConfigJson());
-
-            // Set web proxy
-            boxConfig.WebProxy = new BoxHttpProxy();
+            var boxConfig = BoxConfigBuilder.CreateFromJsonString(GetConfigJson())
+                // Set web proxy
+                .SetWebProxy(new BoxHttpProxy())
+                .Build();
 
             var boxJWT = new BoxJWTAuth(boxConfig);
 

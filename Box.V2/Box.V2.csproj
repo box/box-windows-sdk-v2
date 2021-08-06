@@ -64,6 +64,7 @@
     <Compile Include="Auth\Token\ActorTokenBuilder.cs" />
     <Compile Include="Auth\Token\TokenExchange.cs" />
     <Compile Include="BoxClient.cs" />
+    <Compile Include="Config\BoxConfigBuilder.cs" />
     <Compile Include="IBoxClient.cs" />
     <Compile Include="Converter\BoxZipConflictConverter.cs" />
     <Compile Include="JWTAuth\BoxJWTAuth.cs" />
