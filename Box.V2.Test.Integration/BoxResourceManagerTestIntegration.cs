@@ -50,7 +50,7 @@ namespace Box.V2.Test.Integration
 
                 // create a new app user
                 // client with permissions to manage application users
-                var adminToken = session.AdminToken();
+                var adminToken = session.AdminTokenAsync().Result;
                 adminClient = session.AdminClient(adminToken);
 
                 var user = CreateNewUser(adminClient).Result;
@@ -60,7 +60,7 @@ namespace Box.V2.Test.Integration
                 Debug.WriteLine("New app user created : " + userId);
 
                 // user client with access to user's data (folders, files, etc)
-                userToken = session.UserToken(userId);
+                userToken = session.UserTokenAsync(userId).Result;
                 userClient = session.UserClient(userToken, userId);
             }
         }

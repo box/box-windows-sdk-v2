@@ -40,7 +40,7 @@ namespace Box.V2.Test.Integration
             var tokenExchange = new TokenExchange(token, scopes);
 
             // Check resource to be optional
-            var token1 = tokenExchange.Exchange();
+            var token1 = tokenExchange.ExchangeAsync().Result;
             var client1 = CreateClientByToken(token1);
 
             // Should be able to access the file
@@ -49,7 +49,7 @@ namespace Box.V2.Test.Integration
 
             // Set resource
             tokenExchange.SetResource(resource);
-            var token2 = tokenExchange.Exchange();
+            var token2 = tokenExchange.ExchangeAsync().Result;
             var client2 = CreateClientByToken(token2);
             try
             {
