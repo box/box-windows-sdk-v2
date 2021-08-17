@@ -333,7 +333,7 @@ var adminClient = new BoxClient(config, auth, suppressNotifications: true);
 ```
 
 #### Constructing API Calls Manually
-If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
+The SDK also exposes low-level request methods for constructing your own API calls. These can be useful for adding your own API calls that aren't yet explicitly supported by the SDK.
 
 To make a custom api call you need to provide implementation for `BoxResourceManager`.
 
