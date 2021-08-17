@@ -324,9 +324,7 @@ foreach(BoxItem item in boxFolderItemsList)
 ```
 
 #### Suppressing Notifications
-
 If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
-
 ```c#
 var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri).Build();
 var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
