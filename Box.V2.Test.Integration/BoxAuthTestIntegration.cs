@@ -20,12 +20,12 @@ namespace Box.V2.Test.Integration
         public const string passphrase = "YOUR_PASSPHRASE";
 
         [TestMethod]
-        public void retriesWithNewJWTAssertionOnErrorResponseAndSucceeds()
+        public async Task retriesWithNewJWTAssertionOnErrorResponseAndSucceeds()
         {
             var config = new BoxConfigBuilder(ClientId, ClientSecret, EnterpriseId, privateKey, passphrase, publicKeyID)
                 .Build();
             var session = new BoxJWTAuth(config);
-            var adminToken = session.AdminToken();
+            var adminToken = await session.AdminTokenAsync();
             adminClient = session.AdminClient(adminToken);
         }
     }

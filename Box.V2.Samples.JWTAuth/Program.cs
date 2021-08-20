@@ -37,7 +37,7 @@ namespace Box.V2.Samples.JWTAuth
                 .Build();
             var boxJWT = new BoxJWTAuth(boxConfig);
 
-            var adminToken = boxJWT.AdminToken();
+            var adminToken = await boxJWT.AdminTokenAsync();
             Console.WriteLine("Admin Token: " + adminToken);
             Console.WriteLine();
 
@@ -61,7 +61,7 @@ namespace Box.V2.Samples.JWTAuth
             var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
             Console.WriteLine("Created App User");
 
-            var userToken = boxJWT.UserToken(appUser.Id);
+            var userToken = await boxJWT.UserTokenAsync(appUser.Id);
             var userClient = boxJWT.UserClient(userToken, appUser.Id);
 
             var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();

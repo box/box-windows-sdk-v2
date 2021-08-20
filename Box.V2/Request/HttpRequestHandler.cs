@@ -1,7 +1,6 @@
 using Box.V2.Config;
 using Box.V2.Utility;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -22,6 +21,9 @@ namespace Box.V2.Request
         public HttpRequestHandler(IWebProxy webProxy = null)
         {
             ClientFactory.WebProxy = webProxy;
+#if NET45
+            System.Net.ServicePointManager.Expect100Continue = false;
+#endif
         }
 
         public async Task<IBoxResponse<T>> ExecuteAsyncWithoutRetry<T>(IBoxRequest request)
@@ -66,41 +68,42 @@ namespace Box.V2.Request
 
                 while (true)
                 {
-                    HttpRequestMessage httpRequest = getHttpRequest(request, isMultiPartRequest, isBinaryRequest);
-                    Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
-                    HttpResponseMessage response = await getResponse(request, isStream, httpRequest).ConfigureAwait(false);
-
-                    //need to wait for Retry-After seconds and then retry request
-                    var retryAfterHeader = response.Headers.RetryAfter;
-
-                    // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
-                    // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
-                    // If we get a 202 code and has a retry-after header, we will retry after
-                    if (!isMultiPartRequest &&
-                        (response.StatusCode == TooManyRequests
-                        ||
-                        response.StatusCode == HttpStatusCode.InternalServerError
-                        ||
-                        response.StatusCode == HttpStatusCode.BadGateway
-                        ||
-                        response.StatusCode == HttpStatusCode.ServiceUnavailable
-                        ||
-                        response.StatusCode == HttpStatusCode.GatewayTimeout
-                        ||
-                        (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null))
-                        && retryCounter++ < RetryLimit)
+                    using (HttpRequestMessage httpRequest = getHttpRequest(request, isMultiPartRequest, isBinaryRequest))
+                    using (HttpResponseMessage response = await getResponse(request, isStream, httpRequest).ConfigureAwait(false))
                     {
-                        TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
+                        Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
+                        //need to wait for Retry-After seconds and then retry request
+                        var retryAfterHeader = response.Headers.RetryAfter;
 
-                        Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
+                        // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
+                        // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
+                        // If we get a 202 code and has a retry-after header, we will retry after
+                        if (!isMultiPartRequest &&
+                            (response.StatusCode == TooManyRequests
+                            ||
+                            response.StatusCode == HttpStatusCode.InternalServerError
+                            ||
+                            response.StatusCode == HttpStatusCode.BadGateway
+                            ||
+                            response.StatusCode == HttpStatusCode.ServiceUnavailable
+                            ||
+                            response.StatusCode == HttpStatusCode.GatewayTimeout
+                            ||
+                            (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null))
+                            && retryCounter++ < RetryLimit)
+                        {
+                            TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
 
-                        await Task.Delay(delay);
-                    }
-                    else
-                    {
-                        BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response).ConfigureAwait(false);
+                            Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
 
-                        return boxResponse;
+                            await Task.Delay(delay);
+                        }
+                        else
+                        {
+                            BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response).ConfigureAwait(false);
+
+                            return boxResponse;
+                        }
                     }
                 }
             }
@@ -346,7 +349,7 @@ namespace Box.V2.Request
             var filePart = request.Part as BoxFilePart;
             if (filePart != null)
             {
-                content = new StreamContent(filePart.Value);
+                content = new ReusableContent(filePart.Value);
             }
 
             httpRequest.Content = content;
