@@ -1,10 +1,11 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Request;
 using Box.V2.Converter;
 using Box.V2.Services;
 using Box.V2.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Box.V2.Auth.Token
 {
@@ -65,7 +66,7 @@ namespace Box.V2.Auth.Token
         /// Get a down scoped token.
         /// </summary>
         /// <returns>The down scoped access token.</returns>
-        public string Exchange()
+        public async Task<string> ExchangeAsync()
         {
             BoxRequest boxRequest = new BoxRequest(new Uri(Constants.BoxApiHostUriString), Constants.AuthTokenEndpointString)
                 .Method(RequestMethod.Post)
@@ -85,7 +86,7 @@ namespace Box.V2.Auth.Token
             var converter = new BoxJsonConverter();
             var service = new BoxService(handler);
 
-            IBoxResponse<OAuthSession> boxResponse = service.ToResponseAsync<OAuthSession>(boxRequest).Result;
+            IBoxResponse<OAuthSession> boxResponse = await service.ToResponseAsync<OAuthSession>(boxRequest).ConfigureAwait(false);
             boxResponse.ParseResults(converter);
 
             return boxResponse.ResponseObject.AccessToken;

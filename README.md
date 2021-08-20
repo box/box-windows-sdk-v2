@@ -64,7 +64,7 @@ var boxJWT = new BoxJWTAuth(boxConfig);
 
 ##### Authenticate
 ```c#
-var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
+var adminToken = await boxJWT.AdminTokenAsync(); //valid for 60 minutes so should be cached and re-used
 var adminClient = boxJWT.AdminClient(adminToken);
 ```
 
@@ -75,7 +75,7 @@ var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccess
 var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
 
 //get a user client
-var userToken = boxJWT.UserToken(appUser.Id); //valid for 60 minutes so should be cached and re-used
+var userToken = await boxJWT.UserTokenAsync(appUser.Id); //valid for 60 minutes so should be cached and re-used
 var userClient = boxJWT.UserClient(userToken, appUser.Id);
 
 //for example, look up the app user's details
@@ -294,7 +294,7 @@ Using the admin token we can make a call to retrieve all users or a specific use
 var boxConfig = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>).	Build();
 var boxJWT = new BoxJWTAuth(boxConfig);
 
-var adminToken = boxJWT.AdminToken();
+var adminToken = await boxJWT.AdminTokenAsync();
 var adminClient = boxJWT.AdminClient(adminToken);
 
 var boxUsers = await adminClient.UsersManager.GetEnterpriseUsersAsync();

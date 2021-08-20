@@ -5,6 +5,7 @@
 **Breaking changes:**
 - Extract interfaces for BoxClient and Managers to improve testability ([#603](https://github.com/box/box-windows-sdk-v2/pull/603))
 - Add BoxConfigBuilder and make BoxConfig immutable ([#737](https://github.com/box/box-windows-sdk-v2/pull/737))
+- Expose tasks from async methods ([#742](https://github.com/box/box-windows-sdk-v2/pull/742))
 
 **New Features and Enhancements:**
 - Add ability to get files under retention for assignment and file versions under retention for assignment ([#734](https://github.com/box/box-windows-sdk-v2/pull/734))

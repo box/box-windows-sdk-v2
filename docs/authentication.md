@@ -64,7 +64,7 @@ Service Account:
 ```c#
 var config = BoxConfigBuilder.CreateFromJsonString(jsonConfig).Build();
 var session = new BoxJWTAuth(config);
-var adminToken = session.AdminToken(); //valid for 60 minutes so should be cached and re-used
+var adminToken = await session.AdminTokenAsync(); //valid for 60 minutes so should be cached and re-used
 BoxClient adminClient = session.AdminClient(adminToken);
 ```
 
@@ -75,7 +75,7 @@ to the `BoxConfigBuilder` constructor:
 ```c#
 var boxConfig = new BoxConfigBuilder("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", "YOUR_ENTERPRISE_ID", "ENCRYPTED_PRIVATE_KEY", "PRIVATE_KEY_PASSWORD", "PUBLIC_KEY_ID").Build();
 var boxJWT = new BoxJWTAuth(boxConfig);
-var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
+var adminToken = await boxJWT.AdminTokenAsync(); //valid for 60 minutes so should be cached and re-used
 BoxClient adminClient = boxJWT.AdminClient(adminToken);
 adminClient.Auth.SessionAuthenticated += delegate(object o, SessionAuthenticatedEventArgs e)
 {
@@ -99,7 +99,7 @@ instance as in the above examples, similarly to creating a Service Account clien
 <!-- sample x_auth init_with_jwt_with_user_id -->
 ```c#
 var appUserId = "12345";
-var userToken = boxJWT.UserToken(appUserID); //valid for 60 minutes so should be cached and re-used
+var userToken = await boxJWT.UserTokenAsync(appUserID); //valid for 60 minutes so should be cached and re-used
 BoxClient appUserClient = boxJWT.UserClient(userToken, appUserId);
 appUserClient.Auth.SessionAuthenticated += delegate(object o, SessionAuthenticatedEventArgs e)
 {
@@ -194,7 +194,7 @@ scope, restricted to a single file, suitable for the
 ```c#
 var exchanger = new TokenExchange(client.Auth.Session.AccessToken, "item_preview");
 exchanger.SetResource("https://api.box.com/2.0/files/123456789");
-string downscopedToken = exchanger.Exchange();
+string downscopedToken = await exchanger.ExchangeAsync();
 ```
 
 To exchange the client's token for one with scopes to upload and delete items, but not to view their contents,
@@ -202,5 +202,5 @@ which would be suitable for an less-trusted server-side process;
 ```c#
 var scopes = new List<string>() { "item_upload", "item_download" };
 var exchanger = new TokenExchange(client.Auth.Session.AccessToken, scopes);
-string downscopedToken = exchanger.Exchange();
+string downscopedToken = await exchanger.ExchangeAsync();
 ```

@@ -59,12 +59,12 @@ namespace Box.V2.Samples.TransactionalAuth
             var tokenExchange = new TokenExchange(token, scope);
 
             // Check resource to be optional
-            var token1 = tokenExchange.Exchange();
+            var token1 = await tokenExchange.ExchangeAsync();
             var client1 = CreateClientByToken(token1);
 
             // Set resource
             tokenExchange.SetResource(resource);
-            var token2 = tokenExchange.Exchange();
+            var token2 = await tokenExchange .ExchangeAsync();
             var client2 = CreateClientByToken(token2);
             try
             {

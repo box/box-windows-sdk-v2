@@ -17,7 +17,7 @@ namespace Box.V2.Samples.Core.HttpProxy
 
             var boxJWT = new BoxJWTAuth(boxConfig);
 
-            var adminToken = boxJWT.AdminToken(); 
+            var adminToken = boxJWT.AdminTokenAsync().Result; 
             var adminClient = boxJWT.AdminClient(adminToken);
 
             var items = adminClient.FoldersManager.GetFolderItemsAsync("0", 500).Result;
