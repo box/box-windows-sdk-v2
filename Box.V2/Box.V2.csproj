@@ -224,6 +224,7 @@
     <Compile Include="Plugin\IResourcePlugin.cs" />
     <Compile Include="JWTAuth\RSAUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\ReusableContent.cs" />
     <Compile Include="Utility\AssemblyInfo.cs" />
     <Compile Include="Utility\BoxProgess.cs" />
     <Compile Include="Utility\CrossPlatform.cs" />

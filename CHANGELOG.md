@@ -13,6 +13,9 @@
 - Replace insensitive language ([#738](https://github.com/box/box-windows-sdk-v2/pull/738))
 - Add new, easier to use method for create terms of service user status ([#740](https://github.com/box/box-windows-sdk-v2/pull/740))
 
+**Bug Fixes:**
+- Fix `Cannot access a closed Stream.Request` exception during part upload ([#739](https://github.com/box/box-windows-sdk-v2/pull/739))
+
 ## 3.26.0 [2021-04-01]
 
 **New Features and Enhancements:**
