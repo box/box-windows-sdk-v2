@@ -19,6 +19,7 @@ using Box.V2.Utility;
 using System.Net;
 using System.Threading;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Box.V2.JWTAuth
 {
@@ -54,7 +55,7 @@ namespace Box.V2.JWTAuth
             // the following allows creation of a BoxJWTAuth object without valid keys but with a valid JWT UserToken
             // this allows code like this:
 
-            // var boxConfig = new BoxConfig("", "", "", "", "", "");
+            // var boxConfig = new BoxConfigBuilder("", "", "", "", "", "").Build();
             // var boxJwt = new BoxJWTAuth(boxConfig);
             // const string userToken = "TOKEN_OBTAINED_BY_CALLING_FULL_BOXJWTAUTH";  // token valid for 1 hr.
             // UserClient = boxJwt.UserClient(userToken, null);  // this user client can do normal file operations.
@@ -133,21 +134,21 @@ namespace Box.V2.JWTAuth
         /// Get admin token by posting data to auth url
         /// </summary>
         /// <returns>Admin token</returns>
-        public string AdminToken()
+        public async Task<string> AdminTokenAsync()
         {
-            return this.GetToken(ENTERPRISE_SUB_TYPE, this.boxConfig.EnterpriseId);
+            return await this.GetTokenAsync(ENTERPRISE_SUB_TYPE, this.boxConfig.EnterpriseId).ConfigureAwait(false);
         }
         /// <summary>
         /// Once you have created an App User, you can request a User Access Token via the App Auth feature, which will return the OAuth 2.0 access token for the specified App User.
         /// </summary>
         /// <param name="userId">Id of the user</param>
         /// <returns>User token</returns>
-        public string UserToken(string userId)
+        public async Task<string> UserTokenAsync(string userId)
         {
-            return this.GetToken(USER_SUB_TYPE, userId);
+            return await this.GetTokenAsync(USER_SUB_TYPE, userId).ConfigureAwait(false);
         }
 
-        private string GetToken(string subType, string subId)
+        private async Task<string> GetTokenAsync(string subType, string subId)
         {
             int retryCounter = 0;
             ExponentialBackoff expBackoff = new ExponentialBackoff();
@@ -159,7 +160,7 @@ namespace Box.V2.JWTAuth
             {
                 try
                 {
-                    result = JWTAuthPost(assertion);
+                    result = await JWTAuthPostAsync(assertion).ConfigureAwait(false);
                     return result.AccessToken;
                 }
                 catch (BoxException ex)
@@ -267,7 +268,7 @@ namespace Box.V2.JWTAuth
             return assertion;
         }
 
-        private OAuthSession JWTAuthPost(string assertion)
+        private async Task<OAuthSession> JWTAuthPostAsync(string assertion)
         {
             BoxRequest boxRequest = new BoxRequest(this.boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
@@ -278,7 +279,7 @@ namespace Box.V2.JWTAuth
                                             .Payload(Constants.RequestParameters.ClientSecret, this.boxConfig.ClientSecret);
             
             var converter = new BoxJsonConverter();
-            IBoxResponse<OAuthSession> boxResponse = this.boxService.ToResponseAsyncWithoutRetry<OAuthSession>(boxRequest).Result;
+            IBoxResponse<OAuthSession> boxResponse = await this.boxService.ToResponseAsyncWithoutRetry<OAuthSession>(boxRequest).ConfigureAwait(false);
             boxResponse.ParseResults(converter);
 
             return boxResponse.ResponseObject;

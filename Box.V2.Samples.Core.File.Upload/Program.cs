@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Box.V2.Config;
@@ -41,7 +41,8 @@ namespace Box.V2.Core.Sample
 
             var auth = new OAuthSession(accessToken, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-            var config = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://boxsdk"));
+            var config = new BoxConfigBuilder("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://boxsdk"))
+                .Build();
             var client = new BoxClient(config, auth);
 
             var file = File.OpenRead(localFilePath);

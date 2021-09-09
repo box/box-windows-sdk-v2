@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Auth.Token;
@@ -39,7 +39,8 @@ namespace Box.V2.Samples.TransactionalAuth
         {
             var auth = new OAuthSession(token, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-            var config = new BoxConfig(string.Empty, string.Empty, new Uri("http://boxsdk"));
+            var config = new BoxConfigBuilder(string.Empty, string.Empty, new Uri("http://boxsdk"))
+                .Build();
             var client = new BoxClient(config, auth);
 
             return client;
@@ -58,12 +59,12 @@ namespace Box.V2.Samples.TransactionalAuth
             var tokenExchange = new TokenExchange(token, scope);
 
             // Check resource to be optional
-            var token1 = tokenExchange.Exchange();
+            var token1 = await tokenExchange.ExchangeAsync();
             var client1 = CreateClientByToken(token1);
 
             // Set resource
             tokenExchange.SetResource(resource);
-            var token2 = tokenExchange.Exchange();
+            var token2 = await tokenExchange .ExchangeAsync();
             var client2 = CreateClientByToken(token2);
             try
             {

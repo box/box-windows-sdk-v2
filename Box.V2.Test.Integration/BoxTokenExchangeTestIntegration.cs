@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Auth.Token;
 using Box.V2.Config;
 using Box.V2.Exceptions;
@@ -16,7 +16,8 @@ namespace Box.V2.Test.Integration
         {
             var auth = new OAuthSession(token, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-            var config = new BoxConfig(string.Empty, string.Empty, new Uri("http://boxsdk"));
+            var config = new BoxConfigBuilder(string.Empty, string.Empty, new Uri("http://boxsdk"))
+                .Build();
             var client = new BoxClient(config, auth);
 
             return client;
@@ -39,7 +40,7 @@ namespace Box.V2.Test.Integration
             var tokenExchange = new TokenExchange(token, scopes);
 
             // Check resource to be optional
-            var token1 = tokenExchange.Exchange();
+            var token1 = tokenExchange.ExchangeAsync().Result;
             var client1 = CreateClientByToken(token1);
 
             // Should be able to access the file
@@ -48,7 +49,7 @@ namespace Box.V2.Test.Integration
 
             // Set resource
             tokenExchange.SetResource(resource);
-            var token2 = tokenExchange.Exchange();
+            var token2 = tokenExchange.ExchangeAsync().Result;
             var client2 = CreateClientByToken(token2);
             try
             {
