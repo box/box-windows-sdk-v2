@@ -4,11 +4,13 @@ using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxMetadataCascadePolicyManagerTest : BoxResourceManagerTest
     {

@@ -3,9 +3,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxTasksManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -63,7 +65,7 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(1, taskAssignments.Entries.Count, "Task assignmnet number are incorrect!");
             Assert.AreEqual(taskAssignments.Entries[0].Id, uTaskAssignment.Id, "Task assignment id are incorrect!");
 
-            // Delete task assignment 
+            // Delete task assignment
             await _client.TasksManager.DeleteTaskAssignmentAsync(taskAssignment.Id);
 
             // Delete task

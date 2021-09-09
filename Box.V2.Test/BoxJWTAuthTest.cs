@@ -9,12 +9,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxJWTAuthTest : BoxResourceManagerTest
     {

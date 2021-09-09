@@ -2,10 +2,12 @@
 using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Box.V2.Config;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxCollaborationWhitelistManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -75,7 +77,7 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(retrievedWhiteList.Id, whiteList.Id);
             Assert.AreEqual("collaboration_whitelist_entry", retrievedWhiteList.Type);
 
-            Assert.IsTrue(deletedWhiteList, "Collab whitelist was unable to be deleted");    
+            Assert.IsTrue(deletedWhiteList, "Collab whitelist was unable to be deleted");
         }
     }
 }

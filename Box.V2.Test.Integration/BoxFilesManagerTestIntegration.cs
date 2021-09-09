@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Utility;
@@ -12,7 +13,8 @@ using Box.V2.Auth;
 using System.Reflection;
 
 namespace Box.V2.Test.Integration
-{ 
+{
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxFilesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -471,7 +473,7 @@ namespace Box.V2.Test.Integration
             string fileId = await GetFileId(parentFolderId, remoteFileName);
 
             // Using previously uploaded Box file, upload a new file version for that Box file
-            var newBoxFile = await _client.FilesManager.UploadNewVersionUsingSessionAsync(fileInMemoryStream, fileId, newRemoteFileName, 
+            var newBoxFile = await _client.FilesManager.UploadNewVersionUsingSessionAsync(fileInMemoryStream, fileId, newRemoteFileName,
                 null, progress);
 
             Assert.IsNotNull(newBoxFile.FileVersion, "Did not successfully upload a new Box file version");
@@ -522,7 +524,7 @@ namespace Box.V2.Test.Integration
                 byte[] assetBytes = memStream.ToArray();
 
                 Assert.IsTrue(assetBytes.Length > 4096, "Downlaoded asset contained " + assetBytes.Length + " but should contain more than 4 KB");
-            }  
+            }
         }
 
         #region Private functions

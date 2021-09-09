@@ -1,11 +1,13 @@
 ﻿using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxWebhooksManagerTestIntegration : BoxResourceManagerTestIntegration
     {

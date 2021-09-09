@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxFoldersManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -55,9 +57,9 @@ namespace Box.V2.Test.Integration
             const int numFiles = 9;
             const int numFolders = 2;
 
-            BoxCollection<BoxItem> c = await boxClient.FoldersManager.GetFolderItemsAsync("0", 3, 0, new List<string>() { 
-                BoxItem.FieldName, 
-                BoxItem.FieldSize, 
+            BoxCollection<BoxItem> c = await boxClient.FoldersManager.GetFolderItemsAsync("0", 3, 0, new List<string>() {
+                BoxItem.FieldName,
+                BoxItem.FieldSize,
                 BoxFolder.FieldItemCollection
              }, autoPaginate: true);
 

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxUsersManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -38,7 +40,7 @@ namespace Box.V2.Test.Integration
                 return;
             }
 
-            // Create 
+            // Create
             var userRequest = new BoxUserRequest
             {
                 Name = "AppUser ExtId Test",

@@ -6,12 +6,14 @@ using Moq;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxUsersManagerTest : BoxResourceManagerTest
     {
@@ -673,7 +675,7 @@ namespace Box.V2.Test
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
             Assert.AreEqual(UserUri + "13130406/memberships?offset=0&limit=100", boxRequest.AbsoluteUri.AbsoluteUri);
-          
+
             // response
             Assert.IsNotNull(result);
             Assert.AreEqual("1560354", result.Entries[0].Id);

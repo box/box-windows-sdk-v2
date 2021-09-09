@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Box.V2.Auth;
 using Box.V2.Request;
 using Box.V2.Config;
@@ -11,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public abstract class BoxResourceManagerTestIntegration
     {

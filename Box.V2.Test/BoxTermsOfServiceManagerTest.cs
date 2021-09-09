@@ -6,10 +6,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxTermsOfServiceManagerTest : BoxResourceManagerTest
     {

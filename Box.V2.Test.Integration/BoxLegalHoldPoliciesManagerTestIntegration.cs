@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
@@ -7,6 +8,7 @@ using System.Linq;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxLegalHoldPoliciesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -25,7 +27,7 @@ namespace Box.V2.Test.Integration
                 PolicyName = policyName,
                 Description = description,
                 FilterStartedAt = filterStarted,
-                FilterEndedAt = filterEnded 
+                FilterEndedAt = filterEnded
             });
 
             Assert.IsNotNull(legalHold.Id);

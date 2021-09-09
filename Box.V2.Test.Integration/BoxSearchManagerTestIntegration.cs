@@ -4,12 +4,14 @@ using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Box.V2.Models.Request;
 using Box.V2.Exceptions;
 using Box.V2.Config;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxSearchManagerTestIntegration : BoxResourceManagerTestIntegration
     {

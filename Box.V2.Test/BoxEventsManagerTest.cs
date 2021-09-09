@@ -3,6 +3,7 @@ using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
@@ -11,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxEventsManagerTest : BoxResourceManagerTest
     {

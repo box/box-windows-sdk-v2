@@ -5,12 +5,14 @@ using Box.V2.Services;
 using Moq;
 using Box.V2.Auth;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Box.V2.Request;
 using Box.V2.Converter;
 using Box.V2.Config;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxServiceTest
     {
@@ -37,8 +39,7 @@ namespace Box.V2.Test
         public async Task QueueTask_MultipleThreads_OrderedResponse()
         {
             /*** Arrange ***/
-            int numTasks = 1000;
-
+            const int numTasks = 1000;
             int count = 0;
 
             // Increments the access token each time a call is made to the API

@@ -4,6 +4,7 @@ using Box.V2.Services;
 using System.Threading.Tasks;
 using Box.V2.Auth;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Box.V2.Exceptions;
 using System.Linq;
 using Box.V2.Request;
@@ -11,10 +12,10 @@ using Box.V2.Config;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class AuthRepositoryTest : BoxResourceManagerTest
     {
-
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
         [ExpectedException(typeof(BoxException))]
@@ -100,11 +101,11 @@ namespace Box.V2.Test
             /*** Arrange ***/
             int numTasks = 1000;
 
-            int count = 0; 
+            int count = 0;
 
             // Increments the access token each time a call is made to the API
             Handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
-                .Returns(() => Task.FromResult<IBoxResponse<OAuthSession>>(new BoxResponse<OAuthSession>() 
+                .Returns(() => Task.FromResult<IBoxResponse<OAuthSession>>(new BoxResponse<OAuthSession>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = "{\"access_token\": \""+ count + "\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"

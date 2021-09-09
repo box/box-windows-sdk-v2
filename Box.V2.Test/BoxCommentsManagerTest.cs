@@ -1,4 +1,5 @@
-﻿using Box.V2.Managers;
+﻿using System.Diagnostics.CodeAnalysis;
+using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxCommentsManagerTest : BoxResourceManagerTest
     {

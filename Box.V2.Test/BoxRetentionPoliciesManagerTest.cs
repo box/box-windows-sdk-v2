@@ -5,10 +5,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxRetentionPoliciesManagerTest : BoxResourceManagerTest
     {
@@ -91,23 +93,23 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             string responseString = "{"
-              + "\"type\": \"retention_policy_assignment\","     
-              + "\"id\": \"3233225\","     
+              + "\"type\": \"retention_policy_assignment\","
+              + "\"id\": \"3233225\","
               + "\"retention_policy\": {"
-              + "  \"type\": \"retention_policy\","         
-              + "  \"id\": \"32131\","         
+              + "  \"type\": \"retention_policy\","
+              + "  \"id\": \"32131\","
               + "  \"policy_name\": \"TaxDocuments\""
               + "},"
               + "\"assigned_to\": {"
-              + "  \"type\": \"metadata_template\","         
+              + "  \"type\": \"metadata_template\","
               + "  \"id\": \"enterprise.my_template\""
-              + "},"     
+              + "},"
               + "\"assigned_by\": {"
-              + "  \"type\": \"user\","        
-              + "  \"id\": \"123456789\","        
-              + "  \"name\": \"Sean\","        
+              + "  \"type\": \"user\","
+              + "  \"id\": \"123456789\","
+              + "  \"name\": \"Sean\","
               + "  \"login\": \"sean@box.com\""
-              + "},"    
+              + "},"
               + "\"assigned_at\": \"2015-07-20T14:28:09-07:00\","
               + "\"filter_fields\": ["
               + "  {"

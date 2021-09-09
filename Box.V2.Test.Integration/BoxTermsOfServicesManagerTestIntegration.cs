@@ -3,9 +3,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxTermsOfServicesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -15,7 +17,7 @@ namespace Box.V2.Test.Integration
         {
             var termsOfService = await _client.TermsOfServiceManager.CreateTermsOfServicesAsync(new BoxTermsOfServicesRequest
             {
-              Status = "enabled", 
+              Status = "enabled",
               TosType =  "managed",
               Text = "Test Text"
             });

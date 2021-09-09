@@ -2,9 +2,11 @@
 using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxCollaborationsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -59,7 +61,7 @@ namespace Box.V2.Test.Integration
             Assert.IsTrue(success, "Collaboration deletion was unsucessful");
         }
 
-        // Test to add collaboration by Box User ID and Box Group ID. 
+        // Test to add collaboration by Box User ID and Box Group ID.
         [TestMethod]
         public async Task AddGroupCollaboration_File_Fields_ValidResponse()
         {
@@ -127,7 +129,7 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(fileId, collab.Item.Id, "File and collaboration file id do not match");
             Assert.AreEqual(BoxCollaborationRoles.Viewer, collab.Role, "Incorrect collaboration role");
 
-            
+
             // TODO: Edit Collaboration
             BoxCollaborationRequest editRequest = new BoxCollaborationRequest()
             {
@@ -146,7 +148,7 @@ namespace Box.V2.Test.Integration
 
             // test getting list of collaborations on file
             var collabs = await _client.FilesManager.GetCollaborationsAsync(fileId);
-            Assert.AreEqual(4, collabs.Entries.Count, "Failed to get correct number of file collabs.");      
+            Assert.AreEqual(4, collabs.Entries.Count, "Failed to get correct number of file collabs.");
 
             // Test Remove Collaboration
             bool success = await _client.CollaborationsManager.RemoveCollaborationAsync(collab.Id);

@@ -1,10 +1,12 @@
 ﻿using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxWebLinkManagerTestIntegration : BoxResourceManagerTestIntegration
     {

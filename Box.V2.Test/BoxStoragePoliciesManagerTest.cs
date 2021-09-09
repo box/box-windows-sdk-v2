@@ -6,11 +6,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxStoragePoliciesManagerTest : BoxResourceManagerTest
     {
@@ -405,7 +406,7 @@ namespace Box.V2.Test
 
             /*** Act ***/
             var result = await _storagePoliciesManager.AssignAsync("1111", "7777");
-            
+
             //Response check
             Assert.AreEqual("storage_policy_assignment", result.Type);
             Assert.AreEqual("user_7777", result.Id);

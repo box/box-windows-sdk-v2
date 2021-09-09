@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Managers;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Box.V2.Models.Request;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxGroupsManagerTest : BoxResourceManagerTest
     {
@@ -27,8 +29,8 @@ namespace Box.V2.Test
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxGroup>>>(new BoxResponse<BoxCollection<BoxGroup>>()
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = @"{""total_count"": 14, 
-                                    ""entries"": [  {""type"": ""group"", ""id"": ""26477"", ""name"": ""adfasdf"", ""created_at"": ""2011-02-15T14:07:22-08:00"", ""modified_at"": ""2011-10-05T19:04:40-07:00"", ""invitability_level"": ""none""}, 
+                    ContentString = @"{""total_count"": 14,
+                                    ""entries"": [  {""type"": ""group"", ""id"": ""26477"", ""name"": ""adfasdf"", ""created_at"": ""2011-02-15T14:07:22-08:00"", ""modified_at"": ""2011-10-05T19:04:40-07:00"", ""invitability_level"": ""none""},
                                                     {""type"": ""group"", ""id"": ""1263"", ""name"": ""Enterprise Migration"", ""created_at"": ""2009-04-20T19:36:17-07:00"", ""modified_at"": ""2011-10-05T19:05:10-07:00"", ""invitability_level"": ""admins_only""}],
                                     ""limit"": 2, ""offset"": 0}"
                 }))
@@ -83,7 +85,7 @@ namespace Box.V2.Test
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxGroup>>>(new BoxResponse<BoxCollection<BoxGroup>>()
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = @"{""total_count"": 0, 
+                    ContentString = @"{""total_count"": 0,
                                     ""limit"": 2, ""offset"": 0}"
                 }));
 
@@ -246,7 +248,7 @@ namespace Box.V2.Test
             var result = await _groupsManager.DeleteGroupMembershipAsync("1234");
             Assert.IsTrue(result, "Unsuccessful group membership delete");
         }
-        
+
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
         public async Task GetAllMemberships_ValidResponse_ValidGroup()
@@ -258,12 +260,12 @@ namespace Box.V2.Test
                     ContentString = @"{ ""total_count"": 2, ""entries"": [{
                                         ""type"": ""group_membership"", ""id"": ""136639"",
                                         ""user"": {""type"": ""user"",""id"": ""6102564"", ""name"": ""<script>alert('atk');</script>"", ""login"": ""testanyregister@box.net""},
-                                        ""group"": {""type"": ""group"",""id"": ""26477"",""name"": ""adfasdf""},""role"": ""member""}, 
+                                        ""group"": {""type"": ""group"",""id"": ""26477"",""name"": ""adfasdf""},""role"": ""member""},
                                         {""type"": ""group_membership"",""id"": ""273529"",
                                         ""user"": {""type"": ""user"",""id"": ""13928063"",""name"": ""spootie"",""login"": ""tevanspratt++39478@box.net""},
                                         ""group"": {""type"": ""group"", ""id"": ""26477"", ""name"": ""adfasdf""}, ""role"": ""member""}], ""offset"": 0,""limit"": 100}"
                 }));
-            
+
             BoxCollection<BoxGroupMembership> response = await _groupsManager.GetAllGroupMembershipsForGroupAsync("123");
 
             Assert.AreEqual(2, response.TotalCount, "Wrong total count");
@@ -284,7 +286,7 @@ namespace Box.V2.Test
                     ContentString = @"{ ""total_count"": 2, ""entries"": [{
                                         ""type"": ""group_membership"", ""id"": ""136639"",
                                         ""user"": {""type"": ""user"",""id"": ""6102564"", ""name"": ""<script>alert('atk');</script>"", ""login"": ""testanyregister@box.net""},
-                                        ""group"": {""type"": ""group"",""id"": ""26477"",""name"": ""adfasdf""},""role"": ""member""}, 
+                                        ""group"": {""type"": ""group"",""id"": ""26477"",""name"": ""adfasdf""},""role"": ""member""},
                                         {""type"": ""group_membership"",""id"": ""273529"",
                                         ""user"": {""type"": ""user"",""id"": ""13928063"",""name"": ""spootie"",""login"": ""tevanspratt++39478@box.net""},
                                         ""group"": {""type"": ""group"", ""id"": ""26477"", ""name"": ""adfasdf""}, ""role"": ""member""}], ""offset"": 0,""limit"": 100}"

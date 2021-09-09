@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxCommentsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -24,7 +25,7 @@ namespace Box.V2.Test.Integration
                     Type = BoxType.file
                 }
             };
-            
+
             BoxComment c = await _client.CommentsManager.AddCommentAsync(addReq);
 
             Assert.AreEqual(fileId, c.Item.Id, "Comment was added to incorrect file");
@@ -57,7 +58,7 @@ namespace Box.V2.Test.Integration
 
             Assert.AreEqual(c.Id, cInfo.Id, "two comment objects have different ids");
             Assert.AreEqual(BoxType.comment.ToString(), cInfo.Type, "returned object is not a comment");
-            
+
             // Update the comment
             const string updateMessage = "this is an updated test comment";
 

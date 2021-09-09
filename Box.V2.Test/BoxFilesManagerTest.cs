@@ -12,10 +12,12 @@ using System.Text;
 using System.Globalization;
 using Box.V2.Models.Request;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxFilesManagerTest : BoxResourceManagerTest
     {
@@ -51,7 +53,7 @@ namespace Box.V2.Test
                 }));
 
             var fakeStream = new Mock<System.IO.Stream>();
-            
+
            BoxFile f = await _filesManager.UploadNewVersionUsingSessionAsync(fakeStream.Object, "fakeId", null, null, null);
            Assert.AreEqual("file", f.Type);
            Assert.AreEqual("5000948880", f.Id);
@@ -1044,7 +1046,7 @@ namespace Box.V2.Test
 
             //Response check
             Assert.AreEqual(true, result);
-           
+
         }
 
         [TestMethod]

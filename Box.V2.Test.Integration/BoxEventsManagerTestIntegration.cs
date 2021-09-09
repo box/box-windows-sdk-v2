@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxEventsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -97,7 +99,7 @@ namespace Box.V2.Test.Integration
 
             Thread.Sleep(1000);
 
-            //make some events 
+            //make some events
             var fileLock = await _client.FilesManager.LockAsync(new BoxFileLockRequest() { Lock = new BoxFileLock() { IsDownloadPrevented = false } }, fileId);
             var result = await _client.FilesManager.UnLock(fileId);
 
@@ -107,7 +109,7 @@ namespace Box.V2.Test.Integration
             }
             catch (AggregateException e)
             {
-                //Console.WriteLine("\nAggregateException thrown with the following inner exceptions:"); 
+                //Console.WriteLine("\nAggregateException thrown with the following inner exceptions:");
                 foreach (var v in e.InnerExceptions)
                 {
                     if (v is TaskCanceledException)
@@ -120,7 +122,7 @@ namespace Box.V2.Test.Integration
                     {
                         //Console.WriteLine("   Exception: {0}", v.GetType().Name);
                         Assert.Fail("Failed to get events using long polling.");
-                    }   
+                    }
                 }
             }
             finally

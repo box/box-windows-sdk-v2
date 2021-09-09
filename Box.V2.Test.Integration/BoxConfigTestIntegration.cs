@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxConfigTestIntegration : BoxResourceManagerTestIntegration
     {

@@ -1,14 +1,12 @@
-using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Box.V2.Models;
 using System.Threading.Tasks;
-using Box.V2.Auth;
-using System.Diagnostics;
 using Box.V2.Config;
 using Box.V2.JWTAuth;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxAuthTestIntegration : BoxResourceManagerTestIntegration
     {

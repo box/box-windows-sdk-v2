@@ -161,3 +161,6 @@ $RECYCLE.BIN/
 .DS_Store
 *.nupkg
 /.vs
+
+# Jetbrains files
+.idea*

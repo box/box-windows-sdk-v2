@@ -7,11 +7,13 @@ using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Reflection;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     public abstract class BoxResourceManagerTest
     {
         protected IBoxConverter Converter;

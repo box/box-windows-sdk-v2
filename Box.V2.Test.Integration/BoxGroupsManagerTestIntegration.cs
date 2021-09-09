@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
@@ -7,6 +8,7 @@ using static Box.V2.Config.Constants;
 
 namespace Box.V2.Test.Integration
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxGroupsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
@@ -17,7 +19,7 @@ namespace Box.V2.Test.Integration
             var allGroupsInit = await _client.GroupsManager.GetAllGroupsAsync();
             var oneGroup = await _client.GroupsManager.GetGroupAsync(allGroupsInit.Entries[0].Id);
             Assert.AreEqual(allGroupsInit.Entries[0].Name, oneGroup.Name, "Did not retrieve the correct group");
-            
+
             // Create a new group
             string groupName = GetUniqueName();
 
@@ -55,7 +57,7 @@ namespace Box.V2.Test.Integration
             var delResult = await _client.GroupsManager.DeleteAsync(newGroup.Id);
             var allGroupsAfterDelete = await _client.GroupsManager.GetAllGroupsAsync();
 
-            Assert.IsTrue(delResult, "Group was not deleted successfully");          
+            Assert.IsTrue(delResult, "Group was not deleted successfully");
             Assert.AreEqual(allGroupsInit.TotalCount, allGroupsAfterDelete.TotalCount, "Number of groups after delete is not correct");
             Assert.IsFalse(allGroupsAfterDelete.Entries.Any(x => x.Id == newGroup.Id), "Deleted group still exists");
         }
@@ -104,7 +106,7 @@ namespace Box.V2.Test.Integration
             request = new BoxGroupMembershipRequest() { Role = "admin" };
             var updatedMembership = await _client.GroupsManager.UpdateGroupMembershipAsync(responseMembership.Id, request);
             Assert.AreEqual("admin", updatedMembership.Role, "Membership role was not updated correctly");
-            
+
             // Get all memberships for the given groups
             var memberships = await _client.GroupsManager.GetAllGroupMembershipsForGroupAsync(newGroup.Id);
 

@@ -9,9 +9,11 @@ using Box.V2;
 using Box.V2.Exceptions;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Box.V2.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class BoxMetadataManagerTest : BoxResourceManagerTest
     {
