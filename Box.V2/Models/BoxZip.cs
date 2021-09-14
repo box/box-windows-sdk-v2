@@ -31,7 +31,7 @@ namespace Box.V2.Models
         /// The date after which the zip can no longer be downloaded
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresAt)]
-        public virtual DateTime ExpiresAt { get; private set; }
+        public virtual DateTimeOffset ExpiresAt { get; private set; }
 
         /// <summary>
         /// A list of naming conflicts among the files and folders in the zip

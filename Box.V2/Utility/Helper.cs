@@ -36,6 +36,16 @@ namespace Box.V2.Utility
         }
 
         /// <summary>
+        /// Convert DateTimeOffset to RFC3339 string.
+        /// </summary>
+        /// <param name="date">DateTime object.</param>
+        /// <returns>RFC3339 string.</returns>
+        public static string ConvertToRFCString(DateTimeOffset? date)
+        {
+            return date.HasValue ? date.Value.ToString(Constants.RFC3339DateFormat) : null;
+        }
+
+        /// <summary>
         /// Encode string to base64
         /// </summary>
         /// <param name="plainText"> the string to be encoded.</param>

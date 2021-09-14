@@ -23,8 +23,8 @@ namespace Box.V2.Managers
         Task<BoxEventCollection<BoxEnterpriseEvent>> EnterpriseEventsAsync(int limit = 500,
             string streamPosition = null,
             IEnumerable<string> eventTypes = null,
-            DateTime? createdAfter = null,
-            DateTime? createdBefore = null);
+            DateTimeOffset? createdAfter = null,
+            DateTimeOffset? createdBefore = null);
 
         /// <summary>
         /// Use this to get events for a given user.
