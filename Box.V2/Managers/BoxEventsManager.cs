@@ -16,7 +16,7 @@ namespace Box.V2.Managers
     /// <summary>
     /// The manager that represents the events endpoint
     /// </summary>
-    public class BoxEventsManager : BoxResourceManager
+    public class BoxEventsManager : BoxResourceManager, IBoxEventsManager
     {
         public const string ENTERPRISE_EVENTS_STREAM_TYPE = "admin_logs";
         public readonly LRUCache<string,bool> USER_EVENTS_DEDUPE_CACHE = new LRUCache<string, bool>(1000);

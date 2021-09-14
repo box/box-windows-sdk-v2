@@ -18,30 +18,30 @@ namespace Box.V2.Models
         /// The domain to be whitelisted for collaboration.
         /// </summary>
         [JsonProperty(PropertyName = FieldDomain)]
-        public string Domain { get; set; }
+        public virtual String Domain { get; set; }
 
         /// <summary>
         /// The direction of the whitelist for collaboration.
         /// </summary>
         [JsonProperty(PropertyName = FieldDirection)]
-        public string Direction { get; set; }
+        public virtual String Direction { get; set; }
 
         /// <summary>
         /// The enterprise the collaboration whitelist belongs to.
         /// </summary>
         [JsonProperty(PropertyName = FieldEnterprise)]
-        public BoxEnterprise Enterprise { get; set; }
+        public virtual BoxEnterprise Enterprise { get; set; }
 
         /// <summary>
         /// The time this collaboration whitelist was created.
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTimeOffset? CreatedAt { get; set; }
+        public virtual DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// The time this collaboration whitelist was modified.
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTimeOffset? ModifiedAt { get; set; }
+        public virtual DateTimeOffset? ModifiedAt { get; set; }
     }
 }

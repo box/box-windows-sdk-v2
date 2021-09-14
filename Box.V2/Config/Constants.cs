@@ -12,7 +12,6 @@ namespace Box.V2.Config
         public const string BoxAccountApiHostUriString = "https://account.box.com/api/";
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
-        public const string BoxUploadApiUriV21String = "https://upload.box.com/api/2.1/";
 
 
         /*** API Endpoints ***/
@@ -54,6 +53,9 @@ namespace Box.V2.Config
         public const string StoragePoliciesString = @"storage_policies/";
         public const string StoragePolicyAssignmentsString = @"storage_policy_assignments/";
         public const string StoragePolicyAssignmentsForTargetString = @"storage_policy_assignments";
+        public const string ZipDownloadsString = @"zip_downloads";
+        public const string FolderLocksString = @"folder_locks/";
+
 
         /// <summary>
         /// The shared items constant
@@ -90,7 +92,7 @@ namespace Box.V2.Config
         public const string FilesEndpointString = BoxApiUriString + FilesString;
         public const string FilesUploadEndpointString = BoxUploadApiUriString + FilesUploadString;
         public const string FilesNewVersionEndpointString = BoxUploadApiUriString + FilesNewVersionString;
-        public const string FilesNewVersionUploadSessionEndpointString = BoxUploadApiUriV21String + FilesNewVersionUploadSessionString;
+        public const string FilesNewVersionUploadSessionEndpointString = BoxUploadApiUriString + FilesNewVersionUploadSessionString;
         public const string FilesPreflightCheckNewVersionString = BoxApiUriString + FilesNewVersionString;
         public const string CommentsEndpointString = BoxApiUriString + CommentsString;
         public const string SearchEndpointString = BoxApiUriString + SearchString;
@@ -109,6 +111,7 @@ namespace Box.V2.Config
         public const string StoragePoliciesEndpointString = BoxApiUriString + StoragePoliciesString;
         public const string StoragePolicyAssignmentsEndpointString = BoxApiUriString + StoragePolicyAssignmentsString;
         public const string StoragePolicyAssignmentsForTargetEndpointString = BoxApiUriString + StoragePolicyAssignmentsForTargetString;
+        public const string FolderLocksEndpointString = BoxApiUriString + FolderLocksString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";
@@ -126,6 +129,8 @@ namespace Box.V2.Config
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
         public const string RetentionPolicyAssignmentsEndpointString = @"{0}/assignments";
+        public const string FilesUnderRetentionEndpointString = @"{0}/files_under_retention";
+        public const string FileVersionsUnderRetentionEndpointString = @"{0}/file_versions_under_retention";
         public const string MetadataPathString = @"{0}/metadata/{1}/{2}";
         public const string AllFileMetadataPathString = @"{0}/metadata";
         public const string AllFolderMetadataPathString = @"{0}/metadata";
@@ -184,6 +189,7 @@ namespace Box.V2.Config
         public const string TypeStoragePolicy = "storage_policy";
         public const string TypeStoragePolicyAssignment = "storage_policy_assignment";
         public const string TypeApplication = "application";
+        public const string TypeFolderLock = "folder_lock";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
@@ -435,12 +441,24 @@ namespace Box.V2.Config
             /// <summary>
             /// Free user accepts invitation to become a managed user. 
             /// </summary>
+            [Obsolete("Use AdminInviteAccept instead")]
             public const string MasterInviteAccept = "MASTER_INVITE_ACCEPT";
 
             /// <summary>
             /// Free user rejects invitation to become a managed user. 
             /// </summary>
+            [Obsolete("Use AdminInviteReject instead")]
             public const string MasterInviteReject = "MASTER_INVITE_REJECT";
+
+            /// <summary>
+            /// Free user accepts invitation to become a managed user. 
+            /// </summary>
+            public const string AdminInviteAccept = "MASTER_INVITE_ACCEPT";
+
+            /// <summary>
+            /// Free user rejects invitation to become a managed user. 
+            /// </summary>
+            public const string AdminInviteReject = "MASTER_INVITE_REJECT";
 
             /// <summary>
             /// Revoke Box access to account. 

@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Models;
@@ -16,7 +16,7 @@ namespace Box.V2.Managers
     /// <summary>
     /// The manager that represents the webhooks V2 endpoints.
     /// </summary>
-    public class BoxWebhooksManager : BoxResourceManager
+    public class BoxWebhooksManager : BoxResourceManager, IBoxWebhooksManager
     {
         public BoxWebhooksManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }

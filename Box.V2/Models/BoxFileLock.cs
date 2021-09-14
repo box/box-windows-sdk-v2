@@ -22,32 +22,32 @@ namespace Box.V2.Models
         /// The time the lock was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTimeOffset? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The user who created this lock
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedBy)]
-        public BoxUser CreatedBy { get; private set; }
+        public virtual BoxUser CreatedBy { get; private set; }
 
         /// <summary>
         /// The expiration date of this lock
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresAt)]
-        public DateTimeOffset? ExpiresAt { get; set; }
+        public virtual DateTimeOffset? ExpiresAt { get; set; }
 
         /// <summary>
         /// Is download prevented for this lock?
         /// </summary>
         [JsonProperty(PropertyName = FieldIsDownloadPrevented)]
-        public bool IsDownloadPrevented { get; set; }
+        public virtual bool IsDownloadPrevented { get; set; }
 
         /// <summary>
         /// The file the lock applies to; only set when the lock appears as the
         /// source of an event.
         /// </summary>
         [JsonProperty(PropertyName = FieldFile)]
-        public BoxFile File { get; private set; }
+        public virtual BoxFile File { get; private set; }
 
     }
 }

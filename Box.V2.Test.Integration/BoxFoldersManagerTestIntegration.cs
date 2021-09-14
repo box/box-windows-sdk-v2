@@ -1,9 +1,10 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Box.V2.Test.Integration
 {
@@ -31,7 +32,9 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse_GzipCompression()
         {
-            var boxConfig = new BoxConfig(ClientId, ClientSecret, RedirectUri){AcceptEncoding = CompressionType.gzip};
+            var boxConfig = new BoxConfigBuilder(ClientId, ClientSecret, RedirectUri)
+                .SetAcceptEncoding(CompressionType.gzip)
+                .Build();
             var boxClient = new BoxClient(boxConfig, _auth);
             await AssertFolderContents(boxClient);
         }
@@ -39,7 +42,9 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetFolder_LiveSession_ValidResponse_DeflateCompression()
         {
-            var boxConfig = new BoxConfig(ClientId, ClientSecret, RedirectUri) { AcceptEncoding = CompressionType.deflate };
+            var boxConfig = new BoxConfigBuilder(ClientId, ClientSecret, RedirectUri)
+                .SetAcceptEncoding(CompressionType.deflate)
+                .Build();
             var boxClient = new BoxClient(boxConfig, _auth);
             await AssertFolderContents(boxClient);
         }
@@ -91,6 +96,19 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(folderId, folder.Id, "Incorrect folder id");
             Assert.IsNotNull(folder.Metadata, "Metadata is null");
             Assert.IsNotNull(folder.Metadata["enterprise"], "Scope could not be found");
+        }
+
+        [TestMethod]
+        [TestCategory("CI-APP-USER")]
+        [ExpectedException(typeof(TimeoutException))]
+        public async Task UpdateFolderInformation_ValidRequest_Timeout()
+        {
+            BoxFolderRequest folderReq = new BoxFolderRequest()
+            {
+                Id = "0"
+            };
+            var timeout = new TimeSpan(0, 0, 0, 0, 1); // 1ms timeout, should always cancel the request
+            BoxFolder f = await _client.FoldersManager.UpdateInformationAsync(folderRequest: folderReq, timeout: timeout);
         }
 
         [TestMethod]

@@ -20,80 +20,87 @@ namespace Box.V2.Models
         public const string FieldPurgedAt = "purged_at";
         public const string FieldRestoredAt = "restored_at";
         public const string FieldRestoredBy = "restored_by";
+        public const string FieldFileVersion = "file_version";
 
         /// <summary>
         /// The sha1 hash of this file
         /// </summary>
         [JsonProperty(PropertyName = FieldSha1)]
-        public string Sha1 { get; private set; }
+        public virtual string Sha1 { get; private set; }
 
         /// <summary>
         /// The name of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldName)]
-        public string Name { get; private set; }
+        public virtual string Name { get; private set; }
 
         /// <summary>
         /// The folder size in bytes
         /// </summary>
         [JsonProperty(PropertyName = FieldSize)]
-        public long? Size { get; private set; }
+        public virtual long? Size { get; private set; }
 
         /// <summary>
         /// The user's name at the time of upload
         /// </summary>
         [JsonProperty(PropertyName = FieldUploaderDisplayName)]
-        public string UploaderDisplayName { get; private set; }
+        public virtual string UploaderDisplayName { get; private set; }
 
         /// <summary>
         /// The time the item was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTimeOffset? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time the item or its contents were last modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTimeOffset? ModifiedAt { get; private set; }
+        public virtual DateTimeOffset? ModifiedAt { get; private set; }
 
         /// <summary>
         /// The user who last modified this item
         /// mini user object
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedBy)]
-        public BoxUser ModifiedBy { get; private set; }
+        public virtual BoxUser ModifiedBy { get; private set; }
 
         /// <summary>
         /// The time the item or its contents were trashed at
         /// </summary>
         [JsonProperty(PropertyName = FieldTrashedAt)]
-        public DateTimeOffset? TrashedAt { get; private set; }
+        public virtual DateTimeOffset? TrashedAt { get; private set; }
 
         /// <summary>
         /// The user who trashed the contents of this item
         /// mini user object
         /// </summary>
         [JsonProperty(PropertyName = FieldTrashedBy)]
-        public BoxUser TrashedBy { get; private set; }
+        public virtual BoxUser TrashedBy { get; private set; }
 
         /// <summary>
         /// The time the item or its contents were purged at
         /// </summary>
         [JsonProperty(PropertyName = FieldPurgedAt)]
-        public DateTimeOffset? PurgedAt { get; private set; }
+        public virtual DateTimeOffset? PurgedAt { get; private set; }
 
         /// <summary>
         /// The time the item or its contents were restored at
         /// </summary>
         [JsonProperty(PropertyName = FieldRestoredAt)]
-        public DateTimeOffset? RestoredAt { get; private set; }
+        public virtual DateTimeOffset? RestoredAt { get; private set; }
 
         /// <summary>
         /// The user who restored the contents of this item
         /// mini user object
         /// </summary>
         [JsonProperty(PropertyName = FieldRestoredBy)]
-        public BoxUser RestoredBy { get; private set; }
+        public virtual BoxUser RestoredBy { get; private set; }
+
+        /// <summary>
+        /// Represents a version of a file on Box
+        /// </summary>
+        [JsonProperty(PropertyName = FieldFileVersion)]
+        public virtual BoxFileVersion FileVersion { get; private set; }
     }
 }

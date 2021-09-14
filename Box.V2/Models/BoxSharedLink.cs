@@ -23,55 +23,55 @@ namespace Box.V2.Models
         /// The Url of the shared link
         /// </summary>
         [JsonProperty(PropertyName = FieldUrl)]
-        public string Url { get; private set; }
+        public virtual string Url { get; private set; }
 
         /// <summary>
         /// The Url of the download
         /// </summary>
         [JsonProperty(PropertyName = FieldDownloadUrl)]
-        public string DownloadUrl { get; private set; }
+        public virtual string DownloadUrl { get; private set; }
 
         /// <summary>
         /// An easily readible url
         /// </summary>
         [JsonProperty(PropertyName = FieldVanityUrl)]
-        public string VanityUrl { get; private set; }
+        public virtual string VanityUrl { get; private set; }
 
         /// <summary>
         /// Whether or not a password is enabled
         /// </summary>
         [JsonProperty(PropertyName = FieldIsPasswordEnabled)]
-        public bool IsPasswordEnabled { get; private set; }
+        public virtual bool IsPasswordEnabled { get; private set; }
 
         /// <summary>
         /// When the item's share link will expire
         /// </summary>
         [JsonProperty(PropertyName = FieldUnsharedAt)]
-        public DateTimeOffset? UnsharedAt { get; private set; }
+        public virtual DateTimeOffset? UnsharedAt { get; private set; }
 
         /// <summary>
         /// Number of downloads
         /// </summary>
         [JsonProperty(PropertyName = FieldDownloadCount)]
-        public int DownloadCount { get; private set; }
+        public virtual int DownloadCount { get; private set; }
 
         /// <summary>
         /// Number of previews 
         /// </summary>
         [JsonProperty(PropertyName = FieldPreviewCount)]
-        public int PreviewCount { get; private set; }
+        public virtual int PreviewCount { get; private set; }
 
         /// <summary>
         /// Type of access
         /// </summary>
         [JsonProperty(PropertyName = FieldAccess)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public BoxSharedLinkAccessType? Access { get; private set; }
+        public virtual BoxSharedLinkAccessType? Access { get; private set; }
 
         /// <summary>
         /// Type of permissions
         /// </summary>
         [JsonProperty(PropertyName = FieldPermissions)]
-        public BoxPermission Permissions { get; private set; }
+        public virtual BoxPermission Permissions { get; private set; }
     }
 }

@@ -51,7 +51,7 @@ namespace Box.V2.Test
         {
             /*** Arrange ***/
             IBoxRequest boxRequest = null;
-            string responseString = "{\"type\": \"user\", \"id\": \"12345\", \"status\": \"active\"}";
+            string responseString = "{\"type\": \"user\", \"id\": \"12345\", \"status\": \"active\", \"notification_field\": []}";
             Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
                 {
@@ -61,19 +61,20 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            string[] fields = { "status" };
+            string[] fields = { "status", "notification_email" };
             BoxUser user = await _usersManager.GetUserInformationAsync(userId:"12345", fields: fields);
 
             /*** Request Check ***/
             var parameter = boxRequest.Parameters.Values.FirstOrDefault();
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
-            Assert.AreEqual("status", parameter);
+            Assert.AreEqual("status,notification_email", parameter);
 
             /*** Assert ***/
             Assert.AreEqual("12345", user.Id);
             Assert.AreEqual("user", user.Type);
             Assert.AreEqual("active", user.Status);
+            Assert.AreEqual(null, user.NotificationEmail);
         }
 
         [TestMethod]
@@ -133,7 +134,8 @@ namespace Box.V2.Test
                 ""my_tags"": [
                     ""important""
                 ],
-                ""hostname"": ""https://example.app.box.com/""
+                ""hostname"": ""https://example.app.box.com/"",
+                ""notification_email"": null
             }";
             Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
@@ -143,7 +145,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            string[] fields = { "name", "timezone", "is_external_collab_restricted", "my_tags", "hostname" };
+            string[] fields = { "name", "timezone", "is_external_collab_restricted", "my_tags", "hostname", "notification_email" };
             BoxUser user = await _usersManager.GetCurrentUserInformationAsync(fields);
 
             /*** Assert ***/
@@ -153,6 +155,8 @@ namespace Box.V2.Test
             Assert.IsTrue(user.IsExternalCollabRestricted.Value);
             Assert.AreEqual("important", user.Tags[0]);
             Assert.AreEqual("https://example.app.box.com/", user.Hostname);
+            Assert.AreEqual(user.SpaceAmount, null);
+            Assert.AreEqual(user.NotificationEmail, null);
         }
 
         [TestMethod]

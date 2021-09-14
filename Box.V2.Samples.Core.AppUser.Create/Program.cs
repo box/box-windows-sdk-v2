@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.JWTAuth;
 using Box.V2.Models;
 using System;
@@ -29,14 +29,14 @@ namespace Box.V2.Samples.Core.AppUser.Create
             var session = new BoxJWTAuth(config);
 
             // client with permissions to manage application users
-            var adminToken = session.AdminToken();
+            var adminToken = await session.AdminTokenAsync();
             var client = session.AdminClient(adminToken);
 
             var user = await CreateNewUser(client);
             Console.WriteLine("New app user created with Id = {0}", user.Id);
 
             // user client with access to user's data (folders, files, etc)
-            var userToken = session.UserToken(user.Id);
+            var userToken = await session.UserTokenAsync(user.Id);
             var userClient = session.UserClient(userToken, user.Id);
 
             // root folder has id = 0
@@ -86,7 +86,7 @@ namespace Box.V2.Samples.Core.AppUser.Create
             IBoxConfig config = null;
             using (FileStream fs = new FileStream(@"YOUR_JSON_FILE_HERE", FileMode.Open))
             {
-                config = BoxConfig.CreateFromJsonFile(fs);
+                config = BoxConfigBuilder.CreateFromJsonFile(fs).Build();
             }
 
             return config;

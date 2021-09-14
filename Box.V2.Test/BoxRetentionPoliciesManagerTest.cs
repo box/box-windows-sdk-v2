@@ -1,12 +1,11 @@
-﻿using Box.V2.Managers;
+using Box.V2.Managers;
 using Box.V2.Models;
-using Box.V2.Config;
-using Box.V2.Auth;
+using Box.V2.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Threading.Tasks;
+using System;
 using System.Collections.Generic;
-using Box.V2.Models.Request;
+using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
@@ -156,6 +155,105 @@ namespace Box.V2.Test
             Assert.AreEqual("bar", result.FilterFields[0].Value);
             Assert.AreEqual("baz", result.FilterFields[1].Field);
             Assert.AreEqual(42.ToString(), result.FilterFields[1].Value);
+        }
+
+        [TestMethod]
+        public async Task GetFileVersionRetentions_OptionalParams_Success()
+        {
+            /*** Arrange ***/
+            string fileId = "12345";
+            string dispositionAfterString = "2010-08-18T00:00:00-05:00";
+            DateTime dispositionAfter = new DateTime(2010, 8, 18);
+            DispositionAction dispositionAction = DispositionAction.permanently_delete;
+            string responseString = "{ \"entries\": [ {\"id\": \"11446498\", \"type\": \"file_version_retention\",\"file_version\": {\"id\": \"12345\",\"type\": \"file_version\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\"},\"file\": {\"id\": \"12345\",\"etag\": \"1\", \"type\": \"file\",\"sequence_id\": \"3\",\"name\": \"Contract.pdf\", \"sha1\": \"85136C79CBF9FE36BB9D05D0639C70C265C18D37\", \"file_version\": {\"id\": \"12345\",\"type\": \"file_version\",\"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\" }},\"applied_at\": \"2012-12-12T10:53:43-08:00\", \"disposition_at\": \"2012-12-12T10:53:43-08:00\", \"winning_retention_policy\": { \"id\": \"12345\", \"type\": \"retention_policy\",\"policy_name\": \"Some Policy Name\", \"retention_length\": \"365\",\"disposition_action\": \"permanently_delete\"}}],\"limit\": 100,\"next_marker\": \"\",\"prev_marker\": \"\"}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxFileVersionRetention>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxFileVersionRetention>>>(new BoxResponse<BoxCollectionMarkerBased<BoxFileVersionRetention>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxCollectionMarkerBased<BoxFileVersionRetention> results = await _retentionPoliciesManager.GetFileVersionRetentionsAsync(fileId: fileId, dispositionAfter: dispositionAfter, dispositionAction: dispositionAction);
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(fileId, boxRequest.Parameters["file_id"]);
+            Assert.AreEqual(dispositionAfterString, boxRequest.Parameters["disposition_after"]);
+            Assert.AreEqual(dispositionAction.ToString(), boxRequest.Parameters["disposition_action"]);
+
+            // Response check
+            Assert.AreEqual("11446498", results.Entries[0].Id);
+            Assert.AreEqual("Contract.pdf", results.Entries[0].File.Name);
+            Assert.AreEqual("12345", results.Entries[0].WinningRetentionPolicy.Id);
+        }
+
+        [TestMethod]
+        public async Task GetFilesUnderRetentionForAssignment_ValidResponse()
+        {
+            /*** Arrange ***/
+            string retentionPolicyAssignmentId = "12345";
+            string responseString = "{ \"entries\": [{ \"id\": 12345, \"etag\": 1, \"type\": \"file\", \"sequence_id\": 3, \"name\": \"Contract.pdf\", \"sha1\": \"85136C79CBF9FE36BB9D05D0639C70C265C18D37\", \"file_version\": { \"id\": 123456, \"type\": \"file_version\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\" }, \"applied_at\": \"2012-12-12T10:53:43-08:00\" } ], \"limit\": 1000, \"marker\": \"some marker\" }";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxFile>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxFile>>>(new BoxResponse<BoxCollectionMarkerBased<BoxFile>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxCollectionMarkerBased<BoxFile> results = await _retentionPoliciesManager.GetFilesUnderRetentionForAssignmentAsync(retentionPolicyAssignmentId);
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(retentionPolicyAssignmentId, boxRequest.Parameters["retention_policy_assignment_id"]);
+
+            // Response check
+            Assert.AreEqual("12345", results.Entries[0].Id);
+            Assert.AreEqual("Contract.pdf", results.Entries[0].Name);
+            Assert.AreEqual("file", results.Entries[0].Type);
+        }
+
+        [TestMethod]
+        public async Task GetFileVersionsUnderRetentionForAssignment_ValidResponse()
+        {
+            /*** Arrange ***/
+            string retentionPolicyAssignmentId = "12345";
+            string responseString = "{ \"entries\": [{ \"id\": 12345, \"etag\": 1, \"type\": \"file_version\", \"sequence_id\": 3, \"name\": \"Contract.pdf\", \"sha1\": \"85136C79CBF9FE36BB9D05D0639C70C265C18D37\", \"file_version\": { \"id\": 123456, \"type\": \"file_version\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\" }, \"applied_at\": \"2012-12-12T10:53:43-08:00\" } ], \"limit\": 1000, \"marker\": \"some marker\" }";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxFileVersion>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxFileVersion>>>(new BoxResponse<BoxCollectionMarkerBased<BoxFileVersion>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxCollectionMarkerBased<BoxFileVersion> results = await _retentionPoliciesManager.GetFileVersionsUnderRetentionForAssignmentAsync(retentionPolicyAssignmentId);
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
+            Assert.AreEqual(retentionPolicyAssignmentId, boxRequest.Parameters["retention_policy_assignment_id"]);
+
+            // Response check
+            Assert.AreEqual("12345", results.Entries[0].Id);
+            Assert.AreEqual("Contract.pdf", results.Entries[0].Name);
+            Assert.AreEqual("file_version", results.Entries[0].Type);
+            Assert.AreEqual("file_version", results.Entries[0].FileVersion.Type);
         }
     }
 }

@@ -44,12 +44,13 @@ namespace Box.V2.Test.Integration
             {
                 Debug.WriteLine("json config content length : " + jsonConfig.Length);
 
-                var config = BoxConfig.CreateFromJsonString(jsonConfig);
+                var config = BoxConfigBuilder.CreateFromJsonString(jsonConfig)
+                    .Build();
                 var session = new BoxJWTAuth(config);
 
                 // create a new app user
                 // client with permissions to manage application users
-                var adminToken = session.AdminToken();
+                var adminToken = session.AdminTokenAsync().Result;
                 adminClient = session.AdminClient(adminToken);
 
                 var user = CreateNewUser(adminClient).Result;
@@ -59,7 +60,7 @@ namespace Box.V2.Test.Integration
                 Debug.WriteLine("New app user created : " + userId);
 
                 // user client with access to user's data (folders, files, etc)
-                userToken = session.UserToken(userId);
+                userToken = session.UserTokenAsync(userId).Result;
                 userClient = session.UserClient(userToken, userId);
             }
         }
@@ -99,12 +100,14 @@ namespace Box.V2.Test.Integration
                 // Legacy way of getting the token
                 _auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-                _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
+                _config = new BoxConfigBuilder(ClientId, ClientSecret, RedirectUri)
+                    .Build();
                 _client = new BoxClient(_config, _auth);
             }
             else
             {
-                _config = BoxConfig.CreateFromJsonString(jsonConfig);
+                _config = BoxConfigBuilder.CreateFromJsonString(jsonConfig)
+                    .Build();
 
                 _client = userClient;
                 _auth = new OAuthSession(userToken, "", 3600, "bearer");

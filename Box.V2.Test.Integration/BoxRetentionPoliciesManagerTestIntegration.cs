@@ -1,4 +1,4 @@
-﻿using Box.V2.Models;
+using Box.V2.Models;
 using Box.V2.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -59,13 +59,13 @@ namespace Box.V2.Test.Integration
 
             Assert.AreEqual(rpAssignment.Id, gRpas.Entries.Single(rpa => rpa.Id == rpAssignment.Id).Id);
 
-            // Get file version retention policies
-            var fvRPs = await _client.RetentionPoliciesManager.GetFileVersionRetentionsAsync();
+            // Get files under retention policies for assignment
+            var fRPs = await _client.RetentionPoliciesManager.GetFilesUnderRetentionForAssignmentAsync(gRpas.Entries[0].Id);
 
-            // Get a file version retention policy
-            var fvRP = await _client.RetentionPoliciesManager.GetFileVersionRetentionAsync(fvRPs.Entries[0].Id);
+            Assert.IsNotNull(fRPs.Entries[0].Id);
 
-            Assert.IsNotNull(fvRP.Id);
+            // Get file version retention policies for assignment
+            var fvRPs = await _client.RetentionPoliciesManager.GetFileVersionsUnderRetentionForAssignmentAsync(gRpas.Entries[0].Id);
 
             // Update a retention policy
             var uRp = await _client.RetentionPoliciesManager.UpdateRetentionPolicyAsync(retentionPolicy.Id, new BoxRetentionPolicyRequest() {

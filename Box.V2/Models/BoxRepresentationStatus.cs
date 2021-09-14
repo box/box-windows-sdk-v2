@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -10,6 +10,6 @@ namespace Box.V2.Models
         /// The status on generating the representation
         /// </summary>
         [JsonProperty(PropertyName = FieldState)]
-        public string State { get; private set; }
+        public virtual string State { get; private set; }
     }
 }

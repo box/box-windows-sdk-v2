@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
@@ -216,6 +215,93 @@ namespace Box.V2.Test.Integration
             /*** Assert ***/
             Assert.AreEqual(items.Entries.Count, 1);
             Assert.AreEqual(items.Entries[0].Item.Name, folderName);
+        }
+
+        [TestMethod]
+        public async Task Metadata_ExecuteQueryWithFieldsAsync_LiveSession()
+        {
+            string folderName = ".Net Metadata Query Integration Test";
+            string metadataTemplateScope = "enterprise";
+            string metadataTemplateName = "testMetadataQueryTemplate";
+            string metadataTemplateField = "testField";
+            string metadataTemplateFieldValue = "testValue";
+
+            // Check that test metadata template exists or create if not there
+            BoxMetadataTemplate template;
+            try
+            {
+                template = await _client.MetadataManager.GetMetadataTemplate(metadataTemplateScope, metadataTemplateName);
+            }
+            catch (BoxException e)
+            {
+                var templateParams = new BoxMetadataTemplate()
+                {
+                    TemplateKey = metadataTemplateName,
+                    DisplayName = "Test Metadata Query Template",
+                    Scope = metadataTemplateScope,
+                    Fields = new List<BoxMetadataTemplateField>()
+                    {
+                        new BoxMetadataTemplateField()
+                        {
+                            Type = "string",
+                            Key = metadataTemplateField,
+                            DisplayName = "Test Field"
+                        }
+                    }
+                };
+                template = await _client.MetadataManager.CreateMetadataTemplate(templateParams);
+            }
+
+            // Create folder and apply test metadata template. If folder is already there, assume that the folder has the correct metadata template from a previous integration test that might not have been able to delete the folder.
+            BoxFolder folder = null;
+            try
+            {
+                var folderParams = new BoxFolderRequest()
+                {
+                    Name = folderName,
+                    Parent = new BoxRequestEntity()
+                    {
+                        Id = "0"
+                    }
+                };
+                folder = await _client.FoldersManager.CreateAsync(folderParams);
+                var metadataValues = new Dictionary<string, object>()
+                {
+                    { metadataTemplateField, metadataTemplateFieldValue }
+                };
+                Dictionary<string, object> metadata = await _client.MetadataManager.SetFolderMetadataAsync(folder.Id, metadataValues, template.Scope, template.TemplateKey);
+            }
+            catch { }
+
+            /*** Act ***/
+            string from = template.Scope + "." + template.TemplateKey;
+            string query = metadataTemplateField + " = :arg";
+            List<string> fields = new List<string>();
+            fields.Add("type");
+            fields.Add("id");
+            fields.Add("name");
+            fields.Add("metadata." + template.Scope + "." + template.TemplateKey + "." + metadataTemplateField);
+            var queryParams = new Dictionary<string, object>();
+            queryParams.Add("arg", metadataTemplateFieldValue);
+            List<BoxMetadataQueryOrderBy> orderByList = new List<BoxMetadataQueryOrderBy>();
+            var orderBy = new BoxMetadataQueryOrderBy()
+            {
+                FieldKey = metadataTemplateField,
+                Direction = BoxSortDirection.DESC
+            };
+            orderByList.Add(orderBy);
+            // Run metadata query
+            BoxCollectionMarkerBased<BoxItem> items = await _client.MetadataManager.ExecuteMetadataQueryAsync(from, query: query, fields: fields, queryParameters: queryParams, orderBy: orderByList, ancestorFolderId: "0", autoPaginate: false);
+            // Delete folder if this test created a folder
+            if (folder != null)
+            {
+                await _client.FoldersManager.DeleteAsync(folder.Id, recursive: true);
+            }
+            /*** Assert ***/
+            Assert.AreEqual(items.Entries.Count, 1);
+            Assert.AreEqual(items.Entries[0].Name, folderName);
+            BoxFolder folderItem = (BoxFolder) items.Entries[0];
+            Assert.IsNotNull(folderItem.Metadata);
         }
 
         // This test is disabled because our test account has hit the maximum number of metadata templates (50).

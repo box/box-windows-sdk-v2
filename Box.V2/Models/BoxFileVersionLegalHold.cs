@@ -17,24 +17,24 @@ namespace Box.V2.Models
         /// The File-Version that is held.
         /// </summary>
         [JsonProperty(PropertyName = FieldFileVersion)]
-        public BoxFileVersion FileVersion { get; set; }
+        public virtual BoxFileVersion FileVersion { get; set; }
 
         /// <summary>
         /// The parent file of the File-Version that is held. Note that there is no guarantee that the current version of this File is held.
         /// </summary>
         [JsonProperty(PropertyName = FieldFile)]
-        public BoxFile File { get; set; }
+        public virtual BoxFile File { get; set; }
 
         /// <summary>
         /// Time that this File-Version-Legal-Hold was deleted. If this is deleted, the file-version is not under Legal Hold.
         /// </summary>
         [JsonProperty(PropertyName = FieldDeletedAt)]
-        public DateTimeOffset? DeletedAt { get; set; }
+        public virtual DateTimeOffset? DeletedAt { get; set; }
 
         /// <summary>
         /// List of assignments contributing to this Hold.
         /// </summary>
         [JsonProperty(PropertyName = FieldLegalHoldPolicyAssignments)]
-        public BoxEntity[] LegalHoldPolicyAssignments { get; set; }
+        public virtual BoxEntity[] LegalHoldPolicyAssignments { get; set; }
     }
 }

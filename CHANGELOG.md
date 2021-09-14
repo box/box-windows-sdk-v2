@@ -1,7 +1,52 @@
 # Changelog
 
-## Next Release
+## Next release
+
+**Breaking changes:**
+- Extract interfaces for BoxClient and Managers to improve testability ([#603](https://github.com/box/box-windows-sdk-v2/pull/603))
+- Add BoxConfigBuilder and make BoxConfig immutable ([#737](https://github.com/box/box-windows-sdk-v2/pull/737))
+- Expose tasks from async methods ([#742](https://github.com/box/box-windows-sdk-v2/pull/742))
+
+**New Features and Enhancements:**
+- Add ability to get files under retention for assignment and file versions under retention for assignment ([#734](https://github.com/box/box-windows-sdk-v2/pull/734))
+- Add `is_collaboration_restricted_to_enterprise` flag support for `Folder` update ([#732](https://github.com/box/box-windows-sdk-v2/pull/732))
+- Replace insensitive language ([#738](https://github.com/box/box-windows-sdk-v2/pull/738))
+- Add new, easier to use method for create terms of service user status ([#740](https://github.com/box/box-windows-sdk-v2/pull/740))
+
+**Bug Fixes:**
+- Fix `Cannot access a closed Stream.Request` exception during part upload ([#739](https://github.com/box/box-windows-sdk-v2/pull/739))
+
+## 3.26.0 [2021-04-01]
+
+**New Features and Enhancements:**
+
+- Add filter fields to get file version retentions ([#717](https://github.com/box/box-windows-sdk-v2/pull/717))
+- Add support for search param to get shared link items ([#721](https://github.com/box/box-windows-sdk-v2/pull/721))
+- Add folder lock functionality ([#725](https://github.com/box/box-windows-sdk-v2/pull/725))
+
+## 3.25.0 [2020-10-19]
+
+**New Features and Enhancements:**
+
+- Add support for filtering when getting Groups (#703)
+- Add zip functionality (#700)
+- Deprecate one of the overloaded `ExecuteMetadataQueryAsync()` methods (#699)
+- Add support for `copyInstanceOnItemCopy` field for metadata templates  (#698) 
+
+**Bug Fixes:**
+
+- Fix bug with JWT Authentication automatic retry (#697)
+
+## 3.24.0 [2020-07-21]
+- Add path parameter sanitization
+- Add support for the classification field for Files and Folders
+- Fix bug with notification email field deserializing for `BoxUser` 
+- Add `fields` parameter for metadata query
+- Add ability to set a request timeout for `FoldersManager.UpdateInformationAsync()` and `UsersManager.MoverUserFolderAsync()`
+
+## 3.23.0 [2020-05-12]
 - Add ability to get and set a notification email address for a user
+- Fix deadlock issue for JWT authentication in UI elements
 - Add support for the uploader display name field for Files and File Versions
 
 ## 3.22.0 [2020-02-25]
@@ -100,7 +145,7 @@
 
 ## 3.9.2 [2018-06-14]
 
-- Added support for [setting flag](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Models/Request/BoxFolderRequest.cs#L39) allowing non owners of a folder to invite collaborators.
+- Added support for [setting flag](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Models/Request/BoxFolderRequest.cs#L39) allowing non owners of a folder to invite collaborators.
 
 ## 3.9.1 [2018-06-07]
 
@@ -144,20 +189,20 @@
 
 ## 3.4.1 [2018-01-09]
 
-- Added support for [Collaboration Whitelist](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Managers/BoxCollaborationWhitelistManager.cs) endpoint
-- Added [Event Types Enum](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Config/Constants.cs#L287)
+- Added support for [Collaboration Whitelist](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxCollaborationWhitelistManager.cs) endpoint
+- Added [Event Types Enum](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Config/Constants.cs#L287)
 - Fixed deserialization issue with BoxRepresentationStatus (#429)
 
 ## 3.3.0 [2017-11-22]
 
-- Added support for [Terms of Service](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Managers/BoxTermsOfServiceManager.cs) endpoint
-- Added support for [Metadata Template ID](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Managers/BoxMetadataManager.cs#L175) endpoint
+- Added support for [Terms of Service](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxTermsOfServiceManager.cs) endpoint
+- Added support for [Metadata Template ID](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L175) endpoint
 - Added missing fields for Folder Model (#414) 
 
 ## 3.2.0 [2017-10-04]
 
-- Added support for [Representations](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Managers/BoxFilesManager.cs#L1216) endpoint
-- Added support for [Chunked Upload New File Version](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Managers/BoxFilesManager.cs#L423)
+- Added support for [Representations](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L1216) endpoint
+- Added support for [Chunked Upload New File Version](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L423)
 - Fixed BoxEventsManager DateTime formatter (#400)
 
 ## 3.1.0 [2017-08-18]
@@ -168,7 +213,7 @@
 
 - Major version bump to 3, targeting net45
 - Upgrading the whole sln to vs2017
-- Added support for [Recents](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Managers/BoxRecentItemsManager.cs#L1) endpoint
-- New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
-- Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/master/Box.V2/Managers/BoxFilesManager.cs#L463)
+- Added support for [Recents](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxRecentItemsManager.cs#L1) endpoint
+- New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
+- Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes

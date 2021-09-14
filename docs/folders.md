@@ -16,6 +16,9 @@ group, and perform other common folder operations (move, copy, delete, etc.).
 - [Copy a Folder](#copy-a-folder)
 - [Delete a Folder](#delete-a-folder)
 - [Create a Shared Link for a Folder](#create-a-shared-link-for-a-folder)
+- [Create a Folder Lock](#create-a-folder-lock)
+- [Get Folder Locks](#get-folder-locks)
+- [Delete a Folder Lock](#delete-a-folder-lock)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -128,4 +131,38 @@ var sharedLinkParams = new BoxSharedLinkRequest()
 };
 BoxFolder folder = await client.FoldersManager.CreateSharedLinkAsync("11111", sharedLinkParams);
 string sharedLinkUrl = folder.SharedLink.Url;
+```
+
+Create a Folder Lock
+-------------
+
+To lock a folder, call
+`FoldersManager.CreateLockAsync(string id)`
+with the ID of the folder. This prevents the folder from being moved and/or deleted.
+
+```c#
+BoxFolderLock folderLock = await _foldersManager.CreateLockAsync("11111");
+```
+
+Get Folder Locks
+-------------------------
+
+To retrieve a list of the locks on a folder, call
+`FoldersManager.GetLocksAsync(string id, bool autoPaginate`
+with the ID of the folder. Currently only one lock can exist per folder. Folder locks define access restrictions placed by folder owners to prevent specific folders from being moved or deleted.
+
+```c#
+BoxCollection<BoxFolderLock> folderLock = await _foldersManager.GetLocksAsync("11111");
+string id = folderLock.Entries[0].Id;
+```
+
+Delete a Folder Lock
+------------------
+
+To remove a folder lock, call
+`FoldersManger.DeleteLockAsync(string id)`
+with the ID of the folder lock.
+
+```c#
+await _foldersManager.DeleteLockAsync("11111");
 ```

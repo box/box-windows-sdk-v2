@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Models;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
-    public class BoxDevicePinManager : BoxResourceManager
+    public class BoxDevicePinManager : BoxResourceManager, IBoxDevicePinManager
     {
         public BoxDevicePinManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }

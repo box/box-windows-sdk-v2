@@ -166,5 +166,31 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.AreEqual("query=test&created_at_range=1988-11-18T09%3A30%3A00%2B00%3A00%2C&updated_at_range=%2C2018-11-18T09%3A30%3A00%2B00%3A00&limit=30&offset=0", boxRequest.GetQueryString());
         }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task QueryWithSharedLinks_ValidResponse_ValidResults()
+        {
+            /*** Arrange ***/
+            string responseString = "{\"entries\":[{\"accessible_via_shared_link\":\"https://www.box.com/s/vspke7y05sb214wjokpk\",\"item\":{\"type\":\"file\",\"id\":\"11111\",\"file_version\":{\"type\":\"file_version\",\"id\":\"111110\",\"sha1\":\"97cc02de7c356f94e3beeb1e0c63f78a6edb01fd\"},\"sequence_id\":\"9\",\"etag\":\"9\",\"sha1\":\"97cc02de7c356f94e3beeb1e0c63f78a6edb01fd\",\"name\":\"test file.txt\",\"description\":\"\",\"size\":16,\"path_collection\":{\"total_count\":1,\"entries\":[{\"type\":\"folder\",\"id\":\"0\",\"sequence_id\":null,\"etag\":null,\"name\":\"All Files\"}]},\"created_at\":\"2016-12-07T15:53:59-08:00\",\"modified_at\":\"2018-04-24T15:08:58-07:00\",\"trashed_at\":null,\"purged_at\":null,\"content_created_at\":\"2016-12-07T15:53:59-08:00\",\"content_modified_at\":\"2016-12-07T15:59:32-08:00\",\"created_by\":{\"type\":\"user\",\"id\":\"33333\",\"name\":\"Test User\",\"login\":\"testuser@example.com\"},\"modified_by\":{\"type\":\"user\",\"id\":\"33333\",\"name\":\"Test User\",\"login\":\"testuser@example.com\"},\"owned_by\":{\"type\":\"user\",\"id\":\"33333\",\"name\":\"Test User\",\"login\":\"testuser@example.com\"},\"shared_link\":null,\"parent\":{\"type\":\"folder\",\"id\":\"0\",\"sequence_id\":null,\"etag\":null,\"name\":\"All Files\"},\"item_status\":\"active\"},\"type\":\"search_result\"}],\"limit\":30,\"offset\":0,\"total_count\":1}";
+            IBoxRequest boxRequest = null;
+
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxSearchResult>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxSearchResult>>>(new BoxResponse<BoxCollection<BoxSearchResult>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxCollection<BoxSearchResult> results = await _searchManager.QueryAsyncWithSharedLinks("test");
+
+            /*** Assert ***/
+            Assert.AreEqual("query=test&limit=30&offset=0&include_recent_shared_links=true", boxRequest.GetQueryString());
+            Assert.AreEqual(1, results.TotalCount);
+            Assert.AreEqual("file", results.Entries[0].Item.Type);
+            Assert.AreEqual("11111", results.Entries[0].Item.Id);
+        }
     }
 }

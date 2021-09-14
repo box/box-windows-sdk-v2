@@ -1,4 +1,4 @@
-﻿using Box.V2.Auth;
+using Box.V2.Auth;
 using System;
 using System.Threading.Tasks;
 
@@ -75,11 +75,11 @@ namespace Box.V2.JWTAuth
 
             if (UserId != null)
             {
-                session = this.BoxJWTAuth.Session(this.BoxJWTAuth.UserToken(this.UserId));
+                session = this.BoxJWTAuth.Session(await this.BoxJWTAuth.UserTokenAsync(this.UserId).ConfigureAwait(false));
             }
             else
             {
-                session = this.BoxJWTAuth.Session(this.BoxJWTAuth.AdminToken());
+                session = this.BoxJWTAuth.Session(await this.BoxJWTAuth.AdminTokenAsync().ConfigureAwait(false));
             }
 
             this.Session = session;

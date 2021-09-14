@@ -21,30 +21,30 @@ namespace Box.V2.Models
         /// The role of the user in this group
         /// </summary>
         [JsonProperty (PropertyName = FieldRole)]
-        public string Role { get; set; }
+        public virtual string Role { get; set; }
 
         /// <summary>
         /// Date and time this membership was created
         /// </summary>
         [JsonProperty (PropertyName = FieldCreatedAt)]
-        public DateTimeOffset? CreatedAt { get; set; }
+        public virtual DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// Date and time this membership was modified
         /// </summary>
         [JsonProperty (PropertyName = FieldModifiedAt)]
-        public DateTimeOffset? ModifiedAt { get; set; }
+        public virtual DateTimeOffset? ModifiedAt { get; set; }
 
         /// <summary>
         /// The user in this membership
         /// </summary>
         [JsonProperty (PropertyName = FieldUser)]
-        public BoxUser User { get; set; }
+        public virtual BoxUser User { get; set; }
 
         /// <summary>
         /// The group in this membership
         /// </summary>
         [JsonProperty (PropertyName = FieldGroup)]
-        public BoxGroup Group { get; set; }
+        public virtual BoxGroup Group { get; set; }
     }
 }

@@ -19,36 +19,36 @@ namespace Box.V2.Models
         /// The status of the terms of service object
         /// </summary>
         [JsonProperty(PropertyName = FieldStatus)]
-        public String Status { get; set; }
+        public virtual String Status { get; set; }
 
         /// <summary>
         /// The enterprise the terms of service object is associated with
         /// </summary>
         [JsonProperty(PropertyName = FieldEnterprise)]
-        public BoxEnterprise Enterprise { get; set; }
+        public virtual BoxEnterprise Enterprise { get; set; }
 
         /// <summary>
         /// The type of the terms of service object
         /// </summary>
         [JsonProperty(PropertyName = FieldTosType)]
-        public String TosType { get; set; }
+        public virtual String TosType { get; set; }
 
         /// <summary>
         /// The text description of the terms of service object
         /// </summary>
         [JsonProperty(PropertyName = FieldText)]
-        public String Text { get; set; }
+        public virtual String Text { get; set; }
 
         /// <summary>
         /// The time this terms of service was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTimeOffset? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time this terms of service was modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public DateTimeOffset? ModifiedAt { get; private set; }
+        public virtual DateTimeOffset? ModifiedAt { get; private set; }
     }
 }

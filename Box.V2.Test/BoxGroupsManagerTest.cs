@@ -22,23 +22,33 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task GetGroupItems_ValidResponse_ValidGroups()
         {
+            IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxGroup>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxGroup>>>(new BoxResponse<BoxCollection<BoxGroup>>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = @"{""total_count"": 14, 
-                                    ""entries"": [  {""type"": ""group"", ""id"": ""26477"", ""name"": ""adfasdf"", ""created_at"": ""2011-02-15T14:07:22-08:00"", ""modified_at"": ""2011-10-05T19:04:40-07:00""}, 
-                                                    {""type"": ""group"", ""id"": ""1263"", ""name"": ""Enterprise Migration"", ""created_at"": ""2009-04-20T19:36:17-07:00"", ""modified_at"": ""2011-10-05T19:05:10-07:00""}],
+                                    ""entries"": [  {""type"": ""group"", ""id"": ""26477"", ""name"": ""adfasdf"", ""created_at"": ""2011-02-15T14:07:22-08:00"", ""modified_at"": ""2011-10-05T19:04:40-07:00"", ""invitability_level"": ""none""}, 
+                                                    {""type"": ""group"", ""id"": ""1263"", ""name"": ""Enterprise Migration"", ""created_at"": ""2009-04-20T19:36:17-07:00"", ""modified_at"": ""2011-10-05T19:05:10-07:00"", ""invitability_level"": ""admins_only""}],
                                     ""limit"": 2, ""offset"": 0}"
-                }));
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
 
-            BoxCollection<BoxGroup> items = await _groupsManager.GetAllGroupsAsync();
+            /*** Act ***/
+            BoxCollection<BoxGroup> items = await _groupsManager.GetAllGroupsAsync(filterTerm: "test");
 
+            /*** Assert ***/
+
+            // Request check
+            Assert.AreEqual("filter_term=test", boxRequest.GetQueryString());
+
+            // Response check
             Assert.AreEqual(items.TotalCount, 14, "Wrong total count");
             Assert.AreEqual(items.Entries.Count, 2, "Wrong count of entries");
             Assert.AreEqual(items.Entries[0].Type, "group", "Wrong type");
             Assert.AreEqual(items.Entries[0].Id, "26477", "Wrong id");
             Assert.AreEqual(items.Entries[0].Name, "adfasdf", "Wrong name");
+            Assert.AreEqual(items.Entries[0].InvitabilityLevel, "none");
             Assert.AreEqual(items.Entries[0].CreatedAt, DateTimeOffset.Parse("2011-02-15T14:07:22-08:00"), "Wrong created at");
             Assert.AreEqual(items.Entries[0].ModifiedAt, DateTimeOffset.Parse("2011-10-05T19:04:40-07:00"), "Wrong modified at");
             Assert.AreEqual(items.Offset, 0, "Wrong offset");
