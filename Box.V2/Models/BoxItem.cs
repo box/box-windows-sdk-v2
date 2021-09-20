@@ -66,19 +66,19 @@ namespace Box.V2.Models
         /// The time the item was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time the item or its contents were last modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; private set; }
+        public virtual DateTimeOffset? ModifiedAt { get; private set; }
 
         /// <summary>
         /// The time at which this item was put in the trash.
         /// </summary>
         [JsonProperty(PropertyName = FieldTrashedAt)]
-        public virtual DateTime? TrashedAt { get; set; }
+        public virtual DateTimeOffset? TrashedAt { get; set; }
 
         /// <summary>
         /// The user who created this item

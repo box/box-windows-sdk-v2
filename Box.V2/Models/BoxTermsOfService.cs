@@ -43,12 +43,12 @@ namespace Box.V2.Models
         /// The time this terms of service was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time this terms of service was modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; private set; }
+        public virtual DateTimeOffset? ModifiedAt { get; private set; }
     }
 }

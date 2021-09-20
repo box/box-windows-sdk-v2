@@ -44,21 +44,21 @@ namespace Box.V2.Models
         /// When this file will be permanently deleted
         /// </summary>
         [JsonProperty(PropertyName = FieldPurgedAt)]
-        public virtual DateTime? PurgedAt { get; private set; }
+        public virtual DateTimeOffset? PurgedAt { get; private set; }
 
         /// <summary>
         /// When the content of this file was created
         /// For more information about content times <see>http://developers.box.com/content-times/</see>
         /// </summary>
         [JsonProperty(PropertyName = FieldContentCreatedAt)]
-        public virtual DateTime? ContentCreatedAt { get; private set; }
+        public virtual DateTimeOffset? ContentCreatedAt { get; private set; }
 
         /// <summary>
         /// When the content of this file was last modified
         /// For more information about content times <see>http://developers.box.com/content-times/</see>
         /// </summary>
         [JsonProperty(PropertyName = FieldContentModifiedAt)]
-        public virtual DateTime? ContentModifiedAt { get; private set; }
+        public virtual DateTimeOffset? ContentModifiedAt { get; private set; }
 
         /// <summary>
         /// The version of the file
@@ -118,7 +118,7 @@ namespace Box.V2.Models
         /// The date when the file will be automatically deleted due to item expiration settings.
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresAt)]
-        public virtual DateTime? ExpiresAt { get; protected set; }
+        public virtual DateTimeOffset? ExpiresAt { get; protected set; }
 
         /// <summary>
         /// The set of allowed roles for collaborators invited to this file.

@@ -34,7 +34,7 @@ namespace Box.V2.Models
         /// When the event was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The unique id of the event

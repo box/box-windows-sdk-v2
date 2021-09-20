@@ -62,13 +62,13 @@ namespace Box.V2.Models
         /// The time that the retention policy was created.
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; set; }
+        public virtual DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// The time that the retention policy was last modified.
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; set; }
+        public virtual DateTimeOffset? ModifiedAt { get; set; }
 
         /// <summary>
         /// Whether owners of items under the policy can extend the retention period.

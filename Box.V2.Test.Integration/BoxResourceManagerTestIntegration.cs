@@ -118,7 +118,7 @@ namespace Box.V2.Test.Integration
         {
             var userRequest = new BoxUserRequest
             {
-                Name = "CI App User " + DateTime.Now.ToString("dd-MM-yyyy"), // mark with date
+                Name = "CI App User " + DateTimeOffset.Now.ToString("dd-MM-yyyy"), // mark with date
                 IsPlatformAccessOnly = true // creating application specific user, not a Box.com user
             };
             return client.UsersManager.CreateEnterpriseUserAsync(userRequest);

@@ -220,8 +220,8 @@ namespace Box.V2.Test
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r as BoxMultiPartRequest);
 
-            var createdAt = new DateTime(2016, 8, 27);
-            var modifiedAt = new DateTime(2016, 8, 28);
+            var createdAt = new DateTimeOffset(2016, 8, 27, 0, 0, 0, TimeSpan.Zero);
+            var modifiedAt = new DateTimeOffset(2016, 8, 28, 0, 0, 0, TimeSpan.Zero);
 
             var fakeFileRequest = new BoxFileRequest()
             {
@@ -283,12 +283,12 @@ namespace Box.V2.Test
             var fakeStream = new Mock<System.IO.Stream>();
 
             /*** Act ***/
-            BoxFile f = await _filesManager.UploadNewVersionAsync("fakeFile", "0", fakeStream.Object, "1", contentModifiedTime: new DateTime(2020, 1, 1, 8, 0, 0, DateTimeKind.Utc));
+            BoxFile f = await _filesManager.UploadNewVersionAsync("fakeFile", "0", fakeStream.Object, "1", contentModifiedTime: new DateTimeOffset(2020, 1, 1, 8, 0, 0, TimeSpan.Zero));
             var attrPart = (BoxStringFormPart) boxRequest.Parts[0];
 
             /*** Assert ***/
             Assert.AreEqual("attributes", attrPart.Name);
-            Assert.AreEqual("{\"name\":\"fakeFile\",\"content_modified_at\":\"2020-01-01T08:00:00Z\"}", attrPart.Value);
+            Assert.AreEqual("{\"name\":\"fakeFile\",\"content_modified_at\":\"2020-01-01T08:00:00+00:00\"}", attrPart.Value);
             Assert.AreEqual("5000948880", f.Id);
             Assert.AreEqual("3", f.SequenceId);
             Assert.AreEqual("tigers.jpeg", f.Name);
@@ -322,8 +322,8 @@ namespace Box.V2.Test
             Assert.AreEqual("672259576", f.Id);
             Assert.AreEqual("359c6c1ed98081b9a69eb3513b9deced59c957f9", f.Sha1);
             Assert.AreEqual("Dragons.js", f.Name);
-            Assert.AreEqual(DateTime.Parse("2012-08-20T10:20:30-07:00"), f.CreatedAt);
-            Assert.AreEqual(DateTime.Parse("2012-11-28T13:14:58-08:00"), f.ModifiedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2012-08-20T10:20:30-07:00"), f.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2012-11-28T13:14:58-08:00"), f.ModifiedAt);
             Assert.AreEqual(92556, f.Size);
             Assert.AreEqual("user", f.ModifiedBy.Type);
             Assert.AreEqual("183732129", f.ModifiedBy.Id);
@@ -646,8 +646,8 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(fileLock);
             Assert.AreEqual(true, fileLock.IsDownloadPrevented);
-            Assert.AreEqual(DateTime.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
-            Assert.AreEqual(DateTime.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
             Assert.IsNotNull(fileLock.CreatedBy);
             Assert.AreEqual("I don't know gmail", fileLock.CreatedBy.Name);
             Assert.AreEqual("idontknow@gmail.com", fileLock.CreatedBy.Login);
@@ -678,8 +678,8 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(fileLock);
             Assert.AreEqual(false, fileLock.IsDownloadPrevented);
-            Assert.AreEqual(DateTime.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
-            Assert.AreEqual(DateTime.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
             Assert.IsNotNull(fileLock.CreatedBy);
             Assert.AreEqual("I don't know gmail", fileLock.CreatedBy.Name);
             Assert.AreEqual("idontknow@gmail.com", fileLock.CreatedBy.Login);
@@ -978,8 +978,8 @@ namespace Box.V2.Test
             Assert.AreEqual(FilesUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
         }
 
         [TestMethod]
@@ -1014,8 +1014,8 @@ namespace Box.V2.Test
             Assert.AreEqual("default", payload.Watermark.Imprint);
 
             //Response check
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
         }
 
         [TestMethod]
@@ -1108,8 +1108,8 @@ namespace Box.V2.Test
             Assert.AreEqual("file_version", result.Type);
             Assert.AreEqual("Stark Family Lineage.doc", result.Name);
             Assert.AreEqual("Arya Stark", result.UploaderDisplayName);
-            Assert.AreEqual(DateTime.Parse("2013-11-20T13:20:50-08:00"), result.CreatedAt);
-            Assert.AreEqual(DateTime.Parse("2013-11-20T13:26:48-08:00"), result.ModifiedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-20T13:20:50-08:00"), result.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-20T13:26:48-08:00"), result.ModifiedAt);
         }
 
         [TestMethod]

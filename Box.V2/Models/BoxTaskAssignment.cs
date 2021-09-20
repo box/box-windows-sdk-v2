@@ -41,19 +41,19 @@ namespace Box.V2.Models
         /// Completed at.
         /// </summary>
         [JsonProperty(PropertyName = FieldCompletedAt)]
-        public virtual DateTime? CompletedAt { get; private set; }
+        public virtual DateTimeOffset? CompletedAt { get; private set; }
 
         /// <summary>
         /// Assigned at.
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignedAt)]
-        public virtual DateTime? AssignedAt { get; private set; }
+        public virtual DateTimeOffset? AssignedAt { get; private set; }
 
         /// <summary>
         /// Reminded at.
         /// </summary>
         [JsonProperty(PropertyName = FieldRemindedAt)]
-        public virtual DateTime? RemindedAt { get; private set; }
+        public virtual DateTimeOffset? RemindedAt { get; private set; }
 
         /// <summary>
         /// Gets the state of the resolution.

@@ -19,7 +19,7 @@ namespace Box.V2.Models
         /// The time of the most recent interaction.
         /// </summary>
         [JsonProperty(PropertyName = "interacted_at")]
-        public virtual DateTime InteractedAt { get; private set; }
+        public virtual DateTimeOffset InteractedAt { get; private set; }
 
         /// <summary>
         /// If the item was accessed through a shared link it will appear here, otherwise this will be null.

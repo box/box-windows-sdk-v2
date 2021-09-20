@@ -47,12 +47,12 @@ namespace Box.V2.Models
         /// When this invite was created on Box's servers
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// When this invite was last updated on Box's servers
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; private set; }
+        public virtual DateTimeOffset? ModifiedAt { get; private set; }
     }
 }

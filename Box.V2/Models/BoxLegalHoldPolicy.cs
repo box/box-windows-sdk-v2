@@ -39,7 +39,7 @@ namespace Box.V2.Models
         /// A user object representing the author of the legal hold policy.
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time this legal hold policy was created.
@@ -51,25 +51,25 @@ namespace Box.V2.Models
         /// The time this legal hold policy was last modified.
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; private set; }
+        public virtual DateTimeOffset? ModifiedAt { get; private set; }
 
         /// <summary>
         /// The time this legal hold policy was deleted.
         /// </summary>
         [JsonProperty(PropertyName = FieldDeletedAt)]
-        public virtual DateTime? DeletedAt { get; private set; }
+        public virtual DateTimeOffset? DeletedAt { get; private set; }
 
         /// <summary>
         /// Date filter applies to Custodian assignments only.
         /// </summary>
         [JsonProperty(PropertyName = FieldFilterStartedAt)]
-        public virtual DateTime? FilterStartedAt { get; private set; }
+        public virtual DateTimeOffset? FilterStartedAt { get; private set; }
 
         /// <summary>
         /// Date filter applies to Custodian assignments only.
         /// </summary>
         [JsonProperty(PropertyName = FieldFilterEndedAt)]
-        public virtual DateTime? FilterEndedAt { get; private set; }
+        public virtual DateTimeOffset? FilterEndedAt { get; private set; }
 
         /// <summary>
         /// Gets the assignment counts.

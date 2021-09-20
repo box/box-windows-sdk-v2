@@ -47,7 +47,7 @@ namespace Box.V2.Models
         /// When the item's share link will expire
         /// </summary>
         [JsonProperty(PropertyName = FieldUnsharedAt)]
-        public virtual DateTime? UnsharedAt { get; private set; }
+        public virtual DateTimeOffset? UnsharedAt { get; private set; }
 
         /// <summary>
         /// Number of downloads

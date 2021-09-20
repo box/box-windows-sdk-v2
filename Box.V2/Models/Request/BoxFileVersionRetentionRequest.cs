@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,10 +38,10 @@ namespace Box.V2.Models.Request
         public string DispositionAction { get; set; }
 
         [JsonProperty(PropertyName = "disposition_before")]
-        public DateTime? DispositionBefore { get; set; }
+        public DateTimeOffset? DispositionBefore { get; set; }
 
         [JsonProperty(PropertyName = "disposition_after")]
-        public DateTime? DispositionAfter { get; set; }
+        public DateTimeOffset? DispositionAfter { get; set; }
 
         /// <summary>
         /// The maximum number of items to return in a page

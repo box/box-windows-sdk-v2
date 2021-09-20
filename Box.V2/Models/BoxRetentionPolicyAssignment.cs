@@ -37,7 +37,7 @@ namespace Box.V2.Models
         /// The time that the retention policy assignment was created.
         /// </summary>
         [JsonProperty(PropertyName = FieldAssignedAt)]
-        public virtual DateTime? AssignedAt { get; set; }
+        public virtual DateTimeOffset? AssignedAt { get; set; }
 
         /// <summary>
         /// Optional field filters for an assignment to a metadata template

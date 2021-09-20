@@ -50,13 +50,13 @@ namespace Box.V2.Models
         /// The time the item was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time the item or its contents were last modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; private set; }
+        public virtual DateTimeOffset? ModifiedAt { get; private set; }
 
         /// <summary>
         /// The user who last modified this item
@@ -69,7 +69,7 @@ namespace Box.V2.Models
         /// The time the item or its contents were trashed at
         /// </summary>
         [JsonProperty(PropertyName = FieldTrashedAt)]
-        public virtual DateTime? TrashedAt { get; private set; }
+        public virtual DateTimeOffset? TrashedAt { get; private set; }
 
         /// <summary>
         /// The user who trashed the contents of this item
@@ -82,13 +82,13 @@ namespace Box.V2.Models
         /// The time the item or its contents were purged at
         /// </summary>
         [JsonProperty(PropertyName = FieldPurgedAt)]
-        public virtual DateTime? PurgedAt { get; private set; }
+        public virtual DateTimeOffset? PurgedAt { get; private set; }
 
         /// <summary>
         /// The time the item or its contents were restored at
         /// </summary>
         [JsonProperty(PropertyName = FieldRestoredAt)]
-        public virtual DateTime? RestoredAt { get; private set; }
+        public virtual DateTimeOffset? RestoredAt { get; private set; }
 
         /// <summary>
         /// The user who restored the contents of this item

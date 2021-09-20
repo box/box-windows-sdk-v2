@@ -27,13 +27,13 @@ namespace Box.V2.Models
         /// Date and time this membership was created
         /// </summary>
         [JsonProperty (PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; set; }
+        public virtual DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// Date and time this membership was modified
         /// </summary>
         [JsonProperty (PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; set; }
+        public virtual DateTimeOffset? ModifiedAt { get; set; }
 
         /// <summary>
         /// The user in this membership

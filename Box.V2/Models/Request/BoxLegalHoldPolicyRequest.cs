@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 
 namespace Box.V2.Models
@@ -28,13 +28,13 @@ namespace Box.V2.Models
         /// Date filter applies to Custodian assignments only.
         /// </summary>
         [JsonProperty(PropertyName = FieldFilterStartedAt)]
-        public DateTime? FilterStartedAt { get; set; }
+        public DateTimeOffset? FilterStartedAt { get; set; }
 
         /// <summary>
         /// Date filter applies to Custodian assignments only.
         /// </summary>
         [JsonProperty(PropertyName = FieldFilterEndedAt)]
-        public DateTime? FilterEndedAt { get; set; }
+        public DateTimeOffset? FilterEndedAt { get; set; }
 
         /// <summary>
         /// After initialization, Assignments under this Policy will continue applying to files based on events, indefinitely.
@@ -46,7 +46,7 @@ namespace Box.V2.Models
         /// Notes around why the policy was released. Optional property with a 500 character limit.
         /// </summary>
         [JsonProperty(PropertyName = FieldReleaseNotes)]
-        public DateTime? ReleaseNotes { get; set; }
+        public string ReleaseNotes { get; set; }
 
     }
 }

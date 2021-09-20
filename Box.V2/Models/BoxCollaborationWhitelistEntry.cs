@@ -36,12 +36,12 @@ namespace Box.V2.Models
         /// The time this collaboration whitelist was created.
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; set; }
+        public virtual DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// The time this collaboration whitelist was modified.
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; set; }
+        public virtual DateTimeOffset? ModifiedAt { get; set; }
     }
 }

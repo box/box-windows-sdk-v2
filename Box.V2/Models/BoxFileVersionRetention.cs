@@ -30,13 +30,13 @@ namespace Box.V2.Models
         /// The time that this file version retention was created.
         /// </summary>
         [JsonProperty(PropertyName = FieldAppliedAt)]
-        public virtual DateTime? AppliedAt { get; set; }
+        public virtual DateTimeOffset? AppliedAt { get; set; }
 
         /// <summary>
         /// The time that the retention period expires on this file version retention.
         /// </summary>
         [JsonProperty(PropertyName = FieldDispositionAt)]
-        public virtual DateTime? DispositionAt { get; set; }
+        public virtual DateTimeOffset? DispositionAt { get; set; }
 
         /// <summary>
         /// The winning retention policy applied to this file_version_retention. A file version can have multiple retention policies applied.

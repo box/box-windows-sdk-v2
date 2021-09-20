@@ -93,7 +93,7 @@ namespace Box.V2.Managers
         /// <param name="dispositionAction">Filters results by the retention policy with this disposition action.</param>
         /// <returns>The specified file version retention will be returned upon success.</returns>
         [Obsolete ("This method will be deprecated in the future. Please use GetFilesUnderRetentionForAssignmentAsync() and GetFileVersionsUnderRetentionForAssignmentAsync() instead.")]
-        Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false, string fileId = null, string fileVersionId = null, string policyId = null, DateTime? dispositionBefore = null, DateTime? dispositionAfter = null, DispositionAction? dispositionAction = null);
+        Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false, string fileId = null, string fileVersionId = null, string policyId = null, DateTimeOffset? dispositionBefore = null, DateTimeOffset? dispositionAfter = null, DispositionAction? dispositionAction = null);
 
         /// <summary>
         /// Used to retrieve information about a file version retention.

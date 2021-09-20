@@ -14,13 +14,13 @@ namespace Box.V2.Utility
     public class Helper
     {
         /// <summary>
-        /// Convert DateTime to unix timestamp.
+        /// Convert DateTimeOffset to unix timestamp.
         /// </summary>
-        /// <param name="date">DateTime object.</param>
+        /// <param name="date">DateTimeOffset object.</param>
         /// <returns>unix timestamp.</returns>
-        public static double ConvertToUnixTimestamp(DateTime date)
+        public static double ConvertToUnixTimestamp(DateTimeOffset date)
         {
-            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            DateTimeOffset origin = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
             TimeSpan diff = date.ToUniversalTime() - origin;
             return Math.Floor(diff.TotalSeconds);
         }
@@ -31,6 +31,16 @@ namespace Box.V2.Utility
         /// <param name="date">DateTime object.</param>
         /// <returns>RFC3339 string.</returns>
         public static string ConvertToRFCString(DateTime? date)
+        {
+            return date.HasValue ? date.Value.ToString(Constants.RFC3339DateFormat) : null;
+        }
+
+        /// <summary>
+        /// Convert DateTimeOffset to RFC3339 string.
+        /// </summary>
+        /// <param name="date">DateTime object.</param>
+        /// <returns>RFC3339 string.</returns>
+        public static string ConvertToRFCString(DateTimeOffset? date)
         {
             return date.HasValue ? date.Value.ToString(Constants.RFC3339DateFormat) : null;
         }

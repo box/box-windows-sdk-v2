@@ -372,7 +372,7 @@ namespace Box.V2.Test
             Assert.AreEqual("18180156", result.Id);
             Assert.AreEqual("Dan Glover", result.Name);
             Assert.AreEqual("dglover2@box.com", result.Login);
-            Assert.AreEqual(DateTime.Parse("2012-09-13T10:19:51-07:00"), result.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2012-09-13T10:19:51-07:00"), result.CreatedAt);
             Assert.AreEqual("user", result.Role);
             Assert.AreEqual("en", result.Language);
             Assert.AreEqual(5368709120, result.SpaceAmount);
@@ -437,7 +437,7 @@ namespace Box.V2.Test
             Assert.AreEqual("187273718", result.Id);
             Assert.AreEqual("Ned Stark", result.Name);
             Assert.AreEqual("eddard@box.com", result.Login);
-            Assert.AreEqual(DateTime.Parse("2012-11-15T16:34:28-08:00"), result.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2012-11-15T16:34:28-08:00"), result.CreatedAt);
             Assert.AreEqual("user", result.Role);
             Assert.AreEqual("en", result.Language);
             Assert.AreEqual(5368709120, result.SpaceAmount);

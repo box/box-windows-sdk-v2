@@ -29,12 +29,12 @@ namespace Box.V2.Models
         /// The time this whitelist was created at.
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; set; }
+        public virtual DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// The time this whitelist was modified at.
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; set; }
+        public virtual DateTimeOffset? ModifiedAt { get; set; }
     }
 }

@@ -30,19 +30,19 @@ namespace Box.V2.Models
         /// The time this collaboration was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public virtual DateTime? CreatedAt { get; set; }
+        public virtual DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// The time this collaboration was last modified
         /// </summary>
         [JsonProperty(PropertyName = FieldModifiedAt)]
-        public virtual DateTime? ModifiedAt { get; set; }
+        public virtual DateTimeOffset? ModifiedAt { get; set; }
 
         /// <summary>
         /// The time this collaboration will expire
         /// </summary>
         [JsonProperty(PropertyName = FieldExpiresAt)]
-        public virtual DateTime? ExpiresAt { get; set; }
+        public virtual DateTimeOffset? ExpiresAt { get; set; }
 
         /// <summary>
         /// The status of this collab. Can be accepted, pending, or rejected
@@ -67,7 +67,7 @@ namespace Box.V2.Models
         /// When the status of this collab was changed
         /// </summary>
         [JsonProperty(PropertyName = FieldAcknowledgedAt)]
-        public virtual DateTime? AcknowledgedAt { get; set; }
+        public virtual DateTimeOffset? AcknowledgedAt { get; set; }
 
         /// <summary>
         /// The item this collaboration is related to
