@@ -20,6 +20,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateRetentionPolicy_OptionalParams_Success()
         {
             /*** Arrange ***/
@@ -87,6 +88,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task AssignPolicyToMetadataTemplate_OptionalParams_Success()
         {
             /*** Arrange ***/
@@ -158,6 +160,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFileVersionRetentions_OptionalParams_Success()
         {
             /*** Arrange ***/
@@ -194,6 +197,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFilesUnderRetentionForAssignment_ValidResponse()
         {
             /*** Arrange ***/
@@ -225,6 +229,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFileVersionsUnderRetentionForAssignment_ValidResponse()
         {
             /*** Arrange ***/

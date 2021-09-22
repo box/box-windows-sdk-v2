@@ -22,6 +22,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetStoragePolicy_ValidResponse()
         {
             /*** Arrange ***/
@@ -52,6 +53,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetStoragePolicies_ValidResponse()
         {
             /*** Arrange ***/
@@ -101,6 +103,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateAssignment_ValidResponse()
         {
             /*** Arrange ***/
@@ -145,6 +148,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAssignment_ValidResponse()
         {
             /*** Arrange ***/
@@ -193,6 +197,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAssignmentWithID_ValidResponse()
         {
             /*** Arrange ***/
@@ -235,6 +240,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateAssignment_ValidResponse()
         {
             /*** Arrange ***/
@@ -276,6 +282,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteAssignment_ValidResponse()
         {
             string responseString = "";
@@ -304,6 +311,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task Assign_SameStoragePolicy_ValidResponse()
         {
             /*** Arrange ***/
@@ -345,6 +353,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task Assign_DifferentStoragePolicy_ValidResponse()
         {
             /*** Arrange ***/

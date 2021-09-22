@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,6 +21,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateOrDeleteCollectionsForFolder_ValidResponse()
         {
             /*** Arrange ***/
@@ -145,6 +146,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateOrDeleteCollectionsForFile_ValidResponse()
         {
             /*** Arrange ***/
@@ -263,6 +265,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetCollections_ValidResponse()
         {
             /*** Arrange ***/
@@ -315,6 +318,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetCollectionItems_ValidResponse()
         {
             /*** Arrange ***/
