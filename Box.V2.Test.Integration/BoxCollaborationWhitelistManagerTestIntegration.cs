@@ -59,7 +59,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task DomainWhitelist_LiveSession_ValidResponse()
         {
             string domain = "test6.com";

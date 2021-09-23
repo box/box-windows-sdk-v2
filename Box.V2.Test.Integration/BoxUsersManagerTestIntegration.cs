@@ -19,14 +19,13 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task UsersInformation_LiveSession_ValidResponse()
         {
             BoxUser user = await _client.UsersManager.GetCurrentUserInformationAsync();
 
+            Assert.AreEqual("boxwinintegration@gmail.com", user.Login, true);
             Assert.AreEqual("17254069927", user.Id);
             Assert.AreEqual("Box Windows", user.Name);
-            Assert.AreEqual("boxwinintegration@gmail.com", user.Login, true);
         }
 
         [TestMethod]
