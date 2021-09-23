@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
@@ -11,6 +11,7 @@ namespace Box.V2.Test.Integration
     public class BoxGroupsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GroupsWorkflow_ValidRequest_GetGroups()
         {
             // Get all groups and one individual group
@@ -61,6 +62,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GroupMembershipWorkflow_ValidRequest()
         {
             // Get current user

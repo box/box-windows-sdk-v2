@@ -19,6 +19,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UsersInformation_LiveSession_ValidResponse()
         {
             BoxUser user = await _client.UsersManager.GetCurrentUserInformationAsync();
@@ -67,6 +68,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task EnterpriseUsersInformation_LiveSession_ValidResponse()
         {
             BoxCollection<BoxUser> users = await _client.UsersManager.GetEnterpriseUsersAsync("test.user", userType: "all");
@@ -77,6 +79,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task EnterpriseUsersAutoPagination_LiveSession_ValidResponse()
         {
             BoxCollection<BoxUser> users = await _client.UsersManager.GetEnterpriseUsersAsync(limit: 1, userType: "all", autoPaginate: true);
@@ -85,6 +88,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task EnterpriseUsersMarkerBasedPagination_LiveSession_ValidResponse()
         {
             BoxCollectionMarkerBased<BoxUser> users = await _client.UsersManager.GetEnterpriseUsersWithMarkerAsync(limit: 1);

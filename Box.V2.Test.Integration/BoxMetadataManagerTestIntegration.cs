@@ -19,6 +19,7 @@ namespace Box.V2.Test.Integration
         const string ATTR4 = "value1";
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_File_CRUD_LiveSession()
         {
             const string FILE_ID = "16894937607";
@@ -56,6 +57,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_DeleteTemplate_LiveSession()
         {
             string templateKey = "testtemplate";
@@ -78,6 +80,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_Folder_CRUD_LiveSession()
         {
             const string FOLDER_ID = "1927308583";
@@ -113,6 +116,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_GetAllEnterprise_LiveSession()
         {
             var templates = await _client.MetadataManager.GetEnterpriseMetadataAsync();
@@ -121,6 +125,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_GetTemplate_LiveSession()
         {
             var template = await _client.MetadataManager.GetMetadataTemplate(SCOPE, TEMPLATE_KEY);
@@ -130,6 +135,7 @@ namespace Box.V2.Test.Integration
 
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_GetTemplateById_LiveSesion()
         {
             var templates = await _client.MetadataManager.GetEnterpriseMetadataAsync();
@@ -139,6 +145,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_ExecuteQueryAsync_LiveSession()
         {
             string folderName = ".Net Metadata Query Integration Test";
@@ -218,6 +225,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_ExecuteQueryWithFieldsAsync_LiveSession()
         {
             string folderName = ".Net Metadata Query Integration Test";

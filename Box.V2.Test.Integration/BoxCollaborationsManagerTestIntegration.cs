@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ namespace Box.V2.Test.Integration
     public class BoxCollaborationsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task CollaborationsOnFolderWorkflow_LiveSession_ValidResponse()
         {
             const string folderId = "1927307787";
@@ -103,6 +104,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task CollaborationsOnFileWorkflow_LiveSession_ValidResponse()
         {
             const string fileId = "100699285359";

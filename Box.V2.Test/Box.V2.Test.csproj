@@ -71,6 +71,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BoxCollectionsManagerTest.cs" />
+    <Compile Include="BoxConfigTest.cs" />
     <Compile Include="BoxEventsManagerTest.cs" />
     <Compile Include="BoxJWTAuthTest.cs" />
     <Compile Include="BoxMetadataCascadePolicyManagerTest.cs" />

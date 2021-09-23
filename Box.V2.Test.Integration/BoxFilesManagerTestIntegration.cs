@@ -41,6 +41,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+
         public async Task GetInformation_Fields_ValidResponse()
         {
             const string fileId = "16894947279";
@@ -80,6 +81,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Download_ValidRequest_ValidStream()
         {
             const string fileId = "16894947279";
@@ -88,6 +90,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Download_ValidRequest_ValidStreamWithRange()
         {
             const string fileId = "16894947279";
@@ -104,6 +107,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GetThumbnail_ValidRequest_ValidThumbnail()
         {
             const string fileId = "102438629524";
@@ -120,6 +124,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GetSharedLink_ValidRequest_ValidSharedLink()
         {
             string imageFileId1 = "16894947279";
@@ -134,6 +139,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GetRepresentations_ValidRequest_ValidRepresentation()
         {
             var representationsMissingHeader = await _client.FilesManager.GetRepresentationsAsync(new BoxRepresentationRequest()
@@ -162,6 +168,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Watermark_Files_CRUD()
         {
             const string fileId = "16894944949";
@@ -185,6 +192,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task FileWorkflow_ValidRequest_ValidResponse()
         {
             //file Ids of the two files to download
@@ -294,6 +302,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task BatchGetInformation_ValidRequest_ValidResponse()
         {
             const string fileId = "16894947279";
@@ -318,6 +327,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GetNumberOfParts_Utility_Function_CorrectPartNumber()
         {
             // This file size is expected to divide evenly with the partSize
@@ -334,6 +344,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
         {
             long fileSize = 50000000;
@@ -444,7 +455,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        // [TestCategory("CI-APP-USER")]
+        [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_Utility_Function_FilePresent()
         {
             long fileSize = 50000000;
@@ -488,7 +499,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        // [TestCategory("CI-APP-USER")]
+        [TestCategory("CI-APP-USER")]
         public async Task GetRepresentationContentAsync_E2E()
         {
 

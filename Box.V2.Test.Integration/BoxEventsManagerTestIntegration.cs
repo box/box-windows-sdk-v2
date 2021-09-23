@@ -1,4 +1,4 @@
-﻿using Box.V2.Models;
+using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Concurrent;
@@ -15,6 +15,7 @@ namespace Box.V2.Test.Integration
     public class BoxEventsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task EnterpriseEvents_LiveSession()
         {
             var startDate = Convert.ToDateTime("9/18/2017 11:51:12 PM");
@@ -37,6 +38,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UserEvents_LiveSession()
         {
             const string fileId = "16894943599";
@@ -69,6 +71,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task LongPollUserEvents_LiveSession()
         {
             const string fileId = "16894943599";

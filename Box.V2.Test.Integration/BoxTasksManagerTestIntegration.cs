@@ -10,6 +10,7 @@ namespace Box.V2.Test.Integration
     public class BoxTasksManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task TasksWorkflow_ValidRequest()
         {
             // Create a task

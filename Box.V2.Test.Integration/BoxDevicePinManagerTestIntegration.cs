@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,7 @@ namespace Box.V2.Test.Integration
     public class BoxDevicePinManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task EnterpriseDevicePins_LiveSession()
         {
             const string enterpriseId = "440385";

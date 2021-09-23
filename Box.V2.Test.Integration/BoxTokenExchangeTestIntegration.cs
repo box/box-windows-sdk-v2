@@ -24,6 +24,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task TokenExchange_LiveSession()
         {
             var token = _client.Auth.Session.AccessToken;

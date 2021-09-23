@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ namespace Box.V2.Test.Integration
     public class BoxCollaborationWhitelistManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GetAllUserWhitelist_LiveSession_ValidResponse()
         {
             var allUserWhitelistItems = await _client.CollaborationWhitelistManager.GetAllCollaborationWhitelistExemptUsersAsync(3, null, true);
@@ -24,6 +25,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GetAllDomainWhitelist_LiveSession_ValidResponse()
         {
             var allCollabWhitelistItems = await _client.CollaborationWhitelistManager.GetAllCollaborationWhitelistEntriesAsync(4, null, true);
@@ -38,6 +40,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UserWhitelist_LiveSession_ValidResponse()
         {
             string userID = "286842893";
@@ -58,6 +61,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task DomainWhitelist_LiveSession_ValidResponse()
         {
             string domain = "test6.com";

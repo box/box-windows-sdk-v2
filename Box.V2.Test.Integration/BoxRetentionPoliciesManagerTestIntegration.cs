@@ -11,6 +11,7 @@ namespace Box.V2.Test.Integration
     public class BoxRetentionPoliciesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task RetentionPoliciesTests_LiveSession()
         {
             var policyName = "PN-" + Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8);

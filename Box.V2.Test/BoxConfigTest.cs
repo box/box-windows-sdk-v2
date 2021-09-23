@@ -1,14 +1,14 @@
 using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 
-namespace Box.V2.Test.Integration
+namespace Box.V2.Test
 {
     [TestClass]
-    public class BoxConfigTestIntegration : BoxResourceManagerTestIntegration
+    public class BoxConfigTest : BoxResourceManagerTest
     {
         [TestMethod]
-        public async Task BoxConfig_SetUriString()
+        [TestCategory("CI-UNIT-TEST")]
+        public void BoxConfig_SetUriString()
         {
             const string jsonString =
             @"{
@@ -37,7 +37,8 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        public async Task BoxConfig_CreateFromString()
+        [TestCategory("CI-UNIT-TEST")]
+        public void BoxConfig_CreateFromString()
         {
             const string jsonString =
             @"{
