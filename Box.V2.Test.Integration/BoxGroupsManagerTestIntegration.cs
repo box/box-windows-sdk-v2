@@ -11,7 +11,6 @@ namespace Box.V2.Test.Integration
     public class BoxGroupsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GroupsWorkflow_ValidRequest_GetGroups()
         {
             // Get all groups and one individual group
@@ -62,7 +61,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GroupMembershipWorkflow_ValidRequest()
         {
             // Get current user

@@ -12,7 +12,6 @@ namespace Box.V2.Test.Integration
     public class BoxCollectionsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task Collections_LiveSession()
         {
             var collections = await _client.CollectionsManager.GetCollectionsAsync();

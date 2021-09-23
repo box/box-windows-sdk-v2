@@ -25,7 +25,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GetAllDomainWhitelist_LiveSession_ValidResponse()
         {
             var allCollabWhitelistItems = await _client.CollaborationWhitelistManager.GetAllCollaborationWhitelistEntriesAsync(4, null, true);
@@ -40,7 +39,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task UserWhitelist_LiveSession_ValidResponse()
         {
             string userID = "286842893";

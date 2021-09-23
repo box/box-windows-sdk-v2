@@ -11,7 +11,6 @@ namespace Box.V2.Test.Integration
     public class BoxLegalHoldPoliciesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task LegalHoldPoliciesWorkflow_ValidRequest()
         {
             // Init
@@ -96,7 +95,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task LegalHoldPoliciesWorkflow_IsOngoing_ValidRequest()
         {
             // Init

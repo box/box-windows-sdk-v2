@@ -14,7 +14,6 @@ namespace Box.V2.Test.Integration
     public class BoxSearchManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task SearchKeyword_LiveSession_ValidResponse()
         {
             const string keyword = "IMG";
@@ -43,7 +42,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task SearchAdvanced_LiveSession()
         {
             const string keyword = "IMG";
@@ -131,7 +129,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task SearchMetadata_LiveSession()
         {
 

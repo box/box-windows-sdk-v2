@@ -9,7 +9,6 @@ namespace Box.V2.Test.Integration
     public class BoxCommentsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task CommentsWorkflow_LiveSession_ValidResponse()
         {
             const string fileId = "16894947279";

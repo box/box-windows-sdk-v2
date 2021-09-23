@@ -10,7 +10,6 @@ namespace Box.V2.Test.Integration
     public class BoxWebhooksManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task WebhookTests_LiveSession()
         {
             const string TRIGGER1 = "FILE.PREVIEWED";

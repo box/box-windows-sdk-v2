@@ -24,14 +24,12 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GetFolder_LiveSession_ValidResponse()
         {
             await AssertFolderContents(_client);
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GetFolder_LiveSession_ValidResponse_GzipCompression()
         {
             var boxConfig = new BoxConfigBuilder(ClientId, ClientSecret, RedirectUri)
@@ -42,7 +40,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GetFolder_LiveSession_ValidResponse_DeflateCompression()
         {
             var boxConfig = new BoxConfigBuilder(ClientId, ClientSecret, RedirectUri)
@@ -72,7 +69,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GetFolderInformation_Fields_ValidResponse()
         {
             const string folderId = "39105922916";
@@ -86,7 +82,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GetFolderInformation_Fields_Metadata_ValidResponse()
         {
             const string folderId = "1927307787";

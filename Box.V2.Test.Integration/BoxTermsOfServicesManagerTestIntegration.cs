@@ -11,7 +11,6 @@ namespace Box.V2.Test.Integration
     {
         // create terms of service
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task CreateTermsOfServices_ValidResponse()
         {
             var termsOfService = await _client.TermsOfServiceManager.CreateTermsOfServicesAsync(new BoxTermsOfServicesRequest
@@ -26,7 +25,6 @@ namespace Box.V2.Test.Integration
 
         // retrieve all terms of services
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GetTermsOfServices_ValidResponse()
         {
             var termsOfService = await _client.TermsOfServiceManager.GetTermsOfServicesAsync();
@@ -35,7 +33,6 @@ namespace Box.V2.Test.Integration
 
         // retrieve terms of service by id
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GetTermsOfServicesById_ValidResponse()
         {
             var termsOfService = await _client.TermsOfServiceManager.GetTermsOfServicesByIdAsync("2778");
@@ -51,7 +48,6 @@ namespace Box.V2.Test.Integration
 
         // update terms of service information
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task UpdateTermsOfServices_ValidReponse()
         {
             var termsOfService = await _client.TermsOfServiceManager.UpdateTermsOfServicesAsync("2778", new BoxTermsOfServicesRequest
@@ -64,7 +60,6 @@ namespace Box.V2.Test.Integration
 
         // get terms of user status for terms of service
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task GetTermsOfServiceUserStatuses_ValidResponse()
         {
             var termsOfServiceUserStatuses = await _client.TermsOfServiceManager.GetTermsOfServiceUserStatusesAsync("2778");
@@ -73,7 +68,6 @@ namespace Box.V2.Test.Integration
 
         // update user status on terms of service
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task UpdateTermsOfServiceUserStatuses_ValidResponse()
         {
             var termsOfServiceUserStatuses = await _client.TermsOfServiceManager.UpdateTermsofServiceUserStatusesAsync("1939280", true);

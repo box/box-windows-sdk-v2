@@ -11,7 +11,6 @@ namespace Box.V2.Test.Integration
     public class BoxStoragePoliciesManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
-        [TestCategory("CI-APP-USER")]
         public async Task AssignStoragePolicyAsync_LiveSession()
         {
             var assignment = await _client.StoragePoliciesManager.GetAssignmentAsync("user_240097255");
