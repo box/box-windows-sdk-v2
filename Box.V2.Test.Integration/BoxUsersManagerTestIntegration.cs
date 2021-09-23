@@ -19,6 +19,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UsersInformation_LiveSession_ValidResponse()
         {
             BoxUser user = await _client.UsersManager.GetCurrentUserInformationAsync();
