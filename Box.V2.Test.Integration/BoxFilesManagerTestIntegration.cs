@@ -41,7 +41,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-
         public async Task GetInformation_Fields_ValidResponse()
         {
             const string fileId = "16894947279";
