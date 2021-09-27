@@ -1,4 +1,4 @@
-﻿using Box.V2.Models;
+using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ namespace Box.V2.Test.Integration
     public class BoxWebLinkManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task WebLinks_CRUD_LiveSession()
         {
             const string subFolderId = "1927308583";

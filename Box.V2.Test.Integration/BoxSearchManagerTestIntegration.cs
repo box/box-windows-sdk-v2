@@ -30,6 +30,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task SearchKeyword_LiveSession_EmptyResult()
         {
             const string keyword = "NonExistentKeyWord";

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Box.V2 for .Net Core</Description>
@@ -32,14 +32,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Box.V2\**\*.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**;..\Box.V2\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\Box.V2\**\*.cs" Exclude="bin\**;obj\**;**\*.xproj;packages\**;..\Box.V2\Properties\AssemblyInfo.cs;..\Box.V2\obj\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.8.1.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.4" />
-    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
+    <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.8.5" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.4.0" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
   </ItemGroup>
 
   <Target Name="PostcompileScript" AfterTargets="Build">

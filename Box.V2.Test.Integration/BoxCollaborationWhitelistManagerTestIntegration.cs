@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ namespace Box.V2.Test.Integration
     public class BoxCollaborationWhitelistManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GetAllUserWhitelist_LiveSession_ValidResponse()
         {
             var allUserWhitelistItems = await _client.CollaborationWhitelistManager.GetAllCollaborationWhitelistExemptUsersAsync(3, null, true);

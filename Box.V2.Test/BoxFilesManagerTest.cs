@@ -278,7 +278,7 @@ namespace Box.V2.Test
                     Status = ResponseStatus.Success,
                     ContentString = responseString
                 }))
-                .Callback<BoxMultiPartRequest>(r => boxRequest = r);
+                .Callback<IBoxRequest>(r => boxRequest = (BoxMultiPartRequest)r);
 
             var fakeStream = new Mock<System.IO.Stream>();
 

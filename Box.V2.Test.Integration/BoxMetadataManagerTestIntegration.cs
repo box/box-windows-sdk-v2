@@ -113,6 +113,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_GetAllEnterprise_LiveSession()
         {
             var templates = await _client.MetadataManager.GetEnterpriseMetadataAsync();
@@ -121,6 +122,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_GetTemplate_LiveSession()
         {
             var template = await _client.MetadataManager.GetMetadataTemplate(SCOPE, TEMPLATE_KEY);
@@ -130,6 +132,7 @@ namespace Box.V2.Test.Integration
 
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task Metadata_GetTemplateById_LiveSesion()
         {
             var templates = await _client.MetadataManager.GetEnterpriseMetadataAsync();

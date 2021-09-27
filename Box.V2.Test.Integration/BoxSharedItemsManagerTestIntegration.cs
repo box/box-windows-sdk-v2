@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,7 @@ namespace Box.V2.Test.Integration
     public class BoxSharedItemsManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task SharedLink_LiveSession()
         {
             const string sharedLink = "https://app.box.com/s/70pecdxd6pvnd285rs4hqdp7zphgyqva";

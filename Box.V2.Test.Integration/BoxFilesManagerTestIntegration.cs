@@ -318,6 +318,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task GetNumberOfParts_Utility_Function_CorrectPartNumber()
         {
             // This file size is expected to divide evenly with the partSize
@@ -334,6 +335,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_AbortRequest_FileNotCommmited()
         {
             long fileSize = 50000000;
@@ -444,7 +446,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        // [TestCategory("CI-APP-USER")]
         public async Task UploadFileInSession_Utility_Function_FilePresent()
         {
             long fileSize = 50000000;
@@ -488,7 +489,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        // [TestCategory("CI-APP-USER")]
         public async Task GetRepresentationContentAsync_E2E()
         {
 

@@ -20,6 +20,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateRetentionPolicy_OptionalParams_Success()
         {
             /*** Arrange ***/
@@ -87,6 +88,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task AssignPolicyToMetadataTemplate_OptionalParams_Success()
         {
             /*** Arrange ***/
@@ -158,11 +160,12 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFileVersionRetentions_OptionalParams_Success()
         {
             /*** Arrange ***/
             string fileId = "12345";
-            string dispositionAfterString = "2010-08-18T00:00:00-05:00";
+            string dispositionAfterString = "2010-08-18T09:30:00+00:00";
             DateTimeOffset dispositionAfter = new DateTimeOffset(2010, 8, 18, 9, 30, 0, TimeSpan.Zero);
             DispositionAction dispositionAction = DispositionAction.permanently_delete;
             string responseString = "{ \"entries\": [ {\"id\": \"11446498\", \"type\": \"file_version_retention\",\"file_version\": {\"id\": \"12345\",\"type\": \"file_version\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\"},\"file\": {\"id\": \"12345\",\"etag\": \"1\", \"type\": \"file\",\"sequence_id\": \"3\",\"name\": \"Contract.pdf\", \"sha1\": \"85136C79CBF9FE36BB9D05D0639C70C265C18D37\", \"file_version\": {\"id\": \"12345\",\"type\": \"file_version\",\"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\" }},\"applied_at\": \"2012-12-12T10:53:43-08:00\", \"disposition_at\": \"2012-12-12T10:53:43-08:00\", \"winning_retention_policy\": { \"id\": \"12345\", \"type\": \"retention_policy\",\"policy_name\": \"Some Policy Name\", \"retention_length\": \"365\",\"disposition_action\": \"permanently_delete\"}}],\"limit\": 100,\"next_marker\": \"\",\"prev_marker\": \"\"}";
@@ -194,6 +197,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFilesUnderRetentionForAssignment_ValidResponse()
         {
             /*** Arrange ***/
@@ -225,6 +229,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFileVersionsUnderRetentionForAssignment_ValidResponse()
         {
             /*** Arrange ***/
