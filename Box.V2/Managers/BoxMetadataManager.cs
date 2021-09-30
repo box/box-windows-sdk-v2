@@ -114,7 +114,7 @@ namespace Box.V2.Managers
             {
                 return await CreateFileMetadataAsync(fileId, metadata, scope, template);
             }
-            catch (BoxException ex)
+            catch (BoxAPIException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.Conflict)
                 {
@@ -151,7 +151,7 @@ namespace Box.V2.Managers
             {
                 return await CreateFolderMetadataAsync(folderId, metadata, scope, template);
             }
-            catch (BoxException ex)
+            catch (BoxAPIException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.Conflict)
                 {

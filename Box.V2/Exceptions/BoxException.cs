@@ -1,12 +1,9 @@
 using Box.V2.Converter;
-using Box.V2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
-using Newtonsoft.Json;
-using System.Text;
 using System.Diagnostics;
 
 namespace Box.V2.Exceptions
@@ -31,15 +28,31 @@ namespace Box.V2.Exceptions
         /// <param name="message">The exception message</param>
         /// <param name="innerException">The inner exception to be wrapped</param>
         public BoxException(string message, Exception innerException) : base(message, innerException) { }
+    }
 
+    public class BoxCodingException : BoxException
+    {
         /// <summary>
-        /// Instantiates a new BoxException with the provided message and error object
+        /// Instantiates a new BoxCodingException with the provided message
+        /// </summary>
+        /// <param name="message">The message for the exception</param>
+        public BoxCodingException(string message) : base(message) { }
+    }
+
+    public class BoxAPIException : BoxException
+    {
+        /// <summary>
+        /// Instantiates a new BoxAPIException with the provided message and error object, status code and response headers
         /// </summary>
         /// <param name="message"></param>
         /// <param name="error"></param>
-        public BoxException(string message, BoxError error) : base(message)
+        /// <param name="statusCode"></param>
+        /// <param name="responseHeaders"></param>
+        public BoxAPIException(string message, BoxError error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders) : base(message)
         {
             Error = error;
+            StatusCode = statusCode;
+            ResponseHeaders = responseHeaders;
         }
 
         /// <summary>
@@ -47,7 +60,7 @@ namespace Box.V2.Exceptions
         /// </summary>
         /// <param name="message">The message from the SDK about what happened</param>
         /// <param name="response">The HTTP response that generated the exception</param>
-        public static BoxException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
+        public static BoxAPIException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
         {
             BoxError error = null;
             if (!string.IsNullOrWhiteSpace(response.ContentString))
@@ -63,12 +76,7 @@ namespace Box.V2.Exceptions
                     Debug.WriteLine(string.Format("Unable to parse error message: {0} ({1})", response.ContentString, e.Message));
                 }
             }
-            var ex = new BoxException(GetErrorMessage(message, response, error))
-            {
-                StatusCode = response.StatusCode,
-                ResponseHeaders = response.Headers,
-                Error = error
-            };
+            var ex = new BoxAPIException(GetErrorMessage(message, response, error), response.Error, response.StatusCode, response.Headers);
 
             return ex;
         }
@@ -82,7 +90,7 @@ namespace Box.V2.Exceptions
             {
                 traceID = traceIDHeaders.FirstOrDefault();
             }
- 
+
             var errorCode = error?.Code ?? error?.Name;
             var errorDescription = error?.Message ?? error?.Description;
 
@@ -107,26 +115,27 @@ namespace Box.V2.Exceptions
         /// <summary>
         /// Http Status code for the response
         /// </summary>
-        public HttpStatusCode StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; }
 
         /// <summary>
         /// Error parsed from the message returned by the API
         /// </summary>
-        public BoxError Error { get; set; }
+        public BoxError Error { get; }
 
         /// <summary>
         /// Response headers returned by the API
         /// </summary>
-        public HttpResponseHeaders ResponseHeaders { get; set; }
+        public HttpResponseHeaders ResponseHeaders { get; }
     }
 
 
-    public class BoxConflictException<T> : BoxException  
+    public class BoxConflictException<T> : BoxAPIException  
         where T : class
     {
         private BoxConflictError<T> _conflictError;
 
-        public BoxConflictException(string message, BoxConflictError<T> error) : base(message, error) 
+        public BoxConflictException(string message, BoxConflictError<T> error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
+            : base(message, error, statusCode, responseHeaders) 
         { 
             _conflictError = error;
         }
@@ -142,12 +151,13 @@ namespace Box.V2.Exceptions
         }
     }
 
-    public class BoxPreflightCheckConflictException<T> : BoxException
+    public class BoxPreflightCheckConflictException<T> : BoxAPIException
         where T : class
     {
         private BoxPreflightCheckConflictError<T> _conflictError;
 
-        public BoxPreflightCheckConflictException(string message, BoxPreflightCheckConflictError<T> error) : base(message, error)
+        public BoxPreflightCheckConflictException(string message, BoxPreflightCheckConflictError<T> error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
+                        : base(message, error, statusCode, responseHeaders)
         {
             _conflictError = error;
         }

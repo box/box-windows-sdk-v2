@@ -550,7 +550,7 @@ namespace Box.V2.Managers
             long partSizeLong;
             if (long.TryParse(partSize, out partSizeLong) == false)
             {
-                throw new BoxException("File part size is wrong!");
+                throw new BoxCodingException("File part size is wrong!");
             }
 
             var numberOfParts = UploadUsingSessionInternal.GetNumberOfParts(fileSize,
@@ -1441,7 +1441,7 @@ namespace Box.V2.Managers
         {
             if (partSize == 0)
             {
-                throw new BoxException("Part Size cannot be 0");
+                throw new BoxCodingException("Part Size cannot be 0");
             }
 
             int numberOfParts = Convert.ToInt32(totalSize / partSize);

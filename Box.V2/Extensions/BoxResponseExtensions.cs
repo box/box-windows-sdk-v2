@@ -1,4 +1,4 @@
-﻿using Box.V2.Converter;
+using Box.V2.Converter;
 using Box.V2.Exceptions;
 using Box.V2.Models;
 using Box.V2.Services;
@@ -39,10 +39,10 @@ namespace Box.V2.Extensions
                     if (errorMsg != null)
                     {
                         var err = new BoxError() { Code = response.StatusCode.ToString(), Description = "Forbidden", Message = errorMsg.ToString() };
-                        throw new BoxException(err.Message, err) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
+                        throw new BoxAPIException(err.Message, err, response.StatusCode, response.Headers);
                     }
                     
-                    throw BoxException.GetResponseException("The API returned an error", response);
+                    throw BoxAPIException.GetResponseException("The API returned an error", response);
                 default:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                     {
@@ -53,13 +53,13 @@ namespace Box.V2.Extensions
                                 case System.Net.HttpStatusCode.Conflict:
                                     if (response is IBoxResponse<BoxPreflightCheck> || response is IBoxResponse<BoxCollection<BoxFile>>)
                                     {
-                                        BoxPreflightCheckConflictError<BoxFile> err = converter.Parse<BoxPreflightCheckConflictError<BoxFile>>(response.ContentString);
-                                        exToThrow = new BoxPreflightCheckConflictException<BoxFile>(response.ContentString, err) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
+                                        BoxPreflightCheckConflictError<BoxFile> error = converter.Parse<BoxPreflightCheckConflictError<BoxFile>>(response.ContentString);
+                                        exToThrow = new BoxPreflightCheckConflictException<BoxFile>(response.ContentString, error, response.StatusCode, response.Headers);
                                     }
                                     else
                                     {
                                         BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
-                                        exToThrow = new BoxConflictException<T>(response.ContentString, error) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
+                                        exToThrow = new BoxConflictException<T>(response.ContentString, error, response.StatusCode, response.Headers);
                                     }
                                   
                                     break;
@@ -78,7 +78,7 @@ namespace Box.V2.Extensions
                             throw exToThrow;
                         }
                     }
-                    throw BoxException.GetResponseException("The API returned an error", response);
+                    throw BoxAPIException.GetResponseException("The API returned an error", response);
             }
             return response;
         }

@@ -71,7 +71,7 @@ namespace Box.V2.JWTAuth
 
                 if (key == null)
                 {
-                    throw new BoxException("Invalid private key!");
+                    throw new BoxCodingException("Invalid private key!");
                 }
 
                 RSA rsa = null;
@@ -161,7 +161,7 @@ namespace Box.V2.JWTAuth
                     result = await JWTAuthPostAsync(assertion).ConfigureAwait(false);
                     return result.AccessToken;
                 }
-                catch (BoxException ex)
+                catch (BoxAPIException ex)
                 {
                     //need to wait for Retry-After seconds and then retry request
                     var retryAfterHeader = ex.ResponseHeaders != null ? ex.ResponseHeaders.RetryAfter : null;
@@ -170,8 +170,8 @@ namespace Box.V2.JWTAuth
                     // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
                     // If we get a 202 code and has a retry-after header, we will retry after.
                     // If we get a 400 due to exp claim issue, this can happen if the current system time is too different from the Box server time, so retry.
-                    var errorCode = ex.Error?.Code ?? ex.Error?.Name;
-                    var errorDescription = ex.Error?.Message ?? ex.Error?.Description;
+                    var errorCode = ex.Error?.Code ?? ex.Error?.Name ?? string.Empty;
+                    var errorDescription = ex.Error?.Message ?? ex.Error?.Description ?? string.Empty;
 
                     if ((ex.StatusCode == HttpRequestHandler.TooManyRequests
                         ||
@@ -186,8 +186,8 @@ namespace Box.V2.JWTAuth
                         (ex.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null)
                         ||
                         (ex.StatusCode == HttpStatusCode.BadRequest
-                        && errorCode != null && errorCode.Contains("invalid_grant")
-                        && errorDescription != null && errorDescription.Contains("exp")))
+                        && errorCode.Contains("invalid_grant")
+                        && errorDescription.Contains("exp")))
                         && retryCounter++ < HttpRequestHandler.RetryLimit)
                     {
 

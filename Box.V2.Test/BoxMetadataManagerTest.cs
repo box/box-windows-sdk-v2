@@ -423,7 +423,7 @@ namespace Box.V2.Test
 
                 Assert.Fail("Expected metadata set operation to throw when create operation throws with non-Conflict error");
             }
-            catch (BoxException ex)
+            catch (BoxAPIException ex)
             {
                 Assert.AreEqual(System.Net.HttpStatusCode.BadGateway, ex.StatusCode);
             }
@@ -559,7 +559,7 @@ namespace Box.V2.Test
 
                 Assert.Fail("Expected metadata set operation to throw when create operation throws with non-Conflict error");
             }
-            catch (BoxException ex)
+            catch (BoxAPIException ex)
             {
                 Assert.AreEqual(System.Net.HttpStatusCode.BadGateway, ex.StatusCode);
             }

@@ -55,7 +55,7 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [ExpectedException(typeof(BoxException))]
+        [ExpectedException(typeof(BoxAPIException))]
         public async Task GetToken_MaxRetries_Exception()
         {
             // Arrange

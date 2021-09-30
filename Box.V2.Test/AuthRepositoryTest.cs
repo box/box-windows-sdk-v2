@@ -17,7 +17,7 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [ExpectedException(typeof(BoxException))]
+        [ExpectedException(typeof(BoxAPIException))]
         public async Task AuthenticateLive_InvalidAuthCode_Exception()
         {
             // Arrange
@@ -55,7 +55,7 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [ExpectedException(typeof(BoxException))]
+        [ExpectedException(typeof(BoxAPIException))]
         public async Task Authenticate_ErrorResponse_Exception()
         {
             // Arrange
