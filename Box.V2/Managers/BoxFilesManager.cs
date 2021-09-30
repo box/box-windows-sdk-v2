@@ -1376,7 +1376,7 @@ namespace Box.V2.Managers
             var reps = await this.GetRepresentationsAsync(representationRequest);
             if (reps.Entries.Count == 0)
             {
-                throw new BoxException("Could not get requested representation!");
+                throw new BoxCodingException("Could not get requested representation!");
             }
            
             var repInfo = reps.Entries[0];
@@ -1390,7 +1390,7 @@ namespace Box.V2.Managers
                     response = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
                     return response.ResponseObject;
                 case "error":
-                    throw new BoxException("Representation had error status");
+                    throw new BoxCodingException("Representation had error status");
                 case "none":
                 case "pending":
                     var urlTemplate = await this.PollRepresentationInfo(repInfo.Info.Url);
@@ -1398,7 +1398,7 @@ namespace Box.V2.Managers
                     response = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
                     return response.ResponseObject;
                 default:
-                    throw new BoxException("Representation has unknown status");
+                    throw new BoxCodingException("Representation has unknown status");
             }
             
         }
@@ -1424,13 +1424,13 @@ namespace Box.V2.Managers
                 case "viewable":
                     return rep.Content.UrlTemplate;
                 case "error":
-                    throw new BoxException("Representation had error status");
+                    throw new BoxCodingException("Representation had error status");
                 case "none":
                 case "pending":
                     await Task.Delay(1000);
                     return await this.PollRepresentationInfo(infoUrl);
                 default:
-                    throw new BoxException("Representation has unknown status");
+                    throw new BoxCodingException("Representation has unknown status");
             }
         }
     }

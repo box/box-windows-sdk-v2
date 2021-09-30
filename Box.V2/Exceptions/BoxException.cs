@@ -36,7 +36,7 @@ namespace Box.V2.Exceptions
         /// Instantiates a new BoxCodingException with the provided message
         /// </summary>
         /// <param name="message">The message for the exception</param>
-        protected internal BoxCodingException(string message) : base(message) { }
+        public BoxCodingException(string message) : base(message) { }
     }
 
     public class BoxAPIException : BoxException
