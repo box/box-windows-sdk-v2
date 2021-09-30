@@ -17,7 +17,7 @@ namespace Box.V2.Exceptions
         /// <param name="error"></param>
         /// <param name="statusCode"></param>
         /// <param name="responseHeaders"></param>
-        protected BoxSessionInvalidatedException(string message, BoxError error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
+        protected internal BoxSessionInvalidatedException(string message, BoxError error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
             : base(message, error, statusCode, responseHeaders)
         {
         }
