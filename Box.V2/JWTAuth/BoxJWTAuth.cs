@@ -170,8 +170,8 @@ namespace Box.V2.JWTAuth
                     // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
                     // If we get a 202 code and has a retry-after header, we will retry after.
                     // If we get a 400 due to exp claim issue, this can happen if the current system time is too different from the Box server time, so retry.
-                    var errorCode = ex.Error?.Code ?? ex.Error?.Name ?? string.Empty;
-                    var errorDescription = ex.Error?.Message ?? ex.Error?.Description ?? string.Empty;
+                    var errorCode = ex.ErrorCode;
+                    var errorDescription = ex.ErrorDescription;
 
                     if ((ex.StatusCode == HttpRequestHandler.TooManyRequests
                         ||

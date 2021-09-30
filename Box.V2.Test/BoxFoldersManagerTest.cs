@@ -298,7 +298,6 @@ namespace Box.V2.Test
             try
             {
                 BoxFolder f = await _foldersManager.CreateAsync(folderReq);
-                throw new BoxException("Invalid error type returned");
             }
             catch (BoxConflictException<BoxFolder> ex)
             {

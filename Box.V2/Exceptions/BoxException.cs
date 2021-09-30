@@ -36,7 +36,7 @@ namespace Box.V2.Exceptions
         /// Instantiates a new BoxCodingException with the provided message
         /// </summary>
         /// <param name="message">The message for the exception</param>
-        public BoxCodingException(string message) : base(message) { }
+        protected internal BoxCodingException(string message) : base(message) { }
     }
 
     public class BoxAPIException : BoxException
@@ -48,7 +48,7 @@ namespace Box.V2.Exceptions
         /// <param name="error"></param>
         /// <param name="statusCode"></param>
         /// <param name="responseHeaders"></param>
-        public BoxAPIException(string message, BoxError error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders) : base(message)
+        protected internal BoxAPIException(string message, BoxError error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders) : base(message)
         {
             Error = error;
             StatusCode = statusCode;
@@ -60,7 +60,7 @@ namespace Box.V2.Exceptions
         /// </summary>
         /// <param name="message">The message from the SDK about what happened</param>
         /// <param name="response">The HTTP response that generated the exception</param>
-        public static BoxAPIException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
+        protected internal static BoxAPIException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
         {
             BoxError error = null;
             if (!string.IsNullOrWhiteSpace(response.ContentString))
@@ -126,6 +126,16 @@ namespace Box.V2.Exceptions
         /// Response headers returned by the API
         /// </summary>
         public HttpResponseHeaders ResponseHeaders { get; }
+
+        /// <summary>
+        /// Error code of the Error returned by the API. Can be empty
+        /// </summary>
+        public string ErrorCode => Error?.Code ?? Error?.Name ?? string.Empty;
+
+        /// <summary>
+        /// Error description of the Error returned by the API. Can be empty
+        /// </summary>
+        public string ErrorDescription => Error?.Message ?? Error?.Description ?? string.Empty;
     }
 
 
@@ -134,7 +144,7 @@ namespace Box.V2.Exceptions
     {
         private BoxConflictError<T> _conflictError;
 
-        public BoxConflictException(string message, BoxConflictError<T> error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
+        protected internal BoxConflictException(string message, BoxConflictError<T> error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
             : base(message, error, statusCode, responseHeaders) 
         { 
             _conflictError = error;
@@ -156,7 +166,7 @@ namespace Box.V2.Exceptions
     {
         private BoxPreflightCheckConflictError<T> _conflictError;
 
-        public BoxPreflightCheckConflictException(string message, BoxPreflightCheckConflictError<T> error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
+        protected internal BoxPreflightCheckConflictException(string message, BoxPreflightCheckConflictError<T> error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
                         : base(message, error, statusCode, responseHeaders)
         {
             _conflictError = error;
