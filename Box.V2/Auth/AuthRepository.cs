@@ -1,4 +1,4 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Exceptions;
 using Box.V2.Extensions;
@@ -210,10 +210,7 @@ namespace Box.V2.Auth
             OnSessionInvalidated();
 
             // As well as the caller
-            throw new BoxSessionInvalidatedException()
-            {
-                StatusCode = boxResponse.StatusCode,
-            };
+            throw BoxSessionInvalidatedException.GetResponseException("The API returned an error", boxResponse);
         }
 
         /// <summary>

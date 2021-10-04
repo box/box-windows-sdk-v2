@@ -26,7 +26,7 @@ namespace Box.V2
             string pattern = @"\/\.+";
             if (path != null && Regex.IsMatch(path, pattern) == true)
             {
-                throw new BoxException($"An invalid path parameter exists in {path}. Relative path parameters cannot be passed.");
+                throw new BoxCodingException($"An invalid path parameter exists in {path}. Relative path parameters cannot be passed.");
             }
 
             Host = hostUri;
