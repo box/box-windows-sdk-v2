@@ -329,7 +329,7 @@ namespace Box.V2.Managers
                     return "";  
                 }
             }
-#elif NETSTANDARD1_6
+#elif NETSTANDARD2_0
 
             string coreVersion = GetNetCoreVersion();
             if (coreVersion != null)

@@ -270,7 +270,7 @@ namespace Box.V2.Request
                 }
 
                 // Ensure that clients use non-deprecated versions of TLS (i.e. TLSv1.1 or greater)
-#if NETSTANDARD1_6
+#if NETSTANDARD2_0
                 try
                 {
                     handler.SslProtocols |= System.Security.Authentication.SslProtocols.Tls12;
