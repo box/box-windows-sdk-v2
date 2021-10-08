@@ -8,6 +8,7 @@
 - Expose tasks from async methods ([#742](https://github.com/box/box-windows-sdk-v2/pull/742))
 - Use DateTimeOffset instead of DateTime ([#749](https://github.com/box/box-windows-sdk-v2/pull/749))
 - Rework returned exceptions ([#753](https://github.com/box/box-windows-sdk-v2/pull/753))
+- Allow sort and direction parameter to be passed in when getting trashed items ([#754](https://github.com/box/box-windows-sdk-v2/pull/754))
 
 **New Features and Enhancements:**
 - Add ability to get files under retention for assignment and file versions under retention for assignment ([#734](https://github.com/box/box-windows-sdk-v2/pull/734))
