@@ -16,7 +16,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Box.V2.Core</AssemblyName>
     <PackageId>Box.V2.Core</PackageId>
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
