@@ -122,8 +122,10 @@ namespace Box.V2.Managers
         /// <param name="offset">The item at which to begin the response</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <param name="sort">The field to sort items on</param>
+        /// <param name="direction">The direction to sort results in: ascending or descending</param>
         /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
-        Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false);
+        Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false, string sort = null, BoxSortDirection? direction = null);
 
         /// <summary>
         /// Retrieves the files and/or folders that have been moved to the trash. Any attribute in the full files 

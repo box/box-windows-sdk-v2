@@ -803,6 +803,7 @@ namespace Box.V2.Test
         public async Task GetTrashItems_ValidResponse_ValidCountAndEntries()
         {
             /*** Arrange ***/
+            IBoxRequest executedRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
                 {
@@ -830,7 +831,11 @@ namespace Box.V2.Test
                                             ""offset"": 0,
                                             ""limit"": 2
                                         }"
-                }));
+                }))
+                .Callback<IBoxRequest>((r) =>
+                {
+                    executedRequest = r;
+                }) ;
 
             /***Act ***/
             BoxCollection<BoxItem> result = await _foldersManager.GetTrashItemsAsync(2, 0);
@@ -841,6 +846,36 @@ namespace Box.V2.Test
             Assert.AreEqual("file Tue Jul 24 010055 20129Z6GS3.csv", result.Entries[1].Name);
             Assert.AreEqual("2701979016", result.Entries[0].Id);
             Assert.AreEqual("2698211586", result.Entries[1].Id);
+            Assert.AreEqual("limit=2&offset=0", executedRequest.GetQueryString());
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task GetTrashItems_SortParamsArePassed()
+        {
+            /*** Arrange ***/
+            IBoxRequest executedRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = @"{
+                                            ""total_count"": 0,
+                                            ""entries"": [],
+                                            ""offset"": 0,
+                                            ""limit"": 2
+                                        }"
+                }))
+                .Callback<IBoxRequest>((r) =>
+                {
+                    executedRequest = r;
+                });
+
+            /***Act ***/
+            BoxCollection<BoxItem> result = await _foldersManager.GetTrashItemsAsync(2, 0, null, false, "name", BoxSortDirection.DESC);
+
+            /*** Assert ***/
+            Assert.AreEqual("limit=2&offset=0&sort=name&direction=DESC", executedRequest.GetQueryString());
         }
 
         [TestMethod]
