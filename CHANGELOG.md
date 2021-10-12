@@ -18,7 +18,7 @@
 - Allow sort and direction parameter to be passed in when getting trashed items ([#754](https://github.com/box/box-windows-sdk-v2/pull/754))
 
 **Bug Fixes:**
-- Fix `Cannot access a closed Stream.Request` exception during part upload ([#739](https://github.com/box/box-windows-sdk-v2/pull/739))
+- Fix `Cannot access a closed Stream.Request` exception during upload ([#739](https://github.com/box/box-windows-sdk-v2/pull/739)) ([#757](https://github.com/box/box-windows-sdk-v2/pull/757))
 
 ## 3.26.0 [2021-04-01]
 

@@ -395,7 +395,7 @@ namespace Box.V2.Request
             // Create the file part
             if (filePart != null)
             {
-                StreamContent fileContent = new StreamContent(filePart.Value);
+                ReusableContent fileContent = new ReusableContent(filePart.Value);
                 fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                 {
                     Name = ForceQuotesOnParam(filePart.Name),
