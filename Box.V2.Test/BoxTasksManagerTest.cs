@@ -365,7 +365,8 @@ namespace Box.V2.Test
                                             ""name"": ""sean"",
                                             ""login"": ""sean@box.com""
                                         },
-                                        ""created_at"": ""2013-04-03T11:12:54-07:00""
+                                        ""created_at"": ""2013-04-03T11:12:54-07:00"",
+                                        ""completion_rule"": ""all_assignees""
                                     }";
             IBoxRequest boxRequest = null;
             Uri tasksUri = new Uri(Constants.TasksEndpointString);
@@ -399,6 +400,7 @@ namespace Box.V2.Test
             Assert.AreEqual(taskCreateRequest.Item.Id, payload.Item.Id);
             Assert.AreEqual(taskCreateRequest.Item.Type, payload.Item.Type);
             Assert.AreEqual(taskCreateRequest.Message, payload.Message);
+            Assert.IsNull(payload.CompletionRule);
 
             //Response check
             Assert.AreEqual("1839355", result.Id);
@@ -411,7 +413,79 @@ namespace Box.V2.Test
             Assert.AreEqual("11993747", result.CreatedBy.Id);
             Assert.AreEqual("sean@box.com", result.CreatedBy.Login);
             Assert.AreEqual(0, result.TaskAssignments.TotalCount);
+            Assert.AreEqual(BoxCompletionRule.all_assignees, result.CompletionRule);
+        }
 
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task CreateTask_WithCompletitionRule()
+        {
+            /*** Arrange ***/
+            string responseString = @"{
+                                        ""type"": ""task"",
+                                        ""id"": ""1839355"",
+                                        ""item"": {
+                                            ""type"": ""file"",
+                                            ""id"": ""7287087200"",
+                                            ""sequence_id"": ""0"",
+                                            ""etag"": ""0"",
+                                            ""sha1"": ""0bbd79a105c504f99573e3799756debba4c760cd"",
+                                            ""name"": ""box-logo.png""
+                                        },
+                                        ""due_at"": ""2014-04-03T11:09:43-07:00"",
+                                        ""action"": ""review"",
+                                        ""message"": ""REVIEW PLZ K THX"",
+                                        ""task_assignment_collection"": {
+                                            ""total_count"": 0,
+                                            ""entries"": []
+                                        },
+                                        ""is_completed"": false,
+                                        ""created_by"": {
+                                            ""type"": ""user"",
+                                            ""id"": ""11993747"",
+                                            ""name"": ""sean"",
+                                            ""login"": ""sean@box.com""
+                                        },
+                                        ""created_at"": ""2013-04-03T11:12:54-07:00"",
+                                        ""completion_rule"": ""any_assignee""
+                                    }";
+            IBoxRequest boxRequest = null;
+            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
+            Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            BoxTaskCreateRequest taskCreateRequest = new BoxTaskCreateRequest()
+            {
+                Item = new BoxRequestEntity()
+                {
+                    Id = "7287087200",
+                    Type = BoxType.file
+               },
+                Message = "REVIEW PLZ K THX",
+                CompletionRule = BoxCompletionRule.any_assignee
+            };
+            BoxTask result = await _tasksManager.CreateTaskAsync(taskCreateRequest);
+
+            /*** Assert ***/
+            //Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(tasksUri, boxRequest.AbsoluteUri.AbsoluteUri);
+            BoxTaskCreateRequest payload = JsonConvert.DeserializeObject<BoxTaskCreateRequest>(boxRequest.Payload);
+            Assert.AreEqual(taskCreateRequest.Item.Id, payload.Item.Id);
+            Assert.AreEqual(taskCreateRequest.Item.Type, payload.Item.Type);
+            Assert.AreEqual(taskCreateRequest.Message, payload.Message);
+            Assert.AreEqual(taskCreateRequest.CompletionRule, payload.CompletionRule);
+
+            //Response check
+            Assert.AreEqual(BoxCompletionRule.any_assignee, result.CompletionRule);
         }
 
         [TestMethod]
