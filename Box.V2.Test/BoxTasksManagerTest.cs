@@ -418,7 +418,7 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        public async Task CreateTask_WithCompletitionRule()
+        public async Task CreateTask_WithCompletionRule()
         {
             /*** Arrange ***/
             string responseString = @"{
