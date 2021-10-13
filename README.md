@@ -12,6 +12,8 @@ Prerequisites
 * Visual Studio 2017
 * .NET Core SDK (if running .NET Core samples)
 
+Getting Started Docs: https://developer.box.com/guides/tooling/sdks/dotnet/
+
 Quick Start
 -----------
 
