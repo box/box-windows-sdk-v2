@@ -102,4 +102,19 @@ namespace Box.V2.Models
         permanently_delete,
         remove_retention
     }
+
+    /// <summary>
+    /// Defines which assignees need to complete the task before it is considered completed.
+    /// </summary>
+    public enum BoxCompletionRule
+    {
+        /// <summary>
+        /// all_assignees requires all assignees to review or approve the the task in order for it to be considered completed.
+        /// </summary>
+        all_assignees,
+        /// <summary>
+        /// any_assignee accepts any one assignee to review or approve the the task in order for it to be considered completed.
+        /// </summary>
+        any_assignee
+    }
 }
