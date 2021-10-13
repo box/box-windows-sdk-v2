@@ -12,6 +12,8 @@ Prerequisites
 * Visual Studio 2017
 * .NET Core SDK (if running .NET Core samples)
 
+Getting Started Docs: https://developer.box.com/guides/tooling/sdks/dotnet/
+
 Quick Start
 -----------
 
@@ -33,7 +35,7 @@ If you haven't already created an app in Box go to https://developer.box.com/ an
 
 #### Using a Developer Token (generate one in your app admin console; they last for 60 minutes)
 ```c#
-var config = new BoxConfig(<Client_Id>, <Client_Secret>, new Uri("http://localhost"));
+var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, new Uri("http://localhost")).Build();
 var session = new OAuthSession(<Developer_Token>, "NOT_NEEDED", 3600, "bearer");
 client = new BoxClient(config, session);
 ```
@@ -56,13 +58,13 @@ Allow Box Managed Users to share and collaboration with external users via Box a
 
 ##### Configure
 ```c#
-var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
+var boxConfig = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>).	Build();
 var boxJWT = new BoxJWTAuth(boxConfig);
 ```
 
 ##### Authenticate
 ```c#
-var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
+var adminToken = await boxJWT.AdminTokenAsync(); //valid for 60 minutes so should be cached and re-used
 var adminClient = boxJWT.AdminClient(adminToken);
 ```
 
@@ -73,7 +75,7 @@ var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccess
 var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
 
 //get a user client
-var userToken = boxJWT.UserToken(appUser.Id); //valid for 60 minutes so should be cached and re-used
+var userToken = await boxJWT.UserTokenAsync(appUser.Id); //valid for 60 minutes so should be cached and re-used
 var userClient = boxJWT.UserClient(userToken, appUser.Id);
 
 //for example, look up the app user's details
@@ -89,7 +91,7 @@ This is a three-legged authentication process to allow managed user and external
 ##### Configure
 Set your configuration parameters and initialize the client:
 ```c#
-var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri>);
+var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri>).Build();
 var client = new BoxClient(config);
 ```
 
@@ -132,7 +134,7 @@ this method of aythentication, simply create a client with only the API key and
 access token provided:
 
 ```c#
-var config = new BoxConfig(<API_KEY>, "", new Uri("http://localhost"));
+var config = new BoxConfigBuilder(<API_KEY>, "", new Uri("http://localhost")).Build();
 var session = new OAuthSession(<PRIMARY OR SECONDARY TOKEN>, "NOT_NEEDED", 3600, "bearer");
 client = new BoxClient(config, session);
 ```
@@ -274,7 +276,7 @@ var results = await client.SearchManager.SearchAsync(mdFilters: new List<BoxMeta
 If you have an admin token with appropriate permissions, you can make API calls in the context of a managed user. In order to do this you must request Box.com to activate As-User functionality for your API key (see developer site for instructions). 
 
 ```c#
-var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri);
+var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri).Build();
 var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
 
 var userId = "12345678"
@@ -289,10 +291,10 @@ var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
 Using the admin token we can make a call to retrieve all users or a specific user
 
 ```cs
-var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
+var boxConfig = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>).	Build();
 var boxJWT = new BoxJWTAuth(boxConfig);
 
-var adminToken = boxJWT.AdminToken();
+var adminToken = await boxJWT.AdminTokenAsync();
 var adminClient = boxJWT.AdminClient(adminToken);
 
 var boxUsers = await adminClient.UsersManager.GetEnterpriseUsersAsync();
@@ -324,10 +326,45 @@ foreach(BoxItem item in boxFolderItemsList)
 #### Suppressing Notifications
 If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
 ```c#
-var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri);
+var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri).Build();
 var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
 
 var adminClient = new BoxClient(config, auth, suppressNotifications: true);
+```
+
+#### Constructing API Calls Manually
+The SDK also exposes low-level request methods for constructing your own API calls. These can be useful for adding your own API calls that aren't yet explicitly supported by the SDK.
+
+To make a custom api call you need to provide implementation for `BoxResourceManager`.
+
+```c#
+public class BoxFolderHintsManager : BoxResourceManager
+{
+    public BoxFolderHintsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null) : base(config, service, converter, auth, asUser, suppressNotifications) { }
+
+	public async Task<MyCustomReturnObject> GetFolderItemsWithHintsAsync(string folderId, string xRepHints)
+    {
+        BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.ItemsPathString, folderId))
+            .Method(RequestMethod.Get)
+            .Param(ParamFields, "representations")
+            .Header(Constants.RequestParameters.XRepHints, xRepHints);
+
+            return await ToResponseAsync<MyCustomReturnObject>(request).ConfigureAwait(false);
+        }
+    }
+```
+
+You need to first register your custom `BoxResourceManager`, then you can use it as any other SDK manager.
+
+```c#
+client = boxJWT.UserClient(userToken, userId);
+client.AddResourcePlugin<BoxFolderHintsManager>();
+
+string folderId = "11111";
+string xRepHints = "[jpg?dimensions=32x32][jpg?dimensions=94x94]";
+
+var boxFolderHintsManager = client.ResourcePlugins.Get<BoxFolderHintsManager>();
+var response = await boxFolderHintsManager.GetFolderItemsWithHintsAsync(folderId, xRepHints);
 ```
 
 File/Folder Picker
