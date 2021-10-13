@@ -38,7 +38,7 @@ The following example creates an API client with a developer token:
 
 <!-- sample x_auth init_with_dev_token -->
 ```c#
-var config = new BoxConfigBuilder("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://localhost")).Build();
+var config = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://localhost"));
 var session = new OAuthSession("YOUR_DEVELOPER_TOKEN", "N/A", 3600, "bearer");
 var client = new BoxClient(config, session);
 ```
@@ -62,20 +62,20 @@ Service Account:
 
 <!-- sample x_auth init_with_jwt_enterprise -->
 ```c#
-var config = BoxConfigBuilder.CreateFromJsonString(jsonConfig).Build();
+var config = BoxConfig.CreateFromJsonString(jsonConfig);
 var session = new BoxJWTAuth(config);
-var adminToken = await session.AdminTokenAsync(); //valid for 60 minutes so should be cached and re-used
+var adminToken = session.AdminToken(); //valid for 60 minutes so should be cached and re-used
 BoxClient adminClient = session.AdminClient(adminToken);
 ```
 
 Otherwise, you'll need to provide the necessary configuration fields directly
-to the `BoxConfigBuilder` constructor:
+to the `BoxConfig` constructor:
 
 <!-- sample x_auth init_with_jwt_enterprise_with_config -->
 ```c#
-var boxConfig = new BoxConfigBuilder("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", "YOUR_ENTERPRISE_ID", "ENCRYPTED_PRIVATE_KEY", "PRIVATE_KEY_PASSWORD", "PUBLIC_KEY_ID").Build();
+var boxConfig = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", "YOUR_ENTERPRISE_ID", "ENCRYPTED_PRIVATE_KEY", "PRIVATE_KEY_PASSWORD", "PUBLIC_KEY_ID");
 var boxJWT = new BoxJWTAuth(boxConfig);
-var adminToken = await boxJWT.AdminTokenAsync(); //valid for 60 minutes so should be cached and re-used
+var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
 BoxClient adminClient = boxJWT.AdminClient(adminToken);
 adminClient.Auth.SessionAuthenticated += delegate(object o, SessionAuthenticatedEventArgs e)
 {
@@ -99,7 +99,7 @@ instance as in the above examples, similarly to creating a Service Account clien
 <!-- sample x_auth init_with_jwt_with_user_id -->
 ```c#
 var appUserId = "12345";
-var userToken = await boxJWT.UserTokenAsync(appUserID); //valid for 60 minutes so should be cached and re-used
+var userToken = boxJWT.UserToken(appUserID); //valid for 60 minutes so should be cached and re-used
 BoxClient appUserClient = boxJWT.UserClient(userToken, appUserId);
 appUserClient.Auth.SessionAuthenticated += delegate(object o, SessionAuthenticatedEventArgs e)
 {
@@ -128,7 +128,7 @@ client secret to establish an API connection.  The `BoxClient` will
 automatically refresh the access token as needed.
 
 ```c#
-var config = new BoxConfigBuilder("CLIENT_ID", "CLIENT_SECRET", new System.Uri("YOUR_REDIRECT_URL")).Build();
+var config = new BoxConfig("CLIENT_ID", "CLIENT_SECRET", new System.Uri("YOUR_REDIRECT_URL"));
 var client = new BoxClient(config);
 OAuthSession session = // Create session from custom implementation
 var client = new BoxClient(config, session);
@@ -155,7 +155,7 @@ simply create a basic client with that token:
 
 <!-- sample x_auth init_with_app_token -->
 ```c#
-var config = new BoxConfigBuilder("YOUR_CLIENT_ID", "N/A", new Uri("http://localhost")).Build();
+var config = new BoxConfig("YOUR_CLIENT_ID", "N/A", new Uri("http://localhost"));
 var session = new OAuthSession("YOUR_APP_TOKEN", "N/A", 3600, "bearer");
 var client = new BoxClient(config, session);
 ```
@@ -194,7 +194,7 @@ scope, restricted to a single file, suitable for the
 ```c#
 var exchanger = new TokenExchange(client.Auth.Session.AccessToken, "item_preview");
 exchanger.SetResource("https://api.box.com/2.0/files/123456789");
-string downscopedToken = await exchanger.ExchangeAsync();
+string downscopedToken = exchanger.Exchange();
 ```
 
 To exchange the client's token for one with scopes to upload and delete items, but not to view their contents,
@@ -202,5 +202,5 @@ which would be suitable for an less-trusted server-side process;
 ```c#
 var scopes = new List<string>() { "item_upload", "item_download" };
 var exchanger = new TokenExchange(client.Auth.Session.AccessToken, scopes);
-string downscopedToken = await exchanger.ExchangeAsync();
+string downscopedToken = exchanger.Exchange();
 ```
