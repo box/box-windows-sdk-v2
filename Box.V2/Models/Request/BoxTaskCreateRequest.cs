@@ -40,5 +40,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "due_at")]
         public DateTimeOffset? DueAt { get; set; }
+
+        /// <summary>
+        /// Defines which assignees need to complete this task before the task is considered completed.
+        /// </summary>
+        [JsonProperty(PropertyName = "completion_rule")]
+        public BoxCompletionRule? CompletionRule { get; set; }
     }
 }

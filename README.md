@@ -35,7 +35,7 @@ If you haven't already created an app in Box go to https://developer.box.com/ an
 
 #### Using a Developer Token (generate one in your app admin console; they last for 60 minutes)
 ```c#
-var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, new Uri("http://localhost")).Build();
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, new Uri("http://localhost"));
 var session = new OAuthSession(<Developer_Token>, "NOT_NEEDED", 3600, "bearer");
 client = new BoxClient(config, session);
 ```
@@ -58,13 +58,13 @@ Allow Box Managed Users to share and collaboration with external users via Box a
 
 ##### Configure
 ```c#
-var boxConfig = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>).	Build();
+var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
 var boxJWT = new BoxJWTAuth(boxConfig);
 ```
 
 ##### Authenticate
 ```c#
-var adminToken = await boxJWT.AdminTokenAsync(); //valid for 60 minutes so should be cached and re-used
+var adminToken = boxJWT.AdminToken(); //valid for 60 minutes so should be cached and re-used
 var adminClient = boxJWT.AdminClient(adminToken);
 ```
 
@@ -75,7 +75,7 @@ var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccess
 var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
 
 //get a user client
-var userToken = await boxJWT.UserTokenAsync(appUser.Id); //valid for 60 minutes so should be cached and re-used
+var userToken = boxJWT.UserToken(appUser.Id); //valid for 60 minutes so should be cached and re-used
 var userClient = boxJWT.UserClient(userToken, appUser.Id);
 
 //for example, look up the app user's details
@@ -91,7 +91,7 @@ This is a three-legged authentication process to allow managed user and external
 ##### Configure
 Set your configuration parameters and initialize the client:
 ```c#
-var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri>).Build();
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri>);
 var client = new BoxClient(config);
 ```
 
@@ -134,7 +134,7 @@ this method of aythentication, simply create a client with only the API key and
 access token provided:
 
 ```c#
-var config = new BoxConfigBuilder(<API_KEY>, "", new Uri("http://localhost")).Build();
+var config = new BoxConfig(<API_KEY>, "", new Uri("http://localhost"));
 var session = new OAuthSession(<PRIMARY OR SECONDARY TOKEN>, "NOT_NEEDED", 3600, "bearer");
 client = new BoxClient(config, session);
 ```
@@ -276,7 +276,7 @@ var results = await client.SearchManager.SearchAsync(mdFilters: new List<BoxMeta
 If you have an admin token with appropriate permissions, you can make API calls in the context of a managed user. In order to do this you must request Box.com to activate As-User functionality for your API key (see developer site for instructions). 
 
 ```c#
-var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri).Build();
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri);
 var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
 
 var userId = "12345678"
@@ -291,10 +291,10 @@ var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
 Using the admin token we can make a call to retrieve all users or a specific user
 
 ```cs
-var boxConfig = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>).	Build();
+var boxConfig = new BoxConfig(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>);
 var boxJWT = new BoxJWTAuth(boxConfig);
 
-var adminToken = await boxJWT.AdminTokenAsync();
+var adminToken = boxJWT.AdminToken();
 var adminClient = boxJWT.AdminClient(adminToken);
 
 var boxUsers = await adminClient.UsersManager.GetEnterpriseUsersAsync();
@@ -326,7 +326,7 @@ foreach(BoxItem item in boxFolderItemsList)
 #### Suppressing Notifications
 If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
 ```c#
-var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri).Build();
+var config = new BoxConfig(<Client_Id>, <Client_Secret>, <Redirect_Uri);
 var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
 
 var adminClient = new BoxClient(config, auth, suppressNotifications: true);
@@ -350,8 +350,8 @@ public class BoxFolderHintsManager : BoxResourceManager
             .Header(Constants.RequestParameters.XRepHints, xRepHints);
 
             return await ToResponseAsync<MyCustomReturnObject>(request).ConfigureAwait(false);
-        }
     }
+}
 ```
 
 You need to first register your custom `BoxResourceManager`, then you can use it as any other SDK manager.
