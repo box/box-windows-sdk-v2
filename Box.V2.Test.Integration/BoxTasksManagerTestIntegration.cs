@@ -1,8 +1,8 @@
+using System;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Models;
 using Box.V2.Models.Request;
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test.Integration
 {
@@ -13,9 +13,10 @@ namespace Box.V2.Test.Integration
         public async Task TasksWorkflow_ValidRequest()
         {
             // Create a task
-            var task = await _client.TasksManager.CreateTaskAsync(new BoxTaskCreateRequest()
+            var task = await Client.TasksManager.CreateTaskAsync(new BoxTaskCreateRequest()
             {
-                Item = new BoxRequestEntity() {
+                Item = new BoxRequestEntity()
+                {
                     Id = "100699285359",
                     Type = BoxType.file
                 },
@@ -24,7 +25,7 @@ namespace Box.V2.Test.Integration
             });
 
             // Creat task assignment
-            var taskAssignment = await _client.TasksManager.CreateTaskAssignmentAsync(new BoxTaskAssignmentRequest()
+            var taskAssignment = await Client.TasksManager.CreateTaskAssignmentAsync(new BoxTaskAssignmentRequest()
             {
                 Task = new BoxTaskRequest()
                 {
@@ -37,37 +38,39 @@ namespace Box.V2.Test.Integration
             });
 
             // Get task
-            var gTask = await _client.TasksManager.GetTaskAsync(task.Id);
+            var gTask = await Client.TasksManager.GetTaskAsync(task.Id);
             Assert.AreEqual(gTask.Message, task.Message, "Task does not have the same message");
 
             // Get task assignment
-            var gTaskAssignment = await _client.TasksManager.GetTaskAssignmentAsync(taskAssignment.Id);
+            var gTaskAssignment = await Client.TasksManager.GetTaskAssignmentAsync(taskAssignment.Id);
             Assert.AreEqual(taskAssignment.AssignedTo.Id, gTaskAssignment.AssignedTo.Id, "Task does not have the same message");
 
             // Update task
-            var uTask = await _client.TasksManager.UpdateTaskAsync(new BoxTaskUpdateRequest() {
+            var uTask = await Client.TasksManager.UpdateTaskAsync(new BoxTaskUpdateRequest()
+            {
                 Id = task.Id,
                 Message = "PLZ"
             });
             Assert.AreEqual(uTask.Message, "PLZ", "Task message does not update!");
 
             // Update task assignment
-            var uTaskAssignment = await _client.TasksManager.UpdateTaskAssignmentAsync(new BoxTaskAssignmentUpdateRequest() {
+            var uTaskAssignment = await Client.TasksManager.UpdateTaskAssignmentAsync(new BoxTaskAssignmentUpdateRequest()
+            {
                 Id = taskAssignment.Id,
                 Message = "TA Update MSG"
             });
             Assert.AreEqual(uTaskAssignment.Message, "TA Update MSG", "Task assignment message does not update!");
 
             // Get task assignments
-            var taskAssignments = await _client.TasksManager.GetAssignmentsAsync(task.Id);
+            var taskAssignments = await Client.TasksManager.GetAssignmentsAsync(task.Id);
             Assert.AreEqual(1, taskAssignments.Entries.Count, "Task assignmnet number are incorrect!");
             Assert.AreEqual(taskAssignments.Entries[0].Id, uTaskAssignment.Id, "Task assignment id are incorrect!");
 
             // Delete task assignment 
-            await _client.TasksManager.DeleteTaskAssignmentAsync(taskAssignment.Id);
+            await Client.TasksManager.DeleteTaskAssignmentAsync(taskAssignment.Id);
 
             // Delete task
-            await _client.TasksManager.DeleteTaskAsync(task.Id);
+            await Client.TasksManager.DeleteTaskAsync(task.Id);
         }
     }
 }

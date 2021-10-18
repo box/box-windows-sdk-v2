@@ -1,16 +1,16 @@
-using Box.V2.Config;
-using Box.V2.JWTAuth;
-using Box.V2.Models;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Box.V2.Config;
+using Box.V2.JWTAuth;
+using Box.V2.Models;
 
 namespace Box.V2.Samples.Core.AppUser.Create
 {
     public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             try
             {
@@ -84,7 +84,7 @@ namespace Box.V2.Samples.Core.AppUser.Create
         private static IBoxConfig ConfigureBoxApi()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"YOUR_JSON_FILE_HERE", FileMode.Open))
+            using (var fs = new FileStream(@"YOUR_JSON_FILE_HERE", FileMode.Open))
             {
                 config = BoxConfigBuilder.CreateFromJsonFile(fs).Build();
             }

@@ -1,3 +1,6 @@
+using System;
+using System.Reflection;
+using System.Text;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -6,9 +9,6 @@ using Box.V2.Services;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Text;
-using System.Reflection;
 
 namespace Box.V2.Test
 {
@@ -58,7 +58,7 @@ namespace Box.V2.Test
         public static string HexStringFromBytes(byte[] bytes)
         {
             var sb = new StringBuilder();
-            foreach (byte b in bytes)
+            foreach (var b in bytes)
             {
                 var hex = b.ToString("x2");
                 sb.Append(hex);
@@ -67,13 +67,13 @@ namespace Box.V2.Test
         }
         public static T CreateInstanceNonPublicConstructor<T>()
         {
-            Type[] pTypes = new Type[0];
+            _ = new Type[0];
 
             ConstructorInfo[] c = typeof(T).GetConstructors
                 (BindingFlags.NonPublic | BindingFlags.Instance
                 );
 
-            T inst =
+            var inst =
                 (T)c[0].Invoke(BindingFlags.NonPublic,
                                null,
                                null,

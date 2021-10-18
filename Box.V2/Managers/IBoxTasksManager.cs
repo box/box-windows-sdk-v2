@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers

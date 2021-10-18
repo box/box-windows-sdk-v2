@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -96,7 +96,7 @@ namespace Box.V2.Models
         /// Can owners invite field for folder
         /// </summary>
         [JsonProperty(PropertyName = FieldCanNonOwnersInvite)]
-        public virtual Boolean? CanNonOwnersInvite { get; set; }
+        public virtual bool? CanNonOwnersInvite { get; set; }
 
         /// <summary>
         /// Allowed shared link access levels for folder
@@ -108,7 +108,7 @@ namespace Box.V2.Models
         /// Is folder externally owned
         /// </summary>
         [JsonProperty(PropertyName = FieldIsExternallyOwned)]
-        public virtual Boolean? IsExternallyOwned { get; set; }
+        public virtual bool? IsExternallyOwned { get; set; }
 
         /// <summary>
         /// The date when the folder will be automatically deleted due to item expiration settings.

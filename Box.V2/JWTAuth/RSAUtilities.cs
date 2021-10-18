@@ -35,11 +35,13 @@ namespace Box.V2.JWTAuth
         // ------------------------------------------------------------------------------------------------------------------
         private static RSAParameters ToRSAParameters(RsaPrivateCrtKeyParameters privKey)
         {
-            RSAParameters rp = new RSAParameters();
-            rp.Modulus = privKey.Modulus.ToByteArrayUnsigned();
-            rp.Exponent = privKey.PublicExponent.ToByteArrayUnsigned();
-            rp.P = privKey.P.ToByteArrayUnsigned();
-            rp.Q = privKey.Q.ToByteArrayUnsigned();
+            var rp = new RSAParameters
+            {
+                Modulus = privKey.Modulus.ToByteArrayUnsigned(),
+                Exponent = privKey.PublicExponent.ToByteArrayUnsigned(),
+                P = privKey.P.ToByteArrayUnsigned(),
+                Q = privKey.Q.ToByteArrayUnsigned()
+            };
             rp.D = ConvertRSAParametersField(privKey.Exponent, rp.Modulus.Length);
             rp.DP = ConvertRSAParametersField(privKey.DP, rp.P.Length);
             rp.DQ = ConvertRSAParametersField(privKey.DQ, rp.Q.Length);
@@ -49,12 +51,18 @@ namespace Box.V2.JWTAuth
 
         private static byte[] ConvertRSAParametersField(BigInteger n, int size)
         {
-            byte[] bs = n.ToByteArrayUnsigned();
+            var bs = n.ToByteArrayUnsigned();
             if (bs.Length == size)
+            {
                 return bs;
+            }
+
             if (bs.Length > size)
+            {
                 throw new ArgumentException("Specified size too small", "size");
-            byte[] padded = new byte[size];
+            }
+
+            var padded = new byte[size];
             Array.Copy(bs, 0, padded, size - bs.Length, bs.Length);
             return padded;
         }

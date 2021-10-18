@@ -1,3 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Net;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -5,21 +14,11 @@ using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Request;
 using Box.V2.Services;
+using Box.V2.Utility;
+using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
-using System;
-using System.Collections.Generic;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using Box.V2.Utility;
-using System.Net;
-using System.Threading;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Box.V2.JWTAuth
 {
@@ -31,14 +30,14 @@ namespace Box.V2.JWTAuth
     ///</remarks>
     public class BoxJWTAuth
     {
-        const string AUTH_URL = "https://api.box.com/oauth2/token";
-        const string ENTERPRISE_SUB_TYPE = "enterprise";
-        const string USER_SUB_TYPE = "user";
-        const string TOKEN_TYPE = "bearer";
+        private const string AUTH_URL = "https://api.box.com/oauth2/token";
+        private const string ENTERPRISE_SUB_TYPE = "enterprise";
+        private const string USER_SUB_TYPE = "user";
+        private const string TOKEN_TYPE = "bearer";
 
-        private readonly IBoxService boxService;
-        private readonly IBoxConfig boxConfig;
-        private readonly SigningCredentials credentials;
+        private readonly IBoxService _boxService;
+        private readonly IBoxConfig _boxConfig;
+        private readonly SigningCredentials _credentials;
 
         /// <summary>
         /// Constructor for JWT authentication
@@ -47,8 +46,8 @@ namespace Box.V2.JWTAuth
         /// <param name="boxService">Box service is used to perform GetToken requests</param>
         public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService)
         {
-            this.boxConfig = boxConfig;
-            this.boxService = boxService;
+            _boxConfig = boxConfig;
+            _boxService = boxService;
 
             // the following allows creation of a BoxJWTAuth object without valid keys but with a valid JWT UserToken
             // this allows code like this:
@@ -60,9 +59,9 @@ namespace Box.V2.JWTAuth
 
             if (!string.IsNullOrEmpty(boxConfig.JWTPrivateKey) && !string.IsNullOrEmpty(boxConfig.JWTPrivateKeyPassword))
             {
-                var pwf = new PEMPasswordFinder(this.boxConfig.JWTPrivateKeyPassword);
+                var pwf = new PEMPasswordFinder(_boxConfig.JWTPrivateKeyPassword);
                 object key = null;
-                using (var reader = new StringReader(this.boxConfig.JWTPrivateKey))
+                using (var reader = new StringReader(_boxConfig.JWTPrivateKey))
                 {
                     var privateKey = new PemReader(reader, pwf).ReadObject();
 
@@ -86,7 +85,7 @@ namespace Box.V2.JWTAuth
                     rsa = RSAUtilities.ToRSA(rpcp);
                 }
 
-                credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+                _credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
             }
         }
 
@@ -96,7 +95,7 @@ namespace Box.V2.JWTAuth
         /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
         public BoxJWTAuth(IBoxConfig boxConfig) : this(boxConfig, new BoxService(new HttpRequestHandler(boxConfig.WebProxy)))
         {
-            
+
         }
 
         /// <summary>
@@ -108,9 +107,9 @@ namespace Box.V2.JWTAuth
         /// <returns>BoxClient that uses JWT authentication</returns>
         public BoxClient AdminClient(string adminToken, string asUser = null, bool? suppressNotifications = null)
         {
-            var adminSession = this.Session(adminToken);
+            var adminSession = Session(adminToken);
             var authRepo = new JWTAuthRepository(adminSession, this);
-            var adminClient = new BoxClient(this.boxConfig, authRepo, asUser: asUser, suppressNotifications: suppressNotifications);
+            var adminClient = new BoxClient(_boxConfig, authRepo, asUser: asUser, suppressNotifications: suppressNotifications);
 
             return adminClient;
         }
@@ -122,9 +121,9 @@ namespace Box.V2.JWTAuth
         /// <returns>BoxClient that uses JWT authentication</returns>
         public BoxClient UserClient(string userToken, string userId)
         {
-            var userSession = this.Session(userToken);
+            var userSession = Session(userToken);
             var authRepo = new JWTAuthRepository(userSession, this, userId);
-            var userClient = new BoxClient(this.boxConfig, authRepo);
+            var userClient = new BoxClient(_boxConfig, authRepo);
 
             return userClient;
         }
@@ -134,7 +133,7 @@ namespace Box.V2.JWTAuth
         /// <returns>Admin token</returns>
         public async Task<string> AdminTokenAsync()
         {
-            return await this.GetTokenAsync(ENTERPRISE_SUB_TYPE, this.boxConfig.EnterpriseId).ConfigureAwait(false);
+            return await GetTokenAsync(ENTERPRISE_SUB_TYPE, _boxConfig.EnterpriseId).ConfigureAwait(false);
         }
         /// <summary>
         /// Once you have created an App User, you can request a User Access Token via the App Auth feature, which will return the OAuth 2.0 access token for the specified App User.
@@ -143,13 +142,13 @@ namespace Box.V2.JWTAuth
         /// <returns>User token</returns>
         public async Task<string> UserTokenAsync(string userId)
         {
-            return await this.GetTokenAsync(USER_SUB_TYPE, userId).ConfigureAwait(false);
+            return await GetTokenAsync(USER_SUB_TYPE, userId).ConfigureAwait(false);
         }
 
         private async Task<string> GetTokenAsync(string subType, string subId)
         {
-            int retryCounter = 0;
-            ExponentialBackoff expBackoff = new ExponentialBackoff();
+            var retryCounter = 0;
+            var expBackoff = new ExponentialBackoff();
 
             var assertion = ConstructJWTAssertion(subId, subType);
             OAuthSession result;
@@ -164,7 +163,7 @@ namespace Box.V2.JWTAuth
                 catch (BoxAPIException ex)
                 {
                     //need to wait for Retry-After seconds and then retry request
-                    var retryAfterHeader = ex.ResponseHeaders != null ? ex.ResponseHeaders.RetryAfter : null;
+                    var retryAfterHeader = ex.ResponseHeaders?.RetryAfter;
 
                     // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
                     // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
@@ -194,15 +193,14 @@ namespace Box.V2.JWTAuth
                         TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
 
                         // If the response contains a Retry-After header, override the exponential back-off delay value
-                        int timeToWait;
-                        if (retryAfterHeader != null && int.TryParse(retryAfterHeader.ToString(), out timeToWait))
+                        if (retryAfterHeader != null && int.TryParse(retryAfterHeader.ToString(), out var timeToWait))
                         {
                             delay = new TimeSpan(0, 0, 0, 0, timeToWait);
                         }
 
                         // Before we retry the JWT Authentication request, we must regenerate the JTI claim with an updated DateTimeOffset.
                         // A delay is added to the JWT time, to account for the time of the upcoming wait.
-                        var serverDate = ex.ResponseHeaders != null ? ex.ResponseHeaders.Date : null;
+                        var serverDate = ex.ResponseHeaders?.Date;
                         if (serverDate.HasValue)
                         {
                             var date = serverDate.Value;
@@ -236,7 +234,7 @@ namespace Box.V2.JWTAuth
 
         private string ConstructJWTAssertion(string sub, string boxSubType, DateTimeOffset? nowOverride = null)
         {
-            byte[] randomNumber = new byte[64];
+            var randomNumber = new byte[64];
             using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(randomNumber);
@@ -254,40 +252,42 @@ namespace Box.V2.JWTAuth
                 expireTime = nowOverride.Value.AddSeconds(30);
             }
 
-            var payload = new JwtPayload(this.boxConfig.ClientId, AUTH_URL, claims, null, expireTime.LocalDateTime);
+            var payload = new JwtPayload(_boxConfig.ClientId, AUTH_URL, claims, null, expireTime.LocalDateTime);
 
-            var header = new JwtHeader(signingCredentials: this.credentials);
-            if (this.boxConfig.JWTPublicKeyId != null)
-                header.Add("kid", this.boxConfig.JWTPublicKeyId);
+            var header = new JwtHeader(signingCredentials: _credentials);
+            if (_boxConfig.JWTPublicKeyId != null)
+            {
+                header.Add("kid", _boxConfig.JWTPublicKeyId);
+            }
 
             var token = new JwtSecurityToken(header, payload);
             var tokenHandler = new JwtSecurityTokenHandler();
-            string assertion = tokenHandler.WriteToken(token);
+            var assertion = tokenHandler.WriteToken(token);
             return assertion;
         }
 
         private async Task<OAuthSession> JWTAuthPostAsync(string assertion)
         {
-            BoxRequest boxRequest = new BoxRequest(this.boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString)
+            BoxRequest boxRequest = new BoxRequest(_boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
-                                            .Header(Constants.RequestParameters.UserAgent, this.boxConfig.UserAgent)
+                                            .Header(Constants.RequestParameters.UserAgent, _boxConfig.UserAgent)
                                             .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.JWTAuthorizationCode)
                                             .Payload(Constants.RequestParameters.Assertion, assertion)
-                                            .Payload(Constants.RequestParameters.ClientId, this.boxConfig.ClientId)
-                                            .Payload(Constants.RequestParameters.ClientSecret, this.boxConfig.ClientSecret);
-            
+                                            .Payload(Constants.RequestParameters.ClientId, _boxConfig.ClientId)
+                                            .Payload(Constants.RequestParameters.ClientSecret, _boxConfig.ClientSecret);
+
             var converter = new BoxJsonConverter();
-            IBoxResponse<OAuthSession> boxResponse = await this.boxService.ToResponseAsyncWithoutRetry<OAuthSession>(boxRequest).ConfigureAwait(false);
+            IBoxResponse<OAuthSession> boxResponse = await _boxService.ToResponseAsyncWithoutRetry<OAuthSession>(boxRequest).ConfigureAwait(false);
             boxResponse.ParseResults(converter);
 
             return boxResponse.ResponseObject;
         }
     }
 
-    class PEMPasswordFinder : IPasswordFinder
+    internal class PEMPasswordFinder : IPasswordFinder
     {
-        private string pword;
-        public PEMPasswordFinder(string password) { pword = password; }
-        public char[] GetPassword() { return pword.ToCharArray(); }
+        private readonly string _pword;
+        public PEMPasswordFinder(string password) { _pword = password; }
+        public char[] GetPassword() { return _pword.ToCharArray(); }
     }
 }

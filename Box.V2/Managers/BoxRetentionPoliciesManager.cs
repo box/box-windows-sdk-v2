@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
+using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Models.Request;
-using Box.V2.Extensions;
 using Box.V2.Services;
 using Box.V2.Utility;
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace Box.V2.Managers
 {
@@ -186,7 +186,7 @@ namespace Box.V2.Managers
         /// <param name="dispositionAfter">Filters results by files that will have their disposition come into effect after this date.</param>
         /// <param name="dispositionAction">Filters results by the retention policy with this disposition action.</param>
         /// <returns>The specified file version retention will be returned upon success.</returns>
-        [Obsolete ("This method will be deprecated in the future. Please use GetFilesUnderRetentionForAssignmentAsync() and GetFileVersionsUnderRetentionForAssignmentAsync() instead.")]
+        [Obsolete("This method will be deprecated in the future. Please use GetFilesUnderRetentionForAssignmentAsync() and GetFileVersionsUnderRetentionForAssignmentAsync() instead.")]
         public async Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false, string fileId = null, string fileVersionId = null, string policyId = null, DateTimeOffset? dispositionBefore = null, DateTimeOffset? dispositionAfter = null, DispositionAction? dispositionAction = null)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)

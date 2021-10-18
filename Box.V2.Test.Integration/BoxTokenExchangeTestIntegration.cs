@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Auth.Token;
 using Box.V2.Config;
 using Box.V2.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
 {
@@ -26,12 +26,12 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task TokenExchange_LiveSession()
         {
-            var token = _client.Auth.Session.AccessToken;
+            var token = Client.Auth.Session.AccessToken;
             var fileId = "16894965489";
             var folderId = "1927307787";
 
             var client = CreateClientByToken(token);
-            var fileInfo = await client.FilesManager.GetInformationAsync(fileId);
+            _ = await client.FilesManager.GetInformationAsync(fileId);
 
             // var resource = string.Format("https://api.box.com/2.0/files/{0}", fileId);
             var resource = string.Format("https://api.box.com/2.0/folders/{0}", folderId);
@@ -56,7 +56,7 @@ namespace Box.V2.Test.Integration
                 await client2.FilesManager.GetInformationAsync(fileId);
                 Assert.Fail();
             }
-            catch (BoxException exp)
+            catch (BoxException)
             {
                 // The new token does not have access to the file any more.
             }

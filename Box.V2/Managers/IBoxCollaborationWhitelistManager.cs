@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Models;
 
@@ -29,7 +29,7 @@ namespace Box.V2.Managers
         /// <param name="marker">Position to return results from.</param>
         /// <param name="limit">Maximum number of entries to return. Default is 100.</param>
         /// <returns>The collection of domain collaboration whitelist objects is returned.</returns>
-        Task<BoxCollectionMarkerBased<BoxCollaborationWhitelistEntry>> GetAllCollaborationWhitelistEntriesAsync(int limit= 100, string nextMarker = null, bool autoPaginate = false);
+        Task<BoxCollectionMarkerBased<BoxCollaborationWhitelistEntry>> GetAllCollaborationWhitelistEntriesAsync(int limit = 100, string nextMarker = null, bool autoPaginate = false);
 
         /// <summary>
         /// Used to delete a domain collaboration whitelists.

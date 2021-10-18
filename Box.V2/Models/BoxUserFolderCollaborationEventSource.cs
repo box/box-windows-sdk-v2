@@ -22,7 +22,7 @@ namespace Box.V2.Models
         /// <summary>
         /// The type of the object.
         /// </summary>
-        public override string Type { get { return "folder"; } protected set { return; }}
+        public override string Type { get { return "folder"; } protected set { return; } }
 
         /// <summary>
         /// The name of the folder  being collaborated on.

@@ -1,10 +1,10 @@
-using Box.V2.Converter;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
-using System.Diagnostics;
+using Box.V2.Converter;
 
 namespace Box.V2.Exceptions
 {
@@ -83,10 +83,9 @@ namespace Box.V2.Exceptions
 
         private static string GetErrorMessage<T>(string message, IBoxResponse<T> response, BoxError error = null) where T : class
         {
-            string requestID = error?.RequestId;
+            var requestID = error?.RequestId;
             string traceID = null;
-            IEnumerable<string> traceIDHeaders;
-            if (response.Headers != null && response.Headers.TryGetValues("BOX-REQUEST-ID", out traceIDHeaders))
+            if (response.Headers != null && response.Headers.TryGetValues("BOX-REQUEST-ID", out IEnumerable<string> traceIDHeaders))
             {
                 traceID = traceIDHeaders.FirstOrDefault();
             }
@@ -94,7 +93,7 @@ namespace Box.V2.Exceptions
             var errorCode = error?.Code ?? error?.Name;
             var errorDescription = error?.Message ?? error?.Description;
 
-            string exceptionMessage = message;
+            var exceptionMessage = message;
             exceptionMessage += " [" + response.StatusCode;
             if (requestID != null || traceID != null)
             {
@@ -139,21 +138,21 @@ namespace Box.V2.Exceptions
     }
 
 
-    public class BoxConflictException<T> : BoxAPIException  
+    public class BoxConflictException<T> : BoxAPIException
         where T : class
     {
-        private BoxConflictError<T> _conflictError;
+        private readonly BoxConflictError<T> _conflictError;
 
         protected internal BoxConflictException(string message, BoxConflictError<T> error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
-            : base(message, error, statusCode, responseHeaders) 
-        { 
+            : base(message, error, statusCode, responseHeaders)
+        {
             _conflictError = error;
         }
 
         public ICollection<T> ConflictingItems
         {
-            get 
-            { 
+            get
+            {
                 return _conflictError != null && _conflictError.ContextInfo != null ?
                     _conflictError.ContextInfo.Conflicts :
                     null;
@@ -164,7 +163,7 @@ namespace Box.V2.Exceptions
     public class BoxPreflightCheckConflictException<T> : BoxAPIException
         where T : class
     {
-        private BoxPreflightCheckConflictError<T> _conflictError;
+        private readonly BoxPreflightCheckConflictError<T> _conflictError;
 
         protected internal BoxPreflightCheckConflictException(string message, BoxPreflightCheckConflictError<T> error, HttpStatusCode statusCode, HttpResponseHeaders responseHeaders)
                         : base(message, error, statusCode, responseHeaders)

@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http.Headers;
 namespace Box.V2
 {
@@ -11,7 +11,7 @@ namespace Box.V2
         /// <summary>
         /// The object representation of a successful response
         /// </summary>
-        public T ResponseObject { get; set;  }
+        public T ResponseObject { get; set; }
 
         /// <summary>
         /// The full response string from the request

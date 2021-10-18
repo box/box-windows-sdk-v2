@@ -1,14 +1,10 @@
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
+using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using Box.V2.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -37,7 +33,7 @@ namespace Box.V2.Managers
         /// <param name="sharedLink">The shared link for this item.</param>
         /// <param name="sharedLinkPassword">The password for the shared link (if required)</param>
         /// <returns>A full file or folder object is returned if the shared link is valid and the user has access to it. An error may be returned if the link is invalid, if a password is required, or if the user does not have access to the file.</returns>
-        public async Task<BoxItem> SharedItemsAsync(string sharedLink, string sharedLinkPassword=null)
+        public async Task<BoxItem> SharedItemsAsync(string sharedLink, string sharedLinkPassword = null)
         {
             sharedLink.ThrowIfNullOrWhiteSpace("sharedLink");
             BoxRequest request = new BoxRequest(_config.SharedItemsUri, null)

@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models
 {
@@ -14,7 +14,7 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "can_download")]
         public bool Download { get; set; }
-        
+
         /// <summary>
         /// Whether this link allows previews. Can only be used with Open and Company
         /// </summary>

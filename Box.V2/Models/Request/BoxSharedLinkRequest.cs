@@ -1,6 +1,6 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
 
 namespace Box.V2.Models
 {
@@ -16,7 +16,7 @@ namespace Box.V2.Models
         [JsonConverter(typeof(StringEnumConverter))]
         public BoxSharedLinkAccessType? Access { get; set; }
 
-        private bool IsUnsharedAtSet = false;
+        private bool _isUnsharedAtSet = false;
         private DateTimeOffset? _unsharedAt;
 
         /// <summary>
@@ -33,13 +33,13 @@ namespace Box.V2.Models
             set
             {
                 _unsharedAt = value;
-                IsUnsharedAtSet = true;
+                _isUnsharedAtSet = true;
             }
         }
 
         public bool ShouldSerializeUnsharedAt()
         {
-            return IsUnsharedAtSet;
+            return _isUnsharedAtSet;
         }
 
         /// <summary>

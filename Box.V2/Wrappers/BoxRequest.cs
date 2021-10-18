@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using Box.V2.Exceptions;
 
@@ -23,7 +23,7 @@ namespace Box.V2
         /// <param name="path"></param>
         public BoxRequest(Uri hostUri, string path)
         {
-            string pattern = @"\/\.+";
+            var pattern = @"\/\.+";
             if (path != null && Regex.IsMatch(path, pattern) == true)
             {
                 throw new BoxCodingException($"An invalid path parameter exists in {path}. Relative path parameters cannot be passed.");
@@ -74,15 +74,10 @@ namespace Box.V2
             get
             {
                 var existingQuery = Uri.Query;
-                string newQuery;
-                if (String.IsNullOrWhiteSpace(existingQuery))
-                {
-                    newQuery = Parameters.Count == 0 ? string.Empty : string.Format("?{0}", GetQueryString());
-                } else
-                {
-                    newQuery = Parameters.Count == 0 ? existingQuery : string.Format("{0}&{1}", existingQuery, GetQueryString());
-                }
-            
+                var newQuery = string.IsNullOrWhiteSpace(existingQuery)
+                    ? Parameters.Count == 0 ? string.Empty : string.Format("?{0}", GetQueryString())
+                    : Parameters.Count == 0 ? existingQuery : string.Format("{0}&{1}", existingQuery, GetQueryString());
+
                 return new Uri(Uri, newQuery);
             }
         }
@@ -94,7 +89,9 @@ namespace Box.V2
         public string GetQueryString()
         {
             if (Parameters.Count == 0)
+            {
                 return string.Empty;
+            }
 
             var paramStrings = Parameters
                                 .Where(p => !string.IsNullOrEmpty(p.Value))

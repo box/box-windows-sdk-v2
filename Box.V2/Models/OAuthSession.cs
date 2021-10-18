@@ -1,6 +1,6 @@
+using System;
 using Box.V2.Models;
 using Newtonsoft.Json;
-using System;
 
 namespace Box.V2.Auth
 {
@@ -24,8 +24,9 @@ namespace Box.V2.Auth
         /// <param name="expires_in">Time in seconds the access token will expire</param>
         /// <param name="token_type">Token type (usually bearer)</param>
         [JsonConstructor]
+        [Obsolete]
         public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type)
-            : this(access_token, refresh_token, expires_in, token_type, AuthVersion.V2) { } 
+            : this(access_token, refresh_token, expires_in, token_type, AuthVersion.V2) { }
 
         /// <summary>
         /// Instantiates a new OAuth 2 session and allows you to define the auth version. This constructor is primarily 
@@ -37,7 +38,7 @@ namespace Box.V2.Auth
         /// <param name="token_type">Token type (usually bearer)</param>
         /// <param name="authVersion">V1 or V2 auth</param>
         [Obsolete("V1 auth will no longer be available after 6/14")]
-        public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type, AuthVersion authVersion) 
+        public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type, AuthVersion authVersion)
         {
             AccessToken = access_token;
             RefreshToken = refresh_token;
@@ -72,7 +73,7 @@ namespace Box.V2.Auth
         /// </summary>
         [JsonProperty(PropertyName = FieldTokenType)]
         public virtual string TokenType { get; private set; }
-   
+
         /// <summary>
         /// Gets the restricted to.
         /// </summary>

@@ -45,7 +45,7 @@ namespace Box.V2.Managers
         /// <param name="tosId">The terms of service id.</param>
         /// <param name="userId">The user id, if null this will default to current user.</param>
         /// <returns>The user status for terms of service objects.</returns>
-        Task<BoxTermsOfServiceUserStatusesCollection<BoxTermsOfServiceUserStatuses>> GetTermsOfServiceUserStatusesAsync(string tosId, String userId = null);
+        Task<BoxTermsOfServiceUserStatusesCollection<BoxTermsOfServiceUserStatuses>> GetTermsOfServiceUserStatusesAsync(string tosId, string userId = null);
 
         /// <summary>
         /// Create a terms of service status for user.

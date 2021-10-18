@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 namespace Box.V2.Auth
@@ -20,7 +20,7 @@ namespace Box.V2.Auth
         /// </summary>
         event EventHandler<SessionAuthenticatedEventArgs> SessionAuthenticated;
 
-        
+
         /// <summary>
         /// Performs the 2nd step of the OAuth2 workflow and exchanges the auth code
         /// for an Access and Refresh token

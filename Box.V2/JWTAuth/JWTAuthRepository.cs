@@ -1,6 +1,6 @@
-using Box.V2.Auth;
 using System;
 using System.Threading.Tasks;
+using Box.V2.Auth;
 
 namespace Box.V2.JWTAuth
 {
@@ -42,9 +42,9 @@ namespace Box.V2.JWTAuth
         /// <param name="userId">Id of the user</param>
         public JWTAuthRepository(OAuthSession session, BoxJWTAuth boxJWTAuth, string userId = null)
         {
-            this.Session = session;
-            this.BoxJWTAuth = boxJWTAuth;
-            this.UserId = userId;
+            Session = session;
+            BoxJWTAuth = boxJWTAuth;
+            UserId = userId;
         }
         /// <summary>
         /// Not used for this type of authentication
@@ -71,18 +71,11 @@ namespace Box.V2.JWTAuth
         /// <returns>OAuth session</returns>
         public async Task<OAuthSession> RefreshAccessTokenAsync(string accessToken)
         {
-            OAuthSession session = null;
+            OAuthSession session = UserId != null
+                ? BoxJWTAuth.Session(await BoxJWTAuth.UserTokenAsync(UserId).ConfigureAwait(false))
+                : BoxJWTAuth.Session(await BoxJWTAuth.AdminTokenAsync().ConfigureAwait(false));
 
-            if (UserId != null)
-            {
-                session = this.BoxJWTAuth.Session(await this.BoxJWTAuth.UserTokenAsync(this.UserId).ConfigureAwait(false));
-            }
-            else
-            {
-                session = this.BoxJWTAuth.Session(await this.BoxJWTAuth.AdminTokenAsync().ConfigureAwait(false));
-            }
-
-            this.Session = session;
+            Session = session;
             OnSessionAuthenticated(session);
 
             return session;

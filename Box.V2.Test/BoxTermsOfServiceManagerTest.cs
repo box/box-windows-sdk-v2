@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
@@ -5,8 +7,6 @@ using Box.V2.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
@@ -25,7 +25,7 @@ namespace Box.V2.Test
         public async Task CreateTermsOfServiceUserStatus_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""terms_of_service_user_status"",
                                         ""id"": ""11446498"",
                                         ""created_at"": ""2012-12-12T10:53:43-08:00"",
@@ -43,7 +43,7 @@ namespace Box.V2.Test
                                         },
                                     }";
             IBoxRequest boxRequest = null;
-            Uri tosUri = new Uri(Constants.BoxApiUriString + Constants.TermsOfServiceUserStatusesString);
+            var tosUri = new Uri(Constants.BoxApiUriString + Constants.TermsOfServiceUserStatusesString);
             Config.SetupGet(x => x.TermsOfServiceUserStatusesUri).Returns(tosUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTermsOfServiceUserStatuses>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTermsOfServiceUserStatuses>>(new BoxResponse<BoxTermsOfServiceUserStatuses>()

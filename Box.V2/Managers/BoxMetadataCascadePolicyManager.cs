@@ -1,13 +1,12 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
-using Box.V2.Models.Request;
 using Box.V2.Services;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -90,7 +89,8 @@ namespace Box.V2.Managers
             if (autopaginate)
             {
                 return await AutoPaginateMarker<BoxMetadataCascadePolicy>(request, limit);
-            } else
+            }
+            else
             {
                 IBoxResponse<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>> response =
                     await ToResponseAsync<BoxCollectionMarkerBased<BoxMetadataCascadePolicy>>(request).ConfigureAwait(false);

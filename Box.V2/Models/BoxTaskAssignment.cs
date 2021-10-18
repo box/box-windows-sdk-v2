@@ -1,6 +1,5 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -59,10 +58,11 @@ namespace Box.V2.Models
         /// Gets the state of the resolution.
         /// </summary>
         [Obsolete("This field is deprecated, and may not work consistently.  Use Status or LocalizedStatus instead.")]
-        public virtual ResolutionStateType? ResolutionState {
+        public virtual ResolutionStateType? ResolutionState
+        {
             get
             {
-                return (ResolutionStateType) System.Enum.Parse(typeof(ResolutionStateType), Status, ignoreCase: true);
+                return (ResolutionStateType)System.Enum.Parse(typeof(ResolutionStateType), Status, ignoreCase: true);
             }
         }
 

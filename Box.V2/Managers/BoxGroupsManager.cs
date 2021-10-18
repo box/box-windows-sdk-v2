@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -5,8 +7,6 @@ using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using Box.V2.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -22,7 +22,7 @@ namespace Box.V2.Managers
         /// <param name="service"></param>
         /// <param name="converter"></param>
         /// <param name="auth"></param>
-        public BoxGroupsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null) 
+        public BoxGroupsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
@@ -51,10 +51,12 @@ namespace Box.V2.Managers
                 if (!limit.HasValue)
                 {
                     limit = 100;
-                    request.Param("limit", limit.ToString());      
+                    request.Param("limit", limit.ToString());
                 }
                 if (!offset.HasValue)
+                {
                     request.Param("offset", "0");
+                }
 
                 return await AutoPaginateLimitOffset<BoxGroup>(request, limit.Value);
             }
@@ -149,7 +151,7 @@ namespace Box.V2.Managers
         /// <param name="membershipRequest">BoxGroupMembershipRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The group membership created.</returns>
-        public async Task<BoxGroupMembership> AddMemberToGroupAsync(BoxGroupMembershipRequest membershipRequest, IEnumerable<string> fields = null) 
+        public async Task<BoxGroupMembership> AddMemberToGroupAsync(BoxGroupMembershipRequest membershipRequest, IEnumerable<string> fields = null)
         {
             membershipRequest.ThrowIfNull("membershipRequest")
                 .Group.Id.ThrowIfNullOrWhiteSpace("Group.Id");
@@ -191,7 +193,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group collaborations; defaults to false.</param>
         /// <returns>A collection of collaborations for the specified group id.</returns>
-        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsForGroupAsync(string groupId, int? limit = null, int? offset = null, 
+        public async Task<BoxCollection<BoxCollaboration>> GetCollaborationsForGroupAsync(string groupId, int? limit = null, int? offset = null,
                                                                                           IEnumerable<string> fields = null, bool autoPaginate = false)
         {
             var request = new BoxRequest(_config.GroupsEndpointUri, string.Format(Constants.CollaborationsPathString, groupId))
@@ -206,8 +208,10 @@ namespace Box.V2.Managers
                     limit = 100;
                     request.Param("limit", limit.ToString());
                 }
-                if(!offset.HasValue)
+                if (!offset.HasValue)
+                {
                     request.Param("offset", "0");
+                }
 
                 return await AutoPaginateLimitOffset<BoxCollaboration>(request, limit.Value);
             }
@@ -245,7 +249,9 @@ namespace Box.V2.Managers
                     request.Param("limit", limit.ToString());
                 }
                 if (!offset.HasValue)
+                {
                     request.Param("offset", "0");
+                }
 
                 return await AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
             }
@@ -283,7 +289,9 @@ namespace Box.V2.Managers
                     request.Param("limit", limit.ToString());
                 }
                 if (!offset.HasValue)
+                {
                     request.Param("offset", "0");
+                }
 
                 return await AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
             }
@@ -319,7 +327,7 @@ namespace Box.V2.Managers
         /// <param name="memRequest">BoxGroupMembershipRequest object.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <returns>The updated group membership.</returns>
-        public async Task<BoxGroupMembership> UpdateGroupMembershipAsync(string membershipId, BoxGroupMembershipRequest memRequest, IEnumerable<string> fields = null) 
+        public async Task<BoxGroupMembership> UpdateGroupMembershipAsync(string membershipId, BoxGroupMembershipRequest memRequest, IEnumerable<string> fields = null)
         {
             membershipId.ThrowIfNullOrWhiteSpace("membershipId");
             memRequest.ThrowIfNull("memRequest").Role.ThrowIfNullOrWhiteSpace("role");

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -5,11 +7,6 @@ using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -69,7 +66,7 @@ namespace Box.V2.Managers
         /// <param name="marker">Position to return results from.</param>
         /// <param name="limit">Maximum number of entries to return. Default is 100.</param>
         /// <returns>The collection of domain collaboration whitelist objects is returned.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxCollaborationWhitelistEntry>> GetAllCollaborationWhitelistEntriesAsync(int limit= 100, string nextMarker = null, bool autoPaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxCollaborationWhitelistEntry>> GetAllCollaborationWhitelistEntriesAsync(int limit = 100, string nextMarker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.CollaborationWhitelistEntryUri)
                 .Method(RequestMethod.Get)
@@ -164,7 +161,7 @@ namespace Box.V2.Managers
                 .Param("limit", limit.ToString())
                 .Param("marker", nextMarker);
 
-            if(autoPaginate)
+            if (autoPaginate)
             {
                 return await AutoPaginateMarker<BoxCollaborationWhitelistTargetEntry>(request, limit);
             }

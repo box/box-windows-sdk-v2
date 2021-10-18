@@ -1,24 +1,18 @@
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
-using Box.V2.Converter;
 using Box.V2.Exceptions;
 using Box.V2.JWTAuth;
 using Box.V2.Request;
 using Box.V2.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
     [TestClass]
     public class BoxJWTAuthTest : BoxResourceManagerTest
     {
-        private readonly IBoxConverter _converter;
         private readonly Mock<IRequestHandler> _handler;
         private readonly IBoxService _service;
         private readonly Mock<IBoxConfig> _boxConfig;
@@ -47,7 +41,7 @@ namespace Box.V2.Test
                 })); ;
 
             // Act
-            String accessToken = await _jwtAuth.AdminTokenAsync();
+            var accessToken = await _jwtAuth.AdminTokenAsync();
 
             // Assert
             Assert.AreEqual(accessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");
@@ -97,7 +91,7 @@ namespace Box.V2.Test
                 }));
 
             // Act
-            String accessToken = await _jwtAuth.AdminTokenAsync();
+            var accessToken = await _jwtAuth.AdminTokenAsync();
         }
 
         [TestMethod]
@@ -123,7 +117,7 @@ namespace Box.V2.Test
                 }));
 
             // Act
-            String accessToken = await _jwtAuth.AdminTokenAsync();
+            var accessToken = await _jwtAuth.AdminTokenAsync();
 
             // Assert
             Assert.AreEqual(accessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");

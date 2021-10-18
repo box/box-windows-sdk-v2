@@ -48,8 +48,8 @@ namespace Box.V2.Managers
         /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
         Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null,
-            uint offset = 0, 
-            uint limit = 100, 
+            uint offset = 0,
+            uint limit = 100,
             IEnumerable<string> fields = null,
             string userType = null,
             string externalAppUserId = null,
@@ -163,7 +163,7 @@ namespace Box.V2.Managers
         /// <param name="limit">Default is 100. Max is 1000.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group memberships; defaults to false.</param>
         /// <returns>A collection of group membership objects will be returned upon success.</returns>
-        Task<BoxCollection<BoxGroupMembership>> GetMembershipsForUserAsync(string userId, uint offset = 0, uint limit = 100, bool autoPaginate=false);
+        Task<BoxCollection<BoxGroupMembership>> GetMembershipsForUserAsync(string userId, uint offset = 0, uint limit = 100, bool autoPaginate = false);
 
         /// <summary>
         /// Retrieves a user's avatar image.

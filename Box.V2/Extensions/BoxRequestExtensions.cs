@@ -1,6 +1,6 @@
-﻿using Box.V2.Config;
 using System;
 using System.Collections.Generic;
+using Box.V2.Config;
 
 namespace Box.V2.Extensions
 {
@@ -15,7 +15,9 @@ namespace Box.V2.Extensions
 
             // Don't add a parameter that does not have a value
             if (string.IsNullOrWhiteSpace(value))
+            {
                 return request;
+            }
 
             request.Parameters[name] = value;
 
@@ -27,14 +29,14 @@ namespace Box.V2.Extensions
             name.ThrowIfNullOrWhiteSpace("name");
 
             // Don't add a parameter that does not have a value
-            if ( values != null )
+            if (values != null)
             {
                 // Rather than use an extention method to determine if the
                 // collection has any values, do the join and check the
                 // result - it'll be empty if there are no values.
-                string joinedValues = string.Join( ",", values );
+                var joinedValues = string.Join(",", values);
 
-                if ( !string.IsNullOrEmpty( joinedValues ) )
+                if (!string.IsNullOrEmpty(joinedValues))
                 {
                     request.Parameters[name] = joinedValues;
                 }
@@ -46,11 +48,15 @@ namespace Box.V2.Extensions
         public static T Header<T>(this T request, string name, string value) where T : IBoxRequest
         {
             if (string.IsNullOrEmpty(name))
+            {
                 throw new ArgumentNullException();
+            }
 
             // Don't add a parameter that does not have a value
             if (string.IsNullOrWhiteSpace(value))
+            {
                 return request;
+            }
 
             request.HttpHeaders[name] = value;
 
@@ -76,10 +82,14 @@ namespace Box.V2.Extensions
         public static T Payload<T>(this T request, string name, string value) where T : IBoxRequest
         {
             if (string.IsNullOrWhiteSpace(name))
+            {
                 throw new ArgumentNullException();
+            }
 
             if (string.IsNullOrWhiteSpace(value))
+            {
                 return request;
+            }
 
             request.PayloadParameters[name] = value;
 

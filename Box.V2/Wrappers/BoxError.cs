@@ -1,4 +1,3 @@
-﻿using Box.V2.Models;
 using Newtonsoft.Json;
 
 namespace Box.V2

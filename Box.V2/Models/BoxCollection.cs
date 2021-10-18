@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -157,7 +157,7 @@ namespace Box.V2.Models
         public virtual BoxSortOrder Order { get; set; }
     }
 
-    public class BoxEventCollection<T> : BoxEventCollection where T: BoxEnterpriseEvent
+    public class BoxEventCollection<T> : BoxEventCollection where T : BoxEnterpriseEvent
     {
         [JsonProperty(PropertyName = FieldChunkSize)]
         public virtual int ChunkSize { get; set; }
@@ -178,13 +178,13 @@ namespace Box.V2.Models
         public virtual List<T> Entries { get; private set; }
     }
 
-    public class BoxMetadataTemplateCollection<T> : BoxMetadataTemplateCollection where T: Dictionary<string,object>
+    public class BoxMetadataTemplateCollection<T> : BoxMetadataTemplateCollection where T : Dictionary<string, object>
     {
         [JsonProperty(PropertyName = FieldEntries)]
         public virtual List<T> Entries { get; private set; }
     }
 
-    public class BoxRepresentationCollection<T> : BoxRepresentationCollection where T: BoxRepresentation
+    public class BoxRepresentationCollection<T> : BoxRepresentationCollection where T : BoxRepresentation
     {
         [JsonProperty(PropertyName = FieldEntries)]
         public virtual List<T> Entries { get; private set; }

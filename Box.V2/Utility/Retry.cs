@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,7 +65,7 @@ namespace Box.V2.Utility
             ValidateParameters(retryCount, exceptionTypesToHandle);
 
             var exceptions = new List<Exception>();
-            for (int retry = 0; retry < retryCount + 1; retry++)
+            for (var retry = 0; retry < retryCount + 1; retry++)
             {
                 try
                 {
@@ -146,7 +146,7 @@ namespace Box.V2.Utility
         {
             ValidateParameters(retryCount, exceptionTypesToHandle);
             var exceptions = new List<Exception>();
-            for (int retry = 0; retry < retryCount + 1; retry++)
+            for (var retry = 0; retry < retryCount + 1; retry++)
             {
                 try
                 {
@@ -159,8 +159,8 @@ namespace Box.V2.Utility
                         await executeOnEveryException(ex);
                     }
 
-                    if (exceptionTypesToHandle != null 
-                        && exceptionTypesToHandle.Any() 
+                    if (exceptionTypesToHandle != null
+                        && exceptionTypesToHandle.Any()
                         && !exceptionTypesToHandle.Any(type => ex.IsOfTypeOrInherits(type)))
                     {
                         throw;
@@ -200,7 +200,7 @@ namespace Box.V2.Utility
                 var typesThatAreNotExcpetions = exceptionTypesToHandle.Where(type => IsOfTypeOrInHerits(type, typeof(Exception)) == false).ToList();
                 if (typesThatAreNotExcpetions.Any())
                 {
-                    string notExceptionsMessage = string.Join(", ", typesThatAreNotExcpetions.Select(t => t.Name));
+                    var notExceptionsMessage = string.Join(", ", typesThatAreNotExcpetions.Select(t => t.Name));
                     throw new SimpleRetryArgumentException(
                         $"All types should be of base type exception. Found {typesThatAreNotExcpetions.Count} type(s) that are not exceptions: {notExceptionsMessage}",
                         nameof(exceptionTypesToHandle));
