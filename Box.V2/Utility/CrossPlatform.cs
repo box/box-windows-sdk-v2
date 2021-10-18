@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-#if NETSTANDARD1_6
+#if NETSTANDARD2_0
 using System.Reflection;
 #endif
 
@@ -19,7 +19,7 @@ namespace Box.V2.Utility
         /// <returns>true if able to convert.</returns>
         public static bool CanConvert<T>(Type objectType)
         {
-#if NETSTANDARD1_6
+#if NETSTANDARD2_0
             return typeof(T).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo());
 #else
             return typeof(T).IsAssignableFrom(objectType);
@@ -32,9 +32,9 @@ namespace Box.V2.Utility
         /// <param name="targetType"></param>
         /// <param name="sourceType"></param>
         /// <returns>true if able to convert.</returns>
-        public static bool CanConvert(Type targetType,Type sourceType)
+        public static bool CanConvert(Type targetType, Type sourceType)
         {
-#if NETSTANDARD1_6
+#if NETSTANDARD2_0
             return targetType.GetTypeInfo().IsAssignableFrom(sourceType.GetTypeInfo());
 #else
             return targetType.IsAssignableFrom(sourceType);
