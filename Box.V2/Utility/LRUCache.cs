@@ -94,7 +94,7 @@ namespace Box.V2.Utility
         /// <returns>The cached value at the given key.</returns>
         public bool TryGetValue(K key, out V value)
         {
-            value = default;
+            value = default(V);
 
             if (!_entries.TryGetValue(key, out CacheNode entry))
             {
