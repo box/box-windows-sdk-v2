@@ -6,7 +6,7 @@ Box Windows V2 SDK
 
 Windows .NET SDK for V2 of the Box API that is usable from the following frameworks: 
 * .NET Framework 4.5
-* .NET Core 1.0 or above
+* .NET Core 2.0 or above
 
 Prerequisites
 * Visual Studio 2017
