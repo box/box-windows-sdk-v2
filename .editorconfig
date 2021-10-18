@@ -21,6 +21,10 @@ indent_size = 2
 [*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
 indent_size = 2
 
+# Generated code
+[*{_AssemblyInfo.cs}]
+generated_code = true
+
 [*.cs]
 charset = utf-8
 indent_size = 4
@@ -141,14 +145,6 @@ dotnet_naming_rule.locals_should_be_camel_case.style = camel_case_style
 dotnet_naming_symbols.locals_and_parameters.applicable_kinds = parameter, local
 dotnet_naming_style.camel_case_style.capitalization = camel_case
 
-# Instance fields are camelCase and start with _
-dotnet_naming_rule.instance_fields_should_be_camel_case.severity = warning
-dotnet_naming_rule.instance_fields_should_be_camel_case.symbols = instance_fields
-dotnet_naming_rule.instance_fields_should_be_camel_case.style = instance_field_style
-dotnet_naming_symbols.instance_fields.applicable_kinds = field
-dotnet_naming_style.instance_field_style.capitalization = camel_case
-dotnet_naming_style.instance_field_style.required_prefix = _
-
 # Members are PascalCase
 dotnet_naming_rule.members_should_be_pascal_case.severity = warning
 dotnet_naming_rule.members_should_be_pascal_case.symbols = all_members
@@ -157,22 +153,29 @@ dotnet_naming_symbols.all_members.applicable_kinds = *
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 
 # Interfaces are PascalCase and are prefixed with uppercase 'I'
+dotnet_naming_rule.interface_rule.severity             = warning
 dotnet_naming_symbols.interface_group.applicable_kinds = interface
 dotnet_naming_rule.interface_rule.symbols              = interface_group
 dotnet_naming_rule.interface_rule.style                = prefix_interface_with_i_style
-dotnet_naming_rule.interface_rule.severity             = warning
 
 # Generics Type Parameters are PascalCase and are prefixed with uppercase 'T'
+dotnet_naming_rule.type_parameter_rule.severity             = warning
 dotnet_naming_symbols.type_parameter_group.applicable_kinds = type_parameter
 dotnet_naming_rule.type_parameter_rule.symbols              = type_parameter_group
 dotnet_naming_rule.type_parameter_rule.style                = prefix_type_parameters_with_t_style
-dotnet_naming_rule.type_parameter_rule.severity             = warning
 
 # Function parameters are camelCase
+dotnet_naming_rule.parameters_rule.severity             = warning
 dotnet_naming_symbols.parameters_group.applicable_kinds = parameter
 dotnet_naming_rule.parameters_rule.symbols              = parameters_group
 dotnet_naming_rule.parameters_rule.style                = camel_case_style
-dotnet_naming_rule.parameters_rule.severity             = warning
+
+# Local variables must be camelCase
+dotnet_naming_rule.stylecop_local_fields_must_be_camel_case_rule.severity    = warning
+dotnet_naming_symbols.stylecop_local_fields_group.applicable_accessibilities = local
+dotnet_naming_symbols.stylecop_local_fields_group.applicable_kinds           = local
+dotnet_naming_rule.stylecop_local_fields_must_be_camel_case_rule.symbols     = stylecop_local_fields_group
+dotnet_naming_rule.stylecop_local_fields_must_be_camel_case_rule.style       = camel_case_style
 
 # Code style defaults
 csharp_using_directive_placement = outside_namespace:warning
@@ -243,3 +246,6 @@ dotnet_diagnostic.IDE0005.severity = warning
 
 # CA1823: Avoid unused private fields
 dotnet_diagnostic.CA1823.severity = warning
+
+# CS0612: Method is obsolete
+dotnet_diagnostic.CS0612.severity = suggestion
