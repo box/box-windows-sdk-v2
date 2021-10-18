@@ -246,5 +246,8 @@ dotnet_diagnostic.IDE0011.severity = warning
 # CS0612: Method is obsolete
 dotnet_diagnostic.CS0612.severity = suggestion
 
+# CS0618: Method is obsolete
+dotnet_diagnostic.CS0618.severity = suggestion
+
 # CS0612: Default expression can be simplified
 dotnet_diagnostic.IDE0034.severity = silent
