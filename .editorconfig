@@ -180,7 +180,7 @@ dotnet_naming_rule.stylecop_local_fields_must_be_camel_case_rule.style       = c
 # Code style defaults
 csharp_using_directive_placement = outside_namespace:warning
 dotnet_sort_system_directives_first = true
-csharp_prefer_braces = true:warning
+csharp_prefer_braces = when_multiline:warning
 csharp_preserve_single_line_blocks = true:suggestion
 csharp_preserve_single_line_statements = true:suggestion
 csharp_prefer_static_local_function = true:warning
@@ -246,6 +246,9 @@ dotnet_diagnostic.IDE0005.severity = warning
 
 # CA1823: Avoid unused private fields
 dotnet_diagnostic.CA1823.severity = warning
+
+# IDE0011: Add braces
+dotnet_diagnostic.IDE0011.severity = warning
 
 # CS0612: Method is obsolete
 dotnet_diagnostic.CS0612.severity = suggestion
