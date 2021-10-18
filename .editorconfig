@@ -171,11 +171,11 @@ dotnet_naming_rule.parameters_rule.symbols              = parameters_group
 dotnet_naming_rule.parameters_rule.style                = camel_case_style
 
 # Local variables must be camelCase
-dotnet_naming_rule.stylecop_local_fields_must_be_camel_case_rule.severity    = warning
-dotnet_naming_symbols.stylecop_local_fields_group.applicable_accessibilities = local
-dotnet_naming_symbols.stylecop_local_fields_group.applicable_kinds           = local
-dotnet_naming_rule.stylecop_local_fields_must_be_camel_case_rule.symbols     = stylecop_local_fields_group
-dotnet_naming_rule.stylecop_local_fields_must_be_camel_case_rule.style       = camel_case_style
+dotnet_naming_rule.local_fields_must_be_camel_case_rule.severity    = warning
+dotnet_naming_symbols.local_fields_group.applicable_accessibilities = local
+dotnet_naming_symbols.local_fields_group.applicable_kinds           = local
+dotnet_naming_rule.local_fields_must_be_camel_case_rule.symbols     = local_fields_group
+dotnet_naming_rule.local_fields_must_be_camel_case_rule.style       = camel_case_style
 
 # Code style defaults
 csharp_using_directive_placement = outside_namespace:warning
