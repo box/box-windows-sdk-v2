@@ -104,7 +104,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [System.Obsolete]
         public async Task CollaborationsOnFileWorkflow_LiveSession_ValidResponse()
         {
             const string FileId = "100699285359";

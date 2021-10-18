@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,7 +31,6 @@ namespace Box.V2.Test.Integration
 
         // retrieve terms of service by id
         [TestMethod]
-        [Obsolete]
         public async Task GetTermsOfServicesById_ValidResponse()
         {
             var termsOfService = await Client.TermsOfServiceManager.GetTermsOfServicesByIdAsync("2778");

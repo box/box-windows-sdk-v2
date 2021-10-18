@@ -12,7 +12,6 @@ namespace Box.V2.Test.Integration
     public class BoxSearchManagerTestIntegration : BoxResourceManagerTestIntegration
     {
         [TestMethod]
-        [Obsolete]
         public async Task SearchKeyword_LiveSession_ValidResponse()
         {
             const string Keyword = "IMG";
@@ -30,7 +29,6 @@ namespace Box.V2.Test.Integration
 
         [TestMethod]
         [TestCategory("CI-APP-USER")]
-        [Obsolete]
         public async Task SearchKeyword_LiveSession_EmptyResult()
         {
             const string Keyword = "NonExistentKeyWord";
@@ -42,7 +40,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [Obsolete]
         public async Task SearchAdvanced_LiveSession()
         {
             const string Keyword = "IMG";
@@ -130,7 +127,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [Obsolete]
         public async Task SearchMetadata_LiveSession()
         {
 

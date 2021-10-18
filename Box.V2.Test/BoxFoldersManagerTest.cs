@@ -79,7 +79,6 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [Obsolete]
         public async Task GetFolder_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -682,7 +681,6 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [Obsolete]
         public async Task GetTrashedItems_ValidResponse_ValidFiles()
         {
             /*** Arrange ***/

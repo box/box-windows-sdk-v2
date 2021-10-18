@@ -249,7 +249,6 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [Obsolete]
         public async Task GetTaskAssignment_TranslatedStatus()
         {
             /*** Arrange ***/

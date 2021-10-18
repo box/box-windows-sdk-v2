@@ -19,7 +19,6 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [Obsolete]
         public async Task SearchKeyword_ValidResponse_ValidResults()
         {
             /*** Arrange ***/
@@ -45,7 +44,6 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [Obsolete]
         public async Task SearchWithDateRanges_ValidResponse_ValidResults()
         {
             /*** Arrange ***/
@@ -71,7 +69,6 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [Obsolete]
         public async Task SearchWithOpenDateRanges_ValidResponse_ValidResults()
         {
             /*** Arrange ***/

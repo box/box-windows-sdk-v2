@@ -70,7 +70,6 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         [TestCategory("CI-APP-USER")]
         [ExpectedException(typeof(TimeoutException))]
-        [Obsolete]
         public async Task Download_ValidRequest_Timeout()
         {
             var timeout = new TimeSpan(0, 0, 0, 0, 1); // 1ms timeout, should always cancel the request
@@ -79,7 +78,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [Obsolete]
         public async Task Download_ValidRequest_ValidStream()
         {
             const string FileId = "16894947279";
@@ -88,7 +86,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [Obsolete]
         public async Task Download_ValidRequest_ValidStreamWithRange()
         {
             const string FileId = "16894947279";
@@ -186,7 +183,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [Obsolete]
         public async Task FileWorkflow_ValidRequest_ValidResponse()
         {
             //file Ids of the two files to download

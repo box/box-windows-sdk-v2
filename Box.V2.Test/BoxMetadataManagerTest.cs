@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Exceptions;
@@ -566,7 +565,6 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [Obsolete]
         public async Task ExecuteMetadataQuery_ValidResponse()
         {
             /*** Arrange ***/

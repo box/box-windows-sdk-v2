@@ -24,7 +24,6 @@ namespace Box.V2.Auth
         /// <param name="expires_in">Time in seconds the access token will expire</param>
         /// <param name="token_type">Token type (usually bearer)</param>
         [JsonConstructor]
-        [Obsolete]
         public OAuthSession(string access_token, string refresh_token, int expires_in, string token_type)
             : this(access_token, refresh_token, expires_in, token_type, AuthVersion.V2) { }
 

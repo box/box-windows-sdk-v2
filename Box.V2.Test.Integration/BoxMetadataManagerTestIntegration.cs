@@ -143,7 +143,6 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        [Obsolete]
         public async Task Metadata_ExecuteQueryAsync_LiveSession()
         {
             var folderName = ".Net Metadata Query Integration Test";
