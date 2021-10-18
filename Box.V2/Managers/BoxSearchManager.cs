@@ -285,9 +285,7 @@ namespace Box.V2.Managers
         {
             var rangeString = string.Format("{0},{1}", from, to);
             if (rangeString == ",")
-            {
                 rangeString = null;
-            }
 
             return rangeString;
         }

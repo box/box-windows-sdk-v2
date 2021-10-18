@@ -15,9 +15,7 @@ namespace Box.V2.Extensions
 
             // Don't add a parameter that does not have a value
             if (string.IsNullOrWhiteSpace(value))
-            {
                 return request;
-            }
 
             request.Parameters[name] = value;
 
@@ -48,15 +46,11 @@ namespace Box.V2.Extensions
         public static T Header<T>(this T request, string name, string value) where T : IBoxRequest
         {
             if (string.IsNullOrEmpty(name))
-            {
                 throw new ArgumentNullException();
-            }
 
             // Don't add a parameter that does not have a value
             if (string.IsNullOrWhiteSpace(value))
-            {
                 return request;
-            }
 
             request.HttpHeaders[name] = value;
 

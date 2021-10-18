@@ -256,9 +256,7 @@ namespace Box.V2.JWTAuth
 
             var header = new JwtHeader(signingCredentials: _credentials);
             if (_boxConfig.JWTPublicKeyId != null)
-            {
                 header.Add("kid", _boxConfig.JWTPublicKeyId);
-            }
 
             var token = new JwtSecurityToken(header, payload);
             var tokenHandler = new JwtSecurityTokenHandler();

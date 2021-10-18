@@ -31,9 +31,7 @@ namespace Box.V2.Extensions
                 case ResponseStatus.Success:
                 case ResponseStatus.Pending:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
-                    {
                         response.ResponseObject = converter.Parse<T>(response.ContentString);
-                    }
 
                     break;
                 case ResponseStatus.Forbidden:

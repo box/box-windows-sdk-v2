@@ -164,9 +164,7 @@ namespace Box.V2.Converter
         {
             // Null check so that the JObject.Load doesn't throw an exception
             if (reader.TokenType == JsonToken.Null)
-            {
                 return null;
-            }
 
             // Load JObject from stream
             var jObject = JObject.Load(reader);

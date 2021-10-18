@@ -89,9 +89,7 @@ namespace Box.V2
         public string GetQueryString()
         {
             if (Parameters.Count == 0)
-            {
                 return string.Empty;
-            }
 
             var paramStrings = Parameters
                                 .Where(p => !string.IsNullOrEmpty(p.Value))

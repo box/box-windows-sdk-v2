@@ -98,9 +98,7 @@ namespace Box.V2.Managers
                                                                           bool autoPaginate = false)
         {
             if (limit == 0 || limit > 1000)
-            {
                 throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
-            }
 
             BoxRequest request = new BoxRequest(_config.UserEndpointUri)
                 .Param("filter_term", filterTerm)
@@ -140,9 +138,7 @@ namespace Box.V2.Managers
                                                                           bool autoPaginate = false)
         {
             if (limit == 0 || limit > 1000)
-            {
                 throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
-            }
 
             BoxRequest request = new BoxRequest(_config.UserEndpointUri)
                 .Param("filter_term", filterTerm)

@@ -53,14 +53,10 @@ namespace Box.V2.JWTAuth
         {
             var bs = n.ToByteArrayUnsigned();
             if (bs.Length == size)
-            {
                 return bs;
-            }
 
             if (bs.Length > size)
-            {
                 throw new ArgumentException("Specified size too small", "size");
-            }
 
             var padded = new byte[size];
             Array.Copy(bs, 0, padded, size - bs.Length, bs.Length);

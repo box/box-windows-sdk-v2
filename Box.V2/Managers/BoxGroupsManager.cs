@@ -54,9 +54,7 @@ namespace Box.V2.Managers
                     request.Param("limit", limit.ToString());
                 }
                 if (!offset.HasValue)
-                {
                     request.Param("offset", "0");
-                }
 
                 return await AutoPaginateLimitOffset<BoxGroup>(request, limit.Value);
             }
@@ -209,9 +207,7 @@ namespace Box.V2.Managers
                     request.Param("limit", limit.ToString());
                 }
                 if (!offset.HasValue)
-                {
                     request.Param("offset", "0");
-                }
 
                 return await AutoPaginateLimitOffset<BoxCollaboration>(request, limit.Value);
             }
@@ -249,9 +245,7 @@ namespace Box.V2.Managers
                     request.Param("limit", limit.ToString());
                 }
                 if (!offset.HasValue)
-                {
                     request.Param("offset", "0");
-                }
 
                 return await AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
             }

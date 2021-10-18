@@ -161,9 +161,7 @@ namespace Box.V2.Auth
         protected async Task<OAuthSession> ExchangeAuthCode(string authCode)
         {
             if (string.IsNullOrWhiteSpace(authCode))
-            {
                 throw new ArgumentException("Auth code cannot be null or empty", "authCode");
-            }
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
@@ -189,9 +187,7 @@ namespace Box.V2.Auth
         protected async Task<OAuthSession> ExchangeRefreshToken(string refreshToken)
         {
             if (string.IsNullOrWhiteSpace(refreshToken))
-            {
                 throw new ArgumentException("Refresh token cannot be null or empty", "refreshToken");
-            }
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
@@ -224,9 +220,7 @@ namespace Box.V2.Auth
         protected async Task InvalidateTokens(string accessToken)
         {
             if (string.IsNullOrWhiteSpace(accessToken))
-            {
                 throw new ArgumentException("Access token cannot be null or empty", "accessToken");
-            }
 
             BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.RevokeEndpointString)
                                             .Method(RequestMethod.Post)

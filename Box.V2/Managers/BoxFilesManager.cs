@@ -159,9 +159,7 @@ namespace Box.V2.Managers
         public async Task<BoxPreflightCheck> PreflightCheckNewVersion(string fileId, BoxPreflightCheckRequest preflightCheckRequest)
         {
             if (preflightCheckRequest.Size <= 0)
-            {
                 throw new ArgumentException("Size in bytes must be greater than zero (otherwise preflight check for new version would always succeed)", "sizeinBytes");
-            }
 
             BoxRequest request = new BoxRequest(new Uri(string.Format(Constants.FilesPreflightCheckNewVersionString, fileId)))
                 .Method(RequestMethod.Options);
@@ -200,9 +198,7 @@ namespace Box.V2.Managers
                 .Id.ThrowIfNullOrWhiteSpace("fileRequest.Parent.Id");
 
             if (setStreamPositionToZero)
-            {
                 stream.Position = 0;
-            }
 
             uploadUri = uploadUri ?? _config.FilesUploadEndpointUri;
 
@@ -221,9 +217,7 @@ namespace Box.V2.Managers
                 });
 
             if (contentMD5 != null)
-            {
                 request.Header(Constants.RequestParameters.ContentMD5, HexStringFromBytes(contentMD5));
-            }
 
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
@@ -300,9 +294,7 @@ namespace Box.V2.Managers
             stream.ThrowIfNull("stream");
 
             if (setStreamPositionToZero)
-            {
                 stream.Position = 0;
-            }
 
             uploadUri = uploadUri ?? new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId));
 
@@ -332,9 +324,7 @@ namespace Box.V2.Managers
                 });
 
             if (contentMD5 != null)
-            {
                 request.Header(Constants.RequestParameters.ContentMD5, HexStringFromBytes(contentMD5));
-            }
 
             IBoxResponse<BoxCollection<BoxFile>> response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
