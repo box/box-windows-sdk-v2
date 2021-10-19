@@ -1,10 +1,10 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Box.V2.Managers;
 using System.Threading.Tasks;
+using Box.V2.Managers;
 using Box.V2.Models;
-using Moq;
 using Box.V2.Models.Request;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Box.V2.Test
 {
@@ -105,7 +105,7 @@ namespace Box.V2.Test
                     ContentString = @"{ ""type"": ""group"", ""id"": ""159322"", ""name"": ""TestGroup2"", ""created_at"": ""2013-11-12T15:19:47-08:00"", ""modified_at"": ""2013-11-12T15:19:47-08:00"" }"
                 }));
 
-            BoxGroupRequest request = new BoxGroupRequest(){ Name = "NewGroup" };
+            var request = new BoxGroupRequest() { Name = "NewGroup" };
 
             BoxGroup group = await _groupsManager.CreateAsync(request);
 
@@ -119,7 +119,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteGroup_ValidResponse_ValidGroup()
         {
-            Handler.Setup(h=>h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxGroup>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxGroup>>(new BoxResponse<BoxGroup>()
                 {
                     Status = ResponseStatus.Success,
@@ -141,7 +141,7 @@ namespace Box.V2.Test
                     ContentString = @"{ ""type"": ""group"", ""id"": ""159322"", ""name"": ""TestGroup2"", ""created_at"": ""2013-11-12T15:19:47-08:00"", ""modified_at"": ""2013-11-12T15:19:47-08:00"" }"
                 }));
 
-            BoxGroupRequest request = new BoxGroupRequest() { Name = "groupName" };
+            var request = new BoxGroupRequest() { Name = "groupName" };
 
             BoxGroup group = await _groupsManager.UpdateAsync("123", request);
 
@@ -172,7 +172,8 @@ namespace Box.V2.Test
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
-            BoxGroupRequest request = new BoxGroupRequest() {
+            var request = new BoxGroupRequest()
+            {
                 Description = "A group from Okta",
                 ExternalSyncIdentifier = "foo",
                 Provenance = "Okta",
@@ -215,7 +216,7 @@ namespace Box.V2.Test
                                         ""modified_at"": ""2013-11-13T13:19:44-08:00""}"
                 }));
 
-            BoxGroupMembershipRequest request = new BoxGroupMembershipRequest()
+            var request = new BoxGroupMembershipRequest()
             {
                 User = new BoxRequestEntity() { Id = "123" },
                 Group = new BoxGroupRequest() { Id = "456" }
@@ -246,7 +247,7 @@ namespace Box.V2.Test
             var result = await _groupsManager.DeleteGroupMembershipAsync("1234");
             Assert.IsTrue(result, "Unsuccessful group membership delete");
         }
-        
+
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
         public async Task GetAllMemberships_ValidResponse_ValidGroup()
@@ -263,7 +264,7 @@ namespace Box.V2.Test
                                         ""user"": {""type"": ""user"",""id"": ""13928063"",""name"": ""spootie"",""login"": ""tevanspratt++39478@box.net""},
                                         ""group"": {""type"": ""group"", ""id"": ""26477"", ""name"": ""adfasdf""}, ""role"": ""member""}], ""offset"": 0,""limit"": 100}"
                 }));
-            
+
             BoxCollection<BoxGroupMembership> response = await _groupsManager.GetAllGroupMembershipsForGroupAsync("123");
 
             Assert.AreEqual(2, response.TotalCount, "Wrong total count");
@@ -342,7 +343,7 @@ namespace Box.V2.Test
                                         ""modified_at"": ""2013-11-13T13:19:44-08:00""}"
                 }));
 
-            BoxGroupMembershipRequest request = new BoxGroupMembershipRequest() { Role = "anything"};
+            var request = new BoxGroupMembershipRequest() { Role = "anything" };
 
             BoxGroupMembership response = await _groupsManager.UpdateGroupMembershipAsync("123", request);
 

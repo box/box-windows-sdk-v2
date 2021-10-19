@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -6,13 +10,6 @@ using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -206,7 +203,7 @@ namespace Box.V2.Managers
         /// <returns>Returns the schema for the specified metadata template.</returns>
         public async Task<BoxMetadataTemplate> GetMetadataTemplate(string scope, string template)
         {
-            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template));
+            var request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template));
             IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -270,7 +267,7 @@ namespace Box.V2.Managers
         /// <returns>Returns the schema for the specified metadata template.</returns>
         public async Task<BoxMetadataTemplate> GetMetadataTemplateById(string templateId)
         {
-            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, templateId);
+            var request = new BoxRequest(_config.MetadataTemplatesUri, templateId);
             IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -283,7 +280,7 @@ namespace Box.V2.Managers
         /// <returns>Collection of metadata instances associated with the file.</returns>
         public async Task<BoxMetadataTemplateCollection<Dictionary<string, object>>> GetAllFileMetadataTemplatesAsync(string fileId)
         {
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.AllFileMetadataPathString, fileId));
+            var request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.AllFileMetadataPathString, fileId));
             IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>> response = await ToResponseAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -296,7 +293,7 @@ namespace Box.V2.Managers
         /// <returns>Collection of metadata instances associated with the file.</returns>
         public async Task<BoxMetadataTemplateCollection<Dictionary<string, object>>> GetAllFolderMetadataTemplatesAsync(string folderId)
         {
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.AllFolderMetadataPathString, folderId));
+            var request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.AllFolderMetadataPathString, folderId));
             IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>> response = await ToResponseAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -309,7 +306,7 @@ namespace Box.V2.Managers
         /// <returns>Collection of enterprise metadata instances associated with the file.</returns>
         public async Task<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> GetEnterpriseMetadataAsync(string scope = "enterprise")
         {
-            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.EnterpriseMetadataTemplatesPathString, scope));
+            var request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.EnterpriseMetadataTemplatesPathString, scope));
             IBoxResponse<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> response = await ToResponseAsync<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -334,7 +331,7 @@ namespace Box.V2.Managers
             from.ThrowIfNullOrWhiteSpace("from");
             ancestorFolderId.ThrowIfNullOrWhiteSpace("ancestorFolderId");
 
-            JObject bodyObject = getMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, null, limit, marker);
+            JObject bodyObject = GetMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, null, limit, marker);
 
             BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
                 .Method(RequestMethod.Post)
@@ -375,7 +372,7 @@ namespace Box.V2.Managers
                 throw new ArgumentException("Required field cannot be null", "fields");
             }
 
-            JObject bodyObject = getMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, fields, limit, marker);
+            JObject bodyObject = GetMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, fields, limit, marker);
 
             BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
                 .Method(RequestMethod.Post)
@@ -397,7 +394,7 @@ namespace Box.V2.Managers
         //Private methods
         //************************************
 
-        private JObject getMetadataQueryBody(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, IEnumerable<string> fields = null, int limit = 100, string marker = null)
+        private JObject GetMetadataQueryBody(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, IEnumerable<string> fields = null, int limit = 100, string marker = null)
         {
             dynamic bodyObject = new JObject();
 
@@ -422,7 +419,7 @@ namespace Box.V2.Managers
 
             if (orderBy != null)
             {
-                List<JObject> orderByList = new List<JObject>();
+                var orderByList = new List<JObject>();
                 foreach (var order in orderBy)
                 {
                     dynamic orderByObject = new JObject();
@@ -435,7 +432,7 @@ namespace Box.V2.Managers
 
             if (fields != null)
             {
-                JArray fieldArray = new JArray();
+                var fieldArray = new JArray();
                 foreach (var field in fields)
                 {
                     fieldArray.Add(field);

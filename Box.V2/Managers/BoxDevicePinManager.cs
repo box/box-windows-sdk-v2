@@ -1,14 +1,10 @@
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
+using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using Box.V2.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -26,8 +22,8 @@ namespace Box.V2.Managers
         /// <param name="direction">Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns all the device pins within a given enterprise up to limit amount.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxDevicePin>> GetEnterpriseDevicePinsAsync(string enterpriseId, string marker = null, 
-                                                                                               int limit = 100, 
+        public async Task<BoxCollectionMarkerBased<BoxDevicePin>> GetEnterpriseDevicePinsAsync(string enterpriseId, string marker = null,
+                                                                                               int limit = 100,
                                                                                                BoxSortDirection direction = BoxSortDirection.ASC,
                                                                                                bool autoPaginate = false)
         {
@@ -54,7 +50,7 @@ namespace Box.V2.Managers
         /// <returns>Information about the device pin.</returns>
         public async Task<BoxDevicePin> GetDevicePin(string id)
         {
-            BoxRequest request = new BoxRequest(_config.DevicePinUri, id);
+            var request = new BoxRequest(_config.DevicePinUri, id);
 
             IBoxResponse<BoxDevicePin> response = await ToResponseAsync<BoxDevicePin>(request).ConfigureAwait(false);
 

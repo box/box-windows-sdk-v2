@@ -1,6 +1,6 @@
-﻿using Box.V2.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
+using Box.V2.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test.Integration
 {
@@ -12,18 +12,18 @@ namespace Box.V2.Test.Integration
         public async Task RecentItemsTests_LiveSession()
         {
             // Get 3 recents items w/o auto paging
-            var recentItems = await _client.RecentItemsManager.GetRecentItemsAsync(limit:3);
+            var recentItems = await Client.RecentItemsManager.GetRecentItemsAsync(limit: 3);
             Assert.AreEqual(recentItems.Limit, 3);
 
             // Get next page if possible
             if (!string.IsNullOrEmpty(recentItems.NextMarker))
             {
-                recentItems = await _client.RecentItemsManager.GetRecentItemsAsync(limit: 3, marker: recentItems.NextMarker);
+                recentItems = await Client.RecentItemsManager.GetRecentItemsAsync(limit: 3, marker: recentItems.NextMarker);
                 Assert.AreEqual(recentItems.Limit, 3);
             }
 
             // Get all the recent items.
-            recentItems = await _client.RecentItemsManager.GetRecentItemsAsync(limit:3, autoPaginate:true);
+            recentItems = await Client.RecentItemsManager.GetRecentItemsAsync(limit: 3, autoPaginate: true);
             Assert.AreEqual(recentItems.Order.By, BoxSortBy.interacted_at);
         }
     }

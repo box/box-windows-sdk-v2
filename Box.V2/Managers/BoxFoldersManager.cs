@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -5,9 +8,6 @@ using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -75,7 +75,7 @@ namespace Box.V2.Managers
             {
                 IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
                 return response.ResponseObject;
-            }   
+            }
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Box.V2.Managers
         /// <param name="sort">The field to sort items on</param>
         /// <param name="direction">The direction to sort results in: ascending or descending</param>
         /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
-        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false, string sort = null, BoxSortDirection? direction = null)
+        public async Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate = false, string sort = null, BoxSortDirection? direction = null)
         {
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, Constants.TrashItemsPathString)
                 .Param("limit", limit.ToString())
@@ -285,7 +285,7 @@ namespace Box.V2.Managers
             {
                 IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
                 return response.ResponseObject;
-            }    
+            }
         }
 
         /// <summary>
@@ -327,13 +327,13 @@ namespace Box.V2.Managers
         {
             folderRequest.ThrowIfNull("folderRequest")
                 .Id.ThrowIfNullOrWhiteSpace("folderRequest.Id");
-            
+
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, folderRequest.Id)
                     .Method(RequestMethod.Post)
                     .Param(ParamFields, fields);
 
             // ID shall not be used in request body it is used only as url attribute
-            string oldId = folderRequest.Id;
+            var oldId = folderRequest.Id;
             folderRequest.Id = null;
 
             request.Payload(_converter.Serialize(folderRequest));
@@ -395,14 +395,9 @@ namespace Box.V2.Managers
                .Method(RequestMethod.Get);
 
             IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
-            if (response.Status == ResponseStatus.Success)
-            {
-                return response.ResponseObject.Watermark;
-            }
-            else
-            {
-                return null;
-            }
+            return response.Status == ResponseStatus.Success ?
+                response.ResponseObject.Watermark :
+                null;
         }
 
         /// <summary>
@@ -426,14 +421,9 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
 
-            if (response.Status == ResponseStatus.Success)
-            {
-                return response.ResponseObject.Watermark;
-            }
-            else
-            {
-                return null;
-            }
+            return response.Status == ResponseStatus.Success ?
+                response.ResponseObject.Watermark :
+                null;
         }
 
         /// <summary>
@@ -462,9 +452,9 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            JObject bodyObject = new JObject();
-            JObject folderObject = new JObject();
-            JObject lockOperationsObject = new JObject();
+            var bodyObject = new JObject();
+            var folderObject = new JObject();
+            var lockOperationsObject = new JObject();
 
             folderObject.Add("id", id);
             folderObject.Add("type", "folder");

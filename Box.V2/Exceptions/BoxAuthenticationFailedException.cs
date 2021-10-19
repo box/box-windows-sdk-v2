@@ -22,7 +22,7 @@ namespace Box.V2.Exceptions
         {
         }
 
-        protected internal new static BoxSessionInvalidatedException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
+        protected internal static new BoxSessionInvalidatedException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
         {
             var ex = BoxAPIException.GetResponseException(message, response);
 

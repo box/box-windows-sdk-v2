@@ -15,6 +15,6 @@ namespace Box.V2.Managers
         /// <param name="sharedLink">The shared link for this item.</param>
         /// <param name="sharedLinkPassword">The password for the shared link (if required)</param>
         /// <returns>A full file or folder object is returned if the shared link is valid and the user has access to it. An error may be returned if the link is invalid, if a password is required, or if the user does not have access to the file.</returns>
-        Task<BoxItem> SharedItemsAsync(string sharedLink, string sharedLinkPassword=null);
+        Task<BoxItem> SharedItemsAsync(string sharedLink, string sharedLinkPassword = null);
     }
 }

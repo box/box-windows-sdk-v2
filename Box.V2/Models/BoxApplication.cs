@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 
 namespace Box.V2.Models
@@ -15,12 +14,12 @@ namespace Box.V2.Models
         /// The name of this application.
         /// </summary>
         [JsonProperty(PropertyName = FieldName)]
-        public virtual String Name { get; private set; }
+        public virtual string Name { get; private set; }
 
         /// <summary>
         /// The API key of this application.
         /// </summary>
         [JsonProperty(PropertyName = FieldApiKey)]
-        public virtual String ApiKey { get; private set; }
+        public virtual string ApiKey { get; private set; }
     }
 }

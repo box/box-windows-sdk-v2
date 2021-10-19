@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -18,13 +18,13 @@ namespace Box.V2.Models
         /// The domain to be whitelisted for collaboration.
         /// </summary>
         [JsonProperty(PropertyName = FieldDomain)]
-        public virtual String Domain { get; set; }
+        public virtual string Domain { get; set; }
 
         /// <summary>
         /// The direction of the whitelist for collaboration.
         /// </summary>
         [JsonProperty(PropertyName = FieldDirection)]
-        public virtual String Direction { get; set; }
+        public virtual string Direction { get; set; }
 
         /// <summary>
         /// The enterprise the collaboration whitelist belongs to.

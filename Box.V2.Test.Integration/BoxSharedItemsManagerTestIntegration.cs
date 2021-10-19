@@ -1,9 +1,5 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test.Integration
 {
@@ -14,13 +10,13 @@ namespace Box.V2.Test.Integration
         [TestCategory("CI-APP-USER")]
         public async Task SharedLink_LiveSession()
         {
-            const string sharedLink = "https://app.box.com/s/70pecdxd6pvnd285rs4hqdp7zphgyqva";
-            const string password = "demo1234";
-            const string expectedId = "16894946307";
+            const string SharedLink = "https://app.box.com/s/70pecdxd6pvnd285rs4hqdp7zphgyqva";
+            const string Password = "demo1234";
+            const string ExpectedId = "16894946307";
 
-            var sharedItem = await _client.SharedItemsManager.SharedItemsAsync(sharedLink, sharedLinkPassword: password);
+            var sharedItem = await Client.SharedItemsManager.SharedItemsAsync(SharedLink, sharedLinkPassword: Password);
 
-            Assert.AreEqual(expectedId, sharedItem.Id);
+            Assert.AreEqual(ExpectedId, sharedItem.Id);
         }
     }
 }

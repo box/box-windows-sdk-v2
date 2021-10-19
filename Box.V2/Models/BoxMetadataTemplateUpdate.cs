@@ -1,9 +1,6 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Models
 {
@@ -24,7 +21,7 @@ namespace Box.V2.Models
         public virtual MetadataTemplateUpdateOp? Op { get; set; }
 
         [JsonProperty(PropertyName = FieldData)]
-        public virtual Object Data { get; set; }
+        public virtual object Data { get; set; }
 
         [JsonProperty(PropertyName = FieldFieldKey)]
         public virtual string FieldKey { get; set; }

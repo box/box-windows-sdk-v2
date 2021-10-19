@@ -43,6 +43,6 @@ namespace Box.V2.Managers
         /// <param name="nextMarker">Optional. Used to indicate starting point for next batch of webhooks.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns all defined webhooks for the requesting application and user, up to the limit.</returns>
-        Task<BoxCollectionMarkerBased<BoxWebhook>> GetWebhooksAsync (int limit = 100, string nextMarker = null, bool autoPaginate=false);
+        Task<BoxCollectionMarkerBased<BoxWebhook>> GetWebhooksAsync(int limit = 100, string nextMarker = null, bool autoPaginate = false);
     }
 }

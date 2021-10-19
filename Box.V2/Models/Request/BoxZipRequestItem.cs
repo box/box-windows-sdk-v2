@@ -6,7 +6,7 @@ namespace Box.V2.Models.Request
     /// <summary>
     /// A request class for a Box item to be included when creating a zip file
     /// </summary>
-   public class BoxZipRequestItem
+    public class BoxZipRequestItem
     {
         /// <summary>
         /// The Id of the item 

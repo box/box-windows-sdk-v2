@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -5,10 +8,6 @@ using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using Box.V2.Services;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -46,7 +45,7 @@ namespace Box.V2.Managers
         /// <param name="direction">The direction to return the results. "ASC" for ascending and "DESC" for descending.</param>
         /// <returns>A collection of search results is returned. If there are no matching search results, the collection will be empty.</returns>
         [Obsolete("Method is deprecated; use QueryAsync() instead")]
-        public async Task<BoxCollection<BoxItem>> SearchAsync(  string keyword = null,
+        public async Task<BoxCollection<BoxItem>> SearchAsync(string keyword = null,
                                                                 int limit = 30,
                                                                 int offset = 0,
                                                                 IEnumerable<string> fields = null,
@@ -66,12 +65,12 @@ namespace Box.V2.Managers
                                                                 List<BoxMetadataFilterRequest> mdFilters = null,
                                                                 string sort = null,
                                                                 BoxSortDirection? direction = null)
-                                                             
+
         {
 
             string mdFiltersString = null;
             if (mdFilters != null)
-            {               
+            {
                 mdFiltersString = _converter.Serialize(mdFilters);
             }
 
@@ -99,7 +98,7 @@ namespace Box.V2.Managers
                 .Param(ParamFields, fields);
 
             IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
-                    
+
             return response.ResponseObject;
         }
 
@@ -268,24 +267,25 @@ namespace Box.V2.Managers
 
         private string BuildDateRangeField(DateTimeOffset? from, DateTimeOffset? to)
         {
-            var fromString = from.HasValue ? from.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : String.Empty;
-            var toString = to.HasValue ? to.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : String.Empty;
+            var fromString = from.HasValue ? from.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : string.Empty;
+            var toString = to.HasValue ? to.Value.ToUniversalTime().ToString(Constants.RFC3339DateFormat_UTC) : string.Empty;
 
             return BuildRangeString(fromString, toString);
         }
 
         private string BuildSizeRangeField(long? lowerBoundBytes, long? upperBoundBytes)
         {
-            var lowerBoundString = lowerBoundBytes.HasValue ? lowerBoundBytes.Value.ToString() : String.Empty;
-            var upperBoundString = upperBoundBytes.HasValue ? upperBoundBytes.Value.ToString() : String.Empty;
+            var lowerBoundString = lowerBoundBytes.HasValue ? lowerBoundBytes.Value.ToString() : string.Empty;
+            var upperBoundString = upperBoundBytes.HasValue ? upperBoundBytes.Value.ToString() : string.Empty;
 
             return BuildRangeString(lowerBoundString, upperBoundString);
         }
 
         private string BuildRangeString(string from, string to)
         {
-            var rangeString = String.Format("{0},{1}", from, to);
-            if (rangeString == ",") rangeString = null;
+            var rangeString = string.Format("{0},{1}", from, to);
+            if (rangeString == ",")
+                rangeString = null;
 
             return rangeString;
         }

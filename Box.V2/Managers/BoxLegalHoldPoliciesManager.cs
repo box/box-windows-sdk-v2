@@ -1,12 +1,11 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
-using Box.V2.Extensions;
 using Box.V2.Converter;
+using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
 
 namespace Box.V2.Managers
 {
@@ -228,7 +227,7 @@ namespace Box.V2.Managers
         /// If the ID is for a non-existent Hold, a 404 is returned.</returns>
         public async Task<BoxFileVersionLegalHold> GetFileVersionLegalHoldAsync(string fileVersionLegalHoldId)
         {
-            BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri, fileVersionLegalHoldId);
+            var request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri, fileVersionLegalHoldId);
 
             var response = await ToResponseAsync<BoxFileVersionLegalHold>(request).ConfigureAwait(false);
 

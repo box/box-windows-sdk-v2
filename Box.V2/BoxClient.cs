@@ -1,3 +1,4 @@
+using System;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -5,7 +6,6 @@ using Box.V2.Managers;
 using Box.V2.Plugins;
 using Box.V2.Request;
 using Box.V2.Services;
-using System;
 
 namespace Box.V2
 {
@@ -162,7 +162,7 @@ namespace Box.V2
         /// The manager that represents the files endpoint
         /// </summary>
         public IBoxFilesManager FilesManager { get; private set; }
-        
+
         /// <summary>
         /// The manager that represents the folders endpoint
         /// </summary>

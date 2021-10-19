@@ -1,12 +1,10 @@
+using System;
+using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
-using Box.V2.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 
 namespace Box.V2.Test
@@ -26,13 +24,13 @@ namespace Box.V2.Test
         public async Task GetStoragePolicy_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""storage_policy"",
                                         ""id"": ""2698512"",
                                         ""name"": ""AWS Frankfurt / AWS Dublin with in region Uploads/Downloads/Previews""
                                     }";
             IBoxRequest boxRequest = null;
-            Uri storagePoliciesUri = new Uri(Constants.StoragePoliciesEndpointString);
+            var storagePoliciesUri = new Uri(Constants.StoragePoliciesEndpointString);
             Config.SetupGet(x => x.StoragePoliciesUri).Returns(storagePoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxStoragePolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxStoragePolicy>>(new BoxResponse<BoxStoragePolicy>()
@@ -57,7 +55,7 @@ namespace Box.V2.Test
         public async Task GetStoragePolicies_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""next_marker"": null,
                                         ""limit"": 1000,
                                         ""entries"": [
@@ -75,7 +73,7 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            Uri storagePoliciesUri = new Uri(Constants.StoragePoliciesEndpointString);
+            var storagePoliciesUri = new Uri(Constants.StoragePoliciesEndpointString);
             Config.SetupGet(x => x.StoragePoliciesUri).Returns(storagePoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxStoragePolicy>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicy>>>(new BoxResponse<BoxCollectionMarkerBased<BoxStoragePolicy>>()
@@ -88,7 +86,7 @@ namespace Box.V2.Test
             /*** Act ***/
             BoxCollectionMarkerBased<BoxStoragePolicy> result = await _storagePoliciesManager.GetListStoragePoliciesAsync();
 
-              /*** Assert ***/
+            /*** Assert ***/
             //Request check
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Get, boxRequest.Method);
@@ -107,7 +105,7 @@ namespace Box.V2.Test
         public async Task CreateAssignment_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""storage_policy_assignment"",
                                         ""id"": ""user_5678"",
                                         ""storage_policy"": {
@@ -121,7 +119,7 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            Uri storagePolicyAssignmentsForTargetUri = new Uri(Constants.StoragePolicyAssignmentsForTargetEndpointString);
+            var storagePolicyAssignmentsForTargetUri = new Uri(Constants.StoragePolicyAssignmentsForTargetEndpointString);
             Config.SetupGet(x => x.StoragePolicyAssignmentsForTargetUri).Returns(storagePolicyAssignmentsForTargetUri);
             Handler.Setup(h => h.ExecuteAsync<BoxStoragePolicyAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxStoragePolicyAssignment>>(new BoxResponse<BoxStoragePolicyAssignment>()
@@ -152,7 +150,7 @@ namespace Box.V2.Test
         public async Task GetAssignment_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""entries"": [
                                             {
                                                 ""type"": ""storage_policy_assignment"",
@@ -170,7 +168,7 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            Uri storagePolicyAssignmentsForTargetUri = new Uri(Constants.StoragePolicyAssignmentsForTargetEndpointString);
+            var storagePolicyAssignmentsForTargetUri = new Uri(Constants.StoragePolicyAssignmentsForTargetEndpointString);
             Config.SetupGet(x => x.StoragePolicyAssignmentsForTargetUri).Returns(storagePolicyAssignmentsForTargetUri);
             Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>>(new BoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>()
@@ -201,7 +199,7 @@ namespace Box.V2.Test
         public async Task GetAssignmentWithID_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""storage_policy_assignment"",
                                         ""id"": ""user_5678"",
                                         ""storage_policy"": {
@@ -215,7 +213,7 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            Uri storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
+            var storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
             Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
             Handler.Setup(h => h.ExecuteAsync<BoxStoragePolicyAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxStoragePolicyAssignment>>(new BoxResponse<BoxStoragePolicyAssignment>()
@@ -244,7 +242,7 @@ namespace Box.V2.Test
         public async Task UpdateAssignment_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""storage_policy_assignment"",
                                         ""id"": ""user_5678"",
                                         ""storage_policy"": {
@@ -258,7 +256,7 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            Uri storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
+            var storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
             Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
             Handler.Setup(h => h.ExecuteAsync<BoxStoragePolicyAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxStoragePolicyAssignment>>(new BoxResponse<BoxStoragePolicyAssignment>()
@@ -285,9 +283,9 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteAssignment_ValidResponse()
         {
-            string responseString = "";
+            var responseString = "";
             IBoxRequest boxRequest = null;
-            Uri storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
+            var storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
             Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
             Handler.Setup(h => h.ExecuteAsync<BoxStoragePolicyAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxStoragePolicyAssignment>>(new BoxResponse<BoxStoragePolicyAssignment>()
@@ -298,7 +296,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            bool result = await _storagePoliciesManager.DeleteAssignmentAsync("user_5678");
+            var result = await _storagePoliciesManager.DeleteAssignmentAsync("user_5678");
 
             /*** Assert ***/
             // Request check
@@ -315,7 +313,7 @@ namespace Box.V2.Test
         public async Task Assign_SameStoragePolicy_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""next_marker"": null,
                                         ""limit"": 1000,
                                         ""entries"": [
@@ -335,10 +333,10 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            Uri storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
+            var storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
             Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
-            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>> (It.IsAny<IBoxRequest>()))
-                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>> (new BoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>()
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>>(new BoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
@@ -357,7 +355,7 @@ namespace Box.V2.Test
         public async Task Assign_DifferentStoragePolicy_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""next_marker"": null,
                                         ""limit"": 1000,
                                         ""entries"": [
@@ -377,7 +375,7 @@ namespace Box.V2.Test
                                     }";
 
             IBoxRequest boxRequest = null;
-            Uri storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
+            var storagePolicyAssignmentsUri = new Uri(Constants.StoragePolicyAssignmentsEndpointString);
             Config.SetupGet(x => x.StoragePolicyAssignmentsUri).Returns(storagePolicyAssignmentsUri);
             Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>>(new BoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>()
@@ -388,7 +386,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Arrange ***/
-            string putResponseString = @"{
+            var putResponseString = @"{
                                         ""type"": ""storage_policy_assignment"",
                                         ""id"": ""user_7777"",
                                         ""storage_policy"": {
@@ -414,7 +412,7 @@ namespace Box.V2.Test
 
             /*** Act ***/
             var result = await _storagePoliciesManager.AssignAsync("1111", "7777");
-            
+
             //Response check
             Assert.AreEqual("storage_policy_assignment", result.Type);
             Assert.AreEqual("user_7777", result.Id);

@@ -15,15 +15,17 @@ namespace Box.V2.Converter
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            List<BoxZipConflict> conflicts = new List<BoxZipConflict>();
+            var conflicts = new List<BoxZipConflict>();
 
             // Load JObject from stream
-            JArray conflictsArray = JArray.Load(reader);
+            var conflictsArray = JArray.Load(reader);
             foreach (JArray conflict in conflictsArray)
             {
-                BoxZipConflict zipConflict = new BoxZipConflict();
-                JObject conflictObject = new JObject();
-                conflictObject.Add("items", conflict);
+                var zipConflict = new BoxZipConflict();
+                var conflictObject = new JObject
+                {
+                    { "items", conflict }
+                };
                 // Populate the object properties
                 serializer.Populate(conflictObject.CreateReader(), zipConflict);
                 conflicts.Add(zipConflict);

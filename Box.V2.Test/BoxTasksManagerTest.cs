@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
@@ -5,8 +7,6 @@ using Box.V2.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
@@ -25,7 +25,7 @@ namespace Box.V2.Test
         public async Task CreateTaskAssignment_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""task_assignment"",
                                         ""id"": ""2698512"",
                                         ""item"": {
@@ -55,7 +55,7 @@ namespace Box.V2.Test
                                         }
                                     }";
             IBoxRequest boxRequest = null;
-            Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
+            var taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
             Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
@@ -66,7 +66,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxTaskAssignmentRequest taskAssignmentRequest = new BoxTaskAssignmentRequest()
+            var taskAssignmentRequest = new BoxTaskAssignmentRequest()
             {
                 Task = new BoxTaskRequest()
                 {
@@ -108,7 +108,7 @@ namespace Box.V2.Test
         public async Task UpdateTaskAssignment_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                             ""type"": ""task_assignment"",
                                             ""id"": ""2698512"",
                                             ""item"": {
@@ -138,7 +138,7 @@ namespace Box.V2.Test
                                             }
                                         }";
             IBoxRequest boxRequest = null;
-            Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
+            var taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
             Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
@@ -149,7 +149,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxTaskAssignmentUpdateRequest taskAssignmentUpdateRequest = new BoxTaskAssignmentUpdateRequest()
+            var taskAssignmentUpdateRequest = new BoxTaskAssignmentUpdateRequest()
             {
                 Id = "2698512",
                 Message = "hello!!!"
@@ -184,7 +184,7 @@ namespace Box.V2.Test
         public async Task GetTaskAssignment_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""task_assignment"",
                                         ""id"": ""2698512"",
                                         ""item"": {
@@ -214,7 +214,7 @@ namespace Box.V2.Test
                                         }
                                     }";
             IBoxRequest boxRequest = null;
-            Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
+            var taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
             Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
@@ -252,7 +252,7 @@ namespace Box.V2.Test
         public async Task GetTaskAssignment_TranslatedStatus()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""task_assignment"",
                                         ""id"": ""12345"",
                                         ""item"": {
@@ -283,7 +283,7 @@ namespace Box.V2.Test
                                         }
                                     }";
 
-            Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
+            var taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
             Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
@@ -308,9 +308,9 @@ namespace Box.V2.Test
         public async Task DeleteTaskAssignment_TaskAssignmentDeleted()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             IBoxRequest boxRequest = null;
-            Uri taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
+            var taskAssignmentsUri = new Uri(Constants.TaskAssignmentsEndpointString);
             Config.SetupGet(x => x.TaskAssignmentsEndpointUri).Returns(taskAssignmentsUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
@@ -321,7 +321,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            bool result = await _tasksManager.DeleteTaskAssignmentAsync("2698512");
+            var result = await _tasksManager.DeleteTaskAssignmentAsync("2698512");
 
             /*** Assert ***/
             //Request check
@@ -340,7 +340,7 @@ namespace Box.V2.Test
         public async Task CreateTask_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""task"",
                                         ""id"": ""1839355"",
                                         ""item"": {
@@ -369,7 +369,7 @@ namespace Box.V2.Test
                                         ""completion_rule"": ""all_assignees""
                                     }";
             IBoxRequest boxRequest = null;
-            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            var tasksUri = new Uri(Constants.TasksEndpointString);
             Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
@@ -380,7 +380,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxTaskCreateRequest taskCreateRequest = new BoxTaskCreateRequest()
+            var taskCreateRequest = new BoxTaskCreateRequest()
             {
                 Item = new BoxRequestEntity()
                 {
@@ -421,7 +421,7 @@ namespace Box.V2.Test
         public async Task CreateTask_WithCompletionRule()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""task"",
                                         ""id"": ""1839355"",
                                         ""item"": {
@@ -450,7 +450,7 @@ namespace Box.V2.Test
                                         ""completion_rule"": ""any_assignee""
                                     }";
             IBoxRequest boxRequest = null;
-            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            var tasksUri = new Uri(Constants.TasksEndpointString);
             Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
@@ -461,13 +461,13 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxTaskCreateRequest taskCreateRequest = new BoxTaskCreateRequest()
+            var taskCreateRequest = new BoxTaskCreateRequest()
             {
                 Item = new BoxRequestEntity()
                 {
                     Id = "7287087200",
                     Type = BoxType.file
-               },
+                },
                 Message = "REVIEW PLZ K THX",
                 CompletionRule = BoxCompletionRule.any_assignee
             };
@@ -493,7 +493,7 @@ namespace Box.V2.Test
         public async Task UpdateTask_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""task"",
                                         ""id"": ""1839355"",
                                         ""item"": {
@@ -521,7 +521,7 @@ namespace Box.V2.Test
                                         ""created_at"": ""2013-04-03T11:12:54-07:00""
                                     }";
             IBoxRequest boxRequest = null;
-            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            var tasksUri = new Uri(Constants.TasksEndpointString);
             Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
@@ -532,7 +532,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxTaskUpdateRequest taskUpdateRequest = new BoxTaskUpdateRequest()
+            var taskUpdateRequest = new BoxTaskUpdateRequest()
             {
                 Id = "1839355",
                 Message = "REVIEW PLZ K THX"
@@ -566,9 +566,9 @@ namespace Box.V2.Test
         public async Task DeleteTask_TaskDeleted()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             IBoxRequest boxRequest = null;
-            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            var tasksUri = new Uri(Constants.TasksEndpointString);
             Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTaskAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTaskAssignment>>(new BoxResponse<BoxTaskAssignment>()
@@ -579,7 +579,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            bool result = await _tasksManager.DeleteTaskAsync("1839355");
+            var result = await _tasksManager.DeleteTaskAsync("1839355");
 
             /*** Assert ***/
             //Request check
@@ -598,7 +598,7 @@ namespace Box.V2.Test
         public async Task GetTask_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""task"",
                                         ""id"": ""1839355"",
                                         ""item"": {
@@ -626,7 +626,7 @@ namespace Box.V2.Test
                                         ""created_at"": ""2013-04-03T11:12:54-07:00""
                                     }";
             IBoxRequest boxRequest = null;
-            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            var tasksUri = new Uri(Constants.TasksEndpointString);
             Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
@@ -663,7 +663,7 @@ namespace Box.V2.Test
         public async Task GetAssignments_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""total_count"": 1,
                                         ""entries"": [
                                             {
@@ -687,7 +687,7 @@ namespace Box.V2.Test
                                         ]
                                     }";
             IBoxRequest boxRequest = null;
-            Uri tasksUri = new Uri(Constants.TasksEndpointString);
+            var tasksUri = new Uri(Constants.TasksEndpointString);
             Config.SetupGet(x => x.TasksEndpointUri).Returns(tasksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxTaskAssignment>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxTaskAssignment>>>(new BoxResponse<BoxCollection<BoxTaskAssignment>>()
@@ -720,7 +720,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task ThrowIfNull_WorksWithNullable_NoValue()
         {
-            string responseString = "{\"type\":\"task\",\"id\":\"1874102965\"}";
+            var responseString = "{\"type\":\"task\",\"id\":\"1874102965\"}";
             Handler.Setup(h => h.ExecuteAsync<BoxTask>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxTask>>(new BoxResponse<BoxTask>()
                 {
@@ -728,7 +728,7 @@ namespace Box.V2.Test
                     ContentString = responseString
                 }));
 
-            BoxTaskCreateRequest taskRequest = new BoxTaskCreateRequest
+            var taskRequest = new BoxTaskCreateRequest
             {
                 Item = new BoxRequestEntity
                 {

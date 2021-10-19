@@ -1,11 +1,11 @@
-﻿
+
 namespace Box.V2
 {
     /// <summary>
     /// Interface that defines a Box part
     /// </summary>
     public interface IBoxPart
-    {}
+    { }
 
     /// <summary>
     /// Interface that takes different types of box part

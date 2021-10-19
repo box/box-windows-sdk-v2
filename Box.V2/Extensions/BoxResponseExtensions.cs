@@ -1,12 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Box.V2.Converter;
 using Box.V2.Exceptions;
 using Box.V2.Models;
-using Box.V2.Services;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 namespace Box.V2.Extensions
 {
@@ -33,6 +32,7 @@ namespace Box.V2.Extensions
                 case ResponseStatus.Pending:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                         response.ResponseObject = converter.Parse<T>(response.ContentString);
+
                     break;
                 case ResponseStatus.Forbidden:
                     var errorMsg = response.Headers.WwwAuthenticate.FirstOrDefault();
@@ -41,7 +41,7 @@ namespace Box.V2.Extensions
                         var err = new BoxError() { Code = response.StatusCode.ToString(), Description = "Forbidden", Message = errorMsg.ToString() };
                         throw new BoxAPIException(err.Message, err, response.StatusCode, response.Headers);
                     }
-                    
+
                     throw BoxAPIException.GetResponseException("The API returned an error", response);
                 default:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
@@ -61,7 +61,7 @@ namespace Box.V2.Extensions
                                         BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
                                         exToThrow = new BoxConflictException<T>(response.ContentString, error, response.StatusCode, response.Headers);
                                     }
-                                  
+
                                     break;
                                 default:
                                     response.Error = converter.Parse<BoxError>(response.ContentString);
@@ -92,7 +92,7 @@ namespace Box.V2.Extensions
         /// <returns>Total number of pages in the preview</returns>
         public static int BuildPagesCount<T>(this IBoxResponse<T> response) where T : class
         {
-            int count = 1;
+            var count = 1;
             IEnumerable<string> values = new List<string>();
 
             if (response.Headers.TryGetValues("link", out values)) // headers names are case-insensitve
@@ -101,9 +101,9 @@ namespace Box.V2.Extensions
                 var last = links.FirstOrDefault(x => x.ToUpperInvariant().Contains("REL=\"LAST\""));
                 if (last != null)
                 {
-                    string lastPageLink = last.Split(';')[0];
+                    var lastPageLink = last.Split(';')[0];
 
-                    Regex rgx = new Regex(@"page=[0-9]+", RegexOptions.IgnoreCase);
+                    var rgx = new Regex(@"page=[0-9]+", RegexOptions.IgnoreCase);
                     MatchCollection matches = rgx.Matches(lastPageLink);
 
                     if (matches.Count > 0)

@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -20,13 +16,13 @@ namespace Box.V2.Models
         /// The type of the event source
         /// </summary>
         [JsonProperty(PropertyName = FieldItemType)]
-        override public string Type { get; protected set; }
+        public override string Type { get; protected set; }
 
         /// <summary>
         /// The unique id of the file
         /// </summary>
         [JsonProperty(PropertyName = FieldItemId)]
-        override public string Id { get; protected set; }
+        public override string Id { get; protected set; }
 
         /// <summary>
         /// The name of the file

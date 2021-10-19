@@ -1,10 +1,10 @@
-using Box.V2.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Box.V2.Config;
 
 namespace Box.V2.Utility
 {
@@ -20,7 +20,7 @@ namespace Box.V2.Utility
         /// <returns>unix timestamp.</returns>
         public static double ConvertToUnixTimestamp(DateTimeOffset date)
         {
-            DateTimeOffset origin = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
+            var origin = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
             TimeSpan diff = date.ToUniversalTime() - origin;
             return Math.Floor(diff.TotalSeconds);
         }
@@ -68,8 +68,8 @@ namespace Box.V2.Utility
             return pairs
                 .Select(o => o.Split('='))
                 .Where(items => items.Count() == 2)
-                .ToDictionary(pair => Uri.UnescapeDataString(pair[ 0 ]),
-                    pair => Uri.UnescapeDataString(pair[ 1 ]));
+                .ToDictionary(pair => Uri.UnescapeDataString(pair[0]),
+                    pair => Uri.UnescapeDataString(pair[1]));
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Box.V2.Utility
 
             using (var sha1 = SHA1.Create())
             {
-                byte[] hash = sha1.ComputeHash(stream);
+                var hash = sha1.ComputeHash(stream);
 
                 return Convert.ToBase64String(hash);
             }

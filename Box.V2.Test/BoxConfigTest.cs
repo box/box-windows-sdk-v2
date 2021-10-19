@@ -10,7 +10,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public void BoxConfig_SetUriString()
         {
-            const string jsonString =
+            const string JsonString =
             @"{
               'boxAppSettings': {
                 'clientID': 'cid-123',
@@ -25,12 +25,12 @@ namespace Box.V2.Test
               'enterpriseID': 'eid-123'
             }";
             var config = BoxConfigBuilder
-                .CreateFromJsonString(jsonString)
+                .CreateFromJsonString(JsonString)
                 .Build();
             Assert.AreEqual(config.BoxApiUri, new System.Uri(Constants.BoxApiUriString));
 
-            System.Uri exampleUri = new System.Uri("https://example.com/");
-            config = BoxConfigBuilder.CreateFromJsonString(jsonString)
+            var exampleUri = new System.Uri("https://example.com/");
+            config = BoxConfigBuilder.CreateFromJsonString(JsonString)
                 .SetBoxApiUri(exampleUri)
                 .Build();
             Assert.AreEqual(config.BoxApiUri, exampleUri);
@@ -40,7 +40,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public void BoxConfig_CreateFromString()
         {
-            const string jsonString =
+            const string JsonString =
             @"{
               'boxAppSettings': {
                 'clientID': 'cid-123',
@@ -54,7 +54,7 @@ namespace Box.V2.Test
               'webhooks': {},
               'enterpriseID': 'eid-123'
             }";
-            var config = BoxConfigBuilder.CreateFromJsonString(jsonString)
+            var config = BoxConfigBuilder.CreateFromJsonString(JsonString)
                 .Build();
 
             Assert.AreEqual(config.ClientId, "cid-123");

@@ -1,9 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -28,7 +23,7 @@ namespace Box.V2.Models
         /// The acceptance Status of the Box Terms Of Service object
         /// </summary>
         [JsonProperty(PropertyName = "is_accepted")]
-        public Boolean IsAccepted { get; set; }
+        public bool IsAccepted { get; set; }
     }
 
 }

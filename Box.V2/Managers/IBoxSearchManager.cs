@@ -36,7 +36,7 @@ namespace Box.V2.Managers
         /// <param name="direction">The direction to return the results. "ASC" for ascending and "DESC" for descending.</param>
         /// <returns>A collection of search results is returned. If there are no matching search results, the collection will be empty.</returns>
         [Obsolete("Method is deprecated; use QueryAsync() instead")]
-        Task<BoxCollection<BoxItem>> SearchAsync(  string keyword = null,
+        Task<BoxCollection<BoxItem>> SearchAsync(string keyword = null,
             int limit = 30,
             int offset = 0,
             IEnumerable<string> fields = null,

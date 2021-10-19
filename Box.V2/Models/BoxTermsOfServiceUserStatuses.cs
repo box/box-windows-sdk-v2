@@ -1,8 +1,5 @@
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -30,7 +27,7 @@ namespace Box.V2.Models
         /// The acceptance status of the Terms of Service object
         /// </summary>
         [JsonProperty(PropertyName = FieldIsAccepted)]
-        public virtual Boolean IsAccepted { get; set; }
+        public virtual bool IsAccepted { get; set; }
 
         /// <summary>
         /// The time this terms of service was created

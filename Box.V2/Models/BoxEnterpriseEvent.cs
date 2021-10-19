@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -73,7 +73,7 @@ namespace Box.V2.Models
         /// </para>
         /// </summary>
         [JsonProperty(PropertyName = FieldAdditionalDetails)]
-        public virtual Dictionary<string,object> AdditionalDetails { get; private set; }
+        public virtual Dictionary<string, object> AdditionalDetails { get; private set; }
 
         /// <summary>
         /// The action by field on the event.

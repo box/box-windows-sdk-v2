@@ -1,17 +1,17 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Models;
-using Box.V2.Auth;
-using System.Diagnostics;
 using Box.V2.Utility;
 
 namespace Box.V2.Core.Sample
 {
     public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             try
             {
@@ -59,7 +59,7 @@ namespace Box.V2.Core.Sample
             var progress = new Progress<BoxProgress>(val => { Console.WriteLine("{0}%", val.progress); });
             var bFile = await client.FilesManager.UploadUsingSessionAsync(file, fileName, parentFolderId, null, progress);
 
-            Console.WriteLine("{0} uploaded to folder: {1} as file: {2}",localFilePath, parentFolderId, bFile.Id);
+            Console.WriteLine("{0} uploaded to folder: {1} as file: {2}", localFilePath, parentFolderId, bFile.Id);
             Console.WriteLine("Time spend : {0} ms", timer.ElapsedMilliseconds);
         }
     }

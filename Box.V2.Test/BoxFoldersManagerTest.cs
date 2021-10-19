@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.Exceptions;
 using Box.V2.Managers;
@@ -6,11 +11,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
@@ -30,10 +30,10 @@ namespace Box.V2.Test
         {
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
-                    {
-                        Status = ResponseStatus.Success,
-                        ContentString = "{\"total_count\":24,\"entries\":[{\"type\":\"folder\",\"id\":\"192429928\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"Stephen Curry Three Pointers\"},{\"type\":\"file\",\"id\":\"818853862\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Warriors.jpg\"}],\"offset\":0,\"limit\":2,\"order\":[{\"by\":\"type\",\"direction\":\"ASC\"},{\"by\":\"name\",\"direction\":\"ASC\"}]}"
-                    }));
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = "{\"total_count\":24,\"entries\":[{\"type\":\"folder\",\"id\":\"192429928\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"Stephen Curry Three Pointers\"},{\"type\":\"file\",\"id\":\"818853862\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Warriors.jpg\"}],\"offset\":0,\"limit\":2,\"order\":[{\"by\":\"type\",\"direction\":\"ASC\"},{\"by\":\"name\",\"direction\":\"ASC\"}]}"
+                }));
 
             BoxCollection<BoxItem> items = await _foldersManager.GetFolderItemsAsync("0", 2);
 
@@ -83,10 +83,10 @@ namespace Box.V2.Test
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
-                    {
-                        Status = ResponseStatus.Success,
-                        ContentString = "{ \"type\":\"folder\", \"id\":\"0\", \"sequence_id\":null, \"etag\":null, \"name\":\"All Files\", \"created_at\":null, \"modified_at\":null, \"description\":\"\", \"size\":61591428468, \"path_collection\":{ \"total_count\":0, \"entries\":[ ] }, \"created_by\":{ \"type\":\"user\", \"id\":\"189912110\", \"name\":\"Brian\", \"login\":\"brianytang@gmail.com\" }, \"modified_by\":{ \"type\":\"user\", \"id\":\"189912110\", \"name\":\"Brian\", \"login\":\"brianytang@gmail.com\" }, \"trashed_at\":null, \"purged_at\":null, \"content_created_at\":null, \"content_modified_at\":null, \"owned_by\":{ \"type\":\"user\", \"id\":\"189912110\", \"name\":\"Brian\", \"login\":\"brianytang@gmail.com\" }, \"shared_link\":null, \"folder_upload_email\":null, \"parent\":null, \"item_status\":\"active\", \"item_collection\":{ \"total_count\":10, \"entries\":[ { \"type\":\"folder\", \"id\":\"766352168\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Books\" }, { \"type\":\"folder\", \"id\":\"869883498\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"bytLabs\" }, { \"type\":\"folder\", \"id\":\"767221958\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Games\" }, { \"type\":\"folder\", \"id\":\"766174084\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Mixes\" }, { \"type\":\"folder\", \"id\":\"57181304\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Muzik\" }, { \"type\":\"folder\", \"id\":\"857305570\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"My\" }, { \"type\":\"folder\", \"id\":\"627316229\", \"sequence_id\":\"1\", \"etag\":\"1\", \"name\":\"My Music Folder\" }, { \"type\":\"folder\", \"id\":\"860155462\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"sample\" }, { \"type\":\"folder\", \"id\":\"775829294\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Software\" }, { \"type\":\"folder\", \"id\":\"811565831\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Test\" } ], \"offset\":0, \"limit\":10, \"order\":[ { \"by\":\"type\", \"direction\":\"ASC\" }, { \"by\":\"name\", \"direction\":\"ASC\" } ] } }"
-                    }));
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = "{ \"type\":\"folder\", \"id\":\"0\", \"sequence_id\":null, \"etag\":null, \"name\":\"All Files\", \"created_at\":null, \"modified_at\":null, \"description\":\"\", \"size\":61591428468, \"path_collection\":{ \"total_count\":0, \"entries\":[ ] }, \"created_by\":{ \"type\":\"user\", \"id\":\"189912110\", \"name\":\"Brian\", \"login\":\"brianytang@gmail.com\" }, \"modified_by\":{ \"type\":\"user\", \"id\":\"189912110\", \"name\":\"Brian\", \"login\":\"brianytang@gmail.com\" }, \"trashed_at\":null, \"purged_at\":null, \"content_created_at\":null, \"content_modified_at\":null, \"owned_by\":{ \"type\":\"user\", \"id\":\"189912110\", \"name\":\"Brian\", \"login\":\"brianytang@gmail.com\" }, \"shared_link\":null, \"folder_upload_email\":null, \"parent\":null, \"item_status\":\"active\", \"item_collection\":{ \"total_count\":10, \"entries\":[ { \"type\":\"folder\", \"id\":\"766352168\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Books\" }, { \"type\":\"folder\", \"id\":\"869883498\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"bytLabs\" }, { \"type\":\"folder\", \"id\":\"767221958\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Games\" }, { \"type\":\"folder\", \"id\":\"766174084\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Mixes\" }, { \"type\":\"folder\", \"id\":\"57181304\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Muzik\" }, { \"type\":\"folder\", \"id\":\"857305570\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"My\" }, { \"type\":\"folder\", \"id\":\"627316229\", \"sequence_id\":\"1\", \"etag\":\"1\", \"name\":\"My Music Folder\" }, { \"type\":\"folder\", \"id\":\"860155462\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"sample\" }, { \"type\":\"folder\", \"id\":\"775829294\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Software\" }, { \"type\":\"folder\", \"id\":\"811565831\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Test\" } ], \"offset\":0, \"limit\":10, \"order\":[ { \"by\":\"type\", \"direction\":\"ASC\" }, { \"by\":\"name\", \"direction\":\"ASC\" } ] } }"
+                }));
 
             BoxFolder f = await _foldersManager.GetItemsAsync("0", 10);
 
@@ -541,7 +541,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            BoxFolderRequest folderReq = new BoxFolderRequest()
+            var folderReq = new BoxFolderRequest()
             {
                 Id = "fakeId",
                 Parent = new BoxRequestEntity() { Id = "fakeId" }
@@ -570,7 +570,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            BoxFolderRequest folderReq = new BoxFolderRequest()
+            var folderReq = new BoxFolderRequest()
             {
                 Id = "fakeId",
                 Name = "New Folder Name!",
@@ -602,7 +602,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            BoxSharedLinkRequest sharedLink = new BoxSharedLinkRequest()
+            var sharedLink = new BoxSharedLinkRequest()
             {
                 Access = BoxSharedLinkAccessType.collaborators
             };
@@ -728,7 +728,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r); ;
 
             /*** Act ***/
-            BoxFolderRequest folderReq = new BoxFolderRequest()
+            var folderReq = new BoxFolderRequest()
             {
                 Id = "fakeId",
                 Name = "fakeName",
@@ -780,7 +780,7 @@ namespace Box.V2.Test
         public async Task DeleteFolder_ValidResponse_FolderDeleted()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
@@ -789,7 +789,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            bool result = await _foldersManager.DeleteAsync("34122832467");
+            var result = await _foldersManager.DeleteAsync("34122832467");
 
             /*** Assert ***/
 
@@ -835,7 +835,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>((r) =>
                 {
                     executedRequest = r;
-                }) ;
+                });
 
             /***Act ***/
             BoxCollection<BoxItem> result = await _foldersManager.GetTrashItemsAsync(2, 0);
@@ -883,7 +883,7 @@ namespace Box.V2.Test
         public async Task PurgeTrashedFolder_ValidResponse_FolderDeleted()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
@@ -892,7 +892,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            bool result = await _foldersManager.PurgeTrashedFolderAsync("34122832467");
+            var result = await _foldersManager.PurgeTrashedFolderAsync("34122832467");
 
             /*** Assert ***/
 
@@ -906,7 +906,7 @@ namespace Box.V2.Test
         public async Task GetWatermarkForFolder_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""watermark"": {
                                             ""created_at"": ""2016-10-31T15:33:33-07:00"",
                                             ""modified_at"": ""2016-10-31T15:33:33-07:00""
@@ -940,7 +940,7 @@ namespace Box.V2.Test
         public async Task ApplyWatermarkToFolder_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""watermark"": {
                                             ""created_at"": ""2016-10-31T15:33:33-07:00"",
                                             ""modified_at"": ""2016-10-31T15:33:33-07:00""
@@ -976,7 +976,7 @@ namespace Box.V2.Test
         public async Task RemoveWatermarkFromFolder_ValidResponse_RemovedWatermark()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
@@ -987,7 +987,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            bool result = await _foldersManager.RemoveWatermarkAsync("5010739069");
+            var result = await _foldersManager.RemoveWatermarkAsync("5010739069");
 
             /*** Assert ***/
             //Request check
@@ -1005,7 +1005,7 @@ namespace Box.V2.Test
         public async Task GetFolderLocks_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = "{\"entries\":[{\"folder\":{\"id\":\"12345\",\"etag\":\"1\",\"type\":\"folder\",\"sequence_id\":\"3\",\"name\":\"Contracts\"},\"id\":\"12345678\",\"type\":\"folder_lock\",\"created_by\":{\"id\":\"11446498\",\"type\":\"user\"},\"created_at\":\"2020-09-14T23:12:53Z\",\"locked_operations\":{\"move\":true,\"delete\":true},\"lock_type\":\"freeze\"}],\"limit\":1000,\"next_marker\":null}";
+            var responseString = "{\"entries\":[{\"folder\":{\"id\":\"12345\",\"etag\":\"1\",\"type\":\"folder\",\"sequence_id\":\"3\",\"name\":\"Contracts\"},\"id\":\"12345678\",\"type\":\"folder_lock\",\"created_by\":{\"id\":\"11446498\",\"type\":\"user\"},\"created_at\":\"2020-09-14T23:12:53Z\",\"locked_operations\":{\"move\":true,\"delete\":true},\"lock_type\":\"freeze\"}],\"limit\":1000,\"next_marker\":null}";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFolderLock>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFolderLock>>>(new BoxResponse<BoxCollection<BoxFolderLock>>()
@@ -1016,7 +1016,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            string id = "5010739069";
+            var id = "5010739069";
             BoxCollection<BoxFolderLock> result = await _foldersManager.GetLocksAsync(id);
 
             /*** Assert ***/
@@ -1037,7 +1037,7 @@ namespace Box.V2.Test
         public async Task CreateFolderLock_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = "{\"id\":12345678,\"type\":\"folder_lock\",\"created_at\":\"2020-09-14T23:12:53Z\",\"created_by\":{\"id\":11446498,\"type\":\"user\"},\"folder\":{\"id\":12345,\"type\":\"folder\",\"etag\":1,\"name\":\"Contracts\",\"sequence_id\":3},\"lock_type\":\"freeze\",\"locked_operations\":{\"delete\":true,\"move\":true}}";
+            var responseString = "{\"id\":12345678,\"type\":\"folder_lock\",\"created_at\":\"2020-09-14T23:12:53Z\",\"created_by\":{\"id\":11446498,\"type\":\"user\"},\"folder\":{\"id\":12345,\"type\":\"folder\",\"etag\":1,\"name\":\"Contracts\",\"sequence_id\":3},\"lock_type\":\"freeze\",\"locked_operations\":{\"delete\":true,\"move\":true}}";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFolderLock>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFolderLock>>(new BoxResponse<BoxFolderLock>()
@@ -1048,7 +1048,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            string id = "5010739069";
+            var id = "5010739069";
             BoxFolderLock result = await _foldersManager.CreateLockAsync(id);
 
             /*** Assert ***/
@@ -1056,7 +1056,7 @@ namespace Box.V2.Test
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
             Assert.AreEqual(Constants.FolderLocksEndpointString, boxRequest.AbsoluteUri.AbsoluteUri);
-            JObject payload = JObject.Parse(boxRequest.Payload);
+            var payload = JObject.Parse(boxRequest.Payload);
             Assert.AreEqual("folder", payload["folder"]["type"]);
             Assert.AreEqual(id, payload["folder"]["id"]);
             Assert.AreEqual(true, payload["locked_operations"]["move"]);
@@ -1074,7 +1074,7 @@ namespace Box.V2.Test
         public async Task DeleteFolderLock_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFolderLock>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFolderLock>>(new BoxResponse<BoxFolderLock>()
@@ -1085,8 +1085,8 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            string id = "5010739069";
-            bool result = await _foldersManager.DeleteLockAsync(id);
+            var id = "5010739069";
+            var result = await _foldersManager.DeleteLockAsync(id);
 
             /*** Assert ***/
             //Request check
