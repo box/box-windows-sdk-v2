@@ -69,9 +69,9 @@ namespace Box.V2.Request
                 while (true)
                 {
                     using (HttpRequestMessage httpRequest = GetHttpRequest(request, isMultiPartRequest, isBinaryRequest))
-                    using (HttpResponseMessage response = await GetResponse(request, isStream, httpRequest).ConfigureAwait(false))
                     {
                         Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
+                        HttpResponseMessage response = await GetResponse(request, isStream, httpRequest).ConfigureAwait(false);
                         //need to wait for Retry-After seconds and then retry request
                         var retryAfterHeader = response.Headers.RetryAfter;
 
