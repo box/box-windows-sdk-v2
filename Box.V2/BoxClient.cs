@@ -136,6 +136,7 @@ namespace Box.V2
             TermsOfServiceManager = new BoxTermsOfServiceManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             MetadataCascadePolicyManager = new BoxMetadataCascadePolicyManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             StoragePoliciesManager = new BoxStoragePoliciesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            SignRequestsManager = new BoxSignRequestsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -273,8 +274,14 @@ namespace Box.V2
         /// </summary>
         public IBoxMetadataCascadePolicyManager MetadataCascadePolicyManager { get; private set; }
 
+        /// <summary>
         /// The manager that represents the storage policies endpoint
         /// </summary>
         public IBoxStoragePoliciesManager StoragePoliciesManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents sign requests endpoints.
+        /// </summary>
+        public IBoxSignRequestsManager SignRequestsManager { get; private set; }
     }
 }
