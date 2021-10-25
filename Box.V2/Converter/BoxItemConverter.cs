@@ -1,9 +1,9 @@
+using System;
 using Box.V2.Config;
 using Box.V2.Models;
 using Box.V2.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace Box.V2.Converter
 {
@@ -14,128 +14,133 @@ namespace Box.V2.Converter
         const string WatermarkType = "watermark";
         const string GroupId = "group_id";
         const string UserId = "user_id";
+        const string UserEmail = "user_email";
         const string FolderId = "folder_id";
         const string FileId = "file_id";
 
-        protected override BoxEntity Create(Type objectType, JObject jObject)
-        {
-            if (FieldExists(ItemType, jObject))
+            protected override BoxEntity Create(Type objectType, JObject jObject)
             {
-                switch (jObject[ItemType].ToString())
+                // The collaboration event source schema reuses the same types as the file event source
+                // and folder event source, and hence must be special cased by the existence of particular
+                // fields. Otherwise, we'll always deserialize a file collaboration event source as a file
+                // event source and a folder collaboration event source as a folder event source (which is
+                // not what we want).
+                if (FieldExists(UserId, jObject) && FieldExists(FileId, jObject))
                 {
-                    case Constants.TypeFile:
-                        return new BoxFile();
-                    case Constants.TypeFolder:
-                        return new BoxFolder();
-                    case Constants.TypeWebLink:
-                        return new BoxWebLink();
-                    case Constants.TypeRetentionPolicy:
-                        return new BoxRetentionPolicy();
-                    case Constants.TypeRetentionPolicyAssignment:
-                        return new BoxRetentionPolicyAssignment();
-                    case Constants.TypeFileVersionRetention:
-                        return new BoxFileVersionRetention();
-                    case Constants.TypeComment:
-                        return new BoxComment();
-                    case Constants.TypeFileVersion:
-                        return new BoxFileVersion();
-                    case Constants.TypeGroup:
-                        return new BoxGroup();
-                    case Constants.TypeGroupMembership:
-                        return new BoxGroupMembership();
-                    case Constants.TypeUser:
-                        return new BoxUser();
-                    case Constants.TypeEnterprise:
-                        return new BoxEnterprise();
-                    case Constants.TypeCollaboration:
-                        return new BoxCollaboration();
-                    case Constants.TypeLock:
-                        return new BoxFileLock();
-                    case Constants.TypeInvite:
-                        return new BoxUserInvite();
-                    case Constants.TypeWebhook:
-                        return new BoxWebhook();
-                    case Constants.TypeTask:
-                        return new BoxTask();
-                    case Constants.TypeEmailAlias:
-                        return new BoxEmailAlias();
-                    case Constants.TypeTaskAssignment:
-                        return new BoxTaskAssignment();
-                    case Constants.TypeCollection:
-                        return new BoxCollectionItem();
-                    case Constants.TypeDevicePin:
-                        return new BoxDevicePin();
-                    case Constants.TypeLegalHoldPolicy:
-                        return new BoxLegalHoldPolicy();
-                    case Constants.TypeLegalHoldPolicyAssignment:
-                        return new BoxLegalHoldPolicyAssignment();
-                    case Constants.TypeUploadSession:
-                        return new BoxFileUploadSession();
-                    case Constants.TypeRecentItem:
-                        return new BoxRecentItem();
-                    case Constants.TypeCollabWhitelistEntry:
-                        return new BoxCollaborationWhitelistEntry();
-                    case Constants.TypeCollabWhitelistTargetEntry:
-                        return new BoxCollaborationWhitelistTargetEntry();
-                    case Constants.TypeMetadataTemplate:
-                        return new BoxMetadataTemplate();
-                    case Constants.TypeTermsOfService:
-                        return new BoxTermsOfService();
-                    case Constants.TypeTermsOfServiceUserStatuses:
-                        return new BoxTermsOfServiceUserStatuses();
-                    case Constants.TypeMetadataCascadePolicy:
-                        return new BoxMetadataCascadePolicy();
-                    case Constants.TypeStoragePolicy:
-                        return new BoxStoragePolicy();
-                    case Constants.TypeStoragePolicyAssignment:
-                        return new BoxStoragePolicyAssignment();
-                    case Constants.TypeApplication:
-                        return new BoxApplication();
+                    return new BoxUserFileCollaborationEventSource();
                 }
-            }
-            //There is an inconsistency in the events API where file sources have slightly different field names
-            else if (FieldExists(EventSourceItemType, jObject))
-            {
-                switch (jObject[EventSourceItemType].ToString())
+                if (FieldExists(UserEmail, jObject) && FieldExists(FileId, jObject))
                 {
-                    case Constants.TypeFile:
-                        return new BoxFileEventSource();
-                    case Constants.TypeFolder:
-                        return new BoxFolderEventSource();
-                    case Constants.TypeWebLink:
-                        return new BoxWebLinkEventSource();
+                    return new BoxExternalUserFileCollaborationEventSource();
                 }
-            }
-            else if (FieldExists(WatermarkType, jObject))
-            {
-                return new BoxWatermarkResponse();
-            }
-            else if (FieldExists(GroupId, jObject))
-            {
-                if (FieldExists(FolderId, jObject))
+                if (FieldExists(UserId, jObject) && FieldExists(FolderId, jObject))
                 {
-                    return new BoxGroupFolderCollaborationEventSource();
+                    return new BoxUserFolderCollaborationEventSource();
                 }
-                else if (FieldExists(FileId, jObject))
+                if (FieldExists(UserEmail, jObject) && FieldExists(FolderId, jObject))
+                {
+                    return new BoxExternalUserFolderCollaborationEventSource();
+                }
+                if (FieldExists(GroupId, jObject) && FieldExists(FileId, jObject))
                 {
                     return new BoxGroupFileCollaborationEventSource();
                 }
-                else
+                if (FieldExists(GroupId, jObject) && FieldExists(FolderId, jObject))
                 {
-                    return new BoxGroupEventSource();
+                    return new BoxGroupFolderCollaborationEventSource();
                 }
+                if (FieldExists(WatermarkType, jObject))
+                {
+                    return new BoxWatermarkResponse();
+                }
+                if (FieldExists(EventSourceItemType, jObject))
+                {
+                    switch (jObject[EventSourceItemType].ToString())
+                    {
+                        case Constants.TypeFile:
+                            return new BoxFileEventSource();
+                        case Constants.TypeFolder:
+                            return new BoxFolderEventSource();
+                        case Constants.TypeWebLink:
+                            return new BoxWebLinkEventSource();
+                    }
+                }
+                if (FieldExists(ItemType, jObject))
+                {
+                    switch (jObject[ItemType].ToString())
+                    {
+                        case Constants.TypeFile:
+                            return new BoxFile();
+                        case Constants.TypeFolder:
+                            return new BoxFolder();
+                        case Constants.TypeWebLink:
+                            return new BoxWebLink();
+                        case Constants.TypeRetentionPolicy:
+                            return new BoxRetentionPolicy();
+                        case Constants.TypeRetentionPolicyAssignment:
+                            return new BoxRetentionPolicyAssignment();
+                        case Constants.TypeFileVersionRetention:
+                            return new BoxFileVersionRetention();
+                        case Constants.TypeComment:
+                            return new BoxComment();
+                        case Constants.TypeFileVersion:
+                            return new BoxFileVersion();
+                        case Constants.TypeGroup:
+                            return new BoxGroup();
+                        case Constants.TypeGroupMembership:
+                            return new BoxGroupMembership();
+                        case Constants.TypeUser:
+                            return new BoxUser();
+                        case Constants.TypeEnterprise:
+                            return new BoxEnterprise();
+                        case Constants.TypeCollaboration:
+                            return new BoxCollaboration();
+                        case Constants.TypeLock:
+                            return new BoxFileLock();
+                        case Constants.TypeInvite:
+                            return new BoxUserInvite();
+                        case Constants.TypeWebhook:
+                            return new BoxWebhook();
+                        case Constants.TypeTask:
+                            return new BoxTask();
+                        case Constants.TypeEmailAlias:
+                            return new BoxEmailAlias();
+                        case Constants.TypeTaskAssignment:
+                            return new BoxTaskAssignment();
+                        case Constants.TypeCollection:
+                            return new BoxCollectionItem();
+                        case Constants.TypeDevicePin:
+                            return new BoxDevicePin();
+                        case Constants.TypeLegalHoldPolicy:
+                            return new BoxLegalHoldPolicy();
+                        case Constants.TypeLegalHoldPolicyAssignment:
+                            return new BoxLegalHoldPolicyAssignment();
+                        case Constants.TypeUploadSession:
+                            return new BoxFileUploadSession();
+                        case Constants.TypeRecentItem:
+                            return new BoxRecentItem();
+                        case Constants.TypeCollabWhitelistEntry:
+                            return new BoxCollaborationWhitelistEntry();
+                        case Constants.TypeCollabWhitelistTargetEntry:
+                            return new BoxCollaborationWhitelistTargetEntry();
+                        case Constants.TypeMetadataTemplate:
+                            return new BoxMetadataTemplate();
+                        case Constants.TypeTermsOfService:
+                            return new BoxTermsOfService();
+                        case Constants.TypeTermsOfServiceUserStatuses:
+                            return new BoxTermsOfServiceUserStatuses();
+                        case Constants.TypeMetadataCascadePolicy:
+                            return new BoxMetadataCascadePolicy();
+                        case Constants.TypeStoragePolicy:
+                            return new BoxStoragePolicy();
+                        case Constants.TypeStoragePolicyAssignment:
+                            return new BoxStoragePolicyAssignment();
+                        case Constants.TypeApplication:
+                            return new BoxApplication();
+                    }
+                }
+                return new BoxEntity();
             }
-            else if (FieldExists(UserId, jObject) && FieldExists(FileId, jObject))
-            {
-                return new BoxUserFileCollaborationEventSource();
-            }
-            else if (FieldExists(UserId, jObject) && FieldExists(FolderId, jObject))
-            {
-                return new BoxUserFolderCollaborationEventSource();
-            }
-
-            return new BoxEntity();
-        }
 
         private bool FieldExists(string fieldName, JObject jObject)
         {

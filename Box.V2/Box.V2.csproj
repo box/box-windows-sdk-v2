@@ -95,6 +95,8 @@
     <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
+    <Compile Include="Models\BoxExternalUserFileCollaborationEventSource.cs" />
+    <Compile Include="Models\BoxExternalUserFolderCollaborationEventSource.cs" />
     <Compile Include="Models\BoxFolderEventSource.cs" />
     <Compile Include="Models\BoxGroupEventSource.cs" />
     <Compile Include="Models\BoxMetadataCascadePolicy.cs" />
