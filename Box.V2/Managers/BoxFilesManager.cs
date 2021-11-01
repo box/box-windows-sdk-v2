@@ -1350,6 +1350,16 @@ namespace Box.V2.Managers
         }
 
         /// <summary>
+        /// Creates and retrieves a temporary direct Uri to a zip. This is typically used to send as a redirect to a browser to make the browser download the file directly from Box.
+        /// </summary>
+        /// <param name="zipRequest">Object of type BoxZipRequest that contains name and items.</param>
+        /// <returns>The download and status URLs of the download.</returns>
+        public async Task<BoxZip> DownloadZipUri(BoxZipRequest zipRequest)
+        {
+            return await CreateZip(zipRequest);
+        }
+
+        /// <summary>
         /// Representations are digital assets stored in Box. We can request the following representations: PDF, Extracted Text, Thumbnail,
         /// and Single Page depending on whether the file type is supported by passing in the corresponding x-rep-hints header. This will generate a 
         /// representation with a template_url. We will then have to either replace the {+asset_path} with <page_number>.png for single page or empty string

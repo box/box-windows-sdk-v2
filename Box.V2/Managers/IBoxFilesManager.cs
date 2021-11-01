@@ -491,5 +491,12 @@ namespace Box.V2.Managers
         /// <returns>The status of the download.</returns>
         /// </summary>
         Task<BoxZipDownloadStatus> DownloadZip(BoxZipRequest zipRequest, Stream output);
+
+        /// <summary>
+        /// Creates and retrieves a temporary direct Uri to a zip. This is typically used to send as a redirect to a browser to make the browser download the file directly from Box.
+        /// </summary>
+        /// <param name="zipRequest">Object of type BoxZipRequest that contains name and items.</param>
+        /// <returns>The download and status URLs of the download.</returns>
+        Task<BoxZip> DownloadZipUri(BoxZipRequest zipRequest);
     }
 }
