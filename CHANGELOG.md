@@ -1,6 +1,6 @@
 # Changelog
 
-## Next release
+## 4.0.0 [2021-11-02]
 
 **Breaking changes:**
 - Extract interfaces for BoxClient and Managers to improve testability ([#603](https://github.com/box/box-windows-sdk-v2/pull/603))
