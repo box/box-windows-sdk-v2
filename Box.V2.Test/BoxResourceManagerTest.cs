@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using Box.V2.Auth;
@@ -27,6 +28,8 @@ namespace Box.V2.Test
         protected Uri UserUri = new Uri(Constants.UserEndpointString);
         protected Uri InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
         protected Uri FolderLocksUri = new Uri(Constants.FolderLocksEndpointString);
+        protected Uri SignRequestUri = new Uri(Constants.SignRequestsEndpointString);
+        protected Uri SignRequestWithPathUri = new Uri(Constants.SignRequestsWithPathEndpointString);
 
         protected BoxResourceManagerTest()
         {
@@ -43,6 +46,8 @@ namespace Box.V2.Test
             Config.SetupGet(x => x.UserEndpointUri).Returns(UserUri);
             Config.SetupGet(x => x.InviteEndpointUri).Returns(InviteUri);
             Config.SetupGet(x => x.FolderLocksEndpointUri).Returns(FolderLocksUri);
+            Config.SetupGet(x => x.SignRequestsEndpointUri).Returns(SignRequestUri);
+            Config.SetupGet(x => x.SignRequestsEndpointWithPathUri).Returns(SignRequestWithPathUri);
 
             AuthRepository = new AuthRepository(Config.Object, Service, Converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
@@ -79,6 +84,12 @@ namespace Box.V2.Test
                                null,
                                System.Threading.Thread.CurrentThread.CurrentCulture);
             return inst;
+        }
+
+        public string LoadFixtureFromJson(string path)
+        {
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            return File.ReadAllText(filePath);
         }
     }
 }

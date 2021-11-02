@@ -121,6 +121,14 @@ namespace Box.V2.Config
         /// </summary>
         Uri FolderLocksEndpointUri { get; }
         /// <summary>
+        /// Gets the sign requests endpoint URI.
+        /// </summary>
+        Uri SignRequestsEndpointUri { get; }
+        /// <summary>
+        /// Gets the sign requests endpoint URI with path.
+        /// </summary>
+        Uri SignRequestsEndpointWithPathUri { get; }
+        /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>
         IWebProxy WebProxy { get; }

@@ -39,6 +39,18 @@
       <Reference Include="System.Net.Http.WebRequest" />
     </ItemGroup>
   <ItemGroup>
+    <None Update="Fixtures\BoxSignRequest\CancelSignRequest200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Fixtures\BoxSignRequest\CreateSignRequest200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Fixtures\BoxSignRequest\GetAllSignRequests200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Fixtures\BoxSignRequest\GetSignRequest200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\smalltest.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

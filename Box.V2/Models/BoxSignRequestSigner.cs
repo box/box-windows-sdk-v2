@@ -1,0 +1,179 @@
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace Box.V2.Models
+{
+    /// <summary>
+    /// Signers for the sign request.
+    /// </summary>
+    public class BoxSignRequestSigner
+    {
+        public const string FieldEmail = "email";
+        public const string FieldEmbedUrl = "embed_url";
+        public const string FieldEmbedUrlExternalUserId = "embed_url_external_user_id";
+        public const string FieldHasViewedDocument = "has_viewed_document";
+        public const string FieldInputs = "inputs";
+        public const string FieldIsInPerson = "is_in_person";
+        public const string FieldOrder = "order";
+        public const string FieldRole = "role";
+        public const string FieldSignerDecision = "signer_decision";
+
+        /// <summary>
+        /// Email address of the signer.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldEmail)]
+        public virtual string Email { get; private set; }
+
+        /// <summary>
+        /// URL to direct a signer to for signing.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldEmbedUrl)]
+        public virtual string EmbedUrl { get; private set; }
+
+        /// <summary>
+        /// User ID for the signer in an external application responsible for authentication when accessing the embed URL.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldEmbedUrlExternalUserId)]
+        public virtual string EmbedUrlExternalUserId { get; private set; }
+
+        /// <summary>
+        /// Set to true if the signer views the document
+        /// </summary>
+        [JsonProperty(PropertyName = FieldHasViewedDocument)]
+        public virtual bool HasViewedDocument { get; private set; }
+
+        /// <summary>
+        /// Represents a type of inputs.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldInputs)]
+        public virtual List<BoxSignRequestSignerInput> Inputs { get; private set; }
+
+        /// <summary>
+        /// Used in combination with an embed URL for a sender. After the sender signs, they will be redirected to the next in_person signer.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldIsInPerson)]
+        public virtual bool IsInPerson { get; private set; }
+
+        /// <summary>
+        /// Order of the signer.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldOrder)]
+        public virtual int Order { get; private set; }
+
+        /// <summary>
+        /// Defines the role of the signer in the sign request. A signer must sign the document and an approver must approve the document.
+        /// A final_copy_reader only receives the final signed document and signing log.
+        /// Value is one of signer,approver,final_copy_reader
+        /// </summary>
+        [JsonProperty(PropertyName = FieldRole)]
+        public virtual BoxSignRequestSignerRole Role { get; private set; }
+
+        /// <summary>
+        /// Final decision made by the signer.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldSignerDecision)]
+        public virtual BoxSignRequestSignerDecision SignerDecision { get; private set; }
+    }
+
+    /// <summary>
+    /// Defines the role of the signer in the sign request. A signer must sign the document and an approver must approve the document.
+    /// A final_copy_reader only receives the final signed document and signing log.
+    /// </summary>
+    public enum BoxSignRequestSignerRole
+    {
+        signer,
+        approver,
+        final_copy_reader
+    }
+
+    /// <summary>
+    /// Represents a type of input.
+    /// </summary>
+    public class BoxSignRequestSignerInput
+    {
+        public const string FieldType = "type";
+        public const string FieldCheckboxValue = "checkbox_value";
+        public const string FieldDateValue = "date_value";
+        public const string FieldDocumentTagId = "document_tag_id";
+        public const string FieldPageIndex = "page_index";
+        public const string FieldTextValue = "text_value";
+
+        /// <summary>
+        /// Type of input.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldType)]
+        public virtual BoxSignRequestSingerInputType Type { get; private set; }
+
+        /// <summary>
+        /// Checkbox prefill value.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldCheckboxValue)]
+        public virtual bool? CheckboxValue { get; private set; }
+
+        /// <summary>
+        /// Date prefill value.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldDateValue)]
+        public virtual DateTimeOffset? DateValue { get; private set; }
+
+        /// <summary>
+        /// This references the ID of a specific tag contained in a file of the sign request.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldDocumentTagId)]
+        public virtual string DocumentTagId { get; private set; }
+
+        /// <summary>
+        /// Index of page that the input is on.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldPageIndex)]
+        public virtual int PageIndex { get; private set; }
+
+        /// <summary>
+        /// Text prefill value.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldTextValue)]
+        public virtual string TextValue { get; private set; }
+    }
+
+    /// <summary>
+    /// Type of input.
+    /// </summary>
+    public enum BoxSignRequestSingerInputType
+    {
+        signature,
+        date,
+        text,
+        checkbox
+    }
+
+    /// <summary>
+    /// Final decision made by the signer.
+    /// </summary>
+    public class BoxSignRequestSignerDecision
+    {
+        public const string FieldType = "type";
+        public const string FieldFinalizedAt = "finalized_at";
+
+        /// <summary>
+        /// Type of decision made by the signer.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldType)]
+        public virtual BoxSignRequestSingerDecisionType Type { get; private set; }
+
+        /// <summary>
+        /// Date and Time that the decision was made.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldFinalizedAt)]
+        public virtual DateTimeOffset? FinalizedAt { get; private set; }
+    }
+
+    /// <summary>
+    /// Type of decision made by the signer.
+    /// </summary>
+    public enum BoxSignRequestSingerDecisionType
+    {
+        signed,
+        declined,
+    }
+}
