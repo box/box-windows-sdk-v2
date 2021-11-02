@@ -279,7 +279,7 @@ namespace Box.V2.Test
 
             // Response check
             Assert.AreEqual("12345", response.Id);
-            Assert.AreEqual(BoxSignRequest.BoxSignRequestStatus.cancelled, response.Status);
+            Assert.AreEqual(BoxSignRequestStatus.cancelled, response.Status);
         }
 
         [TestMethod]

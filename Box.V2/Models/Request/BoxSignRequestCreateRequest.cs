@@ -156,6 +156,6 @@ namespace Box.V2.Models.Request
         /// Value is one of signer,approver,final_copy_reader
         /// </summary>
         [JsonProperty(PropertyName = "role")]
-        public BoxSignRequestSigner.BoxSignRequestSignerRole? Role { get; set; }
+        public BoxSignRequestSignerRole? Role { get; set; }
     }
 }

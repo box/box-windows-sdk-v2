@@ -74,17 +74,17 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldSignerDecision)]
         public virtual BoxSignRequestSignerDecision SignerDecision { get; private set; }
+    }
 
-        /// <summary>
-        /// Defines the role of the signer in the sign request. A signer must sign the document and an approver must approve the document.
-        /// A final_copy_reader only receives the final signed document and signing log.
-        /// </summary>
-        public enum BoxSignRequestSignerRole
-        {
-            signer,
-            approver,
-            final_copy_reader
-        }
+    /// <summary>
+    /// Defines the role of the signer in the sign request. A signer must sign the document and an approver must approve the document.
+    /// A final_copy_reader only receives the final signed document and signing log.
+    /// </summary>
+    public enum BoxSignRequestSignerRole
+    {
+        signer,
+        approver,
+        final_copy_reader
     }
 
     /// <summary>
@@ -134,17 +134,17 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldTextValue)]
         public virtual string TextValue { get; private set; }
+    }
 
-        /// <summary>
-        /// Type of input.
-        /// </summary>
-        public enum BoxSignRequestSingerInputType
-        {
-            signature,
-            date,
-            text,
-            checkbox
-        }
+    /// <summary>
+    /// Type of input.
+    /// </summary>
+    public enum BoxSignRequestSingerInputType
+    {
+        signature,
+        date,
+        text,
+        checkbox
     }
 
     /// <summary>
@@ -166,14 +166,14 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldFinalizedAt)]
         public virtual DateTimeOffset? FinalizedAt { get; private set; }
+    }
 
-        /// <summary>
-        /// Type of decision made by the signer.
-        /// </summary>
-        public enum BoxSignRequestSingerDecisionType
-        {
-            signed,
-            declined,
-        }
+    /// <summary>
+    /// Type of decision made by the signer.
+    /// </summary>
+    public enum BoxSignRequestSingerDecisionType
+    {
+        signed,
+        declined,
     }
 }
