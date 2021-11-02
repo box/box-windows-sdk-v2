@@ -44,7 +44,7 @@ namespace Box.V2.Models
         /// Creates prefill tag with text value.
         /// </summary>
         /// <param name="documentTagId">References the ID of a specific tag contained in a file of the sign request.</param>
-        /// <param name="checkboxValue">Text prefill value.</param>
+        /// <param name="textValue">Text prefill value.</param>
         /// <returns>A prefill tag</returns>
         public BoxSignRequestPrefillTag(string documentTagId, string textValue)
         {
