@@ -93,6 +93,8 @@ namespace Box.V2.Converter
                         return new BoxApplication();
                     case Constants.TypeFolderLock:
                         return new BoxFolderLock();
+                    case Constants.TypeSignRequest:
+                        return new BoxSignRequest();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names

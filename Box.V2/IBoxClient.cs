@@ -139,8 +139,14 @@ namespace Box.V2
         /// </summary>
         IBoxMetadataCascadePolicyManager MetadataCascadePolicyManager { get; }
 
+        /// <summary>
         /// The manager that represents the storage policies endpoint
         /// </summary>
         IBoxStoragePoliciesManager StoragePoliciesManager { get; }
+
+        /// <summary>
+        /// The manager that represents sign requests endpoints.
+        /// </summary>
+        IBoxSignRequestsManager SignRequestsManager { get; }
     }
 }
