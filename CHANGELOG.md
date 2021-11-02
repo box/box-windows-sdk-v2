@@ -16,6 +16,8 @@
 - Replace insensitive language ([#738](https://github.com/box/box-windows-sdk-v2/pull/738))
 - Add new, easier to use method for create terms of service user status ([#740](https://github.com/box/box-windows-sdk-v2/pull/740))
 - Allow sort and direction parameter to be passed in when getting trashed items ([#754](https://github.com/box/box-windows-sdk-v2/pull/754))
+- Add support for Task completion_rule field ([#758](https://github.com/box/box-windows-sdk-v2/pull/758))
+- Add BoxSign API support ([#765](https://github.com/box/box-windows-sdk-v2/pull/765))
 
 **Bug Fixes:**
 - Fix `Cannot access a closed Stream.Request` exception during upload ([#739](https://github.com/box/box-windows-sdk-v2/pull/739)) ([#757](https://github.com/box/box-windows-sdk-v2/pull/757))
