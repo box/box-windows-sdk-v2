@@ -130,12 +130,10 @@ namespace Box.V2.Test
                 PrefillTags = new List<BoxSignRequestPrefillTag>
                 {
                     new BoxSignRequestPrefillTag
-                    {
-                        DocumentTagId = "1234",
-                        TextValue = "text",
-                        CheckboxValue = true,
-                        DateValue = DateTimeOffset.Parse("2021-04-26T08:12:13.982Z")
-                    }
+                    (
+                        "1234",
+                        "text"
+                    )
                 }
             };
 
@@ -164,7 +162,6 @@ namespace Box.V2.Test
             Assert.AreEqual(1, response.PrefillTags.Count);
             Assert.AreEqual("1234", response.PrefillTags[0].DocumentTagId);
             Assert.AreEqual("text", response.PrefillTags[0].TextValue);
-            Assert.IsTrue(response.PrefillTags[0].CheckboxValue.Value);
             Assert.AreEqual(DateTimeOffset.Parse("2021-04-26T08:12:13.982Z"), response.PrefillTags[0].DateValue);
         }
 
