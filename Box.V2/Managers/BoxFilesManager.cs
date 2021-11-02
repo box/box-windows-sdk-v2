@@ -1,23 +1,23 @@
-using Box.V2.Auth;
-using Box.V2.Config;
-using Box.V2.Converter;
-using Box.V2.Exceptions;
-using Box.V2.Extensions;
-using Box.V2.Models;
-using Box.V2.Services;
-using Box.V2.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using Newtonsoft.Json.Linq;
+using Box.V2.Auth;
+using Box.V2.Config;
+using Box.V2.Converter;
+using Box.V2.Exceptions;
+using Box.V2.Extensions;
+using Box.V2.Models;
 using Box.V2.Models.Request;
+using Box.V2.Services;
+using Box.V2.Utility;
+using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Managers
 {
@@ -200,7 +200,7 @@ namespace Box.V2.Managers
             if (setStreamPositionToZero)
                 stream.Position = 0;
 
-            uploadUri = uploadUri == null ? _config.FilesUploadEndpointUri : uploadUri;
+            uploadUri = uploadUri ?? _config.FilesUploadEndpointUri;
 
             BoxMultiPartRequest request = new BoxMultiPartRequest(uploadUri) { Timeout = timeout }
                 .Param(ParamFields, fields)
@@ -251,7 +251,7 @@ namespace Box.V2.Managers
         /// <param name="fileId">The file id.</param>
         /// <param name="uploadNewVersionSessionRequest">The upload session request for new file version.</param>
         /// <returns>The upload session for uploading new Box file version using session.</returns>
-        public async Task<BoxFileUploadSession> CreateNewVersionUploadSessionAsync(string fileId, 
+        public async Task<BoxFileUploadSession> CreateNewVersionUploadSessionAsync(string fileId,
             BoxFileUploadSessionRequest uploadNewVersionSessionRequest)
         {
             var uploadUri = new Uri(string.Format(Constants.FilesNewVersionUploadSessionEndpointString, fileId));
@@ -296,7 +296,7 @@ namespace Box.V2.Managers
             if (setStreamPositionToZero)
                 stream.Position = 0;
 
-            uploadUri = uploadUri == null ? new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId)) : uploadUri;
+            uploadUri = uploadUri ?? new Uri(string.Format(Constants.FilesNewVersionEndpointString, fileId));
 
             dynamic attributes = new JObject();
             if (fileName != null)
@@ -435,7 +435,9 @@ namespace Box.V2.Managers
                 }
 
                 if (!offset.HasValue)
+                {
                     request.Param("offset", "0");
+                }
 
                 return await AutoPaginateLimitOffset<BoxSessionPartInfo>(request, limit.Value);
             }
@@ -547,8 +549,7 @@ namespace Box.V2.Managers
             var uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
             var commitUri = new Uri(boxSessionEndpoint.Commit);
             var partSize = uploadFileSession.PartSize;
-            long partSizeLong;
-            if (long.TryParse(partSize, out partSizeLong) == false)
+            if (long.TryParse(partSize, out var partSizeLong) == false)
             {
                 throw new BoxCodingException("File part size is wrong!");
             }
@@ -576,19 +577,19 @@ namespace Box.V2.Managers
 
             // Commit, Retry 5 times with interval related to the total part number
             // Having debugged this -- retries do consistenly happen so we up the retries
-            const int retryCount = 5;
+            const int RetryCount = 5;
             var retryInterval = allSessionPartsList.Count * 100;
 
             // Depending on the calling function a different commit function will be used
             // to commit file upload parts
-            if(callingMethod=="UploadUsingSessionAsync")
+            if (callingMethod == "UploadUsingSessionAsync")
             {
                 var fileResponse =
                 await Retry.ExecuteAsync(
                     async () =>
                         await CommitSessionAsync(commitUri, fullFileSha1,
                             sessionPartsForCommit),
-                    TimeSpan.FromMilliseconds(retryInterval), retryCount);
+                    TimeSpan.FromMilliseconds(retryInterval), RetryCount);
                 return fileResponse;
             }
             else // This is to call the commit function for file version uploads
@@ -598,7 +599,7 @@ namespace Box.V2.Managers
                     async () =>
                         await CommitFileVersionSessionAsync(commitUri, fullFileSha1,
                             sessionPartsForCommit),
-                        TimeSpan.FromMilliseconds(retryInterval), retryCount);
+                        TimeSpan.FromMilliseconds(retryInterval), RetryCount);
                 return versionResponse;
             }
         }
@@ -610,15 +611,15 @@ namespace Box.V2.Managers
             var maxTaskNum = Environment.ProcessorCount + 1;
 
             // Retry 5 times for 10 seconds
-            const int retryMaxCount = 5;
-            const int retryMaxInterval = 10;
+            const int RetryMaxCount = 5;
+            const int RetryMaxInterval = 10;
 
             var ret = new List<BoxSessionPartInfo>();
 
-            using (SemaphoreSlim concurrencySemaphore = new SemaphoreSlim(maxTaskNum))
+            using (var concurrencySemaphore = new SemaphoreSlim(maxTaskNum))
             {
                 var postTaskTasks = new List<Task>();
-                int taskCompleted = 0;
+                var taskCompleted = 0;
 
                 var tasks = new List<Task<BoxUploadPartResponse>>();
                 for (var i = 0; i < numberOfParts; i++)
@@ -643,7 +644,7 @@ namespace Box.V2.Managers
 
                             return uploadPartResponse;
                         }
-                    }, TimeSpan.FromSeconds(retryMaxInterval), retryMaxCount);
+                    }, TimeSpan.FromSeconds(RetryMaxInterval), RetryMaxCount);
 
                     // Have each task notify the Semaphore when it completes so that it decrements the number of tasks currently running.
                     postTaskTasks.Add(uploadPartWithRetryTask.ContinueWith(tsk =>
@@ -675,7 +676,7 @@ namespace Box.V2.Managers
         private string HexStringFromBytes(byte[] bytes)
         {
             var sb = new StringBuilder();
-            foreach (byte b in bytes)
+            foreach (var b in bytes)
             {
                 var hex = b.ToString("x2");
                 sb.Append(hex);
@@ -888,7 +889,7 @@ namespace Box.V2.Managers
 
                 return response.ResponseObject;
             }
-           
+
         }
 
         /// <summary>
@@ -914,7 +915,7 @@ namespace Box.V2.Managers
         /// 64x64, 128x128, and 256x256 can be returned in the .png format
         /// and sizes of 32x32, 94x94, 160x160, and 320x320 can be returned in the .jpg format.
         /// Thumbnails can be generated for the image and video file formats listed here.
-        /// <see cref="http://community.box.com/t5/Managing-Your-Content/What-file-types-are-supported-by-Box-s-Content-Preview/ta-p/327"/>
+        /// see <a href="http://community.box.com/t5/Managing-Your-Content/What-file-types-are-supported-by-Box-s-Content-Preview/ta-p/327"/>
         /// </summary>
         /// <param name="id">Id of the file.</param>
         /// <param name="minHeight">The minimum height of the thumbnail.</param>
@@ -985,9 +986,11 @@ namespace Box.V2.Managers
         {
             IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
 
-            BoxFilePreview filePreview = new BoxFilePreview();
-            filePreview.CurrentPage = page;
-            filePreview.ReturnedStatusCode = response.StatusCode;
+            var filePreview = new BoxFilePreview
+            {
+                CurrentPage = page,
+                ReturnedStatusCode = response.StatusCode
+            };
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -1025,11 +1028,9 @@ namespace Box.V2.Managers
         /// </summary>
         private int GetTimeDelay(HttpResponseHeaders headers)
         {
-            int timeToWait;
-            if (headers != null && headers.RetryAfter != null && int.TryParse(headers.RetryAfter.ToString(), out timeToWait))
-                return timeToWait * 1000;
-
-            return Constants.DefaultRetryDelay;
+            return headers != null && headers.RetryAfter != null && int.TryParse(headers.RetryAfter.ToString(), out var timeToWait)
+                ? timeToWait * 1000
+                : Constants.DefaultRetryDelay;
         }
 
         /// <summary>
@@ -1189,14 +1190,7 @@ namespace Box.V2.Managers
                .Method(RequestMethod.Get);
 
             IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
-            if (response.Status == ResponseStatus.Success)
-            {
-                return response.ResponseObject.Watermark;
-            }
-            else
-            {
-                return null;
-            }
+            return response.Status == ResponseStatus.Success ? response.ResponseObject.Watermark : null;
         }
 
         /// <summary>
@@ -1220,14 +1214,7 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxWatermarkResponse> response = await ToResponseAsync<BoxWatermarkResponse>(request).ConfigureAwait(false);
 
-            if (response.Status == ResponseStatus.Success)
-            {
-                return response.ResponseObject.Watermark;
-            }
-            else
-            {
-                return null;
-            }
+            return response.Status == ResponseStatus.Success ? response.ResponseObject.Watermark : null;
         }
 
         /// <summary>
@@ -1342,12 +1329,12 @@ namespace Box.V2.Managers
             Stream fileStream = streamResponse.ResponseObject;
 
             // Default the buffer size to 4K.
-            const int bufferSize = 4096;
-            byte[] buffer = new byte[bufferSize];
-            int bytesRead = 0;
+            const int BufferSize = 4096;
+            var buffer = new byte[BufferSize];
+            int bytesRead;
             do
             {
-                bytesRead = fileStream.Read(buffer, 0, bufferSize);
+                bytesRead = fileStream.Read(buffer, 0, BufferSize);
                 if (bytesRead > 0)
                 {
                     output.Write(buffer, 0, bytesRead);
@@ -1373,12 +1360,12 @@ namespace Box.V2.Managers
         /// </summary>
         public async Task<Stream> GetRepresentationContentAsync(BoxRepresentationRequest representationRequest, string assetPath = "")
         {
-            var reps = await this.GetRepresentationsAsync(representationRequest);
+            var reps = await GetRepresentationsAsync(representationRequest);
             if (reps.Entries.Count == 0)
             {
                 throw new BoxCodingException("Could not get requested representation!");
             }
-           
+
             var repInfo = reps.Entries[0];
             IBoxRequest downloadRequest;
             IBoxResponse<Stream> response;
@@ -1393,14 +1380,14 @@ namespace Box.V2.Managers
                     throw new BoxCodingException("Representation had error status");
                 case "none":
                 case "pending":
-                    var urlTemplate = await this.PollRepresentationInfo(repInfo.Info.Url);
+                    var urlTemplate = await PollRepresentationInfo(repInfo.Info.Url);
                     downloadRequest = new BoxRequest(new Uri(urlTemplate.Replace("{+asset_path}", assetPath)));
                     response = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
                     return response.ResponseObject;
                 default:
                     throw new BoxCodingException("Representation has unknown status");
             }
-            
+
         }
 
         private async Task<BoxZip> CreateZip(BoxZipRequest zipRequest)
@@ -1428,7 +1415,7 @@ namespace Box.V2.Managers
                 case "none":
                 case "pending":
                     await Task.Delay(1000);
-                    return await this.PollRepresentationInfo(infoUrl);
+                    return await PollRepresentationInfo(infoUrl);
                 default:
                     throw new BoxCodingException("Representation has unknown status");
             }
@@ -1444,7 +1431,7 @@ namespace Box.V2.Managers
                 throw new BoxCodingException("Part Size cannot be 0");
             }
 
-            int numberOfParts = Convert.ToInt32(totalSize / partSize);
+            var numberOfParts = Convert.ToInt32(totalSize / partSize);
             if (totalSize % partSize != 0)
             {
                 numberOfParts++;
@@ -1455,19 +1442,19 @@ namespace Box.V2.Managers
         public static Stream GetFilePart(Stream stream, long partSize, long partOffset)
         {
             // Default the buffer size to 4K.
-            const int bufferSize = 4096;
+            const int BufferSize = 4096;
 
-            byte[] buffer = new byte[bufferSize];
-            int bytesRead = 0;
+            var buffer = new byte[BufferSize];
             stream.Position = partOffset;
             var partStream = new MemoryStream();
+            int bytesRead;
             do
             {
                 bytesRead = stream.Read(buffer, 0, 4096);
                 if (bytesRead > 0)
                 {
                     long bytesToWrite = bytesRead;
-                    bool shouldBreak = false;
+                    var shouldBreak = false;
                     if (partStream.Length + bytesRead >= partSize)
                     {
                         bytesToWrite = partSize - partStream.Length;

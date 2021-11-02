@@ -1,8 +1,5 @@
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -19,7 +16,7 @@ namespace Box.V2.Models
         /// The status of the terms of service object
         /// </summary>
         [JsonProperty(PropertyName = FieldStatus)]
-        public virtual String Status { get; set; }
+        public virtual string Status { get; set; }
 
         /// <summary>
         /// The enterprise the terms of service object is associated with
@@ -31,13 +28,13 @@ namespace Box.V2.Models
         /// The type of the terms of service object
         /// </summary>
         [JsonProperty(PropertyName = FieldTosType)]
-        public virtual String TosType { get; set; }
+        public virtual string TosType { get; set; }
 
         /// <summary>
         /// The text description of the terms of service object
         /// </summary>
         [JsonProperty(PropertyName = FieldText)]
-        public virtual String Text { get; set; }
+        public virtual string Text { get; set; }
 
         /// <summary>
         /// The time this terms of service was created

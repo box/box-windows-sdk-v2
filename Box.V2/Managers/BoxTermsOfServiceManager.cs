@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -5,8 +7,6 @@ using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using Box.V2.Services;
-using System;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
@@ -28,7 +28,7 @@ namespace Box.V2.Managers
         {
             tosId.ThrowIfNullOrWhiteSpace("tosId");
 
-            BoxRequest request = new BoxRequest(_config.TermsOfServicesUri, tosId);
+            var request = new BoxRequest(_config.TermsOfServicesUri, tosId);
 
             IBoxResponse<BoxTermsOfService> response = await ToResponseAsync<BoxTermsOfService>(request).ConfigureAwait(false);
 
@@ -89,7 +89,7 @@ namespace Box.V2.Managers
         /// <param name="tosId">The terms of service id.</param>
         /// <param name="userId">The user id, if null this will default to current user.</param>
         /// <returns>The user status for terms of service objects.</returns>
-        public async Task<BoxTermsOfServiceUserStatusesCollection<BoxTermsOfServiceUserStatuses>> GetTermsOfServiceUserStatusesAsync(string tosId, String userId = null)
+        public async Task<BoxTermsOfServiceUserStatusesCollection<BoxTermsOfServiceUserStatuses>> GetTermsOfServiceUserStatusesAsync(string tosId, string userId = null)
         {
             tosId.ThrowIfNullOrWhiteSpace("tosId");
 

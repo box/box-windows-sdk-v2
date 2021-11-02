@@ -1,6 +1,5 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using Newtonsoft.Json;
-using Box.V2.Models;
 
 namespace Box.V2
 {

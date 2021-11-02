@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
@@ -25,7 +25,7 @@ namespace Box.V2.Test
         public async Task CreateOrDeleteCollectionsForFolder_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                             ""type"": ""folder"",
                                             ""id"": ""11446498"",
                                             ""sequence_id"": ""1"",
@@ -117,7 +117,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxCollectionsRequest collectionsRequest = new BoxCollectionsRequest()
+            var collectionsRequest = new BoxCollectionsRequest()
             {
                 Collections = new List<BoxRequestEntity>()
                 {
@@ -150,7 +150,7 @@ namespace Box.V2.Test
         public async Task CreateOrDeleteCollectionsForFile_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""file"",
                                         ""id"": ""5000948880"",
                                         ""file_version"": {
@@ -236,7 +236,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxCollectionsRequest collectionsRequest = new BoxCollectionsRequest()
+            var collectionsRequest = new BoxCollectionsRequest()
             {
                 Collections = new List<BoxRequestEntity>()
                 {
@@ -269,7 +269,7 @@ namespace Box.V2.Test
         public async Task GetCollections_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                             ""total_count"": 1,
                                             ""entries"": [
                                                 {
@@ -283,7 +283,7 @@ namespace Box.V2.Test
                                             ""offset"": 0
                                         }";
             IBoxRequest boxRequest = null;
-            Uri collectionUri = new Uri(Constants.CollectionsEndpointString);
+            var collectionUri = new Uri(Constants.CollectionsEndpointString);
             Config.SetupGet(x => x.CollectionsEndpointUri).Returns(collectionUri);
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxCollectionItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxCollectionItem>>>(new BoxResponse<BoxCollection<BoxCollectionItem>>()
@@ -322,7 +322,7 @@ namespace Box.V2.Test
         public async Task GetCollectionItems_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                             ""total_count"": 24,
                                             ""entries"": [
                                                 {
@@ -344,7 +344,7 @@ namespace Box.V2.Test
                                             ""limit"": 2
                                         }";
             IBoxRequest boxRequest = null;
-            Uri collectionUri = new Uri(Constants.CollectionsEndpointString);
+            var collectionUri = new Uri(Constants.CollectionsEndpointString);
             Config.SetupGet(x => x.CollectionsEndpointUri).Returns(collectionUri);
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()

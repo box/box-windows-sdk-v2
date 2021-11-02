@@ -77,7 +77,7 @@ namespace Box.V2.Managers
         /// <param name="fields">Attribute(s) to include in the response.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group collaborations; defaults to false.</param>
         /// <returns>A collection of collaborations for the specified group id.</returns>
-        Task<BoxCollection<BoxCollaboration>> GetCollaborationsForGroupAsync(string groupId, int? limit = null, int? offset = null, 
+        Task<BoxCollection<BoxCollaboration>> GetCollaborationsForGroupAsync(string groupId, int? limit = null, int? offset = null,
             IEnumerable<string> fields = null, bool autoPaginate = false);
 
         /// <summary>

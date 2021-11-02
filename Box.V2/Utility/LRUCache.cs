@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 
 // Source: https://github.com/tejacques/LRUCache
@@ -18,13 +15,12 @@ namespace Box.V2.Utility
     public class LRUCache<K, V>
     {
         private readonly Dictionary<K, CacheNode> _entries;
-        private readonly int _capacity;
         private CacheNode _head;
         private CacheNode _tail;
         private TimeSpan _ttl;
-        private Timer _timer;
+        private readonly Timer _timer;
         private int _count;
-        private bool _refreshEntries;
+        private readonly bool _refreshEntries;
 
         /// <summary>
         /// A least recently used cache with a time to live.
@@ -45,19 +41,19 @@ namespace Box.V2.Utility
             int seconds = 0,
             bool refreshEntries = true)
         {
-            this._capacity = capacity;
-            this._entries = new Dictionary<K, CacheNode>(this._capacity);
-            this._head = null;
-            this._tail = null;
-            this._count = 0;
-            this._ttl = new TimeSpan(hours, minutes, seconds);
-            this._refreshEntries = refreshEntries;
-            if (this._ttl > TimeSpan.Zero)
+            Capacity = capacity;
+            _entries = new Dictionary<K, CacheNode>(Capacity);
+            _head = null;
+            _tail = null;
+            _count = 0;
+            _ttl = new TimeSpan(hours, minutes, seconds);
+            _refreshEntries = refreshEntries;
+            if (_ttl > TimeSpan.Zero)
             {
-                this._timer = new Timer(
+                _timer = new Timer(
                     Purge,
                     null,
-                    (int)this._ttl.TotalMilliseconds,
+                    (int)_ttl.TotalMilliseconds,
                     5000); // 5 seconds
             }
         }
@@ -82,17 +78,14 @@ namespace Box.V2.Utility
         /// <summary>
         /// Gets the maximum number of entries in the cache.
         /// </summary>
-        public int Capacity
-        {
-            get { return this._capacity; }
-        }
+        public int Capacity { get; }
 
         /// <summary>
         /// Gets whether or not the cache is full.
         /// </summary>
         public bool IsFull
         {
-            get { return this._count == this._capacity; }
+            get { return _count == Capacity; }
         }
 
         /// <summary>
@@ -101,15 +94,14 @@ namespace Box.V2.Utility
         /// <returns>The cached value at the given key.</returns>
         public bool TryGetValue(K key, out V value)
         {
-            CacheNode entry;
             value = default(V);
 
-            if (!this._entries.TryGetValue(key, out entry))
+            if (!_entries.TryGetValue(key, out CacheNode entry))
             {
                 return false;
             }
 
-            if (this._refreshEntries)
+            if (_refreshEntries)
             {
                 MoveToHead(entry);
             }
@@ -140,19 +132,18 @@ namespace Box.V2.Utility
         /// <returns>True if the set was successful. False otherwise.</returns>
         public bool TryAdd(K key, V value)
         {
-            CacheNode entry;
-            if (!this._entries.TryGetValue(key, out entry))
+            if (!_entries.TryGetValue(key, out CacheNode entry))
             {
                 // Add the entry
                 lock (this)
                 {
-                    if (!this._entries.TryGetValue(key, out entry))
+                    if (!_entries.TryGetValue(key, out entry))
                     {
-                        if (this.IsFull)
+                        if (IsFull)
                         {
                             // Re-use the CacheNode entry
-                            entry = this._tail;
-                            _entries.Remove(this._tail.Key);
+                            entry = _tail;
+                            _entries.Remove(_tail.Key);
 
                             // Reset with new values
                             entry.Key = key;
@@ -164,7 +155,7 @@ namespace Box.V2.Utility
                         }
                         else
                         {
-                            this._count++;
+                            _count++;
                             entry = new CacheNode()
                             {
                                 Key = key,
@@ -191,9 +182,9 @@ namespace Box.V2.Utility
             // We don't need to lock here because two threads at this point
             // can both happily perform this check and set, since they are
             // both atomic.
-            if (null == this._tail)
+            if (null == _tail)
             {
-                this._tail = this._head;
+                _tail = _head;
             }
 
             return true;
@@ -207,9 +198,9 @@ namespace Box.V2.Utility
         {
             lock (this)
             {
-                this._entries.Clear();
-                this._head = null;
-                this._tail = null;
+                _entries.Clear();
+                _head = null;
+                _tail = null;
                 return true;
             }
         }
@@ -220,7 +211,7 @@ namespace Box.V2.Utility
         /// <param name="entry">The CacheNode entry to move up.</param>
         private void MoveToHead(CacheNode entry)
         {
-            if (entry == this._head)
+            if (entry == _head)
             {
                 return;
             }
@@ -236,18 +227,18 @@ namespace Box.V2.Utility
 
         private void Purge(object state)
         {
-            if (this._ttl <= TimeSpan.Zero || this._count == 0)
+            if (_ttl <= TimeSpan.Zero || _count == 0)
             {
                 return;
             }
 
             lock (this)
             {
-                var current = this._tail;
+                var current = _tail;
                 var now = DateTimeOffset.UtcNow;
 
                 while (null != current
-                    && (now - current.LastAccessed) > this._ttl)
+                    && (now - current.LastAccessed) > _ttl)
                 {
                     Remove(current);
                     // Going backwards
@@ -259,14 +250,14 @@ namespace Box.V2.Utility
         private void AddToHead(CacheNode entry)
         {
             entry.Prev = null;
-            entry.Next = this._head;
+            entry.Next = _head;
 
-            if (null != this._head)
+            if (null != _head)
             {
-                this._head.Prev = entry;
+                _head.Prev = entry;
             }
 
-            this._head = entry;
+            _head = entry;
         }
 
         private void RemoveFromLL(CacheNode entry)
@@ -283,14 +274,14 @@ namespace Box.V2.Utility
                 prev.Next = entry.Next;
             }
 
-            if (this._head == entry)
+            if (_head == entry)
             {
-                this._head = next;
+                _head = next;
             }
 
-            if (this._tail == entry)
+            if (_tail == entry)
             {
-                this._tail = prev;
+                _tail = prev;
             }
         }
 
@@ -299,7 +290,7 @@ namespace Box.V2.Utility
             // Only to be called while locked from Purge
             RemoveFromLL(entry);
             _entries.Remove(entry.Key);
-            this._count--;
+            _count--;
         }
     }
 }

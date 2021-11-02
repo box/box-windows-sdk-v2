@@ -1,13 +1,13 @@
-using Box.V2.Config;
-using Box.V2.Converter;
-using Box.V2.Exceptions;
-using Box.V2.Extensions;
-using Box.V2.Services;
 // using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Box.V2.Config;
+using Box.V2.Converter;
+using Box.V2.Exceptions;
+using Box.V2.Extensions;
+using Box.V2.Services;
 
 namespace Box.V2.Auth
 {
@@ -21,7 +21,7 @@ namespace Box.V2.Auth
         protected IBoxService _service;
         protected IBoxConverter _converter;
 
-        private List<string> _expiredTokens = new List<string>();
+        private readonly List<string> _expiredTokens = new List<string>();
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
 
         /// <summary>

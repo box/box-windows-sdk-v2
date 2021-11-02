@@ -1,15 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
-using Box.V2.Models;
 using Box.V2.Extensions;
+using Box.V2.Models;
 using Box.V2.Services;
 using Box.V2.Utility;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Net;
 
 namespace Box.V2.Managers
 {
@@ -19,7 +18,7 @@ namespace Box.V2.Managers
     public class BoxEventsManager : BoxResourceManager, IBoxEventsManager
     {
         public const string ENTERPRISE_EVENTS_STREAM_TYPE = "admin_logs";
-        public readonly LRUCache<string,bool> USER_EVENTS_DEDUPE_CACHE = new LRUCache<string, bool>(1000);
+        public readonly LRUCache<string, bool> USER_EVENTS_DEDUPE_CACHE = new LRUCache<string, bool>(1000);
 
         public BoxEventsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
@@ -63,9 +62,9 @@ namespace Box.V2.Managers
         /// <param name="streamPosition">The location in the event stream from which you want to start receiving events. You can specify the special value 'now' to get 0 events and the latest stream_position value. Defaults to 'now'.</param>
         /// <param name="dedupeEvents">Whether or not to automatically de-duplicate events as they are received. Defaults to true.</param>
         /// <returns></returns>
-        public async Task<BoxEventCollection<BoxEnterpriseEvent>> UserEventsAsync(int limit = 500, 
+        public async Task<BoxEventCollection<BoxEnterpriseEvent>> UserEventsAsync(int limit = 500,
                                                                                   UserEventsStreamType streamType = UserEventsStreamType.all,
-                                                                                  string streamPosition = "now", 
+                                                                                  string streamPosition = "now",
                                                                                   bool dedupeEvents = true)
         {
             BoxRequest request = new BoxRequest(_config.EventsUri)
@@ -77,11 +76,10 @@ namespace Box.V2.Managers
 
             if (dedupeEvents)
             {
-                List<BoxEnterpriseEvent> filteredEvents = new List<BoxEnterpriseEvent>();
+                var filteredEvents = new List<BoxEnterpriseEvent>();
                 foreach (var e in response.ResponseObject.Entries)
                 {
-                    bool notUsed = true;
-                    if (!USER_EVENTS_DEDUPE_CACHE.TryGetValue(e.EventId, out notUsed))
+                    if (!USER_EVENTS_DEDUPE_CACHE.TryGetValue(e.EventId, out _))
                     {
                         USER_EVENTS_DEDUPE_CACHE.Add(e.EventId, true);
                         filteredEvents.Add(e);
@@ -89,7 +87,7 @@ namespace Box.V2.Managers
                 }
 
                 response.ResponseObject.Entries = filteredEvents;
-            }   
+            }
 
             return response.ResponseObject;
         }
@@ -107,13 +105,13 @@ namespace Box.V2.Managers
         public async Task LongPollUserEvents(string streamPosition,
                                              Action<BoxEventCollection<BoxEnterpriseEvent>> newEventsCallback,
                                              CancellationToken cancellationToken,
-                                             UserEventsStreamType streamType = UserEventsStreamType.all, 
+                                             UserEventsStreamType streamType = UserEventsStreamType.all,
                                              bool dedupeEvents = true,
                                              int? retryTimeoutOverride = null)
         {
             const string NEW_CHANGE_MESSAGE = "new_change";
 
-            string nextStreamPosition = streamPosition;
+            var nextStreamPosition = streamPosition;
 
             while (true)
             {
@@ -123,19 +121,19 @@ namespace Box.V2.Managers
 
                 IBoxResponse<BoxLongPollInfoCollection<BoxLongPollInfo>> optionsResponse = await ToResponseAsync<BoxLongPollInfoCollection<BoxLongPollInfo>>(optionsRequest).ConfigureAwait(false);
                 var longPollInfo = optionsResponse.ResponseObject.Entries[0];
-                var numRetries = Int32.Parse(longPollInfo.MaxRetries);
+                var numRetries = int.Parse(longPollInfo.MaxRetries);
 
-                bool pollAgain = true;
+                var pollAgain = true;
                 do
-                { 
+                {
                     if (cancellationToken.IsCancellationRequested)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                    }      
+                    }
                     try
                     {
-                        var timeout = retryTimeoutOverride.HasValue ? retryTimeoutOverride.Value : longPollInfo.RetryTimeout;
-                        BoxRequest pollRequest = new BoxRequest(longPollInfo.Url) { Timeout = TimeSpan.FromSeconds(timeout) };
+                        var timeout = retryTimeoutOverride ?? longPollInfo.RetryTimeout;
+                        var pollRequest = new BoxRequest(longPollInfo.Url) { Timeout = TimeSpan.FromSeconds(timeout) };
                         IBoxResponse<BoxLongPollMessage> pollResponse = await ToResponseAsync<BoxLongPollMessage>(pollRequest).ConfigureAwait(false);
 
                         var message = pollResponse.ResponseObject.Message;
@@ -159,8 +157,8 @@ namespace Box.V2.Managers
                         //If we've reached maximum number of retries then bounce all the way back to the OPTIONS request.
                         pollAgain = numRetries-- > 0;
                     }
-                } while (pollAgain);                         
-            } 
+                } while (pollAgain);
+            }
         }
     }
 }

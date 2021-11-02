@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 
 namespace Box.V2.Auth
 {
@@ -11,6 +8,6 @@ namespace Box.V2.Auth
         {
             Session = session;
         }
-        public OAuthSession Session { get; set;}
+        public OAuthSession Session { get; set; }
     }
 }

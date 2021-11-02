@@ -1,9 +1,9 @@
-﻿using Box.V2.Models.Request;
+using Box.V2.Models.Request;
 using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
-    public class BoxTaskAssignmentRequest 
+    public class BoxTaskAssignmentRequest
     {
         /// <summary>
         /// The task this assignment is for.

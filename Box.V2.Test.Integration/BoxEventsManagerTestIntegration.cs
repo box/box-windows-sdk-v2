@@ -1,13 +1,10 @@
-﻿using Box.V2.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Box.V2.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test.Integration
 {
@@ -19,11 +16,11 @@ namespace Box.V2.Test.Integration
         {
             var startDate = Convert.ToDateTime("9/18/2017 11:51:12 PM");
             var endDate = Convert.ToDateTime("9/24/2017 11:51:12 PM");
-            int expectedChunkSize = 107;
+            var expectedChunkSize = 107;
 
-            var events = await _client.EventsManager.EnterpriseEventsAsync(createdAfter: startDate, createdBefore: endDate);
-            var eventsMissingOneParam = await _client.EventsManager.EnterpriseEventsAsync(createdAfter: startDate, createdBefore: null);
-            var eventsMissingBothParam = await _client.EventsManager.EnterpriseEventsAsync(createdAfter: null, createdBefore: null);
+            var events = await Client.EventsManager.EnterpriseEventsAsync(createdAfter: startDate, createdBefore: endDate);
+            var eventsMissingOneParam = await Client.EventsManager.EnterpriseEventsAsync(createdAfter: startDate, createdBefore: null);
+            var eventsMissingBothParam = await Client.EventsManager.EnterpriseEventsAsync(createdAfter: null, createdBefore: null);
 
             Assert.IsNotNull(events, "Failed to retrieve enterprise events");
             Assert.AreEqual(events.ChunkSize, expectedChunkSize);
@@ -39,20 +36,20 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task UserEvents_LiveSession()
         {
-            const string fileId = "16894943599";
+            const string FileId = "16894943599";
 
-            var events = await _client.EventsManager.UserEventsAsync();
+            var events = await Client.EventsManager.UserEventsAsync();
             Assert.IsNotNull(events.NextStreamPosition, "Failed to retrieve user next_stream_position");
 
-            var fileLock = await _client.FilesManager.LockAsync(new BoxFileLockRequest() { Lock = new BoxFileLock() { IsDownloadPrevented = false } }, fileId);
-            var result = await _client.FilesManager.UnLock(fileId);
+            var fileLock = await Client.FilesManager.LockAsync(new BoxFileLockRequest() { Lock = new BoxFileLock() { IsDownloadPrevented = false } }, FileId);
+            var result = await Client.FilesManager.UnLock(FileId);
 
             BoxEventCollection<BoxEnterpriseEvent> newEvents = null;
-            bool keepChecking = true;
-            int maxTimesToCheck = 10;
+            var keepChecking = true;
+            var maxTimesToCheck = 10;
             while (keepChecking && maxTimesToCheck > 0)
             {
-                newEvents = await _client.EventsManager.UserEventsAsync(streamPosition: events.NextStreamPosition);
+                newEvents = await Client.EventsManager.UserEventsAsync(streamPosition: events.NextStreamPosition);
                 if (newEvents.Entries.Count > 0)
                 {
                     keepChecking = false;
@@ -71,17 +68,17 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task LongPollUserEvents_LiveSession()
         {
-            const string fileId = "16894943599";
+            const string FileId = "16894943599";
 
-            ConcurrentBag<BoxEnterpriseEvent> incomingEvents = new ConcurrentBag<BoxEnterpriseEvent>();
+            var incomingEvents = new ConcurrentBag<BoxEnterpriseEvent>();
 
             //first we need to get the latest stream position
-            var events = await _client.EventsManager.UserEventsAsync();
+            var events = await Client.EventsManager.UserEventsAsync();
 
-            CancellationTokenSource cancelSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            var cancelSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
             var t = await Task.Factory.StartNew(async (opts) =>
             {
-                await _client.EventsManager.LongPollUserEvents(events.NextStreamPosition,
+                await Client.EventsManager.LongPollUserEvents(events.NextStreamPosition,
                     (newEvents) =>
                     {
                         //do something with incoming new events
@@ -92,14 +89,16 @@ namespace Box.V2.Test.Integration
             TaskCreationOptions.LongRunning,
             cancelSource.Token);
 
-            var tasks = new ConcurrentBag<Task>();
-            tasks.Add(t);
+            var tasks = new ConcurrentBag<Task>
+            {
+                t
+            };
 
             Thread.Sleep(1000);
 
             //make some events 
-            var fileLock = await _client.FilesManager.LockAsync(new BoxFileLockRequest() { Lock = new BoxFileLock() { IsDownloadPrevented = false } }, fileId);
-            var result = await _client.FilesManager.UnLock(fileId);
+            var fileLock = await Client.FilesManager.LockAsync(new BoxFileLockRequest() { Lock = new BoxFileLock() { IsDownloadPrevented = false } }, FileId);
+            var result = await Client.FilesManager.UnLock(FileId);
 
             try
             {
@@ -120,7 +119,7 @@ namespace Box.V2.Test.Integration
                     {
                         //Console.WriteLine("   Exception: {0}", v.GetType().Name);
                         Assert.Fail("Failed to get events using long polling.");
-                    }   
+                    }
                 }
             }
             finally

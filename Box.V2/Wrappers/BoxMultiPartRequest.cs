@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Box.V2
@@ -19,8 +19,8 @@ namespace Box.V2
         /// </summary>
         /// <param name="hostUri">The host URI for the multi-part request</param>
         /// <param name="path">The path for the multi-part request</param>
-        public BoxMultiPartRequest(Uri hostUri, string path) 
-            : base(hostUri, path) 
+        public BoxMultiPartRequest(Uri hostUri, string path)
+            : base(hostUri, path)
         {
             Parts = new List<IBoxFormPart>();
         }

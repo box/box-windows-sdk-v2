@@ -107,7 +107,7 @@ namespace Box.V2.Managers
         /// <param name="fileId">The file id.</param>
         /// <param name="uploadNewVersionSessionRequest">The upload session request for new file version.</param>
         /// <returns>The upload session for uploading new Box file version using session.</returns>
-        Task<BoxFileUploadSession> CreateNewVersionUploadSessionAsync(string fileId, 
+        Task<BoxFileUploadSession> CreateNewVersionUploadSessionAsync(string fileId,
             BoxFileUploadSessionRequest uploadNewVersionSessionRequest);
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace Box.V2.Managers
         /// 64x64, 128x128, and 256x256 can be returned in the .png format
         /// and sizes of 32x32, 94x94, 160x160, and 320x320 can be returned in the .jpg format.
         /// Thumbnails can be generated for the image and video file formats listed here.
-        /// <see cref="http://community.box.com/t5/Managing-Your-Content/What-file-types-are-supported-by-Box-s-Content-Preview/ta-p/327"/>
+        /// see <a href="http://community.box.com/t5/Managing-Your-Content/What-file-types-are-supported-by-Box-s-Content-Preview/ta-p/327"/>
         /// </summary>
         /// <param name="id">Id of the file.</param>
         /// <param name="minHeight">The minimum height of the thumbnail.</param>

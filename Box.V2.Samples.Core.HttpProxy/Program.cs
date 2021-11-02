@@ -2,13 +2,12 @@ using System;
 using System.Net;
 using Box.V2.Config;
 using Box.V2.JWTAuth;
-using Box.V2.Request;
 
 namespace Box.V2.Samples.Core.HttpProxy
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             var boxConfig = BoxConfigBuilder.CreateFromJsonString(GetConfigJson())
                 // Set web proxy
@@ -17,10 +16,9 @@ namespace Box.V2.Samples.Core.HttpProxy
 
             var boxJWT = new BoxJWTAuth(boxConfig);
 
-            var adminToken = boxJWT.AdminTokenAsync().Result; 
+            var adminToken = boxJWT.AdminTokenAsync().Result;
             var adminClient = boxJWT.AdminClient(adminToken);
-
-            var items = adminClient.FoldersManager.GetFolderItemsAsync("0", 500).Result;
+            _ = adminClient.FoldersManager.GetFolderItemsAsync("0", 500).Result;
         }
 
         private static string GetConfigJson()

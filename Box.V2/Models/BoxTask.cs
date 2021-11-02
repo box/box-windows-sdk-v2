@@ -11,7 +11,8 @@ namespace Box.V2.Models
         public const string FieldIsCompleted = "is_completed";
         public const string FieldCreatedBy = "created_by";
         public const string FieldTaskAssignmentCollection = "task_assignment_collection";
-        
+        public const string FieldCompletionRule = "completion_rule";
+
         /// <summary>
         /// Date of task completion
         /// </summary>
@@ -53,5 +54,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldTaskAssignmentCollection)]
         public virtual BoxCollection<BoxTaskAssignment> TaskAssignments { get; private set; }
+
+        /// <summary>
+        /// Gets value indicating which assignees need to complete this task before the task is considered completed.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldCompletionRule)]
+        public virtual BoxCompletionRule CompletionRule { get; private set; }
     }
 }

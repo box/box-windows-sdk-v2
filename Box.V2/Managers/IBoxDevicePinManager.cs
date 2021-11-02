@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Box.V2.Models;
 
 namespace Box.V2.Managers
@@ -14,8 +14,8 @@ namespace Box.V2.Managers
         /// <param name="direction">Default is "asc". Valid values are asc, desc. Case in-sensitive, ASC/DESC works just fine.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns all the device pins within a given enterprise up to limit amount.</returns>
-        Task<BoxCollectionMarkerBased<BoxDevicePin>> GetEnterpriseDevicePinsAsync(string enterpriseId, string marker = null, 
-            int limit = 100, 
+        Task<BoxCollectionMarkerBased<BoxDevicePin>> GetEnterpriseDevicePinsAsync(string enterpriseId, string marker = null,
+            int limit = 100,
             BoxSortDirection direction = BoxSortDirection.ASC,
             bool autoPaginate = false);
 

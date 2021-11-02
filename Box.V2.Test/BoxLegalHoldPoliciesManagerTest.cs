@@ -1,11 +1,11 @@
+using System;
+using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
@@ -24,7 +24,7 @@ namespace Box.V2.Test
         public async Task GetLegalHoldPolicy_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""type"": ""legal_hold_policy"",
                                           ""id"": ""166757"",
                                           ""policy_name"": ""Policy 4"",
@@ -49,7 +49,7 @@ namespace Box.V2.Test
                                           ""filter_ended_at"": ""2016-05-21T01:00:00-07:00""
                                         }";
             IBoxRequest boxRequest = null;
-            Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
+            var legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
             Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicy>>(new BoxResponse<BoxLegalHoldPolicy>()
@@ -91,7 +91,7 @@ namespace Box.V2.Test
         public async Task GetListLegalHoldPolicies_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""entries"": [
                                             {
                                               ""type"": ""legal_hold_policy"",
@@ -113,7 +113,7 @@ namespace Box.V2.Test
                                           ]
                                         }";
             IBoxRequest boxRequest = null;
-            Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
+            var legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
             Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>>(new BoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicy>>()
@@ -151,7 +151,7 @@ namespace Box.V2.Test
         public async Task CreateLegalHoldPolicy_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""type"": ""legal_hold_policy"",
                                           ""id"": ""166921"",
                                           ""policy_name"": ""Policy 3"",
@@ -169,7 +169,7 @@ namespace Box.V2.Test
                                           ""filter_ended_at"": ""2016-05-13T01:00:00-07:00""
                                         }";
             IBoxRequest boxRequest = null;
-            Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
+            var legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
             Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicy>>(new BoxResponse<BoxLegalHoldPolicy>()
@@ -180,7 +180,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxLegalHoldPolicyRequest createRequest = new BoxLegalHoldPolicyRequest()
+            var createRequest = new BoxLegalHoldPolicyRequest()
             {
                 PolicyName = "Policy 3",
                 Description = "postman created policy",
@@ -219,7 +219,7 @@ namespace Box.V2.Test
         public async Task UpdateLegalHoldPolicy_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""type"": ""legal_hold_policy"",
                                           ""id"": ""166921"",
                                           ""policy_name"": ""New Policy 3"",
@@ -237,7 +237,7 @@ namespace Box.V2.Test
                                           ""filter_ended_at"": ""2016-05-13T01:00:00-07:00""
                                         }";
             IBoxRequest boxRequest = null;
-            Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
+            var legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
             Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicy>>(new BoxResponse<BoxLegalHoldPolicy>()
@@ -248,7 +248,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxLegalHoldPolicyRequest updateRequest = new BoxLegalHoldPolicyRequest()
+            var updateRequest = new BoxLegalHoldPolicyRequest()
             {
                 PolicyName = "New Policy 3",
                 Description = "Policy 3 New Description"
@@ -284,9 +284,9 @@ namespace Box.V2.Test
         public async Task DeleteTask_TaskDeleted()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             IBoxRequest boxRequest = null;
-            Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
+            var legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
             Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicy>>(new BoxResponse<BoxLegalHoldPolicy>()
@@ -297,7 +297,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            bool result = await _legalHoldPoliciesManager.DeleteLegalHoldPolicyAsync("166921");
+            var result = await _legalHoldPoliciesManager.DeleteLegalHoldPolicyAsync("166921");
 
             /*** Assert ***/
             //Request check
@@ -314,7 +314,7 @@ namespace Box.V2.Test
         public async Task GetAssignment_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""type"": ""legal_hold_policy_assignment"",
                                           ""id"": ""255473"",
                                           ""legal_hold_policy"": {
@@ -336,7 +336,7 @@ namespace Box.V2.Test
                                           ""deleted_at"": null
                                         }";
             IBoxRequest boxRequest = null;
-            Uri legalHoldPolicyAssignmentUri = new Uri(Constants.LegalHoldPolicyAssignmentsEndpointString);
+            var legalHoldPolicyAssignmentUri = new Uri(Constants.LegalHoldPolicyAssignmentsEndpointString);
             Config.SetupGet(x => x.LegalHoldPolicyAssignmentsEndpointUri).Returns(legalHoldPolicyAssignmentUri);
             Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicyAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicyAssignment>>(new BoxResponse<BoxLegalHoldPolicyAssignment>()
@@ -378,7 +378,7 @@ namespace Box.V2.Test
         public async Task GetListAssignments_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""entries"": [
                                             {
                                               ""type"": ""legal_hold_policy_assignment"",
@@ -394,7 +394,7 @@ namespace Box.V2.Test
                                           ]
                                         }";
             IBoxRequest boxRequest = null;
-            Uri legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
+            var legalHoldsPoliciesUri = new Uri(Constants.LegalHoldPoliciesEndpointString);
             Config.SetupGet(x => x.LegalHoldPoliciesEndpointUri).Returns(legalHoldsPoliciesUri);
             Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>>(new BoxResponse<BoxCollectionMarkerBased<BoxLegalHoldPolicyAssignment>>()
@@ -432,7 +432,7 @@ namespace Box.V2.Test
         public async Task CreateNewAssignment_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""type"": ""legal_hold_policy_assignment"",
                                           ""id"": ""255613"",
                                           ""legal_hold_policy"": {
@@ -454,7 +454,7 @@ namespace Box.V2.Test
                                           ""deleted_at"": null
                                         }";
             IBoxRequest boxRequest = null;
-            Uri legalHoldPolicyAssignmentUri = new Uri(Constants.LegalHoldPolicyAssignmentsEndpointString);
+            var legalHoldPolicyAssignmentUri = new Uri(Constants.LegalHoldPolicyAssignmentsEndpointString);
             Config.SetupGet(x => x.LegalHoldPolicyAssignmentsEndpointUri).Returns(legalHoldPolicyAssignmentUri);
             Handler.Setup(h => h.ExecuteAsync<BoxLegalHoldPolicyAssignment>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxLegalHoldPolicyAssignment>>(new BoxResponse<BoxLegalHoldPolicyAssignment>()
@@ -465,7 +465,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxLegalHoldPolicyAssignmentRequest createRequest = new BoxLegalHoldPolicyAssignmentRequest()
+            var createRequest = new BoxLegalHoldPolicyAssignmentRequest()
             {
                 PolicyId = "166757",
                 AssignTo = new BoxRequestEntity()

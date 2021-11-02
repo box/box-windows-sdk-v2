@@ -1,3 +1,4 @@
+using System;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -5,7 +6,6 @@ using Box.V2.Managers;
 using Box.V2.Plugins;
 using Box.V2.Request;
 using Box.V2.Services;
-using System;
 
 namespace Box.V2
 {
@@ -136,6 +136,7 @@ namespace Box.V2
             TermsOfServiceManager = new BoxTermsOfServiceManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             MetadataCascadePolicyManager = new BoxMetadataCascadePolicyManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             StoragePoliciesManager = new BoxStoragePoliciesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            SignRequestsManager = new BoxSignRequestsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -162,7 +163,7 @@ namespace Box.V2
         /// The manager that represents the files endpoint
         /// </summary>
         public IBoxFilesManager FilesManager { get; private set; }
-        
+
         /// <summary>
         /// The manager that represents the folders endpoint
         /// </summary>
@@ -273,8 +274,14 @@ namespace Box.V2
         /// </summary>
         public IBoxMetadataCascadePolicyManager MetadataCascadePolicyManager { get; private set; }
 
+        /// <summary>
         /// The manager that represents the storage policies endpoint
         /// </summary>
         public IBoxStoragePoliciesManager StoragePoliciesManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents sign requests endpoints.
+        /// </summary>
+        public IBoxSignRequestsManager SignRequestsManager { get; private set; }
     }
 }

@@ -1,7 +1,7 @@
-using Box.V2.Converter;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Box.V2.Converter;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {

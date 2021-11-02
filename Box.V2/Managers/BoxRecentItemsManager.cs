@@ -1,11 +1,11 @@
-using Box.V2.Auth;
-using Box.V2.Config;
-using Box.V2.Extensions;
-using Box.V2.Converter;
-using Box.V2.Models;
-using Box.V2.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Box.V2.Auth;
+using Box.V2.Config;
+using Box.V2.Converter;
+using Box.V2.Extensions;
+using Box.V2.Models;
+using Box.V2.Services;
 
 namespace Box.V2.Managers
 {

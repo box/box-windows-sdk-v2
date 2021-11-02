@@ -54,6 +54,7 @@
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.12.2\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -85,6 +86,7 @@
     <Compile Include="Managers\BoxMetadataCascadePolicyManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\BoxSharedItemsManager.cs" />
+    <Compile Include="Managers\BoxSignRequestsManager.cs" />
     <Compile Include="Managers\BoxStoragePoliciesManager.cs" />
     <Compile Include="Managers\BoxTasksManager.cs" />
     <Compile Include="Managers\BoxTermsOfServiceManager.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Managers\IBoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\IBoxSearchManager.cs" />
     <Compile Include="Managers\IBoxSharedItemsManager.cs" />
+    <Compile Include="Managers\IBoxSignRequestsManager.cs" />
     <Compile Include="Managers\IBoxStoragePoliciesManager.cs" />
     <Compile Include="Managers\IBoxTasksManager.cs" />
     <Compile Include="Managers\IBoxTermsOfServiceManager.cs" />
@@ -157,6 +160,10 @@
     <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
     <Compile Include="Models\BoxRetentionPolicy.cs" />
     <Compile Include="Models\BoxSessionUploadStatus.cs" />
+    <Compile Include="Models\BoxSignRequest.cs" />
+    <Compile Include="Models\BoxSignRequestPrefillTag.cs" />
+    <Compile Include="Models\BoxSignRequestSigner.cs" />
+    <Compile Include="Models\BoxSignRequestSignFiles.cs" />
     <Compile Include="Models\BoxStoragePolicy.cs" />
     <Compile Include="Models\BoxStoragePolicyAssignment.cs" />
     <Compile Include="Models\BoxTask.cs" />
@@ -186,6 +193,7 @@
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
     <Compile Include="Models\BoxSessionParts.cs" />
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
+    <Compile Include="Models\Request\BoxSignRequestCreateRequest.cs" />
     <Compile Include="Models\Request\BoxTermsOfServiceUserStatusCreateRequest.cs" />
     <Compile Include="Models\Request\BoxZipRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />

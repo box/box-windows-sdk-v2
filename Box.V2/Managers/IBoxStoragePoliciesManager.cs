@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Box.V2.Models;
 
@@ -11,7 +10,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="policyId">Id of the Box Storage Policy to retrieve.</param>
         /// <returns>If the Id is valid, information about the Box Storage Policy is returned. </returns>
-        Task<BoxStoragePolicy> GetStoragePolicyAsync(String policyId);
+        Task<BoxStoragePolicy> GetStoragePolicyAsync(string policyId);
 
         /// <summary>
         /// Get a list of Storage Policies that belong to your Enterprise.
@@ -44,7 +43,7 @@ namespace Box.V2.Managers
         /// <param name="assignmentId">Storage Policy assignment Id to update.</param>
         /// <param name="policyId">"The Id of the Storage Policy to update to."</param>
         /// <returns></returns> The updated Storage Policy object with new assignment.
-        Task<BoxStoragePolicyAssignment> UpdateStoragePolicyAssignment(string assignmentId, String policyId);
+        Task<BoxStoragePolicyAssignment> UpdateStoragePolicyAssignment(string assignmentId, string policyId);
 
         /// <summary>
         /// Create a storage policy assignment to a Box User.

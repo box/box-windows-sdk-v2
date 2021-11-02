@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -26,7 +26,7 @@ namespace Box.V2.Models
         {
             get
             {
-                return new Uri(this.UploadUrl);
+                return new Uri(UploadUrl);
             }
         }
 

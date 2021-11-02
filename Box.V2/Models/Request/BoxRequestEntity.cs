@@ -1,10 +1,5 @@
-using Box.V2.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Models
 {
@@ -24,7 +19,7 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public BoxType? Type { get; set; } 
+        public BoxType? Type { get; set; }
     }
 }
 
@@ -33,8 +28,8 @@ namespace Box.V2.Models
 /// </summary>
 public enum BoxType
 {
-    file, 
-    discussion, 
+    file,
+    discussion,
     comment,
     folder,
     retention_policy,

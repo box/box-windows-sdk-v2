@@ -10,22 +10,22 @@ namespace Box.V2.Samples.TransactionalAuth
     /// <summary>
     /// Test program for token exchange.
     /// </summary>
-    class Program
+    internal class Program
     {
         /// <summary>
         /// Main program method.
         /// </summary>
         /// <param name="args">The arguments.</param>
-        static void Main(string[] args)
+        private static void Main()
         {
             Console.WriteLine("Enter token:");
-            string token = Console.ReadLine();
+            var token = Console.ReadLine();
 
             Console.WriteLine("Enter the fileId, which the token has access to:");
-            string fileId = Console.ReadLine();
+            var fileId = Console.ReadLine();
 
             Console.WriteLine("Enter the folderId, which doesn't contain the fileId:");
-            string folderId = Console.ReadLine();
+            var folderId = Console.ReadLine();
 
             Task t = MainAsync(token, fileId, folderId);
             t.Wait();
@@ -60,11 +60,11 @@ namespace Box.V2.Samples.TransactionalAuth
 
             // Check resource to be optional
             var token1 = await tokenExchange.ExchangeAsync();
-            var client1 = CreateClientByToken(token1);
+            _ = CreateClientByToken(token1);
 
             // Set resource
             tokenExchange.SetResource(resource);
-            var token2 = await tokenExchange .ExchangeAsync();
+            var token2 = await tokenExchange.ExchangeAsync();
             var client2 = CreateClientByToken(token2);
             try
             {

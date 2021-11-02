@@ -1,8 +1,5 @@
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -40,5 +37,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "due_at")]
         public DateTimeOffset? DueAt { get; set; }
+
+        /// <summary>
+        /// Defines which assignees need to complete this task before the task is considered completed.
+        /// </summary>
+        [JsonProperty(PropertyName = "completion_rule")]
+        public BoxCompletionRule? CompletionRule { get; set; }
     }
 }

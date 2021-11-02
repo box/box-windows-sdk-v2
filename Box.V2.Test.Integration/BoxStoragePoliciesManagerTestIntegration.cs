@@ -1,9 +1,5 @@
-﻿using System.Threading.Tasks;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Box.V2.Models;
-using Box.V2.Models.Request;
-using static Box.V2.Config.Constants;
 
 namespace Box.V2.Test.Integration
 {
@@ -13,7 +9,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task AssignStoragePolicyAsync_LiveSession()
         {
-            var assignment = await _client.StoragePoliciesManager.GetAssignmentAsync("user_240097255");
+            _ = await Client.StoragePoliciesManager.GetAssignmentAsync("user_240097255");
         }
     }
 }

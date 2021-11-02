@@ -1,16 +1,11 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Converter
 {
     public class BoxJsonConverter : IBoxConverter
     {
-        JsonSerializerSettings _settings;
+        private readonly JsonSerializerSettings _settings;
 
         /// <summary>
         /// Instantiates a new BoxJsonConverter that converts JSON

@@ -1,13 +1,13 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Box.V2.Services;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Box.V2.Auth;
-using System.Collections.Generic;
-using Box.V2.Exceptions;
-using System.Linq;
-using Box.V2.Request;
 using Box.V2.Config;
+using Box.V2.Exceptions;
+using Box.V2.Request;
+using Box.V2.Services;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Box.V2.Test
 {
@@ -28,7 +28,7 @@ namespace Box.V2.Test
             IAuthRepository authRepository = new AuthRepository(config, service, Converter);
 
             // Act
-            OAuthSession response = await authRepository.AuthenticateAsync("fakeAuthorizationCode");
+            _ = await authRepository.AuthenticateAsync("fakeAuthorizationCode");
         }
 
         [TestMethod]
@@ -98,23 +98,25 @@ namespace Box.V2.Test
         {
 
             /*** Arrange ***/
-            int numTasks = 1000;
+            var numTasks = 1000;
 
-            int count = 0; 
+            var count = 0;
 
             // Increments the access token each time a call is made to the API
             Handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
-                .Returns(() => Task.FromResult<IBoxResponse<OAuthSession>>(new BoxResponse<OAuthSession>() 
+                .Returns(() => Task.FromResult<IBoxResponse<OAuthSession>>(new BoxResponse<OAuthSession>()
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = "{\"access_token\": \""+ count + "\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
+                    ContentString = "{\"access_token\": \"" + count + "\",\"expires_in\": 3600,\"token_type\": \"bearer\",\"refresh_token\": \"J7rxTiWOHMoSC1isKZKBZWizoRXjkQzig5C6jFgCVJ9bUnsUfGMinKBDLZWP9BgR\"}"
                 })).Callback(() => System.Threading.Interlocked.Increment(ref count));
 
             /*** Act ***/
-            List<Task<OAuthSession>> tasks = new List<Task<OAuthSession>>();
+            var tasks = new List<Task<OAuthSession>>();
 
-            for (int i = 0; i < numTasks; i++)
+            for (var i = 0; i < numTasks; i++)
+            {
                 tasks.Add(AuthRepository.RefreshAccessTokenAsync("fakeAccessToken")); // Refresh with the same access token each time
+            }
 
             await Task.WhenAll(tasks);
 

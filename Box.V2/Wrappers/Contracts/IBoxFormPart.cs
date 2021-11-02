@@ -1,4 +1,4 @@
-﻿
+
 namespace Box.V2
 {
     /// <summary>

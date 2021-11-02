@@ -1,9 +1,9 @@
-using Box.V2.Utility;
-using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
+using Box.V2.Utility;
+using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Config
 {
@@ -256,6 +256,14 @@ namespace Box.V2.Config
         /// Gets the folder locks endpoint URI.
         /// </summary>
         public Uri FolderLocksEndpointUri { get { return new Uri(BoxApiUri, Constants.FolderLocksString); } }
+        /// <summary>
+        /// Gets the sign requests endpoint URI.
+        /// </summary>
+        public Uri SignRequestsEndpointUri { get { return new Uri(BoxApiUri, Constants.SignRequestsString); } }
+        /// <summary>
+        /// Gets the sign requests endpoint URI.
+        /// </summary>
+        public Uri SignRequestsEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.SignRequestsWithPathString); } }
         /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>

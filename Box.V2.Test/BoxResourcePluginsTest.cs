@@ -1,6 +1,6 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Box.V2.Managers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test
 {
@@ -12,7 +12,7 @@ namespace Box.V2.Test
         public void InitializePlugins_ValidResource_ValidPlugins()
         {
             // Arrange
-            BoxClient client = new BoxClient(Config.Object);
+            var client = new BoxClient(Config.Object);
 
             // Act
             client
@@ -39,13 +39,13 @@ namespace Box.V2.Test
         public void InitializePlugins_UnregisteredResource_InvalidOperationException()
         {
             // Arrange
-            BoxClient client = new BoxClient(Config.Object);
+            var client = new BoxClient(Config.Object);
 
             // Act
             client.AddResourcePlugin<BoxFilesManager>();
 
             // Assert
-            var dm = client.ResourcePlugins.Get<BoxFoldersManager>();
+            _ = client.ResourcePlugins.Get<BoxFoldersManager>();
         }
 
     }

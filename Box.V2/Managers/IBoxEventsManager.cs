@@ -34,9 +34,9 @@ namespace Box.V2.Managers
         /// <param name="streamPosition">The location in the event stream from which you want to start receiving events. You can specify the special value 'now' to get 0 events and the latest stream_position value. Defaults to 'now'.</param>
         /// <param name="dedupeEvents">Whether or not to automatically de-duplicate events as they are received. Defaults to true.</param>
         /// <returns></returns>
-        Task<BoxEventCollection<BoxEnterpriseEvent>> UserEventsAsync(int limit = 500, 
+        Task<BoxEventCollection<BoxEnterpriseEvent>> UserEventsAsync(int limit = 500,
             UserEventsStreamType streamType = UserEventsStreamType.all,
-            string streamPosition = "now", 
+            string streamPosition = "now",
             bool dedupeEvents = true);
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Box.V2.Managers
         Task LongPollUserEvents(string streamPosition,
             Action<BoxEventCollection<BoxEnterpriseEvent>> newEventsCallback,
             CancellationToken cancellationToken,
-            UserEventsStreamType streamType = UserEventsStreamType.all, 
+            UserEventsStreamType streamType = UserEventsStreamType.all,
             bool dedupeEvents = true,
             int? retryTimeoutOverride = null);
     }
