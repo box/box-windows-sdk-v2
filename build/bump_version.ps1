@@ -28,6 +28,7 @@ $REPO_NAME="box-windows-sdk-v2"
 # Install dependencies
 ###########################################################################
 
+npm install -g standard-version
 Install-Module -Name PowerShellForGitHub
 
 ###########################################################################
