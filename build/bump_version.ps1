@@ -3,12 +3,14 @@ Param
     [Alias('dr')]
     [bool]$DryRun = $true,
 
-    [Parameter(Mandatory)]
     [Alias('gh')]
     [string]$GithubToken,
 
     [Alias('b')]
-    [string]$Branch="main"
+    [string]$Branch="main",
+
+    [Alias('id')]
+    [bool]$InstallDependencies = $true
 )
 
 $ErrorActionPreference = "Stop"
@@ -25,11 +27,25 @@ $REPO_OWNER="box"
 $REPO_NAME="box-windows-sdk-v2"
 
 ###########################################################################
+# Parameters validation
+###########################################################################
+
+if($GithubToken -eq $null -Or $GithubToken -eq ''){
+    $GithubToken = $env:GithubToken
+    if($GithubToken -eq $null -Or $GithubToken -eq ''){
+        Write-Output "Github token not supplied. Aborting script."
+        exit 1
+    }
+}
+
+###########################################################################
 # Install dependencies
 ###########################################################################
 
-npm install -g standard-version
-Install-Module -Name PowerShellForGitHub
+if ($InstallDependencies){
+    npm install -g standard-version
+    Install-Module -Name PowerShellForGitHub -Scope CurrentUser -Force
+}
 
 ###########################################################################
 # Ensure git tree is clean
@@ -44,7 +60,7 @@ if ($LASTEXITCODE -ne 0) {
 # Update changelog
 ###########################################################################
 
-standard-version release --skip.commit --skip.tag
+standard-version --skip.commit --skip.tag
 $NEXT_VERSION = (Select-String -Pattern [0-9]+\.[0-9]+\.[0-9]+ -Path $CHANGELOG_PATH | Select-Object -First 1).Matches.Value
 $NEXT_VERSION_TAG = "v" + "$NEXT_VERSION"
 $RELEASE_DATE = (Select-String -Pattern "\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])" -Path $CHANGELOG_PATH | Select-Object -First 1).Matches.Value
@@ -79,9 +95,9 @@ if($DryRun){
     $prParams = @{
         OwnerName = $REPO_OWNER
         RepositoryName = $REPO_NAME
-        Title = "chore: " + $NEXT_VERSION_TAG 
+        Title = "chore: release " + $NEXT_VERSION_TAG 
         Head = $NEXT_VERSION_TAG
-        Base = 'main'
+        Base = $Branch
         Body = "Bumping version files for the next release! " + $NEXT_VERSION_TAG
         MaintainerCanModify = $true
     }
