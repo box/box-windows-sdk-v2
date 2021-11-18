@@ -95,7 +95,7 @@ if ($InstallDependencies){
 ###########################################################################
 
 $Bytes = [Convert]::FromBase64String($PfxAsBase64)
-$PfxPath = "$FRAMEWORK_PROJ_DIR" + "\AssemblySigningKey.pfx"
+$PfxPath = "$FRAMEWORK_PROJ_DIR" + "\BoxSDKKey.pfx"
 [IO.File]::WriteAllBytes($PfxPath, $Bytes)
 .\SnInstallPfx.exe $PfxPath $PfxPassword
 Remove-Item $PfxPath 
