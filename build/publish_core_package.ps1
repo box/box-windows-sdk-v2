@@ -18,13 +18,7 @@ Param
 
 $ErrorActionPreference = "Stop"
 
-$ROOT_DIR=$pwd
-$GIT_SCRIPT="$PSScriptRoot" + "\ensure_git_clean.ps1"
-$CORE_PROJ_DIR="$ROOT_DIR" + "\Box.V2.Core"
-$CORE_ASSEMBLY_NAME="Box.V2.Core"
-$NUGET_URL="https://api.nuget.org/v3/index.json"
-$NET_CORE_VER="netcoreapp2.0"
-$CHANGELOG_PATH="$ROOT_DIR" + "\CHANGELOG.md"
+. $PSScriptRoot\variables.ps1
 
 if($NextVersion -eq $null -Or $NextVersion -eq ''){
     $NextVersion = $env:NextVersion

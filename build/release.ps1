@@ -15,15 +15,7 @@ Param
 
 $ErrorActionPreference = "Stop"
 
-$ROOT_DIR=$pwd
-$FRAMEWORK_PROJ_DIR="$ROOT_DIR" + "\Box.V2"
-$CORE_PROJ_DIR="$ROOT_DIR" + "\Box.V2.Core"
-$REPO_OWNER="box"
-$REPO_NAME="box-windows-sdk-v2"
-$FRAMEWORK_NUPKG_PATH=$FRAMEWORK_PROJ_DIR + "\Box.V2." + $NextVersion + ".nupkg"
-$FRAMEWORK_PDB_PATH=$FRAMEWORK_PROJ_DIR + "\bin\Release\Box.V2.pdb"
-$CORE_NUPKG_PATH=$CORE_PROJ_DIR + "\bin\Release\Box.V2.Core." + $NextVersion + ".nupkg"
-$CORE_PDB_PATH=$CORE_PROJ_DIR + "\bin\Release\netstandard2.0\Box.V2.Core.pdb"
+. $PSScriptRoot\variables.ps1
 
 if($NextVersion -eq $null -Or $NextVersion -eq ''){
     $NextVersion = $env:NextVersion

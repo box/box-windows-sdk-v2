@@ -15,16 +15,7 @@ Param
 
 $ErrorActionPreference = "Stop"
 
-$ROOT_DIR=$pwd
-$GIT_SCRIPT="$PSScriptRoot" + "\ensure_git_clean.ps1"
-$CHANGELOG_PATH="$ROOT_DIR" + "\CHANGELOG.md"
-$FRAMEWORK_PROJ_DIR="$ROOT_DIR" + "\Box.V2"
-$CORE_PROJ_DIR="$ROOT_DIR" + "\Box.V2.Core"
-$CORE_CSPROJ_PATH="$CORE_PROJ_DIR" + "\Box.V2.Core.csproj"
-$ASSEMBLYINFO_PATH="$FRAMEWORK_PROJ_DIR" + "\Utility\AssemblyInfo.cs"
-$FRAMEWORK_NUSPEC_PATH="$FRAMEWORK_PROJ_DIR" + "\Box.V2.nuspec"
-$REPO_OWNER="box"
-$REPO_NAME="box-windows-sdk-v2"
+. $PSScriptRoot\variables.ps1
 
 ###########################################################################
 # Parameters validation

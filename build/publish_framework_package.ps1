@@ -27,14 +27,7 @@ Param
 
 $ErrorActionPreference = "Stop"
 
-$ROOT_DIR=$pwd
-$GIT_SCRIPT="$PSScriptRoot" + "\ensure_git_clean.ps1"
-$FRAMEWORK_PROJ_DIR="$ROOT_DIR" + "\Box.V2"
-$FRAMEWORK_ASSEMBLY_NAME="Box.V2"
-$SLN_PATH="$ROOT_DIR" + "\Box.V2.sln"
-$NUGET_URL="https://api.nuget.org/v3/index.json"
-$NET_FRAMEWORK_VER="net45"
-$CHANGELOG_PATH="$ROOT_DIR" + "\CHANGELOG.md"
+. $PSScriptRoot\variables.ps1
 
 if($NextVersion -eq $null -Or $NextVersion -eq ''){
     $NextVersion = $env:NextVersion
@@ -95,10 +88,9 @@ if ($InstallDependencies){
 ###########################################################################
 
 $Bytes = [Convert]::FromBase64String($PfxAsBase64)
-$PfxPath = "$FRAMEWORK_PROJ_DIR" + "\BoxSDKKey.pfx"
-[IO.File]::WriteAllBytes($PfxPath, $Bytes)
-.\SnInstallPfx.exe $PfxPath $PfxPassword
-Remove-Item $PfxPath 
+[IO.File]::WriteAllBytes($PFX_PATH, $Bytes)
+.\SnInstallPfx.exe $PFX_PATH $PfxPassword
+Remove-Item $PFX_PATH 
 
 ###########################################################################
 # Build and Test
