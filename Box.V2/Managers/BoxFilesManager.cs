@@ -970,7 +970,7 @@ namespace Box.V2.Managers
         [Obsolete("Please use GetPreviewLinkAsync instead.  This functionality is not supported by Box.")]
         public async Task<Stream> GetPreviewAsync(string id, int page, bool handleRetry = true)
         {
-            return (await GetPreviewResponseAsync(id, page, handleRetry: handleRetry).configureAwait(false)).ResponseObject;
+            return (await GetPreviewResponseAsync(id, page, handleRetry: handleRetry).ConfigureAwait(false)).ResponseObject;
         }
 
         /// <summary>
@@ -984,7 +984,7 @@ namespace Box.V2.Managers
         [Obsolete("Please use GetPreviewLinkAsync instead.  This functionality is not supported by Box.")]
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
         {
-            IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry).configureAwait(false);
+            IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry).ConfigureAwait(false);
 
             var filePreview = new BoxFilePreview
             {
@@ -1138,7 +1138,7 @@ namespace Box.V2.Managers
         /// <returns>Returns information about locked file</returns>
         public async Task<BoxFileLock> LockAsync(BoxFileLockRequest lockFileRequest, string id)
         {
-            return await UpdateLockAsync(lockFileRequest, id).configureAwait(false);
+            return await UpdateLockAsync(lockFileRequest, id).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1323,7 +1323,7 @@ namespace Box.V2.Managers
         /// </summary>
         public async Task<BoxZipDownloadStatus> DownloadZip(BoxZipRequest zipRequest, Stream output)
         {
-            BoxZip createdZip = await CreateZip(zipRequest).configureAwait(false);
+            BoxZip createdZip = await CreateZip(zipRequest).ConfigureAwait(false);
             IBoxRequest downloadRequest = new BoxRequest(createdZip.DownloadUrl);
             IBoxResponse<Stream> streamResponse = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
             Stream fileStream = streamResponse.ResponseObject;
