@@ -588,7 +588,7 @@ namespace Box.V2.Managers
                 await Retry.ExecuteAsync(
                     async () =>
                         await CommitSessionAsync(commitUri, fullFileSha1,
-                            sessionPartsForCommit),
+                            sessionPartsForCommit).ConfigureAwait(false),
                     TimeSpan.FromMilliseconds(retryInterval), RetryCount);
                 return fileResponse;
             }
@@ -598,7 +598,7 @@ namespace Box.V2.Managers
                 await Retry.ExecuteAsync(
                     async () =>
                         await CommitFileVersionSessionAsync(commitUri, fullFileSha1,
-                            sessionPartsForCommit),
+                            sessionPartsForCommit).ConfigureAwait(false),
                         TimeSpan.FromMilliseconds(retryInterval), RetryCount);
                 return versionResponse;
             }
@@ -666,7 +666,7 @@ namespace Box.V2.Managers
                     tasks.Add(uploadPartWithRetryTask);
                 }
 
-                var results = await Task.WhenAll(tasks);
+                var results = await Task.WhenAll(tasks).ConfigureAwait(false);
                 ret.AddRange(results.Select(elem => elem.Part));
             }
 
