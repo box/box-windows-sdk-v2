@@ -104,7 +104,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxWebhook>(request, limit);
+                return await AutoPaginateMarker<BoxWebhook>(request, limit).ConfigureAwait(false);
             }
             else
             {

@@ -52,7 +52,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxStoragePolicy>(request, limit);
+                return await AutoPaginateMarker<BoxStoragePolicy>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -184,7 +184,7 @@ namespace Box.V2.Managers
             userId.ThrowIfNullOrWhiteSpace("userId");
             storagePolicyId.ThrowIfNullOrWhiteSpace("storagePolicyId");
 
-            var result = await GetAssignmentForTargetAsync(userId);
+            var result = await GetAssignmentForTargetAsync(userId).ConfigureAwait(false);
 
             if (result.BoxStoragePolicy.Id.Equals(storagePolicyId))
             {
@@ -192,8 +192,8 @@ namespace Box.V2.Managers
             }
 
             return result.AssignedTo.Type.Equals("enterprise")
-                ? await CreateAssignmentAsync(userId, storagePolicyId)
-                : await UpdateStoragePolicyAssignment(result.Id, storagePolicyId);
+                ? await CreateAssignmentAsync(userId, storagePolicyId).ConfigureAwait(false)
+                : await UpdateStoragePolicyAssignment(result.Id, storagePolicyId).ConfigureAwait(false);
         }
     }
 }

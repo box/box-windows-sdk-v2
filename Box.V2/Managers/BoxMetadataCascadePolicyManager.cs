@@ -88,7 +88,7 @@ namespace Box.V2.Managers
 
             if (autopaginate)
             {
-                return await AutoPaginateMarker<BoxMetadataCascadePolicy>(request, limit);
+                return await AutoPaginateMarker<BoxMetadataCascadePolicy>(request, limit).ConfigureAwait(false);
             }
             else
             {

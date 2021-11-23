@@ -75,7 +75,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxCollaborationWhitelistEntry>(request, limit);
+                return await AutoPaginateMarker<BoxCollaborationWhitelistEntry>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -163,7 +163,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxCollaborationWhitelistTargetEntry>(request, limit);
+                return await AutoPaginateMarker<BoxCollaborationWhitelistTargetEntry>(request, limit).ConfigureAwait(false);
             }
             else
             {

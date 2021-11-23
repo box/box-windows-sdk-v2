@@ -147,7 +147,7 @@ namespace Box.V2.Auth
                 _mutex.Release();
             }
 
-            await InvalidateTokens(token);
+            await InvalidateTokens(token).ConfigureAwait(false);
         }
 
         #endregion
