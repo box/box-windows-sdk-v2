@@ -439,7 +439,7 @@ namespace Box.V2.Managers
                     request.Param("offset", "0");
                 }
 
-                return await AutoPaginateLimitOffset<BoxSessionPartInfo>(request, limit.Value);
+                return await AutoPaginateLimitOffset<BoxSessionPartInfo>(request, limit.Value).ConfigureAwait(false);
             }
             else
             {
@@ -476,7 +476,7 @@ namespace Box.V2.Managers
         public async Task<BoxFileVersion> UploadFileVersionUsingSessionAsync(Stream stream, string fileId, string fileName = null,
             TimeSpan? timeout = null, IProgress<BoxProgress> progress = null)
         {
-            var response = await UploadNewVersionUsingSessionAsync(stream, fileId, fileName, timeout, progress);
+            var response = await UploadNewVersionUsingSessionAsync(stream, fileId, fileName, timeout, progress).ConfigureAwait(false);
             return response.FileVersion;
         }
 
@@ -499,8 +499,8 @@ namespace Box.V2.Managers
                 FileName = fileName
             };
 
-            var boxFileVersionUploadSession = await CreateNewVersionUploadSessionAsync(fileId, uploadNewVersionSessionRequest);
-            var response = await UploadSessionAsync(stream, boxFileVersionUploadSession, timeout, progress);
+            var boxFileVersionUploadSession = await CreateNewVersionUploadSessionAsync(fileId, uploadNewVersionSessionRequest).ConfigureAwait(false);
+            var response = await UploadSessionAsync(stream, boxFileVersionUploadSession, timeout, progress).ConfigureAwait(false);
             return response;
         }
 
@@ -525,8 +525,8 @@ namespace Box.V2.Managers
                 FolderId = folderId
             };
 
-            var boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest);
-            var response = await UploadSessionAsync(stream, boxFileUploadSession, timeout, progress);
+            var boxFileUploadSession = await CreateUploadSessionAsync(uploadSessionRequest).ConfigureAwait(false);
+            var response = await UploadSessionAsync(stream, boxFileUploadSession, timeout, progress).ConfigureAwait(false);
 
             return response;
         }
@@ -566,7 +566,7 @@ namespace Box.V2.Managers
             // Upload parts in session
             var allSessionParts = await UploadPartsInSessionAsync(uploadPartUri,
                 numberOfParts, partSizeLong, stream,
-                fileSize, timeout, progress);
+                fileSize, timeout, progress).ConfigureAwait(false);
 
             var allSessionPartsList = allSessionParts.ToList();
 
@@ -588,7 +588,7 @@ namespace Box.V2.Managers
                 await Retry.ExecuteAsync(
                     async () =>
                         await CommitSessionAsync(commitUri, fullFileSha1,
-                            sessionPartsForCommit),
+                            sessionPartsForCommit).ConfigureAwait(false),
                     TimeSpan.FromMilliseconds(retryInterval), RetryCount);
                 return fileResponse;
             }
@@ -598,7 +598,7 @@ namespace Box.V2.Managers
                 await Retry.ExecuteAsync(
                     async () =>
                         await CommitFileVersionSessionAsync(commitUri, fullFileSha1,
-                            sessionPartsForCommit),
+                            sessionPartsForCommit).ConfigureAwait(false),
                         TimeSpan.FromMilliseconds(retryInterval), RetryCount);
                 return versionResponse;
             }
@@ -624,7 +624,7 @@ namespace Box.V2.Managers
                 var tasks = new List<Task<BoxUploadPartResponse>>();
                 for (var i = 0; i < numberOfParts; i++)
                 {
-                    await concurrencySemaphore.WaitAsync();
+                    await concurrencySemaphore.WaitAsync().ConfigureAwait(false);
 
                     // Split file as per part size
                     var partOffset = partSize * i;
@@ -640,7 +640,7 @@ namespace Box.V2.Managers
                             partFileStream.Position = 0;
                             var uploadPartResponse = await UploadPartAsync(
                                 uploadPartsUri, sha, partOffset, fileSize, partFileStream,
-                                timeout);
+                                timeout).ConfigureAwait(false);
 
                             return uploadPartResponse;
                         }
@@ -666,7 +666,7 @@ namespace Box.V2.Managers
                     tasks.Add(uploadPartWithRetryTask);
                 }
 
-                var results = await Task.WhenAll(tasks);
+                var results = await Task.WhenAll(tasks).ConfigureAwait(false);
                 ret.AddRange(results.Select(elem => elem.Part));
             }
 
@@ -881,7 +881,7 @@ namespace Box.V2.Managers
                     request.Param("limit", limit.ToString());
                 }
 
-                return await AutoPaginateMarkerV2<BoxCollaboration>(request, limit.Value);
+                return await AutoPaginateMarkerV2<BoxCollaboration>(request, limit.Value).ConfigureAwait(false);
             }
             else
             {
@@ -956,7 +956,7 @@ namespace Box.V2.Managers
         public async Task<Uri> GetPreviewLinkAsync(string id)
         {
             var fields = new List<string>() { "expiring_embed_link" };
-            var file = await GetInformationAsync(id, fields);
+            var file = await GetInformationAsync(id, fields).ConfigureAwait(false);
             return file.ExpiringEmbedLink.Url;
         }
 
@@ -970,7 +970,7 @@ namespace Box.V2.Managers
         [Obsolete("Please use GetPreviewLinkAsync instead.  This functionality is not supported by Box.")]
         public async Task<Stream> GetPreviewAsync(string id, int page, bool handleRetry = true)
         {
-            return (await GetPreviewResponseAsync(id, page, handleRetry: handleRetry)).ResponseObject;
+            return (await GetPreviewResponseAsync(id, page, handleRetry: handleRetry).ConfigureAwait(false)).ResponseObject;
         }
 
         /// <summary>
@@ -984,7 +984,7 @@ namespace Box.V2.Managers
         [Obsolete("Please use GetPreviewLinkAsync instead.  This functionality is not supported by Box.")]
         public async Task<BoxFilePreview> GetFilePreviewAsync(string id, int page, int? maxWidth = null, int? minWidth = null, int? maxHeight = null, int? minHeight = null, bool handleRetry = true)
         {
-            IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry);
+            IBoxResponse<Stream> response = await GetPreviewResponseAsync(id, page, maxWidth, minWidth, maxHeight, minHeight, handleRetry).ConfigureAwait(false);
 
             var filePreview = new BoxFilePreview
             {
@@ -1138,7 +1138,7 @@ namespace Box.V2.Managers
         /// <returns>Returns information about locked file</returns>
         public async Task<BoxFileLock> LockAsync(BoxFileLockRequest lockFileRequest, string id)
         {
-            return await UpdateLockAsync(lockFileRequest, id);
+            return await UpdateLockAsync(lockFileRequest, id).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1323,7 +1323,7 @@ namespace Box.V2.Managers
         /// </summary>
         public async Task<BoxZipDownloadStatus> DownloadZip(BoxZipRequest zipRequest, Stream output)
         {
-            BoxZip createdZip = await CreateZip(zipRequest);
+            BoxZip createdZip = await CreateZip(zipRequest).ConfigureAwait(false);
             IBoxRequest downloadRequest = new BoxRequest(createdZip.DownloadUrl);
             IBoxResponse<Stream> streamResponse = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
             Stream fileStream = streamResponse.ResponseObject;
@@ -1360,7 +1360,7 @@ namespace Box.V2.Managers
         /// </summary>
         public async Task<Stream> GetRepresentationContentAsync(BoxRepresentationRequest representationRequest, string assetPath = "")
         {
-            var reps = await GetRepresentationsAsync(representationRequest);
+            var reps = await GetRepresentationsAsync(representationRequest).ConfigureAwait(false);
             if (reps.Entries.Count == 0)
             {
                 throw new BoxCodingException("Could not get requested representation!");
@@ -1380,7 +1380,7 @@ namespace Box.V2.Managers
                     throw new BoxCodingException("Representation had error status");
                 case "none":
                 case "pending":
-                    var urlTemplate = await PollRepresentationInfo(repInfo.Info.Url);
+                    var urlTemplate = await PollRepresentationInfo(repInfo.Info.Url).ConfigureAwait(false);
                     downloadRequest = new BoxRequest(new Uri(urlTemplate.Replace("{+asset_path}", assetPath)));
                     response = await ToResponseAsync<Stream>(downloadRequest).ConfigureAwait(false);
                     return response.ResponseObject;
@@ -1415,7 +1415,7 @@ namespace Box.V2.Managers
                 case "none":
                 case "pending":
                     await Task.Delay(1000);
-                    return await PollRepresentationInfo(infoUrl);
+                    return await PollRepresentationInfo(infoUrl).ConfigureAwait(false);
                 default:
                     throw new BoxCodingException("Representation has unknown status");
             }

@@ -69,7 +69,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateLimitOffset<BoxItem>(request, limit);
+                return await AutoPaginateLimitOffset<BoxItem>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -279,7 +279,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateLimitOffset<BoxItem>(request, limit);
+                return await AutoPaginateLimitOffset<BoxItem>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -490,7 +490,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateLimitOffset<BoxFolderLock>(request, 1000);
+                return await AutoPaginateLimitOffset<BoxFolderLock>(request, 1000).ConfigureAwait(false);
             }
             else
             {

@@ -59,7 +59,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxLegalHoldPolicy>(request, limit);
+                return await AutoPaginateMarker<BoxLegalHoldPolicy>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -170,7 +170,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxLegalHoldPolicyAssignment>(request, limit);
+                return await AutoPaginateMarker<BoxLegalHoldPolicyAssignment>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -254,7 +254,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxFileVersionLegalHold>(request, limit);
+                return await AutoPaginateMarker<BoxFileVersionLegalHold>(request, limit).ConfigureAwait(false);
             }
             else
             {

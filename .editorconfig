@@ -251,3 +251,6 @@ dotnet_diagnostic.CS0618.severity = suggestion
 
 # CS0612: Default expression can be simplified
 dotnet_diagnostic.IDE0034.severity = silent
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = warning

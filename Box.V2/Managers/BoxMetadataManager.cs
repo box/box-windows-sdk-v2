@@ -30,7 +30,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> GetFileMetadataAsync(string fileId, string scope, string template)
         {
-            return await GetMetadata(_config.FilesEndpointUri, fileId, scope, template);
+            return await GetMetadata(_config.FilesEndpointUri, fileId, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> GetFolderMetadataAsync(string folderId, string scope, string template)
         {
-            return await GetMetadata(_config.FoldersEndpointUri, folderId, scope, template);
+            return await GetMetadata(_config.FoldersEndpointUri, folderId, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> CreateFileMetadataAsync(string fileId, Dictionary<string, object> metadata, string scope, string template)
         {
-            return await CreateMetadata(_config.FilesEndpointUri, fileId, metadata, scope, template);
+            return await CreateMetadata(_config.FilesEndpointUri, fileId, metadata, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> CreateFolderMetadataAsync(string folderId, Dictionary<string, object> metadata, string scope, string template)
         {
-            return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template);
+            return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> UpdateFileMetadataAsync(string fileId, List<BoxMetadataUpdate> updates, string scope, string template)
         {
-            return await UpdateMetadata(_config.FilesEndpointUri, fileId, updates, scope, template);
+            return await UpdateMetadata(_config.FilesEndpointUri, fileId, updates, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> UpdateFolderMetadataAsync(string folderId, List<BoxMetadataUpdate> updates, string scope, string template)
         {
-            return await UpdateMetadata(_config.FoldersEndpointUri, folderId, updates, scope, template);
+            return await UpdateMetadata(_config.FoldersEndpointUri, folderId, updates, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Box.V2.Managers
         {
             try
             {
-                return await CreateFileMetadataAsync(fileId, metadata, scope, template);
+                return await CreateFileMetadataAsync(fileId, metadata, scope, template).ConfigureAwait(false);
             }
             catch (BoxAPIException ex)
             {
@@ -126,7 +126,7 @@ namespace Box.V2.Managers
                             Value = md.Value,
                         });
                     }
-                    return await UpdateFileMetadataAsync(fileId, updates, scope, template);
+                    return await UpdateFileMetadataAsync(fileId, updates, scope, template).ConfigureAwait(false);
                 }
 
                 // Some other exception, just rethrow it
@@ -146,7 +146,7 @@ namespace Box.V2.Managers
         {
             try
             {
-                return await CreateFolderMetadataAsync(folderId, metadata, scope, template);
+                return await CreateFolderMetadataAsync(folderId, metadata, scope, template).ConfigureAwait(false);
             }
             catch (BoxAPIException ex)
             {
@@ -163,7 +163,7 @@ namespace Box.V2.Managers
                             Value = md.Value,
                         });
                     }
-                    return await UpdateFolderMetadataAsync(folderId, updates, scope, template);
+                    return await UpdateFolderMetadataAsync(folderId, updates, scope, template).ConfigureAwait(false);
                 }
 
                 // Some other exception, just rethrow it
@@ -180,7 +180,7 @@ namespace Box.V2.Managers
         /// <returns>True if successful, false otherwise.</returns>
         public async Task<bool> DeleteFileMetadataAsync(string fileId, string scope, string template)
         {
-            return await DeleteMetadata(_config.FilesEndpointUri, fileId, scope, template);
+            return await DeleteMetadata(_config.FilesEndpointUri, fileId, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Box.V2.Managers
         /// <returns>True if successful, false otherwise.</returns>
         public async Task<bool> DeleteFolderMetadataAsync(string folderId, string scope, string template)
         {
-            return await DeleteMetadata(_config.FoldersEndpointUri, folderId, scope, template);
+            return await DeleteMetadata(_config.FoldersEndpointUri, folderId, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarkerMetadataQuery<BoxMetadataQueryItem>(request);
+                return await AutoPaginateMarkerMetadataQuery<BoxMetadataQueryItem>(request).ConfigureAwait(false);
             }
             else
             {
@@ -381,7 +381,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarkerMetadataQueryV2<BoxItem>(request);
+                return await AutoPaginateMarkerMetadataQueryV2<BoxItem>(request).ConfigureAwait(false);
             }
             else
             {
