@@ -119,7 +119,7 @@ namespace Box.V2.Utility
                 return null;
             });
 
-            await ExecuteAsync(async () => await task, retryInterval, retryCount, executeOnEveryException, executeBeforeFinalException, exceptionTypesToHandle);
+            await ExecuteAsync(async () => await task, retryInterval, retryCount, executeOnEveryException, executeBeforeFinalException, exceptionTypesToHandle).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -150,13 +150,13 @@ namespace Box.V2.Utility
             {
                 try
                 {
-                    return await action();
+                    return await action().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     if (executeOnEveryException != null)
                     {
-                        await executeOnEveryException(ex);
+                        await executeOnEveryException(ex).ConfigureAwait(false);
                     }
 
                     if (exceptionTypesToHandle != null
@@ -169,7 +169,7 @@ namespace Box.V2.Utility
                     exceptions.Add(ex);
                     if (retry < retryCount)
                     {
-                        await Task.Delay(retryInterval);
+                        await Task.Delay(retryInterval).ConfigureAwait(false);
                     }
                 }
             }

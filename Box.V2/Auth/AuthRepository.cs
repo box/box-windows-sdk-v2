@@ -71,7 +71,7 @@ namespace Box.V2.Auth
         /// <returns>The session of the Box Client after authentification</returns>
         public virtual async Task<OAuthSession> AuthenticateAsync(string authCode)
         {
-            OAuthSession session = await ExchangeAuthCode(authCode);
+            OAuthSession session = await ExchangeAuthCode(authCode).ConfigureAwait(false);
 
             await _mutex.WaitAsync().ConfigureAwait(false);
             // using (await _mutex.LockAsync().ConfigureAwait(false))
@@ -147,7 +147,7 @@ namespace Box.V2.Auth
                 _mutex.Release();
             }
 
-            await InvalidateTokens(token);
+            await InvalidateTokens(token).ConfigureAwait(false);
         }
 
         #endregion

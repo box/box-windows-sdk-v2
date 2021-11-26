@@ -100,7 +100,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxRetentionPolicy>(request, limit);
+                return await AutoPaginateMarker<BoxRetentionPolicy>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -129,7 +129,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxRetentionPolicyAssignment>(request, limit);
+                return await AutoPaginateMarker<BoxRetentionPolicyAssignment>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -202,7 +202,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxFileVersionRetention>(request, limit);
+                return await AutoPaginateMarker<BoxFileVersionRetention>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -248,7 +248,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxFile>(request, limit);
+                return await AutoPaginateMarker<BoxFile>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -278,7 +278,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxFileVersion>(request, limit);
+                return await AutoPaginateMarker<BoxFileVersion>(request, limit).ConfigureAwait(false);
             }
             else
             {

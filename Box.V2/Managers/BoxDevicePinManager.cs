@@ -34,7 +34,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxDevicePin>(request, limit);
+                return await AutoPaginateMarker<BoxDevicePin>(request, limit).ConfigureAwait(false);
             }
             else
             {

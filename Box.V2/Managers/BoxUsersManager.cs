@@ -110,7 +110,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateLimitOffset<BoxUser>(request, (int)limit);
+                return await AutoPaginateLimitOffset<BoxUser>(request, (int)limit).ConfigureAwait(false);
             }
             else
             {
@@ -151,7 +151,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxUser>(request, (int)limit);
+                return await AutoPaginateMarker<BoxUser>(request, (int)limit).ConfigureAwait(false);
             }
             else
             {
@@ -365,7 +365,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, (int)limit);
+                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, (int)limit).ConfigureAwait(false);
             }
             else
             {

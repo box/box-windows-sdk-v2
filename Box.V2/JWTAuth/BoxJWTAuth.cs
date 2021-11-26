@@ -136,7 +136,7 @@ namespace Box.V2.JWTAuth
             return await GetTokenAsync(ENTERPRISE_SUB_TYPE, _boxConfig.EnterpriseId).ConfigureAwait(false);
         }
         /// <summary>
-        /// Once you have created an App User, you can request a User Access Token via the App Auth feature, which will return the OAuth 2.0 access token for the specified App User.
+        /// Once you have created an App User or Managed User, you can request a User Access Token via the App Auth feature, which will return the OAuth 2.0 access token for the specified User.
         /// </summary>
         /// <param name="userId">Id of the user</param>
         /// <returns>User token</returns>

@@ -50,7 +50,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxSignRequest>(request, limit);
+                return await AutoPaginateMarker<BoxSignRequest>(request, limit).ConfigureAwait(false);
             }
             else
             {

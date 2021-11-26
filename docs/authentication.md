@@ -93,7 +93,7 @@ make calls as that user.  See the [API documentation](https://developer.box.com/
 and [sample app](https://github.com/box/box-windows-sdk-v2/tree/main/Box.V2.Samples.JWTAuth)
 for detailed instructions on how to use app auth.
 
-Clients for making calls as an App User can be created with the same `BoxJWTAuth`
+Clients for making calls as an App User or Managed User can be created with the same `BoxJWTAuth`
 instance as in the above examples, similarly to creating a Service Account client:
 
 <!-- sample x_auth init_with_jwt_with_user_id -->

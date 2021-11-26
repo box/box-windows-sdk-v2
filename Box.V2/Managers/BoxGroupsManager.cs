@@ -56,7 +56,7 @@ namespace Box.V2.Managers
                 if (!offset.HasValue)
                     request.Param("offset", "0");
 
-                return await AutoPaginateLimitOffset<BoxGroup>(request, limit.Value);
+                return await AutoPaginateLimitOffset<BoxGroup>(request, limit.Value).ConfigureAwait(false);
             }
             else
             {
@@ -209,7 +209,7 @@ namespace Box.V2.Managers
                 if (!offset.HasValue)
                     request.Param("offset", "0");
 
-                return await AutoPaginateLimitOffset<BoxCollaboration>(request, limit.Value);
+                return await AutoPaginateLimitOffset<BoxCollaboration>(request, limit.Value).ConfigureAwait(false);
             }
             else
             {
@@ -247,7 +247,7 @@ namespace Box.V2.Managers
                 if (!offset.HasValue)
                     request.Param("offset", "0");
 
-                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
+                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value).ConfigureAwait(false);
             }
             else
             {
@@ -287,7 +287,7 @@ namespace Box.V2.Managers
                     request.Param("offset", "0");
                 }
 
-                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value);
+                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, limit.Value).ConfigureAwait(false);
             }
             else
             {
