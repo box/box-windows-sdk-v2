@@ -22,7 +22,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequestId">Id of the file request.</param>
         /// <returns>A full FileRequest object is returned if the id is valid and if the user has access to the file request.</returns>
-        public async Task<BoxFileRequestObject> GetFileRequestById(string fileRequestId)
+        public async Task<BoxFileRequestObject> GetFileRequestByIdAsync(string fileRequestId)
         {
             fileRequestId.ThrowIfNullOrWhiteSpace("fileRequestId");
 
@@ -39,7 +39,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequestId">Id of the file request.</param>
         /// <returns>A full FileRequest object is returned if the id is valid and if the user has access to the file request.</returns>
-        public async Task<BoxFileRequestObject> CopyFileRequest(string fileRequestId, BoxFileRequestCopyRequest copyRequest)
+        public async Task<BoxFileRequestObject> CopyFileRequestAsync(string fileRequestId, BoxFileRequestCopyRequest copyRequest)
         {
             fileRequestId.ThrowIfNullOrWhiteSpace("fileRequestId");
 
@@ -57,7 +57,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequestId">Id of the file request.</param>
         /// <returns>A full FileRequest object is returned if the id is valid and if the user has access to the file request.</returns>
-        public async Task<BoxFileRequestObject> UpdateFileRequest(string fileRequestId, BoxFileRequestUpdateRequest updateRequest)
+        public async Task<BoxFileRequestObject> UpdateFileRequestAsync(string fileRequestId, BoxFileRequestUpdateRequest updateRequest)
         {
             fileRequestId.ThrowIfNullOrWhiteSpace("fileRequestId");
 
@@ -75,7 +75,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequestId">Id of the file request.</param>
         /// <returns>True if successfully deleted.</returns>
-        public async Task<bool> DeleteFileRequest(string fileRequestId)
+        public async Task<bool> DeleteFileRequestAsync(string fileRequestId)
         {
             fileRequestId.ThrowIfNullOrWhiteSpace("fileRequestId");
 

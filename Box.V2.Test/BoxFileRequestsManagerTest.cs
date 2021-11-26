@@ -33,7 +33,7 @@ namespace Box.V2.Test
             .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxFileRequestObject response = await _fileRequestsManager.GetFileRequestById("42037322");
+            BoxFileRequestObject response = await _fileRequestsManager.GetFileRequestByIdAsync("42037322");
 
             /*** Assert ***/
             // Request check
@@ -87,7 +87,7 @@ namespace Box.V2.Test
             };
 
             /*** Act ***/
-            BoxFileRequestObject response = await _fileRequestsManager.CopyFileRequest("42037322", copyRequest);
+            BoxFileRequestObject response = await _fileRequestsManager.CopyFileRequestAsync("42037322", copyRequest);
 
             /*** Assert ***/
             // Request check
@@ -139,7 +139,7 @@ namespace Box.V2.Test
             };
 
             /*** Act ***/
-            BoxFileRequestObject response = await _fileRequestsManager.UpdateFileRequest("42037322", updateRequest);
+            BoxFileRequestObject response = await _fileRequestsManager.UpdateFileRequestAsync("42037322", updateRequest);
 
             /*** Assert ***/
             // Request check
@@ -182,7 +182,7 @@ namespace Box.V2.Test
             .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            var response = await _fileRequestsManager.DeleteFileRequest("42037322");
+            var response = await _fileRequestsManager.DeleteFileRequestAsync("42037322");
 
             /*** Assert ***/
             // Request check

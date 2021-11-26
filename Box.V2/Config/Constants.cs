@@ -197,7 +197,7 @@ namespace Box.V2.Config
         public const string TypeApplication = "application";
         public const string TypeFolderLock = "folder_lock";
         public const string TypeSignRequest = "sign-request";
-        public const string TypeFileRequest = "file-request";
+        public const string TypeFileRequest = "file_request";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds

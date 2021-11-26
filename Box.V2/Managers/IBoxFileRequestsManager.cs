@@ -14,27 +14,27 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="fileRequestId">Id of the file request.</param>
         /// <returns>A full FileRequest object is returned if the id is valid and if the user has access to the file request.</returns>
-        Task<BoxFileRequestObject> GetFileRequestById(string fileRequestId);
+        Task<BoxFileRequestObject> GetFileRequestByIdAsync(string fileRequestId);
 
         /// <summary>
         /// Copies an existing file request that is already present on one folder, and applies it to another folder.
         /// </summary>
         /// <param name="fileRequestId">Id of the file request.</param>
         /// <returns>A full FileRequest object is returned if the id is valid and if the user has access to the file request.</returns>
-        Task<BoxFileRequestObject> CopyFileRequest(string fileRequestId, BoxFileRequestCopyRequest copyRequest);
+        Task<BoxFileRequestObject> CopyFileRequestAsync(string fileRequestId, BoxFileRequestCopyRequest copyRequest);
 
         /// <summary>
         /// Updates a file request. This can be used to activate or deactivate a file request.
         /// </summary>
         /// <param name="fileRequestId">Id of the file request.</param>
         /// <returns>A full FileRequest object is returned if the id is valid and if the user has access to the file request.</returns>
-        Task<BoxFileRequestObject> UpdateFileRequest(string fileRequestId, BoxFileRequestUpdateRequest updateRequest);
+        Task<BoxFileRequestObject> UpdateFileRequestAsync(string fileRequestId, BoxFileRequestUpdateRequest updateRequest);
 
         /// <summary>
         /// Deletes a file request permanently.
         /// </summary>
         /// <param name="fileRequestId">Id of the file request.</param>
         /// <returns>True if successfully deleted.</returns>
-        Task<bool> DeleteFileRequest(string fileRequestId);
+        Task<bool> DeleteFileRequestAsync(string fileRequestId);
     }
 }
