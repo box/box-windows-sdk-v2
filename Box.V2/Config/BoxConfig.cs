@@ -265,6 +265,10 @@ namespace Box.V2.Config
         /// </summary>
         public Uri SignRequestsEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.SignRequestsWithPathString); } }
         /// <summary>
+        /// Gets the file requests endpoint URI.
+        /// </summary>
+        public Uri FileRequestsEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.FileRequestsWithPathString); } }
+        /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>
         public IWebProxy WebProxy { get; private set; }

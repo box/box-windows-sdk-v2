@@ -30,6 +30,7 @@ namespace Box.V2.Test
         protected Uri FolderLocksUri = new Uri(Constants.FolderLocksEndpointString);
         protected Uri SignRequestUri = new Uri(Constants.SignRequestsEndpointString);
         protected Uri SignRequestWithPathUri = new Uri(Constants.SignRequestsWithPathEndpointString);
+        protected Uri FileRequestsWithPathUri = new Uri(Constants.FileRequestsWithPathEndpointString);
 
         protected BoxResourceManagerTest()
         {
@@ -48,6 +49,7 @@ namespace Box.V2.Test
             Config.SetupGet(x => x.FolderLocksEndpointUri).Returns(FolderLocksUri);
             Config.SetupGet(x => x.SignRequestsEndpointUri).Returns(SignRequestUri);
             Config.SetupGet(x => x.SignRequestsEndpointWithPathUri).Returns(SignRequestWithPathUri);
+            Config.SetupGet(x => x.FileRequestsEndpointWithPathUri).Returns(FileRequestsWithPathUri);
 
             AuthRepository = new AuthRepository(Config.Object, Service, Converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }

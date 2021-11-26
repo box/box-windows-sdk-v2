@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -83,6 +83,7 @@
     <Compile Include="Managers\BoxCollectionsManager.cs" />
     <Compile Include="Managers\BoxDevicePinManager.cs" />
     <Compile Include="Managers\BoxEventsManager.cs" />
+    <Compile Include="Managers\BoxFileRequestsManager.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Managers\BoxMetadataManager.cs" />
     <Compile Include="Managers\BoxMetadataCascadePolicyManager.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Managers\IBoxUsersManager.cs" />
     <Compile Include="Managers\IBoxWebhooksManager.cs" />
     <Compile Include="Managers\IBoxWebLinksManager.cs" />
+    <Compile Include="Managers\IBoxFileRequestsManager.cs" />
     <Compile Include="Models\BoxApplication.cs" />
     <Compile Include="Models\BoxAssignmentCounts.cs" />
     <Compile Include="Models\BoxClassification.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
+    <Compile Include="Models\BoxFileRequestObject.cs" />
     <Compile Include="Models\BoxFolderEventSource.cs" />
     <Compile Include="Models\BoxFolderLock.cs" />
     <Compile Include="Models\BoxFolderLockOperations.cs" />
@@ -194,6 +197,8 @@
     <Compile Include="Models\BoxGroupMembership.cs" />
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
     <Compile Include="Models\BoxSessionParts.cs" />
+    <Compile Include="Models\Request\BoxFileRequestUpdateRequest.cs" />
+    <Compile Include="Models\Request\BoxFileRequestCopyRequest.cs" />
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
     <Compile Include="Models\Request\BoxSignRequestCreateRequest.cs" />
     <Compile Include="Models\Request\BoxTermsOfServiceUserStatusCreateRequest.cs" />

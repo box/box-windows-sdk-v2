@@ -129,6 +129,10 @@ namespace Box.V2.Config
         /// </summary>
         Uri SignRequestsEndpointWithPathUri { get; }
         /// <summary>
+        /// Gets the file requests endpoint URI with path.
+        /// </summary>
+        Uri FileRequestsEndpointWithPathUri { get; }
+        /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>
         IWebProxy WebProxy { get; }
