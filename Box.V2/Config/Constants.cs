@@ -54,6 +54,7 @@ namespace Box.V2.Config
         public const string FolderLocksString = @"folder_locks/";
         public const string SignRequestsString = @"sign_requests";
         public const string SignRequestsWithPathString = @"sign_requests/";
+        public const string FileRequestsWithPathString = @"file_requests/";
 
 
         /// <summary>
@@ -113,6 +114,7 @@ namespace Box.V2.Config
         public const string FolderLocksEndpointString = BoxApiUriString + FolderLocksString;
         public const string SignRequestsEndpointString = BoxApiUriString + SignRequestsString;
         public const string SignRequestsWithPathEndpointString = BoxApiUriString + SignRequestsWithPathString;
+        public const string FileRequestsWithPathEndpointString = BoxApiUriString + FileRequestsWithPathString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";
@@ -151,6 +153,7 @@ namespace Box.V2.Config
         public const string MetadataCascadePoliciesForceApplyPathString = @"{0}/apply";
         public const string SignRequestsCancelPathString = @"{0}/cancel";
         public const string SignRequestsResendPathString = @"{0}/resend";
+        public const string FileRequestsCopyPathString = @"{0}/copy";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -194,6 +197,7 @@ namespace Box.V2.Config
         public const string TypeApplication = "application";
         public const string TypeFolderLock = "folder_lock";
         public const string TypeSignRequest = "sign-request";
+        public const string TypeFileRequest = "file_request";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
