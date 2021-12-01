@@ -34,7 +34,7 @@ namespace Box.V2
             _asUser = asUser;
             _suppressNotifications = suppressNotifications;
 
-            _handler = new HttpRequestHandler(boxConfig.WebProxy, boxConfig.ConnectionTimeout);
+            _handler = new HttpRequestHandler(boxConfig.WebProxy, boxConfig.Timeout);
             _converter = new BoxJsonConverter();
             _service = new BoxService(_handler);
             Auth = new AuthRepository(Config, _service, _converter, null);
@@ -56,7 +56,7 @@ namespace Box.V2
             _asUser = asUser;
             _suppressNotifications = suppressNotifications;
 
-            _handler = new HttpRequestHandler(boxConfig.WebProxy, boxConfig.ConnectionTimeout);
+            _handler = new HttpRequestHandler(boxConfig.WebProxy, boxConfig.Timeout);
             _converter = new BoxJsonConverter();
             _service = new BoxService(_handler);
             Auth = new AuthRepository(Config, _service, _converter, authSession);
@@ -78,7 +78,7 @@ namespace Box.V2
             _asUser = asUser;
             _suppressNotifications = suppressNotifications;
 
-            _handler = new HttpRequestHandler(boxConfig.WebProxy, boxConfig.ConnectionTimeout);
+            _handler = new HttpRequestHandler(boxConfig.WebProxy, boxConfig.Timeout);
             _converter = new BoxJsonConverter();
             _service = new BoxService(_handler);
             Auth = authRepository;

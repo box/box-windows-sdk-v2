@@ -206,11 +206,11 @@ namespace Box.V2.Config
         /// <summary>
         /// Sets connection timeout for HttpRequestHandler.
         /// </summary>
-        /// <param name="connectionTimeout">Connection timeout for HttpRequestHandler.</param>
+        /// <param name="timeout">Connection timeout for HttpRequestHandler.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
-        public BoxConfigBuilder SetConnectionTimeout(TimeSpan connectionTimeout)
+        public BoxConfigBuilder SetTimeout(TimeSpan timeout)
         {
-            ConnectionTimeout = connectionTimeout;
+            Timeout = timeout;
             return this;
         }
 
@@ -245,6 +245,6 @@ namespace Box.V2.Config
         /// <summary>
         /// Timeout for the connection
         /// </summary>
-        public TimeSpan? ConnectionTimeout { get; private set; }
+        public TimeSpan? Timeout { get; private set; }
     }
 }

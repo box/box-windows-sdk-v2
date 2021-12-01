@@ -139,6 +139,6 @@ namespace Box.V2.Config
         /// <summary>
         /// Timeout for the connection
         /// </summary>
-        TimeSpan? ConnectionTimeout { get; }
+        TimeSpan? Timeout { get; }
     }
 }

@@ -64,7 +64,7 @@ namespace Box.V2.Config
             DeviceName = builder.DeviceName;
             AcceptEncoding = builder.AcceptEncoding;
             WebProxy = builder.WebProxy;
-            ConnectionTimeout = builder.ConnectionTimeout;
+            Timeout = builder.Timeout;
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace Box.V2.Config
         /// <summary>
         /// Timeout for the connection
         /// </summary>
-        public TimeSpan? ConnectionTimeout { get; private set; }
+        public TimeSpan? Timeout { get; private set; }
     }
 
     public enum CompressionType
