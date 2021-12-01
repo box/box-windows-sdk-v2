@@ -136,5 +136,9 @@ namespace Box.V2.Config
         /// The web proxy for HttpRequestHandler
         /// </summary>
         IWebProxy WebProxy { get; }
+        /// <summary>
+        /// Timeout for the connection
+        /// </summary>
+        TimeSpan? Timeout { get; }
     }
 }

@@ -17,13 +17,15 @@ namespace Box.V2.Request
         public const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
         public const int RetryLimit = 5;
         private readonly TimeSpan _defaultRequestTimeout = new TimeSpan(0, 0, 100); // 100 seconds, same as default HttpClient timeout
+        private readonly TimeSpan _timeout;
 
-        public HttpRequestHandler(IWebProxy webProxy = null)
+        public HttpRequestHandler(IWebProxy webProxy = null, TimeSpan? timeout = null)
         {
             ClientFactory.WebProxy = webProxy;
 #if NET45
             System.Net.ServicePointManager.Expect100Continue = false;
 #endif
+            _timeout = timeout ?? _defaultRequestTimeout;
         }
 
         public async Task<IBoxResponse<T>> ExecuteAsyncWithoutRetry<T>(IBoxRequest request)
@@ -168,7 +170,7 @@ namespace Box.V2.Request
                 }
                 else
                 {
-                    cts.CancelAfter(_defaultRequestTimeout);
+                    cts.CancelAfter(_timeout);
                 }
 
                 var timeoutToken = cts.Token;
