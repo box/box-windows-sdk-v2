@@ -51,7 +51,7 @@ tag: short description
 longer description here if necessary.
 ```
 
-The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. For a list of tags, please [click here](https://github.com/box/box-windows-sdk-v2/blob/main/.versionrc). Note that you must include the `!` for breaking changes (e.g. `feat!: removed old apis`).
+The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. For a list of tags, please [click here](https://github.com/commitizen/conventional-commit-types/blob/master/index.json). Note that you must include the `!` for breaking changes (e.g. `feat!: removed old apis`).
 
 Shown below are examples of the release type that will be done based on a commit message.
 
