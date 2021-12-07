@@ -53,6 +53,14 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "password")]
         public string Password { get; set; }
+
+        /// <summary>
+        /// Defines a custom vanity name to use in the shared link URL, for example https://app.box.com/v/my-shared-link.
+        /// Custom URLs should not be used when sharing sensitive content as vanity URLs are a lot easier to guess than regular shared links.
+        /// Vanity name must be at least 12 characters long
+        /// </summary>
+        [JsonProperty(PropertyName = "vanity_name")]
+        public string VanityName { get; set; }
     }
 }
 

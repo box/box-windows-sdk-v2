@@ -18,6 +18,7 @@ namespace Box.V2.Models
         public const string FieldPreviewCount = "preview_count";
         public const string FieldAccess = "access";
         public const string FieldPermissions = "permissions";
+        public const string FieldVanityName = "vanity_name";
 
         /// <summary>
         /// The Url of the shared link
@@ -73,5 +74,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldPermissions)]
         public virtual BoxPermission Permissions { get; private set; }
+
+        /// <summary>
+        /// Defines a custom vanity name to use in the shared link URL, for example https://app.box.com/v/my-shared-link.
+        /// Custom URLs should not be used when sharing sensitive content as vanity URLs are a lot easier to guess than regular shared links.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldVanityName)]
+        public virtual string VanityName { get; private set; }
     }
 }
