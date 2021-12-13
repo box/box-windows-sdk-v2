@@ -3,6 +3,9 @@ Param
     [Alias('dr')]
     [bool]$DryRun = $true,
 
+    [Alias('gh')]
+    [string]$GithubToken,
+
     [Alias('ng')]
     [string]$NugetKey,
 
@@ -25,9 +28,16 @@ Param
     [bool]$InstallDependencies = $true
 )
 
-$ErrorActionPreference = "Stop"
+function RemoveSensitiveData()
+{
+    Remove-Item $PFX_PATH
+    certutil -csp "Microsoft Strong Cryptographic Provider" -key | Select-String -Pattern "VS_KEY" | ForEach-Object{ $_.ToString().Trim()} | ForEach-Object{ certutil -delkey -csp "Microsoft Strong Cryptographic Provider" $_}
+    Write-Output "Sensitive data removed."
+}
 
 . $PSScriptRoot\variables.ps1
+
+$ErrorActionPreference = "Stop"
 
 if($NextVersion -eq $null -Or $NextVersion -eq ''){
     $NextVersion = $env:NextVersion
@@ -35,12 +45,21 @@ if($NextVersion -eq $null -Or $NextVersion -eq ''){
         $NextVersion = (Select-String -Pattern [0-9]+\.[0-9]+\.[0-9]+ -Path $CHANGELOG_PATH | Select-Object -First 1).Matches.Value
     }
 }
+$NextVersionTag = "v" + $NextVersion
 
 $FRAMEWORK_NUPKG_PATH="$ROOT_DIR" + "\" + "$FRAMEWORK_ASSEMBLY_NAME" + "." + "$NextVersion" + ".nupkg"
 
 ###########################################################################
 # Parameters validation
 ###########################################################################
+
+if($GithubToken -eq $null -Or $GithubToken -eq ''){
+    $GithubToken = $env:GithubToken
+    if($GithubToken -eq $null -Or $GithubToken -eq ''){
+        Write-Output "Github token not supplied. Aborting script."
+        exit 1
+    }
+}
 
 if($NugetKey -eq $null -Or $NugetKey -eq ''){
     $NugetKey = $env:NugetKey
@@ -80,6 +99,7 @@ if ($LASTEXITCODE -ne 0) {
 ###########################################################################
 
 if ($InstallDependencies){
+    Install-Module -Name PowerShellForGitHub -Scope CurrentUser -Force
     Invoke-WebRequest https://github.com/honzajscz/SnInstallPfx/releases/download/0.1.2-beta/SnInstallPfx.exe -SkipCertificateCheck -OutFile SnInstallPfx.exe
 }
 
@@ -89,22 +109,24 @@ if ($InstallDependencies){
 
 $Bytes = [Convert]::FromBase64String($PfxAsBase64)
 [IO.File]::WriteAllBytes($PFX_PATH, $Bytes)
-.\SnInstallPfx.exe $PFX_PATH $PfxPassword
-Remove-Item $PFX_PATH 
+.\SnInstallPfx.exe $PFX_PATH $PfxPassword 
 
 ###########################################################################
 # Build and Test
 ###########################################################################
 
 if($BuildAndTest){
+    nuget restore $SLN_PATH
     msbuild $FRAMEWORK_PROJ_DIR /property:Configuration=Release
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Compilation failed. Aborting script."
+        RemoveSensitiveData
         exit 1
     }
     dotnet test -f $NET_FRAMEWORK_VER --verbosity normal
     if ($LASTEXITCODE -ne 0) {
-        Write-Output "Some of the unit test failed. Aborting script."
+        Write-Output "Some of the unit tests failed. Aborting script."
+        RemoveSensitiveData
         exit 1
     }
     dotnet clean $FRAMEWORK_PROJ_DIR
@@ -122,7 +144,33 @@ nuget restore $SLN_PATH
 nuget pack $FRAMEWORK_PROJ_DIR -Build -Prop Configuration=Release
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Package creation failed. Aborting script."
+    RemoveSensitiveData
     exit 1
+}
+
+###########################################################################
+# Add package to GitHub release
+###########################################################################
+
+if ($DryRun) { 
+    Write-Output "Dry run. Package will not be added to the release."
+}else{
+    $password = ConvertTo-SecureString "$GithubToken" -AsPlainText -Force
+    $Cred = New-Object System.Management.Automation.PSCredential ("Release_Bot", $password)
+    Set-GitHubAuthentication -SessionOnly -Credential $Cred
+
+    $releases = Get-GitHubRelease -OwnerName $REPO_OWNER -RepositoryName $REPO_NAME
+    $release = ($releases | Where-Object { $_.Name -eq $NextVersionTag })
+    if($release -eq $null -Or $release -eq ''){
+        Write-Output "Release with the name " + $NextVersionTag " not found. Aborting script"
+        RemoveSensitiveData
+        exit 1
+    }
+
+    $release | New-GitHubReleaseAsset -Path $FRAMEWORK_NUPKG_PATH
+    $release | New-GitHubReleaseAsset -Path $FRAMEWORK_PDB_PATH
+
+    Clear-GitHubAuthentication
 }
 
 ###########################################################################
@@ -136,9 +184,8 @@ if ($DryRun) {
 }
 
 ###########################################################################
-# Clean all VS_KEY_* containers
+# Remove sensitive data
 ###########################################################################
 
-certutil -csp "Microsoft Strong Cryptographic Provider" -key | Select-String -Pattern "VS_KEY" | ForEach-Object{ $_.ToString().Trim()} | ForEach-Object{ certutil -delkey -csp "Microsoft Strong Cryptographic Provider" $_}
-
+RemoveSensitiveData
 exit 0

@@ -14,10 +14,10 @@ git branch | ForEach-Object {
     }
 }
 if(!($currentBranch -eq $ReleaseBranch)){
-    Write-Output "Local branch is not the same as the release branch " + $ReleaseBranch + ". Aborting script"
+    Write-Output "Local branch " + $currentBranch  + " is not the same as the release branch " + $ReleaseBranch + ". Aborting script"
     exit 1
 }
-$NumberOfDifferentCommits = git rev-list HEAD...origin/main --count
+$NumberOfDifferentCommits = git rev-list HEAD...origin/$ReleaseBranch --count
 if(!($NumberOfDifferentCommits -eq "0")){
     Write-Output "Different commits local and on remote. Aborting script"
     exit 1
