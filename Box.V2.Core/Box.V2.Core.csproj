@@ -3,14 +3,14 @@
   <PropertyGroup>
     <Description>Box.V2 for .Net Core</Description>
     <AssemblyTitle>Box.V2.Core</AssemblyTitle>
-    <Version>4.0.0</Version>
+    <Version>4.1.0</Version>
     <Authors>Box, Inc.</Authors>
 	<Owners>Box, Inc.</Owners>
 	<PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
   <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	<PackageDescription>Windows SDK for v2 of the Box API. The SDK is built for .NET Core and includes JWTAuth support.</PackageDescription>
-	<PackageReleaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/main/CHANGELOG.md#400-2021-11-02</PackageReleaseNotes>
+	<PackageReleaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/main/CHANGELOG.md#410-2021-12-14</PackageReleaseNotes>
 	<Copyright>Copyright 2021</Copyright>
 	<PackageTags>Box;V2;SDK;Platform;Enterprise;Collaboration;Storage;File Management</PackageTags>
     <TargetFramework>netstandard2.0</TargetFramework>

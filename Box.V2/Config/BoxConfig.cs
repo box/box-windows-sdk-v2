@@ -64,6 +64,7 @@ namespace Box.V2.Config
             DeviceName = builder.DeviceName;
             AcceptEncoding = builder.AcceptEncoding;
             WebProxy = builder.WebProxy;
+            Timeout = builder.Timeout;
         }
 
         /// <summary>
@@ -265,9 +266,17 @@ namespace Box.V2.Config
         /// </summary>
         public Uri SignRequestsEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.SignRequestsWithPathString); } }
         /// <summary>
+        /// Gets the file requests endpoint URI.
+        /// </summary>
+        public Uri FileRequestsEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.FileRequestsWithPathString); } }
+        /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>
         public IWebProxy WebProxy { get; private set; }
+        /// <summary>
+        /// Timeout for the connection
+        /// </summary>
+        public TimeSpan? Timeout { get; private set; }
     }
 
     public enum CompressionType

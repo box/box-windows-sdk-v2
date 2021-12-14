@@ -203,6 +203,17 @@ namespace Box.V2.Config
             return this;
         }
 
+        /// <summary>
+        /// Sets connection timeout for HttpRequestHandler.
+        /// </summary>
+        /// <param name="timeout">Connection timeout for HttpRequestHandler.</param>
+        /// <returns>this BoxConfigBuilder object for chaining</returns>
+        public BoxConfigBuilder SetTimeout(TimeSpan timeout)
+        {
+            Timeout = timeout;
+            return this;
+        }
+
         public string ClientId { get; private set; }
         public string ClientSecret { get; private set; }
         public string EnterpriseId { get; private set; }
@@ -230,5 +241,10 @@ namespace Box.V2.Config
         /// The web proxy for HttpRequestHandler
         /// </summary>
         public IWebProxy WebProxy { get; private set; }
+
+        /// <summary>
+        /// Timeout for the connection
+        /// </summary>
+        public TimeSpan? Timeout { get; private set; }
     }
 }
