@@ -100,9 +100,11 @@ if($DryRun){
     git remote set-url origin $RepoLink
     git config user.name $GithubUsername
     git config user.email $GithubEmail
+    $lastBranch = git rev-parse --abbrev-ref HEAD
     git branch -D $NEXT_VERSION_TAG
     git checkout -b $NEXT_VERSION_TAG
-    git commit -am $NEXT_VERSION_TAG
+    $commitTitle = "chore: release " + $NEXT_VERSION_TAG 
+    git commit -am $commitTitle
     git push --set-upstream origin $NEXT_VERSION_TAG
 
     $password = ConvertTo-SecureString "$GithubToken" -AsPlainText -Force
@@ -112,7 +114,7 @@ if($DryRun){
     $prParams = @{
         OwnerName = $REPO_OWNER
         RepositoryName = $REPO_NAME
-        Title = "chore: release " + $NEXT_VERSION_TAG 
+        Title = $commitTitle
         Head = $NEXT_VERSION_TAG
         Base = $Branch
         Body = "Bumping version files for the next release! " + $NEXT_VERSION_TAG
@@ -121,6 +123,9 @@ if($DryRun){
     New-GitHubPullRequest @prParams
 
     Clear-GitHubAuthentication
+
+    git checkout $lastBranch
+    git branch -D $NEXT_VERSION_TAG
 }
 
 exit 0

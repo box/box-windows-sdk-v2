@@ -31,6 +31,7 @@ Param
 function RemoveSensitiveData()
 {
     Remove-Item $PFX_PATH
+    Remove-Item SnInstallPfx.exe
     certutil -csp "Microsoft Strong Cryptographic Provider" -key | Select-String -Pattern "VS_KEY" | ForEach-Object{ $_.ToString().Trim()} | ForEach-Object{ certutil -delkey -csp "Microsoft Strong Cryptographic Provider" $_}
     Write-Output "Sensitive data removed."
 }
