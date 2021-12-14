@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file. See [standa
 * add file request api ([#777](https://github.com/box/box-windows-sdk-v2/issues/777)) ([1098f75](https://github.com/box/box-windows-sdk-v2/commit/1098f75983e2d784521f13b8d53df0e55d03203b))
 * add vanity_name to SharedLink ([#782](https://github.com/box/box-windows-sdk-v2/issues/782)) ([00a1e26](https://github.com/box/box-windows-sdk-v2/commit/00a1e265569d76c2c9593aa259202d7febef629c))
 
-## [4.0.0] ](https://github.com/box/box-windows-sdk-v2/compare/v3.26.0...v4.0.0) (2021-11-02)
+## [4.0.0](https://github.com/box/box-windows-sdk-v2/compare/v3.26.0...v4.0.0) (2021-11-02)
 
 
 ### **Breaking changes:**
