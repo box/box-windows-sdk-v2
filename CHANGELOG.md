@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/box/box-windows-sdk-v2/compare/v4.0.0...v4.1.0) (2021-12-14)
+
+
+### **Bug Fixes:**
+
+* add missing configureAwait(false) when awaiting to prevent deadlocks ([#775](https://github.com/box/box-windows-sdk-v2/issues/775)) ([b16267e](https://github.com/box/box-windows-sdk-v2/commit/b16267e8f3dca5396e87be660e30a1e9405d8139))
+
+
+### **New Features and Enhancements:**
+
+* add configurable Timeout for BoxClient ([#779](https://github.com/box/box-windows-sdk-v2/issues/779)) ([ac842ed](https://github.com/box/box-windows-sdk-v2/commit/ac842ed4ba1a2dfe499706524441bc6ae3b3c192))
+* add file request api ([#777](https://github.com/box/box-windows-sdk-v2/issues/777)) ([1098f75](https://github.com/box/box-windows-sdk-v2/commit/1098f75983e2d784521f13b8d53df0e55d03203b))
+* add vanity_name to SharedLink ([#782](https://github.com/box/box-windows-sdk-v2/issues/782)) ([00a1e26](https://github.com/box/box-windows-sdk-v2/commit/00a1e265569d76c2c9593aa259202d7febef629c))
+
 ## 4.0.0 [2021-11-02]
 
 **Breaking changes:**
