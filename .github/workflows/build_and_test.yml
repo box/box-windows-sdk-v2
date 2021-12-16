@@ -1,0 +1,28 @@
+name: Build and Test
+
+on: [pull_request]
+
+jobs:
+  framework:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+      - name: Build
+        run: msbuild .\Box.V2
+      - name: Test
+        run: dotnet test .\Box.V2.Test -f net45 --verbosity normal
+
+  core:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: dotnet build .\Box.V2.Core
+      - name: Test
+        run: dotnet test .\Box.V2.Test -f netcoreapp2.0 --verbosity normal
