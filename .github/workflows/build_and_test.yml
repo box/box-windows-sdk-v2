@@ -11,10 +11,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
+      - name: Restore
+        run: dotnet restore
       - name: Build
         run: dotnet build .\Box.V2
       - name: Test
-        run: dotnet test .\Box.V2.Test -f net45 --verbosity normal
+        run: dotnet test .\Box.V2.Test -f net45
 
   core:
     runs-on: windows-latest
@@ -25,4 +27,4 @@ jobs:
       - name: Build
         run: dotnet build .\Box.V2.Core
       - name: Test
-        run: dotnet test .\Box.V2.Test -f netcoreapp2.0 --verbosity normal
+        run: dotnet test .\Box.V2.Test -f netcoreapp2.0
