@@ -29,7 +29,7 @@ namespace Box.V2.Test.Integration
         [AssemblyInitialize]
         public static async Task AssemblyInitialize(TestContext testContext)
         {
-            var jsonConfig = Environment.GetEnvironmentVariable("INTEGRATION_TESTS_CONFIG");
+            var jsonConfig = Environment.GetEnvironmentVariable("INTEGRATION_TESTING_CONFIG");
 
             if (string.IsNullOrEmpty(jsonConfig))
             {
