@@ -12,7 +12,7 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
       - name: Build
-        run: msbuild .\Box.V2
+        run: dotnet build .\Box.V2
       - name: Test
         run: dotnet test .\Box.V2.Test -f net45 --verbosity normal
 

@@ -11,5 +11,5 @@ jobs:
         uses: actions/checkout@v2
       - name: Test
         env:
-          JSON_CONFIG: ${{ secrets.JSON_CONFIG }}
+          INTEGRATION_TESTING_CONFIG: ${{ secrets.INTEGRATION_TESTING_CONFIG }}
         run: dotnet test .\Box.V2.Test.IntegrationNew -f netcoreapp2.0 --verbosity normal
