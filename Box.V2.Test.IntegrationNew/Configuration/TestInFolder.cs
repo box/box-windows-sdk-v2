@@ -8,7 +8,7 @@ namespace Box.V2.Test.IntegrationNew.Configuration
     [TestClass]
     public abstract class TestInFolder : IntegrationTestBase
     {
-        public static string FolderId;
+        protected static string FolderId;
 
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static async Task FolderClassInitialize(TestContext context)

@@ -23,8 +23,8 @@ namespace Box.V2.Test.Integration
         protected static bool ClassInit = false;
         protected static bool UserCreated = false;
 
-        public static Stack<IDisposableCommand> ClassCommands;
-        public static Stack<IDisposableCommand> TestCommands;
+        protected static Stack<IDisposableCommand> ClassCommands;
+        protected static Stack<IDisposableCommand> TestCommands;
 
         [AssemblyInitialize]
         public static async Task AssemblyInitialize(TestContext testContext)
@@ -72,7 +72,7 @@ namespace Box.V2.Test.Integration
                 catch (Exception exp)
                 {
                     // Delete will fail if there are content in the user
-                    Debug.Print(exp.StackTrace);
+                    Console.WriteLine(exp.StackTrace);
                 }
             }
         }
