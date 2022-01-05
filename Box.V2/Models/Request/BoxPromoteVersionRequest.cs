@@ -1,9 +1,5 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Models
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Box.V2.Utility;
 
 namespace Box.V2.Auth.Token
@@ -8,10 +8,9 @@ namespace Box.V2.Auth.Token
     /// </summary>
     public class ActorTokenBuilder
     {
-        const string TOKEN_TYPE = "bearer";
-        const string ACTOR_HEADER = "{\"alg\":\"none\"}";
-        const string ACTOR_CLAIM_TEMPLATE = "{{\"iss\":\"{0}\",\"sub\":\"{1}\",\"box_sub_type\":\"external\",\"aud\":\"https://api.box.com/oauth2/token\",\"exp\":{2},\"jti\":\"{3}\",\"name\":\"{4}\"}}";
-        
+        private const string ACTOR_HEADER = "{\"alg\":\"none\"}";
+        private const string ACTOR_CLAIM_TEMPLATE = "{{\"iss\":\"{0}\",\"sub\":\"{1}\",\"box_sub_type\":\"external\",\"aud\":\"https://api.box.com/oauth2/token\",\"exp\":{2},\"jti\":\"{3}\",\"name\":\"{4}\"}}";
+
         /// <summary>
         /// External user id.
         /// </summary>
@@ -31,7 +30,8 @@ namespace Box.V2.Auth.Token
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="clientId"></param>
-        public ActorTokenBuilder(string userId, string clientId) {
+        public ActorTokenBuilder(string userId, string clientId)
+        {
             this.userId = userId;
             this.clientId = clientId;
         }
@@ -41,7 +41,8 @@ namespace Box.V2.Auth.Token
         /// </summary>
         /// <param name="userName">The external user name.</param>
         /// <returns>Current builder instance.</returns>
-        public ActorTokenBuilder SetUserName(string userName) {
+        public ActorTokenBuilder SetUserName(string userName)
+        {
             this.userName = userName;
             return this;
         }
@@ -50,8 +51,9 @@ namespace Box.V2.Auth.Token
         /// Build the actorToken.
         /// </summary>
         /// <returns>The actorToken in string.</returns>
-        public string Build() {
-            var exp = Helper.ConvertToUnixTimestamp(DateTime.UtcNow.AddSeconds(30));
+        public string Build()
+        {
+            var exp = Helper.ConvertToUnixTimestamp(DateTimeOffset.UtcNow.AddSeconds(30));
             var jti = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
 
             var header = Helper.Base64Encode(ACTOR_HEADER);

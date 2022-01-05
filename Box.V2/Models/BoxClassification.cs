@@ -12,18 +12,18 @@ namespace Box.V2.Models
         /// The name of the classification
         /// </summary>
         [JsonProperty(PropertyName = FieldName)]
-        public string Name { get; private set; }
+        public virtual string Name { get; private set; }
 
         /// <summary>
         /// The meaning of the classification
         /// </summary>
         [JsonProperty(PropertyName = FieldDefinition)]
-        public string Definition { get; set; }
+        public virtual string Definition { get; set; }
 
         /// <summary>
         /// The color that is used to display the classification label in a user-interface
         /// </summary>
         [JsonProperty(PropertyName = FieldColor)]
-        public string Color { get; private set; }
+        public virtual string Color { get; private set; }
     }
 }

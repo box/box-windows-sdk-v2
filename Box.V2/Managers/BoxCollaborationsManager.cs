@@ -1,18 +1,15 @@
-﻿using Box.V2.Auth;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
-    public class BoxCollaborationsManager : BoxResourceManager
+    public class BoxCollaborationsManager : BoxResourceManager, IBoxCollaborationsManager
     {
 
         public BoxCollaborationsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
@@ -115,7 +112,7 @@ namespace Box.V2.Managers
         /// <returns>A collection of pending collaboration objects are returned. If the user has no pending collaborations, the collection will be empty.</returns>
         public async Task<BoxCollection<BoxCollaboration>> GetPendingCollaborationAsync(IEnumerable<string> fields = null)
         {
-           
+
             BoxRequest request = new BoxRequest(_config.CollaborationsEndpointUri, null)
                .Param(Constants.RequestParameters.Status, Constants.RequestParameters.Pending)
                .Param(ParamFields, fields);

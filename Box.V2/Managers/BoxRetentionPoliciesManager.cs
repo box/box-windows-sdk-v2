@@ -1,12 +1,14 @@
-﻿using Box.V2.Auth;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
+using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Models.Request;
-using Box.V2.Extensions;
 using Box.V2.Services;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using Box.V2.Utility;
 
 namespace Box.V2.Managers
 {
@@ -15,7 +17,7 @@ namespace Box.V2.Managers
     /// Retention Management is a feature of the Box Governance package, which can be added on to any Business Plus or Enterprise account.
     /// To use this feature, you must have the manage retention policies scope enabled for your API key via your application management console.
     /// </summary>
-    public class BoxRetentionPoliciesManager : BoxResourceManager
+    public class BoxRetentionPoliciesManager : BoxResourceManager, IBoxRetentionPoliciesManager
     {
         public BoxRetentionPoliciesManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
@@ -98,7 +100,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxRetentionPolicy>(request, limit);
+                return await AutoPaginateMarker<BoxRetentionPolicy>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -127,7 +129,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxRetentionPolicyAssignment>(request, limit);
+                return await AutoPaginateMarker<BoxRetentionPolicyAssignment>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -177,17 +179,30 @@ namespace Box.V2.Managers
         /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
         /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <param name="fileId">Filters results by files with this ID.</param>
+        /// <param name="fileVersionId">Filters results by file versions with this ID.</param>
+        /// <param name="policyId">Filters results by the retention policy with this ID.</param>
+        /// <param name="dispositionBefore">Filters results by files that will have their disposition come into effect before this date.</param>
+        /// <param name="dispositionAfter">Filters results by files that will have their disposition come into effect after this date.</param>
+        /// <param name="dispositionAction">Filters results by the retention policy with this disposition action.</param>
         /// <returns>The specified file version retention will be returned upon success.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        [Obsolete("This method will be deprecated in the future. Please use GetFilesUnderRetentionForAssignmentAsync() and GetFileVersionsUnderRetentionForAssignmentAsync() instead.")]
+        public async Task<BoxCollectionMarkerBased<BoxFileVersionRetention>> GetFileVersionRetentionsAsync(IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false, string fileId = null, string fileVersionId = null, string policyId = null, DateTimeOffset? dispositionBefore = null, DateTimeOffset? dispositionAfter = null, DispositionAction? dispositionAction = null)
         {
             BoxRequest request = new BoxRequest(_config.FileVersionRetentionsUri)
                 .Param(ParamFields, fields)
                 .Param("limit", limit.ToString())
-                .Param("marker", marker);
+                .Param("marker", marker)
+                .Param("file_id", fileId)
+                .Param("file_version_id", fileVersionId)
+                .Param("policy_id", policyId)
+                .Param("disposition_before", Helper.ConvertToRFCString(dispositionBefore))
+                .Param("disposition_after", Helper.ConvertToRFCString(dispositionAfter))
+                .Param("disposition_action", dispositionAction.ToString());
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxFileVersionRetention>(request, limit);
+                return await AutoPaginateMarker<BoxFileVersionRetention>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -210,6 +225,66 @@ namespace Box.V2.Managers
             var response = await ToResponseAsync<BoxFileVersionRetention>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Used to retrieve files under retention by each assignment
+        /// To use this feature, you must have the manage retention policies scope enabled
+        /// for your API key via your application management console.
+        /// </summary>
+        /// <param name="retentionPolicyAssignmentId">The Box ID of the policy assignment object to fetch
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
+        /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <returns>Returns the list of all files under retentions for the assignment.</returns>
+        public async Task<BoxCollectionMarkerBased<BoxFile>> GetFilesUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        {
+            BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri, string.Format(Constants.FilesUnderRetentionEndpointString, retentionPolicyAssignmentId))
+                .Param("retention_policy_assignment_id", retentionPolicyAssignmentId)
+                .Param(ParamFields, fields)
+                .Param("limit", limit.ToString())
+                .Param("marker", marker);
+
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxFile>(request, limit).ConfigureAwait(false);
+            }
+            else
+            {
+                var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxFile>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
+        }
+
+        /// <summary>
+        /// Used to retrieve file versions under retention by each assignment
+        /// To use this feature, you must have the manage retention policies scope enabled
+        /// for your API key via your application management console.
+        /// </summary>
+        /// <param name="retentionPolicyAssignmentId">The Box ID of the policy assignment object to fetch
+        /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="limit">Limit result size to this number. Defaults to 100, maximum is 1,000.</param>
+        /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <returns>Returns the list of all file versions under retentions for the assignment.</returns>
+        public async Task<BoxCollectionMarkerBased<BoxFileVersion>> GetFileVersionsUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        {
+            BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri, string.Format(Constants.FileVersionsUnderRetentionEndpointString, retentionPolicyAssignmentId))
+                .Param("retention_policy_assignment_id", retentionPolicyAssignmentId)
+                .Param(ParamFields, fields)
+                .Param("limit", limit.ToString())
+                .Param("marker", marker);
+
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxFileVersion>(request, limit).ConfigureAwait(false);
+            }
+            else
+            {
+                var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxFileVersion>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
     }
 }

@@ -1,16 +1,16 @@
-﻿using Box.V2.Config;
-using Box.V2.JWTAuth;
-using Box.V2.Models;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Box.V2.Config;
+using Box.V2.JWTAuth;
+using Box.V2.Models;
 
 namespace Box.V2.Samples.Core.AppUser.Create
 {
     public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             try
             {
@@ -29,14 +29,14 @@ namespace Box.V2.Samples.Core.AppUser.Create
             var session = new BoxJWTAuth(config);
 
             // client with permissions to manage application users
-            var adminToken = session.AdminToken();
+            var adminToken = await session.AdminTokenAsync();
             var client = session.AdminClient(adminToken);
 
             var user = await CreateNewUser(client);
             Console.WriteLine("New app user created with Id = {0}", user.Id);
 
             // user client with access to user's data (folders, files, etc)
-            var userToken = session.UserToken(user.Id);
+            var userToken = await session.UserTokenAsync(user.Id);
             var userClient = session.UserClient(userToken, user.Id);
 
             // root folder has id = 0
@@ -84,9 +84,9 @@ namespace Box.V2.Samples.Core.AppUser.Create
         private static IBoxConfig ConfigureBoxApi()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"YOUR_JSON_FILE_HERE", FileMode.Open))
+            using (var fs = new FileStream(@"YOUR_JSON_FILE_HERE", FileMode.Open))
             {
-                config = BoxConfig.CreateFromJsonFile(fs);
+                config = BoxConfigBuilder.CreateFromJsonFile(fs).Build();
             }
 
             return config;

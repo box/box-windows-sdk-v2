@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,7 +65,7 @@ namespace Box.V2.Utility
             ValidateParameters(retryCount, exceptionTypesToHandle);
 
             var exceptions = new List<Exception>();
-            for (int retry = 0; retry < retryCount + 1; retry++)
+            for (var retry = 0; retry < retryCount + 1; retry++)
             {
                 try
                 {
@@ -119,7 +119,7 @@ namespace Box.V2.Utility
                 return null;
             });
 
-            await ExecuteAsync(async () => await task, retryInterval, retryCount, executeOnEveryException, executeBeforeFinalException, exceptionTypesToHandle);
+            await ExecuteAsync(async () => await task, retryInterval, retryCount, executeOnEveryException, executeBeforeFinalException, exceptionTypesToHandle).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -146,21 +146,21 @@ namespace Box.V2.Utility
         {
             ValidateParameters(retryCount, exceptionTypesToHandle);
             var exceptions = new List<Exception>();
-            for (int retry = 0; retry < retryCount + 1; retry++)
+            for (var retry = 0; retry < retryCount + 1; retry++)
             {
                 try
                 {
-                    return await action();
+                    return await action().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     if (executeOnEveryException != null)
                     {
-                        await executeOnEveryException(ex);
+                        await executeOnEveryException(ex).ConfigureAwait(false);
                     }
 
-                    if (exceptionTypesToHandle != null 
-                        && exceptionTypesToHandle.Any() 
+                    if (exceptionTypesToHandle != null
+                        && exceptionTypesToHandle.Any()
                         && !exceptionTypesToHandle.Any(type => ex.IsOfTypeOrInherits(type)))
                     {
                         throw;
@@ -169,7 +169,7 @@ namespace Box.V2.Utility
                     exceptions.Add(ex);
                     if (retry < retryCount)
                     {
-                        await Task.Delay(retryInterval);
+                        await Task.Delay(retryInterval).ConfigureAwait(false);
                     }
                 }
             }
@@ -200,7 +200,7 @@ namespace Box.V2.Utility
                 var typesThatAreNotExcpetions = exceptionTypesToHandle.Where(type => IsOfTypeOrInHerits(type, typeof(Exception)) == false).ToList();
                 if (typesThatAreNotExcpetions.Any())
                 {
-                    string notExceptionsMessage = string.Join(", ", typesThatAreNotExcpetions.Select(t => t.Name));
+                    var notExceptionsMessage = string.Join(", ", typesThatAreNotExcpetions.Select(t => t.Name));
                     throw new SimpleRetryArgumentException(
                         $"All types should be of base type exception. Found {typesThatAreNotExcpetions.Count} type(s) that are not exceptions: {notExceptionsMessage}",
                         nameof(exceptionTypesToHandle));

@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Config
 {
@@ -53,6 +50,12 @@ namespace Box.V2.Config
         public const string StoragePoliciesString = @"storage_policies/";
         public const string StoragePolicyAssignmentsString = @"storage_policy_assignments/";
         public const string StoragePolicyAssignmentsForTargetString = @"storage_policy_assignments";
+        public const string ZipDownloadsString = @"zip_downloads";
+        public const string FolderLocksString = @"folder_locks/";
+        public const string SignRequestsString = @"sign_requests";
+        public const string SignRequestsWithPathString = @"sign_requests/";
+        public const string FileRequestsWithPathString = @"file_requests/";
+
 
         /// <summary>
         /// The shared items constant
@@ -108,6 +111,10 @@ namespace Box.V2.Config
         public const string StoragePoliciesEndpointString = BoxApiUriString + StoragePoliciesString;
         public const string StoragePolicyAssignmentsEndpointString = BoxApiUriString + StoragePolicyAssignmentsString;
         public const string StoragePolicyAssignmentsForTargetEndpointString = BoxApiUriString + StoragePolicyAssignmentsForTargetString;
+        public const string FolderLocksEndpointString = BoxApiUriString + FolderLocksString;
+        public const string SignRequestsEndpointString = BoxApiUriString + SignRequestsString;
+        public const string SignRequestsWithPathEndpointString = BoxApiUriString + SignRequestsWithPathString;
+        public const string FileRequestsWithPathEndpointString = BoxApiUriString + FileRequestsWithPathString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";
@@ -125,6 +132,8 @@ namespace Box.V2.Config
         public const string GroupMembershipPathString = @"{0}/memberships";
         public const string ContentPathString = @"{0}/content";
         public const string RetentionPolicyAssignmentsEndpointString = @"{0}/assignments";
+        public const string FilesUnderRetentionEndpointString = @"{0}/files_under_retention";
+        public const string FileVersionsUnderRetentionEndpointString = @"{0}/file_versions_under_retention";
         public const string MetadataPathString = @"{0}/metadata/{1}/{2}";
         public const string AllFileMetadataPathString = @"{0}/metadata";
         public const string AllFolderMetadataPathString = @"{0}/metadata";
@@ -142,6 +151,9 @@ namespace Box.V2.Config
         public const string GetEnterpriseDevicePinsPathString = @"{0}/device_pinners";
         public const string LegalHoldPolicyAssignmentsPathString = @"{0}/assignments";
         public const string MetadataCascadePoliciesForceApplyPathString = @"{0}/apply";
+        public const string SignRequestsCancelPathString = @"{0}/cancel";
+        public const string SignRequestsResendPathString = @"{0}/resend";
+        public const string FileRequestsCopyPathString = @"{0}/copy";
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
@@ -183,6 +195,9 @@ namespace Box.V2.Config
         public const string TypeStoragePolicy = "storage_policy";
         public const string TypeStoragePolicyAssignment = "storage_policy_assignment";
         public const string TypeApplication = "application";
+        public const string TypeFolderLock = "folder_lock";
+        public const string TypeSignRequest = "sign-request";
+        public const string TypeFileRequest = "file_request";
 
         /*** File Preview ***/
         public const int DefaultRetryDelay = 1000; // milliseconds
@@ -434,12 +449,24 @@ namespace Box.V2.Config
             /// <summary>
             /// Free user accepts invitation to become a managed user. 
             /// </summary>
+            [Obsolete("Use AdminInviteAccept instead")]
             public const string MasterInviteAccept = "MASTER_INVITE_ACCEPT";
 
             /// <summary>
             /// Free user rejects invitation to become a managed user. 
             /// </summary>
+            [Obsolete("Use AdminInviteReject instead")]
             public const string MasterInviteReject = "MASTER_INVITE_REJECT";
+
+            /// <summary>
+            /// Free user accepts invitation to become a managed user. 
+            /// </summary>
+            public const string AdminInviteAccept = "MASTER_INVITE_ACCEPT";
+
+            /// <summary>
+            /// Free user rejects invitation to become a managed user. 
+            /// </summary>
+            public const string AdminInviteReject = "MASTER_INVITE_REJECT";
 
             /// <summary>
             /// Revoke Box access to account. 

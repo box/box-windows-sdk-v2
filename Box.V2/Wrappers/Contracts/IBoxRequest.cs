@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -47,7 +47,7 @@ namespace Box.V2
         /// <summary>
         /// The string payload to be included in the body of a request
         /// </summary>
-        string Payload { get; set;  }
+        string Payload { get; set; }
 
         /// <summary>
         /// The authorization to be used for the request
@@ -57,7 +57,7 @@ namespace Box.V2
         /// <summary>
         /// The type of request method
         /// </summary>
-        RequestMethod Method { get; set;  }
+        RequestMethod Method { get; set; }
 
         /// <summary>
         /// Gets the full URI including the host, path and querystring parameters

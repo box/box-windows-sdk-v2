@@ -1,8 +1,8 @@
-﻿using Box.V2.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Box.V2.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test.Integration
 {
@@ -18,35 +18,35 @@ namespace Box.V2.Test.Integration
             const string ADDRESS2 = "https://example2.com";
 
             //first remove any dangling webhooks from previous failed tests
-            var existingWebhooks = await _client.WebhooksManager.GetWebhooksAsync(autoPaginate:true);
+            var existingWebhooks = await Client.WebhooksManager.GetWebhooksAsync(autoPaginate: true);
             foreach (var wh in existingWebhooks.Entries)
             {
-                await _client.WebhooksManager.DeleteWebhookAsync(wh.Id);
+                await Client.WebhooksManager.DeleteWebhookAsync(wh.Id);
             }
 
             //create a new webhook on a file
-            BoxRequestEntity target = new BoxRequestEntity() { Id = "16894937051", Type = BoxType.file };
+            var target = new BoxRequestEntity() { Id = "16894937051", Type = BoxType.file };
             var triggers = new List<string>() { TRIGGER1 };
-            BoxWebhookRequest whr = new BoxWebhookRequest() { Target = target, Address = ADDRESS1, Triggers = triggers };
-            var webhook = await _client.WebhooksManager.CreateWebhookAsync(whr);
+            var whr = new BoxWebhookRequest() { Target = target, Address = ADDRESS1, Triggers = triggers };
+            var webhook = await Client.WebhooksManager.CreateWebhookAsync(whr);
             Assert.IsNotNull(webhook, "Failed to create webhook");
             Assert.AreEqual(TRIGGER1, webhook.Triggers.First(), "Webhook trigger does not match");
             Assert.AreEqual(ADDRESS1, webhook.Address, "Webhook address does not match");
 
             //get a webhook
-            var fetchedWebhook = await _client.WebhooksManager.GetWebhookAsync(webhook.Id);
+            var fetchedWebhook = await Client.WebhooksManager.GetWebhookAsync(webhook.Id);
             Assert.AreEqual(fetchedWebhook.Id, webhook.Id, "Failed to get webhook");
 
             //update a webhook
             triggers = new List<string>() { TRIGGER1, TRIGGER2 };
             whr = new BoxWebhookRequest() { Id = webhook.Id, Address = ADDRESS2, Triggers = triggers };
-            var updatedWebhook = await _client.WebhooksManager.UpdateWebhookAsync(whr);
+            var updatedWebhook = await Client.WebhooksManager.UpdateWebhookAsync(whr);
             Assert.IsTrue(updatedWebhook.Triggers.Contains(TRIGGER1), "Webhook trigger does not match");
             Assert.IsTrue(updatedWebhook.Triggers.Contains(TRIGGER2), "Webhook trigger does not match");
             Assert.AreEqual(ADDRESS2, updatedWebhook.Address, "Webhook address does not match");
 
             //delete a webhook
-            var result = await _client.WebhooksManager.DeleteWebhookAsync(webhook.Id);
+            var result = await Client.WebhooksManager.DeleteWebhookAsync(webhook.Id);
             Assert.IsTrue(result, "Failed to delete webhook");
         }
     }

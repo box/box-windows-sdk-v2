@@ -1,15 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using Box.V2.Managers;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Net.Http.Headers;
-using System.IO;
 using Newtonsoft.Json;
-using System.Text;
-using System.Globalization;
+using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Test
 {
@@ -27,10 +30,10 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task UploadNewVersionUsingSessionAsync_ValidResponse()
         {
-            MemoryStream fileInMemoryStream = new MemoryStream(Encoding.UTF8.GetBytes("whatever"));
+            var fileInMemoryStream = new MemoryStream(Encoding.UTF8.GetBytes("whatever"));
 
             /*** Arrange ***/
-            string uploadSessionResponseString = "{ \"total_parts\": \"2\", \"part_size\": \"8388608\", \"session_endpoints\": { \"list_parts\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD/parts\", \"commit\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD/commit\", \"upload_part\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD\", \"status\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD\", \"abort\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD\" }, \"session_expires_at\": \"2017-04-18T01:45:15Z\", \"id\": \"F971964745A5CD0C001BBE4E58196BFD\", \"type\": \"upload_session\", \"num_parts_processed\": \"0\" }";
+            var uploadSessionResponseString = "{ \"total_parts\": \"2\", \"part_size\": \"8388608\", \"session_endpoints\": { \"list_parts\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD/parts\", \"commit\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD/commit\", \"upload_part\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD\", \"status\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD\", \"abort\": \"https://upload.box.com/api/2.0/files/upload_sessions/F971964745A5CD0C001BBE4E58196BFD\" }, \"session_expires_at\": \"2017-04-18T01:45:15Z\", \"id\": \"F971964745A5CD0C001BBE4E58196BFD\", \"type\": \"upload_session\", \"num_parts_processed\": \"0\" }";
             Handler.Setup(h => h.ExecuteAsync<BoxFileUploadSession>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFileUploadSession>>(new BoxResponse<BoxFileUploadSession>()
                 {
@@ -39,7 +42,7 @@ namespace Box.V2.Test
                 }));
 
 
-            string responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"new name.jpg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] }";
+            var responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"new name.jpg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] }";
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
@@ -48,17 +51,17 @@ namespace Box.V2.Test
                 }));
 
             var fakeStream = new Mock<System.IO.Stream>();
-            
-           BoxFile f = await _filesManager.UploadNewVersionUsingSessionAsync(fakeStream.Object, "fakeId", null, null, null);
-           Assert.AreEqual("file", f.Type);
-           Assert.AreEqual("5000948880", f.Id);
+
+            BoxFile f = await _filesManager.UploadNewVersionUsingSessionAsync(fakeStream.Object, "fakeId", null, null, null);
+            Assert.AreEqual("file", f.Type);
+            Assert.AreEqual("5000948880", f.Id);
         }
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
         public async Task GetCollaborationsCollectionAsync_ValidResponse_NextMarker()
         {
-            string responseJSON = "{\"next_marker\":\"ZmlsZS0xLTE%3D\",\"previous_marker\":\"\",\"entries\":[{\"type\":\"collaboration\",\"id\":\"11111\",\"created_by\":{\"type\":\"user\",\"id\":\"33333\",\"name\":\"Test User\",\"login\":\"testuser@example.com\"},\"created_at\":\"2019-01-21T07:58:18-08:00\",\"modified_at\":\"2019-01-21T14:49:18-08:00\",\"expires_at\":null,\"status\":\"accepted\",\"accessible_by\":{\"type\":\"user\",\"id\":\"44444\",\"name\":\"Test User 2\",\"login\":\"testuser2@example.com\"},\"role\":\"editor\",\"acknowledged_at\":\"2019-01-21T07:58:18-08:00\",\"item\":{\"type\":\"file\",\"id\":\"22222\",\"file_version\":{\"type\":\"file_version\",\"id\":\"12345\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\"},\"sequence_id\":\"26\",\"etag\":\"26\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\",\"name\":\"Meeting Notes.boxnote\"}}]}";
+            var responseJSON = "{\"next_marker\":\"ZmlsZS0xLTE%3D\",\"previous_marker\":\"\",\"entries\":[{\"type\":\"collaboration\",\"id\":\"11111\",\"created_by\":{\"type\":\"user\",\"id\":\"33333\",\"name\":\"Test User\",\"login\":\"testuser@example.com\"},\"created_at\":\"2019-01-21T07:58:18-08:00\",\"modified_at\":\"2019-01-21T14:49:18-08:00\",\"expires_at\":null,\"status\":\"accepted\",\"accessible_by\":{\"type\":\"user\",\"id\":\"44444\",\"name\":\"Test User 2\",\"login\":\"testuser2@example.com\"},\"role\":\"editor\",\"acknowledged_at\":\"2019-01-21T07:58:18-08:00\",\"item\":{\"type\":\"file\",\"id\":\"22222\",\"file_version\":{\"type\":\"file_version\",\"id\":\"12345\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\"},\"sequence_id\":\"26\",\"etag\":\"26\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\",\"name\":\"Meeting Notes.boxnote\"}}]}";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBasedV2<BoxCollaboration>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBasedV2<BoxCollaboration>>>(new BoxResponse<BoxCollectionMarkerBasedV2<BoxCollaboration>>()
@@ -82,7 +85,7 @@ namespace Box.V2.Test
         public async Task GetFileInformation_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                 ""type"": ""file"",
                 ""id"": ""5000948880"",
                 ""sequence_id"": ""3"",
@@ -207,7 +210,7 @@ namespace Box.V2.Test
         public async Task UploadFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-02-04T16:57:52-08:00\", \"content_modified_at\": \"2013-02-04T16:57:52-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": null, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] } ] }";
+            var responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-02-04T16:57:52-08:00\", \"content_modified_at\": \"2013-02-04T16:57:52-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": null, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] } ] }";
             BoxMultiPartRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFile>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFile>>>(new BoxResponse<BoxCollection<BoxFile>>()
@@ -217,8 +220,8 @@ namespace Box.V2.Test
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r as BoxMultiPartRequest);
 
-            var createdAt = new DateTime(2016, 8, 27);
-            var modifiedAt = new DateTime(2016, 8, 28);
+            var createdAt = new DateTimeOffset(2016, 8, 27, 0, 0, 0, TimeSpan.Zero);
+            var modifiedAt = new DateTimeOffset(2016, 8, 28, 0, 0, 0, TimeSpan.Zero);
 
             var fakeFileRequest = new BoxFileRequest()
             {
@@ -267,7 +270,7 @@ namespace Box.V2.Test
         public async Task UploadNewVersion_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-02-04T16:57:52-08:00\", \"content_modified_at\": \"2013-02-04T16:57:52-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] } ] }";
+            var responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-02-04T16:57:52-08:00\", \"content_modified_at\": \"2013-02-04T16:57:52-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] } ] }";
             BoxMultiPartRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFile>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFile>>>(new BoxResponse<BoxCollection<BoxFile>>()
@@ -275,17 +278,17 @@ namespace Box.V2.Test
                     Status = ResponseStatus.Success,
                     ContentString = responseString
                 }))
-                .Callback<BoxMultiPartRequest>(r => boxRequest = r);
+                .Callback<IBoxRequest>(r => boxRequest = (BoxMultiPartRequest)r);
 
             var fakeStream = new Mock<System.IO.Stream>();
 
             /*** Act ***/
-            BoxFile f = await _filesManager.UploadNewVersionAsync("fakeFile", "0", fakeStream.Object, "1", contentModifiedTime: new DateTime(2020, 1, 1, 8, 0, 0, DateTimeKind.Utc));
-            var attrPart = (BoxStringFormPart) boxRequest.Parts[0];
+            BoxFile f = await _filesManager.UploadNewVersionAsync("fakeFile", "0", fakeStream.Object, "1", contentModifiedTime: new DateTimeOffset(2020, 1, 1, 8, 0, 0, TimeSpan.Zero));
+            var attrPart = (BoxStringFormPart)boxRequest.Parts[0];
 
             /*** Assert ***/
             Assert.AreEqual("attributes", attrPart.Name);
-            Assert.AreEqual("{\"name\":\"fakeFile\",\"content_modified_at\":\"2020-01-01T08:00:00Z\"}", attrPart.Value);
+            Assert.AreEqual("{\"name\":\"fakeFile\",\"content_modified_at\":\"2020-01-01T08:00:00+00:00\"}", attrPart.Value);
             Assert.AreEqual("5000948880", f.Id);
             Assert.AreEqual("3", f.SequenceId);
             Assert.AreEqual("tigers.jpeg", f.Name);
@@ -300,7 +303,7 @@ namespace Box.V2.Test
         public async Task ViewVersions_ValidResponse_ValidFileVersions()
         {
             /*** Arrange ***/
-            string responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file_version\", \"id\": \"672259576\", \"sha1\": \"359c6c1ed98081b9a69eb3513b9deced59c957f9\", \"name\": \"Dragons.js\", \"size\": 92556, \"created_at\": \"2012-08-20T10:20:30-07:00\", \"modified_at\": \"2012-11-28T13:14:58-08:00\", \"modified_by\": { \"type\": \"user\", \"id\": \"183732129\", \"name\": \"sean rose\", \"login\": \"sean+apitest@box.com\" } } ] }";
+            var responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file_version\", \"id\": \"672259576\", \"sha1\": \"359c6c1ed98081b9a69eb3513b9deced59c957f9\", \"name\": \"Dragons.js\", \"size\": 92556, \"created_at\": \"2012-08-20T10:20:30-07:00\", \"modified_at\": \"2012-11-28T13:14:58-08:00\", \"modified_by\": { \"type\": \"user\", \"id\": \"183732129\", \"name\": \"sean rose\", \"login\": \"sean+apitest@box.com\" } } ] }";
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFileVersion>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFileVersion>>>(new BoxResponse<BoxCollection<BoxFileVersion>>()
                 {
@@ -319,8 +322,8 @@ namespace Box.V2.Test
             Assert.AreEqual("672259576", f.Id);
             Assert.AreEqual("359c6c1ed98081b9a69eb3513b9deced59c957f9", f.Sha1);
             Assert.AreEqual("Dragons.js", f.Name);
-            Assert.AreEqual(DateTime.Parse("2012-08-20T10:20:30-07:00"), f.CreatedAt);
-            Assert.AreEqual(DateTime.Parse("2012-11-28T13:14:58-08:00"), f.ModifiedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2012-08-20T10:20:30-07:00"), f.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2012-11-28T13:14:58-08:00"), f.ModifiedAt);
             Assert.AreEqual(92556, f.Size);
             Assert.AreEqual("user", f.ModifiedBy.Type);
             Assert.AreEqual("183732129", f.ModifiedBy.Id);
@@ -328,16 +331,11 @@ namespace Box.V2.Test
             Assert.AreEqual("sean+apitest@box.com", f.ModifiedBy.Login);
         }
 
-        private MemoryStream GetBigFileInMemoryStream(long fileSize)
-        {
-            throw new NotImplementedException();
-        }
-
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateFileInformation_ValidResponse_ValidFile()
         {
-            string responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"new name.jpg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] }";
+            var responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"new name.jpg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] }";
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
@@ -346,7 +344,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            BoxFileRequest request = new BoxFileRequest()
+            var request = new BoxFileRequest()
             {
                 Id = "fakeId"
             };
@@ -373,7 +371,7 @@ namespace Box.V2.Test
         public async Task CopyFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] }";
+            var responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] }";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
@@ -383,7 +381,7 @@ namespace Box.V2.Test
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
-            BoxFileRequest request = new BoxFileRequest()
+            var request = new BoxFileRequest()
             {
                 Id = "5000948880",
                 Name = "test",
@@ -419,7 +417,7 @@ namespace Box.V2.Test
         public async Task CreateFileSharedLink_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
+            var responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"vanity_name\": \"my-custom-vanity-name\", \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
@@ -427,9 +425,10 @@ namespace Box.V2.Test
                     ContentString = responseString
                 }));
 
-            BoxSharedLinkRequest sharedLink = new BoxSharedLinkRequest()
+            var sharedLink = new BoxSharedLinkRequest()
             {
-                Access = BoxSharedLinkAccessType.collaborators
+                Access = BoxSharedLinkAccessType.collaborators,
+                VanityName = "my-custom-vanity-name"
             };
 
             /*** Act ***/
@@ -445,6 +444,7 @@ namespace Box.V2.Test
             Assert.AreEqual("sean@box.com", f.CreatedBy.Login);
             Assert.AreEqual("user", f.CreatedBy.Type);
             Assert.AreEqual("17738362", f.CreatedBy.Id);
+            Assert.AreEqual("my-custom-vanity-name", f.SharedLink.VanityName);
         }
 
         [TestMethod]
@@ -452,7 +452,7 @@ namespace Box.V2.Test
         public async Task EditSharedLink_NullUnsharedAt_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
+            var responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
@@ -462,7 +462,7 @@ namespace Box.V2.Test
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
-            BoxSharedLinkRequest sharedLink = new BoxSharedLinkRequest()
+            var sharedLink = new BoxSharedLinkRequest()
             {
                 UnsharedAt = null
             };
@@ -487,7 +487,7 @@ namespace Box.V2.Test
         public async Task EditSharedLink_UnsetUnsharedAt_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
+            var responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
@@ -497,7 +497,7 @@ namespace Box.V2.Test
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
-            BoxSharedLinkRequest sharedLink = new BoxSharedLinkRequest()
+            var sharedLink = new BoxSharedLinkRequest()
             {
                 Access = BoxSharedLinkAccessType.open
             };
@@ -522,7 +522,7 @@ namespace Box.V2.Test
         public async Task ViewFileComments_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"comment\", \"id\": \"191969\", \"is_reply_comment\": false, \"message\": \"These tigers are cool!\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"created_at\": \"2012-12-12T11:25:01-08:00\", \"item\": { \"id\": \"5000948880\", \"type\": \"file\" }, \"modified_at\": \"2012-12-12T11:25:01-08:00\" } ] }";
+            var responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"comment\", \"id\": \"191969\", \"is_reply_comment\": false, \"message\": \"These tigers are cool!\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"created_at\": \"2012-12-12T11:25:01-08:00\", \"item\": { \"id\": \"5000948880\", \"type\": \"file\" }, \"modified_at\": \"2012-12-12T11:25:01-08:00\" } ] }";
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxComment>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxComment>>>(new BoxResponse<BoxCollection<BoxComment>>()
                 {
@@ -550,7 +550,7 @@ namespace Box.V2.Test
         public async Task GetTrashedFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"file\", \"id\": \"5859258256\", \"sequence_id\": \"2\", \"etag\": \"2\", \"sha1\": \"4bd9e98652799fc57cf9423e13629c151152ce6c\", \"name\": \"Screenshot_1_30_13_6_37_PM.png\", \"description\": \"\", \"size\": 163265, \"path_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"folder\", \"id\": \"1\", \"sequence_id\": null, \"etag\": null, \"name\": \"Trash\" } ] }, \"created_at\": \"2013-01-30T18:43:56-08:00\", \"modified_at\": \"2013-01-30T18:44:00-08:00\", \"trashed_at\": \"2013-02-07T10:49:34-08:00\", \"purged_at\": \"2013-03-09T10:49:34-08:00\", \"content_created_at\": \"2013-01-30T18:43:56-08:00\", \"content_modified_at\": \"2013-01-30T18:44:00-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"shared_link\": { \"url\": null, \"download_url\": null, \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, \"item_status\": \"trashed\" }";
+            var responseString = "{ \"type\": \"file\", \"id\": \"5859258256\", \"sequence_id\": \"2\", \"etag\": \"2\", \"sha1\": \"4bd9e98652799fc57cf9423e13629c151152ce6c\", \"name\": \"Screenshot_1_30_13_6_37_PM.png\", \"description\": \"\", \"size\": 163265, \"path_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"folder\", \"id\": \"1\", \"sequence_id\": null, \"etag\": null, \"name\": \"Trash\" } ] }, \"created_at\": \"2013-01-30T18:43:56-08:00\", \"modified_at\": \"2013-01-30T18:44:00-08:00\", \"trashed_at\": \"2013-02-07T10:49:34-08:00\", \"purged_at\": \"2013-03-09T10:49:34-08:00\", \"content_created_at\": \"2013-01-30T18:43:56-08:00\", \"content_modified_at\": \"2013-01-30T18:44:00-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"shared_link\": { \"url\": null, \"download_url\": null, \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, \"item_status\": \"trashed\" }";
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
@@ -574,7 +574,7 @@ namespace Box.V2.Test
         public async Task RestoreTrashedFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"file\", \"id\": \"5859258256\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"4bd9e98652799fc57cf9423e13629c151152ce6c\", \"name\": \"Screenshot_1_30_13_6_37_PM.png\", \"description\": \"\", \"size\": 163265, \"path_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" } ] }, \"created_at\": \"2013-01-30T18:43:56-08:00\", \"modified_at\": \"2013-02-07T10:56:58-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-01-30T18:43:56-08:00\", \"content_modified_at\": \"2013-02-07T10:56:58-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"shared_link\": { \"url\": \"https://seanrose.box.com/s/ebgti08mtmhbpb4vlp55\", \"download_url\": \"https://seanrose.box.com/shared/static/ebgti08mtmhbpb4vlp55.png\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 4, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, \"item_status\": \"active\" }";
+            var responseString = "{ \"type\": \"file\", \"id\": \"5859258256\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"4bd9e98652799fc57cf9423e13629c151152ce6c\", \"name\": \"Screenshot_1_30_13_6_37_PM.png\", \"description\": \"\", \"size\": 163265, \"path_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" } ] }, \"created_at\": \"2013-01-30T18:43:56-08:00\", \"modified_at\": \"2013-02-07T10:56:58-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-01-30T18:43:56-08:00\", \"content_modified_at\": \"2013-02-07T10:56:58-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"shared_link\": { \"url\": \"https://seanrose.box.com/s/ebgti08mtmhbpb4vlp55\", \"download_url\": \"https://seanrose.box.com/shared/static/ebgti08mtmhbpb4vlp55.png\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 4, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, \"item_status\": \"active\" }";
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
@@ -582,7 +582,7 @@ namespace Box.V2.Test
                     ContentString = responseString
                 }));
 
-            BoxFileRequest fileReq = new BoxFileRequest()
+            var fileReq = new BoxFileRequest()
             {
                 Id = "0",
                 Name = "test"
@@ -606,7 +606,7 @@ namespace Box.V2.Test
         public async Task PurgeTrashedFile_ValidResponse_Success()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"file\", \"id\": \"5859258256\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"4bd9e98652799fc57cf9423e13629c151152ce6c\", \"name\": \"Screenshot_1_30_13_6_37_PM.png\", \"description\": \"\", \"size\": 163265, \"path_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" } ] }, \"created_at\": \"2013-01-30T18:43:56-08:00\", \"modified_at\": \"2013-02-07T10:56:58-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-01-30T18:43:56-08:00\", \"content_modified_at\": \"2013-02-07T10:56:58-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"shared_link\": { \"url\": \"https://seanrose.box.com/s/ebgti08mtmhbpb4vlp55\", \"download_url\": \"https://seanrose.box.com/shared/static/ebgti08mtmhbpb4vlp55.png\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 4, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, \"item_status\": \"active\" }";
+            var responseString = "{ \"type\": \"file\", \"id\": \"5859258256\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"4bd9e98652799fc57cf9423e13629c151152ce6c\", \"name\": \"Screenshot_1_30_13_6_37_PM.png\", \"description\": \"\", \"size\": 163265, \"path_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" } ] }, \"created_at\": \"2013-01-30T18:43:56-08:00\", \"modified_at\": \"2013-02-07T10:56:58-08:00\", \"trashed_at\": null, \"purged_at\": null, \"content_created_at\": \"2013-01-30T18:43:56-08:00\", \"content_modified_at\": \"2013-02-07T10:56:58-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"181757341\", \"name\": \"sean test\", \"login\": \"sean+test@box.com\" }, \"shared_link\": { \"url\": \"https://seanrose.box.com/s/ebgti08mtmhbpb4vlp55\", \"download_url\": \"https://seanrose.box.com/shared/static/ebgti08mtmhbpb4vlp55.png\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 4, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, \"item_status\": \"active\" }";
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
@@ -616,7 +616,7 @@ namespace Box.V2.Test
 
 
             /*** Act ***/
-            bool success = await _filesManager.PurgeTrashedAsync("0");
+            var success = await _filesManager.PurgeTrashedAsync("0");
 
             /*** Assert ***/
             Assert.AreEqual(true, success);
@@ -627,7 +627,7 @@ namespace Box.V2.Test
         public async Task GetLockFile_ValidResponse_Success()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\", \"lock\": { \"type\": \"lock\", \"id\": \"14516545\", \"created_by\": { \"type\": \"user\", \"id\": \"13130406\", \"name\": \"I don't know gmail\", \"login\": \"idontknow@gmail.com\" }, \"created_at\": \"2014-05-29T18:03:04-07:00\", \"expires_at\": \"2014-05-30T19:03:04-07:00\", \"is_download_prevented\": true } } ";
+            var responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\", \"lock\": { \"type\": \"lock\", \"id\": \"14516545\", \"created_by\": { \"type\": \"user\", \"id\": \"13130406\", \"name\": \"I don't know gmail\", \"login\": \"idontknow@gmail.com\" }, \"created_at\": \"2014-05-29T18:03:04-07:00\", \"expires_at\": \"2014-05-30T19:03:04-07:00\", \"is_download_prevented\": true } } ";
 
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
@@ -643,8 +643,8 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.IsNotNull(fileLock);
             Assert.AreEqual(true, fileLock.IsDownloadPrevented);
-            Assert.AreEqual(DateTime.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
-            Assert.AreEqual(DateTime.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
             Assert.IsNotNull(fileLock.CreatedBy);
             Assert.AreEqual("I don't know gmail", fileLock.CreatedBy.Name);
             Assert.AreEqual("idontknow@gmail.com", fileLock.CreatedBy.Login);
@@ -655,7 +655,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateFileLock_ValidResponse_ValidFile()
         {
-            string responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\", \"lock\": { \"type\": \"lock\", \"id\": \"14516545\", \"created_by\": { \"type\": \"user\", \"id\": \"13130406\", \"name\": \"I don't know gmail\", \"login\": \"idontknow@gmail.com\" }, \"created_at\": \"2014-05-29T18:03:04-07:00\", \"expires_at\": \"2014-05-30T19:03:04-07:00\", \"is_download_prevented\": false } } ";
+            var responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\", \"lock\": { \"type\": \"lock\", \"id\": \"14516545\", \"created_by\": { \"type\": \"user\", \"id\": \"13130406\", \"name\": \"I don't know gmail\", \"login\": \"idontknow@gmail.com\" }, \"created_at\": \"2014-05-29T18:03:04-07:00\", \"expires_at\": \"2014-05-30T19:03:04-07:00\", \"is_download_prevented\": false } } ";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
@@ -666,17 +666,21 @@ namespace Box.V2.Test
                  .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxFileLockRequest request = new BoxFileLockRequest();
-            request.Lock = new BoxFileLock();
-            request.Lock.IsDownloadPrevented = false;
+            var request = new BoxFileLockRequest
+            {
+                Lock = new BoxFileLock
+                {
+                    IsDownloadPrevented = false
+                }
+            };
 
             BoxFileLock fileLock = await _filesManager.UpdateLockAsync(request, "7435988481");
 
             /*** Assert ***/
             Assert.IsNotNull(fileLock);
             Assert.AreEqual(false, fileLock.IsDownloadPrevented);
-            Assert.AreEqual(DateTime.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
-            Assert.AreEqual(DateTime.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2014-05-30T19:03:04-07:00"), fileLock.ExpiresAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2014-05-29T18:03:04-07:00"), fileLock.CreatedAt);
             Assert.IsNotNull(fileLock.CreatedBy);
             Assert.AreEqual("I don't know gmail", fileLock.CreatedBy.Name);
             Assert.AreEqual("idontknow@gmail.com", fileLock.CreatedBy.Login);
@@ -686,7 +690,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task FileUnLock_ValidResponse()
         {
-            string responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\" } ";
+            var responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\" } ";
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
@@ -695,7 +699,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            bool unlocked = await _filesManager.UnLock("0");
+            var unlocked = await _filesManager.UnLock("0");
 
             /*** Assert ***/
             Assert.IsTrue(unlocked);
@@ -705,7 +709,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task GetThumbnail_ValidResponse_ValidStream()
         {
-            using (FileStream thumb = new FileStream(string.Format(getSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
+            using (var thumb = new FileStream(string.Format(GetSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
             {
                 /*** Arrange ***/
 
@@ -730,7 +734,7 @@ namespace Box.V2.Test
         [TestCategory("CI-UNIT-TEST")]
         public async Task GetThumbnail_ValidResponse_EndpointJpg()
         {
-            using (FileStream thumb = new FileStream(string.Format(getSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
+            using (var thumb = new FileStream(string.Format(GetSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
             {
                 /*** Arrange ***/
                 var endpoint = "";
@@ -743,7 +747,7 @@ namespace Box.V2.Test
                     }));
 
                 /*** Act ***/
-                Stream result = await _filesManager.GetThumbnailAsync("34122832467", extension:"jpg");
+                Stream result = await _filesManager.GetThumbnailAsync("34122832467", extension: "jpg");
 
                 /*** Assert ***/
                 Assert.IsNotNull(result, "Stream is Null");
@@ -752,9 +756,9 @@ namespace Box.V2.Test
             }
         }
 
-        private string getSaveFolderPath()
+        private string GetSaveFolderPath()
         {
-            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var pathUser = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             return Path.Combine(pathUser, "Downloads") + "\\{0}";
         }
 
@@ -763,7 +767,7 @@ namespace Box.V2.Test
         public async Task PreflightCheck_ValidResponse_ValidStatus()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             Handler.Setup(h => h.ExecuteAsync<BoxPreflightCheck>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxPreflightCheck>>(new BoxResponse<BoxPreflightCheck>()
                 {
@@ -795,7 +799,7 @@ namespace Box.V2.Test
         public async Task DeleteFile_ValidResponse_FileDeleted()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
@@ -804,7 +808,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            bool result = await _filesManager.DeleteAsync("34122832467");
+            var result = await _filesManager.DeleteAsync("34122832467");
 
             /*** Assert ***/
 
@@ -818,10 +822,10 @@ namespace Box.V2.Test
         public async Task DownloadStream_ValidResponse_ValidStream()
         {
 
-            using (FileStream exampleFile = new FileStream(string.Format(getSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
+            using (var exampleFile = new FileStream(string.Format(GetSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
             {
                 /*** Arrange ***/
-                Uri location = new Uri("http://dl.boxcloud.com");
+                var location = new Uri("http://dl.boxcloud.com");
                 HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
                 headers.Location = location;
                 Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
@@ -856,10 +860,10 @@ namespace Box.V2.Test
         public async Task Download_LargeOffset_ValidStream()
         {
 
-            using (FileStream exampleFile = new FileStream(string.Format(getSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
+            using (var exampleFile = new FileStream(string.Format(GetSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
             {
                 /*** Arrange ***/
-                Uri location = new Uri("http://dl.boxcloud.com");
+                var location = new Uri("http://dl.boxcloud.com");
                 HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
                 headers.Location = location;
                 Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
@@ -896,7 +900,7 @@ namespace Box.V2.Test
         public async Task GetEmbedLink_ValidResponse_ValidEmbedLink()
         {
             /*** Arrange ***/
-            string responseString = "{\"type\": \"file\",\"id\": \"34122832467\", \"etag\": \"1\", \"expiring_embed_link\": { \"url\": \"https://app.box.com/preview/expiring_embed/gvoct6FE!Qz2rDeyxCiHsYpvlnR7JJ0SCfFM2M4YiX9cIwrSo4LOYQgxyP3rzoYuMmXg96mTAidqjPuRH7HFXMWgXEEm5LTi1EDlfBocS-iRfHpc5ZeYrAZpA5B8C0Obzkr4bUoF6wGq8BZ1noN_txyZUU1nLDNuL_u0rsImWhPAZlvgt7662F9lZSQ8nw6zKaRWGyqmj06PnxewCx0EQD3padm6VYkfHE2N20gb5rw1D0a7aaRJZzEijb2ICLItqfMlZ5vBe7zGdEn3agDzZP7JlID3FYdPTITsegB10gKLgSp_AJJ9QAfDv8mzi0bGv1ZmAU1FoVLpGC0XI0UKy3N795rZBtjLlTNcuxapbHkUCoKcgdfmHEn5NRQ3tmw7hiBfnX8o-Au34ttW9ntPspdAQHL6xPzQC4OutWZDozsA5P9sGlI-sC3VC2-WXsbXSedemubVd5vWzpVZtKRlb0gpuXsnDPXnMxSH7_jT4KSLhC8b5kEMPNo33FjEJl5pwS_o_6K0awUdRpEQIxM9CC3pBUZK5ooAc5X5zxo_2FBr1xq1p_kSbt4TVnNeohiLIu38TQysSb7CMR7JRhDDZhMMwAUc0wdSszELgL053lJlPeoiaLA49rAGP_B3BVuwFAFEl696w7UMx5NKu1mA0IOn9pDebzbhTl5HuUvBAHROc1Ocjb28Svyotik1IkPIw_1R33ZyAMvEFyzIygqBj8WedQeSK38iXvF2UXvkAf9kevOdnpwsKYiJtcxeJhFm7LUVKDTufuzuGRw-T7cPtbg..\" } }";
+            var responseString = "{\"type\": \"file\",\"id\": \"34122832467\", \"etag\": \"1\", \"expiring_embed_link\": { \"url\": \"https://app.box.com/preview/expiring_embed/gvoct6FE!Qz2rDeyxCiHsYpvlnR7JJ0SCfFM2M4YiX9cIwrSo4LOYQgxyP3rzoYuMmXg96mTAidqjPuRH7HFXMWgXEEm5LTi1EDlfBocS-iRfHpc5ZeYrAZpA5B8C0Obzkr4bUoF6wGq8BZ1noN_txyZUU1nLDNuL_u0rsImWhPAZlvgt7662F9lZSQ8nw6zKaRWGyqmj06PnxewCx0EQD3padm6VYkfHE2N20gb5rw1D0a7aaRJZzEijb2ICLItqfMlZ5vBe7zGdEn3agDzZP7JlID3FYdPTITsegB10gKLgSp_AJJ9QAfDv8mzi0bGv1ZmAU1FoVLpGC0XI0UKy3N795rZBtjLlTNcuxapbHkUCoKcgdfmHEn5NRQ3tmw7hiBfnX8o-Au34ttW9ntPspdAQHL6xPzQC4OutWZDozsA5P9sGlI-sC3VC2-WXsbXSedemubVd5vWzpVZtKRlb0gpuXsnDPXnMxSH7_jT4KSLhC8b5kEMPNo33FjEJl5pwS_o_6K0awUdRpEQIxM9CC3pBUZK5ooAc5X5zxo_2FBr1xq1p_kSbt4TVnNeohiLIu38TQysSb7CMR7JRhDDZhMMwAUc0wdSszELgL053lJlPeoiaLA49rAGP_B3BVuwFAFEl696w7UMx5NKu1mA0IOn9pDebzbhTl5HuUvBAHROc1Ocjb28Svyotik1IkPIw_1R33ZyAMvEFyzIygqBj8WedQeSK38iXvF2UXvkAf9kevOdnpwsKYiJtcxeJhFm7LUVKDTufuzuGRw-T7cPtbg..\" } }";
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                 {
@@ -919,7 +923,7 @@ namespace Box.V2.Test
         public async Task GetFileTasks_ValidResponse_ValidTasks()
         {
             /*** Arrange ***/
-            string responseString = "{\"total_count\": 1, \"entries\": [{\"type\": \"task\", \"id\": \"1786931\",\"item\": {\"type\": \"file\",\"id\": \"7026335894\", \"sequence_id\": \"6\", \"etag\": \"6\", \"sha1\": \"81cc829fb8366fcfc108aa6c5a9bde01a6a10c16\",\"name\": \"API - Persist On-Behalf-Of information.docx\" }, \"due_at\": null }   ] }";
+            var responseString = "{\"total_count\": 1, \"entries\": [{\"type\": \"task\", \"id\": \"1786931\",\"item\": {\"type\": \"file\",\"id\": \"7026335894\", \"sequence_id\": \"6\", \"etag\": \"6\", \"sha1\": \"81cc829fb8366fcfc108aa6c5a9bde01a6a10c16\",\"name\": \"API - Persist On-Behalf-Of information.docx\" }, \"due_at\": null }   ] }";
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxTask>>(It.IsAny<IBoxRequest>()))
                  .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxTask>>>(new BoxResponse<BoxCollection<BoxTask>>()
                  {
@@ -950,7 +954,7 @@ namespace Box.V2.Test
         public async Task GetWatermarkForFile_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""watermark"": {
                                             ""created_at"": ""2016-10-31T15:33:33-07:00"",
                                             ""modified_at"": ""2016-10-31T15:33:33-07:00""
@@ -975,8 +979,8 @@ namespace Box.V2.Test
             Assert.AreEqual(FilesUri + "5010739069/watermark", boxRequest.AbsoluteUri.AbsoluteUri);
 
             //Response check
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
         }
 
         [TestMethod]
@@ -984,7 +988,7 @@ namespace Box.V2.Test
         public async Task ApplyWatermarkToFile_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                           ""watermark"": {
                                             ""created_at"": ""2016-10-31T15:33:33-07:00"",
                                             ""modified_at"": ""2016-10-31T15:33:33-07:00""
@@ -1011,8 +1015,8 @@ namespace Box.V2.Test
             Assert.AreEqual("default", payload.Watermark.Imprint);
 
             //Response check
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
-            Assert.AreEqual(DateTime.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.CreatedAt.Value);
+            Assert.AreEqual(DateTimeOffset.Parse("2016-10-31T15:33:33-07:00"), result.ModifiedAt.Value);
         }
 
         [TestMethod]
@@ -1020,7 +1024,7 @@ namespace Box.V2.Test
         public async Task RemoveWatermarkFromFile_ValidResponse_RemovedWatermark()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxWatermarkResponse>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWatermarkResponse>>(new BoxResponse<BoxWatermarkResponse>()
@@ -1031,7 +1035,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            bool result = await _filesManager.RemoveWatermarkAsync("5010739069");
+            var result = await _filesManager.RemoveWatermarkAsync("5010739069");
 
             /*** Assert ***/
             //Request check
@@ -1041,7 +1045,7 @@ namespace Box.V2.Test
 
             //Response check
             Assert.AreEqual(true, result);
-           
+
         }
 
         [TestMethod]
@@ -1049,7 +1053,7 @@ namespace Box.V2.Test
         public async Task DeleteOldVersion_ValidReponse()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
            .Returns(() => Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
@@ -1059,7 +1063,7 @@ namespace Box.V2.Test
            }))
            .Callback<IBoxRequest>(r => boxRequest = r);
 
-            bool result = await _filesManager.DeleteOldVersionAsync("fileid", "versionid");
+            var result = await _filesManager.DeleteOldVersionAsync("fileid", "versionid");
 
             /*** Assert ***/
 
@@ -1077,7 +1081,7 @@ namespace Box.V2.Test
         public async Task PromoteVersion_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = "{\"type\":\"file_version\",\"id\":\"871399\",\"sha1\":\"12039d6dd9a7e6eefc78846802e\",\"name\":\"Stark Family Lineage.doc\",\"size\":11,\"uploader_display_name\":\"Arya Stark\",\"created_at\":\"2013-11-20T13:20:50-08:00\",\"modified_at\":\"2013-11-20T13:26:48-08:00\",\"modified_by\":{\"type\":\"user\",\"id\":\"13711334\",\"name\":\"Eddard Stark\",\"login\":\"ned@winterfell.com\"}}";
+            var responseString = "{\"type\":\"file_version\",\"id\":\"871399\",\"sha1\":\"12039d6dd9a7e6eefc78846802e\",\"name\":\"Stark Family Lineage.doc\",\"size\":11,\"uploader_display_name\":\"Arya Stark\",\"created_at\":\"2013-11-20T13:20:50-08:00\",\"modified_at\":\"2013-11-20T13:26:48-08:00\",\"modified_by\":{\"type\":\"user\",\"id\":\"13711334\",\"name\":\"Eddard Stark\",\"login\":\"ned@winterfell.com\"}}";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxFileVersion>(It.IsAny<IBoxRequest>()))
                  .Returns(Task.FromResult<IBoxResponse<BoxFileVersion>>(new BoxResponse<BoxFileVersion>()
@@ -1105,8 +1109,91 @@ namespace Box.V2.Test
             Assert.AreEqual("file_version", result.Type);
             Assert.AreEqual("Stark Family Lineage.doc", result.Name);
             Assert.AreEqual("Arya Stark", result.UploaderDisplayName);
-            Assert.AreEqual(DateTime.Parse("2013-11-20T13:20:50-08:00"), result.CreatedAt);
-            Assert.AreEqual(DateTime.Parse("2013-11-20T13:26:48-08:00"), result.ModifiedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-20T13:20:50-08:00"), result.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2013-11-20T13:26:48-08:00"), result.ModifiedAt);
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task DownloadZip_ValidResponse()
+        {
+            using (var exampleFile = new FileStream(string.Format(AppDomain.CurrentDomain.BaseDirectory + "/TestData/smalltest.pdf"), FileMode.OpenOrCreate))
+            {
+                /*** Arrange ***/
+                var responseStringCreateZip = "{\"download_url\": \"https://api.box.com/zip_downloads/124hfiowk3fa8kmrwh/content\",\"status_url\": \"https://api.box.com/zip_downloads/124hfiowk3fa8kmrwh/status\",\"expires_at\": \"2018-04-25T11:00:18-07:00\", \"name_conflicts\":[[{\"id\":\"100\",\"type\":\"file\",\"original_name\":\"salary.pdf\",\"download_name\":\"aqc823.pdf\"},{\"id\":\"200\",\"type\": \"file\",\"original_name\":\"salary.pdf\",\"download_name\": \"aci23s.pdf\"}],[{\"id\":\"1000\",\"type\": \"folder\",\"original_name\":\"employees\",\"download_name\":\"3d366a_employees\"},{\"id\":\"2000\",\"type\": \"folder\",\"original_name\":\"employees\",\"download_name\": \"3aa6a7_employees\"}]]}";
+                var responseStringDownloadStatus = "{\"total_file_count\": 20, \"downloaded_file_count\": 10, \"skipped_file_count\": 10, \"skipped_folder_count\": 10, \"state\": \"succeeded\"}";
+                IBoxRequest boxRequest = null;
+                IBoxRequest boxRequest2 = null;
+                IBoxRequest boxRequest3 = null;
+                Handler.Setup(h => h.ExecuteAsync<BoxZip>(It.IsAny<IBoxRequest>()))
+                     .Returns(Task.FromResult<IBoxResponse<BoxZip>>(new BoxResponse<BoxZip>()
+                     {
+                         Status = ResponseStatus.Success,
+                         ContentString = responseStringCreateZip
+                     }))
+                     .Callback<IBoxRequest>(r => boxRequest = r);
+
+                Handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
+                   .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
+                   {
+                       Status = ResponseStatus.Success,
+                       ResponseObject = exampleFile
+
+                   }))
+                   .Callback<IBoxRequest>(r => boxRequest2 = r);
+
+                Handler.Setup(h => h.ExecuteAsync<BoxZipDownloadStatus>(It.IsAny<IBoxRequest>()))
+                     .Returns(Task.FromResult<IBoxResponse<BoxZipDownloadStatus>>(new BoxResponse<BoxZipDownloadStatus>()
+                     {
+                         Status = ResponseStatus.Success,
+                         ContentString = responseStringDownloadStatus
+                     }))
+                     .Callback<IBoxRequest>(r => boxRequest3 = r);
+
+
+
+                /*** Act ***/
+                var request = new BoxZipRequest
+                {
+                    Name = "test",
+                    Items = new List<BoxZipRequestItem>()
+                };
+
+                var file = new BoxZipRequestItem()
+                {
+                    Id = "466239504569",
+                    Type = BoxZipItemType.file
+                };
+                var folder = new BoxZipRequestItem()
+                {
+                    Id = "466239504580",
+                    Type = BoxZipItemType.folder
+                };
+                request.Items.Add(file);
+                request.Items.Add(folder);
+                Stream fs = new MemoryStream(100);
+
+                BoxZipDownloadStatus status = await _filesManager.DownloadZip(request, fs);
+                /*** Assert ***/
+
+                // Request check
+                Assert.IsNotNull(boxRequest);
+                Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+                var payload = JObject.Parse(boxRequest.Payload);
+                Assert.AreEqual("test", payload["name"]);
+                var items = JArray.Parse(payload["items"].ToString());
+                Assert.AreEqual("466239504569", items[0]["id"]);
+                Assert.AreEqual("file", items[0]["type"]);
+
+                // Reponse Check
+                Assert.AreEqual(status.TotalFileCount, 20);
+                Assert.AreEqual(status.State, BoxZipDownloadState.succeeded);
+                Assert.AreEqual(status.NameConflicts[0].items[0].OriginalName, "salary.pdf");
+                Assert.AreEqual(status.NameConflicts[0].items[1].OriginalName, "salary.pdf");
+                Assert.AreEqual(status.NameConflicts[1].items[0].OriginalName, "employees");
+                Assert.AreEqual(status.NameConflicts[1].items[1].OriginalName, "employees");
+                Assert.AreNotEqual(fs.Length, 0);
+            }
         }
     }
 }

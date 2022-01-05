@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -13,7 +9,7 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "can_download")]
         public bool CanDownload { get; private set; }
-        
+
         /// <summary>
         /// Permission to upload item
         /// </summary>

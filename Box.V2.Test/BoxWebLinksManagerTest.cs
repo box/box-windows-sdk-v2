@@ -1,11 +1,11 @@
+using System;
+using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using System;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
@@ -24,7 +24,7 @@ namespace Box.V2.Test
         public async Task CreateWeblink_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""web_link"",
                                         ""id"": ""6743065"",
                                         ""sequence_id"": ""0"",
@@ -84,7 +84,7 @@ namespace Box.V2.Test
                                         }
                                     }";
             IBoxRequest boxRequest = null;
-            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            var webLinksUri = new Uri(Constants.WebLinksEndpointString);
             Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
@@ -95,7 +95,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxWebLinkRequest createWebLinkRequest = new BoxWebLinkRequest()
+            var createWebLinkRequest = new BoxWebLinkRequest()
             {
                 Url = new Uri("https://www.box.com"),
                 Parent = new BoxRequestEntity()
@@ -134,9 +134,9 @@ namespace Box.V2.Test
         public async Task DeleteWeblink_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = "";
+            var responseString = "";
             IBoxRequest boxRequest = null;
-            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            var webLinksUri = new Uri(Constants.WebLinksEndpointString);
             Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
@@ -147,7 +147,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            bool result = await _webLinkManager.DeleteWebLinkAsync("6743065");
+            var result = await _webLinkManager.DeleteWebLinkAsync("6743065");
 
             /*** Assert ***/
             //Request check
@@ -164,7 +164,7 @@ namespace Box.V2.Test
         public async Task GetWeblink_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""web_link"",
                                         ""id"": ""6742981"",
                                         ""sequence_id"": ""0"",
@@ -224,7 +224,7 @@ namespace Box.V2.Test
                                         }
                                     }";
             IBoxRequest boxRequest = null;
-            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            var webLinksUri = new Uri(Constants.WebLinksEndpointString);
             Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
@@ -259,7 +259,7 @@ namespace Box.V2.Test
         public async Task UpdateWeblink_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""web_link"",
                                         ""id"": ""6742981"",
                                         ""sequence_id"": ""2"",
@@ -319,7 +319,7 @@ namespace Box.V2.Test
                                         }
                                     }";
             IBoxRequest boxRequest = null;
-            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            var webLinksUri = new Uri(Constants.WebLinksEndpointString);
             Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
@@ -330,7 +330,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxWebLinkRequest updateWebLinkRequest = new BoxWebLinkRequest()
+            var updateWebLinkRequest = new BoxWebLinkRequest()
             {
                 Name = "Box Marketing Web Page"
             };
@@ -364,7 +364,7 @@ namespace Box.V2.Test
         public async Task Copy_ValidResponse()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                                         ""type"": ""web_link"",
                                         ""id"": ""6743065"",
                                         ""sequence_id"": ""0"",
@@ -424,7 +424,7 @@ namespace Box.V2.Test
                                         }
                                     }";
             IBoxRequest boxRequest = null;
-            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            var webLinksUri = new Uri(Constants.WebLinksEndpointString);
             Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
@@ -463,9 +463,9 @@ namespace Box.V2.Test
         public async Task CreateWebLinkSharedLink_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"web_link\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
+            var responseString = "{ \"type\": \"web_link\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\",  \"vanity_name\": \"my-custom-vanity-name\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
             IBoxRequest boxRequest = null;
-            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            var webLinksUri = new Uri(Constants.WebLinksEndpointString);
             Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
@@ -475,9 +475,10 @@ namespace Box.V2.Test
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
-            BoxSharedLinkRequest sharedLink = new BoxSharedLinkRequest()
+            var sharedLink = new BoxSharedLinkRequest()
             {
-                Access = BoxSharedLinkAccessType.collaborators
+                Access = BoxSharedLinkAccessType.collaborators,
+                VanityName = "my-custom-vanity-name"
             };
 
             /*** Act ***/
@@ -486,12 +487,13 @@ namespace Box.V2.Test
             /*** Assert ***/
             Assert.AreEqual(new Uri("https://api.box.com/2.0/web_links/12345"), boxRequest.AbsoluteUri);
             Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
-            Assert.AreEqual("{\"shared_link\":{\"access\":\"collaborators\"}}", boxRequest.Payload);
+            Assert.AreEqual("{\"shared_link\":{\"access\":\"collaborators\",\"vanity_name\":\"my-custom-vanity-name\"}}", boxRequest.Payload);
 
             Assert.AreEqual("5000948880", w.Id);
             Assert.AreEqual("3", w.SequenceId);
             Assert.AreEqual("3", w.ETag);
             Assert.AreEqual("https://www.box.com/s/rh935iit6ewrmw0unyul", w.SharedLink.Url);
+            Assert.AreEqual("my-custom-vanity-name", w.SharedLink.VanityName);
         }
 
         [TestMethod]
@@ -499,9 +501,9 @@ namespace Box.V2.Test
         public async Task DeleteWebLinkSharedLink_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            string responseString = "{ \"type\": \"web_link\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": null, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
+            var responseString = "{ \"type\": \"web_link\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": null, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
             IBoxRequest boxRequest = null;
-            Uri webLinksUri = new Uri(Constants.WebLinksEndpointString);
+            var webLinksUri = new Uri(Constants.WebLinksEndpointString);
             Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
             Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()

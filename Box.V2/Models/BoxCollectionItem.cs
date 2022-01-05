@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -14,9 +10,9 @@ namespace Box.V2.Models
         /// The name of the item
         /// </summary>
         [JsonProperty(PropertyName = FieldName)]
-        public string Name { get; private set; }
+        public virtual string Name { get; private set; }
 
         [JsonProperty(PropertyName = FieldCollectionType)]
-        public string CollectionType { get; private set; }
+        public virtual string CollectionType { get; private set; }
     }
 }

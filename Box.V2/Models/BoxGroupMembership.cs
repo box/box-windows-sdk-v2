@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -20,31 +17,31 @@ namespace Box.V2.Models
         /// <summary>
         /// The role of the user in this group
         /// </summary>
-        [JsonProperty (PropertyName = FieldRole)]
-        public string Role { get; set; }
+        [JsonProperty(PropertyName = FieldRole)]
+        public virtual string Role { get; set; }
 
         /// <summary>
         /// Date and time this membership was created
         /// </summary>
-        [JsonProperty (PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; set; }
+        [JsonProperty(PropertyName = FieldCreatedAt)]
+        public virtual DateTimeOffset? CreatedAt { get; set; }
 
         /// <summary>
         /// Date and time this membership was modified
         /// </summary>
-        [JsonProperty (PropertyName = FieldModifiedAt)]
-        public DateTime? ModifiedAt { get; set; }
+        [JsonProperty(PropertyName = FieldModifiedAt)]
+        public virtual DateTimeOffset? ModifiedAt { get; set; }
 
         /// <summary>
         /// The user in this membership
         /// </summary>
-        [JsonProperty (PropertyName = FieldUser)]
-        public BoxUser User { get; set; }
+        [JsonProperty(PropertyName = FieldUser)]
+        public virtual BoxUser User { get; set; }
 
         /// <summary>
         /// The group in this membership
         /// </summary>
-        [JsonProperty (PropertyName = FieldGroup)]
-        public BoxGroup Group { get; set; }
+        [JsonProperty(PropertyName = FieldGroup)]
+        public virtual BoxGroup Group { get; set; }
     }
 }

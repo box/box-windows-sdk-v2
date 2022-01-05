@@ -27,6 +27,7 @@ file's contents, upload new versions, and perform other common file operations
 - [Get Embed Link](#get-embed-link)
 - [Get Representation Info](#get-representation-info)
 - [Get Thumbnail](#get-thumbnail)
+- [Download a Zip File](#download-a-zip-file)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -300,4 +301,30 @@ A thumbnail for a file can be retrieved by calling
 <!-- sample get_files_id_thumbnail_id -->
 ```c#
 Stream thumbnailContents = await client.FilesManager.GetThumbnailAsync("11111", maxWidth: 160, maxHeight: 160);
+```
+
+Download a Zip File
+-------------------
+Calling `FilesManager.DownloadZip(BoxZipRequest zipRequest, OutputStream output)` will let you create a new zip file with the specified name and with the specified items and download it to the stream that is passed in. The return object is a `BoxZipDownloadStatus` object that contains information about the download, including whether it was successful. The created zip file does not show up in your Box account.
+
+```c#
+BoxZipRequest request = new BoxZipRequest();
+request.Name = "test";
+request.Items = new List<BoxZipItemRequest>();
+
+var file = new BoxZipRequestItem()
+{
+    Id = "466239504569",
+    Type = BoxZipItemType.file
+};
+var folder = new BoxZipRequestItem()
+{
+    Id = "466239504580",
+    Type = BoxZipItemType.folder
+};
+request.Items.Add(file);
+request.Items.Add(folder);
+Stream fs = new FileStream(@"c:\temp\MyTest.zip");
+
+BoxZipDownloadStatus status = await _filesManager.DownloadZip(request, fs);
 ```

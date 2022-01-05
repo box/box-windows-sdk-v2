@@ -1,13 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
-using Box.V2.Services;
-using Moq;
-using Box.V2.Auth;
+using System;
 using System.Collections.Generic;
-using Box.V2.Request;
+using System.Threading.Tasks;
+using Box.V2.Auth;
 using Box.V2.Converter;
-using Box.V2.Config;
+using Box.V2.Request;
+using Box.V2.Services;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Box.V2.Test
 {
@@ -17,8 +16,6 @@ namespace Box.V2.Test
         private readonly IBoxConverter _converter;
         private readonly Mock<IRequestHandler> _handler;
         private readonly IBoxService _service;
-        private readonly Mock<IBoxConfig> _boxConfig;
-        private readonly IAuthRepository _authRepository;
 
         public BoxServiceTest()
         {
@@ -26,20 +23,16 @@ namespace Box.V2.Test
             _converter = new BoxJsonConverter();
             _handler = new Mock<IRequestHandler>();
             _service = new BoxService(_handler.Object);
-            _boxConfig = new Mock<IBoxConfig>();
-
-            OAuthSession session = new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer");
-
-            _authRepository = new AuthRepository(_boxConfig.Object, _service, _converter, session);
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task QueueTask_MultipleThreads_OrderedResponse()
         {
             /*** Arrange ***/
-            int numTasks = 1000;
+            var numTasks = 1000;
 
-            int count = 0;
+            var count = 0;
 
             // Increments the access token each time a call is made to the API
             _handler.Setup(h => h.ExecuteAsync<OAuthSession>(It.IsAny<IBoxRequest>()))
@@ -52,14 +45,16 @@ namespace Box.V2.Test
             /*** Act ***/
             IBoxRequest request = new BoxRequest(new Uri("http://box.com"), "folders");
 
-            List<Task<IBoxResponse<OAuthSession>>> tasks = new List<Task<IBoxResponse<OAuthSession>>>();
-            for (int i = 0; i < numTasks; i++)
+            var tasks = new List<Task<IBoxResponse<OAuthSession>>>();
+            for (var i = 0; i < numTasks; i++)
+            {
                 tasks.Add(_service.EnqueueAsync<OAuthSession>(request));
+            }
 
             await Task.WhenAll(tasks);
 
             /*** Assert ***/
-            for (int i = 0; i < numTasks; i++)
+            for (var i = 0; i < numTasks; i++)
             {
                 OAuthSession session = _converter.Parse<OAuthSession>(tasks[i].Result.ContentString);
                 Assert.AreEqual(session.AccessToken, i.ToString());

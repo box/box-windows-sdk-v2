@@ -1,11 +1,11 @@
-﻿using Box.V2.Auth;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Box.V2.Auth;
 using Box.V2.Auth.Token;
 using Box.V2.Config;
 using Box.V2.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test.Integration
 {
@@ -16,7 +16,8 @@ namespace Box.V2.Test.Integration
         {
             var auth = new OAuthSession(token, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-            var config = new BoxConfig(string.Empty, string.Empty, new Uri("http://boxsdk"));
+            var config = new BoxConfigBuilder(string.Empty, string.Empty, new Uri("http://boxsdk"))
+                .Build();
             var client = new BoxClient(config, auth);
 
             return client;
@@ -25,12 +26,12 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task TokenExchange_LiveSession()
         {
-            var token = _client.Auth.Session.AccessToken;
+            var token = Client.Auth.Session.AccessToken;
             var fileId = "16894965489";
             var folderId = "1927307787";
 
             var client = CreateClientByToken(token);
-            var fileInfo = await client.FilesManager.GetInformationAsync(fileId);
+            _ = await client.FilesManager.GetInformationAsync(fileId);
 
             // var resource = string.Format("https://api.box.com/2.0/files/{0}", fileId);
             var resource = string.Format("https://api.box.com/2.0/folders/{0}", folderId);
@@ -39,7 +40,7 @@ namespace Box.V2.Test.Integration
             var tokenExchange = new TokenExchange(token, scopes);
 
             // Check resource to be optional
-            var token1 = tokenExchange.Exchange();
+            var token1 = tokenExchange.ExchangeAsync().Result;
             var client1 = CreateClientByToken(token1);
 
             // Should be able to access the file
@@ -48,14 +49,14 @@ namespace Box.V2.Test.Integration
 
             // Set resource
             tokenExchange.SetResource(resource);
-            var token2 = tokenExchange.Exchange();
+            var token2 = tokenExchange.ExchangeAsync().Result;
             var client2 = CreateClientByToken(token2);
             try
             {
                 await client2.FilesManager.GetInformationAsync(fileId);
                 Assert.Fail();
             }
-            catch (BoxException exp)
+            catch (BoxException)
             {
                 // The new token does not have access to the file any more.
             }

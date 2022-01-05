@@ -33,12 +33,13 @@ BoxCollaborationRequest requestParams = new BoxCollaborationRequest()
 {
     Item = new BoxRequestEntity()
     {
-        Type = BoxType.Folder,
+        Type = BoxType.folder,
         Id = "11111"
     },
     Role = "editor",
     AccessibleBy = new BoxCollaborationUserRequest()
     {
+        Type = BoxType.user,
         Id = "22222"
     }
 };
@@ -47,6 +48,28 @@ BoxCollaboration collab = await client.CollaborationsManager.AddCollaborationAsy
 
 Administrators can set the `notify` parameter to `false` to prevent the user who is being collaborated from receiving an
 email notification about the collaboration.
+
+If you want to collaborate a group, provide the type group and the group id.
+
+<!-- sample post_collaborations group-->
+```c#
+// collaborate folder 11111 with group 333333
+BoxCollaborationRequest requestParams = new BoxCollaborationRequest()
+{
+    Item = new BoxRequestEntity()
+    {
+        Type = BoxType.folder,
+        Id = "11111"
+    },
+    Role = "editor",
+    AccessibleBy = new BoxCollaborationUserRequest()
+    {
+        Type = BoxType.group,
+        Id = "333333"
+    }
+};
+BoxCollaboration collab = await client.CollaborationsManager.AddCollaborationAsync(requestParams);
+```
 
 Edit a Collaboration
 --------------------

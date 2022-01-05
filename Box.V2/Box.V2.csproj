@@ -32,25 +32,31 @@
     <DefineConstants>TRACE;RELEASE;NET45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>BoxSDKKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.4\lib\net45\Microsoft.IdentityModel.Logging.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.12.2\lib\net45\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.4\lib\net45\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.12.2\lib\net45\Microsoft.IdentityModel.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.12.2\lib\net45\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.4\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.12.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.12.2\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +70,9 @@
     <Compile Include="Auth\Token\ActorTokenBuilder.cs" />
     <Compile Include="Auth\Token\TokenExchange.cs" />
     <Compile Include="BoxClient.cs" />
+    <Compile Include="Config\BoxConfigBuilder.cs" />
+    <Compile Include="IBoxClient.cs" />
+    <Compile Include="Converter\BoxZipConflictConverter.cs" />
     <Compile Include="JWTAuth\BoxJWTAuth.cs" />
     <Compile Include="Converter\BoxItemConverter.cs" />
     <Compile Include="Exceptions\BoxAuthenticationFailedException.cs" />
@@ -74,11 +83,13 @@
     <Compile Include="Managers\BoxCollectionsManager.cs" />
     <Compile Include="Managers\BoxDevicePinManager.cs" />
     <Compile Include="Managers\BoxEventsManager.cs" />
+    <Compile Include="Managers\BoxFileRequestsManager.cs" />
     <Compile Include="Managers\BoxGroupsManager.cs" />
     <Compile Include="Managers\BoxMetadataManager.cs" />
     <Compile Include="Managers\BoxMetadataCascadePolicyManager.cs" />
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\BoxSharedItemsManager.cs" />
+    <Compile Include="Managers\BoxSignRequestsManager.cs" />
     <Compile Include="Managers\BoxStoragePoliciesManager.cs" />
     <Compile Include="Managers\BoxTasksManager.cs" />
     <Compile Include="Managers\BoxTermsOfServiceManager.cs" />
@@ -86,6 +97,30 @@
     <Compile Include="Managers\BoxLegalHoldPoliciesManager.cs" />
     <Compile Include="Managers\BoxRecentItemsManager.cs" />
     <Compile Include="Managers\BoxWebLinksManager.cs" />
+    <Compile Include="Managers\IBoxCollaborationsManager.cs" />
+    <Compile Include="Managers\IBoxCollaborationWhitelistManager.cs" />
+    <Compile Include="Managers\IBoxCollectionsManager.cs" />
+    <Compile Include="Managers\IBoxCommentsManager.cs" />
+    <Compile Include="Managers\IBoxDevicePinManager.cs" />
+    <Compile Include="Managers\IBoxEventsManager.cs" />
+    <Compile Include="Managers\IBoxFilesManager.cs" />
+    <Compile Include="Managers\IBoxFoldersManager.cs" />
+    <Compile Include="Managers\IBoxGroupsManager.cs" />
+    <Compile Include="Managers\IBoxLegalHoldPoliciesManager.cs" />
+    <Compile Include="Managers\IBoxMetadataCascadePolicyManager.cs" />
+    <Compile Include="Managers\IBoxMetadataManager.cs" />
+    <Compile Include="Managers\IBoxRecentItemsManager.cs" />
+    <Compile Include="Managers\IBoxRetentionPoliciesManager.cs" />
+    <Compile Include="Managers\IBoxSearchManager.cs" />
+    <Compile Include="Managers\IBoxSharedItemsManager.cs" />
+    <Compile Include="Managers\IBoxSignRequestsManager.cs" />
+    <Compile Include="Managers\IBoxStoragePoliciesManager.cs" />
+    <Compile Include="Managers\IBoxTasksManager.cs" />
+    <Compile Include="Managers\IBoxTermsOfServiceManager.cs" />
+    <Compile Include="Managers\IBoxUsersManager.cs" />
+    <Compile Include="Managers\IBoxWebhooksManager.cs" />
+    <Compile Include="Managers\IBoxWebLinksManager.cs" />
+    <Compile Include="Managers\IBoxFileRequestsManager.cs" />
     <Compile Include="Models\BoxApplication.cs" />
     <Compile Include="Models\BoxAssignmentCounts.cs" />
     <Compile Include="Models\BoxClassification.cs" />
@@ -94,7 +129,10 @@
     <Compile Include="Models\BoxEmailAlias.cs" />
     <Compile Include="Models\BoxEnterprise.cs" />
     <Compile Include="Models\BoxEnterpriseEvent.cs" />
+    <Compile Include="Models\BoxFileRequestObject.cs" />
     <Compile Include="Models\BoxFolderEventSource.cs" />
+    <Compile Include="Models\BoxFolderLock.cs" />
+    <Compile Include="Models\BoxFolderLockOperations.cs" />
     <Compile Include="Models\BoxGroupEventSource.cs" />
     <Compile Include="Models\BoxMetadataCascadePolicy.cs" />
     <Compile Include="Models\BoxGroupFileCollaborationEventSource.cs" />
@@ -108,6 +146,7 @@
     <Compile Include="Models\BoxRepresentationInfo.cs" />
     <Compile Include="Models\BoxRepresentationProperties.cs" />
     <Compile Include="Models\BoxRepresentationStatus.cs" />
+    <Compile Include="Models\BoxSearchResult.cs" />
     <Compile Include="Models\BoxSessionEndpoint.cs" />
     <Compile Include="Models\BoxFileUploadSession.cs" />
     <Compile Include="Models\BoxExpiringEmbedLink.cs" />
@@ -126,6 +165,10 @@
     <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
     <Compile Include="Models\BoxRetentionPolicy.cs" />
     <Compile Include="Models\BoxSessionUploadStatus.cs" />
+    <Compile Include="Models\BoxSignRequest.cs" />
+    <Compile Include="Models\BoxSignRequestPrefillTag.cs" />
+    <Compile Include="Models\BoxSignRequestSigner.cs" />
+    <Compile Include="Models\BoxSignRequestSignFiles.cs" />
     <Compile Include="Models\BoxStoragePolicy.cs" />
     <Compile Include="Models\BoxStoragePolicyAssignment.cs" />
     <Compile Include="Models\BoxTask.cs" />
@@ -144,13 +187,22 @@
     <Compile Include="Models\BoxWebLink.cs" />
     <Compile Include="Models\BoxCollaborationWhitelistEntry.cs" />
     <Compile Include="Models\BoxCollaborationWhitelistTargetEntry.cs" />
+    <Compile Include="Models\BoxZip.cs" />
+    <Compile Include="Models\BoxZipConflict.cs" />
+    <Compile Include="Models\BoxZipConflictItem.cs" />
+    <Compile Include="Models\BoxZipDownloadStatus.cs" />
     <Compile Include="Models\Permissions\BoxFilePermission.cs" />
     <Compile Include="Models\BoxFileVersion.cs" />
     <Compile Include="Models\BoxGroup.cs" />
     <Compile Include="Models\BoxGroupMembership.cs" />
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
     <Compile Include="Models\BoxSessionParts.cs" />
+    <Compile Include="Models\Request\BoxFileRequestUpdateRequest.cs" />
+    <Compile Include="Models\Request\BoxFileRequestCopyRequest.cs" />
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
+    <Compile Include="Models\Request\BoxSignRequestCreateRequest.cs" />
+    <Compile Include="Models\Request\BoxTermsOfServiceUserStatusCreateRequest.cs" />
+    <Compile Include="Models\Request\BoxZipRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
     <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
     <Compile Include="Models\Request\BoxMetadataQueryOrderBy.cs" />
@@ -184,11 +236,13 @@
     <Compile Include="Models\Request\BoxUserInviteRequest.cs" />
     <Compile Include="Models\Request\BoxWatermarkRequest.cs" />
     <Compile Include="Models\Request\BoxWebhookRequest.cs" />
+    <Compile Include="Models\Request\BoxZipRequestItem.cs" />
     <Compile Include="Plugin\BoxResourcePlugins.cs" />
     <Compile Include="Plugin\IBoxMetadataManager.cs" />
     <Compile Include="Plugin\IResourcePlugin.cs" />
     <Compile Include="JWTAuth\RSAUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\ReusableContent.cs" />
     <Compile Include="Utility\AssemblyInfo.cs" />
     <Compile Include="Utility\BoxProgess.cs" />
     <Compile Include="Utility\CrossPlatform.cs" />

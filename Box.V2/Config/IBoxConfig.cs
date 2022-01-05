@@ -5,9 +5,10 @@ namespace Box.V2.Config
 {
     public interface IBoxConfig
     {
-        Uri BoxApiHostUri { get; set; }
-        Uri BoxApiUri { get; set; }
-        Uri BoxUploadApiUri { get; set; }
+        Uri BoxApiHostUri { get; }
+        Uri BoxAccountApiHostUri { get; }
+        Uri BoxApiUri { get; }
+        Uri BoxUploadApiUri { get; }
 
         string ClientId { get; }
         string ConsumerKey { get; }
@@ -19,9 +20,9 @@ namespace Box.V2.Config
         string JWTPrivateKeyPassword { get; }
         string JWTPublicKeyId { get; }
 
-        string DeviceId { get; set; }
-        string DeviceName { get; set; }
-        string UserAgent { get; set; }
+        string DeviceId { get; }
+        string DeviceName { get; }
+        string UserAgent { get; }
 
         /// <summary>
         /// Sends compressed responses from Box for faster response times
@@ -40,7 +41,6 @@ namespace Box.V2.Config
         Uri FilesUploadSessionEndpointUri { get; }
 
         Uri FilesPreflightCheckUri { get; }
-        //Uri FilesPreflightCheckNewVersionUri { get; }
         Uri CommentsEndpointUri { get; }
         Uri SearchEndpointUri { get; }
         Uri UserEndpointUri { get; }
@@ -112,10 +112,33 @@ namespace Box.V2.Config
         /// Gets the file viersion legal holds endpoint URI.
         /// </summary>
         Uri FileVersionLegalHoldsEndpointUri { get; }
-
+        /// <summary>
+        /// Gets the zip downloads endpoint URI.
+        /// </summary>
+        Uri ZipDownloadsEndpointUri { get; }
+        /// <summary>
+        /// Gets the folder locks endpoint URI.
+        /// </summary>
+        Uri FolderLocksEndpointUri { get; }
+        /// <summary>
+        /// Gets the sign requests endpoint URI.
+        /// </summary>
+        Uri SignRequestsEndpointUri { get; }
+        /// <summary>
+        /// Gets the sign requests endpoint URI with path.
+        /// </summary>
+        Uri SignRequestsEndpointWithPathUri { get; }
+        /// <summary>
+        /// Gets the file requests endpoint URI with path.
+        /// </summary>
+        Uri FileRequestsEndpointWithPathUri { get; }
         /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>
-        IWebProxy WebProxy { get; set; }
+        IWebProxy WebProxy { get; }
+        /// <summary>
+        /// Timeout for the connection
+        /// </summary>
+        TimeSpan? Timeout { get; }
     }
 }

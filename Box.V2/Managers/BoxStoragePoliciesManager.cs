@@ -1,16 +1,15 @@
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
-using Box.V2.Extensions;
 using Box.V2.Converter;
+using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using System.Threading.Tasks;
-using System;
 using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Managers
 {
-    public class BoxStoragePoliciesManager : BoxResourceManager
+    public class BoxStoragePoliciesManager : BoxResourceManager, IBoxStoragePoliciesManager
     {
         /// <summary>
         /// Create a new BoxStoragePolicies object.
@@ -23,7 +22,7 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="policyId">Id of the Box Storage Policy to retrieve.</param>
         /// <returns>If the Id is valid, information about the Box Storage Policy is returned. </returns>
-        public async Task<BoxStoragePolicy> GetStoragePolicyAsync(String policyId)
+        public async Task<BoxStoragePolicy> GetStoragePolicyAsync(string policyId)
         {
             policyId.ThrowIfNullOrWhiteSpace("policyId");
 
@@ -53,8 +52,8 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxStoragePolicy>(request, limit);
-            } 
+                return await AutoPaginateMarker<BoxStoragePolicy>(request, limit).ConfigureAwait(false);
+            }
             else
             {
                 IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicy>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxStoragePolicy>>(request).ConfigureAwait(false);
@@ -95,7 +94,7 @@ namespace Box.V2.Managers
                 .Param("resolved_for_id", entityId);
 
             IBoxResponse<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxStoragePolicyAssignment>>(request).ConfigureAwait(false);
-            return response.ResponseObject.Entries[0];   
+            return response.ResponseObject.Entries[0];
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace Box.V2.Managers
         /// <param name="assignmentId">Storage Policy assignment Id to update.</param>
         /// <param name="policyId">"The Id of the Storage Policy to update to."</param>
         /// <returns></returns> The updated Storage Policy object with new assignment.
-        public async Task<BoxStoragePolicyAssignment> UpdateStoragePolicyAssignment(string assignmentId, String policyId)
+        public async Task<BoxStoragePolicyAssignment> UpdateStoragePolicyAssignment(string assignmentId, string policyId)
         {
             policyId.ThrowIfNullOrWhiteSpace("policyId");
 
@@ -185,19 +184,16 @@ namespace Box.V2.Managers
             userId.ThrowIfNullOrWhiteSpace("userId");
             storagePolicyId.ThrowIfNullOrWhiteSpace("storagePolicyId");
 
-            var result = await GetAssignmentForTargetAsync(userId);
+            var result = await GetAssignmentForTargetAsync(userId).ConfigureAwait(false);
 
-            if(result.BoxStoragePolicy.Id.Equals(storagePolicyId))
+            if (result.BoxStoragePolicy.Id.Equals(storagePolicyId))
             {
                 return result;
             }
 
-            if(result.AssignedTo.Type.Equals("enterprise"))
-            {
-                return await CreateAssignmentAsync(userId, storagePolicyId);
-            }
-
-            return await UpdateStoragePolicyAssignment(result.Id, storagePolicyId);
+            return result.AssignedTo.Type.Equals("enterprise")
+                ? await CreateAssignmentAsync(userId, storagePolicyId).ConfigureAwait(false)
+                : await UpdateStoragePolicyAssignment(result.Id, storagePolicyId).ConfigureAwait(false);
         }
     }
 }

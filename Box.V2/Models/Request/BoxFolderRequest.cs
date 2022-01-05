@@ -1,9 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Box.V2.Models
 {
@@ -19,8 +15,8 @@ namespace Box.V2.Models
         public BoxEmailRequest FolderUploadEmail { get; set; }
 
         /// <summary>
-        /// The user who owns the folder. Only used when moving a collaborated folder that you are not the owner of to a folder you are the owner of. 
-        /// Not a substitute for changing folder owners, please reference collaborations <see cref="http://developers.box.com/docs/#collaborations"/>
+        /// The user who owns the folder. Only used when moving a collaborated folder that you are not the owner of to a folder you are the owner of.
+        /// Not a substitute for changing folder owners, please reference collaborations see <a href="http://developers.box.com/docs/#collaborations"/>
         /// to accomplish folder ownership changes.
         /// </summary>
         [JsonProperty(PropertyName = "owned_by")]
@@ -38,6 +34,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "can_non_owners_invite")]
         public bool? CanNonOwnersInvite { get; set; }
-    }
 
+        /// <summary>
+        /// Setting to determine if collaboration on a folder is restricted to be within an enterprise only.
+        /// </summary>
+        [JsonProperty(PropertyName = "is_collaboration_restricted_to_enterprise")]
+        public bool? CollaborationRestricted { get; set; }
+    }
 }

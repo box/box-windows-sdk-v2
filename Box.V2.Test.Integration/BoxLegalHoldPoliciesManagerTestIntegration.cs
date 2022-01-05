@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Box.V2.Models;
-using Box.V2.Exceptions;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Box.V2.Exceptions;
+using Box.V2.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test.Integration
 {
@@ -14,43 +14,47 @@ namespace Box.V2.Test.Integration
         public async Task LegalHoldPoliciesWorkflow_ValidRequest()
         {
             // Init
-            var policyName = "PN" + Guid.NewGuid().ToString().Substring(0,4);
+            var policyName = "PN" + Guid.NewGuid().ToString().Substring(0, 4);
             var newPolicyName = "N" + policyName;
             var description = "DESC";
-            var filterStarted = DateTime.Now.AddDays(-30);
-            var filterEnded = DateTime.Now.AddDays(-15);
+            var filterStarted = DateTimeOffset.Now.AddDays(-30);
+            var filterEnded = DateTimeOffset.Now.AddDays(-15);
 
             // Create with filter_date
-            var legalHold = await _client.LegalHoldPoliciesManager.CreateLegalHoldPolicyAsync(new BoxLegalHoldPolicyRequest() {
+            var legalHold = await Client.LegalHoldPoliciesManager.CreateLegalHoldPolicyAsync(new BoxLegalHoldPolicyRequest()
+            {
                 PolicyName = policyName,
                 Description = description,
                 FilterStartedAt = filterStarted,
-                FilterEndedAt = filterEnded 
+                FilterEndedAt = filterEnded
             });
 
             Assert.IsNotNull(legalHold.Id);
             Assert.IsFalse(legalHold.IsOngoing);
 
             // Update
-            var uLegalHold = await _client.LegalHoldPoliciesManager.UpdateLegalHoldPolicyAsync(legalHold.Id, new BoxLegalHoldPolicyRequest() {
+            var uLegalHold = await Client.LegalHoldPoliciesManager.UpdateLegalHoldPolicyAsync(legalHold.Id, new BoxLegalHoldPolicyRequest()
+            {
                 PolicyName = newPolicyName
             });
 
             Assert.AreEqual(newPolicyName, uLegalHold.PolicyName);
 
             // Get
-            var gLegalHold = await _client.LegalHoldPoliciesManager.GetLegalHoldPolicyAsync(legalHold.Id);
+            var gLegalHold = await Client.LegalHoldPoliciesManager.GetLegalHoldPolicyAsync(legalHold.Id);
             Assert.AreEqual(newPolicyName, gLegalHold.PolicyName);
 
             // Gets
-            var gLegalHolds = await _client.LegalHoldPoliciesManager.GetListLegalHoldPoliciesAsync();
+            var gLegalHolds = await Client.LegalHoldPoliciesManager.GetListLegalHoldPoliciesAsync();
             Assert.AreEqual(newPolicyName, gLegalHolds.Entries.Single(lh => lh.PolicyName == newPolicyName).PolicyName);
 
             // Create assignment
             var fileId = "102438629524";
-            var legalHoldAssignment = await _client.LegalHoldPoliciesManager.CreateAssignmentAsync(new BoxLegalHoldPolicyAssignmentRequest() {
+            var legalHoldAssignment = await Client.LegalHoldPoliciesManager.CreateAssignmentAsync(new BoxLegalHoldPolicyAssignmentRequest()
+            {
                 PolicyId = legalHold.Id,
-                AssignTo = new BoxRequestEntity() {
+                AssignTo = new BoxRequestEntity()
+                {
                     Id = fileId,
                     Type = BoxType.file
                 }
@@ -59,37 +63,40 @@ namespace Box.V2.Test.Integration
             Assert.IsNotNull(legalHoldAssignment.Id);
 
             // Get assignment
-            var gLegalHoldAssignment = await _client.LegalHoldPoliciesManager.GetAssignmentAsync(legalHoldAssignment.Id);
+            var gLegalHoldAssignment = await Client.LegalHoldPoliciesManager.GetAssignmentAsync(legalHoldAssignment.Id);
 
             Assert.AreEqual(legalHoldAssignment.Id, gLegalHoldAssignment.Id);
 
             // Get assignments
-            var gLegalHoldAssignments = await _client.LegalHoldPoliciesManager.GetAssignmentsAsync(legalHold.Id);
+            var gLegalHoldAssignments = await Client.LegalHoldPoliciesManager.GetAssignmentsAsync(legalHold.Id);
 
             Assert.AreEqual(legalHoldAssignment.Id, gLegalHoldAssignments.Entries.Single(lha => lha.Id == gLegalHoldAssignment.Id).Id);
 
             // Get file version legal holds
-            var fileVersionLegalHolds = await _client.LegalHoldPoliciesManager.GetFileVersionLegalHoldsAsync(legalHold.Id);
+            var fileVersionLegalHolds = await Client.LegalHoldPoliciesManager.GetFileVersionLegalHoldsAsync(legalHold.Id);
 
-            if (fileVersionLegalHolds.Entries.Count > 0) {
+            if (fileVersionLegalHolds.Entries.Count > 0)
+            {
                 var fileVersionLegalHoldId = fileVersionLegalHolds.Entries[0].Id;
 
                 // Get file version legal hold
-                var fileVersionLegalHold = await _client.LegalHoldPoliciesManager.GetFileVersionLegalHoldAsync(fileVersionLegalHoldId);
+                var fileVersionLegalHold = await Client.LegalHoldPoliciesManager.GetFileVersionLegalHoldAsync(fileVersionLegalHoldId);
 
                 Assert.AreEqual(fileVersionLegalHoldId, fileVersionLegalHold.Id);
             }
 
             // Delete assignment
-            try {
-                var deleted1 = await _client.LegalHoldPoliciesManager.DeleteAssignmentAsync(legalHoldAssignment.Id);
+            try
+            {
+                var deleted1 = await Client.LegalHoldPoliciesManager.DeleteAssignmentAsync(legalHoldAssignment.Id);
                 Assert.IsTrue(deleted1);
 
                 // Delete
-                var deleted2 = await _client.LegalHoldPoliciesManager.DeleteLegalHoldPolicyAsync(legalHold.Id);
+                var deleted2 = await Client.LegalHoldPoliciesManager.DeleteLegalHoldPolicyAsync(legalHold.Id);
                 Assert.IsTrue(deleted2);
             }
-            catch (BoxConflictException<BoxLegalHoldPolicyAssignment> exp) {
+            catch (BoxConflictException<BoxLegalHoldPolicyAssignment>)
+            {
                 // 409 will cause exception
             }
         }
@@ -99,11 +106,11 @@ namespace Box.V2.Test.Integration
         {
             // Init
             var policyName = "PN" + Guid.NewGuid().ToString().Substring(0, 4);
-            var newPolicyName = "N" + policyName;
+            _ = "N" + policyName;
             var description = "DESC";
 
             // Create with is_ongoing
-            var legalHold = await _client.LegalHoldPoliciesManager.CreateLegalHoldPolicyAsync(new BoxLegalHoldPolicyRequest()
+            var legalHold = await Client.LegalHoldPoliciesManager.CreateLegalHoldPolicyAsync(new BoxLegalHoldPolicyRequest()
             {
                 PolicyName = policyName,
                 Description = description,
@@ -114,7 +121,7 @@ namespace Box.V2.Test.Integration
             Assert.IsTrue(legalHold.IsOngoing);
 
             // Delete
-            var deleted = await _client.LegalHoldPoliciesManager.DeleteLegalHoldPolicyAsync(legalHold.Id);
+            var deleted = await Client.LegalHoldPoliciesManager.DeleteLegalHoldPolicyAsync(legalHold.Id);
             Assert.IsTrue(deleted);
         }
     }

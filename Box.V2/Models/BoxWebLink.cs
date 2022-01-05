@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -11,6 +8,6 @@ namespace Box.V2.Models
         public const string FieldUrl = "url";
 
         [JsonProperty(PropertyName = FieldUrl)]
-        public Uri Url { get; private set; }
+        public virtual Uri Url { get; private set; }
     }
 }

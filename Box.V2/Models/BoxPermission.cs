@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -12,12 +11,12 @@ namespace Box.V2.Models
         /// Whether the item can be downloaded or not
         /// </summary>
         [JsonProperty("can_download")]
-        public bool CanDownload { get; set; }
+        public virtual bool CanDownload { get; set; }
 
         /// <summary>
         /// Whether the item can be previewed or not
         /// </summary>
         [JsonProperty("can_preview")]
-        public bool CanPreview { get; set; }
+        public virtual bool CanPreview { get; set; }
     }
 }

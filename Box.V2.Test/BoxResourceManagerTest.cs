@@ -1,3 +1,7 @@
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -6,9 +10,6 @@ using Box.V2.Services;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Text;
-using System.Reflection;
 
 namespace Box.V2.Test
 {
@@ -26,6 +27,10 @@ namespace Box.V2.Test
         protected Uri MetadataQueryUri = new Uri(Constants.MetadataQueryEndpointString);
         protected Uri UserUri = new Uri(Constants.UserEndpointString);
         protected Uri InviteUri = new Uri(Constants.BoxApiUriString + Constants.InviteString);
+        protected Uri FolderLocksUri = new Uri(Constants.FolderLocksEndpointString);
+        protected Uri SignRequestUri = new Uri(Constants.SignRequestsEndpointString);
+        protected Uri SignRequestWithPathUri = new Uri(Constants.SignRequestsWithPathEndpointString);
+        protected Uri FileRequestsWithPathUri = new Uri(Constants.FileRequestsWithPathEndpointString);
 
         protected BoxResourceManagerTest()
         {
@@ -41,6 +46,10 @@ namespace Box.V2.Test
             Config.SetupGet(x => x.MetadataQueryUri).Returns(MetadataQueryUri);
             Config.SetupGet(x => x.UserEndpointUri).Returns(UserUri);
             Config.SetupGet(x => x.InviteEndpointUri).Returns(InviteUri);
+            Config.SetupGet(x => x.FolderLocksEndpointUri).Returns(FolderLocksUri);
+            Config.SetupGet(x => x.SignRequestsEndpointUri).Returns(SignRequestUri);
+            Config.SetupGet(x => x.SignRequestsEndpointWithPathUri).Returns(SignRequestWithPathUri);
+            Config.SetupGet(x => x.FileRequestsEndpointWithPathUri).Returns(FileRequestsWithPathUri);
 
             AuthRepository = new AuthRepository(Config.Object, Service, Converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }
@@ -56,7 +65,7 @@ namespace Box.V2.Test
         public static string HexStringFromBytes(byte[] bytes)
         {
             var sb = new StringBuilder();
-            foreach (byte b in bytes)
+            foreach (var b in bytes)
             {
                 var hex = b.ToString("x2");
                 sb.Append(hex);
@@ -65,18 +74,24 @@ namespace Box.V2.Test
         }
         public static T CreateInstanceNonPublicConstructor<T>()
         {
-            Type[] pTypes = new Type[0];
+            _ = new Type[0];
 
             ConstructorInfo[] c = typeof(T).GetConstructors
                 (BindingFlags.NonPublic | BindingFlags.Instance
                 );
 
-            T inst =
+            var inst =
                 (T)c[0].Invoke(BindingFlags.NonPublic,
                                null,
                                null,
                                System.Threading.Thread.CurrentThread.CurrentCulture);
             return inst;
+        }
+
+        public string LoadFixtureFromJson(string path)
+        {
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+            return File.ReadAllText(filePath);
         }
     }
 }

@@ -1,22 +1,21 @@
-﻿using Box.V2.Auth;
-using Box.V2.Config;
-using Box.V2.Converter;
-using Box.V2.Models;
-using Box.V2.Services;
-using Box.V2.Extensions;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Text;
-using System.Security.Cryptography;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using Box.V2.Auth;
+using Box.V2.Config;
+using Box.V2.Converter;
+using Box.V2.Extensions;
+using Box.V2.Models;
+using Box.V2.Services;
 
 namespace Box.V2.Managers
 {
     /// <summary>
     /// The manager that represents the webhooks V2 endpoints.
     /// </summary>
-    public class BoxWebhooksManager : BoxResourceManager
+    public class BoxWebhooksManager : BoxResourceManager, IBoxWebhooksManager
     {
         public BoxWebhooksManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
@@ -47,7 +46,7 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
-            BoxRequest request = new BoxRequest(_config.WebhooksUri, id);
+            var request = new BoxRequest(_config.WebhooksUri, id);
 
             IBoxResponse<BoxWebhook> response = await ToResponseAsync<BoxWebhook>(request).ConfigureAwait(false);
 
@@ -97,7 +96,7 @@ namespace Box.V2.Managers
         /// <param name="nextMarker">Optional. Used to indicate starting point for next batch of webhooks.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns all defined webhooks for the requesting application and user, up to the limit.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxWebhook>> GetWebhooksAsync (int limit = 100, string nextMarker = null, bool autoPaginate=false)
+        public async Task<BoxCollectionMarkerBased<BoxWebhook>> GetWebhooksAsync(int limit = 100, string nextMarker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.WebhooksUri)
                 .Param("limit", limit.ToString())
@@ -105,7 +104,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxWebhook>(request, limit);
+                return await AutoPaginateMarker<BoxWebhook>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -118,7 +117,7 @@ namespace Box.V2.Managers
         /// Used to validate an incoming webhook by computing cryptographic digests of the notification's payload and comparing them
         /// to the digests computed by Box and placed in the BOX-SIGNATURE-PRIMARY and BOX-SIGNATURE-SECONDARY request headers.
         /// 
-        /// For more information about validating webhooks see  <see cref="https://developer.box.com/en/guides/webhooks/handle/setup-signatures/"/>
+        /// For more information about validating webhooks see <a href="https://developer.box.com/en/guides/webhooks/handle/setup-signatures/"/>
         /// </summary>
         /// <param name="deliveryTimestamp">Value in BOX-DELIVERY-TIMESTAMP header.</param>
         /// <param name="signaturePrimary">Value in BOX-SIGNATURE-PRIMARY header.</param>
@@ -127,7 +126,7 @@ namespace Box.V2.Managers
         /// <param name="primaryWebhookKey">Primary webhook signature key.</param>
         /// <param name="secondaryWebhookKey">Secondary webhook signature key.</param>
         /// <returns>Returns true if at least one of the two webhook signatures match the computed signature.</returns>
-        public static bool VerifyWebhook(string deliveryTimestamp, string signaturePrimary, string signatureSecondary, string payload, 
+        public static bool VerifyWebhook(string deliveryTimestamp, string signaturePrimary, string signatureSecondary, string payload,
                                          string primaryWebhookKey, string secondaryWebhookKey)
         {
             var primaryKeyBytes = Encoding.UTF8.GetBytes(primaryWebhookKey);
@@ -137,7 +136,7 @@ namespace Box.V2.Managers
             using (var hmacsha256Primary = new HMACSHA256(primaryKeyBytes))
             using (var hmacsha256Secondary = new HMACSHA256(secondaryKeyBytes))
             {
-                byte[] hashBytes = hmacsha256Primary.ComputeHash(allBytes);
+                var hashBytes = hmacsha256Primary.ComputeHash(allBytes);
                 var hashPrimary = Convert.ToBase64String(hashBytes);
 
                 hashBytes = hmacsha256Secondary.ComputeHash(allBytes);

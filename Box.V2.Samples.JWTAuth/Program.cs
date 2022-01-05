@@ -1,24 +1,23 @@
-﻿using Box.V2.Config;
-using Box.V2.JWTAuth;
-using Box.V2.Models;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Threading.Tasks;
+using Box.V2.Config;
+using Box.V2.JWTAuth;
+using Box.V2.Models;
 
 namespace Box.V2.Samples.JWTAuth
 {
-    class Program
+    internal class Program
     {
         // modify the app.config file to reflect your Box app config values
-        static readonly string CLIENT_ID = ConfigurationManager.AppSettings["boxClientId"];
-        static readonly string CLIENT_SECRET = ConfigurationManager.AppSettings["boxClientSecret"];
-        static readonly string ENTERPRISE_ID = ConfigurationManager.AppSettings["boxEnterpriseId"];
-        static readonly string JWT_PRIVATE_KEY_PASSWORD = ConfigurationManager.AppSettings["boxPrivateKeyPassword"];
-        static readonly string JWT_PUBLIC_KEY_ID = ConfigurationManager.AppSettings["boxPublicKeyId"];
+        private static readonly string _clientId = ConfigurationManager.AppSettings["boxClientId"];
+        private static readonly string _clientSecret = ConfigurationManager.AppSettings["boxClientSecret"];
+        private static readonly string _enterpriseId = ConfigurationManager.AppSettings["boxEnterpriseId"];
+        private static readonly string _jwtPrivateKeyPassword = ConfigurationManager.AppSettings["boxPrivateKeyPassword"];
+        private static readonly string _jwtPublicKeyId = ConfigurationManager.AppSettings["boxPublicKeyId"];
 
-        static void Main(string[] args)
+        private static void Main()
         {
             Task t = MainAsync();
             t.Wait();
@@ -28,15 +27,16 @@ namespace Box.V2.Samples.JWTAuth
             Console.ReadLine();
         }
 
-        static async Task MainAsync()
+        private static async Task MainAsync()
         {
             // rename the private_key.pem.example to private_key.pem and put your JWT private key in the file
-            var privateKey = File.ReadAllText("private_key.pem");
+            var privateKey = File.ReadAllText("private_key.pem.example");
 
-            var boxConfig = new BoxConfig(CLIENT_ID, CLIENT_SECRET, ENTERPRISE_ID, privateKey, JWT_PRIVATE_KEY_PASSWORD, JWT_PUBLIC_KEY_ID);
+            var boxConfig = new BoxConfigBuilder(_clientId, _clientSecret, _enterpriseId, privateKey, _jwtPrivateKeyPassword, _jwtPublicKeyId)
+                .Build();
             var boxJWT = new BoxJWTAuth(boxConfig);
 
-            var adminToken = boxJWT.AdminToken();
+            var adminToken = await boxJWT.AdminTokenAsync();
             Console.WriteLine("Admin Token: " + adminToken);
             Console.WriteLine();
 
@@ -60,7 +60,7 @@ namespace Box.V2.Samples.JWTAuth
             var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
             Console.WriteLine("Created App User");
 
-            var userToken = boxJWT.UserToken(appUser.Id);
+            var userToken = await boxJWT.UserTokenAsync(appUser.Id);
             var userClient = boxJWT.UserClient(userToken, appUser.Id);
 
             var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();

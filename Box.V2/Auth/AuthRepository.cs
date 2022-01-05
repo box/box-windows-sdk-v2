@@ -1,13 +1,13 @@
-﻿using Box.V2.Config;
-using Box.V2.Converter;
-using Box.V2.Exceptions;
-using Box.V2.Extensions;
-using Box.V2.Services;
 // using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Box.V2.Config;
+using Box.V2.Converter;
+using Box.V2.Exceptions;
+using Box.V2.Extensions;
+using Box.V2.Services;
 
 namespace Box.V2.Auth
 {
@@ -21,7 +21,7 @@ namespace Box.V2.Auth
         protected IBoxService _service;
         protected IBoxConverter _converter;
 
-        private List<string> _expiredTokens = new List<string>();
+        private readonly List<string> _expiredTokens = new List<string>();
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Box.V2.Auth
         /// <returns>The session of the Box Client after authentification</returns>
         public virtual async Task<OAuthSession> AuthenticateAsync(string authCode)
         {
-            OAuthSession session = await ExchangeAuthCode(authCode);
+            OAuthSession session = await ExchangeAuthCode(authCode).ConfigureAwait(false);
 
             await _mutex.WaitAsync().ConfigureAwait(false);
             // using (await _mutex.LockAsync().ConfigureAwait(false))
@@ -147,7 +147,7 @@ namespace Box.V2.Auth
                 _mutex.Release();
             }
 
-            await InvalidateTokens(token);
+            await InvalidateTokens(token).ConfigureAwait(false);
         }
 
         #endregion
@@ -210,10 +210,7 @@ namespace Box.V2.Auth
             OnSessionInvalidated();
 
             // As well as the caller
-            throw new BoxSessionInvalidatedException()
-            {
-                StatusCode = boxResponse.StatusCode,
-            };
+            throw BoxSessionInvalidatedException.GetResponseException("The API returned an error", boxResponse);
         }
 
         /// <summary>

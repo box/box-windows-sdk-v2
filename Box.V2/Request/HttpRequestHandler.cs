@@ -1,7 +1,4 @@
-using Box.V2.Config;
-using Box.V2.Utility;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,6 +7,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Box.V2.Config;
+using Box.V2.Utility;
 
 namespace Box.V2.Request
 {
@@ -17,18 +16,23 @@ namespace Box.V2.Request
     {
         public const HttpStatusCode TooManyRequests = (HttpStatusCode)429;
         public const int RetryLimit = 5;
-        readonly TimeSpan defaultRequestTimeout = new TimeSpan(0, 0, 100); // 100 seconds, same as default HttpClient timeout
+        private readonly TimeSpan _defaultRequestTimeout = new TimeSpan(0, 0, 100); // 100 seconds, same as default HttpClient timeout
+        private readonly TimeSpan _timeout;
 
-        public HttpRequestHandler(IWebProxy webProxy = null)
+        public HttpRequestHandler(IWebProxy webProxy = null, TimeSpan? timeout = null)
         {
             ClientFactory.WebProxy = webProxy;
+#if NET45
+            System.Net.ServicePointManager.Expect100Continue = false;
+#endif
+            _timeout = timeout ?? _defaultRequestTimeout;
         }
 
         public async Task<IBoxResponse<T>> ExecuteAsyncWithoutRetry<T>(IBoxRequest request)
             where T : class
         {
             // Need to account for special cases when the return type is a stream
-            bool isStream = typeof(T) == typeof(Stream);
+            var isStream = typeof(T) == typeof(Stream);
 
             try
             {
@@ -36,10 +40,10 @@ namespace Box.V2.Request
                 var isMultiPartRequest = request.GetType() == typeof(BoxMultiPartRequest);
                 var isBinaryRequest = request.GetType() == typeof(BoxBinaryRequest);
 
-                HttpRequestMessage httpRequest = getHttpRequest(request, isMultiPartRequest, isBinaryRequest);
+                HttpRequestMessage httpRequest = GetHttpRequest(request, isMultiPartRequest, isBinaryRequest);
                 Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
-                HttpResponseMessage response = await getResponse(request, isStream, httpRequest).ConfigureAwait(false);
-                BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response).ConfigureAwait(false);
+                HttpResponseMessage response = await GetResponse(request, isStream, httpRequest).ConfigureAwait(false);
+                BoxResponse<T> boxResponse = await GetBoxResponse<T>(isStream, response).ConfigureAwait(false);
 
                 return boxResponse;
             }
@@ -54,9 +58,9 @@ namespace Box.V2.Request
             where T : class
         {
             // Need to account for special cases when the return type is a stream
-            bool isStream = typeof(T) == typeof(Stream);
+            var isStream = typeof(T) == typeof(Stream);
             var retryCounter = 0;
-            ExponentialBackoff expBackoff = new ExponentialBackoff();
+            var expBackoff = new ExponentialBackoff();
 
             try
             {
@@ -66,41 +70,42 @@ namespace Box.V2.Request
 
                 while (true)
                 {
-                    HttpRequestMessage httpRequest = getHttpRequest(request, isMultiPartRequest, isBinaryRequest);
-                    Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
-                    HttpResponseMessage response = await getResponse(request, isStream, httpRequest).ConfigureAwait(false);
-
-                    //need to wait for Retry-After seconds and then retry request
-                    var retryAfterHeader = response.Headers.RetryAfter;
-
-                    // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
-                    // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
-                    // If we get a 202 code and has a retry-after header, we will retry after
-                    if (!isMultiPartRequest &&
-                        (response.StatusCode == TooManyRequests
-                        ||
-                        response.StatusCode == HttpStatusCode.InternalServerError
-                        ||
-                        response.StatusCode == HttpStatusCode.BadGateway
-                        ||
-                        response.StatusCode == HttpStatusCode.ServiceUnavailable
-                        ||
-                        response.StatusCode == HttpStatusCode.GatewayTimeout
-                        ||
-                        (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null))
-                        && retryCounter++ < RetryLimit)
+                    using (HttpRequestMessage httpRequest = GetHttpRequest(request, isMultiPartRequest, isBinaryRequest))
                     {
-                        TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
+                        Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
+                        HttpResponseMessage response = await GetResponse(request, isStream, httpRequest).ConfigureAwait(false);
+                        //need to wait for Retry-After seconds and then retry request
+                        var retryAfterHeader = response.Headers.RetryAfter;
 
-                        Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
+                        // If we get a retryable/transient error code and this is not a multi part request (meaning a file upload, which cannot be retried
+                        // because the stream cannot be reset) and we haven't exceeded the number of allowed retries, then retry the request.
+                        // If we get a 202 code and has a retry-after header, we will retry after
+                        if (!isMultiPartRequest &&
+                            (response.StatusCode == TooManyRequests
+                            ||
+                            response.StatusCode == HttpStatusCode.InternalServerError
+                            ||
+                            response.StatusCode == HttpStatusCode.BadGateway
+                            ||
+                            response.StatusCode == HttpStatusCode.ServiceUnavailable
+                            ||
+                            response.StatusCode == HttpStatusCode.GatewayTimeout
+                            ||
+                            (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null))
+                            && retryCounter++ < RetryLimit)
+                        {
+                            TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
 
-                        await Task.Delay(delay);
-                    }
-                    else
-                    {
-                        BoxResponse<T> boxResponse = await getBoxResponse<T>(isStream, response).ConfigureAwait(false);
+                            Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
 
-                        return boxResponse;
+                            await Task.Delay(delay);
+                        }
+                        else
+                        {
+                            BoxResponse<T> boxResponse = await GetBoxResponse<T>(isStream, response).ConfigureAwait(false);
+
+                            return boxResponse;
+                        }
                     }
                 }
             }
@@ -110,7 +115,7 @@ namespace Box.V2.Request
                 throw;
             }
         }
-        private HttpRequestMessage getHttpRequest(IBoxRequest request, bool isMultiPartRequest, bool isBinaryRequest)
+        private HttpRequestMessage GetHttpRequest(IBoxRequest request, bool isMultiPartRequest, bool isBinaryRequest)
         {
             HttpRequestMessage httpRequest;
             if (isMultiPartRequest)
@@ -144,7 +149,7 @@ namespace Box.V2.Request
             return httpRequest;
         }
 
-        private async Task<HttpResponseMessage> getResponse(IBoxRequest request, bool isStream, HttpRequestMessage httpRequest)
+        private async Task<HttpResponseMessage> GetResponse(IBoxRequest request, bool isStream, HttpRequestMessage httpRequest)
         {
             // If we are retrieving a stream, we should return without reading the entire response
             HttpCompletionOption completionOption = isStream ?
@@ -165,7 +170,7 @@ namespace Box.V2.Request
                 }
                 else
                 {
-                    cts.CancelAfter(defaultRequestTimeout);
+                    cts.CancelAfter(_timeout);
                 }
 
                 var timeoutToken = cts.Token;
@@ -192,13 +197,15 @@ namespace Box.V2.Request
             return response;
         }
 
-        private static async Task<BoxResponse<T>> getBoxResponse<T>(bool isStream, HttpResponseMessage response) where T : class
+        private static async Task<BoxResponse<T>> GetBoxResponse<T>(bool isStream, HttpResponseMessage response) where T : class
         {
-            BoxResponse<T> boxResponse = new BoxResponse<T>();
-            boxResponse.Headers = response.Headers;
+            var boxResponse = new BoxResponse<T>
+            {
+                Headers = response.Headers,
 
-            // Translate the status codes that interest us 
-            boxResponse.StatusCode = response.StatusCode;
+                // Translate the status codes that interest us 
+                StatusCode = response.StatusCode
+            };
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
@@ -243,21 +250,21 @@ namespace Box.V2.Request
 
         private class ClientFactory
         {
-            private static readonly Lazy<HttpClient> autoRedirectClient =
+            private static readonly Lazy<HttpClient> _autoRedirectClient =
                 new Lazy<HttpClient>(() => CreateClient(true, WebProxy));
 
-            private static readonly Lazy<HttpClient> nonAutoRedirectClient =
+            private static readonly Lazy<HttpClient> _nonAutoRedirectClient =
                 new Lazy<HttpClient>(() => CreateClient(false, WebProxy));
 
             public static IWebProxy WebProxy { get; set; }
 
             // reuseable HttpClient instance
-            public static HttpClient AutoRedirectClient { get { return autoRedirectClient.Value; } }
-            public static HttpClient NonAutoRedirectClient { get { return nonAutoRedirectClient.Value; } }
+            public static HttpClient AutoRedirectClient { get { return _autoRedirectClient.Value; } }
+            public static HttpClient NonAutoRedirectClient { get { return _nonAutoRedirectClient.Value; } }
 
             private static HttpClient CreateClient(bool followRedirect, IWebProxy webProxy)
             {
-                HttpClientHandler handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
+                var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
                 handler.AllowAutoRedirect = followRedirect;
 
                 if (webProxy != null)
@@ -267,7 +274,7 @@ namespace Box.V2.Request
                 }
 
                 // Ensure that clients use non-deprecated versions of TLS (i.e. TLSv1.1 or greater)
-#if NETSTANDARD1_6
+#if NETSTANDARD2_0
                 try
                 {
                     handler.SslProtocols |= System.Security.Authentication.SslProtocols.Tls12;
@@ -282,48 +289,39 @@ namespace Box.V2.Request
                 FAIL THE BUILD
 #endif
 
-                var client = new HttpClient(handler);
-                client.Timeout = Timeout.InfiniteTimeSpan; // Don't let HttpClient time out the request, since we manually handle timeout cancellation
+                var client = new HttpClient(handler)
+                {
+                    Timeout = Timeout.InfiniteTimeSpan // Don't let HttpClient time out the request, since we manually handle timeout cancellation
+                };
                 return client;
             }
         }
 
         private HttpClient GetClient(IBoxRequest request)
         {
-
-            if (request.FollowRedirect)
-            {
-                return ClientFactory.AutoRedirectClient;
-            }
-            else
-            {
-                return ClientFactory.NonAutoRedirectClient;
-            }
+            return request.FollowRedirect ? ClientFactory.AutoRedirectClient : ClientFactory.NonAutoRedirectClient;
         }
 
         private HttpRequestMessage BuildRequest(IBoxRequest request)
         {
-            HttpRequestMessage httpRequest = new HttpRequestMessage();
-            httpRequest.RequestUri = request.AbsoluteUri;
-            httpRequest.Method = GetHttpMethod(request.Method);
+            var httpRequest = new HttpRequestMessage
+            {
+                RequestUri = request.AbsoluteUri,
+                Method = GetHttpMethod(request.Method)
+            };
             if (httpRequest.Method == HttpMethod.Get)
             {
                 return httpRequest;
             }
 
-            HttpContent content = null;
+            HttpContent content;
 
             // Set request content to string or form-data
             if (!string.IsNullOrWhiteSpace(request.Payload))
             {
-                if (string.IsNullOrEmpty(request.ContentType))
-                {
-                    content = new StringContent(request.Payload);
-                }
-                else
-                {
-                    content = new StringContent(request.Payload, request.ContentEncoding, request.ContentType);
-                }
+                content = string.IsNullOrEmpty(request.ContentType)
+                    ? new StringContent(request.Payload)
+                    : new StringContent(request.Payload, request.ContentEncoding, request.ContentType);
             }
             else
             {
@@ -337,16 +335,18 @@ namespace Box.V2.Request
 
         private HttpRequestMessage BuildBinaryRequest(BoxBinaryRequest request)
         {
-            HttpRequestMessage httpRequest = new HttpRequestMessage();
-            httpRequest.RequestUri = request.AbsoluteUri;
-            httpRequest.Method = GetHttpMethod(request.Method);
+            var httpRequest = new HttpRequestMessage
+            {
+                RequestUri = request.AbsoluteUri,
+                Method = GetHttpMethod(request.Method)
+            };
 
             HttpContent content = null;
 
             var filePart = request.Part as BoxFilePart;
             if (filePart != null)
             {
-                content = new StreamContent(filePart.Value);
+                content = new ReusableContent(filePart.Value);
             }
 
             httpRequest.Content = content;
@@ -375,8 +375,8 @@ namespace Box.V2.Request
 
         private HttpRequestMessage BuildMultiPartRequest(BoxMultiPartRequest request)
         {
-            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, request.AbsoluteUri);
-            MultipartFormDataContent multiPart = new MultipartFormDataContent();
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, request.AbsoluteUri);
+            var multiPart = new MultipartFormDataContent();
 
             // Break out the form parts from the request
             var filePart = request.Parts.Where(p => p.GetType() == typeof(BoxFileFormPart))
@@ -387,12 +387,14 @@ namespace Box.V2.Request
 
             // Create the string parts
             foreach (var sp in stringParts)
+            {
                 multiPart.Add(new StringContent(sp.Value), ForceQuotesOnParam(sp.Name));
+            }
 
             // Create the file part
             if (filePart != null)
             {
-                StreamContent fileContent = new StreamContent(filePart.Value);
+                var fileContent = new ReusableContent(filePart.Value);
                 fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                 {
                     Name = ForceQuotesOnParam(filePart.Name),

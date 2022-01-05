@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -17,24 +13,24 @@ namespace Box.V2.Models
         /// Gets the count of users.
         /// </summary>
         [JsonProperty(PropertyName = FieldUser)]
-        public int User { get; private set; }
+        public virtual int User { get; private set; }
 
         /// <summary>
         /// Gets the count of folders.
         /// </summary>
         [JsonProperty(PropertyName = FieldFolder)]
-        public int Folder { get; private set; }
+        public virtual int Folder { get; private set; }
 
         /// <summary>
         /// Gets the count of files.
         /// </summary>
         [JsonProperty(PropertyName = FieldFile)]
-        public int File { get; private set; }
+        public virtual int File { get; private set; }
 
         /// <summary>
         /// Gets the count of versions.
         /// </summary>
         [JsonProperty(PropertyName = FileVersion)]
-        public int Version { get; private set; }
+        public virtual int Version { get; private set; }
     }
 }

@@ -1,12 +1,11 @@
-﻿using Box.V2.Converter;
-using Box.V2.Exceptions;
-using Box.V2.Models;
-using Box.V2.Services;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
+using Box.V2.Converter;
+using Box.V2.Exceptions;
+using Box.V2.Models;
 
 namespace Box.V2.Extensions
 {
@@ -33,16 +32,17 @@ namespace Box.V2.Extensions
                 case ResponseStatus.Pending:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                         response.ResponseObject = converter.Parse<T>(response.ContentString);
+
                     break;
                 case ResponseStatus.Forbidden:
                     var errorMsg = response.Headers.WwwAuthenticate.FirstOrDefault();
                     if (errorMsg != null)
                     {
                         var err = new BoxError() { Code = response.StatusCode.ToString(), Description = "Forbidden", Message = errorMsg.ToString() };
-                        throw new BoxException(err.Message, err) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
+                        throw new BoxAPIException(err.Message, err, response.StatusCode, response.Headers);
                     }
-                    
-                    throw BoxException.GetResponseException("The API returned an error", response);
+
+                    throw BoxAPIException.GetResponseException("The API returned an error", response);
                 default:
                     if (!string.IsNullOrWhiteSpace(response.ContentString))
                     {
@@ -53,15 +53,15 @@ namespace Box.V2.Extensions
                                 case System.Net.HttpStatusCode.Conflict:
                                     if (response is IBoxResponse<BoxPreflightCheck> || response is IBoxResponse<BoxCollection<BoxFile>>)
                                     {
-                                        BoxPreflightCheckConflictError<BoxFile> err = converter.Parse<BoxPreflightCheckConflictError<BoxFile>>(response.ContentString);
-                                        exToThrow = new BoxPreflightCheckConflictException<BoxFile>(response.ContentString, err) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
+                                        BoxPreflightCheckConflictError<BoxFile> error = converter.Parse<BoxPreflightCheckConflictError<BoxFile>>(response.ContentString);
+                                        exToThrow = new BoxPreflightCheckConflictException<BoxFile>(response.ContentString, error, response.StatusCode, response.Headers);
                                     }
                                     else
                                     {
                                         BoxConflictError<T> error = converter.Parse<BoxConflictError<T>>(response.ContentString);
-                                        exToThrow = new BoxConflictException<T>(response.ContentString, error) { StatusCode = response.StatusCode, ResponseHeaders = response.Headers };
+                                        exToThrow = new BoxConflictException<T>(response.ContentString, error, response.StatusCode, response.Headers);
                                     }
-                                  
+
                                     break;
                                 default:
                                     response.Error = converter.Parse<BoxError>(response.ContentString);
@@ -78,7 +78,7 @@ namespace Box.V2.Extensions
                             throw exToThrow;
                         }
                     }
-                    throw BoxException.GetResponseException("The API returned an error", response);
+                    throw BoxAPIException.GetResponseException("The API returned an error", response);
             }
             return response;
         }
@@ -92,7 +92,7 @@ namespace Box.V2.Extensions
         /// <returns>Total number of pages in the preview</returns>
         public static int BuildPagesCount<T>(this IBoxResponse<T> response) where T : class
         {
-            int count = 1;
+            var count = 1;
             IEnumerable<string> values = new List<string>();
 
             if (response.Headers.TryGetValues("link", out values)) // headers names are case-insensitve
@@ -101,9 +101,9 @@ namespace Box.V2.Extensions
                 var last = links.FirstOrDefault(x => x.ToUpperInvariant().Contains("REL=\"LAST\""));
                 if (last != null)
                 {
-                    string lastPageLink = last.Split(';')[0];
+                    var lastPageLink = last.Split(';')[0];
 
-                    Regex rgx = new Regex(@"page=[0-9]+", RegexOptions.IgnoreCase);
+                    var rgx = new Regex(@"page=[0-9]+", RegexOptions.IgnoreCase);
                     MatchCollection matches = rgx.Matches(lastPageLink);
 
                     if (matches.Count > 0)

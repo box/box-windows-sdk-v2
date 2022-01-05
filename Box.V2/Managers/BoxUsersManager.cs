@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -5,17 +9,13 @@ using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using Box.V2.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
     /// <summary>
     /// The manager that represents all of the user endpoints
     /// </summary>
-    public class BoxUsersManager : BoxResourceManager
+    public class BoxUsersManager : BoxResourceManager, IBoxUsersManager
     {
         public BoxUsersManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
@@ -90,14 +90,15 @@ namespace Box.V2.Managers
         /// <returns>A BoxCollection of BoxUsers matching the provided filter criteria.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when limit outside the range 0&lt;limit&lt;=1000</exception>
         public async Task<BoxCollection<BoxUser>> GetEnterpriseUsersAsync(string filterTerm = null,
-                                                                          uint offset = 0, 
-                                                                          uint limit = 100, 
+                                                                          uint offset = 0,
+                                                                          uint limit = 100,
                                                                           IEnumerable<string> fields = null,
                                                                           string userType = null,
                                                                           string externalAppUserId = null,
                                                                           bool autoPaginate = false)
         {
-            if (limit == 0 || limit > 1000) throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
+            if (limit == 0 || limit > 1000)
+                throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
 
             BoxRequest request = new BoxRequest(_config.UserEndpointUri)
                 .Param("filter_term", filterTerm)
@@ -109,7 +110,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateLimitOffset<BoxUser>(request, (int)limit);
+                return await AutoPaginateLimitOffset<BoxUser>(request, (int)limit).ConfigureAwait(false);
             }
             else
             {
@@ -136,9 +137,8 @@ namespace Box.V2.Managers
                                                                           string externalAppUserId = null,
                                                                           bool autoPaginate = false)
         {
-            if (limit == 0 || limit > 1000) throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
-
-
+            if (limit == 0 || limit > 1000)
+                throw new ArgumentOutOfRangeException("limit", "limit must be within the range 1 <= limit <= 1000");
 
             BoxRequest request = new BoxRequest(_config.UserEndpointUri)
                 .Param("filter_term", filterTerm)
@@ -151,7 +151,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxUser>(request, (int)limit);
+                return await AutoPaginateMarker<BoxUser>(request, (int)limit).ConfigureAwait(false);
             }
             else
             {
@@ -320,14 +320,15 @@ namespace Box.V2.Managers
         /// <param name="ownedByUserId">The ID of the user who the folder will be transferred to.</param>
         /// <param name="folderId">Currently only moving of the root folder (0) is supported.</param>
         /// <param name="notify">Determines if the destination user should receive email notification of the transfer.</param>
+        /// <param name="timeout">Optional timeout for response.</param>
         /// <returns>Returns the information for the newly created destination folder. An error is thrown if you do not have the necessary permissions to move the folder.</returns>
-        public async Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false)
+        public async Task<BoxFolder> MoveUserFolderAsync(string userId, string ownedByUserId, string folderId = "0", bool notify = false, TimeSpan? timeout = null)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
             ownedByUserId.ThrowIfNullOrWhiteSpace("ownedByUserId");
             folderId.ThrowIfNullOrWhiteSpace("folderId");
 
-            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.MoveUserFolderPathString, userId, folderId))
+            BoxRequest request = new BoxRequest(_config.UserEndpointUri, string.Format(Constants.MoveUserFolderPathString, userId, folderId)) { Timeout = timeout }
                 .Param("notify", notify.ToString())
                 .Payload(_converter.Serialize(new BoxMoveUserFolderRequest()
                 {
@@ -353,7 +354,7 @@ namespace Box.V2.Managers
         /// <param name="limit">Default is 100. Max is 1000.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all group memberships; defaults to false.</param>
         /// <returns>A collection of group membership objects will be returned upon success.</returns>
-        public async Task<BoxCollection<BoxGroupMembership>> GetMembershipsForUserAsync(string userId, uint offset = 0, uint limit = 100, bool autoPaginate=false)
+        public async Task<BoxCollection<BoxGroupMembership>> GetMembershipsForUserAsync(string userId, uint offset = 0, uint limit = 100, bool autoPaginate = false)
         {
             userId.ThrowIfNullOrWhiteSpace("userId");
 
@@ -364,7 +365,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, (int)limit);
+                return await AutoPaginateLimitOffset<BoxGroupMembership>(request, (int)limit).ConfigureAwait(false);
             }
             else
             {

@@ -1,24 +1,18 @@
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
-using Box.V2.Converter;
 using Box.V2.Exceptions;
 using Box.V2.JWTAuth;
 using Box.V2.Request;
 using Box.V2.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
     [TestClass]
     public class BoxJWTAuthTest : BoxResourceManagerTest
     {
-        private readonly IBoxConverter _converter;
         private readonly Mock<IRequestHandler> _handler;
         private readonly IBoxService _service;
         private readonly Mock<IBoxConfig> _boxConfig;
@@ -36,7 +30,7 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        public void GetToken_ValidSession()
+        public async Task GetToken_ValidSession()
         {
             // Arrange
             _handler.Setup(h => h.ExecuteAsyncWithoutRetry<OAuthSession>(It.IsAny<BoxRequest>()))
@@ -47,7 +41,7 @@ namespace Box.V2.Test
                 })); ;
 
             // Act
-            String accessToken = _jwtAuth.AdminToken();
+            var accessToken = await _jwtAuth.AdminTokenAsync();
 
             // Assert
             Assert.AreEqual(accessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");
@@ -55,8 +49,8 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        [ExpectedException(typeof(BoxException))]
-        public void GetToken_MaxRetries_Exception()
+        [ExpectedException(typeof(BoxAPIException))]
+        public async Task GetToken_MaxRetries_Exception()
         {
             // Arrange
             _handler.SetupSequence(h => h.ExecuteAsyncWithoutRetry<OAuthSession>(It.IsAny<BoxRequest>()))
@@ -97,12 +91,12 @@ namespace Box.V2.Test
                 }));
 
             // Act
-            String accessToken = _jwtAuth.AdminToken();
+            var accessToken = await _jwtAuth.AdminTokenAsync();
         }
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        public void GetToken_Retries_ValidSession()
+        public async Task GetToken_Retries_ValidSession()
         {
             // Arrange
             _handler.SetupSequence(h => h.ExecuteAsyncWithoutRetry<OAuthSession>(It.IsAny<BoxRequest>()))
@@ -123,7 +117,7 @@ namespace Box.V2.Test
                 }));
 
             // Act
-            String accessToken = _jwtAuth.AdminToken();
+            var accessToken = await _jwtAuth.AdminTokenAsync();
 
             // Assert
             Assert.AreEqual(accessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");

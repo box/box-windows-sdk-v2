@@ -1,17 +1,17 @@
-﻿using System;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Models;
-using Box.V2.Auth;
-using System.Diagnostics;
 using Box.V2.Utility;
 
 namespace Box.V2.Core.Sample
 {
     public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             try
             {
@@ -41,7 +41,8 @@ namespace Box.V2.Core.Sample
 
             var auth = new OAuthSession(accessToken, "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-            var config = new BoxConfig("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://boxsdk"));
+            var config = new BoxConfigBuilder("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET", new Uri("http://boxsdk"))
+                .Build();
             var client = new BoxClient(config, auth);
 
             var file = File.OpenRead(localFilePath);
@@ -58,7 +59,7 @@ namespace Box.V2.Core.Sample
             var progress = new Progress<BoxProgress>(val => { Console.WriteLine("{0}%", val.progress); });
             var bFile = await client.FilesManager.UploadUsingSessionAsync(file, fileName, parentFolderId, null, progress);
 
-            Console.WriteLine("{0} uploaded to folder: {1} as file: {2}",localFilePath, parentFolderId, bFile.Id);
+            Console.WriteLine("{0} uploaded to folder: {1} as file: {2}", localFilePath, parentFolderId, bFile.Id);
             Console.WriteLine("Time spend : {0} ms", timer.ElapsedMilliseconds);
         }
     }

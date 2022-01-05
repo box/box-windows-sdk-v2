@@ -1,18 +1,18 @@
-﻿using Box.V2.Auth;
-using Box.V2.Config;
-using Box.V2.Extensions;
-using Box.V2.Converter;
-using Box.V2.Models;
-using Box.V2.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Box.V2.Auth;
+using Box.V2.Config;
+using Box.V2.Converter;
+using Box.V2.Extensions;
+using Box.V2.Models;
+using Box.V2.Services;
 
 namespace Box.V2.Managers
 {
     /// <summary>
     /// Returns information about files that have been accessed by a user not long ago.
     /// </summary>
-    public class BoxRecentItemsManager : BoxResourceManager
+    public class BoxRecentItemsManager : BoxResourceManager, IBoxRecentItemsManager
     {
         public BoxRecentItemsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
@@ -34,7 +34,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarkerV2<BoxRecentItem>(request, limit);
+                return await AutoPaginateMarkerV2<BoxRecentItem>(request, limit).ConfigureAwait(false);
             }
             else
             {

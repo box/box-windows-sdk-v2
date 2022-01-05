@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -46,7 +46,7 @@ namespace Box.V2.Models
         /// the collaboration is already set to expire and the user has permission to update the expiration time.
         /// </summary>
         [JsonProperty(PropertyName = "expires_at")]
-        public DateTime? ExpiresAt { get; set; }
+        public DateTimeOffset? ExpiresAt { get; set; }
     }
 
     public static class BoxCollaborationRoles

@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
@@ -6,20 +10,13 @@ using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
     /// <summary>
     /// Metadata allows users and applications to define and store custom data associated with their files/folders
     /// </summary>
-    public class BoxMetadataManager : BoxResourceManager
+    public class BoxMetadataManager : BoxResourceManager, IBoxMetadataManager
     {
         public BoxMetadataManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
@@ -33,7 +30,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> GetFileMetadataAsync(string fileId, string scope, string template)
         {
-            return await GetMetadata(_config.FilesEndpointUri, fileId, scope, template);
+            return await GetMetadata(_config.FilesEndpointUri, fileId, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -45,7 +42,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> GetFolderMetadataAsync(string folderId, string scope, string template)
         {
-            return await GetMetadata(_config.FoldersEndpointUri, folderId, scope, template);
+            return await GetMetadata(_config.FoldersEndpointUri, folderId, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -58,7 +55,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> CreateFileMetadataAsync(string fileId, Dictionary<string, object> metadata, string scope, string template)
         {
-            return await CreateMetadata(_config.FilesEndpointUri, fileId, metadata, scope, template);
+            return await CreateMetadata(_config.FilesEndpointUri, fileId, metadata, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -71,7 +68,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> CreateFolderMetadataAsync(string folderId, Dictionary<string, object> metadata, string scope, string template)
         {
-            return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template);
+            return await CreateMetadata(_config.FoldersEndpointUri, folderId, metadata, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -84,7 +81,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> UpdateFileMetadataAsync(string fileId, List<BoxMetadataUpdate> updates, string scope, string template)
         {
-            return await UpdateMetadata(_config.FilesEndpointUri, fileId, updates, scope, template);
+            return await UpdateMetadata(_config.FilesEndpointUri, fileId, updates, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -97,7 +94,7 @@ namespace Box.V2.Managers
         /// <returns>A Dictionary of key:value pairs representing the metadata.</returns>
         public async Task<Dictionary<string, object>> UpdateFolderMetadataAsync(string folderId, List<BoxMetadataUpdate> updates, string scope, string template)
         {
-            return await UpdateMetadata(_config.FoldersEndpointUri, folderId, updates, scope, template);
+            return await UpdateMetadata(_config.FoldersEndpointUri, folderId, updates, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -112,9 +109,9 @@ namespace Box.V2.Managers
         {
             try
             {
-                return await CreateFileMetadataAsync(fileId, metadata, scope, template);
+                return await CreateFileMetadataAsync(fileId, metadata, scope, template).ConfigureAwait(false);
             }
-            catch (BoxException ex)
+            catch (BoxAPIException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.Conflict)
                 {
@@ -129,7 +126,7 @@ namespace Box.V2.Managers
                             Value = md.Value,
                         });
                     }
-                    return await UpdateFileMetadataAsync(fileId, updates, scope, template);
+                    return await UpdateFileMetadataAsync(fileId, updates, scope, template).ConfigureAwait(false);
                 }
 
                 // Some other exception, just rethrow it
@@ -149,9 +146,9 @@ namespace Box.V2.Managers
         {
             try
             {
-                return await CreateFolderMetadataAsync(folderId, metadata, scope, template);
+                return await CreateFolderMetadataAsync(folderId, metadata, scope, template).ConfigureAwait(false);
             }
-            catch (BoxException ex)
+            catch (BoxAPIException ex)
             {
                 if (ex.StatusCode == HttpStatusCode.Conflict)
                 {
@@ -166,7 +163,7 @@ namespace Box.V2.Managers
                             Value = md.Value,
                         });
                     }
-                    return await UpdateFolderMetadataAsync(folderId, updates, scope, template);
+                    return await UpdateFolderMetadataAsync(folderId, updates, scope, template).ConfigureAwait(false);
                 }
 
                 // Some other exception, just rethrow it
@@ -183,7 +180,7 @@ namespace Box.V2.Managers
         /// <returns>True if successful, false otherwise.</returns>
         public async Task<bool> DeleteFileMetadataAsync(string fileId, string scope, string template)
         {
-            return await DeleteMetadata(_config.FilesEndpointUri, fileId, scope, template);
+            return await DeleteMetadata(_config.FilesEndpointUri, fileId, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -195,7 +192,7 @@ namespace Box.V2.Managers
         /// <returns>True if successful, false otherwise.</returns>
         public async Task<bool> DeleteFolderMetadataAsync(string folderId, string scope, string template)
         {
-            return await DeleteMetadata(_config.FoldersEndpointUri, folderId, scope, template);
+            return await DeleteMetadata(_config.FoldersEndpointUri, folderId, scope, template).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -206,7 +203,7 @@ namespace Box.V2.Managers
         /// <returns>Returns the schema for the specified metadata template.</returns>
         public async Task<BoxMetadataTemplate> GetMetadataTemplate(string scope, string template)
         {
-            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template));
+            var request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.MetadataTemplatesPathString, scope, template));
             IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -270,7 +267,7 @@ namespace Box.V2.Managers
         /// <returns>Returns the schema for the specified metadata template.</returns>
         public async Task<BoxMetadataTemplate> GetMetadataTemplateById(string templateId)
         {
-            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, templateId);
+            var request = new BoxRequest(_config.MetadataTemplatesUri, templateId);
             IBoxResponse<BoxMetadataTemplate> response = await ToResponseAsync<BoxMetadataTemplate>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -283,7 +280,7 @@ namespace Box.V2.Managers
         /// <returns>Collection of metadata instances associated with the file.</returns>
         public async Task<BoxMetadataTemplateCollection<Dictionary<string, object>>> GetAllFileMetadataTemplatesAsync(string fileId)
         {
-            BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.AllFileMetadataPathString, fileId));
+            var request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.AllFileMetadataPathString, fileId));
             IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>> response = await ToResponseAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -296,7 +293,7 @@ namespace Box.V2.Managers
         /// <returns>Collection of metadata instances associated with the file.</returns>
         public async Task<BoxMetadataTemplateCollection<Dictionary<string, object>>> GetAllFolderMetadataTemplatesAsync(string folderId)
         {
-            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.AllFolderMetadataPathString, folderId));
+            var request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.AllFolderMetadataPathString, folderId));
             IBoxResponse<BoxMetadataTemplateCollection<Dictionary<string, object>>> response = await ToResponseAsync<BoxMetadataTemplateCollection<Dictionary<string, object>>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -309,7 +306,7 @@ namespace Box.V2.Managers
         /// <returns>Collection of enterprise metadata instances associated with the file.</returns>
         public async Task<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> GetEnterpriseMetadataAsync(string scope = "enterprise")
         {
-            BoxRequest request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.EnterpriseMetadataTemplatesPathString, scope));
+            var request = new BoxRequest(_config.MetadataTemplatesUri, string.Format(Constants.EnterpriseMetadataTemplatesPathString, scope));
             IBoxResponse<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>> response = await ToResponseAsync<BoxEnterpriseMetadataTemplateCollection<BoxMetadataTemplate>>(request).ConfigureAwait(false);
 
             return response.ResponseObject;
@@ -328,60 +325,22 @@ namespace Box.V2.Managers
         /// <param name="marker">The marker to use for requesting the next page</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>A collection of items and their associated metadata</returns>
+        [Obsolete("This method is deprecated in favor of ExecuteMetadataQueryAsync() that has a fields parameter. The API will eventually not support this method.")]
         public async Task<BoxCollectionMarkerBased<BoxMetadataQueryItem>> ExecuteMetadataQueryAsync(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             from.ThrowIfNullOrWhiteSpace("from");
             ancestorFolderId.ThrowIfNullOrWhiteSpace("ancestorFolderId");
 
-            dynamic queryObject = new JObject();
-
-            queryObject.from = from;
-            queryObject.ancestor_folder_id = ancestorFolderId;
-            queryObject.limit = limit;
-
-            if (query != null)
-            {
-                queryObject.query = query;
-            }
-
-            if (queryParameters != null)
-            {
-                queryObject.query_params = JObject.FromObject(queryParameters);
-            }
-
-            if (indexName != null)
-            {
-                queryObject.use_index = indexName;
-            }
-
-            if (orderBy != null)
-            {
-                List<JObject> orderByList = new List<JObject>();
-                foreach (var order in orderBy)
-                {
-                    dynamic orderByObject = new JObject();
-                    orderByObject.field_key = order.FieldKey;
-                    orderByObject.direction = order.Direction.ToString();
-                    orderByList.Add(orderByObject);
-                }
-                queryObject.order_by = JArray.FromObject(orderByList);
-            }
-
-            if (marker != null)
-            {
-                queryObject.marker = marker;
-            }
-
-            string queryStr = _converter.Serialize(queryObject);
+            JObject bodyObject = GetMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, null, limit, marker);
 
             BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
                 .Method(RequestMethod.Post)
-                .Payload(queryStr);
+                .Payload(_converter.Serialize(bodyObject));
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarkerMetadataQuery<BoxMetadataQueryItem>(request);
+                return await AutoPaginateMarkerMetadataQuery<BoxMetadataQueryItem>(request).ConfigureAwait(false);
             }
             else
             {
@@ -390,9 +349,104 @@ namespace Box.V2.Managers
             }
         }
 
+        /// <summary>
+        /// Allows you to query by metadata on Box items with fields passed in
+        /// </summary>
+        /// <param name="from">The template used in the query. Must be in the form scope.templateKey</param>
+        /// <param name="ancestorFolderId">The folder_id to which to restrain the query</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="query">The logical expression of the query</param>
+        /// <param name="queryParameters">Required if query present. The arguments for the query</param>
+        /// <param name="indexName">The name of the Index to use</param>
+        /// <param name="orderBy">A list of BoxMetadataQueryOrderBy objects that contain field_key(s) to order on and the corresponding direction(s)</param>
+        /// <param name="limit">The maximum number of items to return in a page. The default is 100 and the max is 1000.</param>
+        /// <param name="marker">The marker to use for requesting the next page</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <returns>A collection of items and their associated metadata</returns>
+        public async Task<BoxCollectionMarkerBased<BoxItem>> ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        {
+            from.ThrowIfNullOrWhiteSpace("from");
+            ancestorFolderId.ThrowIfNullOrWhiteSpace("ancestorFolderId");
+            if (fields == null)
+            {
+                throw new ArgumentException("Required field cannot be null", "fields");
+            }
+
+            JObject bodyObject = GetMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, fields, limit, marker);
+
+            BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(bodyObject));
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarkerMetadataQueryV2<BoxItem>(request).ConfigureAwait(false);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxItem>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxItem>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
+        }
+
         //************************************
         //Private methods
         //************************************
+
+        private JObject GetMetadataQueryBody(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, IEnumerable<string> fields = null, int limit = 100, string marker = null)
+        {
+            dynamic bodyObject = new JObject();
+
+            bodyObject.from = from;
+            bodyObject.ancestor_folder_id = ancestorFolderId;
+            bodyObject.limit = limit;
+
+            if (query != null)
+            {
+                bodyObject.query = query;
+            }
+
+            if (queryParameters != null)
+            {
+                bodyObject.query_params = JObject.FromObject(queryParameters);
+            }
+
+            if (indexName != null)
+            {
+                bodyObject.use_index = indexName;
+            }
+
+            if (orderBy != null)
+            {
+                var orderByList = new List<JObject>();
+                foreach (var order in orderBy)
+                {
+                    dynamic orderByObject = new JObject();
+                    orderByObject.field_key = order.FieldKey;
+                    orderByObject.direction = order.Direction.ToString();
+                    orderByList.Add(orderByObject);
+                }
+                bodyObject.order_by = JArray.FromObject(orderByList);
+            }
+
+            if (fields != null)
+            {
+                var fieldArray = new JArray();
+                foreach (var field in fields)
+                {
+                    fieldArray.Add(field);
+                }
+                bodyObject.fields = fieldArray;
+            }
+
+            if (marker != null)
+            {
+                bodyObject.marker = marker;
+            }
+
+            return bodyObject;
+        }
 
         private async Task<Dictionary<string, object>> UpdateMetadata(Uri hostUri, string id, List<BoxMetadataUpdate> updates, string scope, string template)
         {

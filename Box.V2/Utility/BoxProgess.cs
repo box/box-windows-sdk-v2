@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace Box.V2.Utility
 {
     /// <summary>

@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -33,6 +30,6 @@ namespace Box.V2.Models
         /// The day at which this task is due.
         /// </summary>
         [JsonProperty(PropertyName = "due_at")]
-        public DateTime? DueAt { get; set; }
+        public DateTimeOffset? DueAt { get; set; }
     }
 }

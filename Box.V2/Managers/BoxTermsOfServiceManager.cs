@@ -1,18 +1,19 @@
-﻿using Box.V2.Auth;
+using System;
+using System.Threading.Tasks;
+using Box.V2.Auth;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 using Box.V2.Services;
-using System;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
     /// <summary>
     /// The manager that represents all of the terms of service endpoints.
     /// </summary>
-    public class BoxTermsOfServiceManager : BoxResourceManager
+    public class BoxTermsOfServiceManager : BoxResourceManager, IBoxTermsOfServiceManager
     {
         public BoxTermsOfServiceManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
@@ -27,7 +28,7 @@ namespace Box.V2.Managers
         {
             tosId.ThrowIfNullOrWhiteSpace("tosId");
 
-            BoxRequest request = new BoxRequest(_config.TermsOfServicesUri, tosId);
+            var request = new BoxRequest(_config.TermsOfServicesUri, tosId);
 
             IBoxResponse<BoxTermsOfService> response = await ToResponseAsync<BoxTermsOfService>(request).ConfigureAwait(false);
 
@@ -88,7 +89,7 @@ namespace Box.V2.Managers
         /// <param name="tosId">The terms of service id.</param>
         /// <param name="userId">The user id, if null this will default to current user.</param>
         /// <returns>The user status for terms of service objects.</returns>
-        public async Task<BoxTermsOfServiceUserStatusesCollection<BoxTermsOfServiceUserStatuses>> GetTermsOfServiceUserStatusesAsync(string tosId, String userId = null)
+        public async Task<BoxTermsOfServiceUserStatusesCollection<BoxTermsOfServiceUserStatuses>> GetTermsOfServiceUserStatusesAsync(string tosId, string userId = null)
         {
             tosId.ThrowIfNullOrWhiteSpace("tosId");
 
@@ -106,11 +107,31 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="termsOfServiceUserStatusesRequest">The request object for terms of service user status.</param>
         /// <returns>The status of the terms of service for a user.</returns>
+        [Obsolete("Use CreateBoxTermsOfServiceUserStatusesAsync(BoxTermsOfServiceStatusCreateRequest termsOfServiceUserStatusCreateRequest) instead.")]
         public async Task<BoxTermsOfServiceUserStatuses> CreateBoxTermsOfServiceUserStatusesAsync(BoxTermsOfServiceUserStatusesRequest termsOfServicesUserStatusesRequest)
         {
             BoxRequest request = new BoxRequest(_config.TermsOfServiceUserStatusesUri)
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize<BoxTermsOfServiceUserStatusesRequest>(termsOfServicesUserStatusesRequest));
+
+            IBoxResponse<BoxTermsOfServiceUserStatuses> response = await ToResponseAsync<BoxTermsOfServiceUserStatuses>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Create a terms of service status for user.
+        /// </summary>
+        /// <param name="termsOfServiceUserStatusCreateRequest">The request object for terms of service user status.</param>
+        /// <returns>The status of the terms of service for a user.</returns>
+        public async Task<BoxTermsOfServiceUserStatuses> CreateBoxTermsOfServiceUserStatusesAsync(BoxTermsOfServiceUserStatusCreateRequest termsOfServiceUserStatusCreateRequest)
+        {
+            termsOfServiceUserStatusCreateRequest.ThrowIfNull("TermsOfService");
+            termsOfServiceUserStatusCreateRequest.ThrowIfNull("User");
+
+            BoxRequest request = new BoxRequest(_config.TermsOfServiceUserStatusesUri)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize<BoxTermsOfServiceUserStatusCreateRequest>(termsOfServiceUserStatusCreateRequest));
 
             IBoxResponse<BoxTermsOfServiceUserStatuses> response = await ToResponseAsync<BoxTermsOfServiceUserStatuses>(request).ConfigureAwait(false);
 

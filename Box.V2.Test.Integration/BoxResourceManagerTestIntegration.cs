@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
+using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Box.V2.Auth;
-using Box.V2.Request;
 using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.JWTAuth;
 using Box.V2.Models;
+using Box.V2.Request;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Box.V2.Test.Integration
@@ -19,48 +19,49 @@ namespace Box.V2.Test.Integration
 
         public Uri RedirectUri = new Uri("http://boxsdk");
 
-        protected OAuthSession _auth;
-        protected BoxClient _client;
-        protected IBoxConfig _config;
-        protected IRequestHandler _handler;
-        protected IBoxConverter _parser;
+        protected OAuthSession Auth;
+        protected BoxClient Client;
+        protected IBoxConfig Config;
+        protected IRequestHandler Handler;
+        protected IBoxConverter Parser;
 
-        protected static string jsonConfig;
-        protected static BoxClient userClient;
-        protected static BoxClient adminClient;
-        protected static string userId;
-        protected static string userToken;
+        protected static string JsonConfig;
+        protected static BoxClient UserClient;
+        protected static BoxClient AdminClient;
+        protected static string UserId;
+        protected static string UserToken;
 
         [AssemblyInitialize]
         public static void Initialize(TestContext testContext)
         {
-            jsonConfig = Environment.GetEnvironmentVariable("JSON_CONFIG");
+            JsonConfig = Environment.GetEnvironmentVariable("JSON_CONFIG");
 
-            if (string.IsNullOrEmpty(jsonConfig))
+            if (string.IsNullOrEmpty(JsonConfig))
             {
                 Debug.WriteLine("No json config found!");
             }
             else
             {
-                Debug.WriteLine("json config content length : " + jsonConfig.Length);
+                Debug.WriteLine("json config content length : " + JsonConfig.Length);
 
-                var config = BoxConfig.CreateFromJsonString(jsonConfig);
+                var config = BoxConfigBuilder.CreateFromJsonString(JsonConfig)
+                    .Build();
                 var session = new BoxJWTAuth(config);
 
                 // create a new app user
                 // client with permissions to manage application users
-                var adminToken = session.AdminToken();
-                adminClient = session.AdminClient(adminToken);
+                var adminToken = session.AdminTokenAsync().Result;
+                AdminClient = session.AdminClient(adminToken);
 
-                var user = CreateNewUser(adminClient).Result;
+                var user = CreateNewUser(AdminClient).Result;
 
-                userId = user.Id;
+                UserId = user.Id;
 
-                Debug.WriteLine("New app user created : " + userId);
+                Debug.WriteLine("New app user created : " + UserId);
 
                 // user client with access to user's data (folders, files, etc)
-                userToken = session.UserToken(userId);
-                userClient = session.UserClient(userToken, userId);
+                UserToken = session.UserTokenAsync(UserId).Result;
+                UserClient = session.UserClient(UserToken, UserId);
             }
         }
 
@@ -68,11 +69,11 @@ namespace Box.V2.Test.Integration
         public static void Cleanup()
         {
             // Delete the app user if we created one
-            if (userId != null)
+            if (UserId != null)
             {
                 try
                 {
-                    var task = adminClient.UsersManager.DeleteEnterpriseUserAsync(userId, false, true);
+                    var task = AdminClient.UsersManager.DeleteEnterpriseUserAsync(UserId, false, true);
                     task.Wait();
                 }
                 catch (Exception exp)
@@ -86,28 +87,30 @@ namespace Box.V2.Test.Integration
         protected static bool IsUnderCI()
         {
             // if we have adminClient, we are under the CI env.
-            return adminClient == null;
+            return AdminClient == null;
         }
 
         public BoxResourceManagerTestIntegration()
         {
-            _handler = new HttpRequestHandler();
-            _parser = new BoxJsonConverter();
+            Handler = new HttpRequestHandler();
+            Parser = new BoxJsonConverter();
 
-            if (userToken == null)
+            if (UserToken == null)
             {
                 // Legacy way of getting the token
-                _auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
+                Auth = new OAuthSession("YOUR_ACCESS_TOKEN", "YOUR_REFRESH_TOKEN", 3600, "bearer");
 
-                _config = new BoxConfig(ClientId, ClientSecret, RedirectUri);
-                _client = new BoxClient(_config, _auth);
+                Config = new BoxConfigBuilder(ClientId, ClientSecret, RedirectUri)
+                    .Build();
+                Client = new BoxClient(Config, Auth);
             }
             else
             {
-                _config = BoxConfig.CreateFromJsonString(jsonConfig);
+                Config = BoxConfigBuilder.CreateFromJsonString(JsonConfig)
+                    .Build();
 
-                _client = userClient;
-                _auth = new OAuthSession(userToken, "", 3600, "bearer");
+                Client = UserClient;
+                Auth = new OAuthSession(UserToken, "", 3600, "bearer");
             }
         }
 
@@ -115,7 +118,7 @@ namespace Box.V2.Test.Integration
         {
             var userRequest = new BoxUserRequest
             {
-                Name = "CI App User " + DateTime.Now.ToString("dd-MM-yyyy"), // mark with date
+                Name = "CI App User " + DateTimeOffset.Now.ToString("dd-MM-yyyy"), // mark with date
                 IsPlatformAccessOnly = true // creating application specific user, not a Box.com user
             };
             return client.UsersManager.CreateEnterpriseUserAsync(userRequest);

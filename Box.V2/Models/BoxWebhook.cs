@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -16,31 +16,31 @@ namespace Box.V2.Models
         /// The target item for this webhook
         /// </summary>
         [JsonProperty(PropertyName = FieldTarget)]
-        public BoxEntity Target { get; private set; }
+        public virtual BoxEntity Target { get; private set; }
 
         /// <summary>
         /// The user who created this webhook
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedBy)]
-        public BoxUser CreatedBy { get; private set; }
+        public virtual BoxUser CreatedBy { get; private set; }
 
         /// <summary>
         /// The time the webhook was created
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedAt)]
-        public DateTime? CreatedAt { get; private set; }
+        public virtual DateTimeOffset? CreatedAt { get; private set; }
 
         /// <summary>
         /// The time the webhook was created
         /// </summary>
         [JsonProperty(PropertyName = FieldAddress)]
-        public string Address { get; private set; }
+        public virtual string Address { get; private set; }
 
         /// <summary>
         /// The available roles that can be used to invite people to the folder
         /// WARNING: This property is still in development and may change!
         /// </summary>
         [JsonProperty(PropertyName = FieldTriggers)]
-        public IList<string> Triggers { get; protected set; }
+        public virtual IList<string> Triggers { get; protected set; }
     }
 }

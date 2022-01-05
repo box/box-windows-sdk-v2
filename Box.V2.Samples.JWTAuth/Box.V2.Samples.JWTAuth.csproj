@@ -71,9 +71,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="private_key.pem">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="private_key.pem.example" />
   </ItemGroup>
   <ItemGroup>

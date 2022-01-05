@@ -1,21 +1,18 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
-using Box.V2.Extensions;
 using Box.V2.Converter;
+using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Box.V2.Managers
 {
     /// <summary>
     /// Allow create, update, get, delete weblink for folder.
     /// </summary>
-    public class BoxWebLinksManager : BoxResourceManager
+    public class BoxWebLinksManager : BoxResourceManager, IBoxWebLinksManager
     {
 
         public BoxWebLinksManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)

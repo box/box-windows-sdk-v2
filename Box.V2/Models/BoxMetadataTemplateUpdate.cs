@@ -1,9 +1,6 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models
 {
@@ -21,21 +18,21 @@ namespace Box.V2.Models
 
         [JsonProperty(PropertyName = FieldOp)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public MetadataTemplateUpdateOp? Op { get; set; }
+        public virtual MetadataTemplateUpdateOp? Op { get; set; }
 
         [JsonProperty(PropertyName = FieldData)]
-        public Object Data { get; set; }
+        public virtual object Data { get; set; }
 
         [JsonProperty(PropertyName = FieldFieldKey)]
-        public string FieldKey { get; set; }
+        public virtual string FieldKey { get; set; }
 
         [JsonProperty(PropertyName = FieldFieldKeys)]
-        public List<string> FieldKeys { get; set; }
+        public virtual List<string> FieldKeys { get; set; }
 
         [JsonProperty(PropertyName = FieldEnumOptionKey)]
-        public string EnumOptionKey { get; set; }
+        public virtual string EnumOptionKey { get; set; }
 
         [JsonProperty(PropertyName = FieldEnumOptionKeys)]
-        public List<string> EnumOptionKeys { get; set; }
+        public virtual List<string> EnumOptionKeys { get; set; }
     }
 }

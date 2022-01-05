@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 
 namespace Box.V2.Extensions
 {
@@ -15,12 +12,7 @@ namespace Box.V2.Extensions
         /// <param name="name"></param>
         internal static T ThrowIfNull<T>(this T param, string name) where T : class
         {
-            if (param == null)
-            {
-                throw new ArgumentNullException(name);
-            }
-
-            return param;
+            return param ?? throw new ArgumentNullException(name);
         }
 
         /// <summary>
@@ -31,12 +23,7 @@ namespace Box.V2.Extensions
         /// <param name="name"></param>
         internal static T ThrowIfNull<T>(this T? param, string name) where T : struct
         {
-            if (!param.HasValue)
-            {
-                throw new ArgumentNullException(name);
-            }
-
-            return param.Value;
+            return param ?? throw new ArgumentNullException(name);
         }
 
         /// <summary>
@@ -47,10 +34,7 @@ namespace Box.V2.Extensions
         /// <returns></returns>
         internal static string ThrowIfNullOrWhiteSpace(this string value, string name)
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException("Required field cannot be null or whitespace", name);
-
-            return value;
+            return string.IsNullOrWhiteSpace(value) ? throw new ArgumentException("Required field cannot be null or whitespace", name) : value;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 
 namespace Box.V2
 {
@@ -7,7 +7,7 @@ namespace Box.V2
     /// </summary>
     public class BoxStringFormPart : IBoxFormPart<string>
     {
-        public string Name { get; set; } 
+        public string Name { get; set; }
 
         public string Value { get; set; }
     }

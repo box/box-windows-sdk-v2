@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 
 namespace Box.V2.Models
@@ -11,6 +10,6 @@ namespace Box.V2.Models
         public const string isConfirmed = "is_confirmed";
 
         [JsonProperty(PropertyName = isConfirmed)]
-        public bool? IsConfirmed { get; private set; }
+        public virtual bool? IsConfirmed { get; private set; }
     }
 }

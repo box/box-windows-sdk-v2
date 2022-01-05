@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -11,47 +11,54 @@ namespace Box.V2.Models
         public const string FieldIsCompleted = "is_completed";
         public const string FieldCreatedBy = "created_by";
         public const string FieldTaskAssignmentCollection = "task_assignment_collection";
-        
+        public const string FieldCompletionRule = "completion_rule";
+
         /// <summary>
         /// Date of task completion
         /// </summary>
         [JsonProperty(PropertyName = FieldDueAt)]
-        public string DueAt { get; private set; }
+        public virtual string DueAt { get; private set; }
 
         /// <summary>
         /// Mini file object. The file associated with this task
         /// </summary>
         [JsonProperty(PropertyName = FieldItem)]
-        public BoxItem Item { get; private set; }
+        public virtual BoxItem Item { get; private set; }
 
         /// <summary>
         /// Gets the action.
         /// </summary>
         [JsonProperty(PropertyName = FieldAction)]
-        public string Action { get; private set; }
+        public virtual string Action { get; private set; }
 
         /// <summary>
         /// Gets the message.
         /// </summary>
         [JsonProperty(PropertyName = FieldMessage)]
-        public string Message { get; private set; }
+        public virtual string Message { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether this task is completed.
         /// </summary>
         [JsonProperty(PropertyName = FieldIsCompleted)]
-        public bool IsCompleted { get; private set; }
+        public virtual bool IsCompleted { get; private set; }
 
         /// <summary>
         /// The user who created this item
         /// </summary>
         [JsonProperty(PropertyName = FieldCreatedBy)]
-        public BoxUser CreatedBy { get; private set; }
+        public virtual BoxUser CreatedBy { get; private set; }
 
         /// <summary>
         /// Gets the task assignments.
         /// </summary>
         [JsonProperty(PropertyName = FieldTaskAssignmentCollection)]
-        public BoxCollection<BoxTaskAssignment> TaskAssignments { get; private set; }
+        public virtual BoxCollection<BoxTaskAssignment> TaskAssignments { get; private set; }
+
+        /// <summary>
+        /// Gets value indicating which assignees need to complete this task before the task is considered completed.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldCompletionRule)]
+        public virtual BoxCompletionRule CompletionRule { get; private set; }
     }
 }

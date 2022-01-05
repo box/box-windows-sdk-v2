@@ -1,10 +1,6 @@
-﻿using Box.V2.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Box.V2;
-using Box.V2.Managers;
+using Box.V2.Extensions;
 
 namespace Box.V2.Plugins
 {
@@ -12,7 +8,7 @@ namespace Box.V2.Plugins
     public class BoxResourcePlugins
     {
         private readonly Dictionary<Type, ResourceBuilder> _plugins = new Dictionary<Type, ResourceBuilder>();
-        private object _lock = new object();
+        private readonly object _lock = new object();
 
         public void Register<T>(Func<T> func)
             where T : class
@@ -25,11 +21,9 @@ namespace Box.V2.Plugins
 
         public T Get<T>()
         {
-            ResourceBuilder builder;
-            if (!_plugins.TryGetValue(typeof(T), out builder))
-                throw new InvalidOperationException(string.Format("The resource {0} has not been registered", typeof(T).Name));
-
-            return (T)builder.Resource;
+            return !_plugins.TryGetValue(typeof(T), out ResourceBuilder builder)
+                ? throw new InvalidOperationException(string.Format("The resource {0} has not been registered", typeof(T).Name))
+                : (T)builder.Resource;
         }
 
         /// <summary>

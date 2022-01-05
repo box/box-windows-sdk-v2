@@ -1,8 +1,8 @@
-﻿using Box.V2.Managers;
+using System.Threading.Tasks;
+using Box.V2.Managers;
 using Box.V2.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Threading.Tasks;
 
 namespace Box.V2.Test
 {
@@ -18,10 +18,11 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task SharedItems_ValidResponse_ValidSharedLink()
         {
             /*** Arrange ***/
-            string responseString = @"{
+            var responseString = @"{
                     ""type"": ""folder"",
                     ""id"": ""11446498"",
                     ""sequence_id"": ""1"",
@@ -118,7 +119,7 @@ namespace Box.V2.Test
             Assert.AreEqual(1, result.PathCollection.TotalCount);
             Assert.AreEqual("https://www.box.com/s/vspke7y05sb214wjokpk", result.SharedLink.Url);
             Assert.AreEqual("17738362", result.CreatedBy.Id);
-            
+
         }
     }
 }

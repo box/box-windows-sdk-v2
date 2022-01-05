@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -18,12 +14,12 @@ namespace Box.V2.Models
         /// The available access
         /// </summary>
         [JsonProperty(PropertyName = FieldIsConfirmed)]
-        public bool IsConfirmed { get; private set; }
+        public virtual bool IsConfirmed { get; private set; }
 
         /// <summary>
         /// The email address
         /// </summary>
         [JsonProperty(PropertyName = FieldEmail)]
-        public string Email { get; private set; }
+        public virtual string Email { get; private set; }
     }
 }

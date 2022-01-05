@@ -1,19 +1,18 @@
-﻿using Box.V2.Auth;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Box.V2.Auth;
 using Box.V2.Config;
-using Box.V2.Extensions;
 using Box.V2.Converter;
+using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
 
 namespace Box.V2.Managers
 {
     /// <summary>
     /// Allow create, update, get, delete legal hold and legal hold assignment.
     /// </summary>
-    public class BoxLegalHoldPoliciesManager : BoxResourceManager
+    public class BoxLegalHoldPoliciesManager : BoxResourceManager, IBoxLegalHoldPoliciesManager
     {
         private const string ParamPolicyId = "policy_id";
 
@@ -60,7 +59,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxLegalHoldPolicy>(request, limit);
+                return await AutoPaginateMarker<BoxLegalHoldPolicy>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -171,7 +170,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxLegalHoldPolicyAssignment>(request, limit);
+                return await AutoPaginateMarker<BoxLegalHoldPolicyAssignment>(request, limit).ConfigureAwait(false);
             }
             else
             {
@@ -228,7 +227,7 @@ namespace Box.V2.Managers
         /// If the ID is for a non-existent Hold, a 404 is returned.</returns>
         public async Task<BoxFileVersionLegalHold> GetFileVersionLegalHoldAsync(string fileVersionLegalHoldId)
         {
-            BoxRequest request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri, fileVersionLegalHoldId);
+            var request = new BoxRequest(_config.FileVersionLegalHoldsEndpointUri, fileVersionLegalHoldId);
 
             var response = await ToResponseAsync<BoxFileVersionLegalHold>(request).ConfigureAwait(false);
 
@@ -255,7 +254,7 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxFileVersionLegalHold>(request, limit);
+                return await AutoPaginateMarker<BoxFileVersionLegalHold>(request, limit).ConfigureAwait(false);
             }
             else
             {

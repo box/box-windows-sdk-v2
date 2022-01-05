@@ -1,21 +1,21 @@
+using System;
 using Box.V2.Config;
 using Box.V2.Models;
 using Box.V2.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace Box.V2.Converter
 {
     internal class BoxItemConverter : JsonCreationConverter<BoxEntity>
     {
-        const string ItemType = "type";
-        const string EventSourceItemType = "item_type";
-        const string WatermarkType = "watermark";
-        const string GroupId = "group_id";
-        const string UserId = "user_id";
-        const string FolderId = "folder_id";
-        const string FileId = "file_id";
+        private const string ItemType = "type";
+        private const string EventSourceItemType = "item_type";
+        private const string WatermarkType = "watermark";
+        private const string GroupId = "group_id";
+        private const string UserId = "user_id";
+        private const string FolderId = "folder_id";
+        private const string FileId = "file_id";
 
         protected override BoxEntity Create(Type objectType, JObject jObject)
         {
@@ -91,6 +91,12 @@ namespace Box.V2.Converter
                         return new BoxStoragePolicyAssignment();
                     case Constants.TypeApplication:
                         return new BoxApplication();
+                    case Constants.TypeFolderLock:
+                        return new BoxFolderLock();
+                    case Constants.TypeSignRequest:
+                        return new BoxSignRequest();
+                    case Constants.TypeFileRequest:
+                        return new BoxFileRequestObject();
                 }
             }
             //There is an inconsistency in the events API where file sources have slightly different field names
@@ -165,7 +171,7 @@ namespace Box.V2.Converter
                 return null;
 
             // Load JObject from stream
-            JObject jObject = JObject.Load(reader);
+            var jObject = JObject.Load(reader);
             // The notification_email field for the user object is an object when a value exists and is an empty array when it isn't. The code below converts the empty array to a null value to avoid deserialization issues.  
             if (jObject["type"] != null && jObject["type"].ToString() == "user" && jObject["notification_email"] != null && jObject["notification_email"].Type == JTokenType.Array)
             {

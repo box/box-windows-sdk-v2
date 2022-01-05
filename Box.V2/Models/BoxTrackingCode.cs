@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
@@ -29,18 +28,18 @@ namespace Box.V2.Models
         /// The type of the tracking code, should be tracking_code
         /// </summary>
         [JsonProperty(PropertyName = FieldType)]
-        public string Type { get; private set; }
+        public virtual string Type { get; private set; }
 
         /// <summary>
         /// The name of the tracking code
         /// </summary>
         [JsonProperty(PropertyName = FieldName)]
-        public string Name { get; private set; }
+        public virtual string Name { get; private set; }
 
         /// <summary>
         /// The value of the tracking code
         /// </summary>
         [JsonProperty(PropertyName = FieldValue)]
-        public string Value { get; private set; }
+        public virtual string Value { get; private set; }
     }
 }

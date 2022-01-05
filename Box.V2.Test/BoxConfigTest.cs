@@ -1,16 +1,16 @@
-﻿using Box.V2.Config;
+using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 
-namespace Box.V2.Test.Integration
+namespace Box.V2.Test
 {
     [TestClass]
-    public class BoxConfigTestIntegration : BoxResourceManagerTestIntegration
+    public class BoxConfigTest : BoxResourceManagerTest
     {
         [TestMethod]
-        public async Task BoxConfig_SetUriString()
+        [TestCategory("CI-UNIT-TEST")]
+        public void BoxConfig_SetUriString()
         {
-            const string jsonString =
+            const string JsonString =
             @"{
               'boxAppSettings': {
                 'clientID': 'cid-123',
@@ -24,18 +24,23 @@ namespace Box.V2.Test.Integration
               'webhooks': {},
               'enterpriseID': 'eid-123'
             }";
-            var config = BoxConfig.CreateFromJsonString(jsonString);
+            var config = BoxConfigBuilder
+                .CreateFromJsonString(JsonString)
+                .Build();
             Assert.AreEqual(config.BoxApiUri, new System.Uri(Constants.BoxApiUriString));
 
-            System.Uri exampleUri = new System.Uri("https://example.com/");
-            config.BoxApiUri = exampleUri;
+            var exampleUri = new System.Uri("https://example.com/");
+            config = BoxConfigBuilder.CreateFromJsonString(JsonString)
+                .SetBoxApiUri(exampleUri)
+                .Build();
             Assert.AreEqual(config.BoxApiUri, exampleUri);
         }
 
         [TestMethod]
-        public async Task BoxConfig_CreateFromString()
+        [TestCategory("CI-UNIT-TEST")]
+        public void BoxConfig_CreateFromString()
         {
-            const string jsonString =
+            const string JsonString =
             @"{
               'boxAppSettings': {
                 'clientID': 'cid-123',
@@ -49,7 +54,8 @@ namespace Box.V2.Test.Integration
               'webhooks': {},
               'enterpriseID': 'eid-123'
             }";
-            var config = BoxConfig.CreateFromJsonString(jsonString);
+            var config = BoxConfigBuilder.CreateFromJsonString(JsonString)
+                .Build();
 
             Assert.AreEqual(config.ClientId, "cid-123");
             Assert.AreEqual(config.ClientSecret, "cre-123");
