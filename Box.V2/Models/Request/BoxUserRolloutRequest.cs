@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 namespace Box.V2.Models
 {
     /// <summary>
-    /// A request class for rolling users out of box
+    /// A request class for rolling users out of the enterprise.
     /// </summary>
     public class BoxUserRollOutRequest : BoxUserRequest
     {
