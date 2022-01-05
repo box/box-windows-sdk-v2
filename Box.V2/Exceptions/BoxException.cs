@@ -62,6 +62,12 @@ namespace Box.V2.Exceptions
         /// <param name="response">The HTTP response that generated the exception</param>
         protected internal static BoxAPIException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
         {
+            var error = GetResponseError(response);
+            return new BoxAPIException(GetErrorMessage(message, response, error), response.Error, response.StatusCode, response.Headers);
+        }
+
+        protected internal static BoxError GetResponseError<T>(IBoxResponse<T> response) where T : class
+        {
             BoxError error = null;
             if (!string.IsNullOrWhiteSpace(response.ContentString))
             {
@@ -76,12 +82,11 @@ namespace Box.V2.Exceptions
                     Debug.WriteLine(string.Format("Unable to parse error message: {0} ({1})", response.ContentString, e.Message));
                 }
             }
-            var ex = new BoxAPIException(GetErrorMessage(message, response, error), response.Error, response.StatusCode, response.Headers);
 
-            return ex;
+            return error;
         }
 
-        private static string GetErrorMessage<T>(string message, IBoxResponse<T> response, BoxError error = null) where T : class
+        protected internal static string GetErrorMessage<T>(string message, IBoxResponse<T> response, BoxError error = null) where T : class
         {
             var requestID = error?.RequestId;
             string traceID = null;
