@@ -31,6 +31,7 @@ Param
 function RemoveSensitiveData()
 {
     Remove-Item $PFX_PATH
+    Remove-Item SnInstallPfx.exe
     certutil -csp "Microsoft Strong Cryptographic Provider" -key | Select-String -Pattern "VS_KEY" | ForEach-Object{ $_.ToString().Trim()} | ForEach-Object{ certutil -delkey -csp "Microsoft Strong Cryptographic Provider" $_}
     Write-Output "Sensitive data removed."
 }
@@ -117,7 +118,7 @@ $Bytes = [Convert]::FromBase64String($PfxAsBase64)
 
 if($BuildAndTest){
     nuget restore $SLN_PATH
-    msbuild $FRAMEWORK_PROJ_DIR /property:Configuration=Release
+    msbuild $FRAMEWORK_PROJ_DIR /property:Configuration=SignedRelease
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Compilation failed. Aborting script."
         RemoveSensitiveData
@@ -141,7 +142,7 @@ if($BuildAndTest){
 ###########################################################################
 
 nuget restore $SLN_PATH
-nuget pack $FRAMEWORK_PROJ_DIR -Build -Prop Configuration=Release
+nuget pack $FRAMEWORK_PROJ_DIR -Build -Prop Configuration=SignedRelease
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Package creation failed. Aborting script."
     RemoveSensitiveData
