@@ -208,6 +208,39 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
+        public async Task RolloutUserFromEnterprise_ValidResponse_ValidUser()
+        {
+            /*** Arrange ***/
+            var responseString = "{\"type\":\"user\",\"id\":\"181216415\",\"name\":\"sean\",\"login\":\"sean+awesome@box.com\",\"created_at\":\"2012-05-03T21:39:11-07:00\",\"modified_at\":\"2012-12-06T18:17:16-08:00\",\"role\":\"admin\",\"language\":\"en\",\"space_amount\":5368709120,\"space_used\":1237179286,\"max_upload_size\":2147483648,\"tracking_codes\":[],\"can_see_managed_users\":true,\"is_sync_enabled\":true,\"status\":\"active\",\"job_title\":\"\",\"phone\":\"6509241374\",\"address\":\"\",\"avatar_url\":\"https://www.box.com/api/avatar/large/181216415\",\"is_exempt_from_device_limits\":false,\"is_exempt_from_login_verification\":false, \"notification_email\": { \"email\": \"test@example.com\", \"is_confirmed\": true}}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxUser>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUser>>(new BoxResponse<BoxUser>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            var userRequest = new BoxUserRollOutRequest()
+            {
+                Id = "181216415",
+            };
+            BoxUser user = await _usersManager.UpdateUserInformationAsync(userRequest);
+
+            /*** Assert ***/
+
+            // Request check
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
+            Assert.AreEqual(UserUri + "181216415", boxRequest.AbsoluteUri.AbsoluteUri);
+            BoxUserRequest payload = JsonConvert.DeserializeObject<BoxUserRequest>(boxRequest.Payload);
+            Assert.AreEqual(userRequest.Id, payload.Id);
+            Assert.AreEqual(boxRequest.Payload, "{\"enterprise\":null,\"id\":\"181216415\"}");
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
         public async Task InviteUser_ValidResponse_ValidUser()
         {
             /*** Arrange ***/

@@ -16,27 +16,30 @@ All notable changes to this project will be documented in this file. See [standa
 * add file request api ([#777](https://github.com/box/box-windows-sdk-v2/issues/777)) ([1098f75](https://github.com/box/box-windows-sdk-v2/commit/1098f75983e2d784521f13b8d53df0e55d03203b))
 * add vanity_name to SharedLink ([#782](https://github.com/box/box-windows-sdk-v2/issues/782)) ([00a1e26](https://github.com/box/box-windows-sdk-v2/commit/00a1e265569d76c2c9593aa259202d7febef629c))
 
-## 4.0.0 [2021-11-02]
+## [4.0.0](https://github.com/box/box-windows-sdk-v2/compare/v3.26.0...v4.0.0) (2021-11-02)
 
-**Breaking changes:**
-- Extract interfaces for BoxClient and Managers to improve testability ([#603](https://github.com/box/box-windows-sdk-v2/pull/603))
-- Add BoxConfigBuilder and make BoxConfig immutable ([#737](https://github.com/box/box-windows-sdk-v2/pull/737))
-- Expose tasks from async methods ([#742](https://github.com/box/box-windows-sdk-v2/pull/742))
-- Use DateTimeOffset instead of DateTime ([#749](https://github.com/box/box-windows-sdk-v2/pull/749))
-- Rework returned exceptions ([#753](https://github.com/box/box-windows-sdk-v2/pull/753))
-- Upgrade .NET Standard to 2.0 ([#755](https://github.com/box/box-windows-sdk-v2/pull/755))
 
-**New Features and Enhancements:**
-- Add ability to get files under retention for assignment and file versions under retention for assignment ([#734](https://github.com/box/box-windows-sdk-v2/pull/734))
-- Add `is_collaboration_restricted_to_enterprise` flag support for `Folder` update ([#732](https://github.com/box/box-windows-sdk-v2/pull/732))
-- Replace insensitive language ([#738](https://github.com/box/box-windows-sdk-v2/pull/738))
-- Add new, easier to use method for create terms of service user status ([#740](https://github.com/box/box-windows-sdk-v2/pull/740))
-- Allow sort and direction parameter to be passed in when getting trashed items ([#754](https://github.com/box/box-windows-sdk-v2/pull/754))
-- Add support for Task completion_rule field ([#758](https://github.com/box/box-windows-sdk-v2/pull/758))
-- Add BoxSign API support ([#765](https://github.com/box/box-windows-sdk-v2/pull/765))
+### **Breaking changes:**
 
-**Bug Fixes:**
-- Fix `Cannot access a closed Stream.Request` exception during upload ([#739](https://github.com/box/box-windows-sdk-v2/pull/739)) ([#757](https://github.com/box/box-windows-sdk-v2/pull/757))
+* Extract interfaces for BoxClient and Managers to improve testability ([#603](https://github.com/box/box-windows-sdk-v2/pull/603))
+* Add BoxConfigBuilder and make BoxConfig immutable ([#737](https://github.com/box/box-windows-sdk-v2/pull/737))
+* Expose tasks from async methods ([#742](https://github.com/box/box-windows-sdk-v2/pull/742))
+* Use DateTimeOffset instead of DateTime ([#749](https://github.com/box/box-windows-sdk-v2/pull/749))
+* Rework returned exceptions ([#753](https://github.com/box/box-windows-sdk-v2/pull/753))
+* Upgrade .NET Standard to 2.0 ([#755](https://github.com/box/box-windows-sdk-v2/pull/755))
+
+### **New Features and Enhancements:**
+
+* Add ability to get files under retention for assignment and file versions under retention for assignment ([#734](https://github.com/box/box-windows-sdk-v2/pull/734))
+* Add `is_collaboration_restricted_to_enterprise` flag support for `Folder` update ([#732](https://github.com/box/box-windows-sdk-v2/pull/732))
+* Replace insensitive language ([#738](https://github.com/box/box-windows-sdk-v2/pull/738))
+* Add new, easier to use method for create terms of service user status ([#740](https://github.com/box/box-windows-sdk-v2/pull/740))
+* Allow sort and direction parameter to be passed in when getting trashed items ([#754](https://github.com/box/box-windows-sdk-v2/pull/754))
+* Add support for Task completion_rule field ([#758](https://github.com/box/box-windows-sdk-v2/pull/758))
+* Add BoxSign API support ([#765](https://github.com/box/box-windows-sdk-v2/pull/765))
+
+### **Bug Fixes:**
+* Fix `Cannot access a closed Stream.Request` exception during upload ([#739](https://github.com/box/box-windows-sdk-v2/pull/739)) ([#757](https://github.com/box/box-windows-sdk-v2/pull/757))
 
 ## 3.26.0 [2021-04-01]
 
