@@ -118,7 +118,7 @@ $Bytes = [Convert]::FromBase64String($PfxAsBase64)
 
 if($BuildAndTest){
     nuget restore $SLN_PATH
-    msbuild $FRAMEWORK_PROJ_DIR /property:Configuration=Release
+    msbuild $FRAMEWORK_PROJ_DIR /property:Configuration=SignedRelease
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Compilation failed. Aborting script."
         RemoveSensitiveData
@@ -142,7 +142,7 @@ if($BuildAndTest){
 ###########################################################################
 
 nuget restore $SLN_PATH
-nuget pack $FRAMEWORK_PROJ_DIR -Build -Prop Configuration=Release
+nuget pack $FRAMEWORK_PROJ_DIR -Build -Prop Configuration=SignedRelease
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Package creation failed. Aborting script."
     RemoveSensitiveData
