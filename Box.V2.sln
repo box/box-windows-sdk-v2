@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{A5BC8AA0-5191-4B1D-845F-B4F0BD0287A4}"
 EndProject
@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{5E724E70-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK Samples", "SDK Samples", "{1F66A59A-7F58-43B6-81FA-3EA5EB40C764}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box.V2.Test", "Box.V2.Test\Box.V2.Test.csproj", "{AA6B9D70-9314-43F8-A21D-773C814ED54E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.V2.Test", "Box.V2.Test\Box.V2.Test.csproj", "{AA6B9D70-9314-43F8-A21D-773C814ED54E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box.V2.Test.Integration", "Box.V2.Test.Integration\Box.V2.Test.Integration.csproj", "{BC6D323A-09D0-4477-B695-7F6F6B32401F}"
 EndProject
@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.V2.Samples.Core.AppUser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box.V2", "Box.V2\Box.V2.csproj", "{602FF1B8-DF8B-4CFF-88C6-8B34468C45AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box.V2.Samples.Core.HttpProxy", "Box.V2.Samples.Core.HttpProxy\Box.V2.Samples.Core.HttpProxy.csproj", "{3CE48886-2A12-4DEB-874B-D2E3511A4F6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.V2.Samples.Core.HttpProxy", "Box.V2.Samples.Core.HttpProxy\Box.V2.Samples.Core.HttpProxy.csproj", "{3CE48886-2A12-4DEB-874B-D2E3511A4F6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Box.V2.Test.IntegrationNew", "Box.V2.Test.IntegrationNew\Box.V2.Test.IntegrationNew.csproj", "{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -165,6 +167,22 @@ Global
 		{3CE48886-2A12-4DEB-874B-D2E3511A4F6A}.Release|x64.Build.0 = Release|Any CPU
 		{3CE48886-2A12-4DEB-874B-D2E3511A4F6A}.Release|x86.ActiveCfg = Release|Any CPU
 		{3CE48886-2A12-4DEB-874B-D2E3511A4F6A}.Release|x86.Build.0 = Release|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Debug|x64.Build.0 = Debug|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Debug|x86.Build.0 = Debug|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Release|ARM.Build.0 = Release|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Release|x64.ActiveCfg = Release|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Release|x64.Build.0 = Release|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Release|x86.ActiveCfg = Release|Any CPU
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +197,7 @@ Global
 		{EB890C3A-311C-4140-B24C-863B9C8595A7} = {1F66A59A-7F58-43B6-81FA-3EA5EB40C764}
 		{602FF1B8-DF8B-4CFF-88C6-8B34468C45AD} = {A5BC8AA0-5191-4B1D-845F-B4F0BD0287A4}
 		{3CE48886-2A12-4DEB-874B-D2E3511A4F6A} = {1F66A59A-7F58-43B6-81FA-3EA5EB40C764}
+		{C907EB1B-1654-48E5-AEB2-AF8D968F1B93} = {5E724E70-EFFA-48E7-A539-F341E7E7CE30}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A399E0B-4EE0-45A0-A463-3CC6C1E00A96}

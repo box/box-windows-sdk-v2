@@ -1,0 +1,21 @@
+name: Integration tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  core:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        env:
+          INTEGRATION_TESTING_CONFIG: ${{ secrets.INTEGRATION_TESTING_CONFIG }}
+        run: dotnet test .\Box.V2.Test.IntegrationNew -f netcoreapp2.0
