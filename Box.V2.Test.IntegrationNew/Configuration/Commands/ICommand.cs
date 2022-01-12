@@ -5,6 +5,7 @@ namespace Box.V2.Test.IntegrationNew.Configuration.Commands
     public interface ICommand
     {
         CommandScope Scope { get; }
+        CommandAccessLevel AccessLevel { get; }
     }
 
     public interface ICleanupCommand : ICommand

@@ -12,7 +12,7 @@ namespace Box.V2.Test.IntegrationNew.Configuration.Commands.DisposableCommands
         public string PolicyId;
         public BoxRetentionPolicy Policy;
 
-        public CreateRetentionPolicyCommand(string folderId, string policyName, CommandScope scope = CommandScope.Test) : base(scope)
+        public CreateRetentionPolicyCommand(string folderId, string policyName, CommandScope scope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.Admin) : base(scope, accessLevel)
         {
             _policyName = policyName;
             _folderId = folderId;

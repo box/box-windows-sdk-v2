@@ -11,7 +11,7 @@ namespace Box.V2.Test.IntegrationNew.Configuration.Commands.DisposableCommands
         public string FolderId;
         public BoxFolder Folder;
 
-        public CreateFolderCommand(string folderName, string parentId = "0", CommandScope scope = CommandScope.Test) : base(scope)
+        public CreateFolderCommand(string folderName, string parentId = "0", CommandScope scope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.User) : base(scope, accessLevel)
         {
             _folderName = folderName;
             _parentId = parentId;
