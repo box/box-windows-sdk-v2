@@ -27,6 +27,7 @@ namespace Box.V2.Models
         public const string FieldIsExternallyOwned = "is_externally_owned";
         public const string FieldUploaderDisplayName = "uploader_display_name";
         public const string FieldClassification = "classification";
+        public const string FieldDispositionAt = "disposition_at";
 
         /// <summary>
         /// The sha1 hash of this file
@@ -149,5 +150,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldClassification)]
         public virtual BoxClassification Classification { get; private set; }
+
+        /// <summary>
+        /// The retention expiration timestamp for the given file.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldDispositionAt)]
+        public virtual DateTimeOffset? DispositionAt { get; private set; }
     }
 }

@@ -196,5 +196,12 @@ namespace Box.V2.Test.Integration
             var memoryStream = new MemoryStream(dataArray);
             return memoryStream;
         }
+
+        public static async Task<BoxRetentionPolicy> CreateRetentionPolicy(string folderId = "0", CommandScope commandScope = CommandScope.Test)
+        {
+            var createRetentionPolicyCommand = new CreateRetentionPolicyCommand(folderId, GetUniqueName("policy"), commandScope);
+            await ExecuteCommand(createRetentionPolicyCommand);
+            return createRetentionPolicyCommand.Policy;
+        }
     }
 }

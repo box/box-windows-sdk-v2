@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Box.V2.Models;
@@ -150,6 +151,26 @@ namespace Box.V2.Test.IntegrationNew
 
                 Assert.AreNotEqual(uploadedFile.FileVersion.Id, newVersionFile.FileVersion.Id);
             }
+        }
+
+        [TestMethod]
+        public async Task UpdateFileInformation_ForNewDispositionDate_ShouldBeAbleToUpdateIt()
+        {
+            var uploadedFile = await CreateSmallFile(FolderId);
+            await CreateRetentionPolicy(FolderId);
+
+            var newDispositionDate = DateTimeOffset.Now.AddDays(1);
+            var boxFileRequest = new BoxFileRequest
+            {
+                Id = uploadedFile.Id,
+                DispositionAt = newDispositionDate
+            };
+
+            await Client.FilesManager.UpdateInformationAsync(boxFileRequest);
+
+            var response = await Client.FilesManager.GetInformationAsync(uploadedFile.Id, new List<string>() { "disposition_at" });
+
+            Assert.AreEqual(newDispositionDate, response.DispositionAt);
         }
     }
 }
