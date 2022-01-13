@@ -23,5 +23,11 @@ namespace Box.V2.Models
         ///// </summary>
         [JsonProperty(PropertyName = "content_modified_at")]
         public DateTimeOffset? ContentModifiedAt { get; set; }
+
+        ///// <summary>
+        ///// The retention expiration timestamp for the given file. This date cannot be shortened once set on a file.
+        ///// </summary>
+        [JsonProperty(PropertyName = "disposition_at")]
+        public DateTimeOffset? DispositionAt { get; set; }
     }
 }

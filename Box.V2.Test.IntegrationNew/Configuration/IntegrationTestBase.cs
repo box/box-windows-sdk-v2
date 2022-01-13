@@ -17,7 +17,7 @@ namespace Box.V2.Test.Integration
     [TestClass]
     public abstract class IntegrationTestBase
     {
-        protected static IBoxClient Client;
+        protected static IBoxClient UserClient;
         protected static IBoxClient AdminClient;
         protected static string UserId;
         protected static bool ClassInit = false;
@@ -42,21 +42,21 @@ namespace Box.V2.Test.Integration
             var session = new BoxJWTAuth(config);
 
             var json = JObject.Parse(jsonConfig);
+            var adminToken = await session.AdminTokenAsync();
+            AdminClient = session.AdminClient(adminToken);
+
             if (json["userID"] != null && json["userID"].ToString().Length != 0)
             {
                 UserId = json["userID"].ToString();
             }
             else
             {
-                var adminToken = await session.AdminTokenAsync();
-                AdminClient = session.AdminClient(adminToken);
-
                 var user = await CreateNewUser(AdminClient);
 
                 UserId = user.Id;
             }
             var userToken = await session.UserTokenAsync(UserId);
-            Client = session.UserClient(userToken, UserId);
+            UserClient = session.UserClient(userToken, UserId);
         }
 
         [AssemblyCleanup]
@@ -109,7 +109,8 @@ namespace Box.V2.Test.Integration
             while (commands.Count > 0)
             {
                 var command = commands.Pop();
-                await command.Dispose(Client);
+                IBoxClient client = GetClient(command);
+                await command.Dispose(client);
             }
         }
 
@@ -137,12 +138,15 @@ namespace Box.V2.Test.Integration
 
         public static async Task ExecuteCommand(ICleanupCommand command)
         {
-            await command.Execute(Client);
+            IBoxClient client = GetClient(command);
+            await command.Execute(client);
         }
 
         public static async Task<string> ExecuteCommand(IDisposableCommand command)
         {
-            var resourceId = await command.Execute(Client);
+            IBoxClient client = GetClient(command);
+
+            var resourceId = await command.Execute(client);
             if(command.Scope == CommandScope.Test)
             {
                 TestCommands.Push(command);
@@ -152,6 +156,19 @@ namespace Box.V2.Test.Integration
                 ClassCommands.Push(command);
             }
             return resourceId;
+        }
+
+        private static IBoxClient GetClient(ICommand command)
+        {
+            switch (command.AccessLevel)
+            {
+                case CommandAccessLevel.Admin:
+                    return AdminClient;
+                case CommandAccessLevel.User:
+                    return UserClient;
+                default:
+                    return UserClient;
+            }
         }
 
         public static string GetSmallFilePath()
@@ -170,11 +187,16 @@ namespace Box.V2.Test.Integration
             return File.ReadAllText(filePath);
         }
 
-        public static async Task<BoxFile> CreateSmallFile(string parentId = "0", CommandScope commandScope = CommandScope.Test)
+        public static async Task<BoxFile> CreateSmallFile(string parentId = "0", CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.User)
         {
-            var createFileCommand = new CreateFileCommand(GetUniqueName("file"), GetSmallFilePath(), parentId, commandScope);
+            var createFileCommand = new CreateFileCommand(GetUniqueName("file"), GetSmallFilePath(), parentId, commandScope, accessLevel);
             await ExecuteCommand(createFileCommand);
             return createFileCommand.File;
+        }
+
+        public static async Task<BoxFile> CreateSmallFileAsAdmin(string parentId)
+        {
+            return await CreateSmallFile(parentId, CommandScope.Test, CommandAccessLevel.Admin);
         }
 
         public static async Task DeleteFile(string fileId)
@@ -182,11 +204,16 @@ namespace Box.V2.Test.Integration
             await ExecuteCommand(new DeleteFileCommand(fileId));
         }
 
-        public static async Task<BoxFolder> CreateFolder(string parentId = "0", CommandScope commandScope = CommandScope.Test)
+        public static async Task<BoxFolder> CreateFolder(string parentId = "0", CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.User)
         {
-            var createFolderCommand = new CreateFolderCommand(GetUniqueName("folder"), parentId, commandScope);
+            var createFolderCommand = new CreateFolderCommand(GetUniqueName("folder"), parentId, commandScope, accessLevel);
             await ExecuteCommand(createFolderCommand);
             return createFolderCommand.Folder;
+        }
+
+        public static async Task<BoxFolder> CreateFolderAsAdmin(string parentId)
+        {
+            return await CreateFolder(parentId, CommandScope.Test, CommandAccessLevel.Admin);
         }
 
         public MemoryStream CreateBigFileInMemoryStream(long fileSize)
@@ -195,6 +222,13 @@ namespace Box.V2.Test.Integration
             new Random().NextBytes(dataArray);
             var memoryStream = new MemoryStream(dataArray);
             return memoryStream;
+        }
+
+        public static async Task<BoxRetentionPolicy> CreateRetentionPolicy(string folderId = "0", CommandScope commandScope = CommandScope.Test)
+        {
+            var createRetentionPolicyCommand = new CreateRetentionPolicyCommand(folderId, GetUniqueName("policy"), commandScope);
+            await ExecuteCommand(createRetentionPolicyCommand);
+            return createRetentionPolicyCommand.Policy;
         }
     }
 }

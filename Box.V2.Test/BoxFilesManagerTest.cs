@@ -93,6 +93,7 @@ namespace Box.V2.Test
                 ""sha1"": ""134b65991ed521fcfe4724b7d814ab8ded5185dc"",
                 ""name"": ""tigers.jpeg"",
                 ""description"": ""a picture of tigers"",
+                ""disposition_at"": ""2012-12-12T10:53:43-08:00"",
                 ""size"": 629644,
                 ""path_collection"": {
                     ""total_count"": 2,
@@ -197,6 +198,7 @@ namespace Box.V2.Test
             Assert.AreEqual("important", f.Tags[0]);
             Assert.AreEqual("needs review", f.Tags[1]);
             Assert.AreEqual("2020-11-03T22:00:00Z", f.ExpiresAt.Value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ssZ", DateTimeFormatInfo.InvariantInfo));
+            Assert.AreEqual("2012-12-12T18:53:43Z", f.DispositionAt.Value.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ssZ", DateTimeFormatInfo.InvariantInfo));
             Assert.AreEqual("editor", f.AllowedInviteeRoles.First());
             Assert.AreEqual("Top Secret", f.Classification.Name);
             Assert.AreEqual("Content that should not be shared outside the company.", f.Classification.Definition);
@@ -346,7 +348,8 @@ namespace Box.V2.Test
             /*** Act ***/
             var request = new BoxFileRequest()
             {
-                Id = "fakeId"
+                Id = "fakeId",
+                DispositionAt = DateTimeOffset.Parse("2022-11-28T13:14:58-08:00")
             };
 
             BoxFile f = await _filesManager.UpdateInformationAsync(request);

@@ -13,7 +13,7 @@ namespace Box.V2.Test.IntegrationNew.Configuration.Commands.DisposableCommands
         public string FileId;
         public BoxFile File;
 
-        public CreateFileCommand(string fileName, string filePath, string folderId = "0", CommandScope scope = CommandScope.Test) : base(scope)
+        public CreateFileCommand(string fileName, string filePath, string folderId = "0", CommandScope scope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.User) : base(scope, accessLevel)
         {
             _fileName = fileName;
             _filePath = filePath;
@@ -41,7 +41,11 @@ namespace Box.V2.Test.IntegrationNew.Configuration.Commands.DisposableCommands
         {
             await client.FilesManager.DeleteAsync(FileId);
 
-            await client.FilesManager.PurgeTrashedAsync(FileId);
+            // for some reason file uploaded as admin cannot be purged from trash
+            if(AccessLevel != CommandAccessLevel.Admin)
+            {
+                await client.FilesManager.PurgeTrashedAsync(FileId);
+            }
         }
     }
 }
