@@ -70,13 +70,13 @@ namespace Box.V2.Test
         {
             var boxConfig = new BoxConfigBuilder("", "", "", "", "", "")
                 .Build();
-            Assert.AreEqual(boxConfig.BoxTokenApiUri, new System.Uri(Constants.BoxTokenUriString));
+            Assert.AreEqual(boxConfig.BoxAuthTokenApiUri, new System.Uri(Constants.BoxAuthTokenApiUriString));
 
             var exampleUri = new System.Uri("https://example.com/");
             var newConfig = new BoxConfigBuilder("", "", "", "", "", "")
                 .SetBoxTokenApiUri(exampleUri)
                 .Build();
-            Assert.AreEqual(newConfig.BoxTokenApiUri, exampleUri);
+            Assert.AreEqual(newConfig.BoxAuthTokenApiUri, exampleUri);
         }
     }
 }
