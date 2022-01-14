@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
@@ -25,6 +26,7 @@ namespace Box.V2.Test
             _service = new BoxService(_handler.Object);
             _boxConfig = new Mock<IBoxConfig>();
             _boxConfig.SetupGet(x => x.EnterpriseId).Returns("12345");
+            _boxConfig.SetupGet(x => x.BoxTokenApiUri).Returns(new Uri(Constants.BoxTokenUriString));
             _jwtAuth = new BoxJWTAuth(_boxConfig.Object, _service);
         }
 
