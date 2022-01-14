@@ -59,6 +59,7 @@ namespace Box.V2.Config
             BoxAccountApiHostUri = builder.BoxAccountApiHostUri;
             BoxApiUri = builder.BoxApiUri;
             BoxUploadApiUri = builder.BoxUploadApiUri;
+            BoxTokenApiUri = builder.BoxTokenApiUri;
             RedirectUri = builder.RedirectUri;
             DeviceId = builder.DeviceId;
             DeviceName = builder.DeviceName;
@@ -147,6 +148,7 @@ namespace Box.V2.Config
         public Uri BoxAccountApiHostUri { get; private set; } = new Uri(Constants.BoxAccountApiHostUriString);
         public Uri BoxApiUri { get; private set; } = new Uri(Constants.BoxApiUriString);
         public Uri BoxUploadApiUri { get; private set; } = new Uri(Constants.BoxUploadApiUriString);
+        public Uri BoxTokenApiUri { get; private set; } = new Uri(Constants.BoxTokenUriString);
 
         public string ClientId { get; private set; }
         public string ConsumerKey { get; private set; }

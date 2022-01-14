@@ -30,7 +30,6 @@ namespace Box.V2.JWTAuth
     ///</remarks>
     public class BoxJWTAuth
     {
-        private const string AUTH_URL = "https://api.box.com/oauth2/token";
         private const string ENTERPRISE_SUB_TYPE = "enterprise";
         private const string USER_SUB_TYPE = "user";
         private const string TOKEN_TYPE = "bearer";
@@ -252,7 +251,7 @@ namespace Box.V2.JWTAuth
                 expireTime = nowOverride.Value.AddSeconds(30);
             }
 
-            var payload = new JwtPayload(_boxConfig.ClientId, AUTH_URL, claims, null, expireTime.LocalDateTime);
+            var payload = new JwtPayload(_boxConfig.ClientId, _boxConfig.BoxTokenApiUri.ToString(), claims, null, expireTime.LocalDateTime);
 
             var header = new JwtHeader(signingCredentials: _credentials);
             if (_boxConfig.JWTPublicKeyId != null)

@@ -149,6 +149,17 @@ namespace Box.V2.Config
         }
 
         /// <summary>
+        /// Sets BoxAPI token uri.
+        /// </summary>
+        /// <param name="boxTokenApiUri">BoxAPI token uri.</param>
+        /// <returns>this BoxConfigBuilder object for chaining</returns>
+        public BoxConfigBuilder SetBoxTokenApiUri(Uri boxTokenApiUri)
+        {
+            BoxTokenApiUri = boxTokenApiUri;
+            return this;
+        }
+
+        /// <summary>
         /// Sets redirect uri.
         /// </summary>
         /// <param name="redirectUri">Redirect uri.</param>
@@ -227,6 +238,7 @@ namespace Box.V2.Config
         public Uri BoxAccountApiHostUri { get; private set; } = new Uri(Constants.BoxAccountApiHostUriString);
         public Uri BoxApiUri { get; private set; } = new Uri(Constants.BoxApiUriString);
         public Uri BoxUploadApiUri { get; private set; } = new Uri(Constants.BoxUploadApiUriString);
+        public Uri BoxTokenApiUri { get; private set; } = new Uri(Constants.BoxTokenUriString);
 
         public Uri RedirectUri { get; private set; }
         public string DeviceId { get; private set; }
