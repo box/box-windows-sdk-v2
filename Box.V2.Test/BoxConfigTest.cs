@@ -63,5 +63,20 @@ namespace Box.V2.Test
             Assert.AreEqual(config.JWTPrivateKey, "DUMMY");
             Assert.AreEqual(config.EnterpriseId, "eid-123");
         }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public void BoxConfig_SetAuthTokenUriString()
+        {
+            var boxConfig = new BoxConfigBuilder("", "", "", "", "", "")
+                .Build();
+            Assert.AreEqual(boxConfig.BoxAuthTokenApiUri, new System.Uri(Constants.BoxAuthTokenApiUriString));
+
+            var exampleUri = new System.Uri("https://example.com/");
+            var newConfig = new BoxConfigBuilder("", "", "", "", "", "")
+                .SetBoxTokenApiUri(exampleUri)
+                .Build();
+            Assert.AreEqual(newConfig.BoxAuthTokenApiUri, exampleUri);
+        }
     }
 }
