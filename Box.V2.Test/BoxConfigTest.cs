@@ -66,7 +66,7 @@ namespace Box.V2.Test
 
         [TestMethod]
         [TestCategory("CI-UNIT-TEST")]
-        public void BoxConfig_SetTokenUriString()
+        public void BoxConfig_SetAuthTokenUriString()
         {
             var boxConfig = new BoxConfigBuilder("", "", "", "", "", "")
                 .Build();
