@@ -57,6 +57,7 @@ namespace Box.V2.Test.Integration
             }
             var userToken = await session.UserTokenAsync(UserId);
             UserClient = session.UserClient(userToken, UserId);
+            Console.WriteLine(UserId);
         }
 
         [AssemblyCleanup]
