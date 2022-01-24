@@ -18,13 +18,14 @@ namespace Box.V2.Managers
     public class BoxEventsManager : BoxResourceManager, IBoxEventsManager
     {
         public const string ENTERPRISE_EVENTS_STREAM_TYPE = "admin_logs";
+        public const string ENTERPRISE_EVENTS_STREAMING_STREAM_TYPE = "admin_logs_streaming";
         public readonly LRUCache<string, bool> USER_EVENTS_DEDUPE_CACHE = new LRUCache<string, bool>(1000);
 
         public BoxEventsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null)
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
-        /// Retrieve a chunk of Enterprise Events.  You must be using a token that is scoped to admin level in order to use this endpoint.
+        /// Retrieves up to a year's events for all users in the enterprise. High latency. You must be using a token that is scoped to admin level in order to use this endpoint.
         /// </summary>
         /// <param name="limit">Limits the number of events returned (defaults to 500).</param>
         /// <param name="streamPosition">The starting position for fetching the events. This is used in combination with the limit to determine which events to return to the caller. Use the results from the next_stream_position of your last call to get the next set of events.</param>
@@ -159,6 +160,28 @@ namespace Box.V2.Managers
                     }
                 } while (pollAgain);
             }
+        }
+
+        /// <summary>
+        /// Retrieves up to a two weeks's events for all users in the enterprise. Low latency. You must be using a token that is scoped to admin level in order to use this endpoint.
+        /// </summary>
+        /// <param name="limit">Limits the number of events returned (defaults to 500).</param>
+        /// <param name="streamPosition">The starting position for fetching the events. This is used in combination with the limit to determine which events to return to the caller. Use the results from the next_stream_position of your last call to get the next set of events.</param>
+        /// <param name="eventTypes">Events to filter by.</param>
+        /// <returns></returns>
+        public async Task<BoxEventCollection<BoxEnterpriseEvent>> EnterpriseEventsStreamingAsync(int limit = 500,
+            string streamPosition = null,
+            IEnumerable<string> eventTypes = null)
+        {
+            BoxRequest request = new BoxRequest(_config.EventsUri)
+                .Param("stream_type", ENTERPRISE_EVENTS_STREAMING_STREAM_TYPE)
+                .Param("limit", limit.ToString())
+                .Param("stream_position", streamPosition)
+                .Param("event_type", eventTypes);
+
+            IBoxResponse<BoxEventCollection<BoxEnterpriseEvent>> response = await ToResponseAsync<BoxEventCollection<BoxEnterpriseEvent>>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
         }
     }
 }
