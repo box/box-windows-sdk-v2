@@ -213,5 +213,32 @@ namespace Box.V2.Test
             Assert.AreEqual(webLinkEventSource.Type, "web_link");
             Assert.AreEqual(webLinkEventSource.Parent.Id, "22222");
         }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task EnterpriseEventsStreamingAsync_ValidResponse()
+        {
+            var responseString = "{\"chunk_size\": 1, \"next_stream_position\": 123, \"entries\": [{\"source\":{\"group_id\":\"942617509\",\"group_name\":\"Groupies\"},\"created_by\":{\"type\":\"user\",\"id\":\"11111\",\"name\":\"Test User\",\"login\":\"test@user.com\"},\"action_by\":{\"type\":\"user\",\"id\":\"12345\",\"name\":\"Test User\",\"login\":\"test@user.com\"},\"created_at\":\"2018-03-16T15:12:52-07:00\",\"event_id\":\"85c57bf3-bc15-4d24-93bc-955c796217c8\",\"event_type\":\"GROUP_EDITED\",\"ip_address\":\"UnknownIP\",\"type\":\"event\",\"session_id\":null,\"additional_details\":null}]}";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxEventCollection<BoxEnterpriseEvent>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxEventCollection<BoxEnterpriseEvent>>>(new BoxResponse<BoxEventCollection<BoxEnterpriseEvent>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            var events = await _eventsManager.EnterpriseEventsStreamingAsync();
+            var firstEvent = events.Entries.First<BoxEnterpriseEvent>();
+
+            /*** Assert ***/
+            Assert.AreEqual("stream_type=admin_logs_streaming&limit=500", boxRequest.GetQueryString());
+            Assert.AreEqual("12345", firstEvent.ActionBy.Id);
+            Assert.AreEqual("user", firstEvent.ActionBy.Type);
+            Assert.AreEqual("Test User", firstEvent.ActionBy.Name);
+            Assert.AreEqual("test@user.com", firstEvent.ActionBy.Login);
+            Assert.AreEqual("942617509", firstEvent.Source.Id);
+            Assert.AreEqual("85c57bf3-bc15-4d24-93bc-955c796217c8", firstEvent.EventId);
+        }
     }
 }
