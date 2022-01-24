@@ -18,4 +18,4 @@ jobs:
       - name: Test
         env:
           INTEGRATION_TESTING_CONFIG: ${{ secrets.INTEGRATION_TESTING_CONFIG }}
-        run: dotnet test .\Box.V2.Test.IntegrationNew -f netcoreapp2.0 -l "console;verbosity=detailed"
+        run: dotnet test .\Box.V2.Test.IntegrationNew -f netcoreapp2.0
