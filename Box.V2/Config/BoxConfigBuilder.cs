@@ -60,21 +60,6 @@ namespace Box.V2.Config
         }
 
         /// <summary>
-        /// Instantiates a BoxConfigBuilder for use with CCG authentication for Enterprise
-        /// </summary>
-        /// <param name="clientId"></param>
-        /// <param name="clientSecret"></param>
-        /// <param name="enterpriseId"></param>
-        /// <returns>BoxConfigBuilder instance.</returns>
-        public BoxConfigBuilder(string clientId, string clientSecret, string enterpriseId)
-        {
-            ClientId = clientId;
-            ClientSecret = clientSecret;
-            EnterpriseId = enterpriseId;
-            UserAgent = BoxConfig.DefaultUserAgent;
-        }
-
-        /// <summary>
         /// Create BoxConfigBuilder from json file.
         /// </summary>
         /// <param name="jsonFile">json file stream.</param>
