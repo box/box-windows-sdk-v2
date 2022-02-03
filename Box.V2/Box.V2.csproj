@@ -33,7 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SignedRelease|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SignedRelease|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -78,6 +78,8 @@
     <Compile Include="Auth\Token\ActorTokenBuilder.cs" />
     <Compile Include="Auth\Token\TokenExchange.cs" />
     <Compile Include="BoxClient.cs" />
+    <Compile Include="CCGAuth\BoxCCGAuth.cs" />
+    <Compile Include="CCGAuth\CCGAuthRepository.cs" />
     <Compile Include="Config\BoxConfigBuilder.cs" />
     <Compile Include="IBoxClient.cs" />
     <Compile Include="Converter\BoxZipConflictConverter.cs" />

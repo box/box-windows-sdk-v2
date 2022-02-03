@@ -160,6 +160,8 @@ namespace Box.V2.Config
         public const string AuthHeaderKey = "Authorization";
         public const string V1AuthString = "BoxAuth api_key={0}&auth_token={1}";
         public const string V2AuthString = "Bearer {0}";
+        public const string BearerTokenType = "bearer";
+        public const int AccessTokenExpirationTime = 3600; // seconds
 
         /*** Return types ***/
         public const string TypeFile = "file";
@@ -234,6 +236,9 @@ namespace Box.V2.Config
 
             public const string Digest = "Digest";
 
+            public const string SubjectType = "box_subject_type";
+            public const string SubjectId = "box_subject_id";
+
             /*** Values ***/
             public const string RefreshToken = "refresh_token";
             public const string AuthorizationCode = "authorization_code";
@@ -260,6 +265,10 @@ namespace Box.V2.Config
             public const string Pending = "pending";
 
             public const string IfMatch = "If-Match";
+
+            public const string ClientCredentials = "client_credentials";
+            public const string UserSubType = "user";
+            public const string EnterpriseSubType = "enterprise";
 
             /*** Values for specifically representations endpoint ***/
             public const string XRepHints = "x-rep-hints";
