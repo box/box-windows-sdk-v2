@@ -238,6 +238,17 @@ namespace Box.V2.Config
             return this;
         }
 
+        /// <summary>
+        /// Sets enterprise id.
+        /// </summary>
+        /// <param name="enterpriseId">Enteprise id.</param>
+        /// <returns>this BoxConfigBuilder object for chaining</returns>
+        public BoxConfigBuilder SetEnterpriseId(string enterpriseId)
+        {
+            EnterpriseId = enterpriseId;
+            return this;
+        }
+
         public string ClientId { get; private set; }
         public string ClientSecret { get; private set; }
         public string EnterpriseId { get; private set; }
