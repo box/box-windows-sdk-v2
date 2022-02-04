@@ -33,7 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SignedRelease|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SignedRelease|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -208,6 +208,7 @@
     <Compile Include="Models\Request\BoxFileRequestUpdateRequest.cs" />
     <Compile Include="Models\Request\BoxFileRequestCopyRequest.cs" />
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
+    <Compile Include="Models\Request\BoxMetadataQueryRequest.cs" />
     <Compile Include="Models\Request\BoxSignRequestCreateRequest.cs" />
     <Compile Include="Models\Request\BoxTermsOfServiceUserStatusCreateRequest.cs" />
     <Compile Include="Models\Request\BoxUserRolloutRequest.cs" />
