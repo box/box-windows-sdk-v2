@@ -47,6 +47,19 @@ namespace Box.V2.Config
         }
 
         /// <summary>
+        /// Instantiates a BoxConfigBuilder for use with CCG authentication
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="clientSecret"></param>
+        /// <returns>BoxConfigBuilder instance.</returns>
+        public BoxConfigBuilder(string clientId, string clientSecret)
+        {
+            ClientId = clientId;
+            ClientSecret = clientSecret;
+            UserAgent = BoxConfig.DefaultUserAgent;
+        }
+
+        /// <summary>
         /// Create BoxConfigBuilder from json file.
         /// </summary>
         /// <param name="jsonFile">json file stream.</param>
@@ -222,6 +235,17 @@ namespace Box.V2.Config
         public BoxConfigBuilder SetTimeout(TimeSpan timeout)
         {
             Timeout = timeout;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets enterprise id.
+        /// </summary>
+        /// <param name="enterpriseId">Enteprise id.</param>
+        /// <returns>this BoxConfigBuilder object for chaining</returns>
+        public BoxConfigBuilder SetEnterpriseId(string enterpriseId)
+        {
+            EnterpriseId = enterpriseId;
             return this;
         }
 
