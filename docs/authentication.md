@@ -124,7 +124,7 @@ not accessible in any other account by default, and vice versa.
 You'll need to provide the necessary configuration fields directly
 to the `BoxConfigBuilder` constructor:
 
-<!-- sample x_auth init_with_ccg_enterprise_with_config -->
+<!-- sample x_auth with_client_credentials_enterprise -->
 ```c#
 var boxConfig = new BoxConfigBuilder("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET")
                 .SetEnterpriseId("YOUR_ENTERPRISE_ID")
@@ -150,7 +150,7 @@ for detailed instructions on how to use app auth.
 Clients for making calls as an App User or Managed User can be created with the same `BoxCCGAuth`
 instance as in the above examples, similarly to creating a Service Account client. You don't need to provide `enterpriseId` in this case:
 
-<!-- sample x_auth init_with_jwt_with_user_id -->
+<!-- sample x_auth with_client_credentials -->
 ```c#
 var boxConfig = new BoxConfigBuilder("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET")
                 .Build();
