@@ -8,6 +8,7 @@ using Box.V2.Converter;
 using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 using Box.V2.Services;
 using Newtonsoft.Json.Linq;
 
@@ -331,7 +332,7 @@ namespace Box.V2.Managers
             from.ThrowIfNullOrWhiteSpace("from");
             ancestorFolderId.ThrowIfNullOrWhiteSpace("ancestorFolderId");
 
-            JObject bodyObject = GetMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, null, limit, marker);
+            JObject bodyObject = GetMetadataQueryBody(from, ancestorFolderId, query, queryParameters, orderBy, null, limit, marker);
 
             BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
                 .Method(RequestMethod.Post)
@@ -363,6 +364,7 @@ namespace Box.V2.Managers
         /// <param name="marker">The marker to use for requesting the next page</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>A collection of items and their associated metadata</returns>
+        [Obsolete("This method no longer supports use_index. Use ExecuteMetadataQueryAsync(BoxMetadataQueryRequest queryRequest) instead.")]
         public async Task<BoxCollectionMarkerBased<BoxItem>> ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             from.ThrowIfNullOrWhiteSpace("from");
@@ -372,7 +374,7 @@ namespace Box.V2.Managers
                 throw new ArgumentException("Required field cannot be null", "fields");
             }
 
-            JObject bodyObject = GetMetadataQueryBody(from, ancestorFolderId, query, queryParameters, indexName, orderBy, fields, limit, marker);
+            JObject bodyObject = GetMetadataQueryBody(from, ancestorFolderId, query, queryParameters, orderBy, fields, limit, marker);
 
             BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
                 .Method(RequestMethod.Post)
@@ -390,11 +392,40 @@ namespace Box.V2.Managers
             }
         }
 
+        /// <summary>
+        /// Allows you to query by metadata on Box items with fields passed in
+        /// </summary>
+        /// <param name="queryRequest">Request object.</param>
+        /// <returns>A collection of items and their associated metadata</returns>
+        public async Task<BoxCollectionMarkerBased<BoxItem>> ExecuteMetadataQueryAsync(BoxMetadataQueryRequest queryRequest)
+        {
+            queryRequest.From.ThrowIfNullOrWhiteSpace("from");
+            queryRequest.AncestorFolderId.ThrowIfNullOrWhiteSpace("ancestorFolderId");
+
+            JObject bodyObject = GetMetadataQueryBody(queryRequest.From, queryRequest.AncestorFolderId, queryRequest.Query, queryRequest.QueryParameters,
+                queryRequest.OrderBy, queryRequest.Fields, queryRequest.Limit, queryRequest.Marker);
+
+            BoxRequest request = new BoxRequest(_config.MetadataQueryUri)
+                .Method(RequestMethod.Post)
+                .Payload(_converter.Serialize(bodyObject));
+            request.ContentType = Constants.RequestParameters.ContentTypeJson;
+
+            if (queryRequest.AutoPaginate)
+            {
+                return await AutoPaginateMarkerMetadataQueryV2<BoxItem>(request).ConfigureAwait(false);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxItem>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxItem>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
+        }
+
         //************************************
         //Private methods
         //************************************
 
-        private JObject GetMetadataQueryBody(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, IEnumerable<string> fields = null, int limit = 100, string marker = null)
+        private JObject GetMetadataQueryBody(string from, string ancestorFolderId, string query = null, Dictionary<string, object> queryParameters = null, List<BoxMetadataQueryOrderBy> orderBy = null, IEnumerable<string> fields = null, int limit = 100, string marker = null)
         {
             dynamic bodyObject = new JObject();
 
@@ -410,11 +441,6 @@ namespace Box.V2.Managers
             if (queryParameters != null)
             {
                 bodyObject.query_params = JObject.FromObject(queryParameters);
-            }
-
-            if (indexName != null)
-            {
-                bodyObject.use_index = indexName;
             }
 
             if (orderBy != null)

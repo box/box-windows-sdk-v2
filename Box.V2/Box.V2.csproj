@@ -210,6 +210,7 @@
     <Compile Include="Models\Request\BoxFileRequestUpdateRequest.cs" />
     <Compile Include="Models\Request\BoxFileRequestCopyRequest.cs" />
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
+    <Compile Include="Models\Request\BoxMetadataQueryRequest.cs" />
     <Compile Include="Models\Request\BoxSignRequestCreateRequest.cs" />
     <Compile Include="Models\Request\BoxTermsOfServiceUserStatusCreateRequest.cs" />
     <Compile Include="Models\Request\BoxUserRolloutRequest.cs" />
