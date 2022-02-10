@@ -124,7 +124,7 @@ if($BuildAndTest){
         RemoveSensitiveData
         exit 1
     }
-    dotnet test -f $NET_FRAMEWORK_VER --verbosity normal
+    dotnet test $TEST_PATH -f $NET_FRAMEWORK_VER --verbosity normal
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Some of the unit tests failed. Aborting script."
         RemoveSensitiveData
