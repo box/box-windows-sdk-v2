@@ -83,7 +83,7 @@ if($BuildAndTest){
         Write-Output "Compilation failed. Aborting script."
         exit 1
     }
-    dotnet test -f $NET_CORE_VER
+    dotnet test $TEST_PATH -f $NET_CORE_VER
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Some of the unit test failed. Aborting script."
         exit 1
