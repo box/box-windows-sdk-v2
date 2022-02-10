@@ -1,0 +1,42 @@
+{
+  "entries": [
+    {
+      "type": "file",
+      "id": "1244738582",
+      "etag": "1",
+      "sha1": "012b5jdunwkfu438991344044",
+      "name": "Very Important.docx",
+      "metadata": {
+        "enterprise_67890": {
+          "catalogImages": {
+            "$parent": "file_50347290",
+            "$version": 2,
+            "$template": "catalogImages",
+            "$scope": "enterprise_67890",
+            "photographer": "Bob Dylan"
+          }
+        }
+      }
+    },
+    {
+      "type": "folder",
+      "id": "124242482",
+      "etag": "1",
+      "sha1": "012b5ir8391344044",
+      "name": "Also Important.docx",
+      "metadata": {
+        "enterprise_67890": {
+          "catalogImages": {
+            "$parent": "file_50427290",
+            "$version": 2,
+            "$template": "catalogImages",
+            "$scope": "enterprise_67890",
+            "photographer": "Bob Dylan"
+          }
+        }
+      }
+    }
+  ],
+  "limit": 2,
+  "next_marker": "0!WkeoDQ3mm5cI_RzSN--UOG1ICuw0gz3729kfhwuoagt54nbvqmgfhsygreh98nfu94344PpctrcgVa8AMIe7gRwSNBNloVR-XuGmfqTw"
+}

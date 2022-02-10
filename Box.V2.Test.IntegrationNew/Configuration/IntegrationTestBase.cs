@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.JWTAuth;
@@ -22,6 +23,7 @@ namespace Box.V2.Test.Integration
         protected static string UserId;
         protected static bool ClassInit = false;
         protected static bool UserCreated = false;
+        protected static string EnterpriseId;
 
         protected static Stack<IDisposableCommand> ClassCommands;
         protected static Stack<IDisposableCommand> TestCommands;
@@ -57,6 +59,8 @@ namespace Box.V2.Test.Integration
             }
             var userToken = await session.UserTokenAsync(UserId);
             UserClient = session.UserClient(userToken, UserId);
+
+            EnterpriseId = config.EnterpriseId;
         }
 
         [AssemblyCleanup]
@@ -131,9 +135,16 @@ namespace Box.V2.Test.Integration
             return string.Format("{0} - {1}", testContext.TestName, Guid.NewGuid().ToString());
         }
 
-        protected static string GetUniqueName(string resourceName)
+        protected static string GetUniqueName(string resourceName, bool includeSpecialCharacters = true)
         {
-            return string.Format("{0} - {1}", resourceName, Guid.NewGuid().ToString());
+            var uniqueName = string.Format("{0} - {1}", resourceName, Guid.NewGuid().ToString());
+            if (!includeSpecialCharacters)
+            {
+                var rgx = new Regex("[^a-zA-Z0-9]");
+                uniqueName = rgx.Replace(uniqueName, "");
+            }
+
+            return uniqueName;
         }
 
         public static async Task ExecuteCommand(ICleanupCommand command)
@@ -229,6 +240,39 @@ namespace Box.V2.Test.Integration
             var createRetentionPolicyCommand = new CreateRetentionPolicyCommand(folderId, GetUniqueName("policy"), commandScope);
             await ExecuteCommand(createRetentionPolicyCommand);
             return createRetentionPolicyCommand.Policy;
+        }
+
+        public static async Task<Tuple<BoxFile, string>> CreateSmallFileWithMetadata
+            (string parentId = "0", Dictionary<string, object> metadata = null,
+            CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.Admin)
+        {
+            var createFileCommand = new CreateFileCommand(GetUniqueName("file"), GetSmallFilePath(), parentId, commandScope, accessLevel);
+            await ExecuteCommand(createFileCommand);
+
+            var createMetadataTemplateCommand = new CreateMetadataTemplateCommand(GetUniqueName("template_key", false), ToStringMetadataFields(metadata), commandScope, accessLevel);
+            await ExecuteCommand(createMetadataTemplateCommand);
+
+            var applyMetadataCommand = new ApplyMetadataCommand(createMetadataTemplateCommand.TemplateKey, createFileCommand.FileId, metadata, commandScope, accessLevel);
+            await ExecuteCommand(applyMetadataCommand);
+
+            return Tuple.Create(createFileCommand.File, createMetadataTemplateCommand.TemplateKey);
+        }
+
+        private static List<BoxMetadataTemplateField> ToStringMetadataFields(Dictionary<string, object> metadataFields)
+        {
+            var mappedFields = new List<BoxMetadataTemplateField>();
+
+            foreach (var field in metadataFields)
+            {
+                mappedFields.Add(new BoxMetadataTemplateField()
+                {
+                    Type = "string",
+                    Key = field.Key,
+                    DisplayName = field.Key
+                });
+            }
+
+            return mappedFields;
         }
     }
 }
