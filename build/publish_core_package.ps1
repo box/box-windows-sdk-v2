@@ -136,7 +136,12 @@ if ($DryRun) {
 if ($DryRun) { 
     Write-Output "Dry run. Package will not be published."
 }else{
-    dotnet nuget push $CORE_NUPKG_PATH -k $NugetKey -s $NUGET_URL
+    dotnet nuget push $CORE_NUPKG_PATH -k $NugetKey -s $NUGET_URL --skip-duplicate
+    if ($LASTEXITCODE -ne 0) {
+        Write-Output "Nuget push failed. Aborting script"
+        RemoveSensitiveData
+        exit 1
+    }
 }
 
 exit 0
