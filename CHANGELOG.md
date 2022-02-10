@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/box/box-windows-sdk-v2/compare/v4.1.0...v4.2.0) (2022-02-10)
+
+
+### **Bug Fixes:**
+
+* correctly pass null when rolling out user from the enterprise ([#792](https://github.com/box/box-windows-sdk-v2/issues/792)) ([c85c573](https://github.com/box/box-windows-sdk-v2/commit/c85c5735865b7dd97ffa1428a8f57d2edff6811b))
+* Creating BoxAuthenticationFailedException no longer throws an exception ([#790](https://github.com/box/box-windows-sdk-v2/issues/790)) ([55a706e](https://github.com/box/box-windows-sdk-v2/commit/55a706e4091271aa55208a260b2f4f96e1527698))
+* Null Argument Exception in AutoPaginate ([#666](https://github.com/box/box-windows-sdk-v2/issues/666)) ([c61f08c](https://github.com/box/box-windows-sdk-v2/commit/c61f08cc02d5c95ff71ef700e97393a0dc3dc890))
+
+
+### **New Features and Enhancements:**
+
+* add admin_logs_streaming support ([#797](https://github.com/box/box-windows-sdk-v2/issues/797)) ([a775e1e](https://github.com/box/box-windows-sdk-v2/commit/a775e1e5c7696a1e5f82b5dc7edbed8eb09f640d))
+* add Client Credentials Grant auth support ([#799](https://github.com/box/box-windows-sdk-v2/issues/799)) ([b8a64ca](https://github.com/box/box-windows-sdk-v2/commit/b8a64ca3887298feccef5185f6bfec4c3771b5a9))
+* add disposition_at field to the File object ([#793](https://github.com/box/box-windows-sdk-v2/issues/793)) ([2766a91](https://github.com/box/box-windows-sdk-v2/commit/2766a914fad1eb40371cd4430b3450360088b331))
+* add possibility to set auth token uri in BoxConfig ([#794](https://github.com/box/box-windows-sdk-v2/issues/794)) ([ae8cd8b](https://github.com/box/box-windows-sdk-v2/commit/ae8cd8b91dd91b8a786e53ff5b3501d2700686a4))
+* deprecate index_name in ExecuteMetadataQuery ([#800](https://github.com/box/box-windows-sdk-v2/issues/800)) ([6a6a0e4](https://github.com/box/box-windows-sdk-v2/commit/6a6a0e4a0e41ec70ec33acacba00bee6c7ee881f))
+
 ## [4.1.0](https://github.com/box/box-windows-sdk-v2/compare/v4.0.0...v4.1.0) (2021-12-14)
 
 
