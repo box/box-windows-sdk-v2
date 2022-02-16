@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -32,6 +33,37 @@ namespace Box.V2.Test.IntegrationNew
 
             Assert.AreEqual(response.Entries.Count, 1);
             Assert.AreEqual(((BoxFile)response.Entries[0]).Metadata[$"enterprise_{EnterpriseId}"][templateKey]["status"].Value, "active");
+        }
+
+        [TestMethod]
+        public async Task GetEnterpriseMetadataAsync_ForExistingMetadataTemplate_ShouldReturnThisMetadataTemplate()
+        {
+            var metadataTemplate = await CreateMetadataTemplate();
+
+            var templates = await AdminClient.MetadataManager.GetEnterpriseMetadataAsync();
+
+            Assert.IsTrue(templates.Entries.Any(x => x.TemplateKey == metadataTemplate.TemplateKey));
+        }
+
+        [TestMethod]
+        public async Task GetMetadataTemplate_ForExistingMetadataTemplate_ShouldReturnThisMetadataTemplate()
+        {
+            var metadataTemplate = await CreateMetadataTemplate();
+
+            var template = await AdminClient.MetadataManager.GetMetadataTemplate("enterprise", metadataTemplate.TemplateKey);
+
+            Assert.AreEqual(template.TemplateKey, metadataTemplate.TemplateKey);
+        }
+
+
+        [TestMethod]
+        public async Task GetMetadataTemplateById_ForExistingMetadataTemplate_ShouldReturnThisMetadataTemplate()
+        {
+            var metadataTemplate = await CreateMetadataTemplate();
+
+            var fetchedMetadataTemplate = await AdminClient.MetadataManager.GetMetadataTemplateById(metadataTemplate.Id);
+
+            Assert.AreEqual(fetchedMetadataTemplate.TemplateKey, metadataTemplate.TemplateKey);
         }
     }
 }

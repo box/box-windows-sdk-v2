@@ -10,6 +10,7 @@ namespace Box.V2.Test.IntegrationNew
     [TestClass]
     public class BoxEventsManagerIntegrationTest : TestInFolder
     {
+        //flaky test (sometimes too fast events fetch)
         [TestMethod]
         public async Task EnterpriseEventsStreamingAsync_ForNewFile_ShouldReturnUploadFileEvent()
         {

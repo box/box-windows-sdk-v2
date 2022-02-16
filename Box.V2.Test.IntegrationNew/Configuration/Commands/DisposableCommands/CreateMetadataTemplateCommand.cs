@@ -9,6 +9,7 @@ namespace Box.V2.Test.IntegrationNew.Configuration.Commands.DisposableCommands
         private readonly List<BoxMetadataTemplateField> _metadataFields;
 
         public string TemplateKey;
+        public BoxMetadataTemplate MetadataTemplate; 
 
         public CreateMetadataTemplateCommand(string templateKey, List<BoxMetadataTemplateField> metadataFields,
             CommandScope scope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.Admin) : base(scope, accessLevel)
@@ -28,6 +29,7 @@ namespace Box.V2.Test.IntegrationNew.Configuration.Commands.DisposableCommands
             };
 
             var response = await client.MetadataManager.CreateMetadataTemplate(metadataTemplate);
+            MetadataTemplate = response;
 
             return response.Id;
         }

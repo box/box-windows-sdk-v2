@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Box.V2.Config;
@@ -215,6 +216,11 @@ namespace Box.V2.Test.Integration
             await ExecuteCommand(new DeleteFileCommand(fileId));
         }
 
+        public static async Task DeleteFolder(string folderId)
+        {
+            await ExecuteCommand(new DeleteFolderCommand(folderId));
+        }
+
         public static async Task<BoxFolder> CreateFolder(string parentId = "0", CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.User)
         {
             var createFolderCommand = new CreateFolderCommand(GetUniqueName("folder"), parentId, commandScope, accessLevel);
@@ -227,7 +233,7 @@ namespace Box.V2.Test.Integration
             return await CreateFolder(parentId, CommandScope.Test, CommandAccessLevel.Admin);
         }
 
-        public MemoryStream CreateBigFileInMemoryStream(long fileSize)
+        public static MemoryStream CreateFileInMemoryStream(long fileSize)
         {
             var dataArray = new byte[fileSize];
             new Random().NextBytes(dataArray);
@@ -235,11 +241,25 @@ namespace Box.V2.Test.Integration
             return memoryStream;
         }
 
+        public static MemoryStream CreateBigFileInMemoryStream()
+        {
+            return CreateFileInMemoryStream(50000000);
+        }
+
         public static async Task<BoxRetentionPolicy> CreateRetentionPolicy(string folderId = "0", CommandScope commandScope = CommandScope.Test)
         {
             var createRetentionPolicyCommand = new CreateRetentionPolicyCommand(folderId, GetUniqueName("policy"), commandScope);
             await ExecuteCommand(createRetentionPolicyCommand);
             return createRetentionPolicyCommand.Policy;
+        }
+
+        public static async Task<BoxMetadataTemplate> CreateMetadataTemplate(Dictionary<string, object> metadata = null,
+                CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.Admin)
+        {
+            var createMetadataTemplateCommand = new CreateMetadataTemplateCommand(GetUniqueName("template_key", false), ToStringMetadataFields(metadata), commandScope, accessLevel);
+            await ExecuteCommand(createMetadataTemplateCommand);
+
+            return createMetadataTemplateCommand.MetadataTemplate;
         }
 
         public static async Task<Tuple<BoxFile, string>> CreateSmallFileWithMetadata
@@ -262,17 +282,53 @@ namespace Box.V2.Test.Integration
         {
             var mappedFields = new List<BoxMetadataTemplateField>();
 
-            foreach (var field in metadataFields)
+            if (metadataFields != null)
             {
-                mappedFields.Add(new BoxMetadataTemplateField()
+                foreach (var field in metadataFields)
                 {
-                    Type = "string",
-                    Key = field.Key,
-                    DisplayName = field.Key
-                });
+                    mappedFields.Add(new BoxMetadataTemplateField()
+                    {
+                        Type = "string",
+                        Key = field.Key,
+                        DisplayName = field.Key
+                    });
+                }
             }
 
             return mappedFields;
+        }
+
+        public static async Task<bool> DoesFileExistInFolder(IBoxClient client, string folderId, string fileName)
+        {
+            // TODO: Paging
+            BoxCollection<BoxItem> boxCollection = await client.FoldersManager.GetFolderItemsAsync(folderId, 1000);
+            return boxCollection.Entries.Any(item => item.Name == fileName);
+        }
+
+        public static async Task<BoxUser> CreateEnterpriseUser()
+        {
+            return await CreateEnterpriseUser(GetUniqueName("user"), GetUniqueName("user-id"));
+        }
+
+        public static async Task<BoxUser> CreateEnterpriseUser(string name, string externalUserAppId)
+        {
+            var createEnterpriseUserCommand = new CreateEnterpriseUserCommand(name, externalUserAppId);
+            await ExecuteCommand(createEnterpriseUserCommand);
+            return createEnterpriseUserCommand.BoxUser;
+        }
+
+        public static async Task<BoxWebLink> CreateWebLink(string name, string parentFolderId)
+        {
+            var createWebLinkCommand = new CreateWebLinkCommand(name, parentFolderId);
+            await ExecuteCommand(createWebLinkCommand);
+            return createWebLinkCommand.WebLink;
+        }
+
+        public static async Task<BoxCollaborationWhitelistTargetEntry> AddCollaborationExempt(string userId)
+        {
+            var addCollaborationExemptCommand = new AddCollaborationExemptCommand(userId);
+            await ExecuteCommand(addCollaborationExemptCommand);
+            return addCollaborationExemptCommand.WhitelistTargetEntry;
         }
     }
 }

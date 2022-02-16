@@ -154,6 +154,7 @@ namespace Box.V2.Test.IntegrationNew
             }
         }
 
+        //flaky test (too fast update(?))
         [TestMethod]
         public async Task UpdateFileInformation_ForNewDispositionDate_ShouldBeAbleToUpdateIt()
         {
@@ -173,6 +174,123 @@ namespace Box.V2.Test.IntegrationNew
             var response = await AdminClient.FilesManager.GetInformationAsync(uploadedFile.Id, new List<string>() { "disposition_at" });
 
             Assert.IsTrue(newDispositionDate.IsEqualUpToSeconds(response.DispositionAt.Value));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TimeoutException))]
+        public async Task DownloadStreamAsync_ForTimeoutShorterThanDownloadTime_ShouldAbortDownload()
+        {
+            var uploadedFile = await CreateSmallFile(FolderId);
+            var timeout = new TimeSpan(0, 0, 0, 0, 1);
+
+            await UserClient.FilesManager.DownloadStreamAsync(uploadedFile.Id, timeout: timeout);
+        }
+
+        [TestMethod]
+        public async Task UploadBigFileInSession_ShouldUploadTheFile_OnlyIfCommitIsCalled()
+        {
+            long fileSize = 50000000;
+            MemoryStream fileInMemoryStream = CreateFileInMemoryStream(fileSize);
+            var remoteFileName = GetUniqueName("UploadSession");
+
+            var boxFileUploadSessionRequest = new BoxFileUploadSessionRequest()
+            {
+                FolderId = FolderId,
+                FileName = remoteFileName,
+                FileSize = fileSize
+            };
+
+            BoxFileUploadSession boxFileUploadSession = await UserClient.FilesManager.CreateUploadSessionAsync(boxFileUploadSessionRequest);
+            BoxSessionEndpoint boxSessionEndpoint = boxFileUploadSession.SessionEndpoints;
+            var uploadPartUri = new Uri(boxSessionEndpoint.UploadPart);
+            var commitUri = new Uri(boxSessionEndpoint.Commit);
+            var listPartsUri = new Uri(boxSessionEndpoint.ListParts);
+            var partSize = boxFileUploadSession.PartSize;
+            long.TryParse(partSize, out var partSizeLong);
+            var numberOfParts = GetNumberOfParts(fileSize, partSizeLong);
+
+            await UploadPartsInSessionAsync(uploadPartUri, numberOfParts, partSizeLong, fileInMemoryStream, fileSize);
+
+            // Assert file is not committed/uploaded to box yet
+            Assert.IsFalse(await DoesFileExistInFolder(UserClient, FolderId, remoteFileName));
+
+            var allSessionParts = new List<BoxSessionPartInfo>();
+
+            var boxSessionParts = await UserClient.FilesManager.GetSessionUploadedPartsAsync(listPartsUri, null, null, true);
+
+            foreach (var sessionPart in boxSessionParts.Entries)
+            {
+                allSessionParts.Add(sessionPart);
+            }
+            var sessionPartsForCommit = new BoxSessionParts() { Parts = allSessionParts };
+
+            var uploadedFile = await UserClient.FilesManager.CommitSessionAsync(commitUri, Helper.GetSha1Hash(fileInMemoryStream), sessionPartsForCommit);
+
+            // Assert file is committed/uploaded to box after commit
+            Assert.IsTrue(await DoesFileExistInFolder(UserClient, FolderId, remoteFileName));
+
+            await DeleteFile(uploadedFile.Id);
+        }
+
+        private int GetNumberOfParts(long totalSize, long partSize)
+        {
+            if (partSize == 0)
+            {
+                throw new Exception("Part Size cannot be 0");
+            }
+
+            var numberOfParts = Convert.ToInt32(totalSize / partSize);
+            if (totalSize % partSize != 0)
+            {
+                numberOfParts++;
+            }
+            return numberOfParts;
+        }
+
+        private async Task UploadPartsInSessionAsync(Uri uploadPartsUri, int numberOfParts, long partSize, Stream stream,
+            long fileSize)
+        {
+            for (var i = 0; i < numberOfParts; i++)
+            {
+                var partOffset = partSize * i;
+                Stream partFileStream = GetFilePart(stream, partSize, partOffset);
+                var sha = Helper.GetSha1Hash(partFileStream);
+                partFileStream.Position = 0;
+                await UserClient.FilesManager.UploadPartAsync(uploadPartsUri, sha, partOffset, fileSize, partFileStream);
+            }
+        }
+
+        private Stream GetFilePart(Stream stream, long partSize, long partOffset)
+        {
+            const int BufferSize = 4096;
+
+            var buffer = new byte[BufferSize];
+            stream.Position = partOffset;
+            var partStream = new MemoryStream();
+            int bytesRead;
+            do
+            {
+                bytesRead = stream.Read(buffer, 0, 4096);
+                if (bytesRead > 0)
+                {
+                    long bytesToWrite = bytesRead;
+                    var shouldBreak = false;
+                    if (partStream.Length + bytesRead >= partSize)
+                    {
+                        bytesToWrite = partSize - partStream.Length;
+                        shouldBreak = true;
+                    }
+
+                    partStream.Write(buffer, 0, Convert.ToInt32(bytesToWrite));
+
+                    if (shouldBreak)
+                    {
+                        break;
+                    }
+                }
+            } while (bytesRead > 0);
+
+            return partStream;
         }
     }
 }
