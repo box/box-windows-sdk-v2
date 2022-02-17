@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.JWTAuth;
@@ -329,6 +330,28 @@ namespace Box.V2.Test.Integration
             var addCollaborationExemptCommand = new AddCollaborationExemptCommand(userId);
             await ExecuteCommand(addCollaborationExemptCommand);
             return addCollaborationExemptCommand.WhitelistTargetEntry;
+        }
+
+        public static async Task Retry(Func<Task> action, int retries = 3, int sleep = 1000)
+        {
+            var retryCount = 0;
+            while (retryCount < retries)
+            {
+                try
+                {
+                    await action();
+                    break;
+                }
+                catch (Exception) { }
+
+                Thread.Sleep(sleep);
+                retryCount++;
+            }
+
+            if (retryCount >= retries)
+            {
+                Assert.Fail("Retries limit exceeded");
+            }
         }
     }
 }

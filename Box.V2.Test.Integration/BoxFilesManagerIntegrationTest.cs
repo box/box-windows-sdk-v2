@@ -169,11 +169,14 @@ namespace Box.V2.Test.Integration
                 DispositionAt = newDispositionDate
             };
 
-            await AdminClient.FilesManager.UpdateInformationAsync(boxFileRequest);
+            await Retry(async () =>
+            {
+                await AdminClient.FilesManager.UpdateInformationAsync(boxFileRequest);
 
-            var response = await AdminClient.FilesManager.GetInformationAsync(uploadedFile.Id, new List<string>() { "disposition_at" });
+                var response = await AdminClient.FilesManager.GetInformationAsync(uploadedFile.Id, new List<string>() { "disposition_at" });
 
-            Assert.IsTrue(newDispositionDate.IsEqualUpToSeconds(response.DispositionAt.Value));
+                Assert.IsTrue(newDispositionDate.IsEqualUpToSeconds(response.DispositionAt.Value));
+            });
         }
 
         [TestMethod]
