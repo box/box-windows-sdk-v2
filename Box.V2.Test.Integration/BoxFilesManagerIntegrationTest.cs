@@ -176,7 +176,7 @@ namespace Box.V2.Test.Integration
                 var response = await AdminClient.FilesManager.GetInformationAsync(uploadedFile.Id, new List<string>() { "disposition_at" });
 
                 Assert.IsTrue(newDispositionDate.IsEqualUpToSeconds(response.DispositionAt.Value));
-            });
+            }, 5, 5000);
         }
 
         [TestMethod]
