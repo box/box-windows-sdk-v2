@@ -34,7 +34,7 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
 
         public async Task Dispose(IBoxClient client)
         {
-            await client.FoldersManager.DeleteAsync(FolderId);
+            await client.FoldersManager.DeleteAsync(FolderId, true);
 
             await client.FoldersManager.PurgeTrashedFolderAsync(FolderId);
         }

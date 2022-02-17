@@ -13,7 +13,7 @@ namespace Box.V2.Test.Integration.Configuration.Commands.CleanupCommands
 
         public async Task Execute(IBoxClient client)
         {
-            await client.FoldersManager.DeleteAsync(_folderId);
+            await client.FoldersManager.DeleteAsync(_folderId, true);
 
             await client.FoldersManager.PurgeTrashedFolderAsync(_folderId);
         }
