@@ -22,4 +22,4 @@ jobs:
       - name: Test
         env:
           INTEGRATION_TESTING_CONFIG: ${{ secrets.INTEGRATION_TESTING_CONFIG }}
-        run: dotnet test .\Box.V2.Test.Integration -f netcoreapp2.0 -v diagnostic
+        run: dotnet test .\Box.V2.Test.Integration -f netcoreapp2.0
