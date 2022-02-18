@@ -192,7 +192,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task UploadBigFileInSession_ShouldUploadTheFile_OnlyIfCommitIsCalled()
         {
-            long fileSize = 50000000;
+            long fileSize = 20000000;
             MemoryStream fileInMemoryStream = CreateFileInMemoryStream(fileSize);
             var remoteFileName = GetUniqueName("UploadSession");
 

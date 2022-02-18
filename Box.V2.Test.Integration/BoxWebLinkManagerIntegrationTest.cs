@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Box.V2.Exceptions;
 using Box.V2.Models;
 using Box.V2.Test.Integration.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -49,7 +50,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        public async Task DeleteWebLinkAsync_ForExistingWebLink_ShouldDeleteWebLink()
+        public async Task DeleteWebLinkAsync_ForExistingWebLink_ShouldDeleteWebLinkAndExceptionShouldBeThrown()
         {
             var url = new Uri("http://www.box.com");
             const string Description = "A weblink to Box.com";
@@ -59,7 +60,7 @@ namespace Box.V2.Test.Integration
 
             var result = await UserClient.WebLinksManager.DeleteWebLinkAsync(weblink.Id);
 
-            Assert.IsTrue(result);
+            await Assert.ThrowsExceptionAsync<BoxAPIException>(async () => { _ = await UserClient.WebLinksManager.GetWebLinkAsync(weblink.Id); });
         }
     }
 }

@@ -195,7 +195,9 @@ namespace Box.V2.Test.Integration
 
             var result = await UserClient.FoldersManager.RemoveWatermarkAsync(folder.Id);
 
-            Assert.IsTrue(result);
+            var fieldList = new List<string>(new string[] { "watermark_info" });
+            var folderInfo = await UserClient.FoldersManager.GetInformationAsync(folder.Id, fieldList);
+            Assert.IsFalse(folderInfo.WatermarkInfo.IsWatermarked);
         }
     }
 }
