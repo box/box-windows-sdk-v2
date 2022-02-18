@@ -48,6 +48,12 @@
     <None Update="Fixtures\BoxFileRequest\GetFileRequest200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Fixtures\BoxMetadata\ExecuteMetadataQuery200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Fixtures\BoxMetadata\ExecuteMetadataWithFieldsQuery200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Fixtures\BoxSignRequest\CancelSignRequest200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

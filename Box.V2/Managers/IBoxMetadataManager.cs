@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Box.V2.Models;
+using Box.V2.Models.Request;
 
 namespace Box.V2.Managers
 {
@@ -196,6 +197,14 @@ namespace Box.V2.Managers
         /// <param name="marker">The marker to use for requesting the next page</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>A collection of items and their associated metadata</returns>
+        [Obsolete("This method no longer supports use_index. Use ExecuteMetadataQueryAsync(BoxMetadataQueryRequest queryRequest) instead.")]
         Task<BoxCollectionMarkerBased<BoxItem>> ExecuteMetadataQueryAsync(string from, string ancestorFolderId, IEnumerable<string> fields, string query = null, Dictionary<string, object> queryParameters = null, string indexName = null, List<BoxMetadataQueryOrderBy> orderBy = null, int limit = 100, string marker = null, bool autoPaginate = false);
+
+        /// <summary>
+        /// Allows you to query by metadata on Box items with fields passed in
+        /// </summary>
+        /// <param name="queryRequest">Request object.</param>
+        /// <returns>A collection of items and their associated metadata</returns>
+        Task<BoxCollectionMarkerBased<BoxItem>> ExecuteMetadataQueryAsync(BoxMetadataQueryRequest queryRequest);
     }
 }

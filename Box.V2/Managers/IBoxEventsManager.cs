@@ -12,7 +12,7 @@ namespace Box.V2.Managers
     public interface IBoxEventsManager
     {
         /// <summary>
-        /// Retrieve a chunk of Enterprise Events.  You must be using a token that is scoped to admin level in order to use this endpoint.
+        /// Retrieves up to a year's events for all users in the enterprise. High latency. You must be using a token that is scoped to admin level in order to use this endpoint.
         /// </summary>
         /// <param name="limit">Limits the number of events returned (defaults to 500).</param>
         /// <param name="streamPosition">The starting position for fetching the events. This is used in combination with the limit to determine which events to return to the caller. Use the results from the next_stream_position of your last call to get the next set of events.</param>
@@ -55,5 +55,16 @@ namespace Box.V2.Managers
             UserEventsStreamType streamType = UserEventsStreamType.all,
             bool dedupeEvents = true,
             int? retryTimeoutOverride = null);
+
+        /// <summary>
+        /// Retrieves up to a two weeks's events for all users in the enterprise. Low latency. You must be using a token that is scoped to admin level in order to use this endpoint.
+        /// </summary>
+        /// <param name="limit">Limits the number of events returned (defaults to 500).</param>
+        /// <param name="streamPosition">The starting position for fetching the events. This is used in combination with the limit to determine which events to return to the caller. Use the results from the next_stream_position of your last call to get the next set of events.</param>
+        /// <param name="eventTypes">Events to filter by.</param>
+        /// <returns></returns>
+        Task<BoxEventCollection<BoxEnterpriseEvent>> EnterpriseEventsStreamingAsync(int limit = 500,
+            string streamPosition = null,
+            IEnumerable<string> eventTypes = null);
     }
 }

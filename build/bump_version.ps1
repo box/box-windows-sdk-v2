@@ -67,6 +67,8 @@ if ($LASTEXITCODE -ne 0) {
 if ($InstallDependencies){
     npm install -g standard-version
     Install-Module -Name PowerShellForGitHub -Scope CurrentUser -Force
+    $PathToAdd = ';' + $env:USERPROFILE + '\AppData\Roaming\npm'
+    $env:Path += $PathToAdd
 }
 
 ###########################################################################
@@ -125,8 +127,8 @@ if($DryRun){
     Clear-GitHubAuthentication
 
     git checkout $lastBranch
-    git pull
     git branch -D $NEXT_VERSION_TAG
+
 }
 
 exit 0

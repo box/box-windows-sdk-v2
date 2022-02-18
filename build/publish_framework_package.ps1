@@ -124,7 +124,7 @@ if($BuildAndTest){
         RemoveSensitiveData
         exit 1
     }
-    dotnet test -f $NET_FRAMEWORK_VER --verbosity normal
+    dotnet test $TEST_PATH -f $NET_FRAMEWORK_VER --verbosity normal
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Some of the unit tests failed. Aborting script."
         RemoveSensitiveData
@@ -181,7 +181,12 @@ if ($DryRun) {
 if ($DryRun) { 
     Write-Output "Running in Dry Run mode. Package will not be published"
 }else{
-    dotnet nuget push $FRAMEWORK_NUPKG_PATH -k $NugetKey -s $NUGET_URL
+    dotnet nuget push $FRAMEWORK_NUPKG_PATH -k $NugetKey -s $NUGET_URL --skip-duplicate
+    if ($LASTEXITCODE -ne 0) {
+        Write-Output "Nuget push failed. Aborting script"
+        RemoveSensitiveData
+        exit 1
+    }
 }
 
 ###########################################################################
