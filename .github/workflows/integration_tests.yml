@@ -10,6 +10,7 @@ on:
 
 jobs:
   core:
+    name:  Integration tests
     runs-on: windows-latest
 
     steps:
