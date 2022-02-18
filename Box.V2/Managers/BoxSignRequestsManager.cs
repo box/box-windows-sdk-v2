@@ -113,5 +113,17 @@ namespace Box.V2.Managers
 
             return;
         }
+
+        public async Task NewMethodWithoutComment(string signRequestId)
+        {
+            signRequestId.ThrowIfNullOrWhiteSpace("signRequestId");
+
+            BoxRequest request = new BoxRequest(_config.SignRequestsEndpointWithPathUri, string.Format(Constants.SignRequestsResendPathString, signRequestId))
+                .Method(RequestMethod.Post);
+
+            await ToResponseAsync<object>(request).ConfigureAwait(false);
+
+            return;
+        }
     }
 }
