@@ -35,6 +35,7 @@ if($NextVersion -eq $null -Or $NextVersion -eq ''){
 $NextVersionTag = "v" + $NextVersion
 
 $CORE_NUPKG_PATH="$CORE_PROJ_DIR" + "\bin\Release\" + "$CORE_ASSEMBLY_NAME" + "." + "$NextVersion" + ".nupkg"
+$CORE_SNUPKG_PATH="$CORE_PROJ_DIR" + "\bin\Release\" + "$CORE_ASSEMBLY_NAME" + "." + "$NextVersion" + ".snupkg"
 
 ###########################################################################
 # Parameters validation
@@ -125,6 +126,7 @@ if ($DryRun) {
 
     $release | New-GitHubReleaseAsset -Path $CORE_NUPKG_PATH
     $release | New-GitHubReleaseAsset -Path $CORE_PDB_PATH
+    $release | New-GitHubReleaseAsset -Path $CORE_SNUPKG_PATH
 
     Clear-GitHubAuthentication
 }
@@ -138,7 +140,13 @@ if ($DryRun) {
 }else{
     dotnet nuget push $CORE_NUPKG_PATH -k $NugetKey -s $NUGET_URL --skip-duplicate
     if ($LASTEXITCODE -ne 0) {
-        Write-Output "Nuget push failed. Aborting script"
+        Write-Output "Nuget push nupkg failed. Aborting script"
+        RemoveSensitiveData
+        exit 1
+    }
+    dotnet nuget push $CORE_SNUPKG_PATH -k $NugetKey -s $NUGET_URL --skip-duplicate
+    if ($LASTEXITCODE -ne 0) {
+        Write-Output "Nuget push snupkg failed. Aborting script"
         RemoveSensitiveData
         exit 1
     }
