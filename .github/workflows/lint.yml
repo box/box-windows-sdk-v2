@@ -1,9 +1,6 @@
 name: Lint Code Base
 
 on:
-  push:
-    branches:
-      - main
   pull_request_target:
     types: [opened, synchronize]
     branches:
@@ -25,5 +22,6 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_YAML: false
           VALIDATE_JSCPD: false
+          VALIDATE_POWERSHELL: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

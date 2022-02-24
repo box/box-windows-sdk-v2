@@ -82,6 +82,60 @@ $RELEASE_DATE = (Select-String -Pattern "\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]
 $RELEASE_NOTE_LINK = $NEXT_VERSION.Replace(".", "") + "-" + "$RELEASE_DATE"
 
 ###########################################################################
+# Reorder changelog sections
+###########################################################################
+
+$sections = @()
+$sections += ('### ⚠ BREAKING CHANGES')
+foreach($line in Get-Content $VERSIONRC_PATH) {
+    $found = $line -match '(?<=section": ").*(?=",)'
+    if ($found) {
+        $sections += $matches[0]
+    }
+}
+
+$orderedSections = new-object string[] $sections.Length
+$currentSection = $null
+$previousSectionIndex = 0
+
+foreach($line in Get-Content $CHANGELOG_PATH) {
+    if($line -match "## [[0-9]+\.[0-9]+\.[0-9]+]"){
+        if($VersionFound){
+            if(![string]::IsNullOrWhiteSpace($currentSection)){
+                $orderedSections[$previousSectionIndex] = $currentSection
+            }
+            break
+        }
+        $VersionFound = $true
+        continue
+    }
+    if($VersionFound){
+        for ($i=0; $i -lt $sections.Length; $i++)
+        {
+            if($line -match [Regex]::Escape($sections[$i])){
+                if(![string]::IsNullOrWhiteSpace($currentSection)){
+                    $orderedSections[$previousSectionIndex] = $currentSection
+                }
+                $previousSectionIndex = $i
+                $currentSection = $null
+                continue
+            }
+        }
+        $currentSection += "$line`n"
+    }
+}
+
+$orderedSectionsAsString
+
+foreach($orderedSection in $orderedSections){
+    $orderedSectionsAsString += $orderedSection
+}
+
+$fileContent = Get-Content $CHANGELOG_PATH -Raw
+$result = [regex]::match($fileContent, '(?s)(###.*?)## [[0-9]+\.[0-9]+\.[0-9]+]').Groups[1].Value
+$fileContent -replace [Regex]::Escape($result), $orderedSectionsAsString | Set-Content $CHANGELOG_PATH
+
+###########################################################################
 # Bump version files
 ###########################################################################
 
