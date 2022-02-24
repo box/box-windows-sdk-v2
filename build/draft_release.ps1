@@ -76,7 +76,7 @@ if ($InstallDependencies){
 
 $VersionFound = $false
 foreach($line in Get-Content $CHANGELOG_PATH) {
-    if($line -match "## [[0-9]+\.[0-9]+\.[0-9]+]"){
+    if($line -match "#{2,3} [[0-9]+\.[0-9]+\.[0-9]+]"){
         if($VersionFound){
             break
         }
