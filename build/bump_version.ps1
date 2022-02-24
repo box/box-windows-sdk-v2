@@ -132,7 +132,7 @@ foreach($orderedSection in $orderedSections){
 }
 
 $fileContent = Get-Content $CHANGELOG_PATH -Raw
-$result = [regex]::match($fileContent, '(?s)(###.*?)#{2,3} [[0-9]+\.[0-9]+\.[0-9]+]').Groups[1].Value
+$result = [regex]::match($fileContent, '(?s)(### [^\[].*?)#{2,3} [[0-9]+\.[0-9]+\.[0-9]+]').Groups[1].Value
 $fileContent -replace [Regex]::Escape($result), $orderedSectionsAsString | Set-Content $CHANGELOG_PATH
 
 ###########################################################################
