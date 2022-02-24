@@ -99,7 +99,7 @@ $currentSection = $null
 $previousSectionIndex = 0
 
 foreach($line in Get-Content $CHANGELOG_PATH) {
-    if($line -match "## [[0-9]+\.[0-9]+\.[0-9]+]"){
+    if($line -match "#{2,3} [[0-9]+\.[0-9]+\.[0-9]+]"){
         if($VersionFound){
             if(![string]::IsNullOrWhiteSpace($currentSection)){
                 $orderedSections[$previousSectionIndex] = $currentSection
@@ -132,7 +132,7 @@ foreach($orderedSection in $orderedSections){
 }
 
 $fileContent = Get-Content $CHANGELOG_PATH -Raw
-$result = [regex]::match($fileContent, '(?s)(###.*?)## [[0-9]+\.[0-9]+\.[0-9]+]').Groups[1].Value
+$result = [regex]::match($fileContent, '(?s)(###.*?)#{2,3} [[0-9]+\.[0-9]+\.[0-9]+]').Groups[1].Value
 $fileContent -replace [Regex]::Escape($result), $orderedSectionsAsString | Set-Content $CHANGELOG_PATH
 
 ###########################################################################
