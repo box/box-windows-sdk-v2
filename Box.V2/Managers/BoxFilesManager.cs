@@ -367,17 +367,7 @@ namespace Box.V2.Managers
         /// <returns> The complete BoxFile object. </returns>
         public async Task<BoxFile> CommitSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
-            BoxRequest request = new BoxRequest(commitSessionUrl)
-                .Method(RequestMethod.Post)
-                .Header(Constants.RequestParameters.Digest, "sha=" + sha)
-                .Payload(_converter.Serialize(sessionPartsInfo));
-
-            request.ContentType = Constants.RequestParameters.ContentTypeJson;
-
-            var response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
-
-            // We can only commit one file at a time, so return the first entry
-            return response.ResponseObject.Entries.FirstOrDefault();
+            return await CommitSessionInternalAsync(commitSessionUrl, sha, sessionPartsInfo).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -389,6 +379,11 @@ namespace Box.V2.Managers
         /// <returns> The complete BoxFile object. </returns>
         public async Task<BoxFile> CommitFileVersionSessionAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
         {
+            return await CommitSessionInternalAsync(commitSessionUrl, sha, sessionPartsInfo).ConfigureAwait(false);
+        }
+
+        private async Task<BoxFile> CommitSessionInternalAsync(Uri commitSessionUrl, string sha, BoxSessionParts sessionPartsInfo)
+        {
             BoxRequest request = new BoxRequest(commitSessionUrl)
                 .Method(RequestMethod.Post)
                 .Header(Constants.RequestParameters.Digest, "sha=" + sha)
@@ -396,9 +391,10 @@ namespace Box.V2.Managers
 
             request.ContentType = Constants.RequestParameters.ContentTypeJson;
 
-            var response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+            var response = await ToResponseAsync<BoxCollection<BoxFile>>(request).ConfigureAwait(false);
 
-            return response.ResponseObject;
+            // We can only commit one file at a time, so return the first entry
+            return response.ResponseObject.Entries.FirstOrDefault();
         }
 
         /// <summary>
