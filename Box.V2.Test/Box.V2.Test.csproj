@@ -47,6 +47,9 @@
     <None Update="Fixtures\BoxFileRequest\GetFileRequest200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Fixtures\BoxFiles\UploadNewVersionUsingSession200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Fixtures\BoxMetadata\ExecuteMetadataQuery200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

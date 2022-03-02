@@ -235,6 +235,20 @@ namespace Box.V2.Test.Integration
             await DeleteFile(uploadedFile.Id);
         }
 
+        [TestMethod]
+        public async Task UploadNewVersionOfBigFileInSession_ShouldUploadNewVersionOfFile_WhenFileAlreadyExists()
+        {
+            var file = await CreateSmallFile();
+
+            long fileSize = 20000000;
+            MemoryStream fileInMemoryStream = CreateFileInMemoryStream(fileSize);
+
+            var response = await UserClient.FilesManager.UploadNewVersionUsingSessionAsync(fileInMemoryStream, file.Id);
+
+            Assert.AreEqual(file.Id, response.Id);
+            Assert.AreNotEqual(file.FileVersion.Id, response.FileVersion.Id);
+        }
+
         private int GetNumberOfParts(long totalSize, long partSize)
         {
             if (partSize == 0)
