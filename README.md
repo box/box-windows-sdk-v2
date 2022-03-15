@@ -397,6 +397,25 @@ Other Resources
 - .NET Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2.Core/
 - Box Windows SDK Video Tutorial: https://youtu.be/hqko0hxbaXU
 
+Versions
+---------------------------
+
+We use a modified version of [Semantic Versioning](https://semver.org/) for all changes. See [version strategy](VERSIONS.md) for details which is effective from 30 July 2022.
+
+### Supported Version
+
+Only the current MAJOR version of SDK is supported. New features, functionality, bug fixes, and security updates will only be added to the current MAJOR version.
+
+A current release is on the leading edge of our SDK development, and is intended for customers who are in active development and want the latest and greatest features.  Instead of stating a release date for a new feature, we set a fixed minor or patch release cadence of maximum 2-3 months (while we may release more often). At the same time, there is no schedule for major or breaking release. Instead, we will communicate one quarter in advance the upcoming breaking change to allow customers to plan for the upgrade. We always recommend that all users run the latest available minor release for whatever major version is in use. We highly recommend upgrading to the latest SDK major release at the earliest convenient time and before the EOL date.
+
+### Version schedule
+
+| Version | Current Patch/Minor | Supported Environments                | State     | First Release | EOL/Terminated |
+|---------|---------------------|---------------------------------------|-----------|---------------|----------------|
+| 4       | 4.2.0               | .NET Framework 4.5 and .NET Core 2.0+ | Supported | 02 Nov 2021   | TBD            |
+| 3       | 3.26.0              |                                       | EOL       | 28 Jul 2017   | 02 Nov 2021    |
+| 2       | 2.15.6              |                                       | EOL       | 05 Nov 2015   | 28 Jul 2017    |
+
 Known Issues
 ------------
 Windows 8 Sample OAuth2 uses desktop login screen instead of mobile. Pending fix from platform team.
