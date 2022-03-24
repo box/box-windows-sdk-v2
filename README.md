@@ -410,11 +410,11 @@ A current release is on the leading edge of our SDK development, and is intended
 
 ### Version schedule
 
-| Version | Current Patch/Minor | Supported Environments                | State     | First Release | EOL/Terminated |
-|---------|---------------------|---------------------------------------|-----------|---------------|----------------|
-| 4       | 4.2.0               | .NET Framework 4.5 and .NET Core 2.0+ | Supported | 02 Nov 2021   | TBD            |
-| 3       | 3.26.0              |                                       | EOL       | 28 Jul 2017   | 02 Nov 2021    |
-| 2       | 2.15.6              |                                       | EOL       | 05 Nov 2015   | 28 Jul 2017    |
+| Version | Supported Environments                | State     | First Release | EOL/Terminated |
+|---------|---------------------------------------|-----------|---------------|----------------|
+| 4       | .NET Framework 4.5 and .NET Core 2.0+ | Supported | 02 Nov 2021   | TBD            |
+| 3       |                                       | EOL       | 28 Jul 2017   | 02 Nov 2021    |
+| 2       |                                       | EOL       | 05 Nov 2015   | 28 Jul 2017    |
 
 Known Issues
 ------------
