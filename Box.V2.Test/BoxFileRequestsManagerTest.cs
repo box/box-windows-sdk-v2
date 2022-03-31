@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
+using Box.V2.Test.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -146,6 +147,7 @@ namespace Box.V2.Test
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Put, boxRequest.Method);
             Assert.AreEqual(new Uri("https://api.box.com/2.0/file_requests/42037322"), boxRequest.AbsoluteUri);
+            Assert.IsTrue(boxRequest.Payload.ContainsKeyValue("status", "inactive"));
 
             // Response check
             Assert.AreEqual("42037322", response.Id);

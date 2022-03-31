@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
+using Box.V2.Test.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Newtonsoft.Json.Linq;
 
 namespace Box.V2.Test
 {
@@ -45,7 +47,8 @@ namespace Box.V2.Test
             {
                 new BoxSignRequestSignerCreate()
                 {
-                    Email = "example@gmail.com"
+                    Email = "example@gmail.com",
+                    Role = BoxSignRequestSignerRole.signer,
                 }
             };
 
@@ -70,6 +73,7 @@ namespace Box.V2.Test
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
             Assert.AreEqual(new Uri("https://api.box.com/2.0/sign_requests"), boxRequest.AbsoluteUri);
+            Assert.IsTrue(boxRequest.Payload.ContainsKeyValue("signers[0].role", "signer"));
 
             // Response check
             Assert.AreEqual(1, response.SourceFiles.Count);

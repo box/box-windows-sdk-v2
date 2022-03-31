@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models
 {
@@ -67,6 +68,7 @@ namespace Box.V2.Models
         /// Value is one of signer,approver,final_copy_reader
         /// </summary>
         [JsonProperty(PropertyName = FieldRole)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public virtual BoxSignRequestSignerRole Role { get; private set; }
 
         /// <summary>
@@ -103,6 +105,7 @@ namespace Box.V2.Models
         /// Type of input.
         /// </summary>
         [JsonProperty(PropertyName = FieldType)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public virtual BoxSignRequestSingerInputType Type { get; private set; }
 
         /// <summary>
@@ -159,6 +162,7 @@ namespace Box.V2.Models
         /// Type of decision made by the signer.
         /// </summary>
         [JsonProperty(PropertyName = FieldType)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public virtual BoxSignRequestSingerDecisionType Type { get; private set; }
 
         /// <summary>

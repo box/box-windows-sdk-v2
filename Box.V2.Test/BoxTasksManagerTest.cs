@@ -4,6 +4,7 @@ using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
+using Box.V2.Test.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
@@ -483,6 +484,7 @@ namespace Box.V2.Test
             Assert.AreEqual(taskCreateRequest.Item.Type, payload.Item.Type);
             Assert.AreEqual(taskCreateRequest.Message, payload.Message);
             Assert.AreEqual(taskCreateRequest.CompletionRule, payload.CompletionRule);
+            Assert.IsTrue(boxRequest.Payload.ContainsKeyValue("completion_rule", "any_assignee"));
 
             //Response check
             Assert.AreEqual(BoxCompletionRule.any_assignee, result.CompletionRule);
