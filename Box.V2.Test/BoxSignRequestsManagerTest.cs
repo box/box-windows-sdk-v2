@@ -73,7 +73,7 @@ namespace Box.V2.Test
             Assert.IsNotNull(boxRequest);
             Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
             Assert.AreEqual(new Uri("https://api.box.com/2.0/sign_requests"), boxRequest.AbsoluteUri);
-            Assert.IsTrue(boxRequest.Payload.ContainsKeyValue("signers.0.role", "signer"));
+            Assert.IsTrue(boxRequest.Payload.ContainsKeyValue("signers[0].role", "signer"));
 
             // Response check
             Assert.AreEqual(1, response.SourceFiles.Count);
