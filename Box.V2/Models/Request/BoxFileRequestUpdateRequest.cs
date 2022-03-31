@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models.Request
 {
@@ -45,6 +46,7 @@ namespace Box.V2.Models.Request
         /// This will default to the value on the existing file request.
         /// </summary>
         [JsonProperty(PropertyName = "status")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public BoxFileRequestStatus? Status { get; set; }
 
         /// <summary>

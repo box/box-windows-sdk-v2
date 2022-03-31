@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models
 {
@@ -59,6 +60,7 @@ namespace Box.V2.Models
         /// Gets value indicating which assignees need to complete this task before the task is considered completed.
         /// </summary>
         [JsonProperty(PropertyName = FieldCompletionRule)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public virtual BoxCompletionRule CompletionRule { get; private set; }
     }
 }

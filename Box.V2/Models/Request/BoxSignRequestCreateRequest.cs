@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models.Request
 {
@@ -156,6 +157,7 @@ namespace Box.V2.Models.Request
         /// Value is one of signer,approver,final_copy_reader
         /// </summary>
         [JsonProperty(PropertyName = "role")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public BoxSignRequestSignerRole? Role { get; set; }
     }
 }

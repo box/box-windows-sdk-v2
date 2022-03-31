@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models
 {
@@ -80,6 +81,7 @@ namespace Box.V2.Models
         /// Describes the status of the sign request.
         /// </summary>
         [JsonProperty(PropertyName = FieldStatus)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public virtual BoxFileRequestStatus Status { get; private set; }
 
         /// <summary>
