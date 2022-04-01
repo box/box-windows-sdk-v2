@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/box/box-windows-sdk-v2/compare/v4.2.0...v4.3.0) (2022-04-01)
+
+
+### **New Features and Enhancements:**
+
+* add `SourceLink` support for Core project ([#795](https://github.com/box/box-windows-sdk-v2/issues/795)) ([a9cbede](https://github.com/box/box-windows-sdk-v2/commit/a9cbedece2ffb4f832be880bebf35b715c9cb28b))
+
+
+### **Bug Fixes:**
+
+* add missing enum to string parsing in several places ([#813](https://github.com/box/box-windows-sdk-v2/issues/813)) ([e370282](https://github.com/box/box-windows-sdk-v2/commit/e3702826216132dfe1fb061af95a8d9700f114d4))
+* properly cast response when uploading a new file version using session ([#810](https://github.com/box/box-windows-sdk-v2/issues/810)) ([73d877f](https://github.com/box/box-windows-sdk-v2/commit/73d877ff679b5999ea50cdfa68f14b0e2169ea65))
+
 ## [4.2.0](https://github.com/box/box-windows-sdk-v2/compare/v4.1.0...v4.2.0) (2022-02-10)
 
 
@@ -260,3 +273,4 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
