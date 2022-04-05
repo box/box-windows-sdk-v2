@@ -222,7 +222,7 @@ namespace Box.V2.Auth
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException("Access token cannot be null or empty", "accessToken");
 
-            BoxRequest boxRequest = new BoxRequest(_config.BoxAuthRevokeApiUri, Constants.RevokeEndpointString)
+            BoxRequest boxRequest = new BoxRequest(_config.BoxAuthRevokeApiUri)
                                             .Method(RequestMethod.Post)
                                             .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
                                             .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)
