@@ -27,7 +27,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task UploadNewVersionUsingSessionAsync_ValidResponse()
         {
             var fileInMemoryStream = new MemoryStream(Encoding.UTF8.GetBytes("whatever"));
@@ -57,7 +57,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task GetCollaborationsCollectionAsync_ValidResponse_NextMarker()
         {
             var responseJSON = "{\"next_marker\":\"ZmlsZS0xLTE%3D\",\"previous_marker\":\"\",\"entries\":[{\"type\":\"collaboration\",\"id\":\"11111\",\"created_by\":{\"type\":\"user\",\"id\":\"33333\",\"name\":\"Test User\",\"login\":\"testuser@example.com\"},\"created_at\":\"2019-01-21T07:58:18-08:00\",\"modified_at\":\"2019-01-21T14:49:18-08:00\",\"expires_at\":null,\"status\":\"accepted\",\"accessible_by\":{\"type\":\"user\",\"id\":\"44444\",\"name\":\"Test User 2\",\"login\":\"testuser2@example.com\"},\"role\":\"editor\",\"acknowledged_at\":\"2019-01-21T07:58:18-08:00\",\"item\":{\"type\":\"file\",\"id\":\"22222\",\"file_version\":{\"type\":\"file_version\",\"id\":\"12345\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\"},\"sequence_id\":\"26\",\"etag\":\"26\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\",\"name\":\"Meeting Notes.boxnote\"}}]}";
@@ -80,7 +80,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task GetFileInformation_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -207,7 +207,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task UploadFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -267,7 +267,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task UploadNewVersion_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -300,7 +300,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task ViewVersions_ValidResponse_ValidFileVersions()
         {
             /*** Arrange ***/
@@ -333,7 +333,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task UpdateFileInformation_ValidResponse_ValidFile()
         {
             var responseString = "{ \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"new name.jpg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\", \"tags\": [ \"important\", \"needs review\" ] }";
@@ -369,7 +369,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task CopyFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -415,7 +415,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task CreateFileSharedLink_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -450,7 +450,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task EditSharedLink_NullUnsharedAt_ValidResponse()
         {
             /*** Arrange ***/
@@ -485,7 +485,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task EditSharedLink_UnsetUnsharedAt_ValidResponse()
         {
             /*** Arrange ***/
@@ -520,7 +520,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task ViewFileComments_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -548,7 +548,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task GetTrashedFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -572,7 +572,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task RestoreTrashedFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -604,7 +604,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task PurgeTrashedFile_ValidResponse_Success()
         {
             /*** Arrange ***/
@@ -625,7 +625,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task GetLockFile_ValidResponse_Success()
         {
             /*** Arrange ***/
@@ -654,7 +654,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task UpdateFileLock_ValidResponse_ValidFile()
         {
             var responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\", \"lock\": { \"type\": \"lock\", \"id\": \"14516545\", \"created_by\": { \"type\": \"user\", \"id\": \"13130406\", \"name\": \"I don't know gmail\", \"login\": \"idontknow@gmail.com\" }, \"created_at\": \"2014-05-29T18:03:04-07:00\", \"expires_at\": \"2014-05-30T19:03:04-07:00\", \"is_download_prevented\": false } } ";
@@ -689,7 +689,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task FileUnLock_ValidResponse()
         {
             var responseString = "{ \"type\": \"file\", \"id\": \"7435988481\", \"etag\": \"1\" } ";
@@ -708,7 +708,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task GetThumbnail_ValidResponse_ValidStream()
         {
             using (var thumb = new FileStream(string.Format(GetSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
@@ -733,7 +733,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task GetThumbnail_ValidResponse_EndpointJpg()
         {
             using (var thumb = new FileStream(string.Format(GetSaveFolderPath(), "thumb.png"), FileMode.OpenOrCreate))
@@ -765,7 +765,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task PreflightCheck_ValidResponse_ValidStatus()
         {
             /*** Arrange ***/
@@ -797,7 +797,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task DeleteFile_ValidResponse_FileDeleted()
         {
             /*** Arrange ***/
@@ -820,7 +820,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task DownloadStream_ValidResponse_ValidStream()
         {
 
@@ -858,7 +858,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task Download_LargeOffset_ValidStream()
         {
 
@@ -898,7 +898,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task GetEmbedLink_ValidResponse_ValidEmbedLink()
         {
             /*** Arrange ***/
@@ -921,7 +921,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task GetFileTasks_ValidResponse_ValidTasks()
         {
             /*** Arrange ***/
@@ -952,7 +952,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task GetWatermarkForFile_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
@@ -986,7 +986,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task ApplyWatermarkToFile_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
@@ -1022,7 +1022,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task RemoveWatermarkFromFile_ValidResponse_RemovedWatermark()
         {
             /*** Arrange ***/
@@ -1051,7 +1051,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task DeleteOldVersion_ValidReponse()
         {
             /*** Arrange ***/
@@ -1079,7 +1079,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task PromoteVersion_ValidResponse()
         {
             /*** Arrange ***/
@@ -1116,7 +1116,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+        
         public async Task DownloadZip_ValidResponse()
         {
             using (var exampleFile = new FileStream(string.Format(AppDomain.CurrentDomain.BaseDirectory + "/TestData/smalltest.pdf"), FileMode.OpenOrCreate))

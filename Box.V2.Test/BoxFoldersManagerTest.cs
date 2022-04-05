@@ -25,7 +25,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderItems_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
@@ -59,7 +58,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderItems_ValidResponse_SortDirection()
         {
             IBoxRequest boxRequest = null;
@@ -78,7 +76,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolder_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -133,7 +130,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -203,7 +199,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_BadRequest()
         {
             HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
@@ -243,7 +238,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_Unauthorized()
         {
             HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
@@ -278,7 +272,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolder_ValidResponse_NameConflict()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -355,7 +348,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderInformation_ValidResponse_ValidFolder()
         {
             IBoxRequest boxRequest = null;
@@ -529,7 +521,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CopyFolder_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -558,7 +549,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateFolderInformation_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -590,7 +580,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolderSharedLink_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -620,7 +609,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderCollaborators_ValidResponse_ValidCollaborators()
         {
             /*** Arrange ***/
@@ -647,7 +635,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderCollaborators_ValidResponseWithGroups_ValidCollaborators()
         {
             /*** Arrange ***/
@@ -682,7 +669,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashedItems_ValidResponse_ValidFiles()
         {
             /*** Arrange ***/
@@ -715,7 +701,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task RestoreTrashedFolder_ValidResponse_ValidFolder()
         {
             IBoxRequest boxRequest = null;
@@ -755,7 +740,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashedFolder_ValidResponse_ValidFolder()
         {
             /*** Arrange ***/
@@ -778,7 +762,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteFolder_ValidResponse_FolderDeleted()
         {
             /*** Arrange ***/
@@ -801,7 +784,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashItems_ValidResponse_ValidCountAndEntries()
         {
             /*** Arrange ***/
@@ -852,7 +834,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTrashItems_SortParamsArePassed()
         {
             /*** Arrange ***/
@@ -881,7 +862,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task PurgeTrashedFolder_ValidResponse_FolderDeleted()
         {
             /*** Arrange ***/
@@ -904,7 +884,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetWatermarkForFolder_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
@@ -938,7 +917,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task ApplyWatermarkToFolder_ValidResponse_ValidWatermark()
         {
             /*** Arrange ***/
@@ -974,7 +952,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task RemoveWatermarkFromFolder_ValidResponse_RemovedWatermark()
         {
             /*** Arrange ***/
@@ -1003,7 +980,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFolderLocks_ValidResponse()
         {
             /*** Arrange ***/
@@ -1035,7 +1011,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFolderLock_ValidResponse()
         {
             /*** Arrange ***/
@@ -1072,7 +1047,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteFolderLock_ValidResponse()
         {
             /*** Arrange ***/

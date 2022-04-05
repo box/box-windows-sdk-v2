@@ -17,7 +17,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task AddCollaboration_ValidResponse_ValidCollaboration()
         {
             /*** Arrange ***/
@@ -56,7 +55,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task EditCollaboration_ValidResponse_ValidCollaboration()
         {
             /*** Arrange ***/
@@ -85,7 +83,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetCollaboration_ValidResponse_ValidCollaboration()
         {
             /*** Arrange ***/
@@ -109,7 +106,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetPendingCollaboration_ValidResponse_ValidEntries()
         {
             /*** Arrange ***/
@@ -167,7 +163,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteCollaboration_ValidResponse_CollaborationDeleted()
         {
             /*** Arrange ***/

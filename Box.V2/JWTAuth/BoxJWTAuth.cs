@@ -265,7 +265,7 @@ namespace Box.V2.JWTAuth
 
         private async Task<OAuthSession> JWTAuthPostAsync(string assertion)
         {
-            BoxRequest boxRequest = new BoxRequest(_boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString)
+            BoxRequest boxRequest = new BoxRequest(_boxConfig.BoxAuthTokenApiUri)
                                             .Method(RequestMethod.Post)
                                             .Header(Constants.RequestParameters.UserAgent, _boxConfig.UserAgent)
                                             .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.JWTAuthorizationCode)

@@ -31,7 +31,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetToken_ValidSession()
         {
             // Arrange
@@ -50,7 +49,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         [ExpectedException(typeof(BoxAPIException))]
         public async Task GetToken_MaxRetries_Exception()
         {
@@ -97,7 +95,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetToken_Retries_ValidSession()
         {
             // Arrange

@@ -60,6 +60,8 @@ namespace Box.V2.Config
             BoxApiUri = builder.BoxApiUri;
             BoxUploadApiUri = builder.BoxUploadApiUri;
             BoxAuthTokenApiUri = builder.BoxAuthTokenApiUri;
+            BoxAuthRevokeApiUri = builder.BoxAuthRevokeApiUri;
+            BoxAuthAuthorizeApiUri = builder.BoxAuthAuthorizeApiUri;
             RedirectUri = builder.RedirectUri;
             DeviceId = builder.DeviceId;
             DeviceName = builder.DeviceName;
@@ -149,6 +151,8 @@ namespace Box.V2.Config
         public Uri BoxApiUri { get; private set; } = new Uri(Constants.BoxApiUriString);
         public Uri BoxUploadApiUri { get; private set; } = new Uri(Constants.BoxUploadApiUriString);
         public Uri BoxAuthTokenApiUri { get; private set; } = new Uri(Constants.BoxAuthTokenApiUriString);
+        public Uri BoxAuthRevokeApiUri { get; private set; } = new Uri(Constants.BoxAuthRevokeApiUriString);
+        public Uri BoxAuthAuthorizeApiUri { get; private set; } = new Uri(Constants.BoxAuthAuthorizeApiUriString);
 
         public string ClientId { get; private set; }
         public string ConsumerKey { get; private set; }
@@ -169,7 +173,7 @@ namespace Box.V2.Config
         /// </summary>
         public CompressionType? AcceptEncoding { get; private set; }
 
-        public Uri AuthCodeBaseUri { get { return new Uri(BoxAccountApiHostUri, Constants.AuthCodeString); } }
+        public Uri AuthCodeBaseUri { get { return BoxAuthAuthorizeApiUri; } }
         public Uri AuthCodeUri { get { return new Uri(AuthCodeBaseUri, string.Format("?response_type=code&client_id={0}&redirect_uri={1}", ClientId, RedirectUri)); } }
         public Uri FoldersEndpointUri { get { return new Uri(BoxApiUri, Constants.FoldersString); } }
         public Uri TermsOfServicesUri { get { return new Uri(BoxApiUri, Constants.TermsOfServicesString); } }

@@ -9,7 +9,6 @@ namespace Box.V2.Test
     public class BoxRequestTest
     {
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public void ValidParameters_ValidRequest()
         {
             var baseUri = new Uri("http://api.box.com/v2");
@@ -22,7 +21,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public void InvalidParameters_InvalidRequest()
         {
             var baseUri = new Uri("http://api.box.com/v2");
@@ -42,7 +40,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public void ExponentialBackoff_ValidResponse()
         {
             var retryCount = 1;

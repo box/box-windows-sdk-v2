@@ -18,7 +18,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task AddComment_ValidResponse_ValidComment()
         {
             /*** Arrange ***/
@@ -56,7 +55,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetCommentInformation_ValidResponse_ValidComment()
         {
             /*** Arrange ***/
@@ -82,7 +80,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateComment_ValidResponse_ValidComment()
         {
             /*** Arrange ***/
@@ -114,7 +111,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteComment_ValidResponse_CommentDeleted()
         {
             /*** Arrange ***/

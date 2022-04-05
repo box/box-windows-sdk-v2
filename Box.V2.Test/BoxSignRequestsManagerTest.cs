@@ -22,7 +22,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateSignRequest_RequiredParams_Success()
         {
             /*** Arrange ***/
@@ -84,7 +83,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateSignRequest_OptionalParams_Success()
         {
             /*** Arrange ***/
@@ -170,7 +168,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetSignRequest_Success()
         {
             /*** Arrange ***/
@@ -213,7 +210,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetSignRequestById_Success()
         {
             /*** Arrange ***/
@@ -256,7 +252,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CancelSignRequest_Success()
         {
             /*** Arrange ***/
@@ -284,7 +279,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task ResendSignRequest_Success()
         {
             /*** Arrange ***/

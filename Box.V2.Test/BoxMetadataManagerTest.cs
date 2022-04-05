@@ -22,7 +22,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateFileMetadata_ValidResponse_ValidMetadata()
         {
             /*** Arrange ***/
@@ -79,7 +78,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFileMetadata_ValidResponse_ValidMetadata()
         {
             /*** Arrange ***/
@@ -123,7 +121,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAllFileMetadataTemplates_ValidResponse_ValidEntries()
         {
             /*** Arrange ***/
@@ -189,7 +186,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateFileMetadata_ValidResponse_ValidEntries()
         {
             /*** Arrange ***/
@@ -293,7 +289,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SetFileMetadataAsync_Create_ValidResponse()
         {
             /*** Arrange ***/
@@ -339,7 +334,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SetFileMetadataAsync_Update_ValidResponse()
         {
             /*** Arrange ***/
@@ -395,7 +389,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SetFileMetadataAsync_Create_Error()
         {
             /*** Arrange ***/
@@ -429,7 +422,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SetFolderMetadataAsync_Create_ValidResponse()
         {
             /*** Arrange ***/
@@ -475,7 +467,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SetFolderMetadataAsync_Update_ValidResponse()
         {
             /*** Arrange ***/
@@ -531,7 +522,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SetFolderMetadataAsync_Create_Error()
         {
             /*** Arrange ***/
@@ -565,7 +555,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task ExecuteMetadataQuery_ValidResponse()
         {
             /*** Arrange ***/
@@ -625,7 +614,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task ExecuteMetadataQueryWithFields_ValidResponse()
         {
             /*** Arrange ***/
@@ -681,7 +669,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task ExecuteMetadataQueryWithoutUseIndexWithFields_ValidResponse()
         {
             /*** Arrange ***/

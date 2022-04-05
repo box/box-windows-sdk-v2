@@ -10,6 +10,8 @@ namespace Box.V2.Config
         Uri BoxApiUri { get; }
         Uri BoxUploadApiUri { get; }
         Uri BoxAuthTokenApiUri { get; }
+        Uri BoxAuthRevokeApiUri { get; }
+        Uri BoxAuthAuthorizeApiUri { get; }
 
         string ClientId { get; }
         string ConsumerKey { get; }

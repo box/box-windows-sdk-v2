@@ -20,7 +20,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetLegalHoldPolicy_ValidResponse()
         {
             /*** Arrange ***/
@@ -87,7 +86,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetListLegalHoldPolicies_ValidResponse()
         {
             /*** Arrange ***/
@@ -147,7 +145,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateLegalHoldPolicy_ValidResponse()
         {
             /*** Arrange ***/
@@ -215,7 +212,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateLegalHoldPolicy_ValidResponse()
         {
             /*** Arrange ***/
@@ -280,7 +276,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteTask_TaskDeleted()
         {
             /*** Arrange ***/
@@ -310,7 +305,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAssignment_ValidResponse()
         {
             /*** Arrange ***/
@@ -374,7 +368,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetListAssignments_ValidResponse()
         {
             /*** Arrange ***/
@@ -428,7 +421,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateNewAssignment_ValidResponse()
         {
             /*** Arrange ***/

@@ -8,7 +8,6 @@ namespace Box.V2.Test
     public class BoxResourcePluginsTest : BoxResourceManagerTest
     {
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public void InitializePlugins_ValidResource_ValidPlugins()
         {
             // Arrange
@@ -34,7 +33,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         [ExpectedException(typeof(InvalidOperationException))]
         public void InitializePlugins_UnregisteredResource_InvalidOperationException()
         {

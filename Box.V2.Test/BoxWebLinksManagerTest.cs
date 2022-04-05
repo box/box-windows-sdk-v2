@@ -20,7 +20,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateWeblink_ValidResponse()
         {
             /*** Arrange ***/
@@ -130,7 +129,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteWeblink_ValidResponse()
         {
             /*** Arrange ***/
@@ -160,7 +158,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetWeblink_ValidResponse()
         {
             /*** Arrange ***/
@@ -255,7 +252,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateWeblink_ValidResponse()
         {
             /*** Arrange ***/
@@ -360,7 +356,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task Copy_ValidResponse()
         {
             /*** Arrange ***/
@@ -459,7 +454,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateWebLinkSharedLink_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -497,7 +491,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteWebLinkSharedLink_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
