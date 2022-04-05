@@ -1,3 +1,4 @@
+using System;
 using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -102,6 +103,36 @@ namespace Box.V2.Test
                 .SetBoxAuthorizeApiUri(exampleUri)
                 .Build();
             Assert.AreEqual(newConfig.BoxAuthAuthorizeApiUri, exampleUri);
+        }
+
+        [TestMethod]
+        public void BoxConfig_SetBoxApiHostUri()
+        {
+            var boxConfig = new BoxConfigBuilder("", "", "", "", "", "")
+                .Build();
+            Assert.AreEqual(boxConfig.BoxAuthAuthorizeApiUri, new System.Uri(Constants.BoxAuthAuthorizeApiUriString));
+
+            var exampleUri = new System.Uri("https://example.com/base");
+            var newConfig = new BoxConfigBuilder("", "", "", "", "", "")
+                .SetBoxApiHostUri(exampleUri)
+                .Build();
+            Assert.AreEqual(newConfig.BoxAuthTokenApiUri, new Uri(exampleUri, "/oauth2/token"));
+            Assert.AreEqual(newConfig.BoxAuthRevokeApiUri, new Uri(exampleUri, "/oauth2/revoke"));
+        }
+
+        [TestMethod]
+        public void BoxConfig_SetBoxAccountApiHostUri()
+        {
+            var boxConfig = new BoxConfigBuilder("", "", "", "", "", "")
+                .Build();
+            Assert.AreEqual(boxConfig.BoxAuthAuthorizeApiUri, new System.Uri(Constants.BoxAuthAuthorizeApiUriString));
+
+            var exampleUri = new System.Uri("https://example.com/account");
+            var newConfig = new BoxConfigBuilder("", "", "", "", "", "")
+                .SetBoxAccountApiHostUri(exampleUri)
+                .Build();
+            Assert.AreEqual(newConfig.BoxAuthAuthorizeApiUri, new Uri(exampleUri, "/oauth2/authorize"));
+            Assert.AreEqual(newConfig.AuthCodeBaseUri, new Uri(exampleUri, "/oauth2/authorize"));
         }
     }
 }

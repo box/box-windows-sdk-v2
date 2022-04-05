@@ -122,6 +122,7 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxApiHostUri">BoxAPI host uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
+        [Obsolete("Use BoxApiUri instead")]
         public BoxConfigBuilder SetBoxApiHostUri(Uri boxApiHostUri)
         {
             BoxApiHostUri = boxApiHostUri;
@@ -133,6 +134,7 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxAccountApiHostUri">BoxAPI account host uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
+        [Obsolete("Use BoxAuthAuthorizeApiUri instead")]
         public BoxConfigBuilder SetBoxAccountApiHostUri(Uri boxAccountApiHostUri)
         {
             BoxAccountApiHostUri = boxAccountApiHostUri;

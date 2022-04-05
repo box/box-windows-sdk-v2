@@ -152,9 +152,37 @@ namespace Box.V2.Config
         public Uri BoxAccountApiHostUri { get; private set; } = new Uri(Constants.BoxAccountApiHostUriString);
         public Uri BoxApiUri { get; private set; } = new Uri(Constants.BoxApiUriString);
         public Uri BoxUploadApiUri { get; private set; } = new Uri(Constants.BoxUploadApiUriString);
-        public Uri BoxAuthTokenApiUri { get; private set; } = new Uri(Constants.BoxAuthTokenApiUriString);
-        public Uri BoxAuthRevokeApiUri { get; private set; } = new Uri(Constants.BoxAuthRevokeApiUriString);
-        public Uri BoxAuthAuthorizeApiUri { get; private set; } = new Uri(Constants.BoxAuthAuthorizeApiUriString);
+
+        private Uri _boxAuthTokenApiUri;
+        public Uri BoxAuthTokenApiUri
+        {
+            get { return GetOldOrNewUri(BoxApiHostUri, Constants.AuthTokenEndpointString, Constants.BoxApiHostUriString, _boxAuthTokenApiUri); }
+            private set { _boxAuthTokenApiUri = value; }
+        }
+
+        private Uri _boxAuthRevokeApiUri;
+        public Uri BoxAuthRevokeApiUri
+        {
+            get { return GetOldOrNewUri(BoxApiHostUri, Constants.RevokeEndpointString, Constants.BoxApiHostUriString, _boxAuthRevokeApiUri); }
+            private set { _boxAuthRevokeApiUri = value; }
+        }
+
+        private Uri _boxAuthAuthorizeApiUri;
+        public Uri BoxAuthAuthorizeApiUri
+        {
+            get { return GetOldOrNewUri(BoxAccountApiHostUri, Constants.AuthCodeString, Constants.BoxAccountApiHostUriString, _boxAuthAuthorizeApiUri); }
+            private set { _boxAuthAuthorizeApiUri = value; }
+        }
+
+        // Assuming that client changed the old base uris (BoxApiHostUri or BoxAccountApiHostUri) we should use those instead.
+        // If they were not changed, use the new ones.
+        // We can remove this logic when we remove BoxApiHostUri and BoxAccountApiHostUri.
+        private Uri GetOldOrNewUri(Uri oldBaseUri, string oldPath, string defaultBaseUri, Uri newFullUri)
+        {
+            return oldBaseUri.ToString() == defaultBaseUri
+                ? newFullUri
+                : new Uri(oldBaseUri, oldPath);
+        }
 
         public string ClientId { get; private set; }
         public string ConsumerKey { get; private set; }
