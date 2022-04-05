@@ -101,7 +101,7 @@ namespace Box.V2.Test
             var newConfig = new BoxConfigBuilder("", "", "", "", "", "")
                 .SetBoxAuthorizeApiUri(exampleUri)
                 .Build();
-            Assert.AreEqual(newConfig.BoxAuthTokenApiUri, exampleUri);
+            Assert.AreEqual(newConfig.BoxAuthAuthorizeApiUri, exampleUri);
         }
     }
 }
