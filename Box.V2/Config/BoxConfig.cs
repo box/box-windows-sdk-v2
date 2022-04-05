@@ -146,7 +146,9 @@ namespace Box.V2.Config
             return new BoxConfig(clientId, clientSecret, enterpriseId, privateKey, rsaSecret, publicKeyId);
         }
 
+        [Obsolete("Use BoxApiUri instead")]
         public Uri BoxApiHostUri { get; private set; } = new Uri(Constants.BoxApiHostUriString);
+        [Obsolete("Use BoxAuthAuthorizeApiUri instead")]
         public Uri BoxAccountApiHostUri { get; private set; } = new Uri(Constants.BoxAccountApiHostUriString);
         public Uri BoxApiUri { get; private set; } = new Uri(Constants.BoxApiUriString);
         public Uri BoxUploadApiUri { get; private set; } = new Uri(Constants.BoxUploadApiUriString);

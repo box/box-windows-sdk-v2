@@ -5,7 +5,9 @@ namespace Box.V2.Config
 {
     public interface IBoxConfig
     {
+        [Obsolete("Use BoxApiUri instead")]
         Uri BoxApiHostUri { get; }
+        [Obsolete("Use BoxAuthAuthorizeApiUri instead")]
         Uri BoxAccountApiHostUri { get; }
         Uri BoxApiUri { get; }
         Uri BoxUploadApiUri { get; }
