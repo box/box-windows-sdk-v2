@@ -251,8 +251,8 @@ namespace Box.V2.JWTAuth
                 expireTime = nowOverride.Value.AddSeconds(30);
             }
 
-            var authUri = new Uri(_boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString);
-            var payload = new JwtPayload(_boxConfig.ClientId, authUri.ToString(), claims, null, expireTime.LocalDateTime);
+            var payload = new JwtPayload(_boxConfig.ClientId, new Uri(_boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString).ToString(),
+                claims, null, expireTime.LocalDateTime);
 
             var header = new JwtHeader(signingCredentials: _credentials);
             if (_boxConfig.JWTPublicKeyId != null)
@@ -266,7 +266,7 @@ namespace Box.V2.JWTAuth
 
         private async Task<OAuthSession> JWTAuthPostAsync(string assertion)
         {
-            BoxRequest boxRequest = new BoxRequest(_boxConfig.BoxAuthTokenApiUri)
+            BoxRequest boxRequest = new BoxRequest(_boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
                                             .Header(Constants.RequestParameters.UserAgent, _boxConfig.UserAgent)
                                             .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.JWTAuthorizationCode)
