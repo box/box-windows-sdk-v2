@@ -146,12 +146,12 @@ namespace Box.V2.Config
 
         public Uri BoxApiHostUri { get; private set; } = new Uri(Constants.BoxApiHostUriString);
         public Uri BoxAccountApiHostUri { get; private set; } = new Uri(Constants.BoxAccountApiHostUriString);
-        public Uri BoxUploadApiUri { get; private set; } = new Uri(new Uri(Constants.BoxUploadApiUriWithoutVersionString), Constants.BoxApiCurrentVersion);
+        public Uri BoxUploadApiUri { get; private set; } = new Uri(new Uri(Constants.BoxUploadApiUriWithoutVersionString), Constants.BoxApiCurrentVersionUriString);
 
         private Uri _boxApiUri;
         public Uri BoxApiUri
         {
-            get { return _boxApiUri ?? new Uri(BoxApiHostUri, Constants.BoxApiCurrentVersion); }
+            get { return _boxApiUri ?? new Uri(BoxApiHostUri, Constants.BoxApiCurrentVersionUriString); }
             private set { _boxApiUri = value; }
         }
 

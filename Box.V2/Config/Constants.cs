@@ -9,8 +9,8 @@ namespace Box.V2.Config
         public const string BoxAccountApiHostUriString = "https://account.box.com/api/";
         public const string BoxUploadApiUriWithoutVersionString = "https://upload.box.com/api/";
 
-        public const string BoxApiV2Version = @"v2";
-        public const string BoxApiCurrentVersion = BoxApiV2Version;
+        public const string BoxApiV2Version = @"2.0";
+        public const string BoxApiCurrentVersionUriString = BoxApiV2Version + "/";
 
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
