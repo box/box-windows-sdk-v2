@@ -251,7 +251,8 @@ namespace Box.V2.JWTAuth
                 expireTime = nowOverride.Value.AddSeconds(30);
             }
 
-            var payload = new JwtPayload(_boxConfig.ClientId, _boxConfig.BoxAuthTokenApiUri.ToString(), claims, null, expireTime.LocalDateTime);
+            var authUri = new Uri(_boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString);
+            var payload = new JwtPayload(_boxConfig.ClientId, authUri.ToString(), claims, null, expireTime.LocalDateTime);
 
             var header = new JwtHeader(signingCredentials: _credentials);
             if (_boxConfig.JWTPublicKeyId != null)

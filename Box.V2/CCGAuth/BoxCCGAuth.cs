@@ -85,7 +85,7 @@ namespace Box.V2.CCGAuth
 
         private async Task<OAuthSession> CCGAuthPostAsync(string subType, string subId)
         {
-            BoxRequest boxRequest = new BoxRequest(_boxConfig.BoxAuthTokenApiUri)
+            BoxRequest boxRequest = new BoxRequest(_boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
                                             .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.ClientCredentials)
                                             .Payload(Constants.RequestParameters.ClientId, _boxConfig.ClientId)

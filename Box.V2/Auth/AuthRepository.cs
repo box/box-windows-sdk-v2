@@ -163,7 +163,7 @@ namespace Box.V2.Auth
             if (string.IsNullOrWhiteSpace(authCode))
                 throw new ArgumentException("Auth code cannot be null or empty", "authCode");
 
-            BoxRequest boxRequest = new BoxRequest(_config.BoxAuthTokenApiUri)
+            BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
                                             .Header(Constants.RequestParameters.UserAgent, _config.UserAgent)
                                             .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.AuthorizationCode)
@@ -189,7 +189,7 @@ namespace Box.V2.Auth
             if (string.IsNullOrWhiteSpace(refreshToken))
                 throw new ArgumentException("Refresh token cannot be null or empty", "refreshToken");
 
-            BoxRequest boxRequest = new BoxRequest(_config.BoxAuthTokenApiUri)
+            BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.AuthTokenEndpointString)
                                             .Method(RequestMethod.Post)
                                             .Payload(Constants.RequestParameters.GrantType, Constants.RequestParameters.RefreshToken)
                                             .Payload(Constants.RequestParameters.RefreshToken, refreshToken)
@@ -222,7 +222,7 @@ namespace Box.V2.Auth
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentException("Access token cannot be null or empty", "accessToken");
 
-            BoxRequest boxRequest = new BoxRequest(_config.BoxAuthRevokeApiUri)
+            BoxRequest boxRequest = new BoxRequest(_config.BoxApiHostUri, Constants.RevokeEndpointString)
                                             .Method(RequestMethod.Post)
                                             .Payload(Constants.RequestParameters.ClientId, _config.ClientId)
                                             .Payload(Constants.RequestParameters.ClientSecret, _config.ClientSecret)

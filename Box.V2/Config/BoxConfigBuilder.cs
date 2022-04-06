@@ -122,7 +122,6 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxApiHostUri">BoxAPI host uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
-        [Obsolete("Use BoxApiUri instead")]
         public BoxConfigBuilder SetBoxApiHostUri(Uri boxApiHostUri)
         {
             BoxApiHostUri = boxApiHostUri;
@@ -134,7 +133,6 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxAccountApiHostUri">BoxAPI account host uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
-        [Obsolete("Use BoxAuthAuthorizeApiUri instead")]
         public BoxConfigBuilder SetBoxAccountApiHostUri(Uri boxAccountApiHostUri)
         {
             BoxAccountApiHostUri = boxAccountApiHostUri;
@@ -146,6 +144,7 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxApiUri">BoxAPI uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
+        [Obsolete("User SetBoxApiHostUri() instead")]
         public BoxConfigBuilder SetBoxApiUri(Uri boxApiUri)
         {
             BoxApiUri = boxApiUri;
@@ -168,31 +167,10 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxAuthTokenApiUri">BoxAPI auth token uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
+        [Obsolete("User SetBoxApiHostUri() instead")]
         public BoxConfigBuilder SetBoxTokenApiUri(Uri boxAuthTokenApiUri)
         {
             BoxAuthTokenApiUri = boxAuthTokenApiUri;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets BoxAPI auth revoke uri.
-        /// </summary>
-        /// <param name="boxAuthRevokeApiUri">BoxAPI auth revoke uri.</param>
-        /// <returns>this BoxConfigBuilder object for chaining</returns>
-        public BoxConfigBuilder SetBoxRevokeApiUri(Uri boxAuthRevokeApiUri)
-        {
-            BoxAuthRevokeApiUri = boxAuthRevokeApiUri;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets BoxAPI auth authorize uri.
-        /// </summary>
-        /// <param name="boxAuthAuthorizeApiUri">BoxAPI auth authorize uri.</param>
-        /// <returns>this BoxConfigBuilder object for chaining</returns>
-        public BoxConfigBuilder SetBoxAuthorizeApiUri(Uri boxAuthAuthorizeApiUri)
-        {
-            BoxAuthAuthorizeApiUri = boxAuthAuthorizeApiUri;
             return this;
         }
 
@@ -287,8 +265,6 @@ namespace Box.V2.Config
         public Uri BoxApiUri { get; private set; } = new Uri(Constants.BoxApiUriString);
         public Uri BoxUploadApiUri { get; private set; } = new Uri(Constants.BoxUploadApiUriString);
         public Uri BoxAuthTokenApiUri { get; private set; } = new Uri(Constants.BoxAuthTokenApiUriString);
-        public Uri BoxAuthRevokeApiUri { get; private set; } = new Uri(Constants.BoxAuthRevokeApiUriString);
-        public Uri BoxAuthAuthorizeApiUri { get; private set; } = new Uri(Constants.BoxAuthAuthorizeApiUriString);
 
         public Uri RedirectUri { get; private set; }
         public string DeviceId { get; private set; }

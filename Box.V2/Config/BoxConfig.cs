@@ -60,8 +60,6 @@ namespace Box.V2.Config
             BoxApiUri = builder.BoxApiUri;
             BoxUploadApiUri = builder.BoxUploadApiUri;
             BoxAuthTokenApiUri = builder.BoxAuthTokenApiUri;
-            BoxAuthRevokeApiUri = builder.BoxAuthRevokeApiUri;
-            BoxAuthAuthorizeApiUri = builder.BoxAuthAuthorizeApiUri;
             RedirectUri = builder.RedirectUri;
             DeviceId = builder.DeviceId;
             DeviceName = builder.DeviceName;
@@ -146,42 +144,23 @@ namespace Box.V2.Config
             return new BoxConfig(clientId, clientSecret, enterpriseId, privateKey, rsaSecret, publicKeyId);
         }
 
-        [Obsolete("Use BoxApiUri instead")]
         public Uri BoxApiHostUri { get; private set; } = new Uri(Constants.BoxApiHostUriString);
-        [Obsolete("Use BoxAuthAuthorizeApiUri instead")]
         public Uri BoxAccountApiHostUri { get; private set; } = new Uri(Constants.BoxAccountApiHostUriString);
-        public Uri BoxApiUri { get; private set; } = new Uri(Constants.BoxApiUriString);
-        public Uri BoxUploadApiUri { get; private set; } = new Uri(Constants.BoxUploadApiUriString);
+        public Uri BoxUploadApiUri { get; private set; } = new Uri(new Uri(Constants.BoxUploadApiUriWithoutVersionString), Constants.BoxApiCurrentVersion);
+
+        private Uri _boxApiUri;
+        public Uri BoxApiUri
+        {
+            get { return _boxApiUri ?? new Uri(BoxApiHostUri, Constants.BoxApiCurrentVersion); }
+            private set { _boxApiUri = value; }
+        }
 
         private Uri _boxAuthTokenApiUri;
+        [Obsolete("User BoxApiHostUri instead")]
         public Uri BoxAuthTokenApiUri
         {
-            get { return GetOldOrNewUri(BoxApiHostUri, Constants.AuthTokenEndpointString, Constants.BoxApiHostUriString, _boxAuthTokenApiUri); }
+            get { return _boxAuthTokenApiUri ?? new Uri(BoxApiHostUri, Constants.AuthTokenEndpointString); }
             private set { _boxAuthTokenApiUri = value; }
-        }
-
-        private Uri _boxAuthRevokeApiUri;
-        public Uri BoxAuthRevokeApiUri
-        {
-            get { return GetOldOrNewUri(BoxApiHostUri, Constants.RevokeEndpointString, Constants.BoxApiHostUriString, _boxAuthRevokeApiUri); }
-            private set { _boxAuthRevokeApiUri = value; }
-        }
-
-        private Uri _boxAuthAuthorizeApiUri;
-        public Uri BoxAuthAuthorizeApiUri
-        {
-            get { return GetOldOrNewUri(BoxAccountApiHostUri, Constants.AuthCodeString, Constants.BoxAccountApiHostUriString, _boxAuthAuthorizeApiUri); }
-            private set { _boxAuthAuthorizeApiUri = value; }
-        }
-
-        // Assuming that client changed the old base uris (BoxApiHostUri or BoxAccountApiHostUri) we should use those instead.
-        // If they were not changed, use the new ones.
-        // We can remove this logic when we remove BoxApiHostUri and BoxAccountApiHostUri.
-        private Uri GetOldOrNewUri(Uri oldBaseUri, string oldPath, string defaultBaseUri, Uri newFullUri)
-        {
-            return oldBaseUri.ToString() == defaultBaseUri
-                ? newFullUri
-                : new Uri(oldBaseUri, oldPath);
         }
 
         public string ClientId { get; private set; }
@@ -203,7 +182,7 @@ namespace Box.V2.Config
         /// </summary>
         public CompressionType? AcceptEncoding { get; private set; }
 
-        public Uri AuthCodeBaseUri { get { return BoxAuthAuthorizeApiUri; } }
+        public Uri AuthCodeBaseUri { get { return new Uri(BoxAccountApiHostUri, Constants.AuthCodeString); } }
         public Uri AuthCodeUri { get { return new Uri(AuthCodeBaseUri, string.Format("?response_type=code&client_id={0}&redirect_uri={1}", ClientId, RedirectUri)); } }
         public Uri FoldersEndpointUri { get { return new Uri(BoxApiUri, Constants.FoldersString); } }
         public Uri TermsOfServicesUri { get { return new Uri(BoxApiUri, Constants.TermsOfServicesString); } }

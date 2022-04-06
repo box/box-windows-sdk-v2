@@ -70,39 +70,11 @@ namespace Box.V2.Test
                 .Build();
             Assert.AreEqual(boxConfig.BoxAuthTokenApiUri, new Uri(Constants.BoxAuthTokenApiUriString));
 
-            var exampleUri = new System.Uri("https://example.com/token");
+            var exampleUri = new Uri("https://example.com/token");
             var newConfig = new BoxConfigBuilder("", "")
                 .SetBoxTokenApiUri(exampleUri)
                 .Build();
             Assert.AreEqual(newConfig.BoxAuthTokenApiUri, exampleUri);
-        }
-
-        [TestMethod]
-        public void BoxConfig_SetAuthRevokeUriString()
-        {
-            var boxConfig = new BoxConfigBuilder("", "")
-                .Build();
-            Assert.AreEqual(boxConfig.BoxAuthRevokeApiUri, new Uri(Constants.BoxAuthRevokeApiUriString));
-
-            var exampleUri = new Uri("https://example.com/revoke");
-            var newConfig = new BoxConfigBuilder("", "")
-                .SetBoxRevokeApiUri(exampleUri)
-                .Build();
-            Assert.AreEqual(newConfig.BoxAuthRevokeApiUri, exampleUri);
-        }
-
-        [TestMethod]
-        public void BoxConfig_SetAuthAuthorizeUriString()
-        {
-            var boxConfig = new BoxConfigBuilder("", "")
-                .Build();
-            Assert.AreEqual(boxConfig.BoxAuthAuthorizeApiUri, new System.Uri(Constants.BoxAuthAuthorizeApiUriString));
-
-            var exampleUri = new Uri("https://example.com/authorize");
-            var newConfig = new BoxConfigBuilder("", "")
-                .SetBoxAuthorizeApiUri(exampleUri)
-                .Build();
-            Assert.AreEqual(newConfig.BoxAuthAuthorizeApiUri, exampleUri);
         }
 
         [TestMethod]
@@ -112,8 +84,8 @@ namespace Box.V2.Test
             var newConfig = new BoxConfigBuilder("", "")
                 .SetBoxApiHostUri(exampleUri)
                 .Build();
-            Assert.AreEqual(newConfig.BoxAuthTokenApiUri, new Uri(exampleUri, "/oauth2/token"));
-            Assert.AreEqual(newConfig.BoxAuthRevokeApiUri, new Uri(exampleUri, "/oauth2/revoke"));
+
+            Assert.AreEqual(newConfig.BoxApiHostUri, exampleUri);
         }
 
         [TestMethod]
@@ -123,7 +95,8 @@ namespace Box.V2.Test
             var newConfig = new BoxConfigBuilder("", "")
                 .SetBoxAccountApiHostUri(exampleUri)
                 .Build();
-            Assert.AreEqual(newConfig.BoxAuthAuthorizeApiUri, new Uri(exampleUri, "/oauth2/authorize"));
+
+            Assert.AreEqual(newConfig.BoxAccountApiHostUri, exampleUri);
             Assert.AreEqual(newConfig.AuthCodeBaseUri, new Uri(exampleUri, "/oauth2/authorize"));
         }
     }
