@@ -156,7 +156,7 @@ namespace Box.V2.Config
         }
 
         private Uri _boxAuthTokenApiUri;
-        [Obsolete("User BoxApiHostUri instead")]
+        [Obsolete("Use BoxApiHostUri instead")]
         public Uri BoxAuthTokenApiUri
         {
             get { return _boxAuthTokenApiUri ?? new Uri(BoxApiHostUri, Constants.AuthTokenEndpointString); }

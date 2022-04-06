@@ -144,7 +144,7 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxApiUri">BoxAPI uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
-        [Obsolete("User SetBoxApiHostUri() instead")]
+        [Obsolete("Use SetBoxApiHostUri() instead")]
         public BoxConfigBuilder SetBoxApiUri(Uri boxApiUri)
         {
             BoxApiUri = boxApiUri;
@@ -167,7 +167,7 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxAuthTokenApiUri">BoxAPI auth token uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
-        [Obsolete("User SetBoxApiHostUri() instead")]
+        [Obsolete("Use SetBoxApiHostUri() instead")]
         public BoxConfigBuilder SetBoxTokenApiUri(Uri boxAuthTokenApiUri)
         {
             BoxAuthTokenApiUri = boxAuthTokenApiUri;
@@ -272,7 +272,7 @@ namespace Box.V2.Config
         }
 
         private Uri _boxAuthTokenApiUri;
-        [Obsolete("User BoxApiHostUri instead")]
+        [Obsolete("Use BoxApiHostUri instead")]
         public Uri BoxAuthTokenApiUri
         {
             get { return _boxAuthTokenApiUri ?? new Uri(BoxApiHostUri, Constants.AuthTokenEndpointString); }

@@ -10,7 +10,7 @@ namespace Box.V2.Config
         Uri BoxUploadApiUri { get; }
 
         Uri BoxApiUri { get; }
-        [Obsolete("User BoxApiHostUri instead")]
+        [Obsolete("Use BoxApiHostUri instead")]
         Uri BoxAuthTokenApiUri { get; }
 
         string ClientId { get; }
