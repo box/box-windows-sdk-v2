@@ -11,7 +11,7 @@ URLs configuration
 ------------------
 
 ### Base URL
-The default base URL used for making API calls to Box can be changed by calling `SetBoxApiHostUri()` method. Default value is https://api.box.com.
+The default base URL used for making API calls to Box can be changed by calling `SetBoxApiHostUri()` method. Default value is https://api.box.com/.
 
 ```c#
 var customUri = new Uri("https://custom-api-url.com");
@@ -33,7 +33,7 @@ var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
 ```
 
 ### Upload URL
-The default URL used for uploads can be changed by calling `SetBoxUploadApiUri()` method. Default value is https://upload.box.com/api.
+The default URL used for uploads can be changed by calling `SetBoxUploadApiUri()` method. Default value is https://upload.box.com/api/.
 
 ```c#
 var customUri = new Uri("https://custom-upload-url.com");
