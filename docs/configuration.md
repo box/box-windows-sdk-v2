@@ -3,7 +3,7 @@ Configuration
 
 - [URLs configuration](#urls-configuration)
   - [Base URL](#base-url)
-  - [Account URL](#token-url)
+  - [Account URL](#account-url)
   - [Upload URL](#upload-url)
 - [Timeout](#timeout)
 
