@@ -124,7 +124,7 @@ namespace Box.V2.Config
         /// <returns>this BoxConfigBuilder object for chaining</returns>
         public BoxConfigBuilder SetBoxApiHostUri(Uri boxApiHostUri)
         {
-            BoxApiHostUri = boxApiHostUri;
+            BoxApiHostUri = EnsureEndsWithSlash(boxApiHostUri);
             return this;
         }
 
@@ -135,7 +135,7 @@ namespace Box.V2.Config
         /// <returns>this BoxConfigBuilder object for chaining</returns>
         public BoxConfigBuilder SetBoxAccountApiHostUri(Uri boxAccountApiHostUri)
         {
-            BoxAccountApiHostUri = boxAccountApiHostUri;
+            BoxAccountApiHostUri = EnsureEndsWithSlash(boxAccountApiHostUri);
             return this;
         }
 
@@ -147,7 +147,7 @@ namespace Box.V2.Config
         [Obsolete("Use SetBoxApiHostUri() instead")]
         public BoxConfigBuilder SetBoxApiUri(Uri boxApiUri)
         {
-            BoxApiUri = boxApiUri;
+            BoxApiUri = EnsureEndsWithSlash(boxApiUri);
             return this;
         }
 
@@ -158,7 +158,7 @@ namespace Box.V2.Config
         /// <returns>this BoxConfigBuilder object for chaining</returns>
         public BoxConfigBuilder SetBoxUploadApiUri(Uri boxUploadApiUri)
         {
-            BoxUploadApiUri = boxUploadApiUri;
+            BoxUploadApiUri = EnsureEndsWithSlash(boxUploadApiUri);
             return this;
         }
 
@@ -170,7 +170,7 @@ namespace Box.V2.Config
         [Obsolete("Use SetBoxApiHostUri() instead")]
         public BoxConfigBuilder SetBoxTokenApiUri(Uri boxAuthTokenApiUri)
         {
-            BoxAuthTokenApiUri = boxAuthTokenApiUri;
+            BoxAuthTokenApiUri = EnsureEndsWithSlash(boxAuthTokenApiUri);
             return this;
         }
 
@@ -297,5 +297,10 @@ namespace Box.V2.Config
         /// Timeout for the connection
         /// </summary>
         public TimeSpan? Timeout { get; private set; }
+
+        private Uri EnsureEndsWithSlash(Uri uri)
+        {
+            return uri.ToString().EndsWith("/") ? uri : new Uri($"{uri}{"/"}");
+        }
     }
 }

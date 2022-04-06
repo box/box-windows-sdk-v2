@@ -74,7 +74,7 @@ namespace Box.V2.Test
             var newConfig = new BoxConfigBuilder("", "")
                 .SetBoxTokenApiUri(exampleUri)
                 .Build();
-            Assert.AreEqual(newConfig.BoxAuthTokenApiUri, exampleUri);
+            Assert.AreEqual(newConfig.BoxAuthTokenApiUri.ToString(), exampleUri + "/");
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace Box.V2.Test
                 .SetBoxApiHostUri(exampleUri)
                 .Build();
 
-            Assert.AreEqual(newConfig.BoxApiHostUri, exampleUri);
+            Assert.AreEqual(newConfig.BoxApiHostUri.ToString(), exampleUri + "/");
         }
 
         [TestMethod]
@@ -96,8 +96,8 @@ namespace Box.V2.Test
                 .SetBoxAccountApiHostUri(exampleUri)
                 .Build();
 
-            Assert.AreEqual(newConfig.BoxAccountApiHostUri, exampleUri);
-            Assert.AreEqual(newConfig.AuthCodeBaseUri, new Uri(exampleUri, "/oauth2/authorize"));
+            Assert.AreEqual(newConfig.BoxAccountApiHostUri.ToString(), exampleUri + "/");
+            Assert.AreEqual(newConfig.AuthCodeBaseUri.ToString(), exampleUri + "/" + "oauth2/authorize");
         }
     }
 }
