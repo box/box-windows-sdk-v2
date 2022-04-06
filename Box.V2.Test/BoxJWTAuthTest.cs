@@ -26,7 +26,7 @@ namespace Box.V2.Test
             _service = new BoxService(_handler.Object);
             _boxConfig = new Mock<IBoxConfig>();
             _boxConfig.SetupGet(x => x.EnterpriseId).Returns("12345");
-            _boxConfig.SetupGet(x => x.BoxAuthTokenApiUri).Returns(new Uri(Constants.BoxAuthTokenApiUriString));
+            _boxConfig.SetupGet(x => x.BoxApiHostUri).Returns(new Uri(Constants.BoxApiHostUriString));
             _jwtAuth = new BoxJWTAuth(_boxConfig.Object, _service);
         }
 
