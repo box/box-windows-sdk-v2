@@ -18,7 +18,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SearchKeyword_ValidResponse_ValidResults()
         {
             /*** Arrange ***/
@@ -43,7 +42,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SearchWithDateRanges_ValidResponse_ValidResults()
         {
             /*** Arrange ***/
@@ -68,7 +66,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SearchWithOpenDateRanges_ValidResponse_ValidResults()
         {
             /*** Arrange ***/
@@ -93,7 +90,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task Query_ValidResponse_ValidResults()
         {
             /*** Arrange ***/
@@ -118,7 +114,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task QueryWithDateRanges_ValidResponse_ValidResults()
         {
             /*** Arrange ***/
@@ -143,7 +138,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+
         public async Task QueryWithOpenDateRanges_ValidResponse_ValidResults()
         {
             /*** Arrange ***/
@@ -168,7 +163,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task QueryWithSharedLinks_ValidResponse_ValidResults()
         {
             /*** Arrange ***/

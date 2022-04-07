@@ -124,7 +124,7 @@ namespace Box.V2.Config
         /// <returns>this BoxConfigBuilder object for chaining</returns>
         public BoxConfigBuilder SetBoxApiHostUri(Uri boxApiHostUri)
         {
-            BoxApiHostUri = boxApiHostUri;
+            BoxApiHostUri = EnsureEndsWithSlash(boxApiHostUri);
             return this;
         }
 
@@ -135,7 +135,7 @@ namespace Box.V2.Config
         /// <returns>this BoxConfigBuilder object for chaining</returns>
         public BoxConfigBuilder SetBoxAccountApiHostUri(Uri boxAccountApiHostUri)
         {
-            BoxAccountApiHostUri = boxAccountApiHostUri;
+            BoxAccountApiHostUri = EnsureEndsWithSlash(boxAccountApiHostUri);
             return this;
         }
 
@@ -144,9 +144,10 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxApiUri">BoxAPI uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
+        [Obsolete("Use SetBoxApiHostUri() instead")]
         public BoxConfigBuilder SetBoxApiUri(Uri boxApiUri)
         {
-            BoxApiUri = boxApiUri;
+            BoxApiUri = EnsureEndsWithSlash(boxApiUri);
             return this;
         }
 
@@ -157,7 +158,7 @@ namespace Box.V2.Config
         /// <returns>this BoxConfigBuilder object for chaining</returns>
         public BoxConfigBuilder SetBoxUploadApiUri(Uri boxUploadApiUri)
         {
-            BoxUploadApiUri = boxUploadApiUri;
+            BoxUploadApiUri = EnsureEndsWithSlash(boxUploadApiUri);
             return this;
         }
 
@@ -166,9 +167,10 @@ namespace Box.V2.Config
         /// </summary>
         /// <param name="boxAuthTokenApiUri">BoxAPI auth token uri.</param>
         /// <returns>this BoxConfigBuilder object for chaining</returns>
+        [Obsolete("Use SetBoxApiHostUri() instead")]
         public BoxConfigBuilder SetBoxTokenApiUri(Uri boxAuthTokenApiUri)
         {
-            BoxAuthTokenApiUri = boxAuthTokenApiUri;
+            BoxAuthTokenApiUri = EnsureEndsWithSlash(boxAuthTokenApiUri);
             return this;
         }
 
@@ -260,9 +262,22 @@ namespace Box.V2.Config
 
         public Uri BoxApiHostUri { get; private set; } = new Uri(Constants.BoxApiHostUriString);
         public Uri BoxAccountApiHostUri { get; private set; } = new Uri(Constants.BoxAccountApiHostUriString);
-        public Uri BoxApiUri { get; private set; } = new Uri(Constants.BoxApiUriString);
-        public Uri BoxUploadApiUri { get; private set; } = new Uri(Constants.BoxUploadApiUriString);
-        public Uri BoxAuthTokenApiUri { get; private set; } = new Uri(Constants.BoxAuthTokenApiUriString);
+        public Uri BoxUploadApiUri { get; private set; } = new Uri(new Uri(Constants.BoxUploadApiUriWithoutVersionString), Constants.BoxApiCurrentVersionUriString);
+
+        private Uri _boxApiUri;
+        public Uri BoxApiUri
+        {
+            get { return _boxApiUri ?? new Uri(BoxApiHostUri, Constants.BoxApiCurrentVersionUriString); }
+            private set { _boxApiUri = value; }
+        }
+
+        private Uri _boxAuthTokenApiUri;
+        [Obsolete("Use BoxApiHostUri instead")]
+        public Uri BoxAuthTokenApiUri
+        {
+            get { return _boxAuthTokenApiUri ?? new Uri(BoxApiHostUri, Constants.AuthTokenEndpointString); }
+            private set { _boxAuthTokenApiUri = value; }
+        }
 
         public Uri RedirectUri { get; private set; }
         public string DeviceId { get; private set; }
@@ -282,5 +297,10 @@ namespace Box.V2.Config
         /// Timeout for the connection
         /// </summary>
         public TimeSpan? Timeout { get; private set; }
+
+        private Uri EnsureEndsWithSlash(Uri uri)
+        {
+            return uri.ToString().EndsWith("/") ? uri : new Uri($"{uri}{"/"}");
+        }
     }
 }

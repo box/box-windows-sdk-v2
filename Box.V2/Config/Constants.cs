@@ -7,10 +7,14 @@ namespace Box.V2.Config
         /*** Base API URIs ***/
         public const string BoxApiHostUriString = "https://api.box.com/";
         public const string BoxAccountApiHostUriString = "https://account.box.com/api/";
+        public const string BoxUploadApiUriWithoutVersionString = "https://upload.box.com/api/";
+
+        public const string BoxApiV2Version = @"2.0";
+        public const string BoxApiCurrentVersionUriString = BoxApiV2Version + "/";
+
         public const string BoxApiUriString = "https://api.box.com/2.0/";
         public const string BoxUploadApiUriString = "https://upload.box.com/api/2.0/";
         public const string BoxAuthTokenApiUriString = "https://api.box.com/oauth2/token";
-
 
         /*** API Endpoints ***/
         public const string TransactionalEndpointString = @"/api/oauth2/token";

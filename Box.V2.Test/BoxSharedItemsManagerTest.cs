@@ -18,7 +18,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task SharedItems_ValidResponse_ValidSharedLink()
         {
             /*** Arrange ***/

@@ -21,7 +21,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateTermsOfServiceUserStatus_ValidResponse()
         {
             /*** Arrange ***/

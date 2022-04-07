@@ -40,7 +40,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task RefreshAccessTokenAsync_ForUser_ReturnsUserSession()
         {
             // Arrange
@@ -62,7 +61,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task RefreshAccessTokenAsync_ForAdmin_ReturnsAdminSession()
         {
             // Arrange
@@ -84,7 +82,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public void LogoutAsync_ThrowsException()
         {
             // Act & Assert
@@ -92,7 +89,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public void AuthenticateAsync_ThrowsException()
         {
             // Act & Assert

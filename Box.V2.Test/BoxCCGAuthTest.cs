@@ -34,7 +34,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAdminToken_ValidSession()
         {
             // Arrange
@@ -63,7 +62,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetUserToken_ValidSession()
         {
             // Arrange
@@ -92,7 +90,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public void UserClient_ShouldReturnUserClientWithSession()
         {
             // Act
@@ -105,7 +102,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public void AdminClient_ShouldReturnAdminClientWithSession()
         {
             // Act
