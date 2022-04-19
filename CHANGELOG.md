@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.3.1](https://github.com/box/box-windows-sdk-v2/compare/v4.3.0...v4.3.1) (2022-04-19)
+
+
+### **Bug Fixes:**
+
+* simplify base `urls` usage ([#815](https://github.com/box/box-windows-sdk-v2/issues/815)) ([f8e7344](https://github.com/box/box-windows-sdk-v2/commit/f8e73447afa5c0a893c3c4ace922fc360a376f66))
+
 ## [4.3.0](https://github.com/box/box-windows-sdk-v2/compare/v4.2.0...v4.3.0) (2022-04-01)
 
 
@@ -273,4 +280,5 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
