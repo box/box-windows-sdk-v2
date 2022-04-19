@@ -20,7 +20,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetFileRequestById_Success()
         {
             /*** Arrange ***/
@@ -64,7 +63,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CopyFileRequest_Success()
         {
             /*** Arrange ***/
@@ -118,7 +116,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateFileRequest_Success()
         {
             /*** Arrange ***/
@@ -171,7 +168,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteFileRequest_Success()
         {
             /*** Arrange ***/

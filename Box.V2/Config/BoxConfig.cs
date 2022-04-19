@@ -146,9 +146,22 @@ namespace Box.V2.Config
 
         public Uri BoxApiHostUri { get; private set; } = new Uri(Constants.BoxApiHostUriString);
         public Uri BoxAccountApiHostUri { get; private set; } = new Uri(Constants.BoxAccountApiHostUriString);
-        public Uri BoxApiUri { get; private set; } = new Uri(Constants.BoxApiUriString);
-        public Uri BoxUploadApiUri { get; private set; } = new Uri(Constants.BoxUploadApiUriString);
-        public Uri BoxAuthTokenApiUri { get; private set; } = new Uri(Constants.BoxAuthTokenApiUriString);
+        public Uri BoxUploadApiUri { get; private set; } = new Uri(new Uri(Constants.BoxUploadApiUriWithoutVersionString), Constants.BoxApiCurrentVersionUriString);
+
+        private Uri _boxApiUri;
+        public Uri BoxApiUri
+        {
+            get { return _boxApiUri ?? new Uri(BoxApiHostUri, Constants.BoxApiCurrentVersionUriString); }
+            private set { _boxApiUri = value; }
+        }
+
+        private Uri _boxAuthTokenApiUri;
+        [Obsolete("Use BoxApiHostUri instead")]
+        public Uri BoxAuthTokenApiUri
+        {
+            get { return _boxAuthTokenApiUri ?? new Uri(BoxApiHostUri, Constants.AuthTokenEndpointString); }
+            private set { _boxAuthTokenApiUri = value; }
+        }
 
         public string ClientId { get; private set; }
         public string ConsumerKey { get; private set; }

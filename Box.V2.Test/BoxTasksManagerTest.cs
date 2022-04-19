@@ -22,7 +22,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateTaskAssignment_ValidResponse()
         {
             /*** Arrange ***/
@@ -105,7 +104,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateTaskAssignment_ValidResponse()
         {
             /*** Arrange ***/
@@ -181,7 +179,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTaskAssignment_ValidResponse()
         {
             /*** Arrange ***/
@@ -249,7 +246,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetTaskAssignment_TranslatedStatus()
         {
             /*** Arrange ***/
@@ -305,7 +301,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteTaskAssignment_TaskAssignmentDeleted()
         {
             /*** Arrange ***/
@@ -337,7 +332,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateTask_ValidResponse()
         {
             /*** Arrange ***/
@@ -418,7 +412,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateTask_WithCompletionRule()
         {
             /*** Arrange ***/
@@ -491,7 +484,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task UpdateTask_ValidResponse()
         {
             /*** Arrange ***/
@@ -564,7 +556,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteTask_TaskDeleted()
         {
             /*** Arrange ***/
@@ -596,7 +587,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
+
         public async Task GetTask_ValidResponse()
         {
             /*** Arrange ***/
@@ -661,7 +652,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAssignments_ValidResponse()
         {
             /*** Arrange ***/
@@ -719,7 +709,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task ThrowIfNull_WorksWithNullable_NoValue()
         {
             var responseString = "{\"type\":\"task\",\"id\":\"1874102965\"}";

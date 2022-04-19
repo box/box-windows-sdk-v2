@@ -19,7 +19,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task CreateMetadataCascadePolicy_ValidResponse()
         {
             /*** Arrange ***/
@@ -52,7 +51,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetMetadataCascadePolicy_ValidResponse()
         {
             /*** Arrange ***/
@@ -82,7 +80,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task DeleteMetadataCascadePolicy_ValidResponse()
         {
             var responseString = "";
@@ -111,7 +108,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task ForceApplyMetadataCascadePolicy_ValidResponse()
         {
             var responseString = "";
@@ -142,7 +138,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task GetAllMetadataCascadePolicies_ValidResponse()
         {
             var responseString = "{ \"limit\": 100, \"entries\": [ { \"id\": \"6fd4ff89-8fc1-42cf-8b29-1890dedd26d7\", \"type\": \"metadata_cascade_policy\", \"owner_enterprise\": { \"type\": \"enterprise\", \"id\": \"1111\" }, \"parent\": { \"type\": \"folder\", \"id\": \"2222\" }, \"scope\": \"enterprise_1111\", \"templateKey\": \"demo\" } ], \"next_marker\": null, \"prev_marker\": null }";

@@ -16,7 +16,6 @@ namespace Box.V2.Test
     {
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         [ExpectedException(typeof(BoxAPIException))]
         public async Task AuthenticateLive_InvalidAuthCode_Exception()
         {
@@ -32,7 +31,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task Authenticate_ValidResponse_ValidSession()
         {
             // Arrange
@@ -54,7 +52,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         [ExpectedException(typeof(BoxAPIException))]
         public async Task Authenticate_ErrorResponse_Exception()
         {
@@ -71,7 +68,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task RefreshSession_ValidResponse_ValidSession()
         {
             // Arrange
@@ -93,7 +89,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        [TestCategory("CI-UNIT-TEST")]
         public async Task RefreshSession_MultipleThreadsSameAccessToken_SameSession()
         {
 

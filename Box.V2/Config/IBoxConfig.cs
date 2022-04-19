@@ -7,8 +7,10 @@ namespace Box.V2.Config
     {
         Uri BoxApiHostUri { get; }
         Uri BoxAccountApiHostUri { get; }
-        Uri BoxApiUri { get; }
         Uri BoxUploadApiUri { get; }
+
+        Uri BoxApiUri { get; }
+        [Obsolete("Use BoxApiHostUri instead")]
         Uri BoxAuthTokenApiUri { get; }
 
         string ClientId { get; }
