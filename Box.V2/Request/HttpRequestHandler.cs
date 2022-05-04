@@ -33,6 +33,7 @@ namespace Box.V2.Request
         {
             // Need to account for special cases when the return type is a stream
             var isStream = typeof(T) == typeof(Stream);
+            HttpResponseMessage response = null;
 
             try
             {
@@ -42,13 +43,14 @@ namespace Box.V2.Request
 
                 HttpRequestMessage httpRequest = GetHttpRequest(request, isMultiPartRequest, isBinaryRequest);
                 Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
-                HttpResponseMessage response = await GetResponse(request, isStream, httpRequest).ConfigureAwait(false);
+                response = await GetResponse(request, isStream, httpRequest).ConfigureAwait(false);
                 BoxResponse<T> boxResponse = await GetBoxResponse<T>(isStream, response).ConfigureAwait(false);
 
                 return boxResponse;
             }
             catch (Exception ex)
             {
+                response?.Dispose();
                 Debug.WriteLine(string.Format("Exception: {0}", ex.Message));
                 throw;
             }
@@ -61,6 +63,7 @@ namespace Box.V2.Request
             var isStream = typeof(T) == typeof(Stream);
             var retryCounter = 0;
             var expBackoff = new ExponentialBackoff();
+            HttpResponseMessage response = null;
 
             try
             {
@@ -73,7 +76,7 @@ namespace Box.V2.Request
                     using (HttpRequestMessage httpRequest = GetHttpRequest(request, isMultiPartRequest, isBinaryRequest))
                     {
                         Debug.WriteLine(string.Format("RequestUri: {0}", httpRequest.RequestUri));
-                        HttpResponseMessage response = await GetResponse(request, isStream, httpRequest).ConfigureAwait(false);
+                        response = await GetResponse(request, isStream, httpRequest).ConfigureAwait(false);
                         //need to wait for Retry-After seconds and then retry request
                         var retryAfterHeader = response.Headers.RetryAfter;
 
@@ -94,6 +97,7 @@ namespace Box.V2.Request
                             (response.StatusCode == HttpStatusCode.Accepted && retryAfterHeader != null))
                             && retryCounter++ < RetryLimit)
                         {
+                            response?.Dispose();
                             TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
 
                             Debug.WriteLine("HttpCode : {0}. Waiting for {1} seconds to retry request. RequestUri: {2}", response.StatusCode, delay.Seconds, httpRequest.RequestUri);
@@ -111,6 +115,7 @@ namespace Box.V2.Request
             }
             catch (Exception ex)
             {
+                response?.Dispose();
                 Debug.WriteLine(string.Format("Exception: {0}", ex.Message));
                 throw;
             }
