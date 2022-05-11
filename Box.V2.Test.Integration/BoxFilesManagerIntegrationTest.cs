@@ -249,6 +249,23 @@ namespace Box.V2.Test.Integration
             Assert.AreNotEqual(file.FileVersion.Id, response.FileVersion.Id);
         }
 
+        [TestMethod]
+        public async Task ViewVersions_ShouldReturnCorrectVersionNumber_WhenFileVersionIsChangedByUpload()
+        {
+            var file = await CreateSmallFile();
+            await CreateNewFileVersion(file.Id);
+
+            var response = await UserClient.FilesManager.ViewVersionsAsync(file.Id, new List<string>() { BoxFileVersion.FieldVersionNumber });
+
+            Assert.AreEqual("1", response.Entries[0].VersionNumber);
+
+            await CreateNewFileVersion(file.Id);
+
+            response = await UserClient.FilesManager.ViewVersionsAsync(file.Id, new List<string>() { BoxFileVersion.FieldVersionNumber });
+
+            Assert.AreEqual("2", response.Entries[0].VersionNumber);
+        }
+
         private int GetNumberOfParts(long totalSize, long partSize)
         {
             if (partSize == 0)

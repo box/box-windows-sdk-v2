@@ -298,16 +298,15 @@ namespace Box.V2.Test
         public async Task ViewVersions_ValidResponse_ValidFileVersions()
         {
             /*** Arrange ***/
-            var responseString = "{ \"total_count\": 1, \"entries\": [ { \"type\": \"file_version\", \"id\": \"672259576\", \"sha1\": \"359c6c1ed98081b9a69eb3513b9deced59c957f9\", \"name\": \"Dragons.js\", \"size\": 92556, \"created_at\": \"2012-08-20T10:20:30-07:00\", \"modified_at\": \"2012-11-28T13:14:58-08:00\", \"modified_by\": { \"type\": \"user\", \"id\": \"183732129\", \"name\": \"sean rose\", \"login\": \"sean+apitest@box.com\" } } ] }";
             Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFileVersion>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFileVersion>>>(new BoxResponse<BoxCollection<BoxFileVersion>>()
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = responseString
+                    ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/ViewVersions200.json")
                 }));
 
             /*** Act ***/
-            BoxCollection<BoxFileVersion> c = await _filesManager.ViewVersionsAsync("0");
+            BoxCollection<BoxFileVersion> c = await _filesManager.ViewVersionsAsync("0", new List<string>() { BoxFileVersion.FieldVersionNumber });
 
             /*** Assert ***/
             Assert.AreEqual(c.TotalCount, 1);
@@ -324,6 +323,7 @@ namespace Box.V2.Test
             Assert.AreEqual("183732129", f.ModifiedBy.Id);
             Assert.AreEqual("sean rose", f.ModifiedBy.Name);
             Assert.AreEqual("sean+apitest@box.com", f.ModifiedBy.Login);
+            Assert.AreEqual("1", f.VersionNumber);
         }
 
         [TestMethod]
