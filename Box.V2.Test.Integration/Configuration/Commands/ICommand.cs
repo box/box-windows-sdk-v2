@@ -45,7 +45,7 @@ namespace Box.V2.Test.Integration.Configuration.Commands
     }
 
     /// <summary>
-    /// Interface used to create and of resources. It does not perform dispose action. Usable in cases like new file version upload.
+    /// Interface used to create a resource. It does not perform a remove/dispose action. Used in cases such as new file version upload.
     /// </summary>
     public interface INonDisposableCommand : ICommand
     {
