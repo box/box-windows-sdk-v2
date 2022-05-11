@@ -155,6 +155,12 @@ namespace Box.V2.Test.Integration
             await command.Execute(client);
         }
 
+        public static async Task ExecuteCommand(INonDisposableCommand command)
+        {
+            IBoxClient client = GetClient(command);
+            await command.Execute(client);
+        }
+
         public static async Task<string> ExecuteCommand(IDisposableCommand command)
         {
             IBoxClient client = GetClient(command);
@@ -330,6 +336,13 @@ namespace Box.V2.Test.Integration
             var addCollaborationExemptCommand = new AddCollaborationExemptCommand(userId);
             await ExecuteCommand(addCollaborationExemptCommand);
             return addCollaborationExemptCommand.WhitelistTargetEntry;
+        }
+
+        public static async Task<BoxFile> CreateNewFileVersion(string fileId)
+        {
+            var createNewFileVersionCommand = new CreateNewFileVersion(GetUniqueName("file"), GetSmallFilePath(), fileId);
+            await ExecuteCommand(createNewFileVersionCommand);
+            return createNewFileVersionCommand.File;
         }
 
         public static async Task Retry(Func<Task> action, int retries = 3, int sleep = 1000)

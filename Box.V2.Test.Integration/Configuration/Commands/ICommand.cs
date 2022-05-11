@@ -43,4 +43,17 @@ namespace Box.V2.Test.Integration.Configuration.Commands
         /// <returns></returns>
         Task Execute(IBoxClient client);
     }
+
+    /// <summary>
+    /// Interface used to create and of resources. It does not perform dispose action. Usable in cases like new file version upload.
+    /// </summary>
+    public interface INonDisposableCommand : ICommand
+    {
+        /// <summary>
+        /// Creates resources required for the test. Returns the identifier of the resource.
+        /// </summary>
+        /// <param name="client">Box Client</param>
+        /// <returns>Resource Id</returns>
+        Task<string> Execute(IBoxClient client);
+    }
 }
