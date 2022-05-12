@@ -841,13 +841,16 @@ namespace Box.V2.Test
 
             using (var exampleFile = new FileStream(string.Format(GetSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
             {
+                var location = new Uri("http://dl.boxcloud.com");
+                var headers = new HttpResponseMessage().Headers;
+                headers.Location = location;
                 /*** Arrange ***/
                 Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
 
                     .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                     {
                         Status = ResponseStatus.Success,
- 
+                        Headers = headers
                     }));
                 IBoxRequest boxRequest = null;
                 Handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
