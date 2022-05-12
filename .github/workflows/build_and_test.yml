@@ -29,6 +29,17 @@ jobs:
         run: dotnet test .\Box.V2.Test -f net45
 
   core:
+    strategy:
+      matrix:
+        include:
+          - net-version: 2.0.0
+            net-runtime: netcoreapp2.0
+          - net-version: 2.2.0
+            net-runtime: netcoreapp2.2
+          - net-version: 3.1.0
+            net-runtime: netcoreapp3.1
+          - net-version: 5.0.0
+            net-runtime: net5.0
     name: Build and Test - Core
     runs-on: windows-latest
 
@@ -38,8 +49,8 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '2.0.0'
+          dotnet-version: '${{ matrix.net-version }}'
       - name: Build
         run: dotnet build .\Box.V2.Core
       - name: Test
-        run: dotnet test .\Box.V2.Test -f netcoreapp2.0
+        run: dotnet test .\Box.V2.Test -f ${{ matrix.net-runtime }}
