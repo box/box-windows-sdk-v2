@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -805,7 +806,7 @@ namespace Box.V2.Test
             {
                 /*** Arrange ***/
                 var location = new Uri("http://dl.boxcloud.com");
-                HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+                var headers = new HttpResponseMessage().Headers;
                 headers.Location = location;
                 Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
                     .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
@@ -841,16 +842,12 @@ namespace Box.V2.Test
             using (var exampleFile = new FileStream(string.Format(GetSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
             {
                 /*** Arrange ***/
-                var location = new Uri("http://dl.boxcloud.com");
-                HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
-                headers.Location = location;
                 Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
 
                     .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
                     {
                         Status = ResponseStatus.Success,
-                        Headers = headers
-
+ 
                     }));
                 IBoxRequest boxRequest = null;
                 Handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))

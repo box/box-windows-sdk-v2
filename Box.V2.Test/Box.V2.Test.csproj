@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;net45</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp2.2;netcoreapp3.1;net5.0;net45</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -15,7 +15,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework.StartsWith('netcoreapp2.0'))">
+  <ItemGroup Condition="$(TargetFramework.StartsWith('netcore')) or $(TargetFramework.StartsWith('net5.0'))">
           <ProjectReference Include="..\Box.V2.Core\Box.V2.Core.csproj" />
       <PackageReference Include="Moq">
           <Version>4.7.0</Version>
