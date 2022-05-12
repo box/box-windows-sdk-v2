@@ -34,8 +34,6 @@ jobs:
         include:
           - net-version: 2.0.0
             net-runtime: netcoreapp2.0
-          - net-version: 2.2.x
-            net-runtime: netcoreapp2.2
           - net-version: 3.1.x
             net-runtime: netcoreapp3.1
           - net-version: 5.0.x
