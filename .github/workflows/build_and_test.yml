@@ -27,14 +27,9 @@ jobs:
         run: msbuild .\Box.V2
       - name: Test
         run: dotnet test .\Box.V2.Test -f net45
-
-  core:
-    strategy:
-      matrix:
-        include:
-          - net-version: 2.0.0
-            net-runtime: netcoreapp2.0
-    name: Build and Test - Core
+  
+  core-build:
+    name: Build - Core
     runs-on: windows-latest
 
     steps:
@@ -43,8 +38,28 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '${{ matrix.net-version }}'
+          dotnet-version:
+            2.0.0
       - name: Build
         run: dotnet build .\Box.V2.Core
+
+  core-test:
+    name: Test - Core
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        version: [netcoreapp2.0, netcoreapp2.2, netcoreapp3.1, net5.0]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: | 
+            2.0.0
+            2.2.x
+            3.1.x
+            5.0.x
       - name: Test
         run: dotnet test .\Box.V2.Test -f ${{ matrix.net-runtime }}

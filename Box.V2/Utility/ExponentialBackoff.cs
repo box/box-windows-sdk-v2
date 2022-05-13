@@ -2,7 +2,7 @@ using System;
 
 namespace Box.V2.Utility
 {
-    public class ExponentialBackoff
+    public class ExponentialBackoff : IRetryStrategy
     {
         public TimeSpan GetRetryTimeout(int numRetries)
         {

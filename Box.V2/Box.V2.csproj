@@ -260,6 +260,7 @@
     <Compile Include="Utility\CrossPlatform.cs" />
     <Compile Include="Utility\ExponentialBackoff.cs" />
     <Compile Include="Utility\Helper.cs" />
+    <Compile Include="Utility\IRetryStrategy.cs" />
     <Compile Include="Utility\LRUCache.cs" />
     <Compile Include="Utility\Retry.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
