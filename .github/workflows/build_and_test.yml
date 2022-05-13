@@ -33,7 +33,7 @@ jobs:
         run: dotnet test .\Box.V2.Test -f net45
 
   core:
-    name: Build and test - Core
+    name: Build and Test - Core
     runs-on: windows-latest
 
     steps:
