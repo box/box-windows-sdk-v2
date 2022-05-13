@@ -62,4 +62,4 @@ jobs:
             3.1.x
             5.0.x
       - name: Test
-        run: dotnet test .\Box.V2.Test -f ${{ matrix.net-runtime }}
+        run: dotnet test .\Box.V2.Test -f ${{ matrix.version }}
