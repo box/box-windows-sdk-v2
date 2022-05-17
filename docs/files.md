@@ -18,6 +18,7 @@ file's contents, upload new versions, and perform other common file operations
 - [Delete a File](#delete-a-file)
 - [Get Previous File Versions](#get-previous-file-versions)
 - [Upload a New Version of a File](#upload-a-new-version-of-a-file)
+- [Upload a Large File Version in Chunks](#upload-a-large-file-version-in-chunks)
 - [Download a Previous Version of a File](#download-a-previous-version-of-a-file)
 - [Promote Version](#promote-version)
 - [Delete a Previous File Version](#delete-a-previous-file-version)
