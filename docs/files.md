@@ -185,9 +185,9 @@ var progress = new Progress<BoxProgress>(val => {
 });
 using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
 {
-    var bFile = await client.FilesManager.UploadUsingSessionAsync(fileStream, "File v2.pdf", "11111", null, progress);
-    Console.WriteLine("{0} uploaded to folder: {1} as file: {2}", localFilePath, parentFolderId, bFile.Id);
-    Console.WriteLine("Time spend : {0} ms", timer.ElapsedMilliseconds);
+    string parentFolderId = "0";
+    var bFile = await client.FilesManager.UploadUsingSessionAsync(fileStream, "File v2.pdf", parentFolderId, null, progress);
+    Console.WriteLine("{0} uploaded to folder: {1} as file: {2}", filePath, parentFolderId, bFile.Id);
 }
 ```
 
