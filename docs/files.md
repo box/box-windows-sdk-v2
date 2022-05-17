@@ -183,7 +183,7 @@ with the `Stream` of the new contents of the file, name,  parent folder ID of th
 var progress = new Progress<BoxProgress>(val => {
     Console.WriteLine("Uploaded {0}%", val.progress);
 });
- using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
 {
     var bFile = await client.FilesManager.UploadUsingSessionAsync(fileStream, "File v2.pdf", "11111", null, progress);
     Console.WriteLine("{0} uploaded to folder: {1} as file: {2}", localFilePath, parentFolderId, bFile.Id);
