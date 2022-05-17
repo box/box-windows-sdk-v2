@@ -18,6 +18,7 @@ file's contents, upload new versions, and perform other common file operations
 - [Delete a File](#delete-a-file)
 - [Get Previous File Versions](#get-previous-file-versions)
 - [Upload a New Version of a File](#upload-a-new-version-of-a-file)
+- [Upload a Large File Version in Chunks](#upload-a-large-file-version-in-chunks)
 - [Download a Previous Version of a File](#download-a-previous-version-of-a-file)
 - [Promote Version](#promote-version)
 - [Delete a Previous File Version](#delete-a-previous-file-version)
@@ -167,6 +168,26 @@ using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
 {
     BoxFile file = await client.FilesManager
         .UploadNewVersionAsync("File v2.pdf", "11111", fileStream);
+}
+```
+
+Upload a Large File Version in Chunks
+-------------------------------------
+A new version of a large file (over 50MB) can be uploaded by calling
+`FilesManager.UploadUsingSessionAsync(Stream stream, string fileName,
+            string folderId, TimeSpan? timeout = null, IProgress<BoxProgress> progress = null)`
+with the `Stream` of the new contents of the file, name,  parent folder ID of the file, timeout (default none) and progress listener (default null).
+
+<!-- samples x_chunked_uploads automatic_new_version -->
+```c#
+var progress = new Progress<BoxProgress>(val => {
+    Console.WriteLine("Uploaded {0}%", val.progress);
+});
+using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+{
+    string parentFolderId = "0";
+    var bFile = await client.FilesManager.UploadUsingSessionAsync(fileStream, "File v2.pdf", parentFolderId, null, progress);
+    Console.WriteLine("{0} uploaded to folder: {1} as file: {2}", filePath, parentFolderId, bFile.Id);
 }
 ```
 
