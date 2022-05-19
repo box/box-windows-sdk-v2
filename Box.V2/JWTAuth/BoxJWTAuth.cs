@@ -38,6 +38,8 @@ namespace Box.V2.JWTAuth
         private readonly IBoxConfig _boxConfig;
         private readonly SigningCredentials _credentials;
 
+        private readonly IRetryStrategy _retryStrategy;
+
         /// <summary>
         /// Constructor for JWT authentication
         /// </summary>
@@ -47,6 +49,7 @@ namespace Box.V2.JWTAuth
         {
             _boxConfig = boxConfig;
             _boxService = boxService;
+            _retryStrategy = new ExponentialBackoff();
 
             // the following allows creation of a BoxJWTAuth object without valid keys but with a valid JWT UserToken
             // this allows code like this:
@@ -95,6 +98,18 @@ namespace Box.V2.JWTAuth
         public BoxJWTAuth(IBoxConfig boxConfig) : this(boxConfig, new BoxService(new HttpRequestHandler(boxConfig.WebProxy, boxConfig.Timeout)))
         {
 
+        }
+
+        /// <summary>
+        /// Constructor for JWT authentication with custom retry strategy
+        /// </summary>
+        /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
+        /// <param name="boxService">Box service is used to perform GetToken requests</param>
+        /// <param name="retryStrategy">Retry strategy used when retrying http request</param>
+        /// 
+        public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService, IRetryStrategy retryStrategy) : this(boxConfig, boxService)
+        {
+            _retryStrategy = retryStrategy;
         }
 
         /// <summary>
@@ -147,7 +162,6 @@ namespace Box.V2.JWTAuth
         private async Task<string> GetTokenAsync(string subType, string subId)
         {
             var retryCounter = 0;
-            var expBackoff = new ExponentialBackoff();
 
             var assertion = ConstructJWTAssertion(subId, subType);
             OAuthSession result;
@@ -189,7 +203,7 @@ namespace Box.V2.JWTAuth
                         && retryCounter++ < HttpRequestHandler.RetryLimit)
                     {
 
-                        TimeSpan delay = expBackoff.GetRetryTimeout(retryCounter);
+                        TimeSpan delay = _retryStrategy.GetRetryTimeout(retryCounter);
 
                         // If the response contains a Retry-After header, override the exponential back-off delay value
                         if (retryAfterHeader != null && int.TryParse(retryAfterHeader.ToString(), out var timeToWait))

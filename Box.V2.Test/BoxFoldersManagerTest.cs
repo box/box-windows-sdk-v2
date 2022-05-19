@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.Exceptions;
@@ -201,7 +201,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task CreateFolder_ValidResponse_BadRequest()
         {
-            HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+            var headers = new HttpResponseMessage().Headers;
             headers.Add("BOX-REQUEST-ID", "0vsm9dam264cpub3esr293i4ssm");
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
@@ -237,10 +237,9 @@ namespace Box.V2.Test
             }
         }
 
-        [TestMethod]
         public async Task CreateFolder_Unauthorized()
         {
-            HttpResponseHeaders headers = CreateInstanceNonPublicConstructor<HttpResponseHeaders>();
+            var headers = new HttpResponseMessage().Headers;
             headers.Add("BOX-REQUEST-ID", "0vsm9dam264cpub3esr293i4ssm");
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()

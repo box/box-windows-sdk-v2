@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using Box.V2.Auth;
 using Box.V2.Config;
@@ -71,21 +70,6 @@ namespace Box.V2.Test
                 sb.Append(hex);
             }
             return sb.ToString();
-        }
-        public static T CreateInstanceNonPublicConstructor<T>()
-        {
-            _ = new Type[0];
-
-            ConstructorInfo[] c = typeof(T).GetConstructors
-                (BindingFlags.NonPublic | BindingFlags.Instance
-                );
-
-            var inst =
-                (T)c[0].Invoke(BindingFlags.NonPublic,
-                               null,
-                               null,
-                               System.Threading.Thread.CurrentThread.CurrentCulture);
-            return inst;
         }
 
         public string LoadFixtureFromJson(string path)
