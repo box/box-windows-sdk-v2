@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Box.V2.Exceptions;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -796,6 +797,42 @@ namespace Box.V2.Test
             Assert.AreEqual(true, result);
 
 
+        }
+
+        [TestMethod]
+        [TestCategory("CI-UNIT-TEST")]
+        public async Task DeleteFile_ErrorResponse_Exception()
+        {
+
+            /*** Arrange ***/
+            var headers = new HttpResponseMessage().Headers;
+            Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                .Returns(Task<IBoxResponse<BoxFile>>.Factory.StartNew(() => new BoxResponse<BoxFile>()
+                {
+                    StatusCode = System.Net.HttpStatusCode.Forbidden,
+                    Status = ResponseStatus.Forbidden,
+                    Headers = headers,
+                    ContentString = "{\"type\": \"error\", \"status\": 403, \"code\": \"forbidden_by_policy\", \"message\": \"Access denied by Shield policy\", \"request_id\": \"5hr712h2ip6deox0\"}"
+                }));
+
+            /*** Act ***/
+            try
+            {
+                var result = await _filesManager.DeleteAsync("34122832467");
+
+                Assert.Fail("Expected delete file throws when delete without permissions");
+            }
+            catch (BoxAPIException ex)
+            {
+                /*** Assert ***/
+                Assert.AreEqual(System.Net.HttpStatusCode.Forbidden, ex.StatusCode);
+                Assert.AreEqual("forbidden_by_policy", ex.ErrorCode);
+                Assert.AreEqual("Access denied by Shield policy", ex.ErrorDescription);
+                Assert.AreEqual("5hr712h2ip6deox0", ex.Error.RequestId);
+                Assert.AreEqual("403", ex.Error.Status);
+                Assert.AreEqual("forbidden_by_policy", ex.Error.Code);
+                Assert.AreEqual("Access denied by Shield policy", ex.Error.Message);
+            }
         }
 
         [TestMethod]

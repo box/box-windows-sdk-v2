@@ -63,7 +63,7 @@ namespace Box.V2.Exceptions
         protected internal static BoxAPIException GetResponseException<T>(string message, IBoxResponse<T> response) where T : class
         {
             var error = GetResponseError(response);
-            return new BoxAPIException(GetErrorMessage(message, response, error), response.Error, response.StatusCode, response.Headers);
+            return new BoxAPIException(GetErrorMessage(message, response, error), response.Error ?? error, response.StatusCode, response.Headers);
         }
 
         protected internal static BoxError GetResponseError<T>(IBoxResponse<T> response) where T : class
