@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Box.V2.Exceptions;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -27,7 +28,7 @@ namespace Box.V2.Test
             _filesManager = new BoxFilesManager(Config.Object, Service, Converter, AuthRepository);
         }
 
-        [TestMethod]      
+        [TestMethod]
         public async Task UploadNewVersionUsingSessionAsync_ValidResponse()
         {
             var fileInMemoryStream = new MemoryStream(Encoding.UTF8.GetBytes("whatever"));
@@ -42,12 +43,12 @@ namespace Box.V2.Test
                 }));
 
 
-           Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFile>>(It.IsAny<IBoxRequest>()))
-                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFile>>>(new BoxResponse<BoxCollection<BoxFile>>()
-                {
-                    Status = ResponseStatus.Success,
-                    ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/UploadNewVersionUsingSession200.json")
-                }));
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFile>>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFile>>>(new BoxResponse<BoxCollection<BoxFile>>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/UploadNewVersionUsingSession200.json")
+                 }));
 
             var fakeStream = new Mock<System.IO.Stream>();
 
@@ -56,7 +57,7 @@ namespace Box.V2.Test
             Assert.AreEqual("5000948880", f.Id);
         }
 
-        [TestMethod]   
+        [TestMethod]
         public async Task GetCollaborationsCollectionAsync_ValidResponse_NextMarker()
         {
             var responseJSON = "{\"next_marker\":\"ZmlsZS0xLTE%3D\",\"previous_marker\":\"\",\"entries\":[{\"type\":\"collaboration\",\"id\":\"11111\",\"created_by\":{\"type\":\"user\",\"id\":\"33333\",\"name\":\"Test User\",\"login\":\"testuser@example.com\"},\"created_at\":\"2019-01-21T07:58:18-08:00\",\"modified_at\":\"2019-01-21T14:49:18-08:00\",\"expires_at\":null,\"status\":\"accepted\",\"accessible_by\":{\"type\":\"user\",\"id\":\"44444\",\"name\":\"Test User 2\",\"login\":\"testuser2@example.com\"},\"role\":\"editor\",\"acknowledged_at\":\"2019-01-21T07:58:18-08:00\",\"item\":{\"type\":\"file\",\"id\":\"22222\",\"file_version\":{\"type\":\"file_version\",\"id\":\"12345\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\"},\"sequence_id\":\"26\",\"etag\":\"26\",\"sha1\":\"96619397759a43a01537da34ea3e0bab86b22e9d\",\"name\":\"Meeting Notes.boxnote\"}}]}";
@@ -204,7 +205,7 @@ namespace Box.V2.Test
             Assert.IsFalse(f.IsExternallyOwned.Value);
         }
 
-        [TestMethod]     
+        [TestMethod]
         public async Task UploadFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -362,7 +363,7 @@ namespace Box.V2.Test
             Assert.AreEqual("needs review", f.Tags[1]);
         }
 
-        [TestMethod] 
+        [TestMethod]
         public async Task CopyFile_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
@@ -796,6 +797,41 @@ namespace Box.V2.Test
             Assert.AreEqual(true, result);
 
 
+        }
+
+        [TestMethod]
+        public async Task DeleteFile_ErrorResponse_Exception()
+        {
+
+            /*** Arrange ***/
+            var headers = new HttpResponseMessage().Headers;
+            Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                .Returns(Task<IBoxResponse<BoxFile>>.Factory.StartNew(() => new BoxResponse<BoxFile>()
+                {
+                    StatusCode = System.Net.HttpStatusCode.Forbidden,
+                    Status = ResponseStatus.Forbidden,
+                    Headers = headers,
+                    ContentString = "{\"type\": \"error\", \"status\": 403, \"code\": \"forbidden_by_policy\", \"message\": \"Access denied by Shield policy\", \"request_id\": \"5hr712h2ip6deox0\"}"
+                }));
+
+            /*** Act ***/
+            try
+            {
+                var result = await _filesManager.DeleteAsync("34122832467");
+
+                Assert.Fail("Expected delete file throws when delete without permissions");
+            }
+            catch (BoxAPIException ex)
+            {
+                /*** Assert ***/
+                Assert.AreEqual(System.Net.HttpStatusCode.Forbidden, ex.StatusCode);
+                Assert.AreEqual("forbidden_by_policy", ex.ErrorCode);
+                Assert.AreEqual("Access denied by Shield policy", ex.ErrorDescription);
+                Assert.AreEqual("5hr712h2ip6deox0", ex.Error.RequestId);
+                Assert.AreEqual("403", ex.Error.Status);
+                Assert.AreEqual("forbidden_by_policy", ex.Error.Code);
+                Assert.AreEqual("Access denied by Shield policy", ex.Error.Message);
+            }
         }
 
         [TestMethod]
