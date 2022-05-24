@@ -23,5 +23,6 @@ jobs:
           VALIDATE_YAML: false
           VALIDATE_JSCPD: false
           VALIDATE_POWERSHELL: false
+          VALIDATE_EDITORCONFIG: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
