@@ -123,12 +123,16 @@ namespace Box.V2.Test.Integration
             await CreateUserAvatar(user.Id);
 
             var avatarInMemory = new MemoryStream();
-            using (var avatar = await AdminClient.UsersManager.GetUserAvatar(user.Id))
-            {
-                await avatar.CopyToAsync(avatarInMemory);
-            }
 
-            Assert.IsTrue(avatarInMemory.Length > 0);
+            await Retry(async () =>
+            {
+                using (var avatar = await AdminClient.UsersManager.GetUserAvatar(user.Id))
+                {
+                    await avatar.CopyToAsync(avatarInMemory);
+                }
+
+                Assert.IsTrue(avatarInMemory.Length > 0);
+            });
         }
     }
 }

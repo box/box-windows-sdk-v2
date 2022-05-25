@@ -357,7 +357,7 @@ namespace Box.V2.Test.Integration
             return createAvatarCommand.Response;
         }
 
-        public static async Task Retry(Func<Task> action, int retries = 3, int sleep = 1000)
+        public static async Task Retry(Func<Task> action, int retries = 5, int sleep = 5000)
         {
             var retryCount = 0;
             while (retryCount < retries)
