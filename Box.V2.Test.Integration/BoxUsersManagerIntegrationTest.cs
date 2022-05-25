@@ -132,7 +132,7 @@ namespace Box.V2.Test.Integration
                 }
 
                 Assert.IsTrue(avatarInMemory.Length > 0);
-            });
+            }, 5, 10000);
         }
     }
 }
