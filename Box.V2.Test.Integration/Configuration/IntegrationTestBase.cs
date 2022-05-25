@@ -124,7 +124,7 @@ namespace Box.V2.Test.Integration
         {
             var userRequest = new BoxUserRequest
             {
-                Name = "IT App User - " + Guid.NewGuid().ToString(), 
+                Name = "IT App User - " + Guid.NewGuid().ToString(),
                 IsPlatformAccessOnly = true
             };
             var user = client.UsersManager.CreateEnterpriseUserAsync(userRequest);
@@ -166,7 +166,7 @@ namespace Box.V2.Test.Integration
             IBoxClient client = GetClient(command);
 
             var resourceId = await command.Execute(client);
-            if(command.Scope == CommandScope.Test)
+            if (command.Scope == CommandScope.Test)
             {
                 TestCommands.Push(command);
             }
