@@ -115,24 +115,5 @@ namespace Box.V2.Test.Integration
 
             Assert.IsTrue(deleteAvatarResponse);
         }
-
-        [TestMethod]
-        public async Task GetUserAvatar_ForExistingUserAvatar_ShouldBeAbleToReturnThisAvatar()
-        {
-            var user = await CreateEnterpriseUser();
-            await CreateUserAvatar(user.Id);
-
-            var avatarInMemory = new MemoryStream();
-
-            await Retry(async () =>
-            {
-                using (var avatar = await AdminClient.UsersManager.GetUserAvatar(user.Id))
-                {
-                    await avatar.CopyToAsync(avatarInMemory);
-                }
-
-                Assert.IsTrue(avatarInMemory.Length > 0);
-            }, 5, 10000);
-        }
     }
 }
