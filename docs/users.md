@@ -10,6 +10,8 @@ Users represent an individual's account on Box.
 - [Get the Current User's Information](#get-the-current-users-information)
 - [Get User's Information](#get-users-information)
 - [Get User Avatar](#get-user-avatar)
+- [Add or update User Avatar](#add-or-update-user-avatar)
+- [Delete User Avatar](#delete-user-avatar)
 - [Add New User](#add-new-user)
 - [Add New App User](#add-new-app-user)
 - [Update User](#update-user)
@@ -52,6 +54,38 @@ To retrieve the avatar image for a user, call
 <!-- sample get_users_id_avatar -->
 ```c#
 Stream imageStream = await client.UsersManager.GetUserAvatar(string userId);
+```
+
+Add or Update User Avatar
+---------------
+
+To add or update user avatar call the
+`UsersManager.AddOrUpdateUserAvatarAsync(string userId, FileStream stream)` method with the ID of the user and and a fileStream of the avatar contents to upload.
+
+<!-- sample post_users_id_avatar -->
+```c#
+using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+{
+    BoxUploadAvatarResponse response = await client.UsersManager.AddOrUpdateUserAvatarAsync(userId, fileStream);
+}
+```
+
+Alternatively, you can use a generic stream (e.g. MemoryStream) and provide filename explicitly. The filename should also contain file extension (.jpg or .png).
+
+```c#
+Stream genericStream;
+BoxUploadAvatarResponse response = await client.UsersManager.AddOrUpdateUserAvatarAsync(userId, genericStream, "avatar.png");
+```
+
+Delete User Avatar
+---------------
+
+To remove existing user avatar call the
+`UsersManager.DeleteUserAvatarAsync(string userId)` method with the ID of the user.
+
+<!-- sample delete_users_id_avatar -->
+```c#
+bool isDeleted = await client.UsersManager.DeleteUserAvatarAsync(userId);
 ```
 
 Add New User
