@@ -200,6 +200,11 @@ namespace Box.V2.Test.Integration
             return string.Format(AppDomain.CurrentDomain.BaseDirectory + "/TestData/smalltestV2.pdf");
         }
 
+        public static string GetSmallPicturePath()
+        {
+            return string.Format(AppDomain.CurrentDomain.BaseDirectory + "/TestData/smallpic.png");
+        }
+
         public static string ReadFromJson(string path)
         {
             var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
@@ -343,6 +348,13 @@ namespace Box.V2.Test.Integration
             var createNewFileVersionCommand = new CreateNewFileVersion(GetUniqueName("file"), GetSmallFilePath(), fileId);
             await ExecuteCommand(createNewFileVersionCommand);
             return createNewFileVersionCommand.File;
+        }
+
+        public static async Task<BoxUploadAvatarResponse> CreateUserAvatar(string userId)
+        {
+            var createAvatarCommand = new CreateUserAvatarCommand(userId, GetSmallPicturePath());
+            await ExecuteCommand(createAvatarCommand);
+            return createAvatarCommand.Response;
         }
 
         public static async Task Retry(Func<Task> action, int retries = 3, int sleep = 1000)

@@ -10,6 +10,8 @@ namespace Box.V2
         public string Name { get; set; }
 
         public string Value { get; set; }
+
+        public string ContentType { get; set; }
     }
 
     /// <summary>
@@ -25,5 +27,10 @@ namespace Box.V2
         /// The file name 
         /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// The content type of form part
+        /// </summary>
+        public string ContentType { get; set; }
     }
 }
