@@ -405,6 +405,10 @@ namespace Box.V2.Request
                     Name = ForceQuotesOnParam(filePart.Name),
                     FileName = ForceQuotesOnParam(filePart.FileName)
                 };
+                if (!string.IsNullOrEmpty(filePart.ContentType))
+                {
+                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(filePart.ContentType);
+                }
                 multiPart.Add(fileContent);
             }
 

@@ -124,7 +124,7 @@ namespace Box.V2.Test.Integration
         {
             var userRequest = new BoxUserRequest
             {
-                Name = "IT App User - " + Guid.NewGuid().ToString(), 
+                Name = "IT App User - " + Guid.NewGuid().ToString(),
                 IsPlatformAccessOnly = true
             };
             var user = client.UsersManager.CreateEnterpriseUserAsync(userRequest);
@@ -166,7 +166,7 @@ namespace Box.V2.Test.Integration
             IBoxClient client = GetClient(command);
 
             var resourceId = await command.Execute(client);
-            if(command.Scope == CommandScope.Test)
+            if (command.Scope == CommandScope.Test)
             {
                 TestCommands.Push(command);
             }
@@ -198,6 +198,11 @@ namespace Box.V2.Test.Integration
         public static string GetSmallFileV2Path()
         {
             return string.Format(AppDomain.CurrentDomain.BaseDirectory + "/TestData/smalltestV2.pdf");
+        }
+
+        public static string GetSmallPicturePath()
+        {
+            return string.Format(AppDomain.CurrentDomain.BaseDirectory + "/TestData/smallpic.png");
         }
 
         public static string ReadFromJson(string path)
@@ -345,7 +350,14 @@ namespace Box.V2.Test.Integration
             return createNewFileVersionCommand.File;
         }
 
-        public static async Task Retry(Func<Task> action, int retries = 3, int sleep = 1000)
+        public static async Task<BoxUploadAvatarResponse> CreateUserAvatar(string userId)
+        {
+            var createAvatarCommand = new CreateUserAvatarCommand(userId, GetSmallPicturePath());
+            await ExecuteCommand(createAvatarCommand);
+            return createAvatarCommand.Response;
+        }
+
+        public static async Task Retry(Func<Task> action, int retries = 5, int sleep = 5000)
         {
             var retryCount = 0;
             while (retryCount < retries)

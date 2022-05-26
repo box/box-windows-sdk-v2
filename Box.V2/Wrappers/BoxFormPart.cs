@@ -25,5 +25,10 @@ namespace Box.V2
         /// The file name 
         /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// The content type of form part
+        /// </summary>
+        public string ContentType { get; set; }
     }
 }
