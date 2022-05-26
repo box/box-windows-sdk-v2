@@ -173,7 +173,7 @@ namespace Box.V2.Managers
         Task<Stream> GetUserAvatar(string userId);
 
         /// <summary>
-        /// Adds or updates a user avatar.
+        /// Adds or updates a user avatar. Supported formats are JPG, JPEG and PNG. Maximum allowed file size is 1MB and 1024x1024 pixels resolution.
         /// </summary>
         /// <param name="userId">The Id of the user.</param>
         /// <param name="stream">FileStream with avatar image.</param>
@@ -181,7 +181,7 @@ namespace Box.V2.Managers
         Task<BoxUploadAvatarResponse> AddOrUpdateUserAvatarAsync(string userId, FileStream stream);
 
         /// <summary>
-        /// Adds or updates a user avatar.
+        /// Adds or updates a user avatar. Supported formats are JPG, JPEG and PNG. Maximum allowed file size is 1MB and 1024x1024 pixels resolution.
         /// </summary>
         /// <param name="userId">The Id of the user.</param>
         /// <param name="stream">Stream with avatar image.</param>
