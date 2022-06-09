@@ -9,6 +9,7 @@ using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using Box.V2.Services;
+using Box.V2.Utility;
 
 namespace Box.V2.Managers
 {
@@ -386,6 +387,55 @@ namespace Box.V2.Managers
 
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);
             return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Adds or updates a user avatar. Supported formats are JPG, JPEG and PNG. Maximum allowed file size is 1MB and 1024x1024 pixels resolution.
+        /// </summary>
+        /// <param name="userId">The Id of the user.</param>
+        /// <param name="stream">FileStream with avatar image.</param>
+        /// <returns>Response containing avatar Urls.</returns>
+        public async Task<BoxUploadAvatarResponse> AddOrUpdateUserAvatarAsync(string userId, FileStream stream)
+        {
+            return await AddOrUpdateUserAvatarAsync(userId, stream, Path.GetFileName(stream.Name)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Adds or updates a user avatar. Supported formats are JPG, JPEG and PNG. Maximum allowed file size is 1MB and 1024x1024 pixels resolution.
+        /// </summary>
+        /// <param name="userId">The Id of the user.</param>
+        /// <param name="stream">Stream with avatar image.</param>
+        /// <param name="fileName">Filename of the avatar image.</param>
+        /// <returns>Response containing avatar Urls.</returns>
+        public async Task<BoxUploadAvatarResponse> AddOrUpdateUserAvatarAsync(string userId, Stream stream, string fileName)
+        {
+            BoxMultiPartRequest request = new BoxMultiPartRequest(_config.UserEndpointUri, userId + "/avatar")
+                .FormPart(new BoxFileFormPart()
+                {
+                    Name = "pic",
+                    Value = stream,
+                    FileName = fileName,
+                    ContentType = ContentTypeMapper.GetContentTypeFromFilename(fileName)
+                });
+
+            IBoxResponse<BoxUploadAvatarResponse> response = await ToResponseAsync<BoxUploadAvatarResponse>(request).ConfigureAwait(false);
+
+            return response.ResponseObject;
+        }
+
+        /// <summary>
+        /// Deletes a user's avatar image.
+        /// </summary>
+        /// <param name="userId">Removes an existing user avatar. You cannot reverse this operation.</param>
+        /// <returns>True if deletion success.</returns>
+        public async Task<bool> DeleteUserAvatarAsync(string userId)
+        {
+            var request = new BoxRequest(_config.UserEndpointUri, userId + "/avatar")
+                   .Method(RequestMethod.Delete);
+
+            IBoxResponse<BoxEntity> response = await ToResponseAsync<BoxEntity>(request).ConfigureAwait(false);
+
+            return response.Status == ResponseStatus.Success;
         }
     }
 }

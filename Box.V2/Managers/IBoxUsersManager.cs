@@ -171,5 +171,29 @@ namespace Box.V2.Managers
         /// <param name="userId">The Id of the user.</param>
         /// <returns>A stream of the bytes for the user's avatar image.</returns>
         Task<Stream> GetUserAvatar(string userId);
+
+        /// <summary>
+        /// Adds or updates a user avatar. Supported formats are JPG, JPEG and PNG. Maximum allowed file size is 1MB and 1024x1024 pixels resolution.
+        /// </summary>
+        /// <param name="userId">The Id of the user.</param>
+        /// <param name="stream">FileStream with avatar image.</param>
+        /// <returns>Response containing avatar Urls.</returns>
+        Task<BoxUploadAvatarResponse> AddOrUpdateUserAvatarAsync(string userId, FileStream stream);
+
+        /// <summary>
+        /// Adds or updates a user avatar. Supported formats are JPG, JPEG and PNG. Maximum allowed file size is 1MB and 1024x1024 pixels resolution.
+        /// </summary>
+        /// <param name="userId">The Id of the user.</param>
+        /// <param name="stream">Stream with avatar image.</param>
+        /// <param name="fileName">Filename of the avatar image.</param>
+        /// <returns>Response containing avatar Urls.</returns>
+        Task<BoxUploadAvatarResponse> AddOrUpdateUserAvatarAsync(string userId, Stream stream, string fileName);
+
+        /// <summary>
+        /// Deletes a user's avatar image.
+        /// </summary>
+        /// <param name="userId">Removes an existing user avatar. You cannot reverse this operation.</param>
+        /// <returns>True if deletion success.</returns>
+        Task<bool> DeleteUserAvatarAsync(string userId);
     }
 }

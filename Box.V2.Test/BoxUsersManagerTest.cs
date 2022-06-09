@@ -720,5 +720,96 @@ namespace Box.V2.Test
 
             }
         }
+
+        [TestMethod]
+        public async Task AddOrUpdateUserAvatar_ValidResponse_ValidStream()
+        {
+            /*** Arrange ***/
+            var responseString = LoadFixtureFromJson("Fixtures/BoxUsers/AddOrUpdateUserAvatar200.json");
+            BoxMultiPartRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxUploadAvatarResponse>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUploadAvatarResponse>>(new BoxResponse<BoxUploadAvatarResponse>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r as BoxMultiPartRequest);
+
+            var fakeStream = new Mock<Stream>();
+            var fileName = "newAvatar.png";
+
+            /*** Act ***/
+            BoxUploadAvatarResponse response = await _usersManager.AddOrUpdateUserAvatarAsync("11111", fakeStream.Object, fileName);
+
+            /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(new Uri("https://api.box.com/2.0/users/11111/avatar"), boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.IsNotNull(boxRequest.Parts[0] as BoxFileFormPart);
+            Assert.AreEqual(fileName, (boxRequest.Parts[0] as BoxFileFormPart).FileName);
+            Assert.AreEqual("image/png", (boxRequest.Parts[0] as BoxFileFormPart).ContentType);
+            Assert.IsTrue(ReferenceEquals(fakeStream.Object, (boxRequest.Parts[0] as BoxFileFormPart).Value));
+
+            Assert.IsNotNull(response.PicUrls);
+            Assert.IsNotNull(response.PicUrls.Preview);
+            Assert.IsNotNull(response.PicUrls.Small);
+            Assert.IsNotNull(response.PicUrls.Large);
+        }
+
+        [TestMethod]
+        public async Task AddOrUpdateUserAvatar_ValidResponse_ValidFileStream()
+        {
+            var responseString = LoadFixtureFromJson("Fixtures/BoxUsers/AddOrUpdateUserAvatar200.json");
+            BoxMultiPartRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxUploadAvatarResponse>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxUploadAvatarResponse>>(new BoxResponse<BoxUploadAvatarResponse>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r as BoxMultiPartRequest);
+
+            var stream = new FileStream("newAvatar.png", FileMode.OpenOrCreate);
+
+            BoxUploadAvatarResponse response = await _usersManager.AddOrUpdateUserAvatarAsync("11111", stream);
+
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+            Assert.AreEqual(new Uri("https://api.box.com/2.0/users/11111/avatar"), boxRequest.AbsoluteUri.AbsoluteUri);
+            Assert.IsNotNull(boxRequest.Parts[0] as BoxFileFormPart);
+            Assert.AreEqual("newAvatar.png", (boxRequest.Parts[0] as BoxFileFormPart).FileName);
+            Assert.AreEqual("image/png", (boxRequest.Parts[0] as BoxFileFormPart).ContentType);
+            Assert.IsTrue(ReferenceEquals(stream, (boxRequest.Parts[0] as BoxFileFormPart).Value));
+
+            Assert.IsNotNull(response.PicUrls);
+            Assert.IsNotNull(response.PicUrls.Preview);
+            Assert.IsNotNull(response.PicUrls.Small);
+            Assert.IsNotNull(response.PicUrls.Large);
+        }
+
+        [TestMethod]
+        public async Task AddOrUpdateUserAvatar_ValidResponse()
+        {
+            /*** Arrange ***/
+            var responseString = "";
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxEntity>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxEntity>>(new BoxResponse<BoxEntity>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            var result = await _usersManager.DeleteUserAvatarAsync("11111");
+
+            /*** Assert ***/
+            /*** Request ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Delete, boxRequest.Method);
+            Assert.AreEqual(new Uri("https://api.box.com/2.0/users/11111/avatar"), boxRequest.AbsoluteUri.AbsoluteUri);
+            /*** Response ***/
+            Assert.AreEqual(true, result);
+        }
     }
 }

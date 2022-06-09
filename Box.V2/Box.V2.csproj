@@ -65,6 +65,7 @@
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.12.2\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -185,6 +186,7 @@
     <Compile Include="Models\BoxTaskAssignment.cs" />
     <Compile Include="Models\BoxTermsOfService.cs" />
     <Compile Include="Models\BoxTermsOfServiceUserStatuses.cs" />
+    <Compile Include="Models\BoxUploadAvatarResponse.cs" />
     <Compile Include="Models\BoxUserFileCollaborationEventSource.cs" />
     <Compile Include="Models\BoxUserFolderCollaborationEventSource.cs" />
     <Compile Include="Models\BoxTrackingCode.cs" />
@@ -262,6 +264,7 @@
     <Compile Include="Utility\Helper.cs" />
     <Compile Include="Utility\IRetryStrategy.cs" />
     <Compile Include="Utility\LRUCache.cs" />
+    <Compile Include="Utility\ContentTypeMapper.cs" />
     <Compile Include="Utility\Retry.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxErrorContextInfo.cs" />
