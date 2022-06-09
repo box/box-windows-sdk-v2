@@ -609,7 +609,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        public async Task CreateFolderSharedLink_ShouldSendEditFalse_EvenIfEditIsSetToTrue()
+        public async Task CreateFolderSharedLink_ShouldThrowArgumentException_WhenEditIsFalse()
         {
             /*** Arrange ***/
             IBoxRequest boxRequest = null;
@@ -631,11 +631,8 @@ namespace Box.V2.Test
                 }
             };
 
-            /*** Act ***/
-            BoxFolder w = await _foldersManager.CreateSharedLinkAsync("12345", sharedLink);
-
-            /*** Assert ***/
-            Assert.AreEqual("{\"shared_link\":{\"access\":\"collaborators\",\"permissions\":{\"can_download\":false,\"can_edit\":false},\"vanity_name\":\"my-custom-vanity-name\"}}", boxRequest.Payload);
+            /*** Act && Assert ***/
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () => { _ = await _foldersManager.CreateSharedLinkAsync("12345", sharedLink); });
         }
 
         [TestMethod]

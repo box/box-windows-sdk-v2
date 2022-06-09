@@ -36,5 +36,17 @@ namespace Box.V2.Extensions
         {
             return string.IsNullOrWhiteSpace(value) ? throw new ArgumentException("Required field cannot be null or whitespace", name) : value;
         }
+
+        /// <summary>
+        /// Checks if a value is equal to the expectedValue
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="name"></param>
+        /// <param name="expectedValue"></param>
+        /// <returns></returns>
+        internal static T ThrowIfDifferent<T>(this T value, string name, T expectedValue)
+        {
+            return !value.Equals(expectedValue) ? throw new ArgumentException($"Required field must equal to {expectedValue}", name) : value;
+        }
     }
 }
