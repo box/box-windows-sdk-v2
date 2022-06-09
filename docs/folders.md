@@ -15,7 +15,7 @@ group, and perform other common folder operations (move, copy, delete, etc.).
 - [Create a Folder](#create-a-folder)
 - [Copy a Folder](#copy-a-folder)
 - [Delete a Folder](#delete-a-folder)
-- [Create a Shared Link for a Folder](#create-a-shared-link-for-a-folder)
+- [Create or update a Shared Link](#create-or-update-a-shared-link)
 - [Create a Folder Lock](#create-a-folder-lock)
 - [Get Folder Locks](#get-folder-locks)
 - [Delete a Folder Lock](#delete-a-folder-lock)
@@ -116,14 +116,14 @@ folder and all of its contents, set the optional `recursive` parameter to `true`
 await client.FoldersManager.DeleteAsync("11111", recursive: true);
 ```
 
-Create a Shared Link for a Folder
+Create or update a Shared Link
 ---------------------------------
 
-You can create a shared link for a folder by calling
+You can create or update a shared link for a folder by calling
 `FoldersManager.CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, IEnumerable<string> fields = null)`
 with the ID of the folder and the shared link parameters.
 
-<!-- sample put_folders_id_shared_link_create -->
+<!-- sample put_folders_id shared_link_create -->
 ```c#
 var sharedLinkParams = new BoxSharedLinkRequest()
 {
