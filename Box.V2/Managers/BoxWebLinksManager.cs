@@ -130,7 +130,7 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
             sharedLinkRequest.ThrowIfNull("sharedLinkRequest");
 
-            if (sharedLinkRequest.Permissions != null)
+            if (sharedLinkRequest?.Permissions != null)
                 sharedLinkRequest.Permissions.Edit.ThrowIfDifferent("sharedLinkRequest.permissions.edit", false);
 
             BoxRequest request = new BoxRequest(_config.WebLinksEndpointUri, id)
