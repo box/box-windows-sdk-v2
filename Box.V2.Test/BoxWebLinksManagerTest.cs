@@ -490,7 +490,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        public async Task CreateWebLinkSharedLink_ShouldThrowArgumentException_WhenEditIsFalse()
+        public async Task CreateWebLinkSharedLink_ShouldThrowArgumentException_WhenEditIsTrue()
         {
             /*** Arrange ***/
             IBoxRequest boxRequest = null;

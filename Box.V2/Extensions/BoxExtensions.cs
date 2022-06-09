@@ -46,7 +46,7 @@ namespace Box.V2.Extensions
         /// <returns></returns>
         internal static T ThrowIfDifferent<T>(this T value, string name, T expectedValue)
         {
-            return !value.Equals(expectedValue) ? throw new ArgumentException($"Required field must equal to {expectedValue}", name) : value;
+            return value != null && !value.Equals(expectedValue) ? throw new ArgumentException($"Field should equal to {expectedValue} or null", name) : value;
         }
     }
 }

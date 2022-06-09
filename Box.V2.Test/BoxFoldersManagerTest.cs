@@ -609,7 +609,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        public async Task CreateFolderSharedLink_ShouldThrowArgumentException_WhenEditIsFalse()
+        public async Task CreateFolderSharedLink_ShouldThrowArgumentException_WhenEditIsTrue()
         {
             /*** Arrange ***/
             IBoxRequest boxRequest = null;
