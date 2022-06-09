@@ -266,6 +266,30 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual("2", response.Entries[0].VersionNumber);
         }
 
+        [TestMethod]
+        public async Task AddSharedLink_ForValidNewFile_ShouldCreateNewSharedLink()
+        {
+            var file = await CreateSmallFile();
+
+            var sharedLinkRequest = new BoxSharedLinkRequest()
+            {
+                VanityName = GetShortUniqueName("SharedLink"),
+                Access = BoxSharedLinkAccessType.open,
+                Permissions = new BoxPermissionsRequest
+                {
+                    Download = true,
+                    Edit = true,
+                }
+            };
+
+            var response = await UserClient.FilesManager.CreateSharedLinkAsync(file.Id, sharedLinkRequest);
+
+            Assert.AreEqual(file.Id, response.Id);
+            Assert.AreEqual(BoxSharedLinkAccessType.open, response.SharedLink.Access);
+            Assert.IsTrue(response.SharedLink.Permissions.CanDownload);
+            Assert.IsTrue(response.SharedLink.Permissions.CanEdit);
+        }
+
         private int GetNumberOfParts(long totalSize, long partSize)
         {
             if (partSize == 0)

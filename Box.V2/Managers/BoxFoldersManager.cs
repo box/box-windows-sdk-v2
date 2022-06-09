@@ -207,6 +207,8 @@ namespace Box.V2.Managers
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
+            sharedLinkRequest.EnsureEditIsFalse();
+
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)

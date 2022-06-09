@@ -61,6 +61,14 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = "vanity_name")]
         public string VanityName { get; set; }
+
+        internal void EnsureEditIsFalse()
+        {
+            if (Permissions != null && Permissions.Edit == true)
+            {
+                Permissions.Edit = false;
+            }
+        }
     }
 }
 

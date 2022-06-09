@@ -130,6 +130,8 @@ namespace Box.V2.Managers
             id.ThrowIfNullOrWhiteSpace("id");
             sharedLinkRequest.ThrowIfNull("sharedLinkRequest");
 
+            sharedLinkRequest.EnsureEditIsFalse();
+
             BoxRequest request = new BoxRequest(_config.WebLinksEndpointUri, id)
                 .Method(RequestMethod.Put)
                 .Param(ParamFields, fields)
