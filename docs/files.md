@@ -331,9 +331,10 @@ Stream thumbnailContents = await client.FilesManager.GetThumbnailAsync("11111", 
 
 Download a Zip File
 -------------------
-Calling `FilesManager.DownloadZip(BoxZipRequest zipRequest, OutputStream output)` will let you 
-create a new zip file with the specified name and with the specified items and download it to the stream that is passed in. 
-The return object is a `BoxZipDownloadStatus` object that contains information about the download, including whether it was successful. 
+
+Calling `FilesManager.DownloadZip(BoxZipRequest zipRequest, OutputStream output)` will let you
+create a new zip file with the specified name and with the specified items and download it to the stream that is passed in.
+The return object is a `BoxZipDownloadStatus` object that contains information about the download, including whether it was successful.
 The created zip file does not show up in your Box account.
 
 ```c#
