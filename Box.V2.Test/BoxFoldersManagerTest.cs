@@ -586,7 +586,7 @@ namespace Box.V2.Test
                 .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = "{ \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\", \"created_at\": \"2012-12-12T10:53:43-08:00\", \"modified_at\": \"2012-12-12T11:15:04-08:00\", \"description\": \"Some pictures I took\", \"size\": 629644, \"path_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" } ] }, \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/vspke7y05sb214wjokpk\", \"download_url\": \"https://www.box.com/shared/static/vspke7y05sb214wjokpk\", \"vanity_url\": null, \"vanity_name\": \"my-custom-vanity-name\", \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"folder_upload_email\": { \"access\": \"open\", \"email\": \"upload.Picture.k13sdz1@u.box.com\" }, \"parent\": { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, \"item_status\": \"active\", \"item_collection\": { \"total_count\": 1, \"entries\": [ { \"type\": \"file\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\" } ], \"offset\": 0, \"limit\": 100 } }"
+                    ContentString = LoadFixtureFromJson("Fixtures/BoxFolders/CreateFolderSharedLink200.json")
                 }));
 
             /*** Act ***/
@@ -605,6 +605,34 @@ namespace Box.V2.Test
             Assert.AreEqual("1", f.ETag);
             Assert.AreEqual("Pictures", f.Name);
             Assert.AreEqual("my-custom-vanity-name", f.SharedLink.VanityName);
+            Assert.AreEqual(false, f.SharedLink.Permissions.CanEdit);
+        }
+
+        [TestMethod]
+        public async Task CreateFolderSharedLink_ShouldThrowArgumentException_WhenEditIsTrue()
+        {
+            /*** Arrange ***/
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = LoadFixtureFromJson("Fixtures/BoxFolders/CreateFolderSharedLink200.json")
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            var sharedLink = new BoxSharedLinkRequest()
+            {
+                Access = BoxSharedLinkAccessType.collaborators,
+                VanityName = "my-custom-vanity-name",
+                Permissions = new BoxPermissionsRequest
+                {
+                    Edit = true
+                }
+            };
+
+            /*** Act && Assert ***/
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () => { _ = await _foldersManager.CreateSharedLinkAsync("12345", sharedLink); });
         }
 
         [TestMethod]

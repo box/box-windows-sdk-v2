@@ -18,5 +18,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty("can_preview")]
         public virtual bool CanPreview { get; set; }
+
+        /// <summary>
+        /// Whether the item can be edited or not
+        /// </summary>
+        [JsonProperty("can_edit")]
+        public virtual bool? CanEdit { get; set; }
     }
 }

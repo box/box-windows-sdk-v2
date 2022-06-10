@@ -457,7 +457,6 @@ namespace Box.V2.Test
         public async Task CreateWebLinkSharedLink_ValidResponse_ValidFile()
         {
             /*** Arrange ***/
-            var responseString = "{ \"type\": \"web_link\", \"id\": \"5000948880\", \"sequence_id\": \"3\", \"etag\": \"3\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\", \"name\": \"tigers.jpeg\", \"description\": \"a picture of tigers\", \"size\": 629644, \"path_collection\": { \"total_count\": 2, \"entries\": [ { \"type\": \"folder\", \"id\": \"0\", \"sequence_id\": null, \"etag\": null, \"name\": \"All Files\" }, { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" } ] }, \"created_at\": \"2012-12-12T10:55:30-08:00\", \"modified_at\": \"2012-12-12T11:04:26-08:00\", \"created_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"modified_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"owned_by\": { \"type\": \"user\", \"id\": \"17738362\", \"name\": \"sean rose\", \"login\": \"sean@box.com\" }, \"shared_link\": { \"url\": \"https://www.box.com/s/rh935iit6ewrmw0unyul\",  \"vanity_name\": \"my-custom-vanity-name\", \"download_url\": \"https://www.box.com/shared/static/rh935iit6ewrmw0unyul.jpeg\", \"vanity_url\": null, \"is_password_enabled\": false, \"unshared_at\": null, \"download_count\": 0, \"preview_count\": 0, \"access\": \"open\", \"permissions\": { \"can_download\": true, \"can_preview\": true } }, \"parent\": { \"type\": \"folder\", \"id\": \"11446498\", \"sequence_id\": \"1\", \"etag\": \"1\", \"name\": \"Pictures\" }, \"item_status\": \"active\" }";
             IBoxRequest boxRequest = null;
             var webLinksUri = new Uri(Constants.WebLinksEndpointString);
             Config.SetupGet(x => x.WebLinksEndpointUri).Returns(webLinksUri);
@@ -465,14 +464,14 @@ namespace Box.V2.Test
                 .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
                 {
                     Status = ResponseStatus.Success,
-                    ContentString = responseString
+                    ContentString = LoadFixtureFromJson("Fixtures/BoxWebLinks/CreateWebLinkSharedLink200.json")
                 }))
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             var sharedLink = new BoxSharedLinkRequest()
             {
                 Access = BoxSharedLinkAccessType.collaborators,
-                VanityName = "my-custom-vanity-name"
+                VanityName = "my-custom-vanity-name",
             };
 
             /*** Act ***/
@@ -488,6 +487,33 @@ namespace Box.V2.Test
             Assert.AreEqual("3", w.ETag);
             Assert.AreEqual("https://www.box.com/s/rh935iit6ewrmw0unyul", w.SharedLink.Url);
             Assert.AreEqual("my-custom-vanity-name", w.SharedLink.VanityName);
+        }
+
+        [TestMethod]
+        public async Task CreateWebLinkSharedLink_ShouldThrowArgumentException_WhenEditIsTrue()
+        {
+            /*** Arrange ***/
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxWebLink>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxWebLink>>(new BoxResponse<BoxWebLink>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = LoadFixtureFromJson("Fixtures/BoxWebLinks/CreateWebLinkSharedLink200.json")
+                }))
+                .Callback<IBoxRequest>(r => boxRequest = r);
+
+            var sharedLink = new BoxSharedLinkRequest()
+            {
+                Access = BoxSharedLinkAccessType.collaborators,
+                VanityName = "my-custom-vanity-name",
+                Permissions = new BoxPermissionsRequest
+                {
+                    Edit = true
+                }
+            };
+
+            /*** Act && Assert ***/
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () => { _ = await _webLinkManager.CreateSharedLinkAsync("12345", sharedLink); });
         }
 
         [TestMethod]

@@ -149,6 +149,11 @@ namespace Box.V2.Test.Integration
             return uniqueName;
         }
 
+        protected static string GetShortUniqueName(string resourceName)
+        {
+            return GetUniqueName(resourceName, false).Substring(0, 20);
+        }
+
         public static async Task ExecuteCommand(ICleanupCommand command)
         {
             IBoxClient client = GetClient(command);
