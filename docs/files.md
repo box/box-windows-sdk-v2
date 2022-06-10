@@ -266,7 +266,7 @@ Create or update a Shared Link
 A shared link for a file can be created or updated by calling
 `FilesManager.CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, IEnumerable<string> fields = null)`.
 
-<!-- sample put_files_id add-shared-link-->
+<!-- sample put_files_id add_shared_link-->
 ```c#
 string fileId = "11111";
 var sharedLinkParams = new BoxSharedLinkRequest()
