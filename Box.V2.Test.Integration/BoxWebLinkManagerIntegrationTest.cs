@@ -62,5 +62,21 @@ namespace Box.V2.Test.Integration
 
             await Assert.ThrowsExceptionAsync<BoxAPIException>(async () => { _ = await UserClient.WebLinksManager.GetWebLinkAsync(weblink.Id); });
         }
+
+        [TestMethod]
+        public async Task AddSharedLink_ForNewWeblink_ShouldCreateNewSharedLink()
+        {
+            var webLink = await CreateWebLink(GetUniqueName("weblink"), FolderId);
+
+            var sharedLinkReq = new BoxSharedLinkRequest()
+            {
+                Access = BoxSharedLinkAccessType.open
+            };
+
+            var response = await UserClient.WebLinksManager.CreateSharedLinkAsync(webLink.Id, sharedLinkReq);
+
+            Assert.AreEqual(webLink.Id, response.Id);
+            Assert.AreEqual(BoxSharedLinkAccessType.open, response.SharedLink.Access);
+        }
     }
 }

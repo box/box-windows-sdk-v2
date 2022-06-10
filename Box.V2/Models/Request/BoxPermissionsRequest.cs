@@ -22,6 +22,13 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = "can_preview")]
         [JsonConverter(typeof(StringEnumConverter))]
         public BoxPermissionType? Preview { get; set; }
+
+        /// <summary>
+        /// Defines if the shared link allows for the item to be edited.
+        /// This value can only be true if can_download is also true and if the item has a type of file
+        /// </summary>
+        [JsonProperty(PropertyName = "can_edit")]
+        public bool? Edit { get; set; }
     }
 
     /// <summary>
