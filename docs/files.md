@@ -266,7 +266,7 @@ Create or update a Shared Link
 A shared link for a file can be created or updated by calling
 `FilesManager.CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, IEnumerable<string> fields = null)`.
 
-<!-- sample put_files_id shared_link_create -->
+<!-- sample put_files_id add-shared-link-->
 ```c#
 string fileId = "11111";
 var sharedLinkParams = new BoxSharedLinkRequest()
@@ -331,7 +331,10 @@ Stream thumbnailContents = await client.FilesManager.GetThumbnailAsync("11111", 
 
 Download a Zip File
 -------------------
-Calling `FilesManager.DownloadZip(BoxZipRequest zipRequest, OutputStream output)` will let you create a new zip file with the specified name and with the specified items and download it to the stream that is passed in. The return object is a `BoxZipDownloadStatus` object that contains information about the download, including whether it was successful. The created zip file does not show up in your Box account.
+Calling `FilesManager.DownloadZip(BoxZipRequest zipRequest, OutputStream output)` will let you 
+create a new zip file with the specified name and with the specified items and download it to the stream that is passed in. 
+The return object is a `BoxZipDownloadStatus` object that contains information about the download, including whether it was successful. 
+The created zip file does not show up in your Box account.
 
 ```c#
 BoxZipRequest request = new BoxZipRequest();

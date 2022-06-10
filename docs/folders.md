@@ -50,7 +50,7 @@ BoxFolder folder = await client.FoldersManager.GetInformationAsync("11111");
 Update a Folder's Information
 -----------------------------
 
-Updating a folder's information is done by calling the 
+Updating a folder's information is done by calling the
 `FoldersManager.UpdateInformationAsync(BoxFolderRequest folderRequest, IEnumerable<string> fields = null, string etag = null)`
 method.
 
@@ -123,7 +123,7 @@ You can create or update a shared link for a folder by calling
 `FoldersManager.CreateSharedLinkAsync(string id, BoxSharedLinkRequest sharedLinkRequest, IEnumerable<string> fields = null)`
 with the ID of the folder and the shared link parameters.
 
-<!-- sample put_folders_id shared_link_create -->
+<!-- sample put_folders_id add-shared-link-->
 ```c#
 var sharedLinkParams = new BoxSharedLinkRequest()
 {
