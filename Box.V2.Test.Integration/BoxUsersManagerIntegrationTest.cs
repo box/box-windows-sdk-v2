@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Box.V2.Models;
@@ -68,6 +69,51 @@ namespace Box.V2.Test.Integration
 
             var appUsers = await AdminClient.UsersManager.GetEnterpriseUsersAsync();
             Assert.IsFalse(appUsers.Entries.Any(item => item.Id == newUser.Id));
+        }
+
+        [TestMethod]
+        public async Task UploadUserAvatar_UsingFileStream_ShouldReturnUploadedAvatarUris()
+        {
+            var user = await CreateEnterpriseUser();
+
+            using (var fileStream = new FileStream(GetSmallPicturePath(), FileMode.OpenOrCreate))
+            {
+                var response = await AdminClient.UsersManager.AddOrUpdateUserAvatarAsync(user.Id, fileStream);
+
+                Assert.IsNotNull(response.PicUrls.Preview);
+                Assert.IsNotNull(response.PicUrls.Small);
+                Assert.IsNotNull(response.PicUrls.Large);
+            }
+        }
+
+        [TestMethod]
+        public async Task UploadUserAvatar_UsingFileStreamWithExplicitFilename_ShouldReturnUploadedAvatarUris()
+        {
+            var user = await CreateEnterpriseUser();
+
+            using (var fileStream = new FileStream(GetSmallPicturePath(), FileMode.OpenOrCreate))
+            {
+                var response = await AdminClient.UsersManager.AddOrUpdateUserAvatarAsync(user.Id, fileStream, "newAvatar.png");
+
+                Assert.IsNotNull(response.PicUrls.Preview);
+                Assert.IsNotNull(response.PicUrls.Small);
+                Assert.IsNotNull(response.PicUrls.Large);
+            }
+        }
+
+        [TestMethod]
+        public async Task DeleteAvatar_ForExistingUserAvatar_ShouldReturnSuccessStatusCode()
+        {
+            var user = await CreateEnterpriseUser();
+
+            using (var fileStream = new FileStream(GetSmallPicturePath(), FileMode.OpenOrCreate))
+            {
+                var response = await AdminClient.UsersManager.AddOrUpdateUserAvatarAsync(user.Id, fileStream);
+            }
+
+            var deleteAvatarResponse = await AdminClient.UsersManager.DeleteUserAvatarAsync(user.Id);
+
+            Assert.IsTrue(deleteAvatarResponse);
         }
     }
 }
