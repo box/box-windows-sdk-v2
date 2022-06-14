@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/box/box-windows-sdk-v2/compare/v4.3.1...v4.4.0) (2022-06-14)
+
+
+### **New Features and Enhancements:**
+
+* add `can_edit` field to `SharedLink` ([#831](https://github.com/box/box-windows-sdk-v2/issues/831)) ([e0d4197](https://github.com/box/box-windows-sdk-v2/commit/e0d4197070db0dbd947f4a51a6bbb1e01c0b0cdf))
+* add `version_number` to `BoxFileVersion` ([#820](https://github.com/box/box-windows-sdk-v2/issues/820)) ([f174358](https://github.com/box/box-windows-sdk-v2/commit/f174358973caefc9262df480208341fd8233dc7f))
+* add upload and delete support for Avatar API ([#829](https://github.com/box/box-windows-sdk-v2/issues/829)) ([4dcb84a](https://github.com/box/box-windows-sdk-v2/commit/4dcb84ade78d6bd0bc621ff2ed7f5f886486858a))
+
+### **Bug Fixes:**
+
+* Fix initialization of `BoxAPIException` object ([#828](https://github.com/box/box-windows-sdk-v2/issues/828)) ([a298f01](https://github.com/box/box-windows-sdk-v2/commit/a298f01187f84200825ec6ed4748fe8bbd717d11))
+* properly dispose response on exception ([#819](https://github.com/box/box-windows-sdk-v2/issues/819)) ([8415bd3](https://github.com/box/box-windows-sdk-v2/commit/8415bd3dbe42910b99f99535247a26f8d8e645c1))
+
+
 ### [4.3.1](https://github.com/box/box-windows-sdk-v2/compare/v4.3.0...v4.3.1) (2022-04-19)
 
 
@@ -280,5 +295,6 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
