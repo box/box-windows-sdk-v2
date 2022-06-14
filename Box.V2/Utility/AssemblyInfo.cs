@@ -5,7 +5,7 @@ namespace Box.V2.Utility
         public const string AssemblyTitle = "Box.V2";
         public const string AssemblyProduct = "Box.V2";
 
-        public const string NuGetVersion = "4.3.1";
+        public const string NuGetVersion = "4.4.0";
         public const string AssemblyVersion = "1.0.0.0";
         public const string AssemblyFileVersion = "1.0.0.0";
     }
