@@ -6,6 +6,7 @@ Configuration
   - [Account URL](#account-url)
   - [Upload URL](#upload-url)
 - [Timeout](#timeout)
+- [Proxy](#proxy)
 
 URLs configuration
 ------------------
@@ -53,5 +54,27 @@ var timeout = TimeSpan.FromSeconds(200);
 
 var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
     .SetTimeout(timeout)
+    .Build();
+```
+
+Proxy
+-------
+
+`BoxClient` uses .NET `WebProxy` class to support Proxy. To use proxy you need to call `SetWebProxy()` when building configuration.
+
+```c#
+var proxy = new WebProxy
+{
+    Address = new Uri("https://my-proxy.com"),
+    Credentials = new NetworkCredential
+    {
+        Domain = "myDomain",
+        UserName = "username",
+        Password = "password"
+    }
+};
+
+var config = new BoxConfigBuilder("clientID", "clientSecret")
+    .SetWebProxy(proxy)
     .Build();
 ```
