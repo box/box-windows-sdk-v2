@@ -1,6 +1,6 @@
 # Box Windows V2 SDK
 
-[![[Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
+[![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
 ![Platform Framework](https://img.shields.io/badge/.NET%20Framework-%3E%3D4.5-blue)
 ![Platform Core](https://img.shields.io/badge/.NET%20Core-%3E%3D2.0-blue)
 [![License](https://img.shields.io/badge/license-Apache2-blue)](https://raw.githubusercontent.com/box/box-windows-sdk-v2/main/LICENSE)
