@@ -1,404 +1,80 @@
-[![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
-[![Build status](https://ci.appveyor.com/api/projects/status/kbuwacqvl72x6hw6/branch/master?svg=true)](https://ci.appveyor.com/project/coolboy/box-windows-sdk-v2/branch/master)
+# Box Windows V2 SDK
 
-Box Windows V2 SDK
-==================
+[![[Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
+![Platform Framework](https://img.shields.io/badge/.NET%20Framework-%3E%3D4.5-blue)
+![Platform Core](https://img.shields.io/badge/.NET%20Core-%3E%3D2.0-blue)
+[![License](https://img.shields.io/badge/license-Apache2-blue)](https://raw.githubusercontent.com/box/box-windows-sdk-v2/main/LICENSE)
+[![Build](https://github.com/box/box-windows-sdk-v2/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/box/box-windows-sdk-v2/actions/workflows/build_and_test.yml)
 
-Windows .NET SDK for V2 of the Box API that is usable from the following frameworks: 
-* .NET Framework 4.5
-* .NET Core 2.0 or above
+The Box .NET SDK can be used to make API calls to the Box APIs in a .NET project.
 
-Prerequisites
-* Visual Studio 2017
-* .NET Core SDK (if running .NET Core samples)
+The SDK is available for both .NET Framework 4.5 and .NET Core 2.0 or above. The installation of the SDK depends on the platform used.
 
-Getting Started Docs: https://developer.box.com/guides/tooling/sdks/dotnet/
+## Table of contents
 
-Quick Start
------------
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Authentication](#authentication)
+  - [Sample Apps](#sample-apps)
+- [Usage](#usage)
+- [Other Resources](#additional-resources)
+- [Versions](#versions)
+  - [Supported Version](#supported-version)
+  - [Version schedule](#version-schedule)
+- [Questions, Bugs, and Feature Requests?](#questions-bugs-and-feature-requests)
+- [Contributing](#contributing)
+- [Copyright and License](#copyright-and-license)
+
+## Getting Started
 
 ### Installation
 
-Install the SDK using Nuget
-```bash
-PM> Install-Package Box.V2
-```
+You can install SDK library using Nuget
 
 If you want to use .NET Core
 ```bash
 PM> Install-Package Box.V2.Core
 ```
 
-If you haven't already created an app in Box go to https://developer.box.com/ and click 'Sign Up'
+If you want to use .NET Framework
+```bash
+PM> Install-Package Box.V2
+```
+
+Or you can add it to your project directly in Visual Studio.
+
+You can also download latest version from our [Github's release page](https://github.com/box/box-windows-sdk-v2/releases)
 
 ### Authentication
 
-#### Using a Developer Token (generate one in your app admin console; they last for 60 minutes)
-```c#
-var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, new Uri("http://localhost")).Build();
-var session = new OAuthSession(<Developer_Token>, "NOT_NEEDED", 3600, "bearer");
-client = new BoxClient(config, session);
-```
-
-#### Using with Box Platform Developer or Box Platform Enterprise
-
-#### When to Use Box Platform (Enterprise and Developer)
-*Box Platform Enterprise*
-This represents your application within a Box enterprise. Use this type of authentication if you are trying to:
-Store content at the application level rather than at the individual user level. 
-Access any user and make as-user api calls to impersonate a user. 
-Apply Enterprise features such as: managing and applying retention policies, using metadata object, and accessing Events endpoint of the content api.
-
-*Box Platform Developer*
-Box account that belongs to your Box Platform application, this is different from an end-user of Box. These accounts do not have an associated login and 
-can only be accessed through the Box API. Use this type of authentication if you are trying to:
-Have Box content management functionalities in an external-facing app - customer portal
-Provide access to content stored in Box to internal users who do not have Box Managed User accounts. 
-Allow Box Managed Users to share and collaboration with external users via Box applications
-
-##### Configure
-```c#
-var boxConfig = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>).	Build();
-var boxJWT = new BoxJWTAuth(boxConfig);
-```
-
-##### Authenticate
-```c#
-var adminToken = await boxJWT.AdminTokenAsync(); //valid for 60 minutes so should be cached and re-used
-var adminClient = boxJWT.AdminClient(adminToken);
-```
-
-##### Create an App User
-```c#
-//NOTE: you must set IsPlatformAccessOnly=true for an App User
-var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
-var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
-
-//get a user client
-var userToken = await boxJWT.UserTokenAsync(appUser.Id); //valid for 60 minutes so should be cached and re-used
-var userClient = boxJWT.UserClient(userToken, appUser.Id);
-
-//for example, look up the app user's details
-var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();
-```
-
-#### Using with OAuth2
-
-#### When to Use Box Integration (Oauth 2.0)
-Oauth 2.0 requires user to log in to Box and grant your application permission to access files and folders.
-This is a three-legged authentication process to allow managed user and external users to interact.
-
-##### Configure
-Set your configuration parameters and initialize the client:
-```c#
-var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri>).Build();
-var client = new BoxClient(config);
-```
-
-##### Authenticate
-Bundled with the SDK are sample applications for both Windows 8 and Windows Phone which include sample OAuth2 Workflows. The authentication workflow is a 2-step process that first retrieves an Auth Code and then exchanges it for an Access/Refresh Token
-
-*Windows 8*
-```c#
-string authCode = await OAuth2Sample.GetAuthCode(config.AuthCodeUri, new Uri(config.RedirectUri));
-await client.Auth.AuthenticateAsync(authCode);
-```
-
-*Windows Phone*
-```c#
-// Ensure the OAuth2Sample control is placed at the root level of the application page xaml and named "oAuth2Sample"
-// Subscribe to the received call back 
-oAuth2Sample.AuthCodeReceived += async (s, e) =>
-{
-    var auth = s as OAuth2Sample;
-    await client.Auth.AuthenticateAsync(auth.AuthCode);
-};
-// Navigate and show the login page
-oauth.GetAuthCode(config.AuthCodeUri, config.RedirectUri);
-```
-
-*Other (ASP.NET)*
-
-Alternatively, a completely custom OAuth2 authentication process can be used in place of the provided workflows, for example, in a custom web application. In this scenario, a fully formed OAuthSession object should be passed in when instantiating the BoxClient. 
-
-```c#
-OAuthSession session = // Create session from custom implementation
-var client = new BoxClient(config, session);
-```
-
-#### Using With App Token Auth (Box View)
-
-Box View uses App Token Auth, where the app generated long-lived access tokens
-that are used directly in place of any authentication calls to the API.  To use
-this method of aythentication, simply create a client with only the API key and
-access token provided:
-
-```c#
-var config = new BoxConfigBuilder(<API_KEY>, "", new Uri("http://localhost")).Build();
-var session = new OAuthSession(<PRIMARY OR SECONDARY TOKEN>, "NOT_NEEDED", 3600, "bearer");
-client = new BoxClient(config, session);
-```
-
-### Examples
-#### Get Folder Items
-```c#
-// Get root folder with default properties
-var items = await client.FoldersManager.GetFolderItemsAsync("0", 500);
-```
-
-#### Get File Information
-```c#
-BoxFile f = await client.FilesManager.GetInformationAsync(fileId);
-```
-
-#### Update a Files Information
-```c#
-// Create request object with new property values
-BoxFileRequest request = new BoxFileRequest()
-{
-    Id = fileId,
-    Name = "NewName",
-    Description = "New Description"
-};
-BoxFile f = await client.FilesManager.UpdateInformationAsync(request );
-```
-
-#### Upload a New File
-```c#
-BoxFile newFile;
-
-// Create request object with name and parent folder the file should be uploaded to
-using (FileStream stream = new FileStream(@"C:\\example.pdf", FileMode.Open))
-{
-	BoxFileRequest req = new BoxFileRequest()
-	{
-		Name = "example.pdf",
-		Parent = new BoxRequestEntity() { Id = "0" }
-	};
-	newFile = await client.FilesManager.UploadAsync(req, stream);
-}
-```
-
-#### Upload a New File with Content MD5 hash
-```c#
-BoxFile newFile;
-
-// Create request object with name and parent folder the file should be uploaded to
-using (FileStream stream = new FileStream(@"C:\\example.pdf", FileMode.Open))
-using (SHA1 sha1 = SHA1.Create())
-{
-	BoxFileRequest req = new BoxFileRequest()
-	{
-		Name = "example.pdf",
-		Parent = new BoxRequestEntity() { Id = "0" }
-	};
-	
-	byte[] md5Bytes = sha1.ComputeHash(fs);
-	
-	newFile = await client.FilesManager.UploadAsync(req, stream, contentMD5: md5Bytes);
-}
-```
-
-#### Perform Preflight Check for a new file upload
-```c#
-try
-{
-	var req = new BoxPreflightCheckRequest() { 
-	    Name = "example.pdf", 
-	    Parent = new BoxRequestEntity() { Id = "0" },
-	    Size = 10000 //set the size if known, otherwise don't set (i.e. for a stream)
-	};
-											 
-	//exception will be thrown if name collision or storage limit would be exceeded by upload									 
-	await userClient.FilesManager.PreflightCheck(req);
-}
-catch (BoxPreflightCheckConflictException<BoxFile> bex)
-{
-	//Handle file name collision error	
-}
-catch (BoxException bex)
-{
-	//Handle storage limit error 
-}
-```
-
-#### Perform Preflight Check for a new version of file
-```c#
-try
-{
-	var req = new BoxPreflightCheckRequest() { Size=10926 };
-	
-	//exception will be thrown if storage limit would be exceeded by uploading new version of file
-        await userClient.FilesManager.PreflightCheckNewVersion(existingFile.Id, req);		 
-}
-catch (BoxException bex)
-{
-	//Handle storage limit error
-}
-```
-
-#### Download a File
-```c#
-Stream stream = await client.FilesManager.DownloadStreamAsync(fileId);
-```
-
-#### Get Temporary Download Uri for a file
-This method will retrieve a temporary (15 minute) Uri for a file that can be used, for example, to send as a redirect to a browser, causing the browser to download the file directly from Box.
-```c#
-var downloadUri = await client.FilesManager.GetDownloadUriAsync(fileId);
-```
-
-#### Search using Metadata
-```c#
-var filter = new 
-{ 
-	someKey = "blah", 
-	expiresOn = new {gt = new DateTime(2015,1,1), 
-			 lt = new DateTime(2015,9,1)},
-	count = new {gt = 5, lt = 10},
-	option = "value1"
-};
-
-var mdFilter = new BoxMetadataFilterRequest() 
-{ 
-	TemplateKey = "yourTemplate", 
-	Scope = "enterprise", 
-	Filters = filter 
-};
-
-//currently only one BoxMetadataFilterRequest element is supported; in the future multiple will be supported (hence the List)
-var results = await client.SearchManager.SearchAsync(mdFilters: new List<BoxMetadataFilterRequest>() { mdFilter });
-```
-
-#### Make API calls with As-User
-
-#### Example 1
-If you have an admin token with appropriate permissions, you can make API calls in the context of a managed user. In order to do this you must request Box.com to activate As-User functionality for your API key (see developer site for instructions). 
-
-```c#
-var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri).Build();
-var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
-
-var userId = "12345678"
-var userClient = new BoxClient(config, auth, asUser: userId);
-
-//returns root folder items for the user with ID '12345678'
-var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
-```
-
-#### Example 2
-
-Using the admin token we can make a call to retrieve all users or a specific user
-
-```cs
-var boxConfig = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Enterprise_Id>, <Private_Key>, <JWT_Private_Key_Password>, <JWT_Public_Key_Id>).	Build();
-var boxJWT = new BoxJWTAuth(boxConfig);
-
-var adminToken = await boxJWT.AdminTokenAsync();
-var adminClient = boxJWT.AdminClient(adminToken);
-
-var boxUsers = await adminClient.UsersManager.GetEnterpriseUsersAsync();
-List<BoxUser> allBoxUsersList = boxUsers.Entries;
-
-// Display all users with name and id per row
-foreach(BoxUser boxUser in allBoxUsersList)
-{
-	Console.WriteLine("Box User Name: {0} and Box User Id: {1}", boxUser.Name, boxUser.Id);
-}
-
-// Get a specific user from allBoxUsersList
-var specificBoxUser = allBoxUsersList.Find(u => u.Login == "Specific User Login");
-Console.WriteLine("A Specific Box User: {0}", specificBoxUser.Name);
-```
-
-Once we have the specific user we can also find all root folders and folder items
-
-```cs
-var boxFolderItems = await someUserClient.FoldersManager.GetFolderItemsAsync("0", 100);
-List<BoxItem> boxFolderItemsList = boxFolderItems.Entries;
-
-foreach(BoxItem item in boxFolderItemsList)
-{
-	Console.WriteLine("Item Name: {0}. Item Id: {1}", item.Name, item.Id);
-}
-```
-
-#### Suppressing Notifications
-If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
-```c#
-var config = new BoxConfigBuilder(<Client_Id>, <Client_Secret>, <Redirect_Uri).Build();
-var auth = new OAuthSession(<Your_Access_Token>, <Your_Refresh_Token>, 3600, "bearer");
-
-var adminClient = new BoxClient(config, auth, suppressNotifications: true);
-```
-
-#### Constructing API Calls Manually
-The SDK also exposes low-level request methods for constructing your own API calls. These can be useful for adding your own API calls that aren't yet explicitly supported by the SDK.
-
-To make a custom api call you need to provide implementation for `BoxResourceManager`.
-
-```c#
-public class BoxFolderHintsManager : BoxResourceManager
-{
-    public BoxFolderHintsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null) : base(config, service, converter, auth, asUser, suppressNotifications) { }
-
-	public async Task<MyCustomReturnObject> GetFolderItemsWithHintsAsync(string folderId, string xRepHints)
-    {
-        BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.ItemsPathString, folderId))
-            .Method(RequestMethod.Get)
-            .Param(ParamFields, "representations")
-            .Header(Constants.RequestParameters.XRepHints, xRepHints);
-
-            return await ToResponseAsync<MyCustomReturnObject>(request).ConfigureAwait(false);
-        }
-    }
-```
-
-You need to first register your custom `BoxResourceManager`, then you can use it as any other SDK manager.
-
-```c#
-client = boxJWT.UserClient(userToken, userId);
-client.AddResourcePlugin<BoxFolderHintsManager>();
-
-string folderId = "11111";
-string xRepHints = "[jpg?dimensions=32x32][jpg?dimensions=94x94]";
-
-var boxFolderHintsManager = client.ResourcePlugins.Get<BoxFolderHintsManager>();
-var response = await boxFolderHintsManager.GetFolderItemsWithHintsAsync(folderId, xRepHints);
-```
-
-File/Folder Picker
-------------------
-The Box Windows SDK includes a user control that allows developers an easy way to drop in a file and or folder picker in just one line of code
-
-*File Picker*
-```xml
-<controls:BoxItemPickerLauncher Client="{Binding Client}" />
-```
-
-*Folder Picker*
-```xml
-<controls:BoxItemPickerLauncher Client="{Binding Client}" ItemPickerType="Folder" />
-```
-
-You can attach an event handler to the ItemSelected event to handle when an Item is selected. Please see sample apps for additional detail on how the controls look and work. 
-
-Tests
------
-Unit tests are included that use Moq to simulate network requests and responses. These tests can be found in the Box.V2.Test project
-
-Documentation
--------------
-Documentation of all classes and methods are provided through the standard ```<summary></summary>``` xml tags. The easiest way to view these is through Visual Studio's built in "Object Browser" (VIEW -> Object Browser, or CTRL+W, J). 
-
-Other Resources
--------------
+Our .NET SDK supports the following authentication methods:
+- [Server Auth with JWT](/docs/authentication.md#server-auth-with-jwt)
+- [Server Auth with CCG](/docs/authentication.md#server-auth-with-ccg)
+- [Traditional 3-Legged OAuth2](/docs/authentication.md#traditional-3-legged-oauth2)
+- [Developer token](/docs/authentication.md#developer-token)
+
+### Sample apps
+
+You can check one of our sample apps included in this repository to see how to use the SDK
+- [Create App User](https://github.com/box/box-windows-sdk-v2/tree/main/Box.V2.Samples.Core.AppUser.Create/)
+- [Upload File](https://github.com/box/box-windows-sdk-v2/tree/main/Box.V2.Samples.Core.File.Upload/)
+- [Proxy example](https://github.com/box/box-windows-sdk-v2/tree/main/Box.V2.Samples.Core.HttpProxy/)
+- [JWT Auth](https://github.com/box/box-windows-sdk-v2/tree/main/Box.V2.Samples.JWTAuth/)
+- [Token exchange](https://github.com/box/box-windows-sdk-v2/tree/main/Box.V2.Samples.TransactionalAuth/)
+
+## Usage
+
+You can find detailed usage documentation and code samples under [docs](/docs/README.md) directory.
+
+## Other resources
+- API Reference: https://developer.box.com/reference/
+- API Guides : https://developer.box.com/guides/
 - SDK Nuget Package: https://www.nuget.org/packages/Box.V2/
 - .NET Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2.Core/
 - Box Windows SDK Video Tutorial: https://youtu.be/hqko0hxbaXU
+- Getting Started Docs: https://developer.box.com/guides/tooling/sdks/dotnet/
 
-Versions
----------------------------
+## Versions
 
 We use a modified version of [Semantic Versioning](https://semver.org/) for all changes. See [version strategy](VERSIONS.md) for details which is effective from 30 July 2022.
 
@@ -416,10 +92,14 @@ A current release is on the leading edge of our SDK development, and is intended
 | 3       |                                       | EOL       | 28 Jul 2017   | 02 Nov 2021    |
 | 2       |                                       | EOL       | 05 Nov 2015   | 28 Jul 2017    |
 
-Known Issues
-------------
-Windows 8 Sample OAuth2 uses desktop login screen instead of mobile. Pending fix from platform team.
+## Questions, Bugs, and Feature Requests?
 
+[Browse the issues tickets](https://github.com/box/box-windows-sdk-v2/issues)! Or, if that doesn't work, [file a new one](https://github.com/box/box-windows-sdk-v2/issues/new) and someone will get back to you. If you have general questions about the
+Box API, you can post to the [Box Developer Forum](https://community.box.com/t5/Developer-Forum/bd-p/DeveloperForum).
+
+## Contributing
+
+All contributions to this project are welcome! For more information, please see our [Contribution guidelines](/CONTRIBUTING.md).
 
 ## Copyright and License
 
