@@ -67,12 +67,12 @@ You can check one of our sample apps included in this repository to see how to u
 You can find detailed usage documentation and code samples under [docs](/docs/README.md) directory.
 
 ## Other resources
-- API Reference: https://developer.box.com/reference/
-- API Guides : https://developer.box.com/guides/
-- SDK Nuget Package: https://www.nuget.org/packages/Box.V2/
-- .NET Core SDK Nuget Package: https://www.nuget.org/packages/Box.V2.Core/
-- Box Windows SDK Video Tutorial: https://youtu.be/hqko0hxbaXU
-- Getting Started Docs: https://developer.box.com/guides/tooling/sdks/dotnet/
+- [API Reference](https://developer.box.com/reference/)
+- [API Guides](https://developer.box.com/guides/)
+- [SDK Nuget Package](https://www.nuget.org/packages/Box.V2/)
+- [.NET Core SDK Nuget Package](https://www.nuget.org/packages/Box.V2.Core/)
+- [Box Windows SDK Video Tutorial](https://youtu.be/hqko0hxbaXU)
+- [Getting Started Docs](https://developer.box.com/guides/tooling/sdks/dotnet/)
 
 ## Versions
 
