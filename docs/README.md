@@ -1,7 +1,7 @@
 # Documentation
 
 Under this directory you can find documentation and samples for available SDK functionalities. 
-You can read more about supported resources on [Box Docs](https://developer.box.com/reference/).
+You can read more about supported resources on [API reference](https://developer.box.com/reference/).
 
 - [Authentication](authentication.md)
 - [Collaboration Whitelist](collaboration-whitelist.md)
