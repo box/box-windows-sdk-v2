@@ -2,14 +2,14 @@ Constructing API Calls Manually
 ===========
 The SDK also exposes low-level request methods for constructing your own API calls. These can be useful for adding your own API calls that aren't yet explicitly supported by the SDK.
 
-To make a custom api call you need to provide implementation for `BoxResourceManager`.
+To make a custom API call you need to provide implementation for `BoxResourceManager`.
 
 ```c#
 public class BoxFolderHintsManager : BoxResourceManager
 {
     public BoxFolderHintsManager(IBoxConfig config, IBoxService service, IBoxConverter converter, IAuthRepository auth, string asUser = null, bool? suppressNotifications = null) : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
-	public async Task<MyCustomReturnObject> GetFolderItemsWithHintsAsync(string folderId, string xRepHints)
+    public async Task<MyCustomReturnObject> GetFolderItemsWithHintsAsync(string folderId, string xRepHints)
     {
         BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.ItemsPathString, folderId))
             .Method(RequestMethod.Get)
