@@ -7,6 +7,8 @@ Configuration
   - [Upload URL](#upload-url)
 - [Timeout](#timeout)
 - [Proxy](#proxy)
+- [Supress notifications](#supress-notifications)
+- [Make API calls As-User](#make-api-calls-as-user)
 
 URLs configuration
 ------------------
@@ -77,4 +79,31 @@ var proxy = new WebProxy
 var config = new BoxConfigBuilder("clientID", "clientSecret")
     .SetWebProxy(proxy)
     .Build();
+```
+
+Supress Notifications
+---------------------
+
+If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
+```c#
+var config = new BoxConfigBuilder("clientID", "clientSecret", "redirect_uri").Build();
+var auth = new OAuthSession("access_token", "refresh_token", 3600, "bearer");
+
+var adminClient = new BoxClient(config, auth, suppressNotifications: true);
+```
+
+Make API calls As-User
+----------------------
+
+If you have an admin token with appropriate permissions, you can make API calls in the context of a managed user. In order to do this you must request Box.com to activate As-User functionality for your API key (see developer site for instructions). 
+
+```c#
+var config = new BoxConfigBuilder("clientID", "clientSecret", "redirect_uri").Build();
+var auth = new OAuthSession("access_token", "refresh_token", 3600, "bearer");
+
+var userId = "12345678"
+var userClient = new BoxClient(config, auth, asUser: userId);
+
+//returns root folder items for the user with ID '12345678'
+var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
 ```

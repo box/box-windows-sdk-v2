@@ -1,0 +1,31 @@
+# Documentation
+
+Under this directory you can find documentation and samples for available SDK functionalities. 
+You can read more about supported resources on [API reference](https://developer.box.com/reference/).
+
+- [Authentication](authentication.md)
+- [Collaboration Whitelist](collaboration-whitelist.md)
+- [Collaborations](collaborations.md)
+- [Comments](comments.md)
+- [Custom Requests](custom-requests.md)
+- [Device Pins](device-pins.md)
+- [Events](events.md)
+- [File Request](file-request.md)
+- [Files](files.md)
+- [Folders](folders.md)
+- [Groups](groups.md) 
+- [Legal Holds](legal-holds.md)
+- [Metadata Cascade Policies](metadata-cascade-policies.md)
+- [Metadata](metadata.md)
+- [Recent Items](recent-items.md)
+- [Retention Policies](retention-policies.md)
+- [Search](search.md)
+- [Sign Requests](sign-requests.md)
+- [Storage Policies](storage-policies.md)
+- [Tasks](tasks.md)
+- [Terms Of Service](terms-of-service.md)
+- [Trash](trash.md)
+- [Users](users.md)
+- [Watermarking](watermarking.md)
+- [Web Links](web-links.md)
+- [Webhooks](webhooks.md)
