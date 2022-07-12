@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using Box.V2.Utility;
 
 namespace Box.V2.Config
 {
@@ -251,6 +252,17 @@ namespace Box.V2.Config
             return this;
         }
 
+        /// <summary>
+        /// Sets retry strategy.
+        /// </summary>
+        /// <param name="enterpriseId">Retry strategy.</param>
+        /// <returns>this BoxConfigBuilder object for chaining</returns>
+        public BoxConfigBuilder SetRetryStrategy(IRetryStrategy retryStrategy)
+        {
+            RetryStrategy = retryStrategy;
+            return this;
+        }
+
         public string ClientId { get; private set; }
         public string ClientSecret { get; private set; }
         public string EnterpriseId { get; private set; }
@@ -297,6 +309,11 @@ namespace Box.V2.Config
         /// Timeout for the connection
         /// </summary>
         public TimeSpan? Timeout { get; private set; }
+
+        /// <summary>
+        /// Retry strategy for failed requests
+        /// </summary>
+        public IRetryStrategy RetryStrategy { get; private set; } = new ExponentialBackoff();
 
         private Uri EnsureEndsWithSlash(Uri uri)
         {

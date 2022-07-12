@@ -47,6 +47,12 @@
     <None Update="Fixtures\BoxFileRequest\GetFileRequest200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Fixtures\BoxFiles\PollRepresentationPending200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Fixtures\BoxFiles\GetRepresentationContentPending200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Fixtures\BoxFiles\CreateFileSharedLink200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
