@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Box.V2.Exceptions;
@@ -1200,6 +1199,111 @@ namespace Box.V2.Test
                 Assert.AreEqual(status.NameConflicts[1].items[1].OriginalName, "employees");
                 Assert.AreNotEqual(fs.Length, 0);
             }
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(BoxCodingException))]
+        public async Task GetRepresentationContentAsync_ShouldThrowException_IfTooManyRetriesAndHandleRetryTrue()
+        {
+            Handler.SetupSequence(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                 {
+                     Status = ResponseStatus.Success,
+                     StatusCode = System.Net.HttpStatusCode.Accepted,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/GetRepresentationContentPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                 {
+                     Status = ResponseStatus.Success,
+                     StatusCode = System.Net.HttpStatusCode.Accepted,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/GetRepresentationContentPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                 {
+                     Status = ResponseStatus.Success,
+                     StatusCode = System.Net.HttpStatusCode.Accepted,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/GetRepresentationContentPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                 {
+                     Status = ResponseStatus.Success,
+                     StatusCode = System.Net.HttpStatusCode.Accepted,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/GetRepresentationContentPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                 {
+                     Status = ResponseStatus.Success,
+                     StatusCode = System.Net.HttpStatusCode.Accepted,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/GetRepresentationContentPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                 {
+                     Status = ResponseStatus.Success,
+                     StatusCode = System.Net.HttpStatusCode.Accepted,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/GetRepresentationContentPending200.json")
+                 }));
+
+            var repRequest = new BoxRepresentationRequest
+            {
+                FileId = "11111",
+                XRepHints = $"[jpg?dimensions=320x320]",
+                HandleRetry = true
+            };
+
+            var result = await _filesManager.GetRepresentationContentAsync(repRequest);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(BoxCodingException))]
+        public async Task GetRepresentationContentAsync_ShouldThrowException_IfTooManyRetries()
+        {
+            Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/GetRepresentationContentPending200.json")
+                 }));
+
+            Handler.SetupSequence(h => h.ExecuteAsync<BoxRepresentation>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxRepresentation>>(new BoxResponse<BoxRepresentation>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/PollRepresentationPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxRepresentation>>(new BoxResponse<BoxRepresentation>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/PollRepresentationPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxRepresentation>>(new BoxResponse<BoxRepresentation>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/PollRepresentationPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxRepresentation>>(new BoxResponse<BoxRepresentation>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/PollRepresentationPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxRepresentation>>(new BoxResponse<BoxRepresentation>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/PollRepresentationPending200.json")
+                 }))
+                 .Returns(Task.FromResult<IBoxResponse<BoxRepresentation>>(new BoxResponse<BoxRepresentation>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/PollRepresentationPending200.json")
+                 }));
+
+            var repRequest = new BoxRepresentationRequest
+            {
+                FileId = "11111",
+                XRepHints = $"[jpg?dimensions=320x320]",
+            };
+
+            var result = await _filesManager.GetRepresentationContentAsync(repRequest);
         }
     }
 }

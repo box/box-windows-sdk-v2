@@ -66,6 +66,7 @@ namespace Box.V2.Config
             AcceptEncoding = builder.AcceptEncoding;
             WebProxy = builder.WebProxy;
             Timeout = builder.Timeout;
+            RetryStrategy = builder.RetryStrategy;
         }
 
         /// <summary>
@@ -292,6 +293,11 @@ namespace Box.V2.Config
         /// Timeout for the connection
         /// </summary>
         public TimeSpan? Timeout { get; private set; }
+
+        /// <summary>
+        /// Retry strategy for failed requests
+        /// </summary>
+        public IRetryStrategy RetryStrategy { get; private set; } = new ExponentialBackoff();
     }
 
     public enum CompressionType

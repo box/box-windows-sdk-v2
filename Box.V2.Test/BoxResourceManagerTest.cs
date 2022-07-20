@@ -6,6 +6,7 @@ using Box.V2.Config;
 using Box.V2.Converter;
 using Box.V2.Request;
 using Box.V2.Services;
+using Box.V2.Test.Helpers;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -49,6 +50,7 @@ namespace Box.V2.Test
             Config.SetupGet(x => x.SignRequestsEndpointUri).Returns(SignRequestUri);
             Config.SetupGet(x => x.SignRequestsEndpointWithPathUri).Returns(SignRequestWithPathUri);
             Config.SetupGet(x => x.FileRequestsEndpointWithPathUri).Returns(FileRequestsWithPathUri);
+            Config.SetupGet(x => x.RetryStrategy).Returns(new InstantRetryStrategy());
 
             AuthRepository = new AuthRepository(Config.Object, Service, Converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));
         }

@@ -15,6 +15,7 @@ using Box.V2.Exceptions;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Models.Request;
+using Box.V2.Request;
 using Box.V2.Services;
 using Box.V2.Utility;
 using Newtonsoft.Json.Linq;
@@ -1300,11 +1301,14 @@ namespace Box.V2.Managers
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
+            var retryCounter = 1;
+
             while (response.StatusCode == HttpStatusCode.Accepted && representationRequest.HandleRetry)
             {
-                const int RepresentationRequestRetryTime = 3000;
-                await Task.Delay(RepresentationRequestRetryTime);
-                response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
+                response = await CallWithRetryCheck(() => ToResponseAsync<BoxFile>(request),
+                    $"Could not get valid File Representation status after {retryCounter} retries.",
+                    retryCounter++)
+                    .ConfigureAwait(false);
             }
 
             return response.ResponseObject.Representations;
@@ -1396,7 +1400,7 @@ namespace Box.V2.Managers
             return response.ResponseObject;
         }
 
-        private async Task<string> PollRepresentationInfo(string infoUrl)
+        private async Task<string> PollRepresentationInfo(string infoUrl, int retryCounter = 1)
         {
             var infoRequest = new BoxRequest(new Uri(infoUrl));
             IBoxResponse<BoxRepresentation> infoResponse = await ToResponseAsync<BoxRepresentation>(infoRequest).ConfigureAwait(false);
@@ -1410,10 +1414,25 @@ namespace Box.V2.Managers
                     throw new BoxCodingException("Representation had error status");
                 case "none":
                 case "pending":
-                    await Task.Delay(1000);
-                    return await PollRepresentationInfo(infoUrl).ConfigureAwait(false);
+                    return await CallWithRetryCheck(() => PollRepresentationInfo(infoUrl, ++retryCounter),
+                        $"Could not get valid Representation status after {retryCounter} retries.",
+                        retryCounter)
+                        .ConfigureAwait(false);
                 default:
                     throw new BoxCodingException("Representation has unknown status");
+            }
+        }
+
+        private async Task<T> CallWithRetryCheck<T>(Func<Task<T>> action, string errorMessage, int retryCounter = 1) where T : class
+        {
+            if (retryCounter <= HttpRequestHandler.RetryLimit)
+            {
+                await Task.Delay(_config.RetryStrategy.GetRetryTimeout(retryCounter));
+                return await action().ConfigureAwait(false);
+            }
+            else
+            {
+                throw new BoxCodingException(errorMessage);
             }
         }
     }

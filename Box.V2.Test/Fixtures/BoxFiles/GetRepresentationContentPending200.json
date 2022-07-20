@@ -1,0 +1,27 @@
+{
+  "type": "file",
+  "id": "11111",
+  "etag": "0",
+  "representations": {
+    "entries": [
+      {
+        "representation": "jpg",
+        "properties": {
+          "dimensions": "320x320",
+          "paged": "false",
+          "thumb": "false"
+        },
+        "info": {
+          "url": "https://api.box.com/2.0/internal_files/11111/versions/22222/representations/jpg_320x320"
+        },
+        "status": {
+          "state": "pending"
+        },
+        "content": {
+          "url_template": "https://dl.boxcloud.com/api/2.0/internal_files/11111/versions/22222/representations/jpg_320x320/content/{+asset_path}"
+        }
+      }
+    ]
+  }
+}
+

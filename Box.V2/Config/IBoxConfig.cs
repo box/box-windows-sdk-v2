@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using Box.V2.Utility;
 
 namespace Box.V2.Config
 {
@@ -143,5 +144,9 @@ namespace Box.V2.Config
         /// Timeout for the connection
         /// </summary>
         TimeSpan? Timeout { get; }
+        /// <summary>
+        /// Retry strategy for failed requests
+        /// </summary>
+        IRetryStrategy RetryStrategy { get; }
     }
 }
