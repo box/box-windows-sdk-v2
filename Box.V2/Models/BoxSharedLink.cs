@@ -19,6 +19,7 @@ namespace Box.V2.Models
         public const string FieldAccess = "access";
         public const string FieldPermissions = "permissions";
         public const string FieldVanityName = "vanity_name";
+        public const string FieldEffectiveAccess = "effective_access";
 
         /// <summary>
         /// The Url of the shared link
@@ -81,5 +82,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldVanityName)]
         public virtual string VanityName { get; private set; }
+
+        /// <summary>
+        /// The effective access of shared link
+        /// </summary>
+        [JsonProperty(PropertyName = FieldEffectiveAccess)]
+        public virtual string EffectiveAccess { get; private set; }
     }
 }
