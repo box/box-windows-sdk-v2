@@ -81,7 +81,7 @@ var folderParams = new BoxFolderRequest()
         Id = "0"
     }
 };
-BoxFolder folder = client.FoldersManager.CreateAsync(folderParams);
+BoxFolder folder = await client.FoldersManager.CreateAsync(folderParams);
 ```
 
 Copy a Folder
