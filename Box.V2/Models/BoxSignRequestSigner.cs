@@ -96,6 +96,7 @@ namespace Box.V2.Models
     {
         public const string FieldType = "type";
         public const string FieldCheckboxValue = "checkbox_value";
+        public const string FieldContentType = "content_type";
         public const string FieldDateValue = "date_value";
         public const string FieldDocumentTagId = "document_tag_id";
         public const string FieldPageIndex = "page_index";
@@ -113,6 +114,13 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldCheckboxValue)]
         public virtual bool? CheckboxValue { get; private set; }
+
+        /// <summary>
+        /// Content type of input.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldContentType)]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public virtual BoxSignRequestSingerInputContentType ContentType { get; private set; }
 
         /// <summary>
         /// Date prefill value.
@@ -147,6 +155,25 @@ namespace Box.V2.Models
         signature,
         date,
         text,
+        checkbox
+    }
+
+    /// <summary>
+    /// Content type of input.
+    /// </summary>
+    public enum BoxSignRequestSingerInputContentType
+    {
+        initial,
+        stamp,
+        signature,
+        company,
+        title,
+        email,
+        full_name,
+        first_name,
+        last_name,
+        text,
+        date,
         checkbox
     }
 
