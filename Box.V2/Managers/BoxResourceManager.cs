@@ -390,10 +390,7 @@ namespace Box.V2.Managers
             }
 
             var frameworkVersion = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
-
-            var match = Regex.Match(frameworkVersion, @"\d+(\.\d+)+").Value;
-
-            return match;
+            return Regex.Match(frameworkVersion, @"\d+(\.\d+)+").Value;
         }
 
     }
