@@ -393,7 +393,7 @@ namespace Box.V2.Managers
             var frameworkVersion = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
             return Regex.Match(frameworkVersion, @"\d+(\.\d+)+").Value;
 #else
-            return ""; 
+            return null; 
 #endif
         }
 
