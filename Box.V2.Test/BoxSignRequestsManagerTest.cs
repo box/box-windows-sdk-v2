@@ -80,6 +80,9 @@ namespace Box.V2.Test
             Assert.AreEqual(1, response.Signers.Count);
             Assert.AreEqual("example@gmail.com", response.Signers[0].Email);
             Assert.AreEqual("12345", response.ParentFolder.Id);
+            Assert.AreEqual(1, response.Signers[0].Inputs.Count);
+            Assert.IsTrue(response.Signers[0].Inputs[0].CheckboxValue.Value);
+            Assert.AreEqual("checkbox", response.Signers[0].Inputs[0].ContentType);
         }
 
         [TestMethod]
@@ -153,6 +156,9 @@ namespace Box.V2.Test
             Assert.AreEqual("12345", response.SourceFiles[0].Id);
             Assert.AreEqual(1, response.Signers.Count);
             Assert.AreEqual("example@gmail.com", response.Signers[0].Email);
+            Assert.AreEqual(1, response.Signers[0].Inputs.Count);
+            Assert.IsTrue(response.Signers[0].Inputs[0].CheckboxValue.Value);
+            Assert.AreEqual("checkbox", response.Signers[0].Inputs[0].ContentType);
             Assert.AreEqual("12345", response.ParentFolder.Id);
             Assert.IsTrue(response.IsDocumentPreparationNeeded);
             Assert.IsTrue(response.AreRemindersEnabled);
@@ -236,6 +242,9 @@ namespace Box.V2.Test
             Assert.AreEqual("12345", response.SourceFiles[0].Id);
             Assert.AreEqual(1, response.Signers.Count);
             Assert.AreEqual("example@gmail.com", response.Signers[0].Email);
+            Assert.AreEqual(1, response.Signers[0].Inputs.Count);
+            Assert.IsTrue(response.Signers[0].Inputs[0].CheckboxValue.Value);
+            Assert.AreEqual("checkbox", response.Signers[0].Inputs[0].ContentType);
             Assert.AreEqual("12345", response.ParentFolder.Id);
             Assert.IsTrue(response.IsDocumentPreparationNeeded);
             Assert.IsTrue(response.AreRemindersEnabled);
