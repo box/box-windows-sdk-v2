@@ -62,7 +62,8 @@
           "checkbox_value": true,
           "date_value": "2021-04-26T08:12:13.982Z",
           "type": "text",
-          "page_index": 4
+          "page_index": 4,
+          "content_type": "checkbox"
         }
       ],
       "embed_url": "https://example.com"
