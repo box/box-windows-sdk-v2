@@ -389,8 +389,12 @@ namespace Box.V2.Managers
                     null;
             }
 
+#if NETSTANDARD2_0
             var frameworkVersion = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
             return Regex.Match(frameworkVersion, @"\d+(\.\d+)+").Value;
+#else
+            return ""; 
+#endif
         }
 
     }
