@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Box.V2.Managers
@@ -379,12 +380,21 @@ namespace Box.V2.Managers
         private string GetNetCoreVersion()
         {
             var assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
-            var assemblyPath = assembly.CodeBase.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
-            var netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
-            return netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2 ?
-                assemblyPath[netCoreAppIndex + 1] :
-                null;
-        }
+            if (assembly?.CodeBase != null)
+            {
+                var assemblyPath = assembly.CodeBase.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                var netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
+                return netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2 ?
+                    assemblyPath[netCoreAppIndex + 1] :
+                    null;
+            }
 
+#if NETSTANDARD2_0
+            var frameworkVersion = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
+            return Regex.Match(frameworkVersion, @"\d+(\.\d+)+").Value;
+#else
+            return null;
+#endif
+        }
     }
 }

@@ -269,7 +269,11 @@ namespace Box.V2.Request
 
             private static HttpClient CreateClient(bool followRedirect, IWebProxy webProxy)
             {
-                var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
+                var handler = new HttpClientHandler();
+                if (handler.SupportsAutomaticDecompression)
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                }
                 handler.AllowAutoRedirect = followRedirect;
 
                 if (webProxy != null)
