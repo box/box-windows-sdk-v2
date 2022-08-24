@@ -27,6 +27,8 @@ namespace Box.V2.Models
         public const string FieldSigningLog = "signing_log";
         public const string FieldSourceFiles = "source_files";
         public const string FieldStatus = "status";
+        public const string FieldDeclinedRedirectUrl = "declined_redirect_url";
+        public const string FieldRedirectUrl = "redirect_url";
 
         /// <summary>
         /// Reminds signers to sign a document on day 3, 8, 13 and 18. Reminders are only sent to outstanding signers.
@@ -128,6 +130,18 @@ namespace Box.V2.Models
         [JsonProperty(PropertyName = FieldStatus)]
         [JsonConverter(typeof(StringEnumConverter))]
         public virtual BoxSignRequestStatus Status { get; private set; }
+
+        /// <summary>
+        /// URL to redirect the signer to if they decline to sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldDeclinedRedirectUrl)]
+        public virtual Uri DeclinedRedirectUrl { get; private set; }
+
+        /// <summary>
+        /// URL to redirect the signer to after they sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldRedirectUrl)]
+        public virtual Uri RedirectUrl { get; private set; }
     }
 
     /// <summary>

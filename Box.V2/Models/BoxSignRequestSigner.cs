@@ -19,6 +19,8 @@ namespace Box.V2.Models
         public const string FieldOrder = "order";
         public const string FieldRole = "role";
         public const string FieldSignerDecision = "signer_decision";
+        public const string FieldDeclinedRedirectUrl = "declined_redirect_url";
+        public const string FieldRedirectUrl = "redirect_url";
 
         /// <summary>
         /// Email address of the signer.
@@ -76,6 +78,18 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldSignerDecision)]
         public virtual BoxSignRequestSignerDecision SignerDecision { get; private set; }
+
+        /// <summary>
+        /// URL to redirect the signer to if they decline to sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldDeclinedRedirectUrl)]
+        public virtual Uri DeclinedRedirectUrl { get; private set; }
+
+        /// <summary>
+        /// URL to redirect the signer to after they sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldRedirectUrl)]
+        public virtual Uri RedirectUrl { get; private set; }
     }
 
     /// <summary>

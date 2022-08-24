@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -78,6 +79,18 @@ namespace Box.V2.Models.Request
         /// </summary>
         [JsonProperty(PropertyName = "source_files")]
         public List<BoxSignRequestCreateSourceFile> SourceFiles { get; set; }
+
+        /// <summary>
+        /// URL to redirect the signer to if they decline to sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = "declined_redirect_url")]
+        public Uri DeclinedRedirectUrl { get; set; }
+
+        /// <summary>
+        /// URL to redirect the signer to after they sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = "redirect_url")]
+        public Uri RedirectUrl { get; private set; }
     }
 
     /// <summary>
@@ -159,5 +172,17 @@ namespace Box.V2.Models.Request
         [JsonProperty(PropertyName = "role")]
         [JsonConverter(typeof(StringEnumConverter))]
         public BoxSignRequestSignerRole? Role { get; set; }
+
+        /// <summary>
+        /// The URL to redirect the signer to if they decline to sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = "declined_redirect_url")]
+        public Uri DeclinedRedirectUrl { get; set; }
+
+        /// <summary>
+        /// The URL to redirect the signer to after they sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = "redirect_url")]
+        public Uri RedirectUrl { get; set; }
     }
 }
