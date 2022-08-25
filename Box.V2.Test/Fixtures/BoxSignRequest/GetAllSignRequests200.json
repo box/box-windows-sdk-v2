@@ -73,6 +73,8 @@
       "type": "sign-request",
       "id": "12345",
       "prepare_url": "https://prepareurl.com",
+      "redirect_url": "https://box.com/redirect_url",
+      "declined_redirect_url": "https://box.com/declined_redirect_url",
       "signing_log": {
         "id": "12345",
         "etag": "1",

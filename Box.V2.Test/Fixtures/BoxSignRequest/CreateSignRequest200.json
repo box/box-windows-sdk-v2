@@ -25,6 +25,8 @@
     }
   ],
   "prepare_url": "https://prepareurl.com",
+  "redirect_url": "https://box.com/redirect_url",
+  "declined_redirect_url": "https://box.com/declined_redirect_url",
   "sign_files": {
     "files": [
       {
