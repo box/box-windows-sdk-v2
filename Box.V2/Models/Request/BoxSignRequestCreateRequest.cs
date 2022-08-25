@@ -90,7 +90,7 @@ namespace Box.V2.Models.Request
         /// URL to redirect the signer to after they sign the document.
         /// </summary>
         [JsonProperty(PropertyName = "redirect_url")]
-        public Uri RedirectUrl { get; private set; }
+        public Uri RedirectUrl { get; set; }
     }
 
     /// <summary>
