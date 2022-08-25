@@ -34,7 +34,9 @@
               "content_type": "checkbox"
             }
           ],
-          "embed_url": "https://example.com"
+          "embed_url": "https://example.com",
+          "redirect_url": "https://box.com/redirect_url_signer_1",
+          "declined_redirect_url": "https://box.com/declined_redirect_url_signer_1"
         }
       ],
       "source_files": [
