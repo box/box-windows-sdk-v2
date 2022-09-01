@@ -37,7 +37,7 @@ namespace Box.V2.Config
         public const string InviteString = @"invites/";
         public const string CollaborationsString = @"collaborations/";
         public const string RetentionPoliciesString = @"retention_policies/";
-        public const string RetentionPolicyAssignmentsString = @"retention_policy_assignments/";
+        public const string RetentionPolicyAssignmentsString = @"retention_policy_assignments";
         public const string FileVersionRetentionsString = @"file_version_retentions/";
         public const string EventsString = @"events";
         public const string MetadataTemplatesString = @"metadata_templates/";
