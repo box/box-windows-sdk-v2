@@ -22,7 +22,8 @@ namespace Box.V2.Test.Integration
                 PolicyName = retentionPolicyName,
                 RetentionLength = 1,
                 RetentionType = retentionType,
-                PolicyType = policyType
+                PolicyType = policyType,
+                DispositionAction = "permanently_delete",
             };
             var policy = await UserClient.RetentionPoliciesManager.CreateRetentionPolicyAsync(retentionPolicyReq);
             Assert.AreEqual(retentionPolicyName, policy.PolicyName);
@@ -35,7 +36,7 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        public async Task CreatePolicyAssignment_ForRetentionPolicyAssignmentRequest_ShouldSuccess()
+        public async Task CreateRetentionPolicyAssignmentAsync_ForRetentionPolicyAssignmentRequest_ShouldSuccess()
         {
             var adminFolder = await CreateFolderAsAdmin("0");
             var uploadedFile = await CreateSmallFileAsAdmin(adminFolder.Id);
