@@ -20,6 +20,7 @@ namespace Box.V2.Models
         public const string FieldCanOwnerExtendRetention = "can_owner_extend_retention";
         public const string FieldAreOwnersNotified = "are_owners_notified";
         public const string FieldCustomNotificationRecipients = "custom_notification_recipients";
+        public const string FieldRetentionType = "retention_type";
 
         /// <summary>
         /// The name given to the retention policy
@@ -87,5 +88,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldCustomNotificationRecipients)]
         public virtual List<BoxUser> CustomNotificationRecipients { get; set; }
+
+        /// <summary>
+        /// The type of retention policy. Value is one of modifiable or non-modifiable.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldRetentionType)]
+        public virtual string RetentionType { get; set; }
     }
 }
