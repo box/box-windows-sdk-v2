@@ -53,7 +53,7 @@ namespace Box.V2.Test
                 + "    \"id\": \"" + notifiedUserID + "\""
                 + "  }"
                 + "],"
-                + "\"retention_type\": \""+ retentionType +"\""
+                + "\"retention_type\": \"" + retentionType + "\""
                 + "}";
             Handler.Setup(h => h.ExecuteAsync<BoxRetentionPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxRetentionPolicy>>(new BoxResponse<BoxRetentionPolicy>()
