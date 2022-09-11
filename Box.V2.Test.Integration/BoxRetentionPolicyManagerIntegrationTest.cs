@@ -12,34 +12,9 @@ namespace Box.V2.Test.Integration
     public class BoxRetentionPolicyManagerIntegrationTest : TestInFolder
     {
         [TestMethod]
-        public async Task CreateRetentionPolicyAsync_ForRetentionPolicyRequest_ShouldCreateNewRetentionPolicy()
-        {
-            var retentionPolicyName = GetUniqueName("RetentionPolicy");
-            var policyType = "finite";
-            var retentionType = "modifiable";
-            var retentionPolicyReq = new BoxRetentionPolicyRequest()
-            {
-                PolicyName = retentionPolicyName,
-                RetentionLength = 1,
-                RetentionType = retentionType,
-                PolicyType = policyType,
-                DispositionAction = "permanently_delete",
-            };
-            var policy = await UserClient.RetentionPoliciesManager.CreateRetentionPolicyAsync(retentionPolicyReq);
-            Assert.AreEqual(retentionPolicyName, policy.PolicyName);
-            Assert.AreEqual(1, policy.RetentionLength);
-            Assert.AreEqual(retentionType, policy.RetentionType);
-            Assert.AreEqual(policyType, policy.PolicyType);
-            Assert.AreEqual("active", policy.Status);
-
-            await UserClient.RetentionPoliciesManager.UpdateRetentionPolicyAsync(policy.Id, new BoxRetentionPolicyRequest() { Status = "retired" });
-        }
-
-        [TestMethod]
         public async Task CreateRetentionPolicyAssignmentAsync_ForRetentionPolicyAssignmentRequest_ShouldSuccess()
         {
             var adminFolder = await CreateFolderAsAdmin("0");
-            var uploadedFile = await CreateSmallFileAsAdmin(adminFolder.Id);
             var retentionPolicy = await CreateRetentionPolicy(adminFolder.Id);
 
             var policyAssignmentReq = new BoxRetentionPolicyAssignmentRequest()

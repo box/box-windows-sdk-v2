@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -27,9 +28,27 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
                 RetentionLength = 1,
                 DispositionAction = DispositionAction.permanently_delete.ToString(),
             };
+            try
+            {
+                var response = await client.RetentionPoliciesManager.CreateRetentionPolicyAsync(retentionPolicyRequest);
+                Policy = response;
+            }
+            catch
+            {
+                // TODO: 12-09-2022, @mcong
+                // There is an error on backend side, which will return 409 status code "conflict"
+                // but retention policy still created.
+                // Delete this try-catch after the issue is fixed.
+                var policies = await client.RetentionPoliciesManager.GetRetentionPoliciesAsync(_policyName);
+                if (policies.Entries.Count == 1)
+                {
+                    // Retention policy already created.
+                    var policy = policies.Entries[0];
+                    var response = await client.RetentionPoliciesManager.GetRetentionPolicyAsync(policy.Id);
+                    Policy = response;
+                }
 
-            var response = await client.RetentionPoliciesManager.CreateRetentionPolicyAsync(retentionPolicyRequest);
-            Policy = response;
+            }
             PolicyId = Policy.Id;
 
             var assignmentRequest = new BoxRetentionPolicyAssignmentRequest()
@@ -53,8 +72,17 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
             {
                 Status = "retired"
             };
-
-            await client.RetentionPoliciesManager.UpdateRetentionPolicyAsync(PolicyId, retentionPolicyRequest);
+            try
+            {
+                await client.RetentionPoliciesManager.UpdateRetentionPolicyAsync(PolicyId, retentionPolicyRequest);
+            }
+            catch
+            {
+                // TODO: 12-09-2022, @mcong
+                // There is an error on backend side, which will return 500 status code "Internal Server Error"
+                // but retention policy still updated.
+                // Delete this try-catch after the issue is fixed.
+            }
         }
     }
 }
