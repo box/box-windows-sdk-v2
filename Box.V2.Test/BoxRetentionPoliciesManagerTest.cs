@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
-using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
