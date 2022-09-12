@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
+using Box.V2.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -28,7 +29,7 @@ namespace Box.V2.Test
             var policyType = "finite";
             var policyAction = "permanently_delete";
             var notifiedUserID = "12345";
-            var retentionType = BoxRetentionType.modifiable;
+            var retentionType = Constants.RetentionType.Modifiable;
             var responseString = "{"
                 + "\"type\": \"retention_policy\","
                 + "\"id\": \"123456789\","
