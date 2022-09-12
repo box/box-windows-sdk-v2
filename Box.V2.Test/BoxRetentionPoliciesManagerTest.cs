@@ -28,7 +28,7 @@ namespace Box.V2.Test
             var policyType = "finite";
             var policyAction = "permanently_delete";
             var notifiedUserID = "12345";
-            var retentionType = "modifiable";
+            var retentionType = BoxRetentionType.modifiable;
             var responseString = "{"
                 + "\"type\": \"retention_policy\","
                 + "\"id\": \"123456789\","

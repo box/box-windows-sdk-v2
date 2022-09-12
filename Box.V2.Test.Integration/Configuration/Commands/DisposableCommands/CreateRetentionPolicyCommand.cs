@@ -51,17 +51,20 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
             }
             PolicyId = Policy.Id;
 
-            var assignmentRequest = new BoxRetentionPolicyAssignmentRequest()
+            if (_folderId != null)
             {
-                PolicyId = PolicyId,
-                AssignTo = new BoxRequestEntity()
+                var assignmentRequest = new BoxRetentionPolicyAssignmentRequest()
                 {
-                    Type = BoxType.folder,
-                    Id = _folderId
-                }
-            };
+                    PolicyId = PolicyId,
+                    AssignTo = new BoxRequestEntity()
+                    {
+                        Type = BoxType.folder,
+                        Id = _folderId
+                    }
+                };
 
-            await client.RetentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(assignmentRequest);
+                await client.RetentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(assignmentRequest);
+            }
 
             return PolicyId;
         }
