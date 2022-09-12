@@ -46,7 +46,8 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
                     var policy = policies.Entries[0];
                     var response = await client.RetentionPoliciesManager.GetRetentionPolicyAsync(policy.Id);
                     Policy = response;
-                } else
+                }
+                else
                 {
                     throw ex;
                 }
