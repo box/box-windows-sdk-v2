@@ -33,7 +33,7 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
                 var response = await client.RetentionPoliciesManager.CreateRetentionPolicyAsync(retentionPolicyRequest);
                 Policy = response;
             }
-            catch
+            catch (Exception ex)
             {
                 // TODO: 12-09-2022, @mcong
                 // There is an error on backend side, which will return 409 status code "conflict"
@@ -46,6 +46,9 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
                     var policy = policies.Entries[0];
                     var response = await client.RetentionPoliciesManager.GetRetentionPolicyAsync(policy.Id);
                     Policy = response;
+                } else
+                {
+                    throw ex;
                 }
 
             }
