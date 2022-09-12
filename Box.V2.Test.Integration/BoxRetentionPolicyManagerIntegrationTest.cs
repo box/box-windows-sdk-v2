@@ -15,18 +15,21 @@ namespace Box.V2.Test.Integration
         public async Task CreateRetentionPolicyAssignmentAsync_ForRetentionPolicyAssignmentRequest_ShouldSuccess()
         {
             var adminFolder = await CreateFolderAsAdmin("0");
+            var adminFolder2 = await CreateFolderAsAdmin("0");
             var retentionPolicy = await CreateRetentionPolicy(adminFolder.Id);
-
             var policyAssignmentReq = new BoxRetentionPolicyAssignmentRequest()
             {
                 PolicyId = retentionPolicy.Id,
-                AssignTo = new BoxRequestEntity() { Id = adminFolder.Id }
+                AssignTo = new BoxRequestEntity() {
+                    Id = adminFolder2.Id,
+                    Type = BoxType.folder
+                }
             };
-            var policyAssignment = await UserClient.RetentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(policyAssignmentReq);
+            var policyAssignment = await AdminClient.RetentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(policyAssignmentReq);
             Assert.AreEqual(retentionPolicy.Id, policyAssignment.RetentionPolicy.Id);
-            Assert.AreEqual(adminFolder.Id, policyAssignment.AssignedTo.Id);
+            Assert.AreEqual(adminFolder2.Id, policyAssignment.AssignedTo.Id);
 
-            var result = await UserClient.RetentionPoliciesManager.DeleteRetentionPolicyAssignmentAsync(policyAssignment.Id);
+            var result = await AdminClient.RetentionPoliciesManager.DeleteRetentionPolicyAssignmentAsync(policyAssignment.Id);
             Assert.IsTrue(result);
         }
     }
