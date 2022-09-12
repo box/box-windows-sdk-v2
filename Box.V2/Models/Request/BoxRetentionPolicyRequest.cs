@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models.Request
 {
@@ -61,6 +62,7 @@ namespace Box.V2.Models.Request
         /// When updating a retention policy, you can use non-modifiable type only. You can convert a modifiable policy to non-modifiable, but not the other way around.
         /// </summary>
         [JsonProperty(PropertyName = "retention_type")]
-        public string RetentionType { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public BoxRetentionType RetentionType { get; set; }
     }
 }

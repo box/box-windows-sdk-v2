@@ -947,24 +947,5 @@ namespace Box.V2.Config
             /// </summary>
             public const string Overwrite = "overwrite";
         }
-
-        /*** The retention type of retention policy ***/
-        public static class RetentionType
-        {
-            /// <summary>
-            ///  You can modify the retention policy. For example, you can add or remove folders,
-            ///  shorten or lengthen the policy duration, or delete the assignment.
-            ///  Use this type if your retention policy is not related to any regulatory purposes.
-            /// </summary>
-            public const string Modifiable = "modifiable";
-
-            /// <summary>
-            /// You can modify the retention policy only in a limited way: add a folder, lengthen the duration, retire the policy,
-            /// change the disposition action or notification settings.
-            /// You cannot perform other actions, such as deleting the assignment or shortening the policy duration.
-            /// Use this type to ensure compliance with regulatory retention policies.
-            /// </summary>
-            public const string NonModifiable = "non-modifiable";
-        }
     }
 }

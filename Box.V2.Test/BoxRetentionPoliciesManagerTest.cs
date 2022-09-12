@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Box.V2.Config;
 using Box.V2.Managers;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -29,7 +28,7 @@ namespace Box.V2.Test
             var policyType = "finite";
             var policyAction = "permanently_delete";
             var notifiedUserID = "12345";
-            var retentionType = Constants.RetentionType.Modifiable;
+            var retentionType = BoxRetentionType.non_modifiable;
             var responseString = "{"
                 + "\"type\": \"retention_policy\","
                 + "\"id\": \"123456789\","
@@ -54,7 +53,7 @@ namespace Box.V2.Test
                 + "    \"id\": \"" + notifiedUserID + "\""
                 + "  }"
                 + "],"
-                + "\"retention_type\": \"" + retentionType + "\""
+                + "\"retention_type\": \"non-modifiable\""
                 + "}";
             Handler.Setup(h => h.ExecuteAsync<BoxRetentionPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxRetentionPolicy>>(new BoxResponse<BoxRetentionPolicy>()

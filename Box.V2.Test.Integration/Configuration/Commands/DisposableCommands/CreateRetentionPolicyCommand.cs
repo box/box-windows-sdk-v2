@@ -27,6 +27,7 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
                 PolicyType = "finite",
                 RetentionLength = 1,
                 DispositionAction = DispositionAction.permanently_delete.ToString(),
+                RetentionType = BoxRetentionType.modifiable
             };
             try
             {

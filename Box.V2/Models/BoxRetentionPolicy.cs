@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models
 {
@@ -93,6 +95,14 @@ namespace Box.V2.Models
         /// The type of retention policy. Value is one of modifiable or non-modifiable.
         /// </summary>
         [JsonProperty(PropertyName = FieldRetentionType)]
-        public virtual string RetentionType { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public virtual BoxRetentionType RetentionType { get; set; }
+    }
+
+    public enum BoxRetentionType
+    {
+        modifiable,
+        [EnumMember(Value = "non-modifiable")]
+        non_modifiable
     }
 }
