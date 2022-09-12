@@ -20,7 +20,8 @@ namespace Box.V2.Test.Integration
             var policyAssignmentReq = new BoxRetentionPolicyAssignmentRequest()
             {
                 PolicyId = retentionPolicy.Id,
-                AssignTo = new BoxRequestEntity() {
+                AssignTo = new BoxRequestEntity()
+                {
                     Id = adminFolder2.Id,
                     Type = BoxType.folder
                 }
