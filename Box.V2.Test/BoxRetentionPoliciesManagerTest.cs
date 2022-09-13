@@ -28,6 +28,7 @@ namespace Box.V2.Test
             var policyType = "finite";
             var policyAction = "permanently_delete";
             var notifiedUserID = "12345";
+            var retentionType = BoxRetentionType.non_modifiable;
             var responseString = "{"
                 + "\"type\": \"retention_policy\","
                 + "\"id\": \"123456789\","
@@ -51,7 +52,8 @@ namespace Box.V2.Test
                 + "    \"type\": \"user\","
                 + "    \"id\": \"" + notifiedUserID + "\""
                 + "  }"
-                + "]"
+                + "],"
+                + "\"retention_type\": \"non-modifiable\""
                 + "}";
             Handler.Setup(h => h.ExecuteAsync<BoxRetentionPolicy>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxRetentionPolicy>>(new BoxResponse<BoxRetentionPolicy>()
@@ -64,7 +66,7 @@ namespace Box.V2.Test
             var requestParams = new BoxRetentionPolicyRequest
             {
                 AreOwnersNotified = true,
-                CanOwnerExtendRetention = true
+                CanOwnerExtendRetention = true,
             };
             var notifiedUser = new BoxRequestEntity
             {
@@ -76,6 +78,7 @@ namespace Box.V2.Test
             requestParams.PolicyType = policyType;
             requestParams.RetentionLength = retentionLength;
             requestParams.DispositionAction = policyAction;
+            requestParams.RetentionType = retentionType;
             BoxRetentionPolicy results = await _retentionPoliciesManager.CreateRetentionPolicyAsync(requestParams);
 
             /*** Assert ***/
@@ -83,6 +86,7 @@ namespace Box.V2.Test
             Assert.AreEqual(policyName, results.PolicyName);
             Assert.AreEqual(policyType, results.PolicyType);
             Assert.AreEqual(retentionLength.ToString(), results.RetentionLength);
+            Assert.AreEqual(retentionType, results.RetentionType);
             Assert.AreEqual(true, results.CanOwnerExtendRetention);
             Assert.AreEqual(true, results.AreOwnersNotified);
             Assert.IsNotNull(results.CustomNotificationRecipients);
@@ -163,6 +167,23 @@ namespace Box.V2.Test
             Assert.AreEqual("bar", result.FilterFields[0].Value);
             Assert.AreEqual("baz", result.FilterFields[1].Field);
             Assert.AreEqual(42.ToString(), result.FilterFields[1].Value);
+        }
+
+        [TestMethod]
+        public async Task DeleteRetentionPolicyAssignment_ValidRequest_Success()
+        {
+            /*** Arrange ***/
+            var responseString = "";
+            Handler.Setup(h => h.ExecuteAsync<BoxRetentionPolicyAssignment>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxRetentionPolicyAssignment>>(new BoxResponse<BoxRetentionPolicyAssignment>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = responseString
+                }));
+            bool result = await _retentionPoliciesManager.DeleteRetentionPolicyAssignmentAsync("12345");
+
+            /*** Assert ***/
+            Assert.IsTrue(result);
         }
 
         [TestMethod]

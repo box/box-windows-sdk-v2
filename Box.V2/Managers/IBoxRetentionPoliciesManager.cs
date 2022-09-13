@@ -79,6 +79,13 @@ namespace Box.V2.Managers
         Task<BoxRetentionPolicyAssignment> GetRetentionPolicyAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null);
 
         /// <summary>
+        /// Used to delete a retention policy assignment.
+        /// </summary>
+        /// <param name="retentionPolicyAssignmentId">ID of the retention policy assignment.</param>
+        /// <returns>True if the retention policy assignment was successfully deleted.</returns>
+        Task<bool> DeleteRetentionPolicyAssignmentAsync(string retentionPolicyAssignmentId);
+
+        /// <summary>
         /// Retrieves all file version retentions for the given enterprise.
         /// </summary>
         /// <param name="fields">Attribute(s) to include in the response.</param>

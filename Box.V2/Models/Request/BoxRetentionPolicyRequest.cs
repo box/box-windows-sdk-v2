@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Box.V2.Models.Request
 {
@@ -55,5 +56,13 @@ namespace Box.V2.Models.Request
         /// </summary>
         [JsonProperty(PropertyName = "custom_notification_recipients")]
         public List<BoxRequestEntity> CustomNotificationRecipients { get; set; }
+
+        /// <summary>
+        /// Used to determine the type of retention policy, value can be modifiable or non-modifiable
+        /// When updating a retention policy, you can use non-modifiable type only. You can convert a modifiable policy to non-modifiable, but not the other way around.
+        /// </summary>
+        [JsonProperty(PropertyName = "retention_type")]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public BoxRetentionType RetentionType { get; set; }
     }
 }

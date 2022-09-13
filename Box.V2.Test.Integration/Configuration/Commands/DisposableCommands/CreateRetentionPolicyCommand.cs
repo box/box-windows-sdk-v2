@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Box.V2.Models;
 using Box.V2.Models.Request;
@@ -26,23 +27,49 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
                 PolicyType = "finite",
                 RetentionLength = 1,
                 DispositionAction = DispositionAction.permanently_delete.ToString(),
+                RetentionType = BoxRetentionType.modifiable
             };
+            try
+            {
+                var response = await client.RetentionPoliciesManager.CreateRetentionPolicyAsync(retentionPolicyRequest);
+                Policy = response;
+            }
+            catch (Exception ex)
+            {
+                // TODO: 12-09-2022, @mcong
+                // There is an error on backend side, which will return 409 status code "conflict"
+                // but retention policy still created.
+                // Delete this try-catch after the issue is fixed.
+                var policies = await client.RetentionPoliciesManager.GetRetentionPoliciesAsync(_policyName);
+                if (policies.Entries.Count == 1)
+                {
+                    // Retention policy already created.
+                    var policy = policies.Entries[0];
+                    var response = await client.RetentionPoliciesManager.GetRetentionPolicyAsync(policy.Id);
+                    Policy = response;
+                }
+                else
+                {
+                    throw ex;
+                }
 
-            var response = await client.RetentionPoliciesManager.CreateRetentionPolicyAsync(retentionPolicyRequest);
-            Policy = response;
+            }
             PolicyId = Policy.Id;
 
-            var assignmentRequest = new BoxRetentionPolicyAssignmentRequest()
+            if (_folderId != null)
             {
-                PolicyId = PolicyId,
-                AssignTo = new BoxRequestEntity()
+                var assignmentRequest = new BoxRetentionPolicyAssignmentRequest()
                 {
-                    Type = BoxType.folder,
-                    Id = _folderId
-                }
-            };
+                    PolicyId = PolicyId,
+                    AssignTo = new BoxRequestEntity()
+                    {
+                        Type = BoxType.folder,
+                        Id = _folderId
+                    }
+                };
 
-            await client.RetentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(assignmentRequest);
+                await client.RetentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(assignmentRequest);
+            }
 
             return PolicyId;
         }
@@ -53,8 +80,17 @@ namespace Box.V2.Test.Integration.Configuration.Commands.DisposableCommands
             {
                 Status = "retired"
             };
-
-            await client.RetentionPoliciesManager.UpdateRetentionPolicyAsync(PolicyId, retentionPolicyRequest);
+            try
+            {
+                await client.RetentionPoliciesManager.UpdateRetentionPolicyAsync(PolicyId, retentionPolicyRequest);
+            }
+            catch
+            {
+                // TODO: 12-09-2022, @mcong
+                // There is an error on backend side, which will return 500 status code "Internal Server Error"
+                // but retention policy still updated.
+                // Delete this try-catch after the issue is fixed.
+            }
         }
     }
 }

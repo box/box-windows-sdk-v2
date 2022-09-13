@@ -263,7 +263,7 @@ namespace Box.V2.Test.Integration
             return CreateFileInMemoryStream(50000000);
         }
 
-        public static async Task<BoxRetentionPolicy> CreateRetentionPolicy(string folderId = "0", CommandScope commandScope = CommandScope.Test)
+        public static async Task<BoxRetentionPolicy> CreateRetentionPolicy(string folderId = null, CommandScope commandScope = CommandScope.Test)
         {
             var createRetentionPolicyCommand = new CreateRetentionPolicyCommand(folderId, GetUniqueName("policy"), commandScope);
             await ExecuteCommand(createRetentionPolicyCommand);
