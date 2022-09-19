@@ -396,5 +396,25 @@ namespace Box.V2.Test.Integration
             await ExecuteCommand(createSignRequestCommand);
             return createSignRequestCommand.SignRequest;
         }
+
+        public static async Task<BoxWebhook> CreateWebhook(string targetId = null, BoxType targetType = BoxType.folder,
+            string address = "https://example.com", List<string> triggers = null)
+        {
+            if (targetId == null)
+            {
+                var folder = await CreateFolder();
+                targetId = folder.Id;
+            }
+            if (triggers == null)
+            {
+                triggers = new List<string>()
+                {
+                    "FILE.UPLOADED"
+                };
+            }
+            var createWebhookCommand = new CreateWebhookCommand(targetId, targetType, address, triggers);
+            await ExecuteCommand(createWebhookCommand);
+            return createWebhookCommand.Webhook;
+        }
     }
 }
