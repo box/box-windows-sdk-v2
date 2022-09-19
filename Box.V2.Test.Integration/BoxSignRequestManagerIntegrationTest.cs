@@ -1,6 +1,6 @@
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Box.V2.Models;
 using Box.V2.Models.Request;
 using Box.V2.Test.Integration.Configuration;

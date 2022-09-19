@@ -223,7 +223,7 @@ namespace Box.V2.Test.Integration
             var spPath = path.Split('.');
             if (path.Length > 0)
                 ext = "." + spPath[spPath.Length - 1];
-            var createFileCommand = new CreateFileCommand(GetUniqueName("file")+ext, GetSmallFilePath(), parentId, commandScope, accessLevel);
+            var createFileCommand = new CreateFileCommand(GetUniqueName("file") + ext, GetSmallFilePath(), parentId, commandScope, accessLevel);
             await ExecuteCommand(createFileCommand);
             return createFileCommand.File;
         }
