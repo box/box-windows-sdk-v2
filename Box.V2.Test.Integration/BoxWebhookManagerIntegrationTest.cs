@@ -12,7 +12,7 @@ namespace Box.V2.Test.Integration
     public class BoxWebhookManagerIntegrationTest : TestInFolder
     {
         [TestMethod]
-        public async Task CreateWebhookAsync_ForCorrectWeblinkRequest_ShouldCreateNewWeblink()
+        public async Task CreateWebhookAsync_ForCorrectWebhookRequest_ShouldCreateNewWebhook()
         {
             var webhookRequest = new BoxWebhookRequest()
             {
@@ -54,9 +54,9 @@ namespace Box.V2.Test.Integration
             var newUrl = "https://example2.com/webhook";
             var updateWebhookRequest = new BoxWebhookRequest() { Id = webhook.Id, Address = newUrl };
 
-            var updatedWeblink = await UserClient.WebhooksManager.UpdateWebhookAsync(updateWebhookRequest);
+            var updatedWebhook = await UserClient.WebhooksManager.UpdateWebhookAsync(updateWebhookRequest);
 
-            Assert.AreEqual(updatedWeblink.Address, newUrl);
+            Assert.AreEqual(updatedWebhook.Address, newUrl);
         }
 
         [TestMethod]
