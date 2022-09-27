@@ -218,7 +218,12 @@ namespace Box.V2.Test.Integration
 
         public static async Task<BoxFile> CreateSmallFile(string parentId = "0", CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.User)
         {
-            var createFileCommand = new CreateFileCommand(GetUniqueName("file"), GetSmallFilePath(), parentId, commandScope, accessLevel);
+            var path = GetSmallFilePath();
+            var ext = "";
+            var spPath = path.Split('.');
+            if (path.Length > 0)
+                ext = "." + spPath[spPath.Length - 1];
+            var createFileCommand = new CreateFileCommand(GetUniqueName("file") + ext, GetSmallFilePath(), parentId, commandScope, accessLevel);
             await ExecuteCommand(createFileCommand);
             return createFileCommand.File;
         }
@@ -382,6 +387,34 @@ namespace Box.V2.Test.Integration
             {
                 Assert.Fail("Retries limit exceeded");
             }
+        }
+
+        public static async Task<BoxSignRequest> CreateSignRequest(string signerEmail = "sdk_integration_test@boxdemo.com")
+        {
+            var file = await CreateSmallFile();
+            var createSignRequestCommand = new CreateSignRequestCommand(signerEmail, file.Id);
+            await ExecuteCommand(createSignRequestCommand);
+            return createSignRequestCommand.SignRequest;
+        }
+
+        public static async Task<BoxWebhook> CreateWebhook(string targetId = null, BoxType targetType = BoxType.folder,
+            string address = "https://example.com", List<string> triggers = null)
+        {
+            if (targetId == null)
+            {
+                var folder = await CreateFolder();
+                targetId = folder.Id;
+            }
+            if (triggers == null)
+            {
+                triggers = new List<string>()
+                {
+                    "FILE.UPLOADED"
+                };
+            }
+            var createWebhookCommand = new CreateWebhookCommand(targetId, targetType, address, triggers);
+            await ExecuteCommand(createWebhookCommand);
+            return createWebhookCommand.Webhook;
         }
     }
 }
