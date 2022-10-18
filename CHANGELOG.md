@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.6.0](https://github.com/box/box-windows-sdk-v2/compare/v4.5.0...v4.6.0) (2022-10-18)
+
+
+### **New Features and Enhancements:**
+
+* Add `redirect_url` and `declined_redirect_url` to Sign Request ([#853](https://github.com/box/box-windows-sdk-v2/issues/853)) ([5ef2f18](https://github.com/box/box-windows-sdk-v2/commit/5ef2f18985d8c3b8e7c0cdba5709785bfb1d5f34))
+* Add support for modifiable retention policies & enable deleting retention policy assignment ([#856](https://github.com/box/box-windows-sdk-v2/issues/856)) ([564904f](https://github.com/box/box-windows-sdk-v2/commit/564904fa2ce0b1881a2f07b80cc3bb3e648310d0))
+
 ## [4.5.0](https://github.com/box/box-windows-sdk-v2/compare/v4.4.0...v4.5.0) (2022-08-24)
 
 
@@ -309,6 +317,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
