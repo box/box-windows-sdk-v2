@@ -6,8 +6,6 @@ on:
       - main
   pull_request:
     types: [opened, synchronize]
-    branches:
-      - main
 
 jobs:
   core:
