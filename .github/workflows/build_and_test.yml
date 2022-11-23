@@ -30,7 +30,7 @@ jobs:
       - name: Build
         run: msbuild .\Box.V2
       - name: Test
-        run: dotnet test .\Box.V2.Test -f net45
+        run: dotnet test .\Box.V2.Test -f net462
 
   core:
     name: Build and Test - Core

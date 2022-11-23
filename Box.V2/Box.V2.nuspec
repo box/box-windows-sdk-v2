@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/box/box-windows-sdk-v2</projectUrl>
     <license type="expression">Apache-2.0</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.5</description>
+    <description>Windows SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.6.2</description>
     <releaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/main/CHANGELOG.md#460-2022-10-18</releaseNotes>
     <copyright>Copyright 2021</copyright>
     <tags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</tags>
