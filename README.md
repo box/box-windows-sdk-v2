@@ -1,14 +1,14 @@
 # Box Windows V2 SDK
 
 [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
-![Platform Framework](https://img.shields.io/badge/.NET%20Framework-%3E%3D4.5-blue)
+![Platform Framework](https://img.shields.io/badge/.NET%20Framework-%3E%3D4.6.2-blue)
 ![Platform Core](https://img.shields.io/badge/.NET%20Core-%3E%3D2.0-blue)
 [![License](https://img.shields.io/badge/license-Apache2-blue)](https://raw.githubusercontent.com/box/box-windows-sdk-v2/main/LICENSE)
 [![Build](https://github.com/box/box-windows-sdk-v2/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/box/box-windows-sdk-v2/actions/workflows/build_and_test.yml)
 
 The Box .NET SDK can be used to make API calls to the Box APIs in a .NET project.
 
-The SDK is available for both .NET Framework 4.5 and .NET Core 2.0 or above. The installation of the SDK depends on the platform used.
+The SDK is available for both .NET Framework 4.6.2 and .NET Core 2.0 or above. The installation of the SDK depends on the platform used.
 
 ## Table of contents
 
@@ -86,11 +86,16 @@ A current release is on the leading edge of our SDK development, and is intended
 
 ### Version schedule
 
-| Version | Supported Environments                | State     | First Release | EOL/Terminated |
-|---------|---------------------------------------|-----------|---------------|----------------|
-| 4       | .NET Framework 4.5 and .NET Core 2.0+ | Supported | 02 Nov 2021   | TBD            |
-| 3       |                                       | EOL       | 28 Jul 2017   | 02 Nov 2021    |
-| 2       |                                       | EOL       | 05 Nov 2015   | 28 Jul 2017    |
+| Version | Supported Environments                   | State     | First Release | EOL/Terminated |
+|---------|------------------------------------------|-----------|---------------|----------------|
+| 5       | .NET Framework 4.6.2+ and .NET Core 2.0+ | Supported | 02 Nov 2021   | TBD            |
+| 4       | .NET Framework 4.5+ and .NET Core 2.0+   | EOL       | 02 Nov 2021   | TBD            |
+| 3       |                                          | EOL       | 28 Jul 2017   | 02 Nov 2021    |
+| 2       |                                          | EOL       | 05 Nov 2015   | 28 Jul 2017    |
+
+### Migrating from the old version?
+
+If you are migrating from the old major version visit our [upgrade documentation](/docs/upgrades/).
 
 ## Questions, Bugs, and Feature Requests?
 

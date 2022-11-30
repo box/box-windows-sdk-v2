@@ -3,8 +3,6 @@ name: Lint Code Base
 on:
   pull_request:
     types: [opened, synchronize]
-    branches:
-      - main
 
 jobs:
   build:

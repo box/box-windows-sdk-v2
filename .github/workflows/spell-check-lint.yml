@@ -2,8 +2,6 @@ name: spell-check-lint
 on:
   pull_request_target:
     types: [opened, synchronize, edited]
-    branches:
-      - main
 jobs:
   spellcheck-request-title:
     runs-on: ubuntu-latest

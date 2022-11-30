@@ -22,7 +22,7 @@ namespace Box.V2.Request
         public HttpRequestHandler(IWebProxy webProxy = null, TimeSpan? timeout = null)
         {
             ClientFactory.WebProxy = webProxy;
-#if NET45
+#if NET462
             System.Net.ServicePointManager.Expect100Continue = false;
 #endif
             _timeout = timeout ?? _defaultRequestTimeout;
@@ -292,7 +292,7 @@ namespace Box.V2.Request
                 {
                     Debug.WriteLine("Could not set TLSv1.2 security protocol!");
                 }
-#elif NET45
+#elif NET462
                 System.Net.ServicePointManager.SecurityProtocol |= System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
 #else
                 FAIL THE BUILD
