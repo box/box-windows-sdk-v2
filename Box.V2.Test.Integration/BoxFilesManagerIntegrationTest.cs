@@ -273,7 +273,7 @@ namespace Box.V2.Test.Integration
             await CreateNewFileVersion(file.Id);
             await CreateNewFileVersion(file.Id);
 
-           var response = await UserClient.FilesManager.ViewVersionsAsync(file.Id, new List<string>() { BoxFileVersion.FieldVersionNumber }, 1, 1);
+            var response = await UserClient.FilesManager.ViewVersionsAsync(file.Id, new List<string>() { BoxFileVersion.FieldVersionNumber }, 1, 1);
 
             Assert.AreEqual(1, response.Entries.Count);
             Assert.AreEqual("1", response.Entries[0].VersionNumber);
