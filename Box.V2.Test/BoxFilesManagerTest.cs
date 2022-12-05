@@ -299,7 +299,7 @@ namespace Box.V2.Test
         public async Task ViewVersions_ValidResponse_ValidFileVersions()
         {
             /*** Arrange ***/
-            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFileVersion>>(It.IsAny<IBoxRequest>()))
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFileVersion>>(It.Is<IBoxRequest>(r => "fields=version_number".Equals(r.GetQueryString()))))
                 .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFileVersion>>>(new BoxResponse<BoxCollection<BoxFileVersion>>()
                 {
                     Status = ResponseStatus.Success,
@@ -308,6 +308,38 @@ namespace Box.V2.Test
 
             /*** Act ***/
             BoxCollection<BoxFileVersion> c = await _filesManager.ViewVersionsAsync("0", new List<string>() { BoxFileVersion.FieldVersionNumber });
+
+            /*** Assert ***/
+            Assert.AreEqual(c.TotalCount, 1);
+            Assert.AreEqual(c.Entries.Count, 1);
+            BoxFileVersion f = c.Entries.First();
+            Assert.AreEqual("file_version", f.Type);
+            Assert.AreEqual("672259576", f.Id);
+            Assert.AreEqual("359c6c1ed98081b9a69eb3513b9deced59c957f9", f.Sha1);
+            Assert.AreEqual("Dragons.js", f.Name);
+            Assert.AreEqual(DateTimeOffset.Parse("2012-08-20T10:20:30-07:00"), f.CreatedAt);
+            Assert.AreEqual(DateTimeOffset.Parse("2012-11-28T13:14:58-08:00"), f.ModifiedAt);
+            Assert.AreEqual(92556, f.Size);
+            Assert.AreEqual("user", f.ModifiedBy.Type);
+            Assert.AreEqual("183732129", f.ModifiedBy.Id);
+            Assert.AreEqual("sean rose", f.ModifiedBy.Name);
+            Assert.AreEqual("sean+apitest@box.com", f.ModifiedBy.Login);
+            Assert.AreEqual("1", f.VersionNumber);
+        }
+
+        [TestMethod]
+        public async Task ViewVersionsWithOffsetAndLimit_ValidResponse_ValidFileVersions()
+        {
+            /*** Arrange ***/
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxFileVersion>>(It.Is<IBoxRequest>(r => "offset=100&limit=10".Equals(r.GetQueryString()))))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollection<BoxFileVersion>>>(new BoxResponse<BoxCollection<BoxFileVersion>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = LoadFixtureFromJson("Fixtures/BoxFiles/ViewVersions200.json")
+                }));
+
+            /*** Act ***/
+            BoxCollection<BoxFileVersion> c = await _filesManager.ViewVersionsAsync("0", null, 100, 10);
 
             /*** Assert ***/
             Assert.AreEqual(c.TotalCount, 1);

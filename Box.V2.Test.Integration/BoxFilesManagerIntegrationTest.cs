@@ -267,6 +267,32 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task ViewVersions_ShouldReturnCorrectVersionNumber_WhenPaginationUsed()
+        {
+            var file = await CreateSmallFile();
+            await CreateNewFileVersion(file.Id);
+            await CreateNewFileVersion(file.Id);
+
+           var response = await UserClient.FilesManager.ViewVersionsAsync(file.Id, new List<string>() { BoxFileVersion.FieldVersionNumber }, 1, 1);
+
+            Assert.AreEqual(1, response.Entries.Count);
+            Assert.AreEqual("1", response.Entries[0].VersionNumber);
+        }
+
+        [TestMethod]
+        public async Task ViewVersions_ShouldReturnCorrectVersionNumber_WhenAutoPaginationUsed()
+        {
+            var file = await CreateSmallFile();
+            await CreateNewFileVersion(file.Id);
+            await CreateNewFileVersion(file.Id);
+
+            var response = await UserClient.FilesManager.ViewVersionsAsync(file.Id, new List<string>() { BoxFileVersion.FieldVersionNumber }, 0, 1, true);
+
+            Assert.AreEqual("2", response.Entries[0].VersionNumber);
+            Assert.AreEqual("1", response.Entries[1].VersionNumber);
+        }
+
+        [TestMethod]
         public async Task AddSharedLink_ForValidNewFile_ShouldCreateNewSharedLink()
         {
             var file = await CreateSmallFile();
