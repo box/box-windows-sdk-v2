@@ -687,18 +687,48 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">The file id.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="offset">Zero-based index of first OffsetID of part to return.</param>
+        /// <param name="limit">How many parts to return.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all; defaults to false.</param>
         /// <returns>A collection of versions other than the main version of the file. If a file has no other versions, an empty collection will be returned.
         /// Note that if a file has a total of three versions, only the first two version will be returned.</returns>
-        public async Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, IEnumerable<string> fields = null)
+        public async Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, IEnumerable<string> fields = null, int? offset = null, int? limit = null, bool autoPaginate = false)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, string.Format(Constants.VersionsPathString, id))
                 .Param(ParamFields, fields);
 
-            IBoxResponse<BoxCollection<BoxFileVersion>> response = await ToResponseAsync<BoxCollection<BoxFileVersion>>(request).ConfigureAwait(false);
+            if (offset.HasValue)
+            {
+                request.Param("offset", offset.Value.ToString());
+            }
 
-            return response.ResponseObject;
+            if (limit.HasValue)
+            {
+                request.Param("limit", limit.Value.ToString());
+            }
+
+            if (autoPaginate)
+            {
+                if (!limit.HasValue)
+                {
+                    limit = 100;
+                    request.Param("limit", limit.ToString());
+                }
+
+                if (!offset.HasValue)
+                {
+                    request.Param("offset", "0");
+                }
+
+                return await AutoPaginateLimitOffset<BoxFileVersion>(request, limit.Value).ConfigureAwait(false);
+            }
+            else
+            {
+                IBoxResponse<BoxCollection<BoxFileVersion>> response = await ToResponseAsync<BoxCollection<BoxFileVersion>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
         }
 
         /// <summary>
