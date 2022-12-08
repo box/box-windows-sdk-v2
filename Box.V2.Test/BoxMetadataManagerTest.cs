@@ -614,61 +614,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        public async Task ExecuteMetadataQueryWithFields_ValidResponse()
-        {
-            /*** Arrange ***/
-            IBoxRequest boxRequest = null;
-            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxItem>>(It.IsAny<IBoxRequest>()))
-                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxItem>>>(new BoxResponse<BoxCollectionMarkerBased<BoxItem>>()
-                 {
-                     Status = ResponseStatus.Success,
-                     ContentString = LoadFixtureFromJson("Fixtures/BoxMetadata/ExecuteMetadataWithFieldsQuery200.json")
-                 }))
-                 .Callback<IBoxRequest>(r => boxRequest = r);
-
-            /*** Act ***/
-            var queryParams = new Dictionary<string, object>
-            {
-                { "arg", "Bob Dylan" }
-            };
-            var fields = new List<string>
-            {
-                "id",
-                "name",
-                "sha1",
-                "metadata.enterprise_240748.catalogImages.photographer"
-            };
-            var marker = "q3f87oqf3qygou5t478g9gwrbul";
-            BoxCollectionMarkerBased<BoxItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_67890.catalogImages", query: "photographer = :arg", fields: fields, queryParameters: queryParams, ancestorFolderId: "0", marker: marker, autoPaginate: false);
-            /*** Assert ***/
-
-            // Request check
-            Assert.IsNotNull(boxRequest);
-            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(MetadataQueryUri, boxRequest.AbsoluteUri.AbsoluteUri);
-            var payload = JObject.Parse(boxRequest.Payload);
-            Assert.AreEqual("enterprise_67890.catalogImages", payload["from"]);
-            Assert.AreEqual("photographer = :arg", payload["query"]);
-            Assert.AreEqual("0", payload["ancestor_folder_id"]);
-            var payloadFields = JArray.Parse(payload["fields"].ToString());
-            Assert.AreEqual("id", payloadFields[0]);
-            Assert.AreEqual("name", payloadFields[1]);
-            Assert.AreEqual("sha1", payloadFields[2]);
-            Assert.AreEqual("metadata.enterprise_240748.catalogImages.photographer", payloadFields[3]);
-            Assert.AreEqual(marker, payload["marker"]);
-
-            // Response check
-            Assert.AreEqual(items.Entries[0].Type, "file");
-            Assert.AreEqual(items.Entries[0].Id, "1244738582");
-            Assert.AreEqual(items.Entries[0].Name, "Very Important.docx");
-            Assert.AreEqual(items.Entries[1].Type, "folder");
-            Assert.AreEqual(items.Entries[1].Id, "124242482");
-            Assert.AreEqual(items.Entries[1].Name, "Also Important.docx");
-            var file = (BoxFile)items.Entries[0];
-            Assert.AreEqual(file.Metadata["enterprise_67890"]["catalogImages"]["photographer"].Value, "Bob Dylan");
-        }
-
-        [TestMethod]
         public async Task ExecuteMetadataQueryWithoutUseIndexWithFields_ValidResponse()
         {
             /*** Arrange ***/
