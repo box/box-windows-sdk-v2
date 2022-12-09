@@ -8,15 +8,6 @@ namespace Box.V2.Managers
     public interface IBoxFoldersManager
     {
         /// <summary>
-        /// Retrieves the files and/or folders contained in the provided folder id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="limit"></param>
-        /// <param name="offset"></param>
-        [Obsolete("This endpoint is not officially supported by the API and is not guaranteed to be available in the next version. Please use GetFolderItemsAsync")]
-        Task<BoxFolder> GetItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null);
-
-        /// <summary>
         /// Retrieves the files and/or folders contained within this folder without any other metadata about the folder. 
         /// Any attribute in the full files or folders objects can be passed in with the fields parameter to get specific attributes, 
         /// and only those specific attributes back; otherwise, the mini format is returned for each item by default.
@@ -126,21 +117,6 @@ namespace Box.V2.Managers
         /// <param name="direction">The direction to sort results in: ascending or descending</param>
         /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
         Task<BoxCollection<BoxItem>> GetTrashItemsAsync(int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate = false, string sort = null, BoxSortDirection? direction = null);
-
-        /// <summary>
-        /// Retrieves the files and/or folders that have been moved to the trash. Any attribute in the full files 
-        /// or folders objects can be passed in with the fields parameter to get specific attributes, and only those 
-        /// specific attributes back; otherwise, the mini format is returned for each item by default. Multiple 
-        /// attributes can be passed in separated by commas e.g. fields=name,created_at. Paginated results can be 
-        /// retrieved using the limit and offset parameters.
-        /// </summary>
-        /// <param name="id">This param is not used in implementation</param>
-        /// <param name="limit">The maximum number of items to return</param>
-        /// <param name="offset">The item at which to begin the response</param>
-        /// <param name="fields">Attribute(s) to include in the response</param>
-        /// <returns>A collection of items contained in the trash is returned. An error is thrown if any of the parameters are invalid.</returns>
-        [Obsolete("This method will be removed in a future update. Please use the GetTrashItemsAsync(int, int, IEnumerable<string>) overload")]
-        Task<BoxCollection<BoxItem>> GetTrashItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null);
 
         /// <summary>
         /// Restores an item that has been moved to the trash. Default behavior is to restore the item to the folder it was in 

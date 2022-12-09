@@ -33,7 +33,6 @@ namespace Box.V2.Test
             _boxConfig.SetupGet(x => x.ClientId).Returns("123");
             _boxConfig.SetupGet(x => x.ClientSecret).Returns("SECRET");
             _boxConfig.SetupGet(x => x.BoxApiHostUri).Returns(new Uri(Constants.BoxApiHostUriString));
-            _boxConfig.SetupGet(x => x.BoxAuthTokenApiUri).Returns(new Uri(Constants.BoxAuthTokenApiUriString));
             _ccgAuth = new BoxCCGAuth(_boxConfig.Object, _service);
             _userAuthRepository = new CCGAuthRepository(null, _ccgAuth, _userId);
             _adminAuthRepository = new CCGAuthRepository(null, _ccgAuth, _userId);

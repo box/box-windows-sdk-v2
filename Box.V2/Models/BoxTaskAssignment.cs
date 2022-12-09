@@ -55,14 +55,13 @@ namespace Box.V2.Models
         public virtual DateTimeOffset? RemindedAt { get; private set; }
 
         /// <summary>
-        /// Gets the state of the resolution.
+        /// Gets the state of the resolution as an Enum.
         /// </summary>
-        [Obsolete("This field is deprecated, and may not work consistently.  Use Status or LocalizedStatus instead.")]
         public virtual ResolutionStateType? ResolutionState
         {
             get
             {
-                return (ResolutionStateType)System.Enum.Parse(typeof(ResolutionStateType), Status, ignoreCase: true);
+                return (ResolutionStateType)Enum.Parse(typeof(ResolutionStateType), LocalizedStatus, ignoreCase: true);
             }
         }
 
@@ -73,7 +72,7 @@ namespace Box.V2.Models
         public virtual string Status { get; private set; }
 
         /// <summary>
-        /// Gets the localized/human-readable resolution status of the task assignment.
+        /// Gets the localized/human-readable resolution status of the task assignment in a string format.
         /// </summary>
         [JsonProperty(PropertyName = FieldResolutionState)]
         public virtual string LocalizedStatus { get; private set; }

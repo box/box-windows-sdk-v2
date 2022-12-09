@@ -555,65 +555,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        public async Task ExecuteMetadataQuery_ValidResponse()
-        {
-            /*** Arrange ***/
-            IBoxRequest boxRequest = null;
-            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxMetadataQueryItem>>(It.IsAny<IBoxRequest>()))
-                 .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxMetadataQueryItem>>>(new BoxResponse<BoxCollectionMarkerBased<BoxMetadataQueryItem>>()
-                 {
-                     Status = ResponseStatus.Success,
-                     ContentString = LoadFixtureFromJson("Fixtures/BoxMetadata/ExecuteMetadataQuery200.json")
-                 }))
-                 .Callback<IBoxRequest>(r => boxRequest = r);
-
-            /*** Act ***/
-            var queryParams = new Dictionary<string, object>
-            {
-                { "arg", 100 }
-            };
-            var orderByList = new List<BoxMetadataQueryOrderBy>();
-            var orderBy = new BoxMetadataQueryOrderBy()
-            {
-                FieldKey = "amount",
-                Direction = BoxSortDirection.ASC
-            };
-            orderByList.Add(orderBy);
-            var marker = "q3f87oqf3qygou5t478g9gwrbul";
-            BoxCollectionMarkerBased<BoxMetadataQueryItem> items = await _metadataManager.ExecuteMetadataQueryAsync(from: "enterprise_123456.someTemplate", query: "amount >= :arg", queryParameters: queryParams, ancestorFolderId: "5555", indexName: "amountAsc", orderBy: orderByList, marker: marker, autoPaginate: false);
-            /*** Assert ***/
-
-            // Request check
-            Assert.IsNotNull(boxRequest);
-            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
-            Assert.AreEqual(MetadataQueryUri, boxRequest.AbsoluteUri.AbsoluteUri);
-            var payload = JObject.Parse(boxRequest.Payload);
-            Assert.AreEqual("enterprise_123456.someTemplate", payload["from"]);
-            Assert.AreEqual("amount >= :arg", payload["query"]);
-            Assert.AreEqual(100, payload["query_params"]["arg"]);
-            Assert.AreEqual("5555", payload["ancestor_folder_id"]);
-            var payloadOrderBy = JArray.Parse(payload["order_by"].ToString());
-            Assert.AreEqual("amount", payloadOrderBy[0]["field_key"]);
-            Assert.AreEqual("ASC", payloadOrderBy[0]["direction"]);
-            Assert.AreEqual(marker, payload["marker"]);
-
-            // Response check
-            Assert.AreEqual(items.Entries[0].Item.Type, "file");
-            Assert.AreEqual(items.Entries[0].Item.Id, "1617554169109");
-            Assert.AreEqual(items.Entries[0].Item.Name, "My Contract.docx");
-            Assert.AreEqual(items.Entries[0].Item.SequenceId, "0");
-            Assert.AreEqual(items.Entries[0].Item.CreatedBy.Type, "user");
-            Assert.AreEqual(items.Entries[0].Item.CreatedBy.Login, "admin@company.com");
-            Assert.AreEqual(items.Entries[0].Item.Parent.Id, "16125613433");
-            Assert.AreEqual(items.NextMarker, "AAAAAmVYB1FWec8GH6yWu2nwmanfMh07IyYInaa7DZDYjgO1H4KoLW29vPlLY173OKsci6h6xGh61gG73gnaxoS+o0BbI1/h6le6cikjlupVhASwJ2Cj0tOD9wlnrUMHHw3/ISf+uuACzrOMhN6d5fYrbidPzS6MdhJOejuYlvsg4tcBYzjauP3+VU51p77HFAIuObnJT0ff");
-            var metadata = JObject.FromObject(items.Entries[0].Metadata["enterprise_123456"]);
-            Assert.AreEqual(metadata["someTemplate"]["$parent"], "file_161753469109");
-            Assert.AreEqual(metadata["someTemplate"]["customerName"], "Phoenix Corp");
-            Assert.AreEqual(metadata["someTemplate"]["$typeVersion"], 0);
-            Assert.AreEqual(metadata["someTemplate"]["region"], "West");
-        }
-
-        [TestMethod]
         public async Task ExecuteMetadataQueryWithoutUseIndexWithFields_ValidResponse()
         {
             /*** Arrange ***/

@@ -181,12 +181,12 @@ namespace Box.V2.Test.Integration
 
         [TestMethod]
         [ExpectedException(typeof(TimeoutException))]
-        public async Task DownloadStreamAsync_ForTimeoutShorterThanDownloadTime_ShouldAbortDownload()
+        public async Task DownloadAsync_ForTimeoutShorterThanDownloadTime_ShouldAbortDownload()
         {
             var uploadedFile = await CreateSmallFile(FolderId);
             var timeout = new TimeSpan(0, 0, 0, 0, 1);
 
-            await UserClient.FilesManager.DownloadStreamAsync(uploadedFile.Id, timeout: timeout);
+            await UserClient.FilesManager.DownloadAsync(uploadedFile.Id, timeout: timeout);
         }
 
         [TestMethod]
