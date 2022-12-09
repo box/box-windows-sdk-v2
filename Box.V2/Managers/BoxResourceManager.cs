@@ -117,10 +117,8 @@ namespace Box.V2.Managers
 
             var authString = string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth);
 
-            var sb = new StringBuilder(authString);
-
             request.Authorization = auth;
-            request.Header(Constants.AuthHeaderKey, sb.ToString());
+            request.Header(Constants.AuthHeaderKey, authString);
         }
 
         /// <summary>
