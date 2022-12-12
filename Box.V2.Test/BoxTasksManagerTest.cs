@@ -270,8 +270,8 @@ namespace Box.V2.Test
                                         ""completed_at"": null,
                                         ""assigned_at"": ""2013-05-10T11:43:41-07:00"",
                                         ""reminded_at"": null,
-                                        ""resolution_state"": ""未完了"",
-                                        ""status"": ""incomplete"",
+                                        ""resolution_state"": ""incomplete"",
+                                        ""status"": ""未完了"",
                                         ""assigned_by"": {
                                             ""type"": ""user"",
                                             ""id"": ""33333"",
@@ -295,8 +295,8 @@ namespace Box.V2.Test
 
             /*** Assert ***/
 
-            Assert.AreEqual("incomplete", result.Status);
-            Assert.AreEqual("未完了", result.LocalizedStatus);
+            Assert.AreEqual("incomplete", result.LocalizedStatus);
+            Assert.AreEqual("未完了", result.Status);
             Assert.AreEqual(ResolutionStateType.incomplete, result.ResolutionState);
         }
 

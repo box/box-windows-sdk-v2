@@ -141,18 +141,6 @@ namespace Box.V2.Config
         }
 
         /// <summary>
-        /// Sets BoxAPI uri.
-        /// </summary>
-        /// <param name="boxApiUri">BoxAPI uri.</param>
-        /// <returns>this BoxConfigBuilder object for chaining</returns>
-        [Obsolete("Use SetBoxApiHostUri() instead")]
-        public BoxConfigBuilder SetBoxApiUri(Uri boxApiUri)
-        {
-            BoxApiUri = EnsureEndsWithSlash(boxApiUri);
-            return this;
-        }
-
-        /// <summary>
         /// Sets BoxAPI upload uri.
         /// </summary>
         /// <param name="boxUploadApiUri">BoxAPI upload uri.</param>
@@ -160,18 +148,6 @@ namespace Box.V2.Config
         public BoxConfigBuilder SetBoxUploadApiUri(Uri boxUploadApiUri)
         {
             BoxUploadApiUri = EnsureEndsWithSlash(boxUploadApiUri);
-            return this;
-        }
-
-        /// <summary>
-        /// Sets BoxAPI auth token uri.
-        /// </summary>
-        /// <param name="boxAuthTokenApiUri">BoxAPI auth token uri.</param>
-        /// <returns>this BoxConfigBuilder object for chaining</returns>
-        [Obsolete("Use SetBoxApiHostUri() instead")]
-        public BoxConfigBuilder SetBoxTokenApiUri(Uri boxAuthTokenApiUri)
-        {
-            BoxAuthTokenApiUri = EnsureEndsWithSlash(boxAuthTokenApiUri);
             return this;
         }
 
@@ -281,14 +257,6 @@ namespace Box.V2.Config
         {
             get { return _boxApiUri ?? new Uri(BoxApiHostUri, Constants.BoxApiCurrentVersionUriString); }
             private set { _boxApiUri = value; }
-        }
-
-        private Uri _boxAuthTokenApiUri;
-        [Obsolete("Use BoxApiHostUri instead")]
-        public Uri BoxAuthTokenApiUri
-        {
-            get { return _boxAuthTokenApiUri ?? new Uri(BoxApiHostUri, Constants.AuthTokenEndpointString); }
-            private set { _boxAuthTokenApiUri = value; }
         }
 
         public Uri RedirectUri { get; private set; }

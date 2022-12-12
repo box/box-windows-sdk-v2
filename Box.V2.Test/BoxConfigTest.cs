@@ -31,9 +31,9 @@ namespace Box.V2.Test
 
             var exampleUri = new Uri("https://example.com/");
             config = BoxConfigBuilder.CreateFromJsonString(JsonString)
-                .SetBoxApiUri(exampleUri)
+                .SetBoxApiHostUri(exampleUri)
                 .Build();
-            Assert.AreEqual(config.BoxApiUri, exampleUri);
+            Assert.AreEqual(config.BoxApiUri, exampleUri + "2.0/");
         }
 
         [TestMethod]
@@ -61,20 +61,6 @@ namespace Box.V2.Test
             Assert.AreEqual(config.JWTPublicKeyId, "kid-123");
             Assert.AreEqual(config.JWTPrivateKey, "testKey");
             Assert.AreEqual(config.EnterpriseId, "eid-123");
-        }
-
-        [TestMethod]
-        public void BoxConfig_SetAuthTokenUriString()
-        {
-            var boxConfig = new BoxConfigBuilder("", "")
-                .Build();
-            Assert.AreEqual(boxConfig.BoxAuthTokenApiUri, new Uri(Constants.BoxAuthTokenApiUriString));
-
-            var exampleUri = new Uri("https://example.com/token");
-            var newConfig = new BoxConfigBuilder("", "")
-                .SetBoxTokenApiUri(exampleUri)
-                .Build();
-            Assert.AreEqual(newConfig.BoxAuthTokenApiUri.ToString(), exampleUri + "/");
         }
 
         [TestMethod]

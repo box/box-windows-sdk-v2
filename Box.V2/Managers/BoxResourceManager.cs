@@ -115,25 +115,10 @@ namespace Box.V2.Managers
         {
             var auth = accessToken ?? _auth.Session.AccessToken;
 
-            var authString = _auth.Session.AuthVersion == AuthVersion.V1 ?
-                string.Format(CultureInfo.InvariantCulture, Constants.V1AuthString, _config.ClientId, auth) :
-                string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth);
-
-            var sb = new StringBuilder(authString);
-
-            // Appending device_id is required for accounts that have device pinning enabled on V1 auth
-            if (_auth.Session.AuthVersion == AuthVersion.V1)
-            {
-                sb.Append(string.IsNullOrWhiteSpace(_config.DeviceId) ?
-                    string.Empty :
-                    string.Format("&device_id={0}", _config.DeviceId));
-                sb.Append(string.IsNullOrWhiteSpace(_config.DeviceName) ?
-                    string.Empty :
-                    string.Format("&device_name={0}", _config.DeviceName));
-            }
+            var authString = string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth);
 
             request.Authorization = auth;
-            request.Header(Constants.AuthHeaderKey, sb.ToString());
+            request.Header(Constants.AuthHeaderKey, authString);
         }
 
         /// <summary>

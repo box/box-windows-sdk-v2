@@ -76,60 +76,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        public async Task GetFolder_ValidResponse_ValidFolder()
-        {
-            Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
-                .Returns(() => Task.FromResult<IBoxResponse<BoxFolder>>(new BoxResponse<BoxFolder>()
-                {
-                    Status = ResponseStatus.Success,
-                    ContentString = "{ \"type\":\"folder\", \"id\":\"0\", \"sequence_id\":null, \"etag\":null, \"name\":\"All Files\", \"created_at\":null, \"modified_at\":null, \"description\":\"\", \"size\":61591428468, \"path_collection\":{ \"total_count\":0, \"entries\":[ ] }, \"created_by\":{ \"type\":\"user\", \"id\":\"189912110\", \"name\":\"Brian\", \"login\":\"brianytang@gmail.com\" }, \"modified_by\":{ \"type\":\"user\", \"id\":\"189912110\", \"name\":\"Brian\", \"login\":\"brianytang@gmail.com\" }, \"trashed_at\":null, \"purged_at\":null, \"content_created_at\":null, \"content_modified_at\":null, \"owned_by\":{ \"type\":\"user\", \"id\":\"189912110\", \"name\":\"Brian\", \"login\":\"brianytang@gmail.com\" }, \"shared_link\":null, \"folder_upload_email\":null, \"parent\":null, \"item_status\":\"active\", \"item_collection\":{ \"total_count\":10, \"entries\":[ { \"type\":\"folder\", \"id\":\"766352168\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Books\" }, { \"type\":\"folder\", \"id\":\"869883498\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"bytLabs\" }, { \"type\":\"folder\", \"id\":\"767221958\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Games\" }, { \"type\":\"folder\", \"id\":\"766174084\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Mixes\" }, { \"type\":\"folder\", \"id\":\"57181304\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Muzik\" }, { \"type\":\"folder\", \"id\":\"857305570\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"My\" }, { \"type\":\"folder\", \"id\":\"627316229\", \"sequence_id\":\"1\", \"etag\":\"1\", \"name\":\"My Music Folder\" }, { \"type\":\"folder\", \"id\":\"860155462\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"sample\" }, { \"type\":\"folder\", \"id\":\"775829294\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Software\" }, { \"type\":\"folder\", \"id\":\"811565831\", \"sequence_id\":\"0\", \"etag\":\"0\", \"name\":\"Test\" } ], \"offset\":0, \"limit\":10, \"order\":[ { \"by\":\"type\", \"direction\":\"ASC\" }, { \"by\":\"name\", \"direction\":\"ASC\" } ] } }"
-                }));
-
-            BoxFolder f = await _foldersManager.GetItemsAsync("0", 10);
-
-            Assert.AreEqual(f.Id, "0");
-            Assert.AreEqual(f.Type, "folder");
-            Assert.IsNull(f.SequenceId);
-            Assert.IsNull(f.ETag);
-            Assert.IsNull(f.CreatedAt);
-            Assert.IsNull(f.ModifiedAt);
-            Assert.AreEqual(f.Description, "");
-            Assert.AreEqual(f.Size, 61591428468);
-            Assert.AreEqual(f.PathCollection.TotalCount, 0);
-            Assert.AreEqual(f.PathCollection.Entries.Count, 0);
-            Assert.AreEqual(f.CreatedBy.Type, "user");
-            Assert.AreEqual(f.CreatedBy.Id, "189912110");
-            Assert.AreEqual(f.CreatedBy.Name, "Brian");
-            Assert.AreEqual(f.CreatedBy.Login, "brianytang@gmail.com");
-            Assert.AreEqual(f.ModifiedBy.Type, "user");
-            Assert.AreEqual(f.ModifiedBy.Id, "189912110");
-            Assert.AreEqual(f.ModifiedBy.Name, "Brian");
-            Assert.AreEqual(f.ModifiedBy.Login, "brianytang@gmail.com");
-            //Assert.IsNull(f.TrashedAt); // Need to add property
-            //Assert.IsNull(f.PurgedAt); // Need to add property
-            //Assert.IsNull(f.ContentCreatedAt); // Need to add property
-            //Assert.IsNull(f.ContentModifiedAt); // Need to add property
-            Assert.AreEqual(f.OwnedBy.Type, "user");
-            Assert.AreEqual(f.OwnedBy.Id, "189912110");
-            Assert.AreEqual(f.OwnedBy.Name, "Brian");
-            Assert.AreEqual(f.OwnedBy.Login, "brianytang@gmail.com");
-            Assert.IsNull(f.SharedLink);
-            Assert.IsNull(f.FolderUploadEmail);
-            Assert.IsNull(f.Parent);
-            Assert.AreEqual(f.ItemStatus, "active");
-            Assert.AreEqual(f.Id, "0");
-            Assert.AreEqual(f.Name, "All Files");
-            Assert.AreEqual(f.ModifiedBy.Id, "189912110");
-            Assert.AreEqual(f.ItemCollection.TotalCount, 10);
-            Assert.AreEqual(f.ItemCollection.Entries.Count, 10);
-            //Assert.AreEqual(f.Offset, "0"); // Need to add property
-            //Assert.AreEqual(f.Order[0].By, "type"); // Need to add property
-            //Assert.AreEqual(f.Order[0].Direction, "ASC"); // Need to add property
-            //Assert.AreEqual(f.Order[1].By, "name"); // Need to add property
-            //Assert.AreEqual(f.Order[1].Direction, "ASC"); // Need to add property
-        }
-
-        [TestMethod]
         public async Task CreateFolder_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))
@@ -707,7 +653,7 @@ namespace Box.V2.Test
                 }));
 
             /*** Act ***/
-            BoxCollection<BoxItem> i = await _foldersManager.GetTrashItemsAsync("fakeId", 10);
+            BoxCollection<BoxItem> i = await _foldersManager.GetTrashItemsAsync(10);
             BoxItem i1 = i.Entries.FirstOrDefault();
             BoxItem i2 = i.Entries.Skip(1).FirstOrDefault();
 
