@@ -260,8 +260,8 @@ namespace Box.V2.Test
             var retentionPolicyAssignmentId = "12345";
             var responseString = "{ \"entries\": [{ \"id\": 12345, \"etag\": 1, \"type\": \"file_version\", \"sequence_id\": 3, \"name\": \"Contract.pdf\", \"sha1\": \"85136C79CBF9FE36BB9D05D0639C70C265C18D37\", \"file_version\": { \"id\": 123456, \"type\": \"file_version\", \"sha1\": \"134b65991ed521fcfe4724b7d814ab8ded5185dc\" }, \"applied_at\": \"2012-12-12T10:53:43-08:00\" } ], \"limit\": 1000, \"marker\": \"some marker\" }";
             IBoxRequest boxRequest = null;
-            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxFileVersion>>(It.IsAny<IBoxRequest>()))
-                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxFileVersion>>>(new BoxResponse<BoxCollectionMarkerBased<BoxFileVersion>>()
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxFile>>(It.IsAny<IBoxRequest>()))
+                .Returns(Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxFile>>>(new BoxResponse<BoxCollectionMarkerBased<BoxFile>>()
                 {
                     Status = ResponseStatus.Success,
                     ContentString = responseString
@@ -269,7 +269,7 @@ namespace Box.V2.Test
                 .Callback<IBoxRequest>(r => boxRequest = r);
 
             /*** Act ***/
-            BoxCollectionMarkerBased<BoxFileVersion> results = await _retentionPoliciesManager.GetFileVersionsUnderRetentionForAssignmentAsync(retentionPolicyAssignmentId);
+            BoxCollectionMarkerBased<BoxFile> results = await _retentionPoliciesManager.GetFileVersionsUnderRetentionForAssignmentAsync(retentionPolicyAssignmentId);
 
             /*** Assert ***/
 
