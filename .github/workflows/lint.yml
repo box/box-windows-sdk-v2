@@ -23,5 +23,6 @@ jobs:
           VALIDATE_POWERSHELL: false
           VALIDATE_EDITORCONFIG: false
           VALIDATE_MARKDOWN: false
+          NATURAL_LANGUAGE_CONFIG_FILE: .languagelintrc
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

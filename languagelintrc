@@ -1,0 +1,11 @@
+{
+  "filters": {
+    "comments": true
+  },
+  "rules": {
+    "terminology" : {
+      "defaultTerms": true,
+      "exclude": ["bugfixes"]
+    }
+  }
+}
