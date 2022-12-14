@@ -82,8 +82,8 @@
     <Compile Include="CCGAuth\BoxCCGAuth.cs" />
     <Compile Include="CCGAuth\CCGAuthRepository.cs" />
     <Compile Include="Config\BoxConfigBuilder.cs" />
-    <Compile Include="Converter\BoxFileVersionUnderRetentionItemConverter.cs" />
-    <Compile Include="Converter\BoxFileVersionUnderRetentionJsonConverter.cs" />
+    <Compile Include="Converter\BoxFileVersionsUnderRetentionItemConverter.cs" />
+    <Compile Include="Converter\BoxFileVersionsUnderRetentionJsonConverter.cs" />
     <Compile Include="IBoxClient.cs" />
     <Compile Include="Converter\BoxZipConflictConverter.cs" />
     <Compile Include="JWTAuth\BoxJWTAuth.cs" />

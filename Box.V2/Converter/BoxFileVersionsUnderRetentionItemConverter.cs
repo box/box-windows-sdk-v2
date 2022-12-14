@@ -7,7 +7,7 @@ namespace Box.V2.Converter
 {
     // workaround for https://developer.box.com/reference/get-retention-policy-assignments-id-file-versions-under-retention/
     // which currently returns 'file-version' instead of 'file' in 'type' field
-    internal class BoxFileVersionUnderRetentionItemConverter : BoxItemConverter
+    internal class BoxFileVersionsUnderRetentionItemConverter : BoxItemConverter
     {
         protected override BoxEntity Create(Type objectType, JObject jObject)
         {

@@ -298,7 +298,7 @@ namespace Box.V2.Managers
             else
             {
                 var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxFile>>(request, false,
-                    new BoxFileVersionUnderRetentionJsonConverter()).ConfigureAwait(false);
+                    new BoxFileVersionsUnderRetentionJsonConverter()).ConfigureAwait(false);
                 return response.ResponseObject;
             }
         }
