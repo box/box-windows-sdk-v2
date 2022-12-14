@@ -4,7 +4,7 @@
   },
   "rules": {
     "terminology" : {
-      "defaultTerms": true,
+      "defaultTerms": false,
       "exclude": ["bug fixes"]
     }
   }
