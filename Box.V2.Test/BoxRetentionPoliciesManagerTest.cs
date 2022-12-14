@@ -281,7 +281,7 @@ namespace Box.V2.Test
             // Response check
             Assert.AreEqual("12345", results.Entries[0].Id);
             Assert.AreEqual("Contract.pdf", results.Entries[0].Name);
-            Assert.AreEqual("file_version", results.Entries[0].Type);
+            Assert.AreEqual("file", results.Entries[0].Type);
             Assert.AreEqual("file_version", results.Entries[0].FileVersion.Type);
         }
     }
