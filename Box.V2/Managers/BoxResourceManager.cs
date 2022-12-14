@@ -69,14 +69,15 @@ namespace Box.V2.Managers
             return request;
         }
 
-        protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, bool queueRequest = false)
+        protected async Task<IBoxResponse<T>> ToResponseAsync<T>(IBoxRequest request, bool queueRequest = false,
+            IBoxConverter converter = null)
             where T : class
         {
             AddDefaultHeaders(request);
             AddAuthorization(request);
             var response = await ExecuteRequest<T>(request, queueRequest).ConfigureAwait(false);
 
-            return response.ParseResults(_converter);
+            return converter != null ? response.ParseResults(converter) : response.ParseResults(_converter);
         }
 
         private async Task<IBoxResponse<T>> ExecuteRequest<T>(IBoxRequest request, bool queueRequest)

@@ -25,7 +25,7 @@ namespace Box.V2.Converter
         /// <typeparam name="T">The type that the content should be parsed into</typeparam>
         /// <param name="content">The JSON string</param>
         /// <returns>The box representation of the JSON</returns>
-        public T Parse<T>(string content)
+        public virtual T Parse<T>(string content)
         {
             return JsonConvert.DeserializeObject<T>(content, new BoxItemConverter());
         }
