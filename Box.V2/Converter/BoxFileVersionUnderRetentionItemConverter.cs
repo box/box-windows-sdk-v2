@@ -19,6 +19,7 @@ namespace Box.V2.Converter
                     // should work even if this bug is fixed 
                     case Constants.TypeFileVersion:
                     case Constants.TypeFile:
+                        jObject[ItemType] = Constants.TypeFile;
                         return new BoxFile();
                 }
             }
