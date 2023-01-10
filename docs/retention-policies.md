@@ -166,7 +166,7 @@ Get Files Under Retention For Assignment
 To retrieve a list of all files under retention for assignment, call
 `RetentionPoliciesManager.GetFilesUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)`.
 
-<!-- sample get_files_under_retention_for_assignment -->
+<!-- sample get_retention_policy_assignments_id_files_under_retention -->
 ```c#
 BoxCollectionMarkerBased<BoxFile> filesUnderRetentionForAssignment = await client.RetentionPoliciesManager
     .GetFilesUnderRetentionForAssignmentAsync("55555");
@@ -178,7 +178,7 @@ Get File Versions Under Retention For Assignment
 To retrieve a list of all file versions under retention for assignment, call
 `RetentionPoliciesManager.GetFileVersionsUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)`.
 
-<!-- sample get_files_under_retention_for_assignment -->
+<!-- sample get_retention_policy_assignments_id_file_versions_under_retention -->
 ```c#
 BoxCollectionMarkerBased<BoxFileVersion> fileVersionsUnderRetentionForAssignment = await client.RetentionPoliciesManager
     .GetFileVersionsUnderRetentionForAssignmentAsync("55555");

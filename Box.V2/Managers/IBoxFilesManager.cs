@@ -197,9 +197,12 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">The file id.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="offset">Zero-based index of first OffsetID of part to return.</param>
+        /// <param name="limit">How many parts to return.</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all; defaults to false.</param>
         /// <returns>A collection of versions other than the main version of the file. If a file has no other versions, an empty collection will be returned.
         /// Note that if a file has a total of three versions, only the first two version will be returned.</returns>
-        Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, IEnumerable<string> fields = null);
+        Task<BoxCollection<BoxFileVersion>> ViewVersionsAsync(string id, IEnumerable<string> fields = null, int? offset = null, int? limit = null, bool autoPaginate = false);
 
         /// <summary>
         /// Used to update individual or multiple fields in the file object, including renaming the file, changing it’s description, 
