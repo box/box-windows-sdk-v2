@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/box/box-windows-sdk-v2/compare/v4.6.0...v5.0.0) (2023-01-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade .net framework to 4.6.2, remove deprecated methods, remove `use_index` references, return proper object from `GetFileVersionsUnderRetentionForAssignmentAsync`  (#881)
+
+### **New Features and Enhancements:**
+
+* upgrade .net framework to 4.6.2, remove deprecated methods, remove `use_index` references, return proper object from `GetFileVersionsUnderRetentionForAssignmentAsync`  ([#881](https://github.com/box/box-windows-sdk-v2/issues/881)) ([f1989aa](https://github.com/box/box-windows-sdk-v2/commit/f1989aa94cd085ad4bec04b4ebedb04f40455569)), closes [#863](https://github.com/box/box-windows-sdk-v2/issues/863) [#870](https://github.com/box/box-windows-sdk-v2/issues/870) [#874](https://github.com/box/box-windows-sdk-v2/issues/874) [#875](https://github.com/box/box-windows-sdk-v2/issues/875) [#876](https://github.com/box/box-windows-sdk-v2/issues/876)
+
+### **Bug Fixes:**
+
+* Added pagination option to `IBoxFilesManager#ViewVersionsAsync` ([#869](https://github.com/box/box-windows-sdk-v2/issues/869)) ([2324495](https://github.com/box/box-windows-sdk-v2/commit/232449531440227a0c8b3489ceda813fe4f4a73f)), closes [#866](https://github.com/box/box-windows-sdk-v2/issues/866)
+
+
 ## [4.6.0](https://github.com/box/box-windows-sdk-v2/compare/v4.5.0...v4.6.0) (2022-10-18)
 
 
@@ -317,6 +333,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
