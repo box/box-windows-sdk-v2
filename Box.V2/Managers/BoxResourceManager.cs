@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -74,7 +73,7 @@ namespace Box.V2.Managers
             where T : class
         {
             AddDefaultHeaders(request);
-            AddAuthorization(request);
+            await AddAuthorizationAsync(request);
             var response = await ExecuteRequest<T>(request, queueRequest).ConfigureAwait(false);
 
             return converter != null ? response.ParseResults(converter) : response.ParseResults(_converter);
@@ -108,13 +107,14 @@ namespace Box.V2.Managers
         {
             OAuthSession newSession = await _auth.RefreshAccessTokenAsync(request.Authorization).ConfigureAwait(false);
             AddDefaultHeaders(request);
-            AddAuthorization(request, newSession.AccessToken);
+            await AddAuthorizationAsync(request, newSession.AccessToken);
             return await _service.ToResponseAsync<T>(request).ConfigureAwait(false);
         }
 
-        protected void AddAuthorization(IBoxRequest request, string accessToken = null)
+        protected async Task AddAuthorizationAsync(IBoxRequest request, string accessToken = null)
         {
-            var auth = accessToken ?? _auth.Session.AccessToken;
+            var auth = accessToken ??
+                (_auth.Session ?? await _auth.RefreshAccessTokenAsync(null)).AccessToken;
 
             var authString = string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth);
 

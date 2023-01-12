@@ -101,6 +101,17 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        public void UserClient_WithoutInitialToken_ShouldReturnUserClient()
+        {
+            // Act
+            var userClient = _ccgAuth.UserClient("22222");
+
+            // Assert
+            Assert.IsInstanceOfType(userClient, typeof(BoxClient));
+            Assert.IsInstanceOfType(userClient.Auth, typeof(CCGAuthRepository));
+        }
+
+        [TestMethod]
         public void AdminClient_ShouldReturnAdminClientWithSession()
         {
             // Act
@@ -110,6 +121,17 @@ namespace Box.V2.Test
             Assert.IsInstanceOfType(adminClient, typeof(BoxClient));
             Assert.IsInstanceOfType(adminClient.Auth, typeof(CCGAuthRepository));
             Assert.IsNotNull(adminClient.Auth.Session);
+        }
+
+        [TestMethod]
+        public void AdminClient_WithoutInitialToken_ShouldReturnAdminClient()
+        {
+            // Act
+            var adminClient = _ccgAuth.AdminClient("22222", true);
+
+            // Assert
+            Assert.IsInstanceOfType(adminClient, typeof(BoxClient));
+            Assert.IsInstanceOfType(adminClient.Auth, typeof(CCGAuthRepository));
         }
     }
 }

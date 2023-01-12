@@ -50,6 +50,20 @@ namespace Box.V2.CCGAuth
         }
 
         /// <summary>
+        /// Create admin BoxClient
+        /// </summary>
+        /// <param name="asUser">The user ID to set as the 'As-User' header parameter; used to make calls in the context of a user using an admin token</param>
+        /// <param name="suppressNotifications">Whether or not to suppress both email and webhook notifications. Typically used for administrative API calls. Your application must have “Manage an Enterprise” scope, and the user making the API calls is a co-admin with the correct "Edit settings for your company" permission.</param>
+        /// <returns>BoxClient that uses CCG authentication</returns>
+        public IBoxClient AdminClient(string asUser = null, bool? suppressNotifications = null)
+        {
+            var authRepo = new CCGAuthRepository(this);
+            var adminClient = new BoxClient(_boxConfig, authRepo, asUser: asUser, suppressNotifications: suppressNotifications);
+
+            return adminClient;
+        }
+
+        /// <summary>
         /// Create user BoxClient using a user access token
         /// </summary>
         /// <param name="userToken">User access token</param>
@@ -59,6 +73,19 @@ namespace Box.V2.CCGAuth
         {
             var userSession = Session(userToken);
             var authRepo = new CCGAuthRepository(userSession, this, userId);
+            var userClient = new BoxClient(_boxConfig, authRepo);
+
+            return userClient;
+        }
+
+        /// <summary>
+        /// Create user BoxClient
+        /// </summary>
+        /// <param name="userId">Id of the user</param>
+        /// <returns>BoxClient that uses CCG authentication</returns>
+        public IBoxClient UserClient(string userId)
+        {
+            var authRepo = new CCGAuthRepository(this, userId);
             var userClient = new BoxClient(_boxConfig, authRepo);
 
             return userClient;
