@@ -23,7 +23,6 @@ All notable changes to this project will be documented in this file. See [standa
 * Added pagination option to `IBoxFilesManager#ViewVersionsAsync` ([#869](https://github.com/box/box-windows-sdk-v2/issues/869)) ([2324495](https://github.com/box/box-windows-sdk-v2/commit/232449531440227a0c8b3489ceda813fe4f4a73f)), closes [#866](https://github.com/box/box-windows-sdk-v2/issues/866)
 * return proper object from `GetFileVersionsUnderRetentionForAssignmentAsync` ([#881](https://github.com/box/box-windows-sdk-v2/issues/881)) ([f1989aa](https://github.com/box/box-windows-sdk-v2/commit/f1989aa94cd085ad4bec04b4ebedb04f40455569)), closes [#875](https://github.com/box/box-windows-sdk-v2/issues/875)
 
-
 ## [4.6.0](https://github.com/box/box-windows-sdk-v2/compare/v4.5.0...v4.6.0) (2022-10-18)
 
 
