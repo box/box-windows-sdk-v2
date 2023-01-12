@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Box.V2</RootNamespace>
     <AssemblyName>Box.V2</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET462</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;RELEASE;NET45</DefineConstants>
+    <DefineConstants>TRACE;RELEASE;NET462</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -37,7 +37,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;RELEASE;NET45</DefineConstants>
+    <DefineConstants>TRACE;RELEASE;NET462</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <SignAssembly>true</SignAssembly>
@@ -82,6 +82,8 @@
     <Compile Include="CCGAuth\BoxCCGAuth.cs" />
     <Compile Include="CCGAuth\CCGAuthRepository.cs" />
     <Compile Include="Config\BoxConfigBuilder.cs" />
+    <Compile Include="Converter\BoxFileVersionsUnderRetentionItemConverter.cs" />
+    <Compile Include="Converter\BoxFileVersionsUnderRetentionJsonConverter.cs" />
     <Compile Include="IBoxClient.cs" />
     <Compile Include="Converter\BoxZipConflictConverter.cs" />
     <Compile Include="JWTAuth\BoxJWTAuth.cs" />

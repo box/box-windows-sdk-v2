@@ -13,7 +13,7 @@ namespace Box.V2.Test.Integration
         {
             const string Keyword = "NonExistentKeyWord";
 
-            BoxCollection<BoxItem> results = await UserClient.SearchManager.SearchAsync(Keyword, 200);
+            BoxCollection<BoxItem> results = await UserClient.SearchManager.QueryAsync(Keyword, limit: 200);
 
             Assert.IsNotNull(results);
             Assert.AreEqual(0, results.Entries.Count);

@@ -866,43 +866,6 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        public async Task DownloadStream_ValidResponse_ValidStream()
-        {
-
-            using (var exampleFile = new FileStream(string.Format(GetSaveFolderPath(), "example.png"), FileMode.OpenOrCreate))
-            {
-                /*** Arrange ***/
-                var location = new Uri("http://dl.boxcloud.com");
-                var headers = new HttpResponseMessage().Headers;
-                headers.Location = location;
-                Handler.Setup(h => h.ExecuteAsync<BoxFile>(It.IsAny<IBoxRequest>()))
-                    .Returns(Task.FromResult<IBoxResponse<BoxFile>>(new BoxResponse<BoxFile>()
-                    {
-                        Status = ResponseStatus.Success,
-                        Headers = headers
-
-                    }));
-                IBoxRequest boxRequest = null;
-                Handler.Setup(h => h.ExecuteAsync<Stream>(It.IsAny<IBoxRequest>()))
-                   .Returns(Task.FromResult<IBoxResponse<Stream>>(new BoxResponse<Stream>()
-                   {
-                       Status = ResponseStatus.Success,
-                       ResponseObject = exampleFile
-
-                   }))
-                   .Callback<IBoxRequest>(r => boxRequest = r); ;
-
-                /*** Act ***/
-                Stream result = await _filesManager.DownloadStreamAsync("34122832467");
-
-                /*** Assert ***/
-
-                Assert.IsNotNull(result, "Stream is Null");
-
-            }
-        }
-
-        [TestMethod]
         public async Task Download_LargeOffset_ValidStream()
         {
 

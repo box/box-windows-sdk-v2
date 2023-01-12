@@ -1,14 +1,14 @@
 # Box Windows V2 SDK
 
 [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
-![Platform Framework](https://img.shields.io/badge/.NET%20Framework-%3E%3D4.5-blue)
+![Platform Framework](https://img.shields.io/badge/.NET%20Framework-%3E%3D4.6.2-blue)
 ![Platform Core](https://img.shields.io/badge/.NET%20Core-%3E%3D2.0-blue)
 [![License](https://img.shields.io/badge/license-Apache2-blue)](https://raw.githubusercontent.com/box/box-windows-sdk-v2/main/LICENSE)
 [![Build](https://github.com/box/box-windows-sdk-v2/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/box/box-windows-sdk-v2/actions/workflows/build_and_test.yml)
 
 The Box .NET SDK can be used to make API calls to the Box APIs in a .NET project.
 
-The SDK is available for both .NET Framework 4.5 and .NET Core 2.0 or above. The installation of the SDK depends on the platform used.
+The SDK is available for both .NET Framework 4.6.2 and .NET Core 2.0 or above. The installation of the SDK depends on the platform used.
 
 ## Table of contents
 
@@ -79,18 +79,23 @@ You can find detailed usage documentation and code samples under [docs](/docs/RE
 We use a modified version of [Semantic Versioning](https://semver.org/) for all changes. See [version strategy](VERSIONS.md) for details which is effective from 30 July 2022.
 
 ### Supported Version
-
+<!-- textlint-disable -->
 Only the current MAJOR version of SDK is supported. New features, functionality, bug fixes, and security updates will only be added to the current MAJOR version.
-
+<!-- textlint-enable -->
 A current release is on the leading edge of our SDK development, and is intended for customers who are in active development and want the latest and greatest features.  Instead of stating a release date for a new feature, we set a fixed minor or patch release cadence of maximum 2-3 months (while we may release more often). At the same time, there is no schedule for major or breaking release. Instead, we will communicate one quarter in advance the upcoming breaking change to allow customers to plan for the upgrade. We always recommend that all users run the latest available minor release for whatever major version is in use. We highly recommend upgrading to the latest SDK major release at the earliest convenient time and before the EOL date.
 
 ### Version schedule
 
-| Version | Supported Environments                | State     | First Release | EOL/Terminated |
-|---------|---------------------------------------|-----------|---------------|----------------|
-| 4       | .NET Framework 4.5 and .NET Core 2.0+ | Supported | 02 Nov 2021   | TBD            |
-| 3       |                                       | EOL       | 28 Jul 2017   | 02 Nov 2021    |
-| 2       |                                       | EOL       | 05 Nov 2015   | 28 Jul 2017    |
+| Version | Supported Environments                   | State     | First Release | EOL/Terminated |
+|---------|------------------------------------------|-----------|---------------|----------------|
+| 5       | .NET Framework 4.6.2+ and .NET Core 2.0+ | Supported | 02 Nov 2021   | TBD            |
+| 4       | .NET Framework 4.5+ and .NET Core 2.0+   | EOL       | 02 Nov 2021   | TBD            |
+| 3       |                                          | EOL       | 28 Jul 2017   | 02 Nov 2021    |
+| 2       |                                          | EOL       | 05 Nov 2015   | 28 Jul 2017    |
+
+### Migrating from the old version?
+
+If you are migrating from the old major version visit our [upgrade documentation](/docs/upgrades/).
 
 ## Questions, Bugs, and Feature Requests?
 

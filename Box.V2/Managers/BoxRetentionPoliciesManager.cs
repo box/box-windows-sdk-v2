@@ -283,7 +283,7 @@ namespace Box.V2.Managers
         /// <param name="marker">Take from "next_marker" column of a prior call to get the next page.</param>
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <returns>Returns the list of all file versions under retentions for the assignment.</returns>
-        public async Task<BoxCollectionMarkerBased<BoxFileVersion>> GetFileVersionsUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
+        public async Task<BoxCollectionMarkerBased<BoxFile>> GetFileVersionsUnderRetentionForAssignmentAsync(string retentionPolicyAssignmentId, IEnumerable<string> fields = null, int limit = 100, string marker = null, bool autoPaginate = false)
         {
             BoxRequest request = new BoxRequest(_config.RetentionPolicyAssignmentsUri, string.Format(Constants.FileVersionsUnderRetentionEndpointString, retentionPolicyAssignmentId))
                 .Param("retention_policy_assignment_id", retentionPolicyAssignmentId)
@@ -293,11 +293,12 @@ namespace Box.V2.Managers
 
             if (autoPaginate)
             {
-                return await AutoPaginateMarker<BoxFileVersion>(request, limit).ConfigureAwait(false);
+                return await AutoPaginateMarker<BoxFile>(request, limit).ConfigureAwait(false);
             }
             else
             {
-                var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxFileVersion>>(request).ConfigureAwait(false);
+                var response = await ToResponseAsync<BoxCollectionMarkerBased<BoxFile>>(request, false,
+                    new BoxFileVersionsUnderRetentionJsonConverter()).ConfigureAwait(false);
                 return response.ResponseObject;
             }
         }

@@ -162,7 +162,6 @@ namespace Box.V2.Config
 
         /*** Auth ***/
         public const string AuthHeaderKey = "Authorization";
-        public const string V1AuthString = "BoxAuth api_key={0}&auth_token={1}";
         public const string V2AuthString = "Bearer {0}";
         public const string BearerTokenType = "bearer";
         public const int AccessTokenExpirationTime = 3600; // seconds
@@ -459,18 +458,6 @@ namespace Box.V2.Config
             /// 2 factor authentication enabled by user. 
             /// </summary>
             public const string EnableTwoFactorAuth = "ENABLE_TWO_FACTOR_AUTH";
-
-            /// <summary>
-            /// Free user accepts invitation to become a managed user. 
-            /// </summary>
-            [Obsolete("Use AdminInviteAccept instead")]
-            public const string MasterInviteAccept = "MASTER_INVITE_ACCEPT";
-
-            /// <summary>
-            /// Free user rejects invitation to become a managed user. 
-            /// </summary>
-            [Obsolete("Use AdminInviteReject instead")]
-            public const string MasterInviteReject = "MASTER_INVITE_REJECT";
 
             /// <summary>
             /// Free user accepts invitation to become a managed user. 
