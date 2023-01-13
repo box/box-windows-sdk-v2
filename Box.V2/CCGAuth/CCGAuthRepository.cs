@@ -25,7 +25,7 @@ namespace Box.V2.CCGAuth
         public string UserId { get; private set; }
 
         /// <summary>
-        /// Event fired when session is invalidated 
+        /// Event fired when session is invalidated
         /// </summary>
         public event EventHandler SessionInvalidated;
 
@@ -48,6 +48,16 @@ namespace Box.V2.CCGAuth
         }
 
         /// <summary>
+        /// Constructor CCG auth repository
+        /// </summary>
+        /// <param name="boxCCGAuth">CCG authentication</param>
+        /// <param name="userId">Id of the user</param>
+        public CCGAuthRepository(BoxCCGAuth boxCCGAuth, string userId = null)
+            : this(null, boxCCGAuth, userId)
+        {
+        }
+
+        /// <summary>
         /// Not used for this type of authentication
         /// </summary>
         /// <param name="authCode"></param>
@@ -67,7 +77,7 @@ namespace Box.V2.CCGAuth
         }
 
         /// <summary>
-        /// Retrieves a new access token using BoxCCGAuth 
+        /// Retrieves a new access token using BoxCCGAuth
         /// </summary>
         /// <param name="accessToken">This input is not used. Could be set to null</param>
         /// <returns>OAuth session</returns>
