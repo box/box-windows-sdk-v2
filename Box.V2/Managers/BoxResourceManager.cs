@@ -107,14 +107,14 @@ namespace Box.V2.Managers
         {
             OAuthSession newSession = await _auth.RefreshAccessTokenAsync(request.Authorization).ConfigureAwait(false);
             AddDefaultHeaders(request);
-            await AddAuthorizationAsync(request, newSession.AccessToken);
+            await AddAuthorizationAsync(request, newSession.AccessToken).ConfigureAwait(false);
             return await _service.ToResponseAsync<T>(request).ConfigureAwait(false);
         }
 
         protected async Task AddAuthorizationAsync(IBoxRequest request, string accessToken = null)
         {
             var auth = accessToken ??
-                (_auth.Session ?? await _auth.RefreshAccessTokenAsync(null)).AccessToken;
+                (_auth.Session ?? await _auth.RefreshAccessTokenAsync(null).ConfigureAwait(false)).AccessToken;
 
             var authString = string.Format(CultureInfo.InvariantCulture, Constants.V2AuthString, auth);
 
