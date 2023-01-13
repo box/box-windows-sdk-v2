@@ -73,7 +73,7 @@ namespace Box.V2.Managers
             where T : class
         {
             AddDefaultHeaders(request);
-            await AddAuthorizationAsync(request);
+            await AddAuthorizationAsync(request).ConfigureAwait(false);
             var response = await ExecuteRequest<T>(request, queueRequest).ConfigureAwait(false);
 
             return converter != null ? response.ParseResults(converter) : response.ParseResults(_converter);
