@@ -50,7 +50,7 @@ var client = new BoxClient(config, session);
 
 Server auth allows your application to authenticate itself with the Box API
 for a given enterprise.  By default, your application has a
-[Service Account](https://developer.box.com/en/guides/authentication/user-types/)
+[Service Account](https://developer.box.com/guides/getting-started/user-types/service-account/)
 that represents it and can perform API calls.  The Service Account is separate
 from the Box accounts of the application developer and the enterprise admin of
 any enterprise that has authorized the app — files stored in that account are
@@ -85,8 +85,7 @@ adminClient.Auth.SessionAuthenticated += delegate(object o, SessionAuthenticated
 };
 ```
 
-App auth applications also often have associated App Users, which are
-[created and managed directly by the application](https://developer.box.com/en/guides/authentication/user-types/)
+App auth applications also often have associated [App Users](https://developer.box.com/guides/getting-started/user-types/app-users/), which are created and managed directly by the application
 — they do not have normal login credentials, and can only be accessed through
 the Box API by the application that created them.  You may authenticate as the
 Service Account to provision and manage users, or as an individual app user to
@@ -115,7 +114,7 @@ Server auth allows your application to authenticate itself with the Box API
 for a given enterprise. 
 Client Credentials Grant (CCG) allows you to authenticate by providing `clientId` and `clientSecret` and `enterpriseId` of your app.
 By default, your application has a
-[Service Account](https://developer.box.com/en/guides/authentication/user-types/)
+[Service Account](https://developer.box.com/guides/getting-started/user-types/service-account/)
 that represents it and can perform API calls. The Service Account is separate
 from the Box accounts of the application developer and the enterprise admin of
 any enterprise that has authorized the app — files stored in that account are
