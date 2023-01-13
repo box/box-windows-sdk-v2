@@ -131,7 +131,7 @@ var boxConfig = new BoxConfigBuilder("YOUR_CLIENT_ID", "YOUR_CLIENT_SECRET")
 var boxCCG = new BoxCCGAuth(boxConfig);
 ```
 
-There are two ways to create an admin client, first one used explicit admin token:
+There are two ways to create an admin client, the first one uses explicit admin token:
 ```c#
 var adminToken = await boxCCG.AdminTokenAsync(); //valid for 60 minutes so should be cached and re-used
 IBoxClient adminClient = boxCCG.AdminClient(adminToken);
