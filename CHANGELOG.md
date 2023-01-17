@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.0](https://github.com/box/box-windows-sdk-v2/compare/v5.0.0...v5.1.0) (2023-01-17)
+
+
+### **New Features and Enhancements:**
+
+* `BoxCCGAuth` add User and Admin clients factory methods without initial token ([#883](https://github.com/box/box-windows-sdk-v2/issues/883)) ([c1337fc](https://github.com/box/box-windows-sdk-v2/commit/c1337fc9d765bf7d4bc1757ea832bec92a602f76))
+
 ## [5.0.0](https://github.com/box/box-windows-sdk-v2/compare/v4.6.0...v5.0.0) (2023-01-12)
 
 
@@ -338,6 +345,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
