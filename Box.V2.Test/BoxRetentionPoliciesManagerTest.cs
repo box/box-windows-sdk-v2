@@ -29,6 +29,7 @@ namespace Box.V2.Test
             var policyAction = "permanently_delete";
             var notifiedUserID = "12345";
             var retentionType = BoxRetentionType.non_modifiable;
+            var description = "Policy to retain all reports for at least one month";
             var responseString = "{"
                 + "\"type\": \"retention_policy\","
                 + "\"id\": \"123456789\","
@@ -47,6 +48,7 @@ namespace Box.V2.Test
                 + "\"modified_at\": null,"
                 + "\"can_owner_extend_retention\": true,"
                 + "\"are_owners_notified\": true,"
+                + "\"description\": \"Policy to retain all reports for at least one month\","
                 + "\"custom_notification_recipients\": ["
                 + "  {"
                 + "    \"type\": \"user\","
@@ -79,6 +81,7 @@ namespace Box.V2.Test
             requestParams.RetentionLength = retentionLength;
             requestParams.DispositionAction = policyAction;
             requestParams.RetentionType = retentionType;
+            requestParams.Description = description;
             BoxRetentionPolicy results = await _retentionPoliciesManager.CreateRetentionPolicyAsync(requestParams);
 
             /*** Assert ***/
@@ -92,6 +95,7 @@ namespace Box.V2.Test
             Assert.IsNotNull(results.CustomNotificationRecipients);
             Assert.AreEqual(1, results.CustomNotificationRecipients.Count);
             Assert.AreEqual(notifiedUserID, results.CustomNotificationRecipients[0].Id);
+            Assert.AreEqual(description, results.Description);
         }
 
         [TestMethod]
@@ -117,6 +121,7 @@ namespace Box.V2.Test
               + "  \"login\": \"sean@box.com\""
               + "},"
               + "\"assigned_at\": \"2015-07-20T14:28:09-07:00\","
+              + "\"start_date_field\": \"upload_date\","
               + "\"filter_fields\": ["
               + "  {"
               + "    \"field\": \"foo\","
@@ -156,7 +161,8 @@ namespace Box.V2.Test
                     field = "baz",
                     value = 42
                 }
-            }
+            },
+                StartDateField = "upload_date"
             };
             BoxRetentionPolicyAssignment result = await _retentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(assignmentParams);
 
@@ -167,6 +173,7 @@ namespace Box.V2.Test
             Assert.AreEqual("bar", result.FilterFields[0].Value);
             Assert.AreEqual("baz", result.FilterFields[1].Field);
             Assert.AreEqual(42.ToString(), result.FilterFields[1].Value);
+            Assert.AreEqual("upload_date", result.StartDateField);
         }
 
         [TestMethod]
