@@ -47,7 +47,7 @@ namespace Box.V2.Models
         public virtual List<BoxMetadataFieldFilter> FilterFields { get; set; }
 
         /// <summary>
-        /// The date the retention policy assignment begins.
+        /// The Metadata field which will be used to specify the start date for the retention policy.
         /// </summary>
         [JsonProperty(PropertyName = FieldStartDateField)]
         public virtual string StartDateField { get; set; }
