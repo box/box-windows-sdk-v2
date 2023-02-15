@@ -22,5 +22,11 @@ namespace Box.V2.Models.Request
         /// </summary>
         [JsonProperty(PropertyName = "filter_fields")]
         public List<object> FilterFields { get; set; }
+
+        /// <summary>
+        /// The Metadata field which will be used to specify the start date for the retention policy
+        /// </summary>
+        [JsonProperty(PropertyName = "start_date_field")]
+        public string StartDateField { get; set; }
     }
 }

@@ -64,5 +64,11 @@ namespace Box.V2.Models.Request
         [JsonProperty(PropertyName = "retention_type")]
         [JsonConverter(typeof(StringEnumConverter))]
         public BoxRetentionType RetentionType { get; set; }
+
+        /// <summary>
+        /// The additional text description of the retention policy.
+        /// </summary>
+        [JsonProperty(PropertyName = "description")]
+        public string Description { get; set; }
     }
 }

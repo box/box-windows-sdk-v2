@@ -14,6 +14,7 @@ namespace Box.V2.Models
         public const string FieldAssignedBy = "assigned_by";
         public const string FieldAssignedAt = "assigned_at";
         public const string FieldFilterFields = "filter_fields";
+        public const string FieldStartDateField = "start_date_field";
 
         /// <summary>
         /// A mini retention policy object representing the retention policy that has been assigned to this content.
@@ -44,5 +45,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldFilterFields)]
         public virtual List<BoxMetadataFieldFilter> FilterFields { get; set; }
+
+        /// <summary>
+        /// The Metadata field which will be used to specify the start date for the retention policy.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldStartDateField)]
+        public virtual string StartDateField { get; set; }
     }
 }
