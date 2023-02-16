@@ -95,7 +95,7 @@ namespace Box.V2.Test.Integration
                 {
                     Key = customFieldName,
                     DisplayName = customFieldName,
-                    Type = "date" 
+                    Type = "date"
                 }
             };
 

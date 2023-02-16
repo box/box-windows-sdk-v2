@@ -275,7 +275,7 @@ namespace Box.V2.Test.Integration
             return createRetentionPolicyCommand.Policy;
         }
 
-        public static async Task<BoxMetadataTemplate> CreateMetadataTemplate(List<BoxMetadataTemplateField> fields = null, 
+        public static async Task<BoxMetadataTemplate> CreateMetadataTemplate(List<BoxMetadataTemplateField> fields = null,
                 CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.Admin)
         {
             var createMetadataTemplateCommand = new CreateMetadataTemplateCommand(GetUniqueName("template_key", false), fields, commandScope, accessLevel);
