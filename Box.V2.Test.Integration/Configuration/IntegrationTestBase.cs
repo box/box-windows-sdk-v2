@@ -275,10 +275,10 @@ namespace Box.V2.Test.Integration
             return createRetentionPolicyCommand.Policy;
         }
 
-        public static async Task<BoxMetadataTemplate> CreateMetadataTemplate(Dictionary<string, object> metadata = null,
+        public static async Task<BoxMetadataTemplate> CreateMetadataTemplate(List<BoxMetadataTemplateField> fields = null, 
                 CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.Admin)
         {
-            var createMetadataTemplateCommand = new CreateMetadataTemplateCommand(GetUniqueName("template_key", false), ToStringMetadataFields(metadata), commandScope, accessLevel);
+            var createMetadataTemplateCommand = new CreateMetadataTemplateCommand(GetUniqueName("template_key", false), fields, commandScope, accessLevel);
             await ExecuteCommand(createMetadataTemplateCommand);
 
             return createMetadataTemplateCommand.MetadataTemplate;

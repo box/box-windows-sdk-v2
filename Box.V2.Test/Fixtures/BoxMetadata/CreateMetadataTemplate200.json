@@ -1,0 +1,25 @@
+{
+  "id": "58063d82-4128-7b43-bba9-92f706befcdf",
+  "type": "metadata_template",
+  "copyInstanceOnItemCopy": true,
+  "displayName": "Product Info",
+  "fields": [
+    {
+      "type": "string",
+      "key": "category",
+      "displayName": "Category",
+      "description": "The category",
+      "hidden": true,
+      "options": [
+        {
+          "key": "Category 1",
+          "id": "45dc2849-a4a7-40a9-a751-4a699a589190"
+        }
+      ],
+      "id": "822227e0-47a5-921b-88a8-494760b2e6d2"
+    }
+  ],
+  "hidden": true,
+  "scope": "enterprise_123456",
+  "templateKey": "productInfo"
+}
