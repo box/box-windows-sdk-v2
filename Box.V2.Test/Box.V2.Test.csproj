@@ -54,6 +54,9 @@
     <None Update="Fixtures\BoxFolders\CreateFolderSharedLink200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Fixtures\BoxMetadata\CreateMetadataTemplate200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Fixtures\BoxMetadata\ExecuteMetadataQuery200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -57,11 +57,18 @@ namespace Box.V2.Models
     /// </summary>
     public class BoxMetadataTemplateField
     {
+        public const string FieldId = "id";
         public const string FieldType = "type";
         public const string FieldKey = "key";
         public const string FieldDisplayName = "displayName";
         public const string FieldOptions = "options";
         public const string FieldHidden = "hidden";
+
+        /// <summary>
+        /// The unique ID of the metadata template field.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldId)]
+        public virtual string Id { get; set; }
 
         /// <summary>
         /// The data type of the field's value. Currently, there are four attributes supported by templates: string, enum, float, and date (RFC 3339).

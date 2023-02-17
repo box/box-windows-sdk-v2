@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Box.V2.Exceptions;
 using Box.V2.Models;
@@ -61,11 +62,10 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
-        public async Task CreateRetentionPolicyAssignmentAsync_WithStartDateField_ShouldSuccess()
+        public async Task CreateRetentionPolicyAssignmentAsync_WithUploadedDateStartField_ShouldSuccess()
         {
             var retentionPolicy = await CreateRetentionPolicy();
-            var metadataFields = new Dictionary<string, object> { { "upload_date", "2024-02-14" } };
-            var metadataTemplate = await CreateMetadataTemplate(metadataFields);
+            var metadataTemplate = await CreateMetadataTemplate();
             var policyAssignmentReq = new BoxRetentionPolicyAssignmentRequest()
             {
                 PolicyId = retentionPolicy.Id,
@@ -76,6 +76,42 @@ namespace Box.V2.Test.Integration
                 },
                 StartDateField = "upload_date"
             };
+
+            var policyAssignment = await AdminClient.RetentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(policyAssignmentReq);
+            Assert.AreEqual(policyAssignmentReq.StartDateField, policyAssignment.StartDateField);
+
+            var result = await AdminClient.RetentionPoliciesManager.DeleteRetentionPolicyAssignmentAsync(policyAssignment.Id);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public async Task CreateRetentionPolicyAssignmentAsync_WithCustomStartDateField_ShouldSuccess()
+        {
+            var retentionPolicy = await CreateRetentionPolicy();
+            var customFieldName = "custom_field";
+            var metadataFields = new List<BoxMetadataTemplateField>()
+            {
+                new BoxMetadataTemplateField
+                {
+                    Key = customFieldName,
+                    DisplayName = customFieldName,
+                    Type = "date"
+                }
+            };
+
+            var metadataTemplate = await CreateMetadataTemplate(metadataFields);
+
+            var policyAssignmentReq = new BoxRetentionPolicyAssignmentRequest()
+            {
+                PolicyId = retentionPolicy.Id,
+                AssignTo = new BoxRequestEntity()
+                {
+                    Id = metadataTemplate.Id,
+                    Type = BoxType.metadata_template
+                },
+                StartDateField = metadataTemplate.Fields.First(x => x.Key == customFieldName).Id
+            };
+
             var policyAssignment = await AdminClient.RetentionPoliciesManager.CreateRetentionPolicyAssignmentAsync(policyAssignmentReq);
             Assert.AreEqual(policyAssignmentReq.StartDateField, policyAssignment.StartDateField);
 

@@ -634,5 +634,56 @@ namespace Box.V2.Test
             var file = (BoxFile)items.Entries[0];
             Assert.AreEqual(file.Metadata["enterprise_67890"]["catalogImages"]["photographer"].Value, "Bob Dylan");
         }
+
+        [TestMethod]
+        public async Task CreateMetadataTemplate_ValidResponse()
+        {
+            /*** Arrange ***/
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxMetadataTemplate>(It.IsAny<IBoxRequest>()))
+                 .Returns(Task.FromResult<IBoxResponse<BoxMetadataTemplate>>(new BoxResponse<BoxMetadataTemplate>()
+                 {
+                     Status = ResponseStatus.Success,
+                     ContentString = LoadFixtureFromJson("Fixtures/BoxMetadata/CreateMetadataTemplate200.json")
+                 }))
+                 .Callback<IBoxRequest>(r => boxRequest = r);
+
+            /*** Act ***/
+            var metadataRequest = new BoxMetadataTemplate()
+            {
+                TemplateKey = "ProductInfo",
+                DisplayName = "Product Info",
+                Scope = "enterprise_123456",
+                Fields = new List<BoxMetadataTemplateField>()
+                {
+                    new BoxMetadataTemplateField()
+                    {
+                        Type = "string",
+                        Key = "category",
+                        DisplayName = "Category",
+                        Options = new List<BoxMetadataTemplateFieldOption>()
+                        {
+                            new BoxMetadataTemplateFieldOption() { Key = "Category 1" },
+                        }
+                    },
+                }
+            };
+
+            var template = await _metadataManager.CreateMetadataTemplate(metadataRequest);
+
+            /*** Assert ***/
+            Assert.IsNotNull(boxRequest);
+            Assert.AreEqual(RequestMethod.Post, boxRequest.Method);
+
+            Assert.AreEqual(template.Type, "metadata_template");
+            Assert.AreEqual(template.Id, "58063d82-4128-7b43-bba9-92f706befcdf");
+            Assert.AreEqual(template.TemplateKey, "productInfo");
+            Assert.AreEqual(template.Scope, "enterprise_123456");
+            Assert.AreEqual(template.Fields[0].Id, "822227e0-47a5-921b-88a8-494760b2e6d2");
+            Assert.AreEqual(template.Fields[0].Key, "category");
+            Assert.AreEqual(template.Fields[0].DisplayName, "Category");
+            Assert.AreEqual(template.Fields[0].Type, "string");
+            Assert.AreEqual(template.Fields[0].Options[0].Key, "Category 1");
+        }
     }
 }

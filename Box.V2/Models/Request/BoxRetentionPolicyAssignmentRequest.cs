@@ -24,7 +24,8 @@ namespace Box.V2.Models.Request
         public List<object> FilterFields { get; set; }
 
         /// <summary>
-        /// The Metadata field which will be used to specify the start date for the retention policy
+        /// Id of Metadata field which will be used to specify the start date for the retention policy.
+        /// Alternatively, pass "upload_date" as value to use the date when the file was uploaded to Box.
         /// </summary>
         [JsonProperty(PropertyName = "start_date_field")]
         public string StartDateField { get; set; }
