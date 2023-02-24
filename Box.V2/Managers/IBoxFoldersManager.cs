@@ -23,10 +23,13 @@ namespace Box.V2.Managers
         /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
         /// <param name="sort">The field to sort items on</param>
         /// <param name="direction">The direction to sort results in: ascending or descending</param>
+        /// <param name="sharedLink">The shared link for this folder</param>
+        /// <param name="sharedLinkPassword">The password for the shared link (if required)</param>
         /// <returns>A collection of items contained in the folder is returned. An error is thrown if the folder does not exist, 
         /// or if any of the parameters are invalid. The total_count returned may not match the number of entries when using enterprise scope, 
         /// because external folders are hidden the list of entries.</returns>
-        Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate = false, string sort = null, BoxSortDirection? direction = null);
+        Task<BoxCollection<BoxItem>> GetFolderItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate = false, string sort = null, BoxSortDirection? direction = null,
+            string sharedLink = null, string sharedLinkPassword = null);
 
         /// <summary>
         /// Used to create a new empty folder. The new folder will be created inside of the specified parent folder.

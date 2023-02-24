@@ -76,6 +76,23 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
+        public async Task GetFolderItems_ValidHeader_ValidSharedLink()
+        {
+            IBoxRequest boxRequest = null;
+            Handler.Setup(h => h.ExecuteAsync<BoxCollection<BoxItem>>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxCollection<BoxItem>>>(new BoxResponse<BoxCollection<BoxItem>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = "{\"total_count\":24,\"entries\":[{\"type\":\"folder\",\"id\":\"192429928\",\"sequence_id\":\"1\",\"etag\":\"1\",\"name\":\"Stephen Curry Three Pointers\"},{\"type\":\"file\",\"id\":\"818853862\",\"sequence_id\":\"0\",\"etag\":\"0\",\"name\":\"Warriors.jpg\"}],\"offset\":0,\"limit\":2,\"order\":[{\"by\":\"type\",\"direction\":\"ASC\"},{\"by\":\"name\",\"direction\":\"ASC\"}]}"
+                })).Callback<IBoxRequest>(r => boxRequest = r);
+
+            BoxCollection<BoxItem> items = await _foldersManager.GetFolderItemsAsync("0", 2, sharedLink: "my_shared_link", sharedLinkPassword: "SuperSecret123");
+
+            Assert.IsTrue(boxRequest.HttpHeaders.ContainsKey("BoxApi"));
+            Assert.AreEqual(boxRequest.HttpHeaders["BoxApi"], "shared_link=my_shared_link&shared_link_password=SuperSecret123");
+        }
+
+        [TestMethod]
         public async Task CreateFolder_ValidResponse_ValidFolder()
         {
             Handler.Setup(h => h.ExecuteAsync<BoxFolder>(It.IsAny<IBoxRequest>()))

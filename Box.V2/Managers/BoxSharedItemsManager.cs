@@ -5,6 +5,7 @@ using Box.V2.Converter;
 using Box.V2.Extensions;
 using Box.V2.Models;
 using Box.V2.Services;
+using Box.V2.Utility;
 
 namespace Box.V2.Managers
 {
@@ -36,8 +37,9 @@ namespace Box.V2.Managers
         public async Task<BoxItem> SharedItemsAsync(string sharedLink, string sharedLinkPassword = null)
         {
             sharedLink.ThrowIfNullOrWhiteSpace("sharedLink");
+            var sharedLinkHeader = SharedLinkUtils.GetSharedLinkHeader(sharedLink, sharedLinkPassword);
             BoxRequest request = new BoxRequest(_config.SharedItemsUri, null)
-                .Header("BoxApi", string.Format("shared_link={0}{1}", sharedLink, (string.IsNullOrEmpty(sharedLinkPassword) ? "" : ("&shared_link_password=" + sharedLinkPassword))));
+                .Header(sharedLinkHeader.Item1, sharedLinkHeader.Item2);
             IBoxResponse<BoxItem> response = await ToResponseAsync<BoxItem>(request).ConfigureAwait(false);
             return response.ResponseObject;
         }
