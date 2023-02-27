@@ -250,7 +250,7 @@ namespace Box.V2.Test.Integration
             return createFolderCommand.Folder;
         }
 
-        public static async Task<BoxFolder> CreateFolderAsAdmin(string parentId)
+        public static async Task<BoxFolder> CreateFolderAsAdmin(string parentId = "0")
         {
             return await CreateFolder(parentId, CommandScope.Test, CommandAccessLevel.Admin);
         }

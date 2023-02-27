@@ -199,5 +199,28 @@ namespace Box.V2.Test.Integration
             var folderInfo = await UserClient.FoldersManager.GetInformationAsync(folder.Id, fieldList);
             Assert.IsFalse(folderInfo.WatermarkInfo.IsWatermarked);
         }
+
+        [TestMethod]
+        public async Task GetFolderItemsAsync_ForFolderWithSharedLink_ShouldReturnAllFolderItems()
+        {
+            var folder = await CreateFolderAsAdmin();
+            var file = await CreateSmallFileAsAdmin(folder.Id);
+
+            var password = "SuperSecret123";
+            var sharedLinkRequest = new BoxSharedLinkRequest
+            {
+                Access = BoxSharedLinkAccessType.open,
+                Password = password
+            };
+            var sharedLink = await AdminClient.FoldersManager.CreateSharedLinkAsync(folder.Id, sharedLinkRequest);
+
+            var sharedItems = await UserClient.SharedItemsManager.SharedItemsAsync(sharedLink.SharedLink.Url, password);
+            var items = await UserClient.FoldersManager.GetFolderItemsAsync(sharedItems.Id, 100, sharedLink: sharedLink.SharedLink.Url,
+                sharedLinkPassword: password);
+
+
+            Assert.AreEqual(items.TotalCount, 1);
+            Assert.AreEqual(items.Entries[0].Id, file.Id);
+        }
     }
 }
