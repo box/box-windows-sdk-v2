@@ -337,6 +337,7 @@ create a new zip file with the specified name and with the specified items and d
 The return object is a `BoxZipDownloadStatus` object that contains information about the download, including whether it was successful.
 The created zip file does not show up in your Box account.
 
+<!-- sample get_zip_downloads_id_content -->
 ```c#
 BoxZipRequest request = new BoxZipRequest();
 request.Name = "test";
