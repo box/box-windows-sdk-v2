@@ -106,7 +106,7 @@ namespace Box.V2.JWTAuth
         /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
         /// <param name="boxService">Box service is used to perform GetToken requests</param>
         /// <param name="retryStrategy">Retry strategy used when retrying http request</param>
-        /// 
+        ///
         public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService, IRetryStrategy retryStrategy) : this(boxConfig, boxService)
         {
             _retryStrategy = retryStrategy;
@@ -265,7 +265,7 @@ namespace Box.V2.JWTAuth
                 expireTime = nowOverride.Value.AddSeconds(30);
             }
 
-            var payload = new JwtPayload(_boxConfig.ClientId, new Uri(_boxConfig.BoxApiHostUri, Constants.AuthTokenEndpointString).ToString(),
+            var payload = new JwtPayload(_boxConfig.ClientId, new Uri(Constants.BoxAuthTokenApiUriString).ToString(),
                 claims, null, expireTime.LocalDateTime);
 
             var header = new JwtHeader(signingCredentials: _credentials);
