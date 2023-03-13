@@ -150,6 +150,6 @@ namespace Box.V2.Config
         /// JWT token audience claim.
         /// https://api.box.com/oauth2/token is used by default.
         /// </summary>
-        string JwtAudClaim { get; }
+        string JWTAudience { get; }
     }
 }

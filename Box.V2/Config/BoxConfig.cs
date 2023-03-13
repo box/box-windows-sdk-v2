@@ -66,7 +66,7 @@ namespace Box.V2.Config
             WebProxy = builder.WebProxy;
             Timeout = builder.Timeout;
             RetryStrategy = builder.RetryStrategy;
-            JwtAudClaim = builder.JwtAudClaim;
+            JWTAudience = builder.JWTAudience;
         }
 
         /// <summary>
@@ -156,15 +156,15 @@ namespace Box.V2.Config
             private set { _boxApiUri = value; }
         }
 
-        private string _jwtAudClaim;
+        private string _jwtAudience;
 
         /// <summary>
         /// Audience claim for JWT token. 
         /// </summary>
-        public string JwtAudClaim
+        public string JWTAudience
         {
-            get { return _jwtAudClaim ?? Constants.BoxAuthTokenApiUriString; }
-            private set { _jwtAudClaim = value; }
+            get { return _jwtAudience ?? Constants.BoxAuthTokenApiUriString; }
+            private set { _jwtAudience = value; }
         }
 
         public string ClientId { get; private set; }

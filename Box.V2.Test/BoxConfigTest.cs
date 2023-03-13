@@ -94,7 +94,7 @@ namespace Box.V2.Test
                 .SetBoxApiHostUri(exampleUri)
                 .Build();
 
-            Assert.AreEqual(newConfig.JwtAudClaim, "https://api.box.com/oauth2/token");
+            Assert.AreEqual(newConfig.JWTAudience, "https://api.box.com/oauth2/token");
         }
 
         [TestMethod]
@@ -104,11 +104,11 @@ namespace Box.V2.Test
             var customAudience = "custom_audience/oauth2/token";
             var newConfig = new BoxConfigBuilder("", "")
                 .SetBoxApiHostUri(exampleUri)
-                .SetJwtAudClaim(customAudience)
+                .SetJWTAudience(customAudience)
                 .Build();
 
             Assert.AreEqual(newConfig.BoxApiHostUri.ToString(), exampleUri + "/");
-            Assert.AreEqual(newConfig.JwtAudClaim, customAudience);
+            Assert.AreEqual(newConfig.JWTAudience, customAudience);
         }
     }
 }
