@@ -146,5 +146,10 @@ namespace Box.V2.Config
         /// Retry strategy for failed requests
         /// </summary>
         IRetryStrategy RetryStrategy { get; }
+        /// <summary>
+        /// JWT token audience claim.
+        /// https://api.box.com/oauth2/token is used by default.
+        /// </summary>
+        string JwtAudClaim { get; }
     }
 }
