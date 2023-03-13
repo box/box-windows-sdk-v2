@@ -87,7 +87,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        public void BoxConfig_DefaultAudienceClaim()
+        public void BoxConfig_DefaultJWTAudience()
         {
             var exampleUri = new Uri("https://example.com/account");
             var newConfig = new BoxConfigBuilder("", "")
@@ -98,7 +98,7 @@ namespace Box.V2.Test
         }
 
         [TestMethod]
-        public void BoxConfig_SetAudienceClaim()
+        public void BoxConfig_SetJWTAudience()
         {
             var exampleUri = new Uri("https://example.com/account");
             var customAudience = "custom_audience/oauth2/token";
