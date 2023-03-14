@@ -85,5 +85,30 @@ namespace Box.V2.Test
             Assert.AreEqual(newConfig.BoxAccountApiHostUri.ToString(), exampleUri + "/");
             Assert.AreEqual(newConfig.AuthCodeBaseUri.ToString(), exampleUri + "/" + "oauth2/authorize");
         }
+
+        [TestMethod]
+        public void BoxConfig_DefaultJWTAudience()
+        {
+            var exampleUri = new Uri("https://example.com/account");
+            var newConfig = new BoxConfigBuilder("", "")
+                .SetBoxApiHostUri(exampleUri)
+                .Build();
+
+            Assert.AreEqual(newConfig.JWTAudience, "https://api.box.com/oauth2/token");
+        }
+
+        [TestMethod]
+        public void BoxConfig_SetJWTAudience()
+        {
+            var exampleUri = new Uri("https://example.com/account");
+            var customAudience = "custom_audience/oauth2/token";
+            var newConfig = new BoxConfigBuilder("", "")
+                .SetBoxApiHostUri(exampleUri)
+                .SetJWTAudience(customAudience)
+                .Build();
+
+            Assert.AreEqual(newConfig.BoxApiHostUri.ToString(), exampleUri + "/");
+            Assert.AreEqual(newConfig.JWTAudience, customAudience);
+        }
     }
 }

@@ -239,6 +239,17 @@ namespace Box.V2.Config
             return this;
         }
 
+        /// <summary>
+        /// Sets audience claim used in JWT tokens.
+        /// </summary>
+        /// <param name="jwtAudience">Audience claim value</param>
+        /// <returns>this BoxConfigBuilder object for chaining</returns>
+        public BoxConfigBuilder SetJWTAudience(string jwtAudience)
+        {
+            _jwtAudience = jwtAudience;
+            return this;
+        }
+
         public string ClientId { get; private set; }
         public string ClientSecret { get; private set; }
         public string EnterpriseId { get; private set; }
@@ -246,7 +257,6 @@ namespace Box.V2.Config
         public string JWTPrivateKeyPassword { get; private set; }
         public string JWTPublicKeyId { get; private set; }
         public string UserAgent { get; private set; }
-
 
         public Uri BoxApiHostUri { get; private set; } = new Uri(Constants.BoxApiHostUriString);
         public Uri BoxAccountApiHostUri { get; private set; } = new Uri(Constants.BoxAccountApiHostUriString);
@@ -282,6 +292,17 @@ namespace Box.V2.Config
         /// Retry strategy for failed requests
         /// </summary>
         public IRetryStrategy RetryStrategy { get; private set; } = new ExponentialBackoff();
+
+        private string _jwtAudience;
+
+        /// <summary>
+        /// Audience claim for JWT token. 
+        /// </summary>
+        public string JWTAudience
+        {
+            get { return _jwtAudience ?? Constants.BoxAuthTokenApiUriString; }
+            private set { _jwtAudience = value; }
+        }
 
         private Uri EnsureEndsWithSlash(Uri uri)
         {
