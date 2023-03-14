@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.2.0](https://github.com/box/box-windows-sdk-v2/compare/v5.1.0...v5.2.0) (2023-03-14)
+
+
+### **New Features and Enhancements:**
+
+* add `Id` to `MetadataTemplateField` ([#890](https://github.com/box/box-windows-sdk-v2/issues/890)) ([b7fe214](https://github.com/box/box-windows-sdk-v2/commit/b7fe2149e1a0ade8573b497b7bb36e9f3c4f4a82))
+* add `start_date_field` and `description` to retention policies ([#888](https://github.com/box/box-windows-sdk-v2/issues/888)) ([100b722](https://github.com/box/box-windows-sdk-v2/commit/100b722ce4909395c00b527677564f37a61ec2cb))
+* add configurable `JWTAudience` claim ([#897](https://github.com/box/box-windows-sdk-v2/issues/897)) ([50219fd](https://github.com/box/box-windows-sdk-v2/commit/50219fdfd553d6335b6f0b4341719b09680c4ba0))
+* add shared link support to `GetFolderItemsAsync` ([#892](https://github.com/box/box-windows-sdk-v2/issues/892)) ([0eba85c](https://github.com/box/box-windows-sdk-v2/commit/0eba85c693763472c51fe81cbc43222305e9eefb))
+
+### **Bug Fixes:**
+
+* Use fixed value of `aud` field in `JWT` claim ([#896](https://github.com/box/box-windows-sdk-v2/issues/896)) ([8c9982d](https://github.com/box/box-windows-sdk-v2/commit/8c9982d160ec4806c796ee2621b1811232ea59c1))
+
+
 ## [5.1.0](https://github.com/box/box-windows-sdk-v2/compare/v5.0.0...v5.1.0) (2023-01-17)
 
 
@@ -345,6 +360,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
