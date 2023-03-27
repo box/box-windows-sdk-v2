@@ -30,22 +30,13 @@ particular time.
 BoxEventCollection<BoxEnterpriseEvent> events = await client.EventsManager.UserEventsAsync();
 ```
 
-You can also filter events by type.
-
-<!-- sample get_events filter -->
-```c#
-// filter events by type
-var eventTypestoFilter = new List<string>() { "UPLOAD" };
-BoxEventCollection<BoxEnterpriseEvent> events = await client.EventsManager.UserEventsAsync(500, null, eventTypestoFilter);
-```
-
 If you want to progress within a stream you can use position parameter:
 ```c#
 BoxEventCollection<BoxEnterpriseEvent> events = await client.EventsManager.UserEventsAsync(20);
 string nextStreamPosition = events.NextStreamPosition;
 // process revieved events
 BoxEventCollection<BoxEnterpriseEvent> events2 = await client.EventsManager
-    .UserEventsAsync(20, nextStreamPosition); // get events from the next position
+    .UserEventsAsync(20, UserEventsStreamType.all, nextStreamPosition); // get events from the next position
 // process revieved events
 ```
 
