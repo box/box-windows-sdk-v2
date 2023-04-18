@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.2.1](https://github.com/box/box-windows-sdk-v2/compare/v5.2.0...v5.2.1) (2023-04-18)
+
+
+### **Bug Fixes:**
+
+* Catch all exceptions when getting User Agent header ([#901](https://github.com/box/box-windows-sdk-v2/issues/901)) ([75d8874](https://github.com/box/box-windows-sdk-v2/commit/75d887470698a5f312610cebd58be58aee7eaa9b))
+
 ## [5.2.0](https://github.com/box/box-windows-sdk-v2/compare/v5.1.0...v5.2.0) (2023-03-14)
 
 
@@ -360,6 +367,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
