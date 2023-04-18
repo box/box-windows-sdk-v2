@@ -302,11 +302,7 @@ namespace Box.V2.Managers
             {
                 ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(Subkey);
             }
-            catch (UnauthorizedAccessException)
-            {
-                return "";
-            }
-            catch (SecurityException)
+            catch (Exception)
             {
                 return "";
             }
