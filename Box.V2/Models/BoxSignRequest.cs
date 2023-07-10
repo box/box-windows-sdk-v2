@@ -119,7 +119,7 @@ namespace Box.V2.Models
         public virtual BoxFile SigningLog { get; private set; }
 
         /// <summary>
-        /// List of files to create a signing document from. This is currently limited to one file. Only the ID and type fields are required for each file.
+        /// List of files to create a signing document from. This is currently limited to ten files. Only the ID and type fields are required for each file.
         /// </summary>
         [JsonProperty(PropertyName = FieldSourceFiles)]
         public virtual List<BoxFile> SourceFiles { get; private set; }

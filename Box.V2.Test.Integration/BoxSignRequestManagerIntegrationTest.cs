@@ -15,6 +15,7 @@ namespace Box.V2.Test.Integration
         public async Task CreateSignRequestAsync_ForCorrectSignRequestCreateRequest_ShouldCreateNewSignRequest()
         {
             var fileToSign = await CreateSmallFile(FolderId);
+            var fileToSign2 = await CreateSmallFile(FolderId);
             var signRequestCreateRequest = new BoxSignRequestCreateRequest()
             {
                 SourceFiles = new List<BoxSignRequestCreateSourceFile>()
@@ -22,6 +23,10 @@ namespace Box.V2.Test.Integration
                     new BoxSignRequestCreateSourceFile()
                     {
                         Id = fileToSign.Id
+                    },
+                    new BoxSignRequestCreateSourceFile()
+                    {
+                        Id = fileToSign2.Id
                     }
                 },
                 Signers = new List<BoxSignRequestSignerCreate>()
@@ -44,6 +49,7 @@ namespace Box.V2.Test.Integration
             BoxSignRequest signRequest = await UserClient.SignRequestsManager.CreateSignRequestAsync(signRequestCreateRequest);
             Assert.IsNotNull(signRequest.Id);
             Assert.AreEqual(signRequestCreateRequest.SourceFiles[0].Id, signRequest.SourceFiles[0].Id);
+            Assert.AreEqual(signRequestCreateRequest.SourceFiles[1].Id, signRequest.SourceFiles[1].Id);
             Assert.AreEqual(signRequestCreateRequest.RedirectUrl.ToString(), signRequest.RedirectUrl.ToString());
             Assert.AreEqual(signRequestCreateRequest.DeclinedRedirectUrl.ToString(), signRequest.DeclinedRedirectUrl.ToString());
             Assert.AreEqual(signRequestCreateRequest.ParentFolder.Id, signRequest.ParentFolder.Id);
