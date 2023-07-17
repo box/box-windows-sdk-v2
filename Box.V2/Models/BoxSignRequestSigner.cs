@@ -188,7 +188,8 @@ namespace Box.V2.Models
         last_name,
         text,
         date,
-        checkbox
+        checkbox,
+        attachment
     }
 
     /// <summary>
