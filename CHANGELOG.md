@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.3.0](https://github.com/box/box-windows-sdk-v2/compare/v5.2.2...v5.3.0) (2023-09-04)
+
+
+### **New Features and Enhancements:**
+
+* add `attachment` content type to `SignRequestSigner` ([#913](https://github.com/box/box-windows-sdk-v2/issues/913)) ([ad612ff](https://github.com/box/box-windows-sdk-v2/commit/ad612ffc7821a9ecbc180e3dbeefe16d3e397820))
+
+### **Bug Fixes:**
+
+* replace deprecated `BouncyCastle` library ([#909](https://github.com/box/box-windows-sdk-v2/issues/909)) ([f00f2af](https://github.com/box/box-windows-sdk-v2/commit/f00f2af9c5277b42e6a62060c1b0229ecff0203e))
+
+
 ### [5.2.2](https://github.com/box/box-windows-sdk-v2/compare/v5.2.1...v5.2.2) (2023-05-23)
 
 
@@ -374,6 +386,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
