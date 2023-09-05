@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -30,7 +30,7 @@ namespace Box.V2.Models
     public class BoxSignTemplateAdditionalInfoRequired
     {
         public const string FieldSigners = "signers";
-        
+
         /// <summary>
         /// Required signer fields.
         /// </summary>
