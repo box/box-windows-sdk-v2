@@ -49,6 +49,8 @@ namespace Box.V2.Test
             Config.SetupGet(x => x.FolderLocksEndpointUri).Returns(FolderLocksUri);
             Config.SetupGet(x => x.SignRequestsEndpointUri).Returns(SignRequestUri);
             Config.SetupGet(x => x.SignRequestsEndpointWithPathUri).Returns(SignRequestWithPathUri);
+            Config.SetupGet(x => x.SignTemplatesEndpointUri).Returns(new Uri(Constants.SignTemplatesEndpointString));
+            Config.SetupGet(x => x.SignTemplatesEndpointWithPathUri).Returns(new Uri(Constants.SignTemplatesWithPathEndpointString));
             Config.SetupGet(x => x.FileRequestsEndpointWithPathUri).Returns(FileRequestsWithPathUri);
             Config.SetupGet(x => x.RetryStrategy).Returns(new InstantRetryStrategy());
 

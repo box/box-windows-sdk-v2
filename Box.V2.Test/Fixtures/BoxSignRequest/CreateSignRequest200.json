@@ -101,5 +101,6 @@
       }
     }
   ],
-  "status": "converting"
+  "status": "converting",
+  "template_id": "12345"
 }

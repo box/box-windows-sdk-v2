@@ -29,6 +29,7 @@ namespace Box.V2.Models
         public const string FieldStatus = "status";
         public const string FieldDeclinedRedirectUrl = "declined_redirect_url";
         public const string FieldRedirectUrl = "redirect_url";
+        public const string FieldTemplateId = "template_id";
 
         /// <summary>
         /// Reminds signers to sign a document on day 3, 8, 13 and 18. Reminders are only sent to outstanding signers.
@@ -142,6 +143,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldRedirectUrl)]
         public virtual Uri RedirectUrl { get; private set; }
+
+        /// <summary>
+        /// The ID of the template that was used to create this sign request.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldTemplateId)]
+        public virtual string TemplateId { get; private set; }
     }
 
     /// <summary>
@@ -161,6 +168,8 @@ namespace Box.V2.Models
         expired,
         downloaded,
         [EnumMember(Value = "signed and downloaded")]
-        signed_and_downloaded
+        signed_and_downloaded,
+        finalizing,
+        error_finalizing
     }
 }

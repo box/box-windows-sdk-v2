@@ -109,7 +109,8 @@
         ],
         "is_ready_for_download": true
       },
-      "auto_expire_at": "2021-04-26T08:12:13.982Z"
+      "auto_expire_at": "2021-04-26T08:12:13.982Z",
+      "template_id": "12345"
     }
   ]
 }
