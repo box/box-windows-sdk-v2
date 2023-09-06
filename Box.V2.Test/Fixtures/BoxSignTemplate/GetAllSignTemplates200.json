@@ -4,11 +4,11 @@
   "prev_marker": null,
   "entries": [
     {
-      "id": "93153068-5420-467b-b8ef-aaaaaaa",
+      "id": "93153068-5420-467b-b8ef-8e54bfb7be42",
       "type": "sign-template",
       "name": "requirements-dev.pdf",
-      "email_message": "Please sign this document.\n\nKind regards,",
-      "email_subject": "Somebody has requested your signature on a document",
+      "email_message": "Please sign this document.\n\nKind regards",
+      "email_subject": "Someone (user00@box.com) has requested your signature on a document",
       "parent_folder": {
         "id": "1234567890",
         "etag": "0",
@@ -23,11 +23,11 @@
           "etag": "0",
           "type": "file",
           "sequence_id": "0",
-          "sha1": "082c9540e82e9c465309367a32404054b13b183f",
+          "sha1": "082c9540e82e9c465309367a3240405aaaaaaa",
           "file_version": {
-            "id": "1397632535458",
+            "id": "1234567890",
             "type": "file_version",
-            "sha1": "082c9540e82e9c465309367a32404054b13b183f"
+            "sha1": "082c9540e82e9c465309367a3240405aaaaaaa"
           }
         }
       ],
@@ -81,7 +81,7 @@
         }
       ],
       "ready_sign_link": {
-        "url": "https://app.box.com/sign/ready-sign-link/59917816-c12b-4ef6-8f1d-f7ea66191f99",
+        "url": "https://app.box.com/sign/ready-sign-link/59917816-c12b-4ef6-8f1d-aaaaaaa",
         "name": "requirements-dev.pdf",
         "instructions": "Hello",
         "folder_id": "1234567890",
@@ -93,14 +93,7 @@
       "additional_info": {
         "non_editable": [],
         "required": {
-          "signers": [
-            [
-              "email"
-            ],
-            [
-              "email"
-            ]
-          ]
+          "signers": [["email"], ["email"]]
         }
       }
     }
