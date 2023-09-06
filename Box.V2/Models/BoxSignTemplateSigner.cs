@@ -106,7 +106,7 @@ namespace Box.V2.Models
         /// The value of the date.
         /// </summary>
         [JsonProperty(PropertyName = FieldDateValue)]
-        public virtual DateTime? DateValue { get; private set; }
+        public virtual DateTimeOffset? DateValue { get; private set; }
 
         /// <summary>
         /// The dimensions of the input field.
@@ -211,13 +211,13 @@ namespace Box.V2.Models
         /// The x coordinate of the input field.
         /// </summary>
         [JsonProperty(PropertyName = FieldX)]
-        public virtual float X { get; private set; }
+        public virtual double X { get; private set; }
 
         /// <summary>
         /// The y coordinate of the input field.
         /// </summary>
         [JsonProperty(PropertyName = FieldY)]
-        public virtual float Y { get; private set; }
+        public virtual double Y { get; private set; }
     }
 
     /// <summary>
@@ -232,12 +232,12 @@ namespace Box.V2.Models
         /// The height of the input field.
         /// </summary>
         [JsonProperty(PropertyName = FieldHeight)]
-        public virtual float Height { get; private set; }
+        public virtual double Height { get; private set; }
 
         /// <summary>
         /// The width of the input field.
         /// </summary>
         [JsonProperty(PropertyName = FieldWidth)]
-        public virtual float Width { get; private set; }
+        public virtual double Width { get; private set; }
     }
 }
