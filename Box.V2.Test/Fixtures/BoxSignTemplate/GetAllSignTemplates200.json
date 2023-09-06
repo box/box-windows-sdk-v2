@@ -4,13 +4,13 @@
   "prev_marker": null,
   "entries": [
     {
-      "id": "93153068-5420-467b-b8ef-8e54bfb7be42",
+      "id": "93153068-5420-467b-b8ef-aaaaaaa",
       "type": "sign-template",
       "name": "requirements-dev.pdf",
-      "email_message": "Please sign this document.\n\nKind regards,\n\nMinh Nguyen Cong (mcong+biz00@boxdemo.com)",
-      "email_subject": "Minh Nguyen Cong (mcong+biz00@boxdemo.com) has requested your signature on a document",
+      "email_message": "Please sign this document.\n\nKind regards,",
+      "email_subject": "Somebody has requested your signature on a document",
       "parent_folder": {
-        "id": "205263471578",
+        "id": "1234567890",
         "etag": "0",
         "type": "folder",
         "sequence_id": "0",
@@ -19,7 +19,7 @@
       "auto_expire_days": null,
       "source_files": [
         {
-          "id": "1278569733058",
+          "id": "1234567890",
           "etag": "0",
           "type": "file",
           "sequence_id": "0",
@@ -56,7 +56,7 @@
           "inputs": [
             {
               "document_tag_id": null,
-              "id": "0260f921-3b52-477f-ae74-bcf02e2ccc09",
+              "id": "0260f921-3b52-477f-ae74-aaaaaaa",
               "type": "signature",
               "text_value": null,
               "is_required": true,
@@ -71,7 +71,7 @@
               "date_value": null,
               "page_index": 0,
               "checkbox_value": null,
-              "document_id": "2fdf9003-d798-40ee-be7f-f91f96432470",
+              "document_id": "2fdf9003-d798-40ee-be7f-aaaaaaa",
               "content_type": "signature",
               "dropdown_choices": null,
               "group_id": null,
@@ -84,7 +84,7 @@
         "url": "https://app.box.com/sign/ready-sign-link/59917816-c12b-4ef6-8f1d-f7ea66191f99",
         "name": "requirements-dev.pdf",
         "instructions": "Hello",
-        "folder_id": "205263471578",
+        "folder_id": "1234567890",
         "is_notification_disabled": true,
         "is_active": true
       },

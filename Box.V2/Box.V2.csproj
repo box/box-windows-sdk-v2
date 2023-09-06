@@ -188,6 +188,7 @@
     <Compile Include="Models\BoxSignTemplateAdditionalInfo.cs" />
     <Compile Include="Models\BoxSignTemplateCustomBranding.cs" />
     <Compile Include="Models\BoxSignTemplateReadySignLink.cs" />
+    <Compile Include="Models\BoxSignTemplateSigner.cs" />
     <Compile Include="Models\BoxStoragePolicy.cs" />
     <Compile Include="Models\BoxStoragePolicyAssignment.cs" />
     <Compile Include="Models\BoxTask.cs" />

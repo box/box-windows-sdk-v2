@@ -117,7 +117,7 @@ namespace Box.V2.Models
         /// List of signers for the template.
         /// </summary>
         [JsonProperty(PropertyName = FieldSigners)]
-        public virtual List<BoxSignRequestSigner> Signers { get; private set; }
+        public virtual List<BoxSignTemplateSigner> Signers { get; private set; }
 
         /// <summary>
         /// List of files to be used in the template.
