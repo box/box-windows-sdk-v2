@@ -144,7 +144,8 @@ namespace Box.V2.Test
                         "1234",
                         "text"
                     )
-                }
+                },
+                TemplateId = "12345"
             };
 
             /*** Act ***/
@@ -180,6 +181,7 @@ namespace Box.V2.Test
             Assert.AreEqual(DateTimeOffset.Parse("2021-04-26T08:12:13.982Z"), response.PrefillTags[0].DateValue);
             Assert.AreEqual("https://box.com/redirect_url", response.RedirectUrl.ToString());
             Assert.AreEqual("https://box.com/declined_redirect_url", response.DeclinedRedirectUrl.ToString());
+            Assert.AreEqual("12345", response.TemplateId);
         }
 
         [TestMethod]

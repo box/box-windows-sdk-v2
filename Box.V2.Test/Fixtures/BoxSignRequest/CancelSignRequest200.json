@@ -101,5 +101,6 @@
       }
     }
   ],
-  "status": "cancelled"
+  "status": "cancelled",
+  "template_id": "12345"
 }

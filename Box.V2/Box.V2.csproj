@@ -103,6 +103,7 @@
     <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
     <Compile Include="Managers\BoxSharedItemsManager.cs" />
     <Compile Include="Managers\BoxSignRequestsManager.cs" />
+    <Compile Include="Managers\BoxSignTemplatesManager.cs" />
     <Compile Include="Managers\BoxStoragePoliciesManager.cs" />
     <Compile Include="Managers\BoxTasksManager.cs" />
     <Compile Include="Managers\BoxTermsOfServiceManager.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Managers\IBoxSearchManager.cs" />
     <Compile Include="Managers\IBoxSharedItemsManager.cs" />
     <Compile Include="Managers\IBoxSignRequestsManager.cs" />
+    <Compile Include="Managers\IBoxSignTemplatesManager.cs" />
     <Compile Include="Managers\IBoxStoragePoliciesManager.cs" />
     <Compile Include="Managers\IBoxTasksManager.cs" />
     <Compile Include="Managers\IBoxTermsOfServiceManager.cs" />
@@ -182,6 +184,11 @@
     <Compile Include="Models\BoxSignRequestPrefillTag.cs" />
     <Compile Include="Models\BoxSignRequestSigner.cs" />
     <Compile Include="Models\BoxSignRequestSignFiles.cs" />
+    <Compile Include="Models\BoxSignTemplate.cs" />
+    <Compile Include="Models\BoxSignTemplateAdditionalInfo.cs" />
+    <Compile Include="Models\BoxSignTemplateCustomBranding.cs" />
+    <Compile Include="Models\BoxSignTemplateReadySignLink.cs" />
+    <Compile Include="Models\BoxSignTemplateSigner.cs" />
     <Compile Include="Models\BoxStoragePolicy.cs" />
     <Compile Include="Models\BoxStoragePolicyAssignment.cs" />
     <Compile Include="Models\BoxTask.cs" />

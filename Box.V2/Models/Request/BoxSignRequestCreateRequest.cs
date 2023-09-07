@@ -91,6 +91,12 @@ namespace Box.V2.Models.Request
         /// </summary>
         [JsonProperty(PropertyName = "redirect_url")]
         public Uri RedirectUrl { get; set; }
+
+        /// <summary>
+        /// The ID of sign template to use to create the sign request.
+        /// </summary>
+        [JsonProperty(PropertyName = "template_id")]
+        public string TemplateId { get; set; }
     }
 
     /// <summary>
