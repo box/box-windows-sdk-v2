@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.4.0](https://github.com/box/box-windows-sdk-v2/compare/v5.3.0...v5.4.0) (2023-09-07)
+
+
+### **New Features and Enhancements:**
+
+* Support Sign Templates and new Sign Request statuses ([#920](https://github.com/box/box-windows-sdk-v2/issues/920)) ([78580fb](https://github.com/box/box-windows-sdk-v2/commit/78580fbd3de553273970376b96bc28c7c5614a97))
+
 ## [5.3.0](https://github.com/box/box-windows-sdk-v2/compare/v5.2.2...v5.3.0) (2023-09-04)
 
 
@@ -386,6 +393,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
