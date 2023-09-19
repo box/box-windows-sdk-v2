@@ -96,15 +96,23 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">The folder id</param>
         /// <param name="fields">Attribute(s) to include in the response</param>
-        /// <returns>A full folder object is returned, including the most current information available about it. 
+        /// <param name="sharedLink">The shared link for this folder</param>
+        /// <param name="sharedLinkPassword">The password for the shared link (if required)</param>
+        /// <returns>A full folder object is returned, including the most current information available about it.
         /// An exception is thrown if the folder does not exist or if the user does not have access to it.</returns>
-        public async Task<BoxFolder> GetInformationAsync(string id, IEnumerable<string> fields = null)
+        public async Task<BoxFolder> GetInformationAsync(string id, IEnumerable<string> fields = null, string sharedLink = null, string sharedLinkPassword = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, id)
                 .Method(RequestMethod.Get)
                 .Param(ParamFields, fields);
+
+            if (!string.IsNullOrEmpty(sharedLink))
+            {
+                var sharedLinkHeader = SharedLinkUtils.GetSharedLinkHeader(sharedLink, sharedLinkPassword);
+                request.Header(sharedLinkHeader.Item1, sharedLinkHeader.Item2);
+            }
 
             IBoxResponse<BoxFolder> response = await ToResponseAsync<BoxFolder>(request).ConfigureAwait(false);
 

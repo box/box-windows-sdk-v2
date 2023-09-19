@@ -77,6 +77,26 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task GetInformationAsync_ForFolderWithSharedLink_ShouldReturnInformationRelatedToThisFolder()
+        {
+            var createdFolder = await CreateFolderAsAdmin();
+
+            var password = "SuperSecret123";
+            var sharedLinkRequest = new BoxSharedLinkRequest
+            {
+                Access = BoxSharedLinkAccessType.open,
+                Password = password
+            };
+            var sharedLink = await AdminClient.FoldersManager.CreateSharedLinkAsync(createdFolder.Id, sharedLinkRequest);
+
+            var sharedItems = await UserClient.SharedItemsManager.SharedItemsAsync(sharedLink.SharedLink.Url, password);
+
+            BoxFolder folder = await UserClient.FoldersManager.GetInformationAsync(sharedItems.Id, sharedLink: sharedLink.SharedLink.Url, sharedLinkPassword: password);
+
+            Assert.AreEqual(folder.Id, createdFolder.Id);
+        }
+
+        [TestMethod]
         public async Task CreateSharedLinkAsync_ForExistingFolder_ShouldCreateSharedLinkToThatFolder()
         {
             var createdFolder = await CreateFolder(FolderId);

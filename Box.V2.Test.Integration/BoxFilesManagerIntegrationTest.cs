@@ -57,6 +57,40 @@ namespace Box.V2.Test.Integration
         }
 
         [TestMethod]
+        public async Task DownloadAsync_ForFileWithSharedLink_ShouldReturnSameFileAsTheUploadedFile()
+        {
+            var folder = await CreateFolderAsAdmin();
+            var uploadedFile = await CreateSmallFileAsAdmin(folder.Id);
+
+            var password = "SuperSecret123";
+            var sharedLinkRequest = new BoxSharedLinkRequest
+            {
+                Access = BoxSharedLinkAccessType.open,
+                Password = password
+            };
+
+            var sharedLink = await AdminClient.FilesManager.CreateSharedLinkAsync(uploadedFile.Id, sharedLinkRequest);
+
+            var downloadedFile = await UserClient.FilesManager.DownloadAsync(uploadedFile.Id, sharedLink: sharedLink.SharedLink.Url, sharedLinkPassword: password);
+
+            Stream fileContents = new MemoryStream();
+            await downloadedFile.CopyToAsync(fileContents);
+            fileContents.Position = 0;
+
+            string base64DownloadedFile;
+            string base64UploadedFile;
+
+            base64DownloadedFile = Helper.GetSha1Hash(fileContents);
+
+            using (var fileStream = new FileStream(GetSmallFilePath(), FileMode.OpenOrCreate))
+            {
+                base64UploadedFile = Helper.GetSha1Hash(fileStream);
+            }
+
+            Assert.AreEqual(base64DownloadedFile, base64UploadedFile);
+        }
+
+        [TestMethod]
         public async Task GetInformationAsync_ForCorrectFileId_ShouldReturnSameFileAsUploadedFile()
         {
             var uploadedFile = await CreateSmallFile(FolderId);
@@ -64,6 +98,29 @@ namespace Box.V2.Test.Integration
             var downloadedFile = await UserClient.FilesManager.GetInformationAsync(uploadedFile.Id);
 
             Assert.AreEqual(uploadedFile.Sha1, downloadedFile.Sha1);
+        }
+
+        [TestMethod]
+        public async Task GetInformationAsync_ForFileWithSharedLink_ShouldReturnSameFileAsUploadedFile()
+        {
+            var folder = await CreateFolderAsAdmin();
+            var uploadedFile = await CreateSmallFileAsAdmin(folder.Id);
+
+            var password = "SuperSecret123";
+            var sharedLinkRequest = new BoxSharedLinkRequest
+            {
+                Access = BoxSharedLinkAccessType.open,
+                Password = password
+            };
+
+            var sharedLink = await AdminClient.FilesManager.CreateSharedLinkAsync(uploadedFile.Id, sharedLinkRequest);
+
+            var sharedItems = await UserClient.SharedItemsManager.SharedItemsAsync(sharedLink.SharedLink.Url, password);
+
+            BoxFile file = await UserClient.FilesManager.GetInformationAsync(sharedItems.Id, sharedLink: sharedLink.SharedLink.Url, sharedLinkPassword: password);
+
+            Assert.AreEqual(file.Id, uploadedFile.Id);
+            Assert.AreEqual(file.Sha1, uploadedFile.Sha1);
         }
 
         [TestMethod]

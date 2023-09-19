@@ -36,13 +36,21 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">Id of the file.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="sharedLink">The shared link for this file</param>
+        /// <param name="sharedLinkPassword">The password for the shared link (if required)</param>
         /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
-        public async Task<BoxFile> GetInformationAsync(string id, IEnumerable<string> fields = null)
+        public async Task<BoxFile> GetInformationAsync(string id, IEnumerable<string> fields = null, string sharedLink = null, string sharedLinkPassword = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
             BoxRequest request = new BoxRequest(_config.FilesEndpointUri, id)
                 .Param(ParamFields, fields);
+
+            if (!string.IsNullOrEmpty(sharedLink))
+            {
+                var sharedLinkHeader = SharedLinkUtils.GetSharedLinkHeader(sharedLink, sharedLinkPassword);
+                request.Header(sharedLinkHeader.Item1, sharedLinkHeader.Item2);
+            }
 
             IBoxResponse<BoxFile> response = await ToResponseAsync<BoxFile>(request).ConfigureAwait(false);
 
@@ -57,8 +65,10 @@ namespace Box.V2.Managers
         /// <param name="timeout">Optional timeout for response.</param>
         /// <param name="startOffsetInBytes">Starting byte of the chunk to download.</param>
         /// <param name="endOffsetInBytes">Ending byte of the chunk to download.</param>
+        /// <param name="sharedLink">The shared link for this file</param>
+        /// <param name="sharedLinkPassword">The password for the shared link (if required)</param>
         /// <returns>Stream of the requested file.</returns>
-        public async Task<Stream> DownloadAsync(string id, string versionId = null, TimeSpan? timeout = null, long? startOffsetInBytes = null, long? endOffsetInBytes = null)
+        public async Task<Stream> DownloadAsync(string id, string versionId = null, TimeSpan? timeout = null, long? startOffsetInBytes = null, long? endOffsetInBytes = null, string sharedLink = null, string sharedLinkPassword = null)
         {
             id.ThrowIfNullOrWhiteSpace("id");
 
@@ -68,6 +78,12 @@ namespace Box.V2.Managers
             if (startOffsetInBytes.HasValue && endOffsetInBytes.HasValue)
             {
                 request = request.Header("Range", $"bytes={startOffsetInBytes}-{endOffsetInBytes}");
+            }
+
+            if (!string.IsNullOrEmpty(sharedLink))
+            {
+                var sharedLinkHeader = SharedLinkUtils.GetSharedLinkHeader(sharedLink, sharedLinkPassword);
+                request.Header(sharedLinkHeader.Item1, sharedLinkHeader.Item2);
             }
 
             IBoxResponse<Stream> response = await ToResponseAsync<Stream>(request).ConfigureAwait(false);

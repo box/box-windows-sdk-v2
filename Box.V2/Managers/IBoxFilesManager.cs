@@ -19,8 +19,10 @@ namespace Box.V2.Managers
         /// </summary>
         /// <param name="id">Id of the file.</param>
         /// <param name="fields">Attribute(s) to include in the response.</param>
+        /// <param name="sharedLink">The shared link for this file</param>
+        /// <param name="sharedLinkPassword">The password for the shared link (if required)</param>
         /// <returns>A full file object is returned if the ID is valid and if the user has access to the file.</returns>
-        Task<BoxFile> GetInformationAsync(string id, IEnumerable<string> fields = null);
+        Task<BoxFile> GetInformationAsync(string id, IEnumerable<string> fields = null, string sharedLink = null, string sharedLinkPassword = null);
 
         /// <summary>
         /// Returns the stream of the requested file.
@@ -30,8 +32,10 @@ namespace Box.V2.Managers
         /// <param name="timeout">Optional timeout for response.</param>
         /// <param name="startOffsetInBytes">Starting byte of the chunk to download.</param>
         /// <param name="endOffsetInBytes">Ending byte of the chunk to download.</param>
+        /// <param name="sharedLink">The shared link for this file</param>
+        /// <param name="sharedLinkPassword">The password for the shared link (if required)</param>
         /// <returns>Stream of the requested file.</returns>
-        Task<Stream> DownloadAsync(string id, string versionId = null, TimeSpan? timeout = null, long? startOffsetInBytes = null, long? endOffsetInBytes = null);
+        Task<Stream> DownloadAsync(string id, string versionId = null, TimeSpan? timeout = null, long? startOffsetInBytes = null, long? endOffsetInBytes = null, string sharedLink = null, string sharedLinkPassword = null);
 
         /// <summary>
         /// Retrieves the temporary direct Uri to a file (valid for 15 minutes). This is typically used to send as a redirect to a browser to make the browser download the file directly from Box.
