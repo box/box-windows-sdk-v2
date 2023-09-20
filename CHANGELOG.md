@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.5.0](https://github.com/box/box-windows-sdk-v2/compare/v5.4.0...v5.5.0) (2023-09-20)
+
+
+### **New Features and Enhancements:**
+
+* Add shared link header support in file and folder managers ([#923](https://github.com/box/box-windows-sdk-v2/issues/923)) ([ffbfc72](https://github.com/box/box-windows-sdk-v2/commit/ffbfc72289c70cdd91ea500326944a40b89993e3))
+
 ## [5.4.0](https://github.com/box/box-windows-sdk-v2/compare/v5.3.0...v5.4.0) (2023-09-07)
 
 
@@ -393,6 +400,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
