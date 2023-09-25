@@ -35,7 +35,8 @@ namespace Box.V2.Test.Integration
                     {
                         Email = "sdk_integration_test@boxdemo.com",
                         RedirectUrl = new Uri("https://www.box.com/redirect_url_signer_1"),
-                        DeclinedRedirectUrl = new Uri("https://www.box.com/declined_redirect_url_singer_1")
+                        DeclinedRedirectUrl = new Uri("https://www.box.com/declined_redirect_url_singer_1"),
+                        EmbedUrlExternalUserId = UserId
                     }
                 },
                 ParentFolder = new BoxRequestEntity()
@@ -53,6 +54,10 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(signRequestCreateRequest.RedirectUrl.ToString(), signRequest.RedirectUrl.ToString());
             Assert.AreEqual(signRequestCreateRequest.DeclinedRedirectUrl.ToString(), signRequest.DeclinedRedirectUrl.ToString());
             Assert.AreEqual(signRequestCreateRequest.ParentFolder.Id, signRequest.ParentFolder.Id);
+
+            // first signer is the sender with role final_copy_reader, second is the recipient with role signer
+            Assert.AreEqual(2, signRequest.Signers.Count);
+            Assert.IsNotNull(signRequest.Signers[1].IframeableEmbedUrl);
 
             await UserClient.SignRequestsManager.CancelSignRequestAsync(signRequest.Id);
 
