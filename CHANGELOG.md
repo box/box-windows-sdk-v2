@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.6.1](https://github.com/box/box-windows-sdk-v2/compare/v5.6.0...v5.6.1) (2023-11-29)
+
+
+### **Bug Fixes:**
+
+* support object value in `BoxConflictErrorContextInfo` ([#930](https://github.com/box/box-windows-sdk-v2/issues/930)) ([496f758](https://github.com/box/box-windows-sdk-v2/commit/496f758c3436b1834188078027b7305ca6a98fce))
+
 ## [5.6.0](https://github.com/box/box-windows-sdk-v2/compare/v5.5.0...v5.6.0) (2023-09-25)
 
 
@@ -407,6 +414,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
