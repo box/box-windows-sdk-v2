@@ -95,6 +95,8 @@ namespace Box.V2.Converter
                         return new BoxFolderLock();
                     case Constants.TypeSignRequest:
                         return new BoxSignRequest();
+                    case Constants.TypeSignTemplate:
+                        return new BoxSignTemplate();
                     case Constants.TypeFileRequest:
                         return new BoxFileRequestObject();
                 }

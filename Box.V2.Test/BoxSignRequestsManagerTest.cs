@@ -144,7 +144,8 @@ namespace Box.V2.Test
                         "1234",
                         "text"
                     )
-                }
+                },
+                TemplateId = "12345"
             };
 
             /*** Act ***/
@@ -163,6 +164,7 @@ namespace Box.V2.Test
             Assert.AreEqual("example@gmail.com", response.Signers[0].Email);
             Assert.AreEqual("https://box.com/redirect_url_signer_1", response.Signers[0].RedirectUrl.ToString());
             Assert.AreEqual("https://box.com/declined_redirect_url_signer_1", response.Signers[0].DeclinedRedirectUrl.ToString());
+            Assert.AreEqual("https://app.box.com/embed/sign/document/bf7aaac6/", response.Signers[0].IframeableEmbedUrl);
             Assert.AreEqual(1, response.Signers[0].Inputs.Count);
             Assert.IsTrue(response.Signers[0].Inputs[0].CheckboxValue.Value);
             Assert.AreEqual(BoxSignRequestSingerInputContentType.checkbox, response.Signers[0].Inputs[0].ContentType);
@@ -180,6 +182,7 @@ namespace Box.V2.Test
             Assert.AreEqual(DateTimeOffset.Parse("2021-04-26T08:12:13.982Z"), response.PrefillTags[0].DateValue);
             Assert.AreEqual("https://box.com/redirect_url", response.RedirectUrl.ToString());
             Assert.AreEqual("https://box.com/declined_redirect_url", response.DeclinedRedirectUrl.ToString());
+            Assert.AreEqual("12345", response.TemplateId);
         }
 
         [TestMethod]
@@ -211,6 +214,7 @@ namespace Box.V2.Test
             Assert.AreEqual("example@gmail.com", response.Entries[0].Signers[0].Email);
             Assert.AreEqual("https://box.com/redirect_url_signer_1", response.Entries[0].Signers[0].RedirectUrl.ToString());
             Assert.AreEqual("https://box.com/declined_redirect_url_signer_1", response.Entries[0].Signers[0].DeclinedRedirectUrl.ToString());
+            Assert.AreEqual("https://app.box.com/embed/sign/document/bf7aaac6/", response.Entries[0].Signers[0].IframeableEmbedUrl);
             Assert.AreEqual("12345", response.Entries[0].ParentFolder.Id);
             Assert.IsTrue(response.Entries[0].IsDocumentPreparationNeeded);
             Assert.IsTrue(response.Entries[0].AreRemindersEnabled);
@@ -257,6 +261,7 @@ namespace Box.V2.Test
             Assert.AreEqual("example@gmail.com", response.Signers[0].Email);
             Assert.AreEqual("https://box.com/redirect_url_signer_1", response.Signers[0].RedirectUrl.ToString());
             Assert.AreEqual("https://box.com/declined_redirect_url_signer_1", response.Signers[0].DeclinedRedirectUrl.ToString());
+            Assert.AreEqual("https://app.box.com/embed/sign/document/bf7aaac6/", response.Signers[0].IframeableEmbedUrl);
             Assert.AreEqual(1, response.Signers[0].Inputs.Count);
             Assert.IsTrue(response.Signers[0].Inputs[0].CheckboxValue.Value);
             Assert.AreEqual(BoxSignRequestSingerInputContentType.checkbox, response.Signers[0].Inputs[0].ContentType);

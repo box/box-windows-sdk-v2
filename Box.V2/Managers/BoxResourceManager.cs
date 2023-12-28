@@ -302,11 +302,7 @@ namespace Box.V2.Managers
             {
                 ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(Subkey);
             }
-            catch (UnauthorizedAccessException)
-            {
-                return "";
-            }
-            catch (SecurityException)
+            catch (Exception)
             {
                 return "";
             }
@@ -360,14 +356,21 @@ namespace Box.V2.Managers
 
         private string GetNetCoreVersion()
         {
-            var assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
-            if (assembly?.CodeBase != null)
+            try
             {
-                var assemblyPath = assembly.CodeBase.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
-                var netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
-                return netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2 ?
-                    assemblyPath[netCoreAppIndex + 1] :
-                    null;
+                var assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
+                if (assembly?.CodeBase != null)
+                {
+                    var assemblyPath = assembly.CodeBase.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+                    var netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
+                    return netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2 ?
+                        assemblyPath[netCoreAppIndex + 1] :
+                        null;
+                }
+            }
+            catch
+            {
+                return null;
             }
 
 #if NETSTANDARD2_0

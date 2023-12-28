@@ -21,6 +21,7 @@ namespace Box.V2.Models
         public const string FieldSignerDecision = "signer_decision";
         public const string FieldDeclinedRedirectUrl = "declined_redirect_url";
         public const string FieldRedirectUrl = "redirect_url";
+        public const string FieldIframeableEmbedUrl = "iframeable_embed_url";
 
         /// <summary>
         /// Email address of the signer.
@@ -90,6 +91,12 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldRedirectUrl)]
         public virtual Uri RedirectUrl { get; private set; }
+
+        /// <summary>
+        /// This URL is specifically designed for signing documents within an HTML iframe tag.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldIframeableEmbedUrl)]
+        public virtual string IframeableEmbedUrl { get; private set; }
     }
 
     /// <summary>
@@ -188,7 +195,8 @@ namespace Box.V2.Models
         last_name,
         text,
         date,
-        checkbox
+        checkbox,
+        attachment
     }
 
     /// <summary>

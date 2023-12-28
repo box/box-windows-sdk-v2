@@ -131,6 +131,14 @@ namespace Box.V2.Config
         /// </summary>
         Uri SignRequestsEndpointWithPathUri { get; }
         /// <summary>
+        /// Gets the sign templates endpoint URI.
+        /// </summary>
+        Uri SignTemplatesEndpointUri { get; }
+        /// <summary>
+        /// Gets the sign template endpoints URI with path.
+        /// </summary>
+        Uri SignTemplatesEndpointWithPathUri { get; }
+        /// <summary>
         /// Gets the file requests endpoint URI with path.
         /// </summary>
         Uri FileRequestsEndpointWithPathUri { get; }

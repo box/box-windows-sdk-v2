@@ -2,6 +2,60 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.6.1](https://github.com/box/box-windows-sdk-v2/compare/v5.6.0...v5.6.1) (2023-11-29)
+
+
+### **Bug Fixes:**
+
+* support object value in `BoxConflictErrorContextInfo` ([#930](https://github.com/box/box-windows-sdk-v2/issues/930)) ([496f758](https://github.com/box/box-windows-sdk-v2/commit/496f758c3436b1834188078027b7305ca6a98fce))
+
+## [5.6.0](https://github.com/box/box-windows-sdk-v2/compare/v5.5.0...v5.6.0) (2023-09-25)
+
+
+### **New Features and Enhancements:**
+
+* Support `iframeable_embed_url` for sign request ([#925](https://github.com/box/box-windows-sdk-v2/issues/925)) ([e9de994](https://github.com/box/box-windows-sdk-v2/commit/e9de994cea97afcc1c3bc52ddf1cc023b9ee731c))
+
+## [5.5.0](https://github.com/box/box-windows-sdk-v2/compare/v5.4.0...v5.5.0) (2023-09-20)
+
+
+### **New Features and Enhancements:**
+
+* Add shared link header support in file and folder managers ([#923](https://github.com/box/box-windows-sdk-v2/issues/923)) ([ffbfc72](https://github.com/box/box-windows-sdk-v2/commit/ffbfc72289c70cdd91ea500326944a40b89993e3))
+
+## [5.4.0](https://github.com/box/box-windows-sdk-v2/compare/v5.3.0...v5.4.0) (2023-09-07)
+
+
+### **New Features and Enhancements:**
+
+* Support Sign Templates and new Sign Request statuses ([#920](https://github.com/box/box-windows-sdk-v2/issues/920)) ([78580fb](https://github.com/box/box-windows-sdk-v2/commit/78580fbd3de553273970376b96bc28c7c5614a97))
+
+## [5.3.0](https://github.com/box/box-windows-sdk-v2/compare/v5.2.2...v5.3.0) (2023-09-04)
+
+
+### **New Features and Enhancements:**
+
+* add `attachment` content type to `SignRequestSigner` ([#913](https://github.com/box/box-windows-sdk-v2/issues/913)) ([ad612ff](https://github.com/box/box-windows-sdk-v2/commit/ad612ffc7821a9ecbc180e3dbeefe16d3e397820))
+
+### **Bug Fixes:**
+
+* replace deprecated `BouncyCastle` library ([#909](https://github.com/box/box-windows-sdk-v2/issues/909)) ([f00f2af](https://github.com/box/box-windows-sdk-v2/commit/f00f2af9c5277b42e6a62060c1b0229ecff0203e))
+
+
+### [5.2.2](https://github.com/box/box-windows-sdk-v2/compare/v5.2.1...v5.2.2) (2023-05-23)
+
+
+### **Bug Fixes:**
+
+* catch exception when .net core version cannot be determined ([#906](https://github.com/box/box-windows-sdk-v2/issues/906)) ([e3be209](https://github.com/box/box-windows-sdk-v2/commit/e3be209b20a5c323f547d7634663883613959180))
+
+### [5.2.1](https://github.com/box/box-windows-sdk-v2/compare/v5.2.0...v5.2.1) (2023-04-18)
+
+
+### **Bug Fixes:**
+
+* Catch all exceptions when getting User Agent header ([#901](https://github.com/box/box-windows-sdk-v2/issues/901)) ([75d8874](https://github.com/box/box-windows-sdk-v2/commit/75d887470698a5f312610cebd58be58aee7eaa9b))
+
 ## [5.2.0](https://github.com/box/box-windows-sdk-v2/compare/v5.1.0...v5.2.0) (2023-03-14)
 
 
@@ -360,6 +414,13 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
+
+
+
+
+
+
 
 
 

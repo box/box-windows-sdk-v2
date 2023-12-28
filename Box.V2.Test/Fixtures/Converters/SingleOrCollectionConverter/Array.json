@@ -1,0 +1,18 @@
+{
+  "conflicts": [
+    {
+      "type": "folder",
+      "id": "123",
+      "sequence_id": "0",
+      "etag": "0",
+      "name": "Test Folder"
+    },
+    {
+      "type": "folder",
+      "id": "124",
+      "sequence_id": "0",
+      "etag": "0",
+      "name": "Test Folder 2"
+    }
+  ]
+}

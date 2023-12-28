@@ -285,6 +285,14 @@ namespace Box.V2.Config
         /// </summary>
         public Uri SignRequestsEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.SignRequestsWithPathString); } }
         /// <summary>
+        /// Gets the sign templates endpoint URI.
+        /// </summary>
+        public Uri SignTemplatesEndpointUri { get { return new Uri(BoxApiUri, Constants.SignTemplatesString); } }
+        /// <summary>
+        /// Gets the sign templates endpoint URI with path.
+        /// </summary>
+        public Uri SignTemplatesEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.SignTemplatesWithPathString); } }
+        /// <summary>
         /// Gets the file requests endpoint URI.
         /// </summary>
         public Uri FileRequestsEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.FileRequestsWithPathString); } }

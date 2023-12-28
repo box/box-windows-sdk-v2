@@ -20,7 +20,7 @@ Create Sign Request
 ------------------------
 
 The `SignRequestsManager.CreateSignRequestAsync(BoxSignRequestCreateRequest signRequestCreateRequest)`
-method will create a Sign Request. You need to provide at least one file (from which the signing document will be created) and at least one signer to receive the Sign Request.
+method will create a Sign Request. You need to provide at least one file and up to ten files (from which the signing document will be created) with at least one signer to receive the Sign Request.
 
 <!-- sample post_sign_requests -->
 ```c#

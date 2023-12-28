@@ -15,6 +15,7 @@ namespace Box.V2.Test.Integration
         public async Task CreateSignRequestAsync_ForCorrectSignRequestCreateRequest_ShouldCreateNewSignRequest()
         {
             var fileToSign = await CreateSmallFile(FolderId);
+            var fileToSign2 = await CreateSmallFile(FolderId);
             var signRequestCreateRequest = new BoxSignRequestCreateRequest()
             {
                 SourceFiles = new List<BoxSignRequestCreateSourceFile>()
@@ -22,6 +23,10 @@ namespace Box.V2.Test.Integration
                     new BoxSignRequestCreateSourceFile()
                     {
                         Id = fileToSign.Id
+                    },
+                    new BoxSignRequestCreateSourceFile()
+                    {
+                        Id = fileToSign2.Id
                     }
                 },
                 Signers = new List<BoxSignRequestSignerCreate>()
@@ -30,7 +35,8 @@ namespace Box.V2.Test.Integration
                     {
                         Email = "sdk_integration_test@boxdemo.com",
                         RedirectUrl = new Uri("https://www.box.com/redirect_url_signer_1"),
-                        DeclinedRedirectUrl = new Uri("https://www.box.com/declined_redirect_url_singer_1")
+                        DeclinedRedirectUrl = new Uri("https://www.box.com/declined_redirect_url_singer_1"),
+                        EmbedUrlExternalUserId = UserId
                     }
                 },
                 ParentFolder = new BoxRequestEntity()
@@ -44,9 +50,14 @@ namespace Box.V2.Test.Integration
             BoxSignRequest signRequest = await UserClient.SignRequestsManager.CreateSignRequestAsync(signRequestCreateRequest);
             Assert.IsNotNull(signRequest.Id);
             Assert.AreEqual(signRequestCreateRequest.SourceFiles[0].Id, signRequest.SourceFiles[0].Id);
+            Assert.AreEqual(signRequestCreateRequest.SourceFiles[1].Id, signRequest.SourceFiles[1].Id);
             Assert.AreEqual(signRequestCreateRequest.RedirectUrl.ToString(), signRequest.RedirectUrl.ToString());
             Assert.AreEqual(signRequestCreateRequest.DeclinedRedirectUrl.ToString(), signRequest.DeclinedRedirectUrl.ToString());
             Assert.AreEqual(signRequestCreateRequest.ParentFolder.Id, signRequest.ParentFolder.Id);
+
+            // first signer is the sender with role final_copy_reader, second is the recipient with role signer
+            Assert.AreEqual(2, signRequest.Signers.Count);
+            Assert.IsNotNull(signRequest.Signers[1].IframeableEmbedUrl);
 
             await UserClient.SignRequestsManager.CancelSignRequestAsync(signRequest.Id);
 

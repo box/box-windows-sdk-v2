@@ -12,7 +12,7 @@ namespace Box.V2.Test.Integration
         public async Task SharedItemsAsync_ForSharedFolder_ShouldReturnSharedFolder()
         {
             var folder = await CreateFolder();
-            var password = "secret";
+            var password = "Secret123";
             var sharedLinkReq = new BoxSharedLinkRequest()
             {
                 Access = BoxSharedLinkAccessType.open,
