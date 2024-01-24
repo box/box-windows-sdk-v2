@@ -112,7 +112,6 @@
       "extension": "pdf",
       "is_package": true,
       "expiring_embed_link": {
-        "access_token": "c3FIOG9vSGV4VHo4QzAyg5T1JvNnJoZ3ExaVNyQWw6WjRsanRKZG5lQk9qUE1BVQ",
         "expires_in": 3600,
         "token_type": "bearer",
         "restricted_to": [
