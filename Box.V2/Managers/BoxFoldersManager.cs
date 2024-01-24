@@ -18,7 +18,8 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
-        /// Retrieves the files and/or folders contained within this folder without any other metadata about the folder. 
+        /// Retrieves the files and/or folders contained within this folder without any other metadata about the folder.
+        /// Uses offset-based pagination.
         /// Any attribute in the full files or folders objects can be passed in with the fields parameter to get specific attributes, 
         /// and only those specific attributes back; otherwise, the mini format is returned for each item by default.
         /// Multiple attributes can be passed in using the fields parameter. Paginated results can be 
@@ -63,6 +64,56 @@ namespace Box.V2.Managers
             else
             {
                 IBoxResponse<BoxCollection<BoxItem>> response = await ToResponseAsync<BoxCollection<BoxItem>>(request).ConfigureAwait(false);
+                return response.ResponseObject;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the files and/or folders contained within this folder without any other metadata about the folder.
+        /// Uses marker-based pagination.
+        /// Any attribute in the full files or folders objects can be passed in with the fields parameter to get specific attributes, 
+        /// and only those specific attributes back; otherwise, the mini format is returned for each item by default.
+        /// Multiple attributes can be passed in using the fields parameter. Paginated results can be 
+        /// retrieved using the limit and marker parameters.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="limit">The maximum number of items to return in a page. The default is 100 and the max is 1000.</param>
+        /// <param name="marker">Position to return results from..</param>
+        /// <param name="fields">Attribute(s) to include in the response</param>
+        /// <param name="autoPaginate">Whether or not to auto-paginate to fetch all items; defaults to false.</param>
+        /// <param name="sort">The field to sort items on</param>
+        /// <param name="direction">The direction to sort results in: ascending or descending</param>
+        /// <param name="sharedLink">The shared link for this folder</param>
+        /// <param name="sharedLinkPassword">The password for the shared link (if required)</param>
+        /// <returns>A collection of items contained in the folder is returned. An error is thrown if the folder does not exist, 
+        /// or if any of the parameters are invalid. The total_count returned may not match the number of entries when using enterprise scope, 
+        /// because external folders are hidden the list of entries.</returns>
+        public async Task<BoxCollectionMarkerBased<BoxItem>> GetFolderItemsMarkerBasedAsync(string id, int limit, string marker = null, IEnumerable<string> fields = null, bool autoPaginate = false, string sort = null, BoxSortDirection? direction = null,
+            string sharedLink = null, string sharedLinkPassword = null)
+        {
+            id.ThrowIfNullOrWhiteSpace("id");
+
+            BoxRequest request = new BoxRequest(_config.FoldersEndpointUri, string.Format(Constants.ItemsPathString, id))
+                .Param("limit", limit.ToString())
+                .Param("marker", marker)
+                .Param("usemarker", "true")
+                .Param("sort", sort)
+                .Param("direction", direction.ToString())
+                .Param(ParamFields, fields);
+
+            if (!string.IsNullOrEmpty(sharedLink))
+            {
+                var sharedLinkHeader = SharedLinkUtils.GetSharedLinkHeader(sharedLink, sharedLinkPassword);
+                request.Header(sharedLinkHeader.Item1, sharedLinkHeader.Item2);
+            }
+
+            if (autoPaginate)
+            {
+                return await AutoPaginateMarker<BoxItem>(request, limit).ConfigureAwait(false);
+            }
+            else
+            {
+                IBoxResponse<BoxCollectionMarkerBased<BoxItem>> response = await ToResponseAsync<BoxCollectionMarkerBased<BoxItem>>(request).ConfigureAwait(false);
                 return response.ResponseObject;
             }
         }
