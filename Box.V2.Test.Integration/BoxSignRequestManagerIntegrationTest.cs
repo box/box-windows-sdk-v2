@@ -70,7 +70,7 @@ namespace Box.V2.Test.Integration
             // first signer is the sender with role final_copy_reader, second is the recipient with role signer
             Assert.AreEqual(3, signRequest.Signers.Count);
             Assert.IsNotNull(signRequest.Signers[1].IframeableEmbedUrl);
-            
+
             var signerGroupId = "";
             for (var i = 0; i < signRequest.Signers.Count; i++)
             {
