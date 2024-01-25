@@ -71,7 +71,42 @@
       "embed_url": "https://example.com",
       "redirect_url": "https://box.com/redirect_url_signer_1",
       "declined_redirect_url": "https://box.com/declined_redirect_url_signer_1",
-      "iframeable_embed_url": "https://app.box.com/embed/sign/document/bf7aaac6/"
+      "iframeable_embed_url": "https://app.box.com/embed/sign/document/bf7aaac6/",
+      "login_required": false,
+      "password": "abcdefg",
+      "signer_group_id": "cd4ff89-8fc1-42cf-8b29-1890dedd26d7",
+      "verification_phone_number": "1234567890"
+    },
+    {
+      "email": "other-example@gmail.com",
+      "role": "signer",
+      "is_in_person": true,
+      "order": 2,
+      "embed_url_external_user_id": 1234,
+      "has_viewed_document": true,
+      "signer_decision": {
+        "type": "signed",
+        "finalized_at": "2021-04-26T08:12:13.982Z"
+      },
+      "inputs": [
+        {
+          "document_tag_id": 1234,
+          "text_value": "text",
+          "checkbox_value": true,
+          "date_value": "2021-04-26T08:12:13.982Z",
+          "type": "text",
+          "page_index": 4,
+          "content_type": "checkbox"
+        }
+      ],
+      "embed_url": "https://example.com",
+      "redirect_url": "https://box.com/redirect_url_signer_1",
+      "declined_redirect_url": "https://box.com/declined_redirect_url_signer_1",
+      "iframeable_embed_url": "https://app.box.com/embed/sign/document/bf7aaac6/",
+      "login_required": false,
+      "password": "abcdefg",
+      "signer_group_id": "cd4ff89-8fc1-42cf-8b29-1890dedd26d7",
+      "verification_phone_number": "1234567890"
     }
   ],
   "signing_log": {

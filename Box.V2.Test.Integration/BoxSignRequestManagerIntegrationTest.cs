@@ -36,7 +36,19 @@ namespace Box.V2.Test.Integration
                         Email = "sdk_integration_test@boxdemo.com",
                         RedirectUrl = new Uri("https://www.box.com/redirect_url_signer_1"),
                         DeclinedRedirectUrl = new Uri("https://www.box.com/declined_redirect_url_singer_1"),
-                        EmbedUrlExternalUserId = UserId
+                        EmbedUrlExternalUserId = UserId,
+                        SignerGroupId = "SignerGroup",
+                        Password = "password",
+                        LoginRequired = false,
+                    },
+                    new BoxSignRequestSignerCreate()
+                    {
+                        Email = "sdk_integration_test_2@boxdemo.com",
+                        RedirectUrl = new Uri("https://www.box.com/redirect_url_signer_2"),
+                        DeclinedRedirectUrl = new Uri("https://www.box.com/declined_redirect_url_singer_2"),
+                        SignerGroupId = "SignerGroup",
+                        Password = "password",
+                        LoginRequired = false,
                     }
                 },
                 ParentFolder = new BoxRequestEntity()
@@ -56,8 +68,21 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(signRequestCreateRequest.ParentFolder.Id, signRequest.ParentFolder.Id);
 
             // first signer is the sender with role final_copy_reader, second is the recipient with role signer
-            Assert.AreEqual(2, signRequest.Signers.Count);
+            Assert.AreEqual(3, signRequest.Signers.Count);
             Assert.IsNotNull(signRequest.Signers[1].IframeableEmbedUrl);
+            
+            var signerGroupId = "";
+            for (var i = 0; i < signRequest.Signers.Count; i++)
+            {
+                if (signRequest.Signers[i].Role == BoxSignRequestSignerRole.signer)
+                {
+                    if (string.IsNullOrEmpty(signerGroupId))
+                    {
+                        signerGroupId = signRequest.Signers[i].SignerGroupId;
+                    }
+                    Assert.AreEqual(signerGroupId, signRequest.Signers[i].SignerGroupId);
+                }
+            }
 
             await UserClient.SignRequestsManager.CancelSignRequestAsync(signRequest.Id);
 
@@ -68,7 +93,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task GetSignRequestAsync_ForExistingSignRequest_ShouldReturnSignRequest()
         {
-            var signRequest = await CreateSignRequest();
+            var signRequest = await CreateSignRequest("sdk_integration_test@boxdemo.com", FolderId);
             var fetchedSignRequest = await UserClient.SignRequestsManager.GetSignRequestByIdAsync(signRequest.Id);
 
             Assert.AreEqual(signRequest.Id, fetchedSignRequest.Id);
