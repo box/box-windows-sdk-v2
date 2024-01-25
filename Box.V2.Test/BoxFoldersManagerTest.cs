@@ -1063,5 +1063,27 @@ namespace Box.V2.Test
             //Response check
             Assert.AreEqual(true, result);
         }
+
+        [TestMethod]
+        public async Task GetFolderItemsMarkerBased_ValidResponse_ValidFolder()
+        {
+            Handler.Setup(h => h.ExecuteAsync<BoxCollectionMarkerBased<BoxItem>>(It.IsAny<IBoxRequest>()))
+                .Returns(() => Task.FromResult<IBoxResponse<BoxCollectionMarkerBased<BoxItem>>>(new BoxResponse<BoxCollectionMarkerBased<BoxItem>>()
+                {
+                    Status = ResponseStatus.Success,
+                    ContentString = LoadFixtureFromJson("Fixtures/BoxFolders/GetFolderItemsMarkerBased200.json")
+                }));
+
+            BoxCollectionMarkerBased<BoxItem> items = await _foldersManager.GetFolderItemsMarkerBasedAsync("0", 1000);
+
+            Assert.AreEqual(items.Entries.Count, 1);
+            Assert.AreEqual(items.Entries[0].Type, "file");
+            Assert.AreEqual(items.Entries[0].Id, "12345");
+            Assert.AreEqual(items.Entries[0].SequenceId, "3");
+            Assert.AreEqual(items.Entries[0].ETag, "1");
+            Assert.AreEqual(items.Entries[0].Name, "Contract.pdf");
+            Assert.AreEqual(items.NextMarker, "JV9IRGZmieiBasejOG9yDCRNgd2ymoZIbjsxbJMjIs3kioVii");
+            Assert.AreEqual(items.Limit, 1000);
+        }
     }
 }
