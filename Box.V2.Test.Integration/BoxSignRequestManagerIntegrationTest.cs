@@ -67,20 +67,20 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(signRequestCreateRequest.DeclinedRedirectUrl.ToString(), signRequest.DeclinedRedirectUrl.ToString());
             Assert.AreEqual(signRequestCreateRequest.ParentFolder.Id, signRequest.ParentFolder.Id);
 
-            // first signer is the sender with role final_copy_reader, second is the recipient with role signer
+            // first signer is the sender with role final_copy_reader, second and third is the recipient with role signer
             Assert.AreEqual(3, signRequest.Signers.Count);
             Assert.IsNotNull(signRequest.Signers[1].IframeableEmbedUrl);
 
             var signerGroupId = "";
-            for (var i = 0; i < signRequest.Signers.Count; i++)
+            foreach (var signer in signRequest.Signers)
             {
-                if (signRequest.Signers[i].Role == BoxSignRequestSignerRole.signer)
+                if (signer.Role == BoxSignRequestSignerRole.signer)
                 {
                     if (string.IsNullOrEmpty(signerGroupId))
                     {
-                        signerGroupId = signRequest.Signers[i].SignerGroupId;
+                        signerGroupId = signer.SignerGroupId;
                     }
-                    Assert.AreEqual(signerGroupId, signRequest.Signers[i].SignerGroupId);
+                    Assert.AreEqual(signerGroupId, signer.SignerGroupId);
                 }
             }
 
