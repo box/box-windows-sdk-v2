@@ -190,5 +190,32 @@ namespace Box.V2.Models.Request
         /// </summary>
         [JsonProperty(PropertyName = "redirect_url")]
         public Uri RedirectUrl { get; set; }
+
+        /// <summary>
+        /// If set to true, signer will need to login to a Box account before signing the request.
+        /// If the signer does not have an existing account, they will have an option to create a free Box account.
+        /// </summary>
+        [JsonProperty(PropertyName = "login_required")]
+        public bool? LoginRequired { get; set; }
+
+        /// <summary>
+        /// If set, the signer is required to enter the password before they are able to sign a document. This field is write only.
+        /// </summary>
+        [JsonProperty(PropertyName = "password")]
+        public string Password { get; set; }
+
+        /// <summary>
+        /// If set, signers who have the same group ID will be assigned to the same input.
+        /// A signer group is expected to have more than one signer.
+        /// When a group contains fewer than two signers, it will be converted to a single signer and the group will be removed.
+        /// </summary>
+        [JsonProperty(PropertyName = "signer_group_id")]
+        public string SignerGroupId { get; set; }
+
+        /// <summary>
+        /// If set, this phone number is be used to verify the signer via two factor authentication before they are able to sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = "verification_phone_number")]
+        public string VerificationPhoneNumber { get; set; }
     }
 }
