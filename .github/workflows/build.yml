@@ -62,6 +62,8 @@ jobs:
     name: Build and analyze
     runs-on: windows-latest
     steps:
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4.0.0        
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -96,7 +98,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"JRind22_box-windows-sdk-v2" /o:"jrind22" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-           - name: Build
-          run: dotnet build .\Box.V2.Core
+           dotnet build .\Box.V2.Core
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
     
