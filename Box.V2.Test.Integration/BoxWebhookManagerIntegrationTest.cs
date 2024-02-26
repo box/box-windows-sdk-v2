@@ -85,7 +85,7 @@ namespace Box.V2.Test.Integration
         [TestMethod]
         public async Task AddWebhook_ForSignRequest_ShouldCreateSuccess()
         {
-            var signRequest = await CreateSignRequest();
+            var signRequest = await CreateSignRequest("sdk_integration_test@boxdemo.com", FolderId);
             var signFileId = signRequest.SignFiles.Files[0].Id;
             var webhookRequest = new BoxWebhookRequest()
             {

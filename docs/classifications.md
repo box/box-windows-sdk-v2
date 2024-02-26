@@ -123,39 +123,6 @@ var template = await client.MetadataManager
     .UpdateMetadataTemplate(new List<BoxMetadataTemplateUpdate>() { update }, "enterprise", "securityClassification-6VMVochwUWo");
 ```
 
-Delete a classification
------------------------
-
-To delete a classification, call the
-`MetadataManager.UpdateMetadataTemplate(IEnumerable<BoxMetadataTemplateUpdate> metadataTemplateUpdate, string scope, string template)` method
-with proper parameters.
-
-<!-- sample put_metadata_templates_enterprise_securityClassification-6VMVochwUWo_schema delete -->
-```c#
-var update = new BoxMetadataTemplateUpdate
-{
-    Op = MetadataTemplateUpdateOp.removeEnumOption,
-    FieldKey = "Box_Security_Classification_Key",
-    EnumOptionKey = "Sensitive",
-};
-
-var template = await client.MetadataManager
-    .UpdateMetadataTemplate(new List<BoxMetadataTemplateUpdate>() { update }, "enterprise", "securityClassification-6VMVochwUWo");
-
-```
-
-Delete all classifications
---------------------------
-
-To remove all classifications in an enterprise, call the
-`MetadataManager.DeleteMetadataTemplate(string scope, string template)`
-method with the name of the classification metadata template. 
-
-<!-- sample delete_metadata_templates_enterprise_securityClassification-6VMVochwUWo_schema -->
-```c#
-var isDeleted = await client.MetadataManager.DeleteMetadataTemplate("enterprise", "securityClassification-6VMVochwUWo");
-```
-
 Add classification to file
 --------------------------
 

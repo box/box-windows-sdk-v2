@@ -51,6 +51,9 @@
     <None Update="Fixtures\BoxFiles\UploadNewVersionUsingSession200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Fixtures\BoxFolders\GetFolderItemsMarkerBased200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Fixtures\BoxFolders\CreateFolderSharedLink200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

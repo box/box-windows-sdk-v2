@@ -48,7 +48,12 @@ namespace Box.V2.Test
                 {
                     Email = "example@gmail.com",
                     Role = BoxSignRequestSignerRole.signer
-                }
+                },
+                new BoxSignRequestSignerCreate()
+                {
+                    Email = "example@gmail.com",
+                    Role = BoxSignRequestSignerRole.signer
+                },
             };
 
             var parentFolder = new BoxRequestEntity()
@@ -77,7 +82,7 @@ namespace Box.V2.Test
             // Response check
             Assert.AreEqual(1, response.SourceFiles.Count);
             Assert.AreEqual("12345", response.SourceFiles[0].Id);
-            Assert.AreEqual(1, response.Signers.Count);
+            Assert.AreEqual(2, response.Signers.Count);
             Assert.AreEqual("example@gmail.com", response.Signers[0].Email);
             Assert.AreEqual("12345", response.ParentFolder.Id);
             Assert.AreEqual(1, response.Signers[0].Inputs.Count);
@@ -113,7 +118,19 @@ namespace Box.V2.Test
                     Email = "example@gmail.com",
                     Role = BoxSignRequestSignerRole.signer,
                     RedirectUrl = new Uri("https://box.com/redirect_url_signer_1"),
-                    DeclinedRedirectUrl = new Uri("https://box.com/declined_redirect_url_signer_1")
+                    DeclinedRedirectUrl = new Uri("https://box.com/declined_redirect_url_signer_1"),
+                    LoginRequired = false,
+                    Password = "abcdefg",
+                    SignerGroupId = "SignerGroup",
+                    VerificationPhoneNumber = "1234567890",
+                }, new BoxSignRequestSignerCreate()
+                {
+                    Email = "other-example@gmail.com",
+                    Role = BoxSignRequestSignerRole.signer,
+                    RedirectUrl = new Uri("https://box.com/redirect_url_signer_1"),
+                    DeclinedRedirectUrl = new Uri("https://box.com/declined_redirect_url_signer_1"),
+                    SignerGroupId = "SignerGroup",
+                    VerificationPhoneNumber = "1234567890",
                 }
             };
 
@@ -145,7 +162,7 @@ namespace Box.V2.Test
                         "text"
                     )
                 },
-                TemplateId = "12345"
+                TemplateId = "12345",
             };
 
             /*** Act ***/
@@ -160,7 +177,7 @@ namespace Box.V2.Test
             // Response check
             Assert.AreEqual(1, response.SourceFiles.Count);
             Assert.AreEqual("12345", response.SourceFiles[0].Id);
-            Assert.AreEqual(1, response.Signers.Count);
+            Assert.AreEqual(2, response.Signers.Count);
             Assert.AreEqual("example@gmail.com", response.Signers[0].Email);
             Assert.AreEqual("https://box.com/redirect_url_signer_1", response.Signers[0].RedirectUrl.ToString());
             Assert.AreEqual("https://box.com/declined_redirect_url_signer_1", response.Signers[0].DeclinedRedirectUrl.ToString());
@@ -183,6 +200,14 @@ namespace Box.V2.Test
             Assert.AreEqual("https://box.com/redirect_url", response.RedirectUrl.ToString());
             Assert.AreEqual("https://box.com/declined_redirect_url", response.DeclinedRedirectUrl.ToString());
             Assert.AreEqual("12345", response.TemplateId);
+            Assert.AreEqual("cd4ff89-8fc1-42cf-8b29-1890dedd26d7", response.Signers[0].SignerGroupId);
+            Assert.AreEqual("1234567890", response.Signers[0].VerificationPhoneNumber);
+            Assert.AreEqual("cd4ff89-8fc1-42cf-8b29-1890dedd26d7", response.Signers[1].SignerGroupId);
+            Assert.AreEqual("1234567890", response.Signers[1].VerificationPhoneNumber);
+            Assert.IsFalse(response.Signers[0].LoginRequired);
+            Assert.AreEqual("abcdefg", response.Signers[0].Password);
+            Assert.IsFalse(response.Signers[1].LoginRequired);
+            Assert.AreEqual("abcdefg", response.Signers[1].Password);
         }
 
         [TestMethod]

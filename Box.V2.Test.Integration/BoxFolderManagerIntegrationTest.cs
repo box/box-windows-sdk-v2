@@ -242,5 +242,44 @@ namespace Box.V2.Test.Integration
             Assert.AreEqual(items.TotalCount, 1);
             Assert.AreEqual(items.Entries[0].Id, file.Id);
         }
+
+        [TestMethod]
+        public async Task GetFolderItemsAsync_WithOffsetPagination_ShouldReturnCorrectNumberOfFolderItems()
+        {
+            var folder = await CreateFolder();
+            await CreateSmallFile(folder.Id);
+            await CreateSmallFile(folder.Id);
+
+            var items = await UserClient.FoldersManager.GetFolderItemsAsync(folder.Id, 1, 0);
+
+            Assert.AreEqual(items.Entries.Count, 1);
+            Assert.AreEqual(items.TotalCount, 2);
+
+            items = await UserClient.FoldersManager.GetFolderItemsAsync(folder.Id, 1, 1);
+
+            Assert.AreEqual(items.Entries.Count, 1);
+
+            items = await UserClient.FoldersManager.GetFolderItemsAsync(folder.Id, 1, 2);
+            Assert.AreEqual(items.Entries.Count, 0);
+        }
+
+        [TestMethod]
+        public async Task GetFolderItemsMarkerBasedAsync_WithMarkerPagination_ShouldReturnCorrectNumberOfFolderItems()
+        {
+            var folder = await CreateFolder();
+            await CreateSmallFile(folder.Id);
+            await CreateSmallFile(folder.Id);
+
+            var items = await UserClient.FoldersManager.GetFolderItemsMarkerBasedAsync(folder.Id, 1);
+
+            Assert.AreEqual(items.Entries.Count, 1);
+            Assert.IsNotNull(items.NextMarker);
+
+            var nextMarker = items.NextMarker;
+
+            items = await UserClient.FoldersManager.GetFolderItemsMarkerBasedAsync(folder.Id, 1, marker: nextMarker);
+            Assert.AreEqual(items.Entries.Count, 1);
+            Assert.IsNull(items.NextMarker);
+        }
     }
 }

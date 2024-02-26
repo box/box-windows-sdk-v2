@@ -389,10 +389,10 @@ namespace Box.V2.Test.Integration
             }
         }
 
-        public static async Task<BoxSignRequest> CreateSignRequest(string signerEmail = "sdk_integration_test@boxdemo.com")
+        public static async Task<BoxSignRequest> CreateSignRequest(string signerEmail = "sdk_integration_test@boxdemo.com", string folderId = "0")
         {
             var file = await CreateSmallFile();
-            var createSignRequestCommand = new CreateSignRequestCommand(signerEmail, file.Id);
+            var createSignRequestCommand = new CreateSignRequestCommand(signerEmail, file.Id, folderId);
             await ExecuteCommand(createSignRequestCommand);
             return createSignRequestCommand.SignRequest;
         }

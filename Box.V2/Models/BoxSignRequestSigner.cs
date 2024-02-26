@@ -22,6 +22,11 @@ namespace Box.V2.Models
         public const string FieldDeclinedRedirectUrl = "declined_redirect_url";
         public const string FieldRedirectUrl = "redirect_url";
         public const string FieldIframeableEmbedUrl = "iframeable_embed_url";
+        public const string FieldLoginRequired = "login_required";
+        public const string FieldPassword = "password";
+        public const string FieldSignerGroupId = "signer_group_id";
+        public const string FieldVerificationPhoneNumber = "verification_phone_number";
+
 
         /// <summary>
         /// Email address of the signer.
@@ -97,6 +102,33 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldIframeableEmbedUrl)]
         public virtual string IframeableEmbedUrl { get; private set; }
+
+        /// <summary>
+        /// If set to true, signer will need to login to a Box account before signing the request.
+        /// If the signer does not have an existing account, they will have an option to create a free Box account.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldLoginRequired)]
+        public virtual bool LoginRequired { get; private set; }
+
+        /// <summary>
+        /// If set, the signer is required to enter the password before they are able to sign a document. This field is write only.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldPassword)]
+        public virtual string Password { get; private set; }
+
+        /// <summary>
+        /// If set, signers who have the same group ID will be assigned to the same input.
+        /// A signer group is expected to have more than one signer.
+        /// When a group contains fewer than two signers, it will be converted to a single signer and the group will be removed.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldSignerGroupId)]
+        public virtual string SignerGroupId { get; private set; }
+
+        /// <summary>
+        /// If set, this phone number is be used to verify the signer via two factor authentication before they are able to sign the document.
+        /// </summary>
+        [JsonProperty(PropertyName = FieldVerificationPhoneNumber)]
+        public virtual string VerificationPhoneNumber { get; private set; }
     }
 
     /// <summary>
