@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.7.0](https://github.com/box/box-windows-sdk-v2/compare/v5.6.1...v5.7.0) (2024-02-27)
+
+
+### **New Features and Enhancements:**
+
+* add marker-based pagination version of `GetFolderItems` ([#936](https://github.com/box/box-windows-sdk-v2/issues/936)) ([f877a8f](https://github.com/box/box-windows-sdk-v2/commit/f877a8f9105d65a3e3ca459fcbf4a1bb653ff0f3))
+* Support sign request signer group ID ([#938](https://github.com/box/box-windows-sdk-v2/issues/938)) ([096a098](https://github.com/box/box-windows-sdk-v2/commit/096a09805b189c591289e77ae5f8a8e6f1b466f1))
+
+### **Bug Fixes:**
+
+* Remove delete classification ([#932](https://github.com/box/box-windows-sdk-v2/issues/932)) ([fb59489](https://github.com/box/box-windows-sdk-v2/commit/fb594897850ad9daacf75cab702f3765cc7168c0))
+
+
 ### [5.6.1](https://github.com/box/box-windows-sdk-v2/compare/v5.6.0...v5.6.1) (2023-11-29)
 
 
@@ -414,6 +427,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
