@@ -26,13 +26,20 @@ Get a Folder's Items
 --------------------
 
 Folder items can be retrieved by calling the
-`FoldersManager.GetFolderItemsAsync(string id, int limit, int offset = 0, IEnumerable<string> fields = null, bool autoPaginate=false)`
+`FoldersManager.GetFolderItemsMarkerBasedAsync(string id, int limit string marker = null, IEnumerable<string> fields = null, bool autoPaginate = false, string sort = null, BoxSortDirection? direction = null, string sharedLink = null, string sharedLinkPassword = null)`
 method. Use the `fields` option to specify the desired fields.
 Requesting information for only the fields you need can improve performance by reducing the size of the network response.
+Following method supports marker-based pagination.
 
 <!-- sample get_folders_id_items -->
 ```c#
-BoxCollection<BoxItem> folderItems = await client.FoldersManager.GetFolderItemsAsync("11111", 100);
+BoxCollection<BoxItem> folderItems = await client.FoldersManager.GetFolderItemsMarkerBasedAsync("11111", 100);
+```
+
+Alternatively you can use method with offset-based pagination.
+
+```c#
+BoxCollection<BoxItem> folderItems = await client.FoldersManager.GetFolderItemsAsync("11111", 100, offset: 10);
 ```
 
 Get a Folder's Information
