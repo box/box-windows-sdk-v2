@@ -276,6 +276,7 @@
     <Compile Include="Utility\ContentTypeMapper.cs" />
     <Compile Include="Utility\Retry.cs" />
     <Compile Include="Utility\SharedLinkUtils.cs" />
+    <Compile Include="Utility\ThreadSafeRandom.cs" />
     <Compile Include="Wrappers\BoxError.cs" />
     <Compile Include="Wrappers\BoxErrorContextInfo.cs" />
     <Compile Include="Wrappers\BoxBinaryRequest.cs" />
