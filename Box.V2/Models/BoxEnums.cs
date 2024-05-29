@@ -33,7 +33,9 @@ namespace Box.V2.Models
         retention_policy_id,
         retention_policy_object_id,
         retention_policy_set_id,
-        interacted_at
+        interacted_at,
+        date,
+        size
     }
 
     /// <summary>
