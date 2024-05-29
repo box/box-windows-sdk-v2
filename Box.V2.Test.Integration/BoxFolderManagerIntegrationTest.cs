@@ -236,7 +236,7 @@ namespace Box.V2.Test.Integration
 
             var sharedItems = await UserClient.SharedItemsManager.SharedItemsAsync(sharedLink.SharedLink.Url, password);
             var items = await UserClient.FoldersManager.GetFolderItemsAsync(sharedItems.Id, 100, sharedLink: sharedLink.SharedLink.Url,
-                sharedLinkPassword: password);
+                sharedLinkPassword: password, sort: "date");
 
 
             Assert.AreEqual(items.TotalCount, 1);
