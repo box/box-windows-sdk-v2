@@ -36,7 +36,7 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldItemParent)]
         public BoxFolder Parent { get; private set; }
-                
+
         /// <summary>
         /// The user who owns this item
         /// </summary>
