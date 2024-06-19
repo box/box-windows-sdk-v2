@@ -9,6 +9,7 @@ namespace Box.V2.Models
         public const string FieldGroupId = "group_id";
         public const string FieldGroupName = "group_name";
         public const string FieldParent = "parent";
+        public const string FieldOwnedBy = "owned_by";
 
         /// <summary>
         /// The unique ID of the file being collaborated on.
@@ -44,5 +45,11 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldParent)]
         public BoxFolder Parent { get; private set; }
+                        
+        /// <summary>
+        /// The user who owns this item
+        /// </summary>
+        [JsonProperty(PropertyName = FieldOwnedBy)]
+        public BoxUser OwnedBy { get; private set; }
     }
 }
