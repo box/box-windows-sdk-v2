@@ -24,6 +24,7 @@ namespace Box.V2.Models
         /// <summary>
         /// The type of the object.
         /// </summary>
+        [JsonIgnore]
         public override string Type { get { return "folder"; } protected set { return; } }
 
         /// <summary>
