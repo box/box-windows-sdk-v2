@@ -14,6 +14,7 @@ namespace Box.V2.Converter
         private const string WatermarkType = "watermark";
         private const string GroupId = "group_id";
         private const string UserId = "user_id";
+        private const string UserEmail = "user_email";
         private const string FolderId = "folder_id";
         private const string FileId = "file_id";
 
@@ -133,11 +134,11 @@ namespace Box.V2.Converter
                     return new BoxGroupEventSource();
                 }
             }
-            else if (FieldExists(UserId, jObject) && FieldExists(FileId, jObject))
+            else if ((FieldExists(UserId, jObject) || FieldExists(UserEmail, jObject)) && FieldExists(FileId, jObject))
             {
                 return new BoxUserFileCollaborationEventSource();
             }
-            else if (FieldExists(UserId, jObject) && FieldExists(FolderId, jObject))
+            else if ((FieldExists(UserId, jObject) || FieldExists(UserEmail, jObject)) && FieldExists(FolderId, jObject))
             {
                 return new BoxUserFolderCollaborationEventSource();
             }
