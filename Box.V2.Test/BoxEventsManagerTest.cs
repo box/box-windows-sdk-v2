@@ -70,7 +70,7 @@ namespace Box.V2.Test
         [TestMethod]
         public async Task GetUserEventsFile_ValidResponse()
         {
-            var responseString = "{\"chunk_size\": 1, \"next_stream_position\": 123, \"entries\": [{\"source\":{\"file_id\":\"283257336425\",\"file_name\":\"ScreenShot2018-03-12at5.44.00PM.png\",\"user_id\":\"285663442\",\"user_name\":\"foo\",\"user_email\": \"testuser@example.com\",\"parent\":{\"type\":\"folder\",\"name\":\"AllFiles\",\"id\":\"0\"},\"owned_by\":{\"type\": \"user\",\"id\":\"33333\",\"name\": \"Test User\",\"login\":\"testuser@example.com\"}},\"created_by\":{\"type\":\"user\",\"id\":\"11111\",\"name\":\"Test User\",\"login\":\"test@user.com\"},\"created_at\":\"2018-03-16T15:12:52-07:00\",\"event_id\":\"85c57bf3-bc15-4d24-93bc-955c796217c8\",\"event_type\":\"COLLABORATION_INVITE\",\"ip_address\":\"UnknownIP\",\"type\":\"event\",\"session_id\":null,\"additional_details\":null}]}";
+            var responseString = "{\"chunk_size\": 1, \"next_stream_position\": 123, \"entries\": [{\"source\":{\"file_id\":\"283257336425\",\"file_name\":\"ScreenShot2018-03-12at5.44.00PM.png\",\"user_id\":\"285663442\",\"user_name\":\"foo\",\"parent\":{\"type\":\"folder\",\"name\":\"AllFiles\",\"id\":\"0\"},\"owned_by\":{\"type\": \"user\",\"id\":\"33333\",\"name\": \"Test User\",\"login\":\"testuser@example.com\"}},\"created_by\":{\"type\":\"user\",\"id\":\"11111\",\"name\":\"Test User\",\"login\":\"test@user.com\"},\"created_at\":\"2018-03-16T15:12:52-07:00\",\"event_id\":\"85c57bf3-bc15-4d24-93bc-955c796217c8\",\"event_type\":\"COLLABORATION_INVITE\",\"ip_address\":\"UnknownIP\",\"type\":\"event\",\"session_id\":null,\"additional_details\":null}]}";
             IBoxRequest boxRequest = null;
             Handler.Setup(h => h.ExecuteAsync<BoxEventCollection<BoxEnterpriseEvent>>(It.IsAny<IBoxRequest>()))
                 .Returns(Task.FromResult<IBoxResponse<BoxEventCollection<BoxEnterpriseEvent>>>(new BoxResponse<BoxEventCollection<BoxEnterpriseEvent>>()
@@ -88,7 +88,8 @@ namespace Box.V2.Test
             Assert.AreEqual(userFileEvents.Entries[0].Source.GetType(), typeof(BoxUserFileCollaborationEventSource));
             Assert.AreEqual(userFileEventSource.Id, "283257336425");
             Assert.AreEqual(userFileEventSource.Name, "ScreenShot2018-03-12at5.44.00PM.png");
-            Assert.AreEqual(userFileEventSource.UserEmail, "testuser@example.com");
+            Assert.AreEqual(userFileEventSource.UserId, "285663442");
+            Assert.AreEqual(userFileEventSource.UserName, "foo");
             Assert.AreEqual(userFileEventSource.OwnedBy.Id, "33333");
             Assert.AreEqual(userFileEventSource.OwnedBy.Name, "Test User");
         }
