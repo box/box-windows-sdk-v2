@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.7.1](https://github.com/box/box-windows-sdk-v2/compare/v5.7.0...v5.7.1) (2024-06-28)
+
+
+### **Bug Fixes:**
+
+* Add missing enum values to `BoxSortBy` ([#953](https://github.com/box/box-windows-sdk-v2/issues/953)) ([1f89bb0](https://github.com/box/box-windows-sdk-v2/commit/1f89bb047442dcdc9045aeff1c3d6aadf61e2856)), closes [#952](https://github.com/box/box-windows-sdk-v2/issues/952)
+* Add missing fields of `EventSource` ([#956](https://github.com/box/box-windows-sdk-v2/issues/956)) ([138eda5](https://github.com/box/box-windows-sdk-v2/commit/138eda516ad59f08968d88b04e9bb06df3c397f2))
+* do not recreate Random each time ([#945](https://github.com/box/box-windows-sdk-v2/issues/945)) ([d03b1ce](https://github.com/box/box-windows-sdk-v2/commit/d03b1ce65d4077e2895acfce3bc286ea501669aa)), closes [#944](https://github.com/box/box-windows-sdk-v2/issues/944) [#944](https://github.com/box/box-windows-sdk-v2/issues/944) [#944](https://github.com/box/box-windows-sdk-v2/issues/944) [#944](https://github.com/box/box-windows-sdk-v2/issues/944)
+
 ## [5.7.0](https://github.com/box/box-windows-sdk-v2/compare/v5.6.1...v5.7.0) (2024-02-27)
 
 
@@ -427,6 +436,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
