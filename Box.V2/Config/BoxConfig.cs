@@ -297,6 +297,10 @@ namespace Box.V2.Config
         /// </summary>
         public Uri FileRequestsEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.FileRequestsWithPathString); } }
         /// <summary>
+        /// Gets the AI endpoint URI.
+        /// </summary>
+        public Uri AIEndpointWithPathUri { get { return new Uri(BoxApiUri, Constants.AIWithPathString); } }
+        /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>
         public IWebProxy WebProxy { get; private set; }

@@ -124,6 +124,7 @@
     <Compile Include="Extensions\BoxExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="JWTAuth\JWTAuthRepository.cs" />
+    <Compile Include="Managers\BoxAIManager.cs" />
     <Compile Include="Managers\BoxCollaborationWhitelistManager.cs" />
     <Compile Include="Managers\BoxCollectionsManager.cs" />
     <Compile Include="Managers\BoxDevicePinManager.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Managers\BoxLegalHoldPoliciesManager.cs" />
     <Compile Include="Managers\BoxRecentItemsManager.cs" />
     <Compile Include="Managers\BoxWebLinksManager.cs" />
+    <Compile Include="Managers\IBoxAIManager.cs" />
     <Compile Include="Managers\IBoxCollaborationsManager.cs" />
     <Compile Include="Managers\IBoxCollaborationWhitelistManager.cs" />
     <Compile Include="Managers\IBoxCollectionsManager.cs" />
@@ -168,6 +170,8 @@
     <Compile Include="Managers\IBoxWebhooksManager.cs" />
     <Compile Include="Managers\IBoxWebLinksManager.cs" />
     <Compile Include="Managers\IBoxFileRequestsManager.cs" />
+    <Compile Include="Models\BoxAIResponse.cs" />
+    <Compile Include="Models\Request\BoxAIAskRequest.cs" />
     <Compile Include="Models\BoxApplication.cs" />
     <Compile Include="Models\BoxAssignmentCounts.cs" />
     <Compile Include="Models\BoxClassification.cs" />
@@ -250,6 +254,7 @@
     <Compile Include="Models\BoxGroupMembership.cs" />
     <Compile Include="Models\Request\BoxActionableByRequest.cs" />
     <Compile Include="Models\BoxSessionParts.cs" />
+    <Compile Include="Models\Request\BoxAITextGenRequest.cs" />
     <Compile Include="Models\Request\BoxFileRequestUpdateRequest.cs" />
     <Compile Include="Models\Request\BoxFileRequestCopyRequest.cs" />
     <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />

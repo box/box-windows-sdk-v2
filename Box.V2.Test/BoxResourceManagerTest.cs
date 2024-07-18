@@ -31,6 +31,7 @@ namespace Box.V2.Test
         protected Uri SignRequestUri = new Uri(Constants.SignRequestsEndpointString);
         protected Uri SignRequestWithPathUri = new Uri(Constants.SignRequestsWithPathEndpointString);
         protected Uri FileRequestsWithPathUri = new Uri(Constants.FileRequestsWithPathEndpointString);
+        protected Uri AIWithPathUri = new Uri(Constants.AIWithPathEndpointString);
 
         protected BoxResourceManagerTest()
         {
@@ -52,6 +53,7 @@ namespace Box.V2.Test
             Config.SetupGet(x => x.SignTemplatesEndpointUri).Returns(new Uri(Constants.SignTemplatesEndpointString));
             Config.SetupGet(x => x.SignTemplatesEndpointWithPathUri).Returns(new Uri(Constants.SignTemplatesWithPathEndpointString));
             Config.SetupGet(x => x.FileRequestsEndpointWithPathUri).Returns(FileRequestsWithPathUri);
+            Config.SetupGet(x => x.AIEndpointWithPathUri).Returns(AIWithPathUri);
             Config.SetupGet(x => x.RetryStrategy).Returns(new InstantRetryStrategy());
 
             AuthRepository = new AuthRepository(Config.Object, Service, Converter, new OAuthSession("fakeAccessToken", "fakeRefreshToken", 3600, "bearer"));

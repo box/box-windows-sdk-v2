@@ -3,6 +3,7 @@
 Under this directory you can find documentation and samples for available SDK functionalities. 
 You can read more about supported resources on [API reference](https://developer.box.com/reference/).
 
+- [AI](ai.md)
 - [Authentication](authentication.md)
 - [Classifications](classifications.md)
 - [Collaboration Whitelist](collaboration-whitelist.md)

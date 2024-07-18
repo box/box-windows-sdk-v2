@@ -153,5 +153,10 @@ namespace Box.V2
         /// The manager that represents all of the file requests endpoints.
         /// </summary>
         IBoxFileRequestsManager FileRequestsManager { get; }
+
+        /// <summary>
+        /// The manager that represents all of the AI endpoints.
+        /// </summary>
+        IBoxAIManager BoxAIManager { get; }
     }
 }

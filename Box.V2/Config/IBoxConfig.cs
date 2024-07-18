@@ -143,6 +143,10 @@ namespace Box.V2.Config
         /// </summary>
         Uri FileRequestsEndpointWithPathUri { get; }
         /// <summary>
+        /// Gets the AI endpoint URI.
+        /// </summary>
+        Uri AIEndpointWithPathUri { get; }
+        /// <summary>
         /// The web proxy for HttpRequestHandler
         /// </summary>
         IWebProxy WebProxy { get; }
