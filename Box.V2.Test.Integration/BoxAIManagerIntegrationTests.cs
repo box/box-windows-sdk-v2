@@ -21,7 +21,7 @@ namespace Box.V2.Test.Integration
             {
                 Prompt = "What is the name of the file?",
                 Items = new List<BoxAIAskItem>() { new BoxAIAskItem() { Id = uploadedFile.Id } },
-                Mode = AiAskMode.single_item_qa
+                Mode = BoxAIAskMode.single_item_qa
             };
 
             await Retry(async () =>
@@ -53,7 +53,7 @@ namespace Box.V2.Test.Integration
                     new BoxAIAskItem() { Id = uploadedFile1.Id },
                     new BoxAIAskItem() { Id = uploadedFile2.Id }
                 },
-                Mode = AiAskMode.multiple_item_qa
+                Mode = BoxAIAskMode.multiple_item_qa
             };
 
             await Retry(async () =>

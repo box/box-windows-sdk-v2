@@ -33,7 +33,7 @@ namespace Box.V2.Test
 
             var requestBody = new BoxAIAskRequest()
             {
-                Mode = AiAskMode.single_item_qa,
+                Mode = BoxAIAskMode.single_item_qa,
                 Prompt = "What is the value provided by public APIs based on this document?",
                 Items = new List<BoxAIAskItem>()
                 {

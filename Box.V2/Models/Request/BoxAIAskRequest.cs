@@ -28,7 +28,7 @@ namespace Box.V2.Models
         /// </summary>
         [JsonProperty(PropertyName = FieldMode)]
         [JsonConverter(typeof(StringEnumConverter))]
-        public AiAskMode Mode { get; set; }
+        public BoxAIAskMode Mode { get; set; }
 
         /// <summary>
         /// The prompt provided by the client to be answered by the LLM.The prompt's length is limited to 10000 characters.
@@ -72,7 +72,7 @@ namespace Box.V2.Models
     /// The mode specifies if this request is for a single or multiple items. If you select single_item_qa the items array can have one element only.
     /// Selecting multiple_item_qa allows you to provide up to 25 items.
     /// </summary>
-    public enum AiAskMode
+    public enum BoxAIAskMode
     {
         multiple_item_qa,
         single_item_qa
