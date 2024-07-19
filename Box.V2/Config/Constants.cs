@@ -61,8 +61,8 @@ namespace Box.V2.Config
         public const string SignTemplatesWithPathString = @"sign_templates/";
         public const string FileRequestsWithPathString = @"file_requests/";
         public const string AIWithPathString = @"ai/";
-        public const string AIAskEndpointString = @"ask";
-        public const string AITextGenEndpointString = @"text_gen";
+        public const string AIAskString = @"ask";
+        public const string AITextGenString = @"text_gen";
 
 
         /// <summary>

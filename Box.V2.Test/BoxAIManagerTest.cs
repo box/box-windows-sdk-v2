@@ -35,7 +35,7 @@ namespace Box.V2.Test
             {
                 Mode = AiAskMode.single_item_qa,
                 Prompt = "What is the value provided by public APIs based on this document?",
-                Items = new System.Collections.Generic.List<BoxAIAskItem>()
+                Items = new List<BoxAIAskItem>()
                 {
                     new BoxAIAskItem() { Id = "9842787262" }
                 }

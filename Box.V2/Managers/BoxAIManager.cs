@@ -17,13 +17,13 @@ namespace Box.V2.Managers
             : base(config, service, converter, auth, asUser, suppressNotifications) { }
 
         /// <summary>
-        /// Sends an AI request to supported LLMs and returns an answer specifically focused on the creation of new text.
+        /// Sends an AI request to supported LLMs and returns an answer specifically focused on the user's question given the provided context.
         /// </summary>
         /// <param name="aiAskRequest">AI ask request</param>
         /// <returns>Response for AI question</returns>
         public async Task<BoxAIResponse> SendAIQuestionAsync(BoxAIAskRequest aiAskRequest)
         {
-            var request = new BoxRequest(_config.AIEndpointWithPathUri, Constants.AIAskEndpointString)
+            var request = new BoxRequest(_config.AIEndpointWithPathUri, Constants.AIAskString)
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize(aiAskRequest));
 
@@ -35,11 +35,11 @@ namespace Box.V2.Managers
         /// <summary>
         /// Sends an AI request to supported LLMs and returns an answer specifically focused on the creation of new text.
         /// </summary>
-        /// <param name="aiTextGenRequest">AI ask request</param>
+        /// <param name="aiTextGenRequest">AI text gen request</param>
         /// <returns>Response for AI text gen request</returns>
         public async Task<BoxAIResponse> SendAITextGenRequestAsync(BoxAITextGenRequest aiTextGenRequest)
         {
-            var request = new BoxRequest(_config.AIEndpointWithPathUri, Constants.AITextGenEndpointString)
+            var request = new BoxRequest(_config.AIEndpointWithPathUri, Constants.AITextGenString)
                 .Method(RequestMethod.Post)
                 .Payload(_converter.Serialize(aiTextGenRequest));
 

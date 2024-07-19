@@ -9,7 +9,7 @@ namespace Box.V2.Managers
     public interface IBoxAIManager
     {
         /// <summary>
-        /// Sends an AI request to supported LLMs and returns an answer specifically focused on the creation of new text.
+        /// Sends an AI request to supported LLMs and returns an answer specifically focused on the user's question given the provided context.
         /// </summary>
         /// <param name="aiAskRequest">AI ask request</param>
         /// <returns>Response for AI question</returns>
@@ -18,7 +18,7 @@ namespace Box.V2.Managers
         /// <summary>
         /// Sends an AI request to supported LLMs and returns an answer specifically focused on the creation of new text.
         /// </summary>
-        /// <param name="aiTextGenRequest">AI ask request</param>
+        /// <param name="aiTextGenRequest">AI text gen request/param>
         /// <returns>Response for AI text gen request</returns>
         Task<BoxAIResponse> SendAITextGenRequestAsync(BoxAITextGenRequest aiTextGenRequest);
     }

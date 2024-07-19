@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace Box.V2.Models
 {
+    /// <summary>
+    /// AI response
+    /// </summary>
     public class BoxAIResponse
     {
         public const string FieldAnswer = "answer";
@@ -16,7 +19,7 @@ namespace Box.V2.Models
         public string Answer { get; set; }
 
         /// <summary>
-        /// The answer provided by the LLM.
+        /// The reason the response finishes.
         /// </summary>
         [JsonProperty(PropertyName = FieldCompletionReason)]
         public string CompletionReason { get; set; }
