@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.8.0](https://github.com/box/box-windows-sdk-v2/compare/v5.7.1...v5.8.0) (2024-07-22)
+
+
+### **New Features and Enhancements:**
+
+* add support for AI ([#965](https://github.com/box/box-windows-sdk-v2/issues/965)) ([a9e130a](https://github.com/box/box-windows-sdk-v2/commit/a9e130a99cf9862f9b50178a6188b2820f9f2c32))
+
+### **Bug Fixes:**
+
+* Bump `System.IdentityModel.Tokens.Jwt` dependency version to `v6.35.0` ([#962](https://github.com/box/box-windows-sdk-v2/issues/962)) ([6e47237](https://github.com/box/box-windows-sdk-v2/commit/6e472378e2fccea2db67bf5ef0eb017a31491703)), closes [#960](https://github.com/box/box-windows-sdk-v2/issues/960) [#961](https://github.com/box/box-windows-sdk-v2/issues/961)
+* remove `Microsoft.AspNetCore.StaticFiles` and `System.Web` dependencies ([#964](https://github.com/box/box-windows-sdk-v2/issues/964)) ([2c8eedc](https://github.com/box/box-windows-sdk-v2/commit/2c8eedc91c473aca52249aad443345471ca7eafc))
+
+
 ### [5.7.1](https://github.com/box/box-windows-sdk-v2/compare/v5.7.0...v5.7.1) (2024-06-28)
 
 
@@ -436,6 +449,7 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
+
 
 
 
