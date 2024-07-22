@@ -1,5 +1,3 @@
-using System;
-
 namespace Box.V2.Config
 {
     public static class Constants
@@ -62,6 +60,9 @@ namespace Box.V2.Config
         public const string SignTemplatesString = @"sign_templates";
         public const string SignTemplatesWithPathString = @"sign_templates/";
         public const string FileRequestsWithPathString = @"file_requests/";
+        public const string AIWithPathString = @"ai/";
+        public const string AIAskString = @"ask";
+        public const string AITextGenString = @"text_gen";
 
 
         /// <summary>
@@ -124,6 +125,7 @@ namespace Box.V2.Config
         public const string SignTemplatesEndpointString = BoxApiUriString + SignTemplatesString;
         public const string SignTemplatesWithPathEndpointString = BoxApiUriString + SignTemplatesWithPathString;
         public const string FileRequestsWithPathEndpointString = BoxApiUriString + FileRequestsWithPathString;
+        public const string AIWithPathEndpointString = BoxApiUriString + AIWithPathString;
 
         /*** Endpoint Paths ***/
         public const string ItemsPathString = @"{0}/items";

@@ -27,6 +27,12 @@
       <Reference Include="System.Net.Http.WebRequest" />
     </ItemGroup>
   <ItemGroup>
+    <None Update="Fixtures\BoxAI\SendAITextGenRequestSuccess200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Fixtures\BoxAI\SendAIQuestion200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Fixtures\BoxFileRequest\UpdateFileRequest200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

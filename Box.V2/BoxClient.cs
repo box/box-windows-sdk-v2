@@ -139,6 +139,7 @@ namespace Box.V2
             SignRequestsManager = new BoxSignRequestsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             SignTemplatesManager = new BoxSignTemplatesManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
             FileRequestsManager = new BoxFileRequestsManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
+            BoxAIManager = new BoxAIManager(Config, _service, _converter, Auth, _asUser, _suppressNotifications);
 
             // Init Resource Plugins Manager
             ResourcePlugins = new BoxResourcePlugins();
@@ -295,5 +296,10 @@ namespace Box.V2
         /// The manager that represents all of the file requests endpoints.
         /// </summary>
         public IBoxFileRequestsManager FileRequestsManager { get; private set; }
+
+        /// <summary>
+        /// The manager that represents all of the AI endpoints.
+        /// </summary>
+        public IBoxAIManager BoxAIManager { get; private set; }
     }
 }

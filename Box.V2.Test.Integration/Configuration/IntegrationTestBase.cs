@@ -216,7 +216,8 @@ namespace Box.V2.Test.Integration
             return File.ReadAllText(filePath);
         }
 
-        public static async Task<BoxFile> CreateSmallFile(string parentId = "0", CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.User)
+        public static async Task<BoxFile> CreateSmallFile(string parentId = "0", CommandScope commandScope = CommandScope.Test,
+            CommandAccessLevel accessLevel = CommandAccessLevel.User)
         {
             var path = GetSmallFilePath();
             var ext = "";
@@ -231,6 +232,14 @@ namespace Box.V2.Test.Integration
         public static async Task<BoxFile> CreateSmallFileAsAdmin(string parentId)
         {
             return await CreateSmallFile(parentId, CommandScope.Test, CommandAccessLevel.Admin);
+        }
+
+        public static async Task<BoxFile> CreateSmallFromMemoryStream(string parentId = "0", string filename = "", string content = "",
+            CommandScope commandScope = CommandScope.Test, CommandAccessLevel accessLevel = CommandAccessLevel.User)
+        {
+            var createFileCommand = new CreateFileCommand(filename, "", parentId, commandScope, accessLevel, content);
+            await ExecuteCommand(createFileCommand);
+            return createFileCommand.File;
         }
 
         public static async Task DeleteFile(string fileId)
