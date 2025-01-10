@@ -3,7 +3,7 @@ Integration tests
 
 ## Setup
 
-To run the integration tests locally, you need an existing Box app. Create a box app in https://cloud.app.box.com/developers/console. Select the JWT authentication method. You must enable all possible scopes and authorize your app to access the Enterprise if you want to run all the tests. Some tests requires enterprise access and different scopes. When your application is ready download App Settings as and replace the existing `config.json` file in this directory with your own. 
+To run the integration tests locally, you need an existing Box app. Create a platform app in https://cloud.app.box.com/developers/console. Select the JWT authentication method. You must enable all possible scopes and authorize your app to access the Enterprise if you want to run all the tests. Some tests requires enterprise access and different scopes. When your application is ready download App Settings as and replace the existing `config.json` file in this directory with your own. 
 
 There is an optional `userId` field that you can fill in with your existing `userId`, so this user will be used in the tests and no new user will be created.
 
