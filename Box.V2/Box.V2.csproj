@@ -1,383 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{602FF1B8-DF8B-4CFF-88C6-8B34468C45AD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Box.V2</RootNamespace>
-    <AssemblyName>Box.V2</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>net462</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Authors>Box Inc.</Authors>
+    <PackageId>Box.V2</PackageId>
+    <PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
+    <PackageReleaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/main/CHANGELOG.md#580-2024-07-22</PackageReleaseNotes>
+    <PackageTags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</PackageTags>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Title>Box.V2</Title>
+    <Copyright>Copyright ©  2017</Copyright>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NET462</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
     <DefineConstants>TRACE;RELEASE;NET462</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'SignedRelease|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;RELEASE;NET462</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>BoxSDKKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938">
-      <HintPath>..\packages\BouncyCastle.Cryptography.2.3.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.6.35.0\lib\net462\Microsoft.IdentityModel.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.35.0\lib\net462\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.35.0\lib\net462\Microsoft.IdentityModel.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.35.0\lib\net462\Microsoft.IdentityModel.Tokens.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.35.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.35.0\lib\net462\System.IdentityModel.Tokens.Jwt.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Text.Encodings.Web, Version=4.0.5.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.4.7.2\lib\net461\System.Text.Encodings.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Json, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.4.7.2\lib\net461\System.Text.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.3.1" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.35.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Logging" Version="6.35.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.35.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.35.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Auth\AuthRepository.cs" />
-    <Compile Include="Auth\EventArgs\SessionAuthenticatedEventArgs.cs" />
-    <Compile Include="Auth\Token\ActorTokenBuilder.cs" />
-    <Compile Include="Auth\Token\TokenExchange.cs" />
-    <Compile Include="BoxClient.cs" />
-    <Compile Include="CCGAuth\BoxCCGAuth.cs" />
-    <Compile Include="CCGAuth\CCGAuthRepository.cs" />
-    <Compile Include="Config\BoxConfigBuilder.cs" />
-    <Compile Include="Converter\BoxFileVersionsUnderRetentionItemConverter.cs" />
-    <Compile Include="Converter\BoxFileVersionsUnderRetentionJsonConverter.cs" />
-    <Compile Include="IBoxClient.cs" />
-    <Compile Include="Converter\BoxZipConflictConverter.cs" />
-    <Compile Include="JWTAuth\BoxJWTAuth.cs" />
-    <Compile Include="Converter\BoxItemConverter.cs" />
-    <Compile Include="Exceptions\BoxAuthenticationFailedException.cs" />
-    <Compile Include="Extensions\BoxExtensions.cs" />
-    <Compile Include="Extensions\UriExtensions.cs" />
-    <Compile Include="JWTAuth\JWTAuthRepository.cs" />
-    <Compile Include="Managers\BoxAIManager.cs" />
-    <Compile Include="Managers\BoxCollaborationWhitelistManager.cs" />
-    <Compile Include="Managers\BoxCollectionsManager.cs" />
-    <Compile Include="Managers\BoxDevicePinManager.cs" />
-    <Compile Include="Managers\BoxEventsManager.cs" />
-    <Compile Include="Managers\BoxFileRequestsManager.cs" />
-    <Compile Include="Managers\BoxGroupsManager.cs" />
-    <Compile Include="Managers\BoxMetadataManager.cs" />
-    <Compile Include="Managers\BoxMetadataCascadePolicyManager.cs" />
-    <Compile Include="Managers\BoxRetentionPoliciesManager.cs" />
-    <Compile Include="Managers\BoxSharedItemsManager.cs" />
-    <Compile Include="Managers\BoxSignRequestsManager.cs" />
-    <Compile Include="Managers\BoxSignTemplatesManager.cs" />
-    <Compile Include="Managers\BoxStoragePoliciesManager.cs" />
-    <Compile Include="Managers\BoxTasksManager.cs" />
-    <Compile Include="Managers\BoxTermsOfServiceManager.cs" />
-    <Compile Include="Managers\BoxWebhooksManager.cs" />
-    <Compile Include="Managers\BoxLegalHoldPoliciesManager.cs" />
-    <Compile Include="Managers\BoxRecentItemsManager.cs" />
-    <Compile Include="Managers\BoxWebLinksManager.cs" />
-    <Compile Include="Managers\IBoxAIManager.cs" />
-    <Compile Include="Managers\IBoxCollaborationsManager.cs" />
-    <Compile Include="Managers\IBoxCollaborationWhitelistManager.cs" />
-    <Compile Include="Managers\IBoxCollectionsManager.cs" />
-    <Compile Include="Managers\IBoxCommentsManager.cs" />
-    <Compile Include="Managers\IBoxDevicePinManager.cs" />
-    <Compile Include="Managers\IBoxEventsManager.cs" />
-    <Compile Include="Managers\IBoxFilesManager.cs" />
-    <Compile Include="Managers\IBoxFoldersManager.cs" />
-    <Compile Include="Managers\IBoxGroupsManager.cs" />
-    <Compile Include="Managers\IBoxLegalHoldPoliciesManager.cs" />
-    <Compile Include="Managers\IBoxMetadataCascadePolicyManager.cs" />
-    <Compile Include="Managers\IBoxMetadataManager.cs" />
-    <Compile Include="Managers\IBoxRecentItemsManager.cs" />
-    <Compile Include="Managers\IBoxRetentionPoliciesManager.cs" />
-    <Compile Include="Managers\IBoxSearchManager.cs" />
-    <Compile Include="Managers\IBoxSharedItemsManager.cs" />
-    <Compile Include="Managers\IBoxSignRequestsManager.cs" />
-    <Compile Include="Managers\IBoxSignTemplatesManager.cs" />
-    <Compile Include="Managers\IBoxStoragePoliciesManager.cs" />
-    <Compile Include="Managers\IBoxTasksManager.cs" />
-    <Compile Include="Managers\IBoxTermsOfServiceManager.cs" />
-    <Compile Include="Managers\IBoxUsersManager.cs" />
-    <Compile Include="Managers\IBoxWebhooksManager.cs" />
-    <Compile Include="Managers\IBoxWebLinksManager.cs" />
-    <Compile Include="Managers\IBoxFileRequestsManager.cs" />
-    <Compile Include="Models\BoxAIResponse.cs" />
-    <Compile Include="Models\Request\BoxAIAskRequest.cs" />
-    <Compile Include="Models\BoxApplication.cs" />
-    <Compile Include="Models\BoxAssignmentCounts.cs" />
-    <Compile Include="Models\BoxClassification.cs" />
-    <Compile Include="Models\BoxCollectionItem.cs" />
-    <Compile Include="Models\BoxDevicePin.cs" />
-    <Compile Include="Models\BoxEmailAlias.cs" />
-    <Compile Include="Models\BoxEnterprise.cs" />
-    <Compile Include="Models\BoxEnterpriseEvent.cs" />
-    <Compile Include="Models\BoxFileRequestObject.cs" />
-    <Compile Include="Models\BoxFolderEventSource.cs" />
-    <Compile Include="Models\BoxFolderLock.cs" />
-    <Compile Include="Models\BoxFolderLockOperations.cs" />
-    <Compile Include="Models\BoxGroupEventSource.cs" />
-    <Compile Include="Models\BoxMetadataCascadePolicy.cs" />
-    <Compile Include="Models\BoxGroupFileCollaborationEventSource.cs" />
-    <Compile Include="Models\BoxGroupFolderCollaborationEventSource.cs" />
-    <Compile Include="Models\BoxMetadataFieldFilter.cs" />
-    <Compile Include="Models\BoxMetadataQueryItem.cs" />
-    <Compile Include="Models\BoxNotificationEmail.cs" />
-    <Compile Include="Models\BoxNotificationEmailField.cs" />
-    <Compile Include="Models\BoxRepresentation.cs" />
-    <Compile Include="Models\BoxRepresentationContent.cs" />
-    <Compile Include="Models\BoxRepresentationInfo.cs" />
-    <Compile Include="Models\BoxRepresentationProperties.cs" />
-    <Compile Include="Models\BoxRepresentationStatus.cs" />
-    <Compile Include="Models\BoxSearchResult.cs" />
-    <Compile Include="Models\BoxSessionEndpoint.cs" />
-    <Compile Include="Models\BoxFileUploadSession.cs" />
-    <Compile Include="Models\BoxExpiringEmbedLink.cs" />
-    <Compile Include="Models\BoxFileEventSource.cs" />
-    <Compile Include="Models\BoxFileLock.cs" />
-    <Compile Include="Models\BoxFilePreview.cs" />
-    <Compile Include="Models\BoxFileVersionLegalHold.cs" />
-    <Compile Include="Models\BoxFileVersionRetention.cs" />
-    <Compile Include="Models\BoxLegalHoldPolicyAssignment.cs" />
-    <Compile Include="Models\BoxLegalHoldPolicy.cs" />
-    <Compile Include="Models\BoxMetadataTemplate.cs" />
-    <Compile Include="Models\BoxMetadataTemplateUpdate.cs" />
-    <Compile Include="Models\BoxMetadataUpdate.cs" />
-    <Compile Include="Models\BoxPreflightCheck.cs" />
-    <Compile Include="Models\BoxRestrictedTo.cs" />
-    <Compile Include="Models\BoxRetentionPolicyAssignment.cs" />
-    <Compile Include="Models\BoxRetentionPolicy.cs" />
-    <Compile Include="Models\BoxSessionUploadStatus.cs" />
-    <Compile Include="Models\BoxSignRequest.cs" />
-    <Compile Include="Models\BoxSignRequestPrefillTag.cs" />
-    <Compile Include="Models\BoxSignRequestSigner.cs" />
-    <Compile Include="Models\BoxSignRequestSignFiles.cs" />
-    <Compile Include="Models\BoxSignTemplate.cs" />
-    <Compile Include="Models\BoxSignTemplateAdditionalInfo.cs" />
-    <Compile Include="Models\BoxSignTemplateCustomBranding.cs" />
-    <Compile Include="Models\BoxSignTemplateReadySignLink.cs" />
-    <Compile Include="Models\BoxSignTemplateSigner.cs" />
-    <Compile Include="Models\BoxStoragePolicy.cs" />
-    <Compile Include="Models\BoxStoragePolicyAssignment.cs" />
-    <Compile Include="Models\BoxTask.cs" />
-    <Compile Include="Models\BoxTaskAssignment.cs" />
-    <Compile Include="Models\BoxTermsOfService.cs" />
-    <Compile Include="Models\BoxTermsOfServiceUserStatuses.cs" />
-    <Compile Include="Models\BoxUploadAvatarResponse.cs" />
-    <Compile Include="Models\BoxUserFileCollaborationEventSource.cs" />
-    <Compile Include="Models\BoxUserFolderCollaborationEventSource.cs" />
-    <Compile Include="Models\BoxTrackingCode.cs" />
-    <Compile Include="Models\BoxUserInvite.cs" />
-    <Compile Include="Models\BoxWatermarkInfo.cs" />
-    <Compile Include="Models\BoxWatermark.cs" />
-    <Compile Include="Models\BoxWatermarkResponse.cs" />
-    <Compile Include="Models\BoxRecentItem.cs" />
-    <Compile Include="Models\BoxWebhook.cs" />
-    <Compile Include="Models\BoxWebLink.cs" />
-    <Compile Include="Models\BoxCollaborationWhitelistEntry.cs" />
-    <Compile Include="Models\BoxCollaborationWhitelistTargetEntry.cs" />
-    <Compile Include="Models\BoxZip.cs" />
-    <Compile Include="Models\BoxZipConflict.cs" />
-    <Compile Include="Models\BoxZipConflictItem.cs" />
-    <Compile Include="Models\BoxZipDownloadStatus.cs" />
-    <Compile Include="Models\Permissions\BoxFilePermission.cs" />
-    <Compile Include="Models\BoxFileVersion.cs" />
-    <Compile Include="Models\BoxGroup.cs" />
-    <Compile Include="Models\BoxGroupMembership.cs" />
-    <Compile Include="Models\Request\BoxActionableByRequest.cs" />
-    <Compile Include="Models\BoxSessionParts.cs" />
-    <Compile Include="Models\Request\BoxAITextGenRequest.cs" />
-    <Compile Include="Models\Request\BoxFileRequestUpdateRequest.cs" />
-    <Compile Include="Models\Request\BoxFileRequestCopyRequest.cs" />
-    <Compile Include="Models\Request\BoxFileUploadSessionRequest.cs" />
-    <Compile Include="Models\Request\BoxMetadataQueryRequest.cs" />
-    <Compile Include="Models\Request\BoxSignRequestCreateRequest.cs" />
-    <Compile Include="Models\Request\BoxTermsOfServiceUserStatusCreateRequest.cs" />
-    <Compile Include="Models\Request\BoxUserRolloutRequest.cs" />
-    <Compile Include="Models\Request\BoxZipRequest.cs" />
-    <Compile Include="Models\Request\BoxLegalHoldPolicyAssignmentRequest.cs" />
-    <Compile Include="Models\Request\BoxLegalHoldPolicyRequest.cs" />
-    <Compile Include="Models\Request\BoxMetadataQueryOrderBy.cs" />
-    <Compile Include="Models\Request\BoxRepresentationRequest.cs" />
-    <Compile Include="Models\Request\BoxTaskAssignmentUpdateRequest.cs" />
-    <Compile Include="Models\Request\BoxAssignmentRequest.cs" />
-    <Compile Include="Models\Request\BoxApplyWatermarkRequest.cs" />
-    <Compile Include="Models\Request\BoxCollectionsRequest.cs" />
-    <Compile Include="Models\Request\BoxTermsOfServicesRequest.cs" />
-    <Compile Include="Models\Request\BoxTermsOfServiceUserStatusesRequest.cs" />
-    <Compile Include="Models\Request\BoxWebLinkRequest.cs" />
-    <Compile Include="Models\Request\BoxEmailAliasRequest.cs" />
-    <Compile Include="Models\Request\BoxFileLockRequest.cs" />
-    <Compile Include="Models\Request\BoxDeleteSharedLinkRequest.cs" />
-    <Compile Include="Models\Request\BoxFileVersionRetentionRequest.cs" />
-    <Compile Include="Models\Request\BoxGroupMembershipRequest.cs" />
-    <Compile Include="Models\Request\BoxGroupRequest.cs" />
-    <Compile Include="Models\Permissions\BoxFolderPermission.cs" />
-    <Compile Include="Models\Permissions\BoxItemPermission.cs" />
-    <Compile Include="Models\BoxSortOrder.cs" />
-    <Compile Include="Models\Request\BoxMetadataFilterRequest.cs" />
-    <Compile Include="Models\Request\BoxMoveUserFolderRequest.cs" />
-    <Compile Include="Models\Request\BoxPreflightCheckRequest.cs" />
-    <Compile Include="Models\Request\BoxPromoteVersionRequest.cs" />
-    <Compile Include="Models\Request\BoxRetentionPolicyAssignmentRequest.cs" />
-    <Compile Include="Models\Request\BoxRetentionPolicyRequest.cs" />
-    <Compile Include="Models\Request\BoxTaskAssignmentRequest.cs" />
-    <Compile Include="Models\Request\BoxTaskUpdateRequest.cs" />
-    <Compile Include="Models\Request\BoxTaskCreateRequest.cs" />
-    <Compile Include="Models\Request\BoxTaskRequest.cs" />
-    <Compile Include="Models\Request\BoxUserInviteRequest.cs" />
-    <Compile Include="Models\Request\BoxWatermarkRequest.cs" />
-    <Compile Include="Models\Request\BoxWebhookRequest.cs" />
-    <Compile Include="Models\Request\BoxZipRequestItem.cs" />
-    <Compile Include="Plugin\BoxResourcePlugins.cs" />
-    <Compile Include="Plugin\IBoxMetadataManager.cs" />
-    <Compile Include="Plugin\IResourcePlugin.cs" />
-    <Compile Include="JWTAuth\RSAUtilities.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request\ReusableContent.cs" />
-    <Compile Include="Utility\AssemblyInfo.cs" />
-    <Compile Include="Utility\BoxProgess.cs" />
-    <Compile Include="Utility\CrossPlatform.cs" />
-    <Compile Include="Utility\ExponentialBackoff.cs" />
-    <Compile Include="Utility\Helper.cs" />
-    <Compile Include="Utility\IRetryStrategy.cs" />
-    <Compile Include="Utility\LRUCache.cs" />
-    <Compile Include="Utility\ContentTypeMapper.cs" />
-    <Compile Include="Utility\Retry.cs" />
-    <Compile Include="Utility\SharedLinkUtils.cs" />
-    <Compile Include="Utility\ThreadSafeRandom.cs" />
-    <Compile Include="Wrappers\BoxError.cs" />
-    <Compile Include="Wrappers\BoxErrorContextInfo.cs" />
-    <Compile Include="Wrappers\BoxBinaryRequest.cs" />
-    <Compile Include="Wrappers\BoxPart.cs" />
-    <Compile Include="Wrappers\BoxMultiPartRequest.cs" />
-    <Compile Include="Wrappers\BoxResponse.cs" />
-    <Compile Include="Extensions\BoxResponseExtensions.cs" />
-    <Compile Include="Wrappers\Contracts\IBoxPart.cs" />
-    <Compile Include="Wrappers\Contracts\IBoxResponse.cs" />
-    <Compile Include="Wrappers\BoxFormPart.cs" />
-    <Compile Include="Wrappers\Contracts\IBoxFormPart.cs" />
-    <Compile Include="Config\BoxConfig.cs" />
-    <Compile Include="Config\Constants.cs" />
-    <Compile Include="Auth\IAuthRepository.cs" />
-    <Compile Include="Config\IBoxConfig.cs" />
-    <Compile Include="Exceptions\BoxException.cs" />
-    <Compile Include="Managers\BoxCommentsManager.cs" />
-    <Compile Include="Managers\BoxFilesManager.cs" />
-    <Compile Include="Managers\BoxFoldersManager.cs" />
-    <Compile Include="Managers\BoxUsersManager.cs" />
-    <Compile Include="Managers\BoxCollaborationsManager.cs" />
-    <Compile Include="Managers\BoxResourceManager.cs" />
-    <Compile Include="Managers\BoxSearchManager.cs" />
-    <Compile Include="Models\BoxEntity.cs" />
-    <Compile Include="Models\BoxEnums.cs" />
-    <Compile Include="Models\BoxCollaboration.cs" />
-    <Compile Include="Models\BoxComment.cs" />
-    <Compile Include="Models\BoxPermission.cs" />
-    <Compile Include="Models\Request\BoxEmailRequest.cs" />
-    <Compile Include="Models\Request\BoxItemRequest.cs" />
-    <Compile Include="Models\Request\BoxRequestEnums.cs" />
-    <Compile Include="Models\Request\BoxSharedLinkRequest.cs" />
-    <Compile Include="Models\BoxEmail.cs" />
-    <Compile Include="Models\BoxFile.cs" />
-    <Compile Include="Models\Request\BoxFileRequest.cs" />
-    <Compile Include="Models\BoxFolder.cs" />
-    <Compile Include="Models\BoxCollection.cs" />
-    <Compile Include="Models\Request\BoxPermissionsRequest.cs" />
-    <Compile Include="Models\Request\BoxRequestEntity.cs" />
-    <Compile Include="Models\Request\BoxFolderRequest.cs" />
-    <Compile Include="Models\BoxItem.cs" />
-    <Compile Include="Models\OAuthSession.cs" />
-    <Compile Include="Models\BoxSharedLink.cs" />
-    <Compile Include="Models\BoxUser.cs" />
-    <Compile Include="Models\Request\BoxCommentRequest.cs" />
-    <Compile Include="Models\Request\BoxUserRequest.cs" />
-    <Compile Include="Models\Request\BoxCollaborationRequest.cs" />
-    <Compile Include="Models\Request\BoxCollaborationUserRequest.cs" />
-    <Compile Include="Wrappers\BoxRequest.cs" />
-    <Compile Include="Wrappers\Contracts\IBoxRequest.cs" />
-    <Compile Include="Extensions\BoxRequestExtensions.cs" />
-    <Compile Include="Services\BoxService.cs" />
-    <Compile Include="Request\HttpRequestHandler.cs" />
-    <Compile Include="Services\IBoxService.cs" />
-    <Compile Include="Request\IRequestHandler.cs" />
-    <Compile Include="Converter\IBoxConverter.cs" />
-    <Compile Include="Converter\BoxJsonConverter.cs" />
-    <Compile Include="Models\BoxWebLinkEventSource.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Box.V2.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
