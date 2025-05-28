@@ -2,11 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;netcoreapp2.2;netcoreapp3.1;net5.0;net6.0;net462</TargetFrameworks>
-
     <IsPackable>false</IsPackable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Title>Box.V2.Test</Title>
-    <Copyright>Copyright © 2025</Copyright>
   </PropertyGroup>
     
   <ItemGroup>

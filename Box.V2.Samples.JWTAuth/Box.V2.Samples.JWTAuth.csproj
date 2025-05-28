@@ -20,7 +20,6 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <AssemblyTitle>Box.V2.Samples.JWTAuth</AssemblyTitle>
     <Product>Box.V2.Samples.JWTAuth</Product>
-    <Copyright>Copyright © 2025</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
