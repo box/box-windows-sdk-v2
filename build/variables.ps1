@@ -2,6 +2,7 @@ $ROOT_DIR=$pwd
 $GIT_SCRIPT="$PSScriptRoot" + "\ensure_git_clean.ps1"
 $CHANGELOG_PATH="$ROOT_DIR" + "\CHANGELOG.md"
 $FRAMEWORK_PROJ_DIR="$ROOT_DIR" + "\Box.V2"
+$FRAMEWORK_CSPROJ_PATH="$FRAMEWORK_PROJ_DIR" + "\Box.V2.csproj"
 $CORE_PROJ_DIR="$ROOT_DIR" + "\Box.V2.Core"
 $CORE_CSPROJ_PATH="$CORE_PROJ_DIR" + "\Box.V2.Core.csproj"
 $ASSEMBLYINFO_PATH="$FRAMEWORK_PROJ_DIR" + "\Utility\AssemblyInfo.cs"
