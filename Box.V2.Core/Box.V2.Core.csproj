@@ -1,24 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Box.V2 for .Net Core</Description>
-    <AssemblyTitle>Box.V2.Core</AssemblyTitle>
-    <Version>5.8.0</Version>
-    <Authors>Box, Inc.</Authors>
-	<Owners>Box, Inc.</Owners>
-	<PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
-  <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-	<PackageDescription>Windows SDK for v2 of the Box API. The SDK is built for .NET Core and includes JWTAuth support.</PackageDescription>
-	<PackageReleaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/main/CHANGELOG.md#580-2024-07-22</PackageReleaseNotes>
-	<Copyright>Copyright 2021</Copyright>
-	<PackageTags>Box;V2;SDK;Platform;Enterprise;Collaboration;Storage;File Management</PackageTags>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Box.V2.Core</AssemblyName>
     <PackageId>Box.V2.Core</PackageId>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>5.8.0</Version>
+    <Description>Box SDK for v2 of the Box API. The SDK is targeting .Net standard 2.0</Description>
+    <Authors>Box Inc.</Authors>
+    <AssemblyTitle>Box.V2.Core</AssemblyTitle>
+	  <PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+	  <PackageReleaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/main/CHANGELOG.md#580-2024-07-22</PackageReleaseNotes>
+	  <PackageTags>Box;V2;SDK;Platform;Enterprise;Collaboration;Storage;File Management</PackageTags>
+    <Copyright>Copyright 2025</Copyright>
+    <AssemblyName>Box.V2.Core</AssemblyName>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

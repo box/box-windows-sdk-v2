@@ -1,18 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProjectGuid>{602FF1B8-DF8B-4CFF-88C6-8B34468C45AD}</ProjectGuid>
-    <TargetFramework>net462</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Authors>Box Inc.</Authors>
     <PackageId>Box.V2</PackageId>
+    <TargetFramework>net462</TargetFramework>
+    <Version>5.8.0</Version>
+    <Description>Box SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.6.2</Description>
+    <Authors>Box Inc.</Authors>
+    <RepositoryUrl>https://github.com/box/box-windows-sdk-v2.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReleaseNotes>See https://github.com/box/box-windows-sdk-v2/blob/main/CHANGELOG.md#580-2024-07-22</PackageReleaseNotes>
     <PackageTags>Box V2 SDK Platform Enterprise Collaboration Storage File Management</PackageTags>
+    <Copyright>Copyright 2025</Copyright>
+    <ProjectGuid>{602FF1B8-DF8B-4CFF-88C6-8B34468C45AD}</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Title>Box.V2</Title>
-    <Copyright>Copyright ©  2017</Copyright>
+    <Copyright>Copyright © 2025</Copyright>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
