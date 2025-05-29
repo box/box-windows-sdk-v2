@@ -141,8 +141,8 @@ $fileContent -replace [Regex]::Escape($result), $orderedSectionsAsString | Set-C
 
 (Get-Content $CORE_CSPROJ_PATH) -replace '(?<=<Version>).*(?=</Version>)', $NEXT_VERSION | Set-Content $CORE_CSPROJ_PATH
 (Get-Content $CORE_CSPROJ_PATH) -replace '(?<=CHANGELOG\.md#).*(?=</PackageReleaseNotes>)', $RELEASE_NOTE_LINK | Set-Content $CORE_CSPROJ_PATH
-(Get-Content $FRAMEWORK_NUSPEC_PATH) -replace '(?<=<version>).*(?=</version>)', $NEXT_VERSION | Set-Content $FRAMEWORK_NUSPEC_PATH
-(Get-Content $FRAMEWORK_NUSPEC_PATH) -replace '(?<=CHANGELOG\.md#).*(?=</releaseNotes>)', $RELEASE_NOTE_LINK | Set-Content $FRAMEWORK_NUSPEC_PATH
+(Get-Content $FRAMEWORK_CSPROJ_PATH) -replace '(?<=<Version>).*(?=</Version>)', $NEXT_VERSION | Set-Content $FRAMEWORK_CSPROJ_PATH
+(Get-Content $FRAMEWORK_CSPROJ_PATH) -replace '(?<=CHANGELOG\.md#).*(?=</PackageReleaseNotes>)', $RELEASE_NOTE_LINK | Set-Content $FRAMEWORK_CSPROJ_PATH
 (Get-Content $ASSEMBLYINFO_PATH) -replace '(?<=NuGetVersion = ").*(?=";)', $NEXT_VERSION | Set-Content $ASSEMBLYINFO_PATH
 
 ###########################################################################

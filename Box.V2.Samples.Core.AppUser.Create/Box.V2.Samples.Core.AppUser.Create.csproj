@@ -5,11 +5,6 @@
     <AssemblyName>Box.V2.Samples.Core.AppUser.Create</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>Box.V2.Samples.Core.AppUser.Create</PackageId>
-    <RuntimeIdentifiers>win10-x64;osx.10.10-x64;ubuntu.14.04-x64</RuntimeIdentifiers>
-    <RuntimeFrameworkVersion>2.0.9</RuntimeFrameworkVersion>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
 
   <ItemGroup>

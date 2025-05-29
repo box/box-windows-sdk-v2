@@ -9,16 +9,16 @@ on:
 
 jobs:
   core:
-    name:  Integration tests
+    name: Integration tests
     runs-on: windows-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '2.0.0'
+          dotnet-version: "2.0.0"
       - name: Test
         env:
           INTEGRATION_TESTING_CONFIG: ${{ secrets.INTEGRATION_TESTING_CONFIG }}

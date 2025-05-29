@@ -10,23 +10,13 @@ on:
 jobs:
   framework:
     name: Build and Test - Framework
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
-      - name: Setup Nuget
-        uses: Nuget/setup-nuget@v1.0.5
-      - name: Restore
-        run: nuget restore
+        uses: actions/checkout@v4
       - name: Build
-        run: msbuild .\Box.V2
+        run: dotnet build .\Box.V2
       - name: Test
         run: dotnet test .\Box.V2.Test -f net462
 
@@ -36,11 +26,11 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: | 
+          dotnet-version: |
             2.0.0
             2.2.x
             3.1.x
