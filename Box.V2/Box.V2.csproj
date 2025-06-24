@@ -34,7 +34,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;RELEASE;NET462</DefineConstants>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>BoxSDKKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>BoxSDKKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.3.1" />
