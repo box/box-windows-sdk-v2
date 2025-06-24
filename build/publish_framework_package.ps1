@@ -16,10 +16,7 @@ Param
     [string]$Branch="main",
 
     [Alias('cf')]
-    [string]$PfxAsBase64,
-
-    [Alias('pw')]
-    [string]$PfxPassword,
+    [string]$SnkAsBase64,
 
     [Alias('bt')]
     [bool]$BuildAndTest =  $true,
@@ -30,9 +27,7 @@ Param
 
 function RemoveSensitiveData()
 {
-    Remove-Item $PFX_PATH
-    Remove-Item SnInstallPfx.exe
-    certutil -csp "Microsoft Strong Cryptographic Provider" -key | Select-String -Pattern "VS_KEY" | ForEach-Object{ $_.ToString().Trim()} | ForEach-Object{ certutil -delkey -csp "Microsoft Strong Cryptographic Provider" $_}
+    Remove-Item $SNK_PATH
     Write-Output "Sensitive data removed."
 }
 
@@ -70,18 +65,10 @@ if($NugetKey -eq $null -Or $NugetKey -eq ''){
     }
 }
 
-if($PfxAsBase64 -eq $null -Or $PfxAsBase64 -eq ''){
-    $PfxAsBase64 = $env:PfxAsBase64
-    if($PfxAsBase64 -eq $null -Or $PfxAsBase64 -eq ''){
-        Write-Output "Pfx certifcate as base64 not supplied. Aborting script."
-        exit 1
-    }
-}
-
-if($PfxPassword -eq $null -Or $PfxPassword -eq ''){
-    $PfxPassword = $env:PfxPassword
-    if($PfxPassword -eq $null -Or $PfxPassword -eq ''){
-        Write-Output "Pfx certificate password not supplied. Aborting script."
+if($SnkAsBase64 -eq $null -Or $SnkAsBase64 -eq ''){
+    $SnkAsBase64 = $env:SnkAsBase64
+    if($SnkAsBase64 -eq $null -Or $SnkAsBase64 -eq ''){
+        Write-Output "Strong-name key (.snk) not supplied. Aborting script."
         exit 1
     }
 }
@@ -96,29 +83,18 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 ###########################################################################
-# Install dependencies
+# Setup Snk
 ###########################################################################
 
-if ($InstallDependencies){
-    Install-Module -Name PowerShellForGitHub -Scope CurrentUser -Force
-    Invoke-WebRequest https://github.com/honzajscz/SnInstallPfx/releases/download/0.1.2-beta/SnInstallPfx.exe -SkipCertificateCheck -OutFile SnInstallPfx.exe
-}
-
-###########################################################################
-# Setup Pfx
-###########################################################################
-
-$Bytes = [Convert]::FromBase64String($PfxAsBase64)
-[IO.File]::WriteAllBytes($PFX_PATH, $Bytes)
-.\SnInstallPfx.exe $PFX_PATH $PfxPassword 
+$Bytes = [Convert]::FromBase64String($SnkAsBase64)
+[IO.File]::WriteAllBytes($SNK_PATH, $Bytes)
 
 ###########################################################################
 # Build and Test
 ###########################################################################
 
 if($BuildAndTest){
-    nuget restore $SLN_PATH
-    msbuild $FRAMEWORK_PROJ_DIR /property:Configuration=SignedRelease
+    dotnet build $FRAMEWORK_PROJ_DIR -c SignedRelease
     if ($LASTEXITCODE -ne 0) {
         Write-Output "Compilation failed. Aborting script."
         RemoveSensitiveData
@@ -141,11 +117,9 @@ if($BuildAndTest){
 # Pack Framework
 ###########################################################################
 
-nuget restore $SLN_PATH
-nuget pack $FRAMEWORK_PROJ_DIR -Build -Prop Configuration=SignedRelease
+dotnet pack $FRAMEWORK_PROJ_DIR -c SignedRelease
 if ($LASTEXITCODE -ne 0) {
     Write-Output "Package creation failed. Aborting script."
-    RemoveSensitiveData
     exit 1
 }
 
