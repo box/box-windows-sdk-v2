@@ -62,8 +62,8 @@ namespace Box.V2.JWTAuth
                 {
                     throw new BoxCodingException("PrivateKeyDecryptor cannot be null");
                 }
-                
-                 var decryptedPrivateKey = privateKeyDecryptor.DecryptPrivateKey(boxConfig.JWTPrivateKey, boxConfig.JWTPrivateKeyPassword);
+
+                var decryptedPrivateKey = privateKeyDecryptor.DecryptPrivateKey(boxConfig.JWTPrivateKey, boxConfig.JWTPrivateKeyPassword);
 
                 _credentials = new SigningCredentials(new RsaSecurityKey(decryptedPrivateKey), SecurityAlgorithms.RsaSha256);
             }

@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using Box.V2.Exceptions;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Math;
-using Box.V2.Exceptions;
+using Org.BouncyCastle.OpenSsl;
 
 namespace Box.V2.JWTAuth
 {
