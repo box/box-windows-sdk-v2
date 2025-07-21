@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
-using System.IO;
 using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -16,9 +15,6 @@ using Box.V2.Request;
 using Box.V2.Services;
 using Box.V2.Utility;
 using Microsoft.IdentityModel.Tokens;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.OpenSsl;
 
 namespace Box.V2.JWTAuth
 {
@@ -45,7 +41,8 @@ namespace Box.V2.JWTAuth
         /// </summary>
         /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
         /// <param name="boxService">Box service is used to perform GetToken requests</param>
-        public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService)
+        /// <param name="privateKeyDecryptor">Class used to convert jwt private key to decrypted RSA representation</param>
+        public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService, IPrivateKeyDecryptor privateKeyDecryptor)
         {
             _boxConfig = boxConfig;
             _boxService = boxService;
@@ -61,53 +58,57 @@ namespace Box.V2.JWTAuth
 
             if (!string.IsNullOrEmpty(boxConfig.JWTPrivateKey) && !string.IsNullOrEmpty(boxConfig.JWTPrivateKeyPassword))
             {
-                var pwf = new PEMPasswordFinder(_boxConfig.JWTPrivateKeyPassword);
-                object key = null;
-                using (var reader = new StringReader(_boxConfig.JWTPrivateKey))
+                if (privateKeyDecryptor == null)
                 {
-                    var privateKey = new PemReader(reader, pwf).ReadObject();
-
-                    key = privateKey;
+                    throw new BoxCodingException("PrivateKeyDecryptor cannot be null");
                 }
+                
+                 var decryptedPrivateKey = privateKeyDecryptor.DecryptPrivateKey(boxConfig.JWTPrivateKey, boxConfig.JWTPrivateKeyPassword);
 
-                if (key == null)
-                {
-                    throw new BoxCodingException("Invalid private key!");
-                }
-
-                RSA rsa = null;
-                if (key is AsymmetricCipherKeyPair)
-                {
-                    var ackp = (AsymmetricCipherKeyPair)key;
-                    rsa = RSAUtilities.ToRSA((RsaPrivateCrtKeyParameters)ackp.Private);
-                }
-                else if (key is RsaPrivateCrtKeyParameters)
-                {
-                    var rpcp = (RsaPrivateCrtKeyParameters)key;
-                    rsa = RSAUtilities.ToRSA(rpcp);
-                }
-
-                _credentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+                _credentials = new SigningCredentials(new RsaSecurityKey(decryptedPrivateKey), SecurityAlgorithms.RsaSha256);
             }
         }
 
         /// <summary>
-        /// Constructor for JWT authentication with default boxService
+        /// Constructor for JWT authentication with default boxService and privateKeyDecryptor
         /// </summary>
         /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
-        public BoxJWTAuth(IBoxConfig boxConfig) : this(boxConfig, new BoxService(new HttpRequestHandler(boxConfig.WebProxy, boxConfig.Timeout)))
+        public BoxJWTAuth(IBoxConfig boxConfig) : this(boxConfig, new BoxService(new HttpRequestHandler(boxConfig.WebProxy, boxConfig.Timeout)), new DefaultPrivateKeyDecryptor())
         {
 
         }
 
         /// <summary>
-        /// Constructor for JWT authentication with custom retry strategy
+        /// Constructor for JWT authentication with default privateKeyDecryptor
+        /// </summary>
+        /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
+        /// <param name="boxService">Box service is used to perform GetToken requests</param>
+        public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService) : this(boxConfig, boxService, new DefaultPrivateKeyDecryptor())
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor for JWT authentication with custom retry strategy and privateKeyDecryptor
         /// </summary>
         /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
         /// <param name="boxService">Box service is used to perform GetToken requests</param>
         /// <param name="retryStrategy">Retry strategy used when retrying http request</param>
         ///
-        public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService, IRetryStrategy retryStrategy) : this(boxConfig, boxService)
+        public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService, IRetryStrategy retryStrategy) : this(boxConfig, boxService, new DefaultPrivateKeyDecryptor())
+        {
+            _retryStrategy = retryStrategy;
+        }
+
+        /// <summary>
+        /// Constructor for JWT authentication with custom retry strategy and p
+        /// </summary>
+        /// <param name="boxConfig">Config contains information about client id, client secret, enterprise id, private key, private key password, public key id </param>
+        /// <param name="boxService">Box service is used to perform GetToken requests</param>
+        /// <param name="retryStrategy">Retry strategy used when retrying http request</param>
+        /// <param name="privateKeyDecryptor">Class used to convert jwt private key to decrypted RSA representation</param>
+        ///
+        public BoxJWTAuth(IBoxConfig boxConfig, IBoxService boxService, IRetryStrategy retryStrategy, IPrivateKeyDecryptor privateKeyDecryptor) : this(boxConfig, boxService, privateKeyDecryptor)
         {
             _retryStrategy = retryStrategy;
         }
@@ -294,12 +295,5 @@ namespace Box.V2.JWTAuth
 
             return boxResponse.ResponseObject;
         }
-    }
-
-    internal class PEMPasswordFinder : IPasswordFinder
-    {
-        private readonly string _pword;
-        public PEMPasswordFinder(string password) { _pword = password; }
-        public char[] GetPassword() { return _pword.ToCharArray(); }
     }
 }
