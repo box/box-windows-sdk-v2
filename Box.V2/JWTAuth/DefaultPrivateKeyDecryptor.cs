@@ -34,19 +34,18 @@ namespace Box.V2.JWTAuth
                 throw new BoxCodingException("Invalid private key!");
             }
 
-            RSA rsa = null;
             if (privateKey is AsymmetricCipherKeyPair)
             {
                 var ackp = (AsymmetricCipherKeyPair)privateKey;
 
-                rsa = ToRSA((RsaPrivateCrtKeyParameters)ackp.Private);
+                return ToRSA((RsaPrivateCrtKeyParameters)ackp.Private);
             }
             else if (privateKey is RsaPrivateCrtKeyParameters)
             {
-                rsa = ToRSA((RsaPrivateCrtKeyParameters)privateKey);
+                return ToRSA((RsaPrivateCrtKeyParameters)privateKey);
             }
 
-            return rsa;
+            throw new BoxCodingException("Private key could not be decrypted");
         }
 
         private static RSA ToRSA(RsaPrivateCrtKeyParameters privateKeyParameters)
