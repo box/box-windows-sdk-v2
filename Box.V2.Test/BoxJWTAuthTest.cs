@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Box.V2.Auth;
 using Box.V2.Config;
@@ -121,6 +122,26 @@ namespace Box.V2.Test
 
             // Assert
             Assert.AreEqual(accessToken, "T9cE5asGnuyYCCqIZFoWjFHvNbvVqHjl");
+        }
+
+        [TestMethod]
+        public void BoxJwtAuth_AllowsCustomPrivateKeyDecryptorImplementation()
+        {
+            var boxConfig = new Mock<IBoxConfig>();
+            var key = "key";
+            var password = "secret";
+
+            boxConfig.SetupGet(x => x.JWTPrivateKey).Returns(key);
+            boxConfig.SetupGet(x => x.JWTPrivateKeyPassword).Returns(password);
+
+            var privateKeyDecryptor = new Mock<IPrivateKeyDecryptor>();
+
+            privateKeyDecryptor.Setup(service => service.DecryptPrivateKey(key, password))
+                .Returns(RSA.Create());
+
+            new BoxJWTAuth(boxConfig.Object, _service, new InstantRetryStrategy(), privateKeyDecryptor.Object);
+
+            privateKeyDecryptor.Verify(p => p.DecryptPrivateKey(key, password), Times.Once());
         }
     }
 }

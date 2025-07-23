@@ -5,6 +5,7 @@ using Org.BouncyCastle.Math;
 
 namespace Box.V2.JWTAuth
 {
+    [Obsolete("This class is no longer used in the SDK. Use IPrivateKeyDecryptor instead.")]
     public static class RSAUtilities
     {
         public static RSA ToRSA(RsaPrivateCrtKeyParameters privKey)

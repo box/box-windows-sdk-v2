@@ -9,6 +9,7 @@ Configuration
 - [Proxy](#proxy)
 - [Supress notifications](#supress-notifications)
 - [Make API calls As-User](#make-api-calls-as-user)
+- [Custom private key decryptor for JWT](#custom-private-key-decryptor-for-jwt)
 
 URLs configuration
 ------------------
@@ -106,4 +107,21 @@ var userClient = new BoxClient(config, auth, asUser: userId);
 
 //returns root folder items for the user with ID '12345678'
 var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
+```
+
+Custom private key decryptor for JWT
+----------------------
+
+To generate a Json Web Signature used for retrieving tokens in the JWT authentication method, the SDK decrypts an encrypted private key passed in the config. The SDK implementation currently uses `BouncyCastle.Cryptography` library. If you want to use a different implementation (e.g. for FIPS compliance reasons) you need provide implementation for `IPrivateKeyDecryptor` and pass it during creation of `BoxJwtAuth` object.
+
+```c#
+public class MyPrivateKeyDecryptor : IPrivateKeyDecryptor
+{
+    public RSA DecryptPrivateKey(string encryptedPrivateKey, string passphrase) {
+        // implementation goes here
+    }
+}
+
+var boxJwtAuth = new BoxJWTAuth(boxConfig, new BoxService(new HttpRequestHandler(boxConfig.WebProxy, boxConfig.Timeout)), new MyPrivateKeyDecryptor());
+var boxClient = new BoxClient(boxConfig, boxJwtAuth);
 ```
