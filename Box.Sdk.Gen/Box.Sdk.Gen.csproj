@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Version>0.1.0</Version>
+    <Description>Official Box .Net Generated SDK</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Nullable>enable</Nullable>
+    <isPackable>true</isPackable>
+    <PackageId>Box.Sdk.Gen</PackageId>
+  </PropertyGroup>
+  
+
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.35.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+        
+
+  <ItemGroup>
+    <Reference Include="bc-fips-1.0.2">
+        <HintPath>libs\bc-fips-1.0.2.dll</HintPath>
+    </Reference>
+    <Reference Include="bcpkix-fips-1.0.2">
+        <HintPath>libs\bcpkix-fips-1.0.2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+    
+
+  <ItemGroup>
+    <_PackageFiles Include="$(OutputPath)\bc-fips-1.0.2.dll">
+        <BuildAction>None</BuildAction>
+        <PackagePath>lib\net6.0</PackagePath>
+    </_PackageFiles>
+    <_PackageFiles Include="$(OutputPath)\bcpkix-fips-1.0.2.dll">
+        <BuildAction>None</BuildAction>
+        <PackagePath>lib\net6.0</PackagePath>
+    </_PackageFiles>
+  </ItemGroup>
+    
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Box.Sdk.Gen.Tests.Integration"/>
+  </ItemGroup>
+
+</Project>

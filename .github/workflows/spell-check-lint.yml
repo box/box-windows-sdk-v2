@@ -2,8 +2,10 @@ name: spell-check-lint
 on:
   pull_request_target:
     types: [opened, synchronize, edited]
+    branches:
+      - main
 jobs:
-  spellcheck-request-title:
+  spellcheck-request:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repository
@@ -17,3 +19,5 @@ jobs:
           path: spellchecker
       - name: Execute spellchecker
         uses: ./spellchecker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

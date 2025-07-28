@@ -1,0 +1,11 @@
+The .NET SDK Gen uses third-party libraries that are required for usage. Their licenses are listed below:
+- bc-fips-1.0.2.dll (https://www.bouncycastle.org/download/bouncy-castle-c-fips/); License: MIT (https://www.bouncycastle.org/about/license/)
+- bcpkix-fips-1.0.2.dll (https://www.bouncycastle.org/download/bouncy-castle-c-fips/); License: MIT (https://www.bouncycastle.org/about/license/)
+- System.IdentityModel.Tokens.Jwt 6.35.0 (https://www.nuget.org/packages/System.IdentityModel.Tokens.Jwt/6.35.0); License: MIT (https://licenses.nuget.org/MIT)
+- System.Text.Json 8.0.5 (https://www.nuget.org/packages/System.Text.Json/8.0.5); License: MIT (https://licenses.nuget.org/MIT)
+- Microsoft.Extensions.Http 6.0.0 (https://www.nuget.org/packages/Microsoft.Extensions.Http/6.0.0); License: MIT (https://licenses.nuget.org/MIT)
+- Microsoft.Extensions.DependencyInjection 6.0.0 (https://www.nuget.org/packages/Microsoft.Extensions.DependencyInjection/6.0.0); License: MIT (https://licenses.nuget.org/MIT)
+- Microsoft.NET.Test.Sdk 17.7.2 (https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/17.7.2); License: MIT (https://licenses.nuget.org/MIT)
+- MSTest.TestAdapter 3.1.1 (https://www.nuget.org/packages/MSTest.TestAdapter/3.1.1); License: MIT (https://licenses.nuget.org/MIT)
+- MSTest.TestFramework 3.1.1 (https://www.nuget.org/packages/MSTest.TestFramework/3.1.1); License: MIT (https://licenses.nuget.org/MIT)
+- coverlet.msbuild 6.0.1 (https://www.nuget.org/packages/coverlet.msbuild/6.0.1); License: MIT (https://licenses.nuget.org/MIT)
