@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.Sdk.Gen", "Box.Sdk.Gen/Box.Sdk.Gen.csproj", "{18ADB316-951D-4183-B0A6-B44DAB30822B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Box.Sdk.Gen.Tests.Integration", "Box.Sdk.Gen.Tests.Integration/Box.Sdk.Gen.Tests.Integration.csproj", "{2F1C4352-0970-4B87-9195-EB1E8277BEF6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+    {18ADB316-951D-4183-B0A6-B44DAB30822B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+    {18ADB316-951D-4183-B0A6-B44DAB30822B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    {18ADB316-951D-4183-B0A6-B44DAB30822B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    {18ADB316-951D-4183-B0A6-B44DAB30822B}.Release|Any CPU.Build.0 = Release|Any CPU
+    {2F1C4352-0970-4B87-9195-EB1E8277BEF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+    {2F1C4352-0970-4B87-9195-EB1E8277BEF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+    {2F1C4352-0970-4B87-9195-EB1E8277BEF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+    {2F1C4352-0970-4B87-9195-EB1E8277BEF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {20D9CC2E-8D0F-442C-AE3E-899087F76839}
+	EndGlobalSection
+EndGlobal
