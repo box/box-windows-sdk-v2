@@ -7,18 +7,20 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(FileFullOrFolderMiniOrWebLinkConverter))]
-    public class FileFullOrFolderMiniOrWebLink : OneOf<FileFull, FolderMini, WebLink> {
-        public FileFull? FileFull => _val0;
+    public class FileFullOrFolderMiniOrWebLink {
+        internal OneOf<FileFull, FolderMini, WebLink> _oneOf;
         
-        public FolderMini? FolderMini => _val1;
+        public FileFull? FileFull => _oneOf._val0;
         
-        public WebLink? WebLink => _val2;
+        public FolderMini? FolderMini => _oneOf._val1;
         
-        public FileFullOrFolderMiniOrWebLink(FileFull value) : base(value) {}
+        public WebLink? WebLink => _oneOf._val2;
         
-        public FileFullOrFolderMiniOrWebLink(FolderMini value) : base(value) {}
+        public FileFullOrFolderMiniOrWebLink(FileFull value) {_oneOf = new OneOf<FileFull, FolderMini, WebLink>(value);}
         
-        public FileFullOrFolderMiniOrWebLink(WebLink value) : base(value) {}
+        public FileFullOrFolderMiniOrWebLink(FolderMini value) {_oneOf = new OneOf<FileFull, FolderMini, WebLink>(value);}
+        
+        public FileFullOrFolderMiniOrWebLink(WebLink value) {_oneOf = new OneOf<FileFull, FolderMini, WebLink>(value);}
         
         public static implicit operator FileFullOrFolderMiniOrWebLink(FileFull value) => new FileFullOrFolderMiniOrWebLink(value);
         

@@ -7,10 +7,12 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(IntegrationMappingPartnerItemSlackUnionConverter))]
-    public class IntegrationMappingPartnerItemSlackUnion : OneOf<IntegrationMappingPartnerItemSlack> {
-        public IntegrationMappingPartnerItemSlack? IntegrationMappingPartnerItemSlack => _val0;
+    public class IntegrationMappingPartnerItemSlackUnion {
+        internal OneOf<IntegrationMappingPartnerItemSlack> _oneOf;
         
-        public IntegrationMappingPartnerItemSlackUnion(IntegrationMappingPartnerItemSlack value) : base(value) {}
+        public IntegrationMappingPartnerItemSlack? IntegrationMappingPartnerItemSlack => _oneOf._val0;
+        
+        public IntegrationMappingPartnerItemSlackUnion(IntegrationMappingPartnerItemSlack value) {_oneOf = new OneOf<IntegrationMappingPartnerItemSlack>(value);}
         
         public static implicit operator IntegrationMappingPartnerItemSlackUnion(IntegrationMappingPartnerItemSlack value) => new IntegrationMappingPartnerItemSlackUnion(value);
         

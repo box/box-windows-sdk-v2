@@ -7,22 +7,24 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGenConverter))]
-    public class AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen : OneOf<AiAgentAsk, AiAgentExtract, AiAgentExtractStructured, AiAgentTextGen> {
-        public AiAgentAsk? AiAgentAsk => _val0;
+    public class AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen {
+        internal OneOf<AiAgentAsk, AiAgentExtract, AiAgentExtractStructured, AiAgentTextGen> _oneOf;
         
-        public AiAgentExtract? AiAgentExtract => _val1;
+        public AiAgentAsk? AiAgentAsk => _oneOf._val0;
         
-        public AiAgentExtractStructured? AiAgentExtractStructured => _val2;
+        public AiAgentExtract? AiAgentExtract => _oneOf._val1;
         
-        public AiAgentTextGen? AiAgentTextGen => _val3;
+        public AiAgentExtractStructured? AiAgentExtractStructured => _oneOf._val2;
         
-        public AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(AiAgentAsk value) : base(value) {}
+        public AiAgentTextGen? AiAgentTextGen => _oneOf._val3;
         
-        public AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(AiAgentExtract value) : base(value) {}
+        public AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(AiAgentAsk value) {_oneOf = new OneOf<AiAgentAsk, AiAgentExtract, AiAgentExtractStructured, AiAgentTextGen>(value);}
         
-        public AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(AiAgentExtractStructured value) : base(value) {}
+        public AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(AiAgentExtract value) {_oneOf = new OneOf<AiAgentAsk, AiAgentExtract, AiAgentExtractStructured, AiAgentTextGen>(value);}
         
-        public AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(AiAgentTextGen value) : base(value) {}
+        public AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(AiAgentExtractStructured value) {_oneOf = new OneOf<AiAgentAsk, AiAgentExtract, AiAgentExtractStructured, AiAgentTextGen>(value);}
+        
+        public AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(AiAgentTextGen value) {_oneOf = new OneOf<AiAgentAsk, AiAgentExtract, AiAgentExtractStructured, AiAgentTextGen>(value);}
         
         public static implicit operator AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(AiAgentAsk value) => new AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen(value);
         

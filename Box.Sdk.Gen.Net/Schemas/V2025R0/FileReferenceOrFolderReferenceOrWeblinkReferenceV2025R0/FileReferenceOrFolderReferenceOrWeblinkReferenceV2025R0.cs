@@ -7,18 +7,20 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0Converter))]
-    public class FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0 : OneOf<FileReferenceV2025R0, FolderReferenceV2025R0, WeblinkReferenceV2025R0> {
-        public FileReferenceV2025R0? FileReferenceV2025R0 => _val0;
+    public class FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0 {
+        internal OneOf<FileReferenceV2025R0, FolderReferenceV2025R0, WeblinkReferenceV2025R0> _oneOf;
         
-        public FolderReferenceV2025R0? FolderReferenceV2025R0 => _val1;
+        public FileReferenceV2025R0? FileReferenceV2025R0 => _oneOf._val0;
         
-        public WeblinkReferenceV2025R0? WeblinkReferenceV2025R0 => _val2;
+        public FolderReferenceV2025R0? FolderReferenceV2025R0 => _oneOf._val1;
         
-        public FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0(FileReferenceV2025R0 value) : base(value) {}
+        public WeblinkReferenceV2025R0? WeblinkReferenceV2025R0 => _oneOf._val2;
         
-        public FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0(FolderReferenceV2025R0 value) : base(value) {}
+        public FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0(FileReferenceV2025R0 value) {_oneOf = new OneOf<FileReferenceV2025R0, FolderReferenceV2025R0, WeblinkReferenceV2025R0>(value);}
         
-        public FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0(WeblinkReferenceV2025R0 value) : base(value) {}
+        public FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0(FolderReferenceV2025R0 value) {_oneOf = new OneOf<FileReferenceV2025R0, FolderReferenceV2025R0, WeblinkReferenceV2025R0>(value);}
+        
+        public FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0(WeblinkReferenceV2025R0 value) {_oneOf = new OneOf<FileReferenceV2025R0, FolderReferenceV2025R0, WeblinkReferenceV2025R0>(value);}
         
         public static implicit operator FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0(FileReferenceV2025R0 value) => new FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0(value);
         

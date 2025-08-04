@@ -7,14 +7,16 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(EventsNextStreamPositionFieldConverter))]
-    public class EventsNextStreamPositionField : OneOf<string, long> {
-        public string? StringVal => _val0;
+    public class EventsNextStreamPositionField {
+        internal OneOf<string, long> _oneOf;
         
-        public long? LongVal => _val1;
+        public string? StringVal => _oneOf._val0;
         
-        public EventsNextStreamPositionField(string value) : base(value) {}
+        public long? LongVal => _oneOf._val1;
         
-        public EventsNextStreamPositionField(long value) : base(value) {}
+        public EventsNextStreamPositionField(string value) {_oneOf = new OneOf<string, long>(value);}
+        
+        public EventsNextStreamPositionField(long value) {_oneOf = new OneOf<string, long>(value);}
         
         public static implicit operator EventsNextStreamPositionField(string value) => new EventsNextStreamPositionField(value);
         

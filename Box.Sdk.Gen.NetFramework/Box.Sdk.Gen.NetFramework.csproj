@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Version>0.1.0</Version>
+    <Description>Official Box .Net Generated SDK</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <isPackable>true</isPackable>
+    <AssemblyName>Box.V2</AssemblyName>
+  </PropertyGroup>
+  
+
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.1" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+        
+
+  <ItemGroup>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+    
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Box.Sdk.Gen.NetFramework.Tests.Integration"/>
+  </ItemGroup>
+    
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SignedRelease|AnyCPU'">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>BoxSDKKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+</Project>
