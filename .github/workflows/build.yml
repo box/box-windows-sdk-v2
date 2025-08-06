@@ -34,7 +34,7 @@ jobs:
           SLACK_AUTOMATION_USER_ID: ${{ secrets.SLACK_AUTOMATION_USER_ID }}
           SLACK_ORG_ID: ${{ secrets.SLACK_ORG_ID }}
           SLACK_PARTNER_ITEM_ID: ${{ secrets.SLACK_PARTNER_ITEM_ID }}
-        run: dotnet test -f net472 ./Box.Sdk.Gen.NetFramework.Tests.Integration --settings ./Box.Sdk.Gen.NetFramework.Tests.Integration/TestSettings.runsettings --logger "console;verbosity=normal"
+        run: dotnet test -f net462 ./Box.Sdk.Gen.NetFramework.Tests.Integration --settings ./Box.Sdk.Gen.NetFramework.Tests.Integration/TestSettings.runsettings --logger "console;verbosity=normal"
   core:
     name: Box.V2.Core (.NET 8)
     runs-on: ubuntu-latest
