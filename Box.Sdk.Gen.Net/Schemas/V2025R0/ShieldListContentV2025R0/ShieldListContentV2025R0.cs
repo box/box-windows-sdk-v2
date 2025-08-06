@@ -7,26 +7,28 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(ShieldListContentV2025R0Converter))]
-    public class ShieldListContentV2025R0 : OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0, ShieldListContentIntegrationV2025R0> {
-        public ShieldListContentCountryV2025R0? ShieldListContentCountryV2025R0 => _val0;
+    public class ShieldListContentV2025R0 {
+        internal OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0, ShieldListContentIntegrationV2025R0> _oneOf;
         
-        public ShieldListContentDomainV2025R0? ShieldListContentDomainV2025R0 => _val1;
+        public ShieldListContentCountryV2025R0? ShieldListContentCountryV2025R0 => _oneOf._val0;
         
-        public ShieldListContentEmailV2025R0? ShieldListContentEmailV2025R0 => _val2;
+        public ShieldListContentDomainV2025R0? ShieldListContentDomainV2025R0 => _oneOf._val1;
         
-        public ShieldListContentIpV2025R0? ShieldListContentIpV2025R0 => _val3;
+        public ShieldListContentEmailV2025R0? ShieldListContentEmailV2025R0 => _oneOf._val2;
         
-        public ShieldListContentIntegrationV2025R0? ShieldListContentIntegrationV2025R0 => _val4;
+        public ShieldListContentIpV2025R0? ShieldListContentIpV2025R0 => _oneOf._val3;
         
-        public ShieldListContentV2025R0(ShieldListContentCountryV2025R0 value) : base(value) {}
+        public ShieldListContentIntegrationV2025R0? ShieldListContentIntegrationV2025R0 => _oneOf._val4;
         
-        public ShieldListContentV2025R0(ShieldListContentDomainV2025R0 value) : base(value) {}
+        public ShieldListContentV2025R0(ShieldListContentCountryV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0, ShieldListContentIntegrationV2025R0>(value);}
         
-        public ShieldListContentV2025R0(ShieldListContentEmailV2025R0 value) : base(value) {}
+        public ShieldListContentV2025R0(ShieldListContentDomainV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0, ShieldListContentIntegrationV2025R0>(value);}
         
-        public ShieldListContentV2025R0(ShieldListContentIpV2025R0 value) : base(value) {}
+        public ShieldListContentV2025R0(ShieldListContentEmailV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0, ShieldListContentIntegrationV2025R0>(value);}
         
-        public ShieldListContentV2025R0(ShieldListContentIntegrationV2025R0 value) : base(value) {}
+        public ShieldListContentV2025R0(ShieldListContentIpV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0, ShieldListContentIntegrationV2025R0>(value);}
+        
+        public ShieldListContentV2025R0(ShieldListContentIntegrationV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0, ShieldListContentIntegrationV2025R0>(value);}
         
         public static implicit operator ShieldListContentV2025R0(ShieldListContentCountryV2025R0 value) => new ShieldListContentV2025R0(value);
         

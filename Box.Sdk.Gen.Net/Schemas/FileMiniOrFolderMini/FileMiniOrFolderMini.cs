@@ -7,14 +7,16 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(FileMiniOrFolderMiniConverter))]
-    public class FileMiniOrFolderMini : OneOf<FileMini, FolderMini> {
-        public FileMini? FileMini => _val0;
+    public class FileMiniOrFolderMini {
+        internal OneOf<FileMini, FolderMini> _oneOf;
         
-        public FolderMini? FolderMini => _val1;
+        public FileMini? FileMini => _oneOf._val0;
         
-        public FileMiniOrFolderMini(FileMini value) : base(value) {}
+        public FolderMini? FolderMini => _oneOf._val1;
         
-        public FileMiniOrFolderMini(FolderMini value) : base(value) {}
+        public FileMiniOrFolderMini(FileMini value) {_oneOf = new OneOf<FileMini, FolderMini>(value);}
+        
+        public FileMiniOrFolderMini(FolderMini value) {_oneOf = new OneOf<FileMini, FolderMini>(value);}
         
         public static implicit operator FileMiniOrFolderMini(FileMini value) => new FileMiniOrFolderMini(value);
         

@@ -7,14 +7,16 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(SearchResultsOrSearchResultsWithSharedLinksConverter))]
-    public class SearchResultsOrSearchResultsWithSharedLinks : OneOf<SearchResults, SearchResultsWithSharedLinks> {
-        public SearchResults? SearchResults => _val0;
+    public class SearchResultsOrSearchResultsWithSharedLinks {
+        internal OneOf<SearchResults, SearchResultsWithSharedLinks> _oneOf;
         
-        public SearchResultsWithSharedLinks? SearchResultsWithSharedLinks => _val1;
+        public SearchResults? SearchResults => _oneOf._val0;
         
-        public SearchResultsOrSearchResultsWithSharedLinks(SearchResults value) : base(value) {}
+        public SearchResultsWithSharedLinks? SearchResultsWithSharedLinks => _oneOf._val1;
         
-        public SearchResultsOrSearchResultsWithSharedLinks(SearchResultsWithSharedLinks value) : base(value) {}
+        public SearchResultsOrSearchResultsWithSharedLinks(SearchResults value) {_oneOf = new OneOf<SearchResults, SearchResultsWithSharedLinks>(value);}
+        
+        public SearchResultsOrSearchResultsWithSharedLinks(SearchResultsWithSharedLinks value) {_oneOf = new OneOf<SearchResults, SearchResultsWithSharedLinks>(value);}
         
         public static implicit operator SearchResultsOrSearchResultsWithSharedLinks(SearchResults value) => new SearchResultsOrSearchResultsWithSharedLinks(value);
         

@@ -9,30 +9,32 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUserConverter))]
-    public class AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser : OneOf<AppItemEventSource, EventSource, File, Folder, Dictionary<string, object>, User> {
-        public AppItemEventSource? AppItemEventSource => _val0;
+    public class AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser {
+        internal OneOf<AppItemEventSource, EventSource, File, Folder, Dictionary<string, object>, User> _oneOf;
         
-        public EventSource? EventSource => _val1;
+        public AppItemEventSource? AppItemEventSource => _oneOf._val0;
         
-        public File? File => _val2;
+        public EventSource? EventSource => _oneOf._val1;
         
-        public Folder? Folder => _val3;
+        public File? File => _oneOf._val2;
         
-        public Dictionary<string, object>? GenericSource => _val4;
+        public Folder? Folder => _oneOf._val3;
         
-        public User? User => _val5;
+        public Dictionary<string, object>? GenericSource => _oneOf._val4;
         
-        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(AppItemEventSource value) : base(value) {}
+        public User? User => _oneOf._val5;
         
-        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(EventSource value) : base(value) {}
+        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(AppItemEventSource value) {_oneOf = new OneOf<AppItemEventSource, EventSource, File, Folder, Dictionary<string, object>, User>(value);}
         
-        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(File value) : base(value) {}
+        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(EventSource value) {_oneOf = new OneOf<AppItemEventSource, EventSource, File, Folder, Dictionary<string, object>, User>(value);}
         
-        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(Folder value) : base(value) {}
+        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(File value) {_oneOf = new OneOf<AppItemEventSource, EventSource, File, Folder, Dictionary<string, object>, User>(value);}
         
-        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(Dictionary<string, object> value) : base(value) {}
+        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(Folder value) {_oneOf = new OneOf<AppItemEventSource, EventSource, File, Folder, Dictionary<string, object>, User>(value);}
         
-        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(User value) : base(value) {}
+        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(Dictionary<string, object> value) {_oneOf = new OneOf<AppItemEventSource, EventSource, File, Folder, Dictionary<string, object>, User>(value);}
+        
+        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(User value) {_oneOf = new OneOf<AppItemEventSource, EventSource, File, Folder, Dictionary<string, object>, User>(value);}
         
         public static implicit operator AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(AppItemEventSource value) => new AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser(value);
         

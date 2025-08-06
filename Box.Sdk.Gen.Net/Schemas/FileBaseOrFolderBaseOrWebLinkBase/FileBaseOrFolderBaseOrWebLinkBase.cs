@@ -7,18 +7,20 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(FileBaseOrFolderBaseOrWebLinkBaseConverter))]
-    public class FileBaseOrFolderBaseOrWebLinkBase : OneOf<FileBase, FolderBase, WebLinkBase> {
-        public FileBase? FileBase => _val0;
+    public class FileBaseOrFolderBaseOrWebLinkBase {
+        internal OneOf<FileBase, FolderBase, WebLinkBase> _oneOf;
         
-        public FolderBase? FolderBase => _val1;
+        public FileBase? FileBase => _oneOf._val0;
         
-        public WebLinkBase? WebLinkBase => _val2;
+        public FolderBase? FolderBase => _oneOf._val1;
         
-        public FileBaseOrFolderBaseOrWebLinkBase(FileBase value) : base(value) {}
+        public WebLinkBase? WebLinkBase => _oneOf._val2;
         
-        public FileBaseOrFolderBaseOrWebLinkBase(FolderBase value) : base(value) {}
+        public FileBaseOrFolderBaseOrWebLinkBase(FileBase value) {_oneOf = new OneOf<FileBase, FolderBase, WebLinkBase>(value);}
         
-        public FileBaseOrFolderBaseOrWebLinkBase(WebLinkBase value) : base(value) {}
+        public FileBaseOrFolderBaseOrWebLinkBase(FolderBase value) {_oneOf = new OneOf<FileBase, FolderBase, WebLinkBase>(value);}
+        
+        public FileBaseOrFolderBaseOrWebLinkBase(WebLinkBase value) {_oneOf = new OneOf<FileBase, FolderBase, WebLinkBase>(value);}
         
         public static implicit operator FileBaseOrFolderBaseOrWebLinkBase(FileBase value) => new FileBaseOrFolderBaseOrWebLinkBase(value);
         

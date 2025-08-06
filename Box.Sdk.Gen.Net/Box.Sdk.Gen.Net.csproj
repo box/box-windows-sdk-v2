@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
     <isPackable>true</isPackable>
     <PackageId>Box.Sdk.Gen.Net</PackageId>
+    <AssemblyName>Box.V2.Core</AssemblyName>
   </PropertyGroup>
   
 

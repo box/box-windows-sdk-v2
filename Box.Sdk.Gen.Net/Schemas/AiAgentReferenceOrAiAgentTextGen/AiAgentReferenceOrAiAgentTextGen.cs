@@ -7,14 +7,16 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(AiAgentReferenceOrAiAgentTextGenConverter))]
-    public class AiAgentReferenceOrAiAgentTextGen : OneOf<AiAgentReference, AiAgentTextGen> {
-        public AiAgentReference? AiAgentReference => _val0;
+    public class AiAgentReferenceOrAiAgentTextGen {
+        internal OneOf<AiAgentReference, AiAgentTextGen> _oneOf;
         
-        public AiAgentTextGen? AiAgentTextGen => _val1;
+        public AiAgentReference? AiAgentReference => _oneOf._val0;
         
-        public AiAgentReferenceOrAiAgentTextGen(AiAgentReference value) : base(value) {}
+        public AiAgentTextGen? AiAgentTextGen => _oneOf._val1;
         
-        public AiAgentReferenceOrAiAgentTextGen(AiAgentTextGen value) : base(value) {}
+        public AiAgentReferenceOrAiAgentTextGen(AiAgentReference value) {_oneOf = new OneOf<AiAgentReference, AiAgentTextGen>(value);}
+        
+        public AiAgentReferenceOrAiAgentTextGen(AiAgentTextGen value) {_oneOf = new OneOf<AiAgentReference, AiAgentTextGen>(value);}
         
         public static implicit operator AiAgentReferenceOrAiAgentTextGen(AiAgentReference value) => new AiAgentReferenceOrAiAgentTextGen(value);
         

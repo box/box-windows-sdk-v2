@@ -1,48 +1,48 @@
 namespace Box.Sdk.Gen {
     public class OneOf<T0,T1,T2,T3,T4,T5,T6,T7> {
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NET472
         public T0 _val0 { get; }
 #else
         public T0? _val0 { get; }
 #endif
         
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NET472
         public T1 _val1 { get; }
 #else
         public T1? _val1 { get; }
 #endif
         
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NET472
         public T2 _val2 { get; }
 #else
         public T2? _val2 { get; }
 #endif
         
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NET472
         public T3 _val3 { get; }
 #else
         public T3? _val3 { get; }
 #endif
         
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NET472
         public T4 _val4 { get; }
 #else
         public T4? _val4 { get; }
 #endif
         
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NET472
         public T5 _val5 { get; }
 #else
         public T5? _val5 { get; }
 #endif
         
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NET472
         public T6 _val6 { get; }
 #else
         public T6? _val6 { get; }
 #endif
         
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NET472
         public T7 _val7 { get; }
 #else
         public T7? _val7 { get; }
