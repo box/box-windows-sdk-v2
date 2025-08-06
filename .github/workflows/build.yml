@@ -7,9 +7,35 @@ on:
     branches:
       - sdk-gen
 jobs:
-  build-and-test:
+  framework:
+    name: Build and Test - Box.V2 (Framework)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: dotnet build ./Box.Sdk.Gen.NetFramework
+      - name: Test
+        env:
+          JWT_CONFIG_BASE_64: ${{ secrets.JWT_CONFIG_BASE_64 }}
+          ADMIN_USER_ID: ${{ secrets.ADMIN_USER_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          USER_ID: ${{ secrets.USER_ID }}
+          ENTERPRISE_ID: ${{ secrets.ENTERPRISE_ID }}
+          BOX_FILE_REQUEST_ID: ${{ secrets.BOX_FILE_REQUEST_ID }}
+          BOX_EXTERNAL_USER_EMAIL: ${{ secrets.BOX_EXTERNAL_USER_EMAIL }}
+          WORKFLOW_FOLDER_ID: ${{ secrets.WORKFLOW_FOLDER_ID }}
+          APP_ITEM_ASSOCIATION_FILE_ID: ${{ secrets.APP_ITEM_ASSOCIATION_FILE_ID }}
+          APP_ITEM_ASSOCIATION_FOLDER_ID: ${{ secrets.APP_ITEM_ASSOCIATION_FOLDER_ID }}
+          APP_ITEM_SHARED_LINK: ${{ secrets.APP_ITEM_SHARED_LINK }}
+          SLACK_AUTOMATION_USER_ID: ${{ secrets.SLACK_AUTOMATION_USER_ID }}
+          SLACK_ORG_ID: ${{ secrets.SLACK_ORG_ID }}
+          SLACK_PARTNER_ITEM_ID: ${{ secrets.SLACK_PARTNER_ITEM_ID }}
+        run: dotnet test ./Box.Sdk.Gen.NetFramework.Tests.Integration --settings ./Box.Sdk.Gen.NetFramework.Tests.Integration/TestSettings.runsettings --logger "console;verbosity=normal"
+  core:
+    name: Build and Test - Box.V2.Core (.NET 8)
     runs-on: ubuntu-latest
-    name: .NET 8
     steps:
       - name: Checkout
         uses: actions/checkout@v4
