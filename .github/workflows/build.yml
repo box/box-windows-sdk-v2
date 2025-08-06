@@ -71,7 +71,7 @@ jobs:
           format: lcov
           parallel: true
   finish:
-    needs: build-and-test
+    needs: core
     runs-on: ubuntu-latest
     steps:
       - name: Coveralls Finished
