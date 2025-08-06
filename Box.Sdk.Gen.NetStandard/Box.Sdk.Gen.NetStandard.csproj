@@ -7,6 +7,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <isPackable>true</isPackable>
     <PackageId>Box.Sdk.Gen.NetStandard</PackageId>
+    <AssemblyName>Box.V2.Core</AssemblyName>
   </PropertyGroup>
   
 

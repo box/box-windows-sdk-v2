@@ -9,26 +9,28 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrStringConverter))]
-    public class MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString : OneOf<MetadataFieldFilterDateRange, MetadataFieldFilterFloatRange, IReadOnlyList<string>, double, string> {
-        public MetadataFieldFilterDateRange? MetadataFieldFilterDateRange => _val0;
+    public class MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString {
+        internal OneOf<MetadataFieldFilterDateRange, MetadataFieldFilterFloatRange, IReadOnlyList<string>, double, string> _oneOf;
         
-        public MetadataFieldFilterFloatRange? MetadataFieldFilterFloatRange => _val1;
+        public MetadataFieldFilterDateRange? MetadataFieldFilterDateRange => _oneOf._val0;
         
-        public IReadOnlyList<string>? ListVal => _val2;
+        public MetadataFieldFilterFloatRange? MetadataFieldFilterFloatRange => _oneOf._val1;
         
-        public double? DoubleVal => _val3;
+        public IReadOnlyList<string>? ListVal => _oneOf._val2;
         
-        public string? StringVal => _val4;
+        public double? DoubleVal => _oneOf._val3;
         
-        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(MetadataFieldFilterDateRange value) : base(value) {}
+        public string? StringVal => _oneOf._val4;
         
-        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(MetadataFieldFilterFloatRange value) : base(value) {}
+        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(MetadataFieldFilterDateRange value) {_oneOf = new OneOf<MetadataFieldFilterDateRange, MetadataFieldFilterFloatRange, IReadOnlyList<string>, double, string>(value);}
         
-        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(IReadOnlyList<string> value) : base(value) {}
+        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(MetadataFieldFilterFloatRange value) {_oneOf = new OneOf<MetadataFieldFilterDateRange, MetadataFieldFilterFloatRange, IReadOnlyList<string>, double, string>(value);}
         
-        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(double value) : base(value) {}
+        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(IReadOnlyList<string> value) {_oneOf = new OneOf<MetadataFieldFilterDateRange, MetadataFieldFilterFloatRange, IReadOnlyList<string>, double, string>(value);}
         
-        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(string value) : base(value) {}
+        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(double value) {_oneOf = new OneOf<MetadataFieldFilterDateRange, MetadataFieldFilterFloatRange, IReadOnlyList<string>, double, string>(value);}
+        
+        public MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(string value) {_oneOf = new OneOf<MetadataFieldFilterDateRange, MetadataFieldFilterFloatRange, IReadOnlyList<string>, double, string>(value);}
         
         public static implicit operator MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(MetadataFieldFilterDateRange value) => new MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString(value);
         

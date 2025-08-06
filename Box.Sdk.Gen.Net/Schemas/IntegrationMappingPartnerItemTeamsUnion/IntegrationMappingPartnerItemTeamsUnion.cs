@@ -7,10 +7,12 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(IntegrationMappingPartnerItemTeamsUnionConverter))]
-    public class IntegrationMappingPartnerItemTeamsUnion : OneOf<IntegrationMappingPartnerItemTeams> {
-        public IntegrationMappingPartnerItemTeams? IntegrationMappingPartnerItemTeams => _val0;
+    public class IntegrationMappingPartnerItemTeamsUnion {
+        internal OneOf<IntegrationMappingPartnerItemTeams> _oneOf;
         
-        public IntegrationMappingPartnerItemTeamsUnion(IntegrationMappingPartnerItemTeams value) : base(value) {}
+        public IntegrationMappingPartnerItemTeams? IntegrationMappingPartnerItemTeams => _oneOf._val0;
+        
+        public IntegrationMappingPartnerItemTeamsUnion(IntegrationMappingPartnerItemTeams value) {_oneOf = new OneOf<IntegrationMappingPartnerItemTeams>(value);}
         
         public static implicit operator IntegrationMappingPartnerItemTeamsUnion(IntegrationMappingPartnerItemTeams value) => new IntegrationMappingPartnerItemTeamsUnion(value);
         

@@ -7,14 +7,16 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(AiAgentExtractOrAiAgentReferenceConverter))]
-    public class AiAgentExtractOrAiAgentReference : OneOf<AiAgentExtract, AiAgentReference> {
-        public AiAgentExtract? AiAgentExtract => _val0;
+    public class AiAgentExtractOrAiAgentReference {
+        internal OneOf<AiAgentExtract, AiAgentReference> _oneOf;
         
-        public AiAgentReference? AiAgentReference => _val1;
+        public AiAgentExtract? AiAgentExtract => _oneOf._val0;
         
-        public AiAgentExtractOrAiAgentReference(AiAgentExtract value) : base(value) {}
+        public AiAgentReference? AiAgentReference => _oneOf._val1;
         
-        public AiAgentExtractOrAiAgentReference(AiAgentReference value) : base(value) {}
+        public AiAgentExtractOrAiAgentReference(AiAgentExtract value) {_oneOf = new OneOf<AiAgentExtract, AiAgentReference>(value);}
+        
+        public AiAgentExtractOrAiAgentReference(AiAgentReference value) {_oneOf = new OneOf<AiAgentExtract, AiAgentReference>(value);}
         
         public static implicit operator AiAgentExtractOrAiAgentReference(AiAgentExtract value) => new AiAgentExtractOrAiAgentReference(value);
         

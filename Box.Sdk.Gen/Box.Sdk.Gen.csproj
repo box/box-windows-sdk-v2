@@ -1,12 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;netstandard2.0</TargetFrameworks>
     <Version>0.1.0</Version>
     <Description>Official Box .Net Generated SDK</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <isPackable>true</isPackable>
-    <PackageId>Box.Sdk.Gen</PackageId>
+    <PackageId>Box.V2.Core</PackageId>
+    <AssemblyName>Box.V2.Core.Root</AssemblyName>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
   
 
@@ -20,31 +22,31 @@
         
 
   <ItemGroup>
-    <ProjectReference Include="..\Box.Sdk.Gen.NetStandard\Box.Sdk.Gen.NetStandard.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0' and '$(Configuration)' != 'Release'" />
-    <ProjectReference Include="..\Box.Sdk.Gen.NetStandard\Box.Sdk.Gen.NetStandard.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0' and '$(Configuration)' == 'Release'">
-        <PrivateAssets>all</PrivateAssets>
-    </ProjectReference>
     <ProjectReference Include="..\Box.Sdk.Gen.Net\Box.Sdk.Gen.Net.csproj" Condition="'$(TargetFramework)' == 'net8.0' and '$(Configuration)' != 'Release'" />
     <ProjectReference Include="..\Box.Sdk.Gen.Net\Box.Sdk.Gen.Net.csproj" Condition="'$(TargetFramework)' == 'net8.0' and '$(Configuration)' == 'Release'">
         <PrivateAssets>all</PrivateAssets>
     </ProjectReference>
+    <ProjectReference Include="..\Box.Sdk.Gen.NetStandard\Box.Sdk.Gen.NetStandard.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0' and '$(Configuration)' != 'Release'" />
+    <ProjectReference Include="..\Box.Sdk.Gen.NetStandard\Box.Sdk.Gen.NetStandard.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0' and '$(Configuration)' == 'Release'">
+        <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
   </ItemGroup>
     
 
   <ItemGroup>
-    <_PackageFiles Include="bin\Release\netstandard2.0\Box.Sdk.Gen.NetStandard.dll">
-        <BuildAction>None</BuildAction>
-        <PackagePath>lib\netstandard2.0</PackagePath>
-    </_PackageFiles>
-    <_PackageFiles Include="bin\Release\net8.0\Box.Sdk.Gen.Net.dll">
+    <_PackageFiles Include="bin\Release\net8.0\Box.V2.Core.dll">
         <BuildAction>None</BuildAction>
         <PackagePath>lib\net8.0</PackagePath>
     </_PackageFiles>
+    <_PackageFiles Include="bin\Release\netstandard2.0\Box.V2.Core.dll">
+        <BuildAction>None</BuildAction>
+        <PackagePath>lib\netstandard2.0</PackagePath>
+    </_PackageFiles>
   </ItemGroup>
     
 
   <ItemGroup>
-    <None Include="buildTransitive\Box.Sdk.Gen.targets" Pack="true" PackagePath="buildTransitive\" />
+    <None Include="buildTransitive\Box.V2.Core.targets" Pack="true" PackagePath="buildTransitive\" />
   </ItemGroup>
 
 </Project>

@@ -8,22 +8,24 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(MetadataInstanceValueConverter))]
-    public class MetadataInstanceValue : OneOf<string, long, double, IReadOnlyList<string>> {
-        public string? StringVal => _val0;
+    public class MetadataInstanceValue {
+        internal OneOf<string, long, double, IReadOnlyList<string>> _oneOf;
         
-        public long? LongVal => _val1;
+        public string? StringVal => _oneOf._val0;
         
-        public double? DoubleVal => _val2;
+        public long? LongVal => _oneOf._val1;
         
-        public IReadOnlyList<string>? ListVal => _val3;
+        public double? DoubleVal => _oneOf._val2;
         
-        public MetadataInstanceValue(string value) : base(value) {}
+        public IReadOnlyList<string>? ListVal => _oneOf._val3;
         
-        public MetadataInstanceValue(long value) : base(value) {}
+        public MetadataInstanceValue(string value) {_oneOf = new OneOf<string, long, double, IReadOnlyList<string>>(value);}
         
-        public MetadataInstanceValue(double value) : base(value) {}
+        public MetadataInstanceValue(long value) {_oneOf = new OneOf<string, long, double, IReadOnlyList<string>>(value);}
         
-        public MetadataInstanceValue(IReadOnlyList<string> value) : base(value) {}
+        public MetadataInstanceValue(double value) {_oneOf = new OneOf<string, long, double, IReadOnlyList<string>>(value);}
+        
+        public MetadataInstanceValue(IReadOnlyList<string> value) {_oneOf = new OneOf<string, long, double, IReadOnlyList<string>>(value);}
         
         public static implicit operator MetadataInstanceValue(string value) => new MetadataInstanceValue(value);
         

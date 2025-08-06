@@ -7,14 +7,16 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(FileFullOrFolderFullConverter))]
-    public class FileFullOrFolderFull : OneOf<FileFull, FolderFull> {
-        public FileFull? FileFull => _val0;
+    public class FileFullOrFolderFull {
+        internal OneOf<FileFull, FolderFull> _oneOf;
         
-        public FolderFull? FolderFull => _val1;
+        public FileFull? FileFull => _oneOf._val0;
         
-        public FileFullOrFolderFull(FileFull value) : base(value) {}
+        public FolderFull? FolderFull => _oneOf._val1;
         
-        public FileFullOrFolderFull(FolderFull value) : base(value) {}
+        public FileFullOrFolderFull(FileFull value) {_oneOf = new OneOf<FileFull, FolderFull>(value);}
+        
+        public FileFullOrFolderFull(FolderFull value) {_oneOf = new OneOf<FileFull, FolderFull>(value);}
         
         public static implicit operator FileFullOrFolderFull(FileFull value) => new FileFullOrFolderFull(value);
         

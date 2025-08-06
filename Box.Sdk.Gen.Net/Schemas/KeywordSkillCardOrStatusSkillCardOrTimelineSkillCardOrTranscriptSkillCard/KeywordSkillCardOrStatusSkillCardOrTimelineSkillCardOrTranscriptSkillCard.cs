@@ -7,22 +7,24 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCardConverter))]
-    public class KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard : OneOf<KeywordSkillCard, StatusSkillCard, TimelineSkillCard, TranscriptSkillCard> {
-        public KeywordSkillCard? KeywordSkillCard => _val0;
+    public class KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard {
+        internal OneOf<KeywordSkillCard, StatusSkillCard, TimelineSkillCard, TranscriptSkillCard> _oneOf;
         
-        public StatusSkillCard? StatusSkillCard => _val1;
+        public KeywordSkillCard? KeywordSkillCard => _oneOf._val0;
         
-        public TimelineSkillCard? TimelineSkillCard => _val2;
+        public StatusSkillCard? StatusSkillCard => _oneOf._val1;
         
-        public TranscriptSkillCard? TranscriptSkillCard => _val3;
+        public TimelineSkillCard? TimelineSkillCard => _oneOf._val2;
         
-        public KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(KeywordSkillCard value) : base(value) {}
+        public TranscriptSkillCard? TranscriptSkillCard => _oneOf._val3;
         
-        public KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(StatusSkillCard value) : base(value) {}
+        public KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(KeywordSkillCard value) {_oneOf = new OneOf<KeywordSkillCard, StatusSkillCard, TimelineSkillCard, TranscriptSkillCard>(value);}
         
-        public KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(TimelineSkillCard value) : base(value) {}
+        public KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(StatusSkillCard value) {_oneOf = new OneOf<KeywordSkillCard, StatusSkillCard, TimelineSkillCard, TranscriptSkillCard>(value);}
         
-        public KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(TranscriptSkillCard value) : base(value) {}
+        public KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(TimelineSkillCard value) {_oneOf = new OneOf<KeywordSkillCard, StatusSkillCard, TimelineSkillCard, TranscriptSkillCard>(value);}
+        
+        public KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(TranscriptSkillCard value) {_oneOf = new OneOf<KeywordSkillCard, StatusSkillCard, TimelineSkillCard, TranscriptSkillCard>(value);}
         
         public static implicit operator KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(KeywordSkillCard value) => new KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard(value);
         

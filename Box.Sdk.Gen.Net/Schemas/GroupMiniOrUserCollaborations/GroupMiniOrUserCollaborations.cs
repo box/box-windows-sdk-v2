@@ -7,14 +7,16 @@ using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(GroupMiniOrUserCollaborationsConverter))]
-    public class GroupMiniOrUserCollaborations : OneOf<GroupMini, UserCollaborations> {
-        public GroupMini? GroupMini => _val0;
+    public class GroupMiniOrUserCollaborations {
+        internal OneOf<GroupMini, UserCollaborations> _oneOf;
         
-        public UserCollaborations? UserCollaborations => _val1;
+        public GroupMini? GroupMini => _oneOf._val0;
         
-        public GroupMiniOrUserCollaborations(GroupMini value) : base(value) {}
+        public UserCollaborations? UserCollaborations => _oneOf._val1;
         
-        public GroupMiniOrUserCollaborations(UserCollaborations value) : base(value) {}
+        public GroupMiniOrUserCollaborations(GroupMini value) {_oneOf = new OneOf<GroupMini, UserCollaborations>(value);}
+        
+        public GroupMiniOrUserCollaborations(UserCollaborations value) {_oneOf = new OneOf<GroupMini, UserCollaborations>(value);}
         
         public static implicit operator GroupMiniOrUserCollaborations(GroupMini value) => new GroupMiniOrUserCollaborations(value);
         
