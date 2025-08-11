@@ -48,7 +48,7 @@ See the endpoint docs at
 
 <!-- sample get_docgen_jobs_v2025.0 -->
 ```
-await client.Docgen.GetDocgenJobsV2025R0Async(queryParams: new GetDocgenJobsV2025R0QueryParams() { Limit = 500 });
+await client.Docgen.GetDocgenJobsV2025R0Async(queryParams: new GetDocgenJobsV2025R0QueryParams() { Limit = 10000 });
 ```
 
 ### Arguments
