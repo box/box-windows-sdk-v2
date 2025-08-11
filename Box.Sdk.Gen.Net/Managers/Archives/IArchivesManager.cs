@@ -10,6 +10,8 @@ namespace Box.Sdk.Gen.Managers {
     public interface IArchivesManager {
         /// <summary>
     /// Retrieves archives for an enterprise.
+    /// 
+    /// To learn more about the archive APIs, see the [Archive API Guide](g://archives).
     /// </summary>
     /// <param name="queryParams">
     /// Query parameters of getArchivesV2025R0 method
@@ -24,6 +26,8 @@ namespace Box.Sdk.Gen.Managers {
 
         /// <summary>
     /// Creates an archive.
+    /// 
+    /// To learn more about the archive APIs, see the [Archive API Guide](g://archives).
     /// </summary>
     /// <param name="requestBody">
     /// Request body of createArchiveV2025R0 method
@@ -38,6 +42,8 @@ namespace Box.Sdk.Gen.Managers {
 
         /// <summary>
     /// Permanently deletes an archive.
+    /// 
+    /// To learn more about the archive APIs, see the [Archive API Guide](g://archives).
     /// </summary>
     /// <param name="archiveId">
     /// The ID of the archive.
