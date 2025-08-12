@@ -1,6 +1,6 @@
 namespace Box.Sdk.Gen {
     public class OneOf<T0> {
-#if NETSTANDARD2_0 || NET472
+#if NETSTANDARD2_0 || NET462
         public T0 _val0 { get; }
 #else
         public T0? _val0 { get; }

@@ -16,14 +16,13 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.1" />
-    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
   </ItemGroup>
     
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Box.Sdk.Gen.Tests.Integration.Net"/>
+    <InternalsVisibleTo Include="Box.Sdk.Gen.Tests.Integration.Net" PublicKey="ddda8fe64dde1ac3"/>
   </ItemGroup>
 
 </Project>
