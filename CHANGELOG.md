@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/box/box-windows-sdk-v2/compare/v5.8.0...v10.0.0) (2025-08-12)
+
+
+### New Features and Enhancements
+
+* add net framework support for `v10` (box/box-codegen[#773](https://github.com/box/box-windows-sdk-v2/issues/773)) ([#986](https://github.com/box/box-windows-sdk-v2/issues/986)) ([67366c7](https://github.com/box/box-windows-sdk-v2/commit/67366c7274faa5c758490d393605c76220aa6a79))
+* add support for `net462` ([e8f7ed6](https://github.com/box/box-windows-sdk-v2/commit/e8f7ed6d241b9569e889f4ba72bdb7afad91d1b3))
+* Allow injecting custom decryption mechanism for `jwt` ([#974](https://github.com/box/box-windows-sdk-v2/issues/974)) ([b877355](https://github.com/box/box-windows-sdk-v2/commit/b877355493b60dc6f9c1a576927d6e0c62ec27f3))
+
 ## [5.8.0](https://github.com/box/box-windows-sdk-v2/compare/v5.7.1...v5.8.0) (2024-07-22)
 
 
@@ -449,21 +458,3 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
