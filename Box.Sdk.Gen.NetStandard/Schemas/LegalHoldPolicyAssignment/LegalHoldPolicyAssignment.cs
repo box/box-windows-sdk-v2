@@ -10,7 +10,7 @@ namespace Box.Sdk.Gen.Schemas {
         public LegalHoldPolicyMini LegalHoldPolicy { get; set; }
 
         [JsonPropertyName("assigned_to")]
-        public FileOrFolderOrWebLink AssignedTo { get; set; }
+        public LegalHoldPolicyAssignedItem AssignedTo { get; set; }
 
         [JsonPropertyName("assigned_by")]
         public UserMini AssignedBy { get; set; }

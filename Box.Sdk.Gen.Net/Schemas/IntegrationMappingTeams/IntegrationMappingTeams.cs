@@ -28,7 +28,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// Mapped item object for Teams.
         /// </summary>
         [JsonPropertyName("partner_item")]
-        public IntegrationMappingPartnerItemTeamsUnion PartnerItem { get; }
+        public IntegrationMappingPartnerItemTeams PartnerItem { get; }
 
         [JsonPropertyName("box_item")]
         public FolderReference BoxItem { get; }
@@ -45,13 +45,13 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("modified_at")]
         public System.DateTimeOffset? ModifiedAt { get; init; }
 
-        public IntegrationMappingTeams(string id, IntegrationMappingPartnerItemTeamsUnion partnerItem, FolderReference boxItem, IntegrationMappingBaseTypeField type = IntegrationMappingBaseTypeField.IntegrationMapping) : base(id, type) {
+        public IntegrationMappingTeams(string id, IntegrationMappingPartnerItemTeams partnerItem, FolderReference boxItem, IntegrationMappingBaseTypeField type = IntegrationMappingBaseTypeField.IntegrationMapping) : base(id, type) {
             PartnerItem = partnerItem;
             BoxItem = boxItem;
         }
         
         [JsonConstructorAttribute]
-        internal IntegrationMappingTeams(string id, IntegrationMappingPartnerItemTeamsUnion partnerItem, FolderReference boxItem, StringEnum<IntegrationMappingBaseTypeField> type) : base(id, type ?? new StringEnum<IntegrationMappingBaseTypeField>(IntegrationMappingBaseTypeField.IntegrationMapping)) {
+        internal IntegrationMappingTeams(string id, IntegrationMappingPartnerItemTeams partnerItem, FolderReference boxItem, StringEnum<IntegrationMappingBaseTypeField> type) : base(id, type ?? new StringEnum<IntegrationMappingBaseTypeField>(IntegrationMappingBaseTypeField.IntegrationMapping)) {
             PartnerItem = partnerItem;
             BoxItem = boxItem;
         }

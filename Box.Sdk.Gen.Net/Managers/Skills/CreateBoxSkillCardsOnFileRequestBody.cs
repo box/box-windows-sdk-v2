@@ -12,9 +12,9 @@ namespace Box.Sdk.Gen.Managers {
         /// A list of Box Skill cards to apply to this file.
         /// </summary>
         [JsonPropertyName("cards")]
-        public IReadOnlyList<KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard> Cards { get; }
+        public IReadOnlyList<SkillCard> Cards { get; }
 
-        public CreateBoxSkillCardsOnFileRequestBody(IReadOnlyList<KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard> cards) {
+        public CreateBoxSkillCardsOnFileRequestBody(IReadOnlyList<SkillCard> cards) {
             Cards = cards;
         }
         internal string? RawJson { get; set; } = default;

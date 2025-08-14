@@ -33,7 +33,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// and the scopes permitted for each of those resources.
         /// </summary>
         [JsonPropertyName("restricted_to")]
-        public IReadOnlyList<FileOrFolderScope>? RestrictedTo { get; init; }
+        public IReadOnlyList<ResourceScope>? RestrictedTo { get; init; }
 
         /// <summary>
         /// The actual expiring embed URL for this file, constructed

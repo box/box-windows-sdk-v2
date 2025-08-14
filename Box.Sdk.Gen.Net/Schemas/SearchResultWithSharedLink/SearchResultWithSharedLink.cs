@@ -16,7 +16,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string? AccessibleViaSharedLink { get; init; }
 
         [JsonPropertyName("item")]
-        public FileFullOrFolderFullOrWebLink? Item { get; init; }
+        public SearchResultWithSharedLinkItem? Item { get; init; }
 
         /// <summary>
         /// The result type. The value is always `search_result`.

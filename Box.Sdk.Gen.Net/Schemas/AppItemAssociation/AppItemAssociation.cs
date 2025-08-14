@@ -23,9 +23,9 @@ namespace Box.Sdk.Gen.Schemas {
         public AppItem AppItem { get; }
 
         [JsonPropertyName("item")]
-        public FileBaseOrFolderBaseOrWebLinkBase Item { get; }
+        public AppItemAssociatedItem Item { get; }
 
-        public AppItemAssociation(string id, AppItem appItem, FileBaseOrFolderBaseOrWebLinkBase item, AppItemAssociationTypeField type = AppItemAssociationTypeField.AppItemAssociation) {
+        public AppItemAssociation(string id, AppItem appItem, AppItemAssociatedItem item, AppItemAssociationTypeField type = AppItemAssociationTypeField.AppItemAssociation) {
             Id = id;
             Type = type;
             AppItem = appItem;
@@ -33,7 +33,7 @@ namespace Box.Sdk.Gen.Schemas {
         }
         
         [JsonConstructorAttribute]
-        internal AppItemAssociation(string id, AppItem appItem, FileBaseOrFolderBaseOrWebLinkBase item, StringEnum<AppItemAssociationTypeField> type) {
+        internal AppItemAssociation(string id, AppItem appItem, AppItemAssociatedItem item, StringEnum<AppItemAssociationTypeField> type) {
             Id = id;
             Type = AppItemAssociationTypeField.AppItemAssociation;
             AppItem = appItem;

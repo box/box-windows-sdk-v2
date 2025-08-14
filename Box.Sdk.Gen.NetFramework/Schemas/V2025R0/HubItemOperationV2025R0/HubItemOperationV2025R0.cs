@@ -13,19 +13,16 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonConverter(typeof(StringEnumConverter<HubItemOperationV2025R0ActionField>))]
         public StringEnum<HubItemOperationV2025R0ActionField> Action { get; set; }
 
-        /// <summary>
-        /// Reference to an item that can be added to a Hub.
-        /// </summary>
         [JsonPropertyName("item")]
-        public FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0 Item { get; set; }
+        public HubItemReferenceV2025R0 Item { get; set; }
 
-        public HubItemOperationV2025R0(HubItemOperationV2025R0ActionField action, FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0 item) {
+        public HubItemOperationV2025R0(HubItemOperationV2025R0ActionField action, HubItemReferenceV2025R0 item) {
             Action = action;
             Item = item;
         }
         
         [JsonConstructorAttribute]
-        internal HubItemOperationV2025R0(StringEnum<HubItemOperationV2025R0ActionField> action, FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0 item) {
+        internal HubItemOperationV2025R0(StringEnum<HubItemOperationV2025R0ActionField> action, HubItemReferenceV2025R0 item) {
             Action = action;
             Item = item;
         }

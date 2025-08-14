@@ -24,7 +24,7 @@ namespace Box.Sdk.Gen.Managers {
         public string Path { get; set; }
 
         [JsonPropertyName("value")]
-        public KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard Value { get; set; }
+        public SkillCard Value { get; set; }
 
         public UpdateBoxSkillCardsOnFileRequestBody() {
             

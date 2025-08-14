@@ -74,7 +74,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// The items in this collection.
         /// </summary>
         [JsonPropertyName("entries")]
-        public IReadOnlyList<FileFullOrFolderMiniOrWebLink>? Entries { get; init; }
+        public IReadOnlyList<Item>? Entries { get; init; }
 
         public Items() {
             

@@ -12,7 +12,7 @@ namespace Box.Sdk.Gen.Managers {
         /// A list of Box Skill cards to apply to this file.
         /// </summary>
         [JsonPropertyName("cards")]
-        public IReadOnlyList<KeywordSkillCardOrStatusSkillCardOrTimelineSkillCardOrTranscriptSkillCard>? Cards { get; init; }
+        public IReadOnlyList<SkillCard>? Cards { get; init; }
 
         public UpdateAllSkillCardsOnFileRequestBodyMetadataField() {
             

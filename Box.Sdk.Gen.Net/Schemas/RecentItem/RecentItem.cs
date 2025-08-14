@@ -13,7 +13,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string? Type { get; init; }
 
         [JsonPropertyName("item")]
-        public FileFullOrFolderFullOrWebLink? Item { get; init; }
+        public RecentItemResource? Item { get; init; }
 
         /// <summary>
         /// The most recent type of access the user performed on

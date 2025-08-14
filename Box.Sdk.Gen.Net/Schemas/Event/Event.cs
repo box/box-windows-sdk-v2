@@ -45,7 +45,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string? SessionId { get; init; }
 
         [JsonPropertyName("source")]
-        public AppItemEventSourceOrEventSourceOrFileOrFolderOrGenericSourceOrUser? Source { get; init; }
+        public EventSourceResource? Source { get; init; }
 
         /// <summary>
         /// This object provides additional information about the event if available.

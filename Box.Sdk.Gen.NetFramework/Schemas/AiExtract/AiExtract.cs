@@ -21,7 +21,7 @@ namespace Box.Sdk.Gen.Schemas {
         public IReadOnlyList<AiItemBase> Items { get; set; }
 
         [JsonPropertyName("ai_agent")]
-        public AiAgentExtractOrAiAgentReference AiAgent { get; set; }
+        public AiExtractAgent AiAgent { get; set; }
 
         public AiExtract(string prompt, IReadOnlyList<AiItemBase> items) {
             Prompt = prompt;

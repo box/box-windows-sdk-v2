@@ -9,12 +9,12 @@ using Box.Sdk.Gen.Schemas;
 namespace Box.Sdk.Gen.Schemas {
     public class AiAsk : ISerializable {
         /// <summary>
-        /// Box AI handles text documents with text representations up to 1MB in size, or a maximum of 25 files, 
-        /// whichever comes first. If the text file size exceeds 1MB, the first 1MB of text representation will be processed. 
-        /// Box AI handles image documents with a resolution of 1024 x 1024 pixels, with a maximum of 5 images or 5 pages 
-        /// for multi-page images. If the number of image or image pages exceeds 5, the first 5 images or pages will 
-        /// be processed. If you set mode parameter to `single_item_qa`, the items array can have one element only. 
-        /// Currently Box AI does not support multi-modal requests. If both images and text are sent Box AI will only 
+        /// Box AI handles text documents with text representations up to 1MB in size, or a maximum of 25 files,
+        /// whichever comes first. If the text file size exceeds 1MB, the first 1MB of text representation will be processed.
+        /// Box AI handles image documents with a resolution of 1024 x 1024 pixels, with a maximum of 5 images or 5 pages
+        /// for multi-page images. If the number of image or image pages exceeds 5, the first 5 images or pages will
+        /// be processed. If you set mode parameter to `single_item_qa`, the items array can have one element only.
+        /// Currently Box AI does not support multi-modal requests. If both images and text are sent Box AI will only
         /// process the text.
         /// </summary>
         [JsonPropertyName("mode")]
@@ -47,7 +47,7 @@ namespace Box.Sdk.Gen.Schemas {
         public bool? IncludeCitations { get; set; }
 
         [JsonPropertyName("ai_agent")]
-        public AiAgentAskOrAiAgentReference AiAgent { get; set; }
+        public AiAskAgent AiAgent { get; set; }
 
         public AiAsk(AiAskModeField mode, string prompt, IReadOnlyList<AiItemAsk> items) {
             Mode = mode;

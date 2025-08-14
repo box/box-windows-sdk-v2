@@ -74,7 +74,7 @@ namespace Box.Sdk.Gen.Managers {
         /// Date ranges are defined as comma separated RFC3339
         /// timestamps.
         /// 
-        /// If the the start date is omitted (`,2014-05-17T13:35:01-07:00`)
+        /// If the start date is omitted (`,2014-05-17T13:35:01-07:00`)
         /// anything created before the end date will be returned.
         /// 
         /// If the end date is omitted (`2014-05-15T13:35:01-07:00,`) the
@@ -202,7 +202,7 @@ namespace Box.Sdk.Gen.Managers {
 
         /// <summary>
         /// Limits the search results to any items for which the metadata matches the provided filter.
-        /// This parameter is a list that specifies exactly **one** metadata template used to filter the search results. 
+        /// This parameter is a list that specifies exactly **one** metadata template used to filter the search results.
         /// The parameter is required unless the `query` parameter is provided.
         /// </summary>
         public IReadOnlyList<MetadataFilter> Mdfilters { get; set; }
@@ -293,7 +293,7 @@ namespace Box.Sdk.Gen.Managers {
         /// 
         /// Date ranges are defined as comma separated RFC3339 timestamps.
         /// 
-        /// If the the start date is omitted (`2014-05-17T13:35:01-07:00`),
+        /// If the start date is omitted (`2014-05-17T13:35:01-07:00`),
         /// anything deleted before the end date will be returned.
         /// 
         /// If the end date is omitted (`2014-05-15T13:35:01-07:00`),
