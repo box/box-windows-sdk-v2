@@ -2,16 +2,17 @@
   <img src="https://github.com/box/sdks/blob/master/images/box-dev-logo.png" alt= “box-dev-logo” width="30%" height="50%">
 </p>
 
-# Box Dotnet SDK Gen
+# Box Windows SDK V2
 
 [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
-![build](https://github.com/box/box-dotnet-sdk-gen/actions/workflows/build.yml/badge.svg)
-[![nuget version](https://img.shields.io/nuget/v/box.sdk.gen.svg)](https://badge.fury.io/nu/box.sdk.gen)
-[![image](https://img.shields.io/nuget/dt/box.sdk.gen.svg)](https://badge.fury.io/nu/box.sdk.gen)
-![Platform](https://img.shields.io/badge/.NET-6%2B-brightgreen)
-[![Coverage](https://coveralls.io/repos/github/box/box-dotnet-sdk-gen/badge.svg?branch=main)](https://coveralls.io/github/box/box-dotnet-sdk-gen?branch=main)
+![build](https://github.com/box/box-windows-sdk-v2/actions/workflows/build.yml/badge.svg)
+[![nuget version](https://img.shields.io/nuget/v/box.v2.core.svg)](https://badge.fury.io/nu/box.v2.core)
+[![image](https://img.shields.io/nuget/dt/box.v2.core.svg)](https://badge.fury.io/nu/box.v2.core)
+![Platform](https://img.shields.io/badge/.NET-8%2B-brightgreen)
+![Platform](https://img.shields.io/badge/.NET-462%2B-brightgreen)
+[![Coverage](https://coveralls.io/repos/github/box/box-windows-sdk-v2/badge.svg?branch=sdk-gen)](https://coveralls.io/github/box/box-windows-sdk-v2?branch=sdk-gen)
 
-We are excited to introduce the stable release of the latest generation of Box Dotnet SDK Gen, designed to elevate the developer experience and streamline your integration with the Box Content Cloud.
+We are excited to introduce the stable release of the latest generation of Box Windows SDK V2, designed to elevate the developer experience and streamline your integration with the Box Content Cloud.
 
 With this SDK, you’ll have access to:
 
@@ -28,7 +29,7 @@ Embrace the new generation of Box SDKs and unlock the full potential of the Box 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Box Dotnet SDK Gen](#box-dotnet-sdk-gen)
+- [Box Windows SDK V2](#box-windows-sdk-v2)
 - [Table of contents](#table-of-contents)
 - [Installing](#installing)
   - [BouncyCastle runtime integrity check](#bouncycastle-runtime-integrity-check)
@@ -47,30 +48,31 @@ Embrace the new generation of Box SDKs and unlock the full potential of the Box 
 
 # Installing
 
-You can install SDK using Nuget
+You can find `Box.V2.Core` package, and it's latest version [on nuget](https://www.nuget.org/packages/Box.V2.Core). You can install this SDK via powershell:
 
 ```pwsh
-Install-Package Box.Sdk.Gen
+Install-Package Box.V2.Core
 ```
 
-Alternatively, you can find this package and it's latest version [on nuget](https://www.nuget.org/packages/Box.Sdk.Gen) and manually add it to the `.csproj` file as a reference:
+Alternatively, you can manually add it to the `.csproj` file as a reference:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Box.Sdk.Gen" Version="X.Y.Z" />
+  <PackageReference Include="Box.V2.Core" Version="10.x.x" />
 </ItemGroup>
 ```
 
-## BouncyCastle runtime integrity check
+`Box.V2` version of the SDK can also be found [on nuget](https://www.nuget.org/packages/Box.V2). If you were using `Box.V2` previously, consider migrating to `Box.V2.Core`. If that is not possible, you can still keep using `Box.V2` by installing it with the following powershell command:
 
-The version of BouncyCastle included in the SDK performs a checksum validation at runtime. As a result, any modifications to the .dll file, such as those introduced by optimizations like [ReadyToRun (R2R)](https://learn.microsoft.com/en-us/dotnet/core/deploying/ready-to-run) compilation, can alter the checksum, causing the validation to fail. This can lead to issues with SDK functionalities that rely on BouncyCastle, such as JWT authentication unusable.
+```pwsh
+Install-Package Box.V2
+```
 
-You can exclude BouncyCastle from ReadyToRun compilation by adding the following to your `.csproj` file:
+Alternatively, you can manually add it to the `.csproj` file as a reference:
 
 ```xml
 <ItemGroup>
-  <PublishReadyToRunExclude Include="bc-fips-1.0.2.dll" />
-  <PublishReadyToRunExclude Include="bcpkix-fips-1.0.2.dll" />
+  <PackageReference Include="Box.V2" Version="10.x.x" />
 </ItemGroup>
 ```
 
@@ -112,9 +114,9 @@ if (items.Entries != null)
 }
 ```
 
-The usage docs that show how to make calls to the Box API with the SDK can be found [here](https://github.com/box/box-Dotnet-sdk-gen/tree/main/docs).
+The usage docs that show how to make calls to the Box API with the SDK can be found [here](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen/docs).
 
-We recommend, familiarizing yourself with the remaining [authentication methods](https://github.com/box/box-Dotnet-sdk-gen/tree/main/docs/Authentication.md), [uploading files](https://github.com/box/box-Dotnet-sdk-gen/tree/main/docs/Uploads.md) and [downloading files](https://github.com/box/box-Dotnet-sdk-gen/tree/main/docs/Downloads.md).
+We recommend, familiarizing yourself with the remaining [authentication methods](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen/docs/Authentication.md), [uploading files](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen/docs/Uploads.md) and [downloading files](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen/docs/Downloads.md).
 
 # Documentation
 
@@ -122,7 +124,7 @@ Browse the [docs](docs/README.md) or see [API Reference](https://developer.box.c
 
 # Upgrades
 
-Upgrading from our legacy SDKs to the new generation SDKs is a straightforward process. See our [migration guide](migration-guide.md) and [changelog](CHANGELOG.md) for more information.
+The SDK is updated regularly to include new features, enhancements, and bug fixes. If you are upgrading from manual SDK to this new generated SDK checkout the [migration guide](MIGRATION_GUIDE.md) and [changelog](CHANGELOG.md) for more information.
 
 # Integration Tests
 
@@ -161,9 +163,9 @@ To run integration tests locally:
 # Questions, Bugs, and Feature Requests?
 
 Need to contact us directly? [Browse the issues
-tickets](https://github.com/box/box-Dotnet-sdk-gen/issues)! Or, if that
+tickets](https://github.com/box/box-windows-sdk-v2/issues)! Or, if that
 doesn't work, [file a new
-one](https://github.com/box/box-Dotnet-sdk-gen/issues/new) and we will get
+one](https://github.com/box/box-windows-sdk-v2/issues/new) and we will get
 back to you. If you have general questions about the Box API, you can
 post to the [Box Developer Forum](https://forum.box.com/).
 
