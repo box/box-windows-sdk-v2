@@ -42,7 +42,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// The search results for the query provided.
         /// </summary>
         [JsonPropertyName("entries")]
-        public IReadOnlyList<FileFullOrFolderFullOrWebLink> Entries { get; set; }
+        public IReadOnlyList<SearchResultItem> Entries { get; set; }
 
         public SearchResults(SearchResultsTypeField type = SearchResultsTypeField.SearchResultsItems) {
             Type = type;

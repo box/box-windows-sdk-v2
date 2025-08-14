@@ -35,9 +35,9 @@ namespace Box.Sdk.Gen.Managers {
         /// is considered completed.
         /// 
         /// * `all_assignees` (default) requires all assignees to review or
-        /// approve the the task in order for it to be considered completed.
+        /// approve the task in order for it to be considered completed.
         /// * `any_assignee` accepts any one assignee to review or
-        /// approve the the task in order for it to be considered completed.
+        /// approve the task in order for it to be considered completed.
         /// </summary>
         [JsonPropertyName("completion_rule")]
         [JsonConverter(typeof(StringEnumConverter<UpdateTaskByIdRequestBodyCompletionRuleField>))]

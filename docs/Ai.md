@@ -95,7 +95,7 @@ await client.Ai.GetAiAgentDefaultConfigAsync(queryParams: new GetAiAgentDefaultC
 
 ### Returns
 
-This function returns a value of type `AiAgentAskOrAiAgentExtractOrAiAgentExtractStructuredOrAiAgentTextGen`.
+This function returns a value of type `AiAgent`.
 
 A successful response including the default agent configuration.
 This response can be one of the following four objects:

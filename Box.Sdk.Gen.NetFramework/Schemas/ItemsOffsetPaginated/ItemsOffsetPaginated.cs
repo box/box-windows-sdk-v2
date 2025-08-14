@@ -50,7 +50,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// The items in this collection.
         /// </summary>
         [JsonPropertyName("entries")]
-        public IReadOnlyList<FileFullOrFolderMiniOrWebLink> Entries { get; set; }
+        public IReadOnlyList<Item> Entries { get; set; }
 
         public ItemsOffsetPaginated() {
             

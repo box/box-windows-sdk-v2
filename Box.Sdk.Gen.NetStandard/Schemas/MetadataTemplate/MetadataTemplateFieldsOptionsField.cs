@@ -13,7 +13,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string Key { get; set; }
 
         /// <summary>
-        /// The internal unique identifier of the the option.
+        /// The internal unique identifier of the option.
         /// </summary>
         [JsonPropertyName("id")]
         public string Id { get; set; }

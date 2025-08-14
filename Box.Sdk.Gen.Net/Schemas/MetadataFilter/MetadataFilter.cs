@@ -44,7 +44,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// template matches each of the fields specified.
         /// </summary>
         [JsonPropertyName("filters")]
-        public Dictionary<string, MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString>? Filters { get; init; }
+        public Dictionary<string, MetadataFilterValue>? Filters { get; init; }
 
         public MetadataFilter() {
             

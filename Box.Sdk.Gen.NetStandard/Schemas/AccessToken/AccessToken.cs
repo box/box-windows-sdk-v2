@@ -33,7 +33,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// and the scopes permitted for each of those resources.
         /// </summary>
         [JsonPropertyName("restricted_to")]
-        public IReadOnlyList<FileOrFolderScope> RestrictedTo { get; set; }
+        public IReadOnlyList<ResourceScope> RestrictedTo { get; set; }
 
         /// <summary>
         /// The refresh token for this access token, which can be used

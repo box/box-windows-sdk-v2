@@ -31,7 +31,7 @@ namespace Box.Sdk.Gen.Schemas {
         public IReadOnlyList<AiDialogueHistory> DialogueHistory { get; set; }
 
         [JsonPropertyName("ai_agent")]
-        public AiAgentReferenceOrAiAgentTextGen AiAgent { get; set; }
+        public AiTextGenAgent AiAgent { get; set; }
 
         public AiTextGen(string prompt, IReadOnlyList<AiTextGenItemsField> items) {
             Prompt = prompt;

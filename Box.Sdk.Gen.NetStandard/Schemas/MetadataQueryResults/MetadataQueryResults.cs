@@ -17,7 +17,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// metadata, use the `fields` attribute in the query.
         /// </summary>
         [JsonPropertyName("entries")]
-        public IReadOnlyList<FileFullOrFolderFull> Entries { get; set; }
+        public IReadOnlyList<MetadataQueryResultItem> Entries { get; set; }
 
         /// <summary>
         /// The limit that was used for this search. This will be the same as the

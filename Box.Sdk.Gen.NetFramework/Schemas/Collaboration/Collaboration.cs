@@ -22,7 +22,7 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("_isexpires_atSet")]
         protected bool _isExpiresAtSet { get; set; }
 
-        protected FileOrFolderOrWebLink _item { get; set; }
+        protected CollaborationItem _item { get; set; }
 
         protected AppItem _appItem { get; set; }
 
@@ -44,13 +44,13 @@ namespace Box.Sdk.Gen.Schemas {
         public StringEnum<CollaborationTypeField> Type { get; set; }
 
         [JsonPropertyName("item")]
-        public FileOrFolderOrWebLink Item { get => _item; set { _item = value; _isItemSet = true; } }
+        public CollaborationItem Item { get => _item; set { _item = value; _isItemSet = true; } }
 
         [JsonPropertyName("app_item")]
         public AppItem AppItem { get => _appItem; set { _appItem = value; _isAppItemSet = true; } }
 
         [JsonPropertyName("accessible_by")]
-        public GroupMiniOrUserCollaborations AccessibleBy { get; set; }
+        public CollaborationAccessGrantee AccessibleBy { get; set; }
 
         /// <summary>
         /// The email address used to invite an unregistered collaborator, if
@@ -77,7 +77,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// If set to `true`, collaborators have access to
         /// shared items, but such items won't be visible in the
         /// All Files list. Additionally, collaborators won't
-        /// see the the path to the root folder for the
+        /// see the path to the root folder for the
         /// shared item.
         /// </summary>
         [JsonPropertyName("is_access_only")]
