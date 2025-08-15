@@ -4,28 +4,28 @@ using Box.Sdk.Gen.Internal;
 using System.Collections.Generic;
 
 namespace Box.Sdk.Gen.Schemas {
-    public class WeblinkReferenceV2025R0 : ISerializable {
+    public class UserReferenceV2025R0 : ISerializable {
         /// <summary>
-        /// The value will always be `weblink`.
+        /// The value is always `user`.
         /// </summary>
         [JsonPropertyName("type")]
-        [JsonConverter(typeof(StringEnumConverter<WeblinkReferenceV2025R0TypeField>))]
-        public StringEnum<WeblinkReferenceV2025R0TypeField> Type { get; }
+        [JsonConverter(typeof(StringEnumConverter<UserReferenceV2025R0TypeField>))]
+        public StringEnum<UserReferenceV2025R0TypeField> Type { get; }
 
         /// <summary>
-        /// ID of the web link.
+        /// The unique identifier for the user.
         /// </summary>
         [JsonPropertyName("id")]
         public string Id { get; }
 
-        public WeblinkReferenceV2025R0(string id, WeblinkReferenceV2025R0TypeField type = WeblinkReferenceV2025R0TypeField.Weblink) {
+        public UserReferenceV2025R0(string id, UserReferenceV2025R0TypeField type = UserReferenceV2025R0TypeField.User) {
             Type = type;
             Id = id;
         }
         
         [JsonConstructorAttribute]
-        internal WeblinkReferenceV2025R0(string id, StringEnum<WeblinkReferenceV2025R0TypeField> type) {
-            Type = WeblinkReferenceV2025R0TypeField.Weblink;
+        internal UserReferenceV2025R0(string id, StringEnum<UserReferenceV2025R0TypeField> type) {
+            Type = UserReferenceV2025R0TypeField.User;
             Id = id;
         }
         internal string? RawJson { get; set; } = default;
