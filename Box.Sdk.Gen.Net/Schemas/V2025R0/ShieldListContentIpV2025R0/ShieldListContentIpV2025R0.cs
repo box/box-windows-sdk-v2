@@ -15,7 +15,7 @@ namespace Box.Sdk.Gen.Schemas {
         public StringEnum<ShieldListContentIpV2025R0TypeField> Type { get; }
 
         /// <summary>
-        /// List of ips and cidrs.
+        /// List of ip addresses and CIDRs.
         /// </summary>
         [JsonPropertyName("ip_addresses")]
         public IReadOnlyList<string> IpAddresses { get; }
