@@ -21,7 +21,7 @@
     
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Box.Sdk.Gen.Tests.Integration.NetStandard" />
+    <InternalsVisibleTo Include="Box.Sdk.Gen.Tests.Integration.NetStandard"/>
   </ItemGroup>
 
 </Project>
