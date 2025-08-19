@@ -6,7 +6,7 @@ using Box.Sdk.Gen.Schemas;
 using Box.Sdk.Gen.Parameters;
 
 namespace Box.Sdk.Gen.Managers {
-    public class CreateExternalUserSubmitDeleteJobV2025R0Headers {
+    public class SubmitJobToDeleteExternalUsersV2025R0Headers {
         /// <summary>
         /// Version header.
         /// </summary>
@@ -17,7 +17,7 @@ namespace Box.Sdk.Gen.Managers {
         /// </summary>
         public Dictionary<string, string> ExtraHeaders { get; set; }
 
-        public CreateExternalUserSubmitDeleteJobV2025R0Headers(BoxVersionHeaderV2025R0 boxVersion = BoxVersionHeaderV2025R0._20250, Dictionary<string, string> extraHeaders = default) {
+        public SubmitJobToDeleteExternalUsersV2025R0Headers(BoxVersionHeaderV2025R0 boxVersion = BoxVersionHeaderV2025R0._20250, Dictionary<string, string> extraHeaders = default) {
             BoxVersion = boxVersion;
             ExtraHeaders = extraHeaders ?? new Dictionary<string, string>() {  };
         }

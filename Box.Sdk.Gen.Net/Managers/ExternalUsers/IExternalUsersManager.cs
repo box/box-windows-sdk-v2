@@ -12,15 +12,15 @@ namespace Box.Sdk.Gen.Managers {
     /// external user from all invited collaborations within the current enterprise.
     /// </summary>
     /// <param name="requestBody">
-    /// Request body of createExternalUserSubmitDeleteJobV2025R0 method
+    /// Request body of submitJobToDeleteExternalUsersV2025R0 method
     /// </param>
     /// <param name="headers">
-    /// Headers of createExternalUserSubmitDeleteJobV2025R0 method
+    /// Headers of submitJobToDeleteExternalUsersV2025R0 method
     /// </param>
     /// <param name="cancellationToken">
     /// Token used for request cancellation.
     /// </param>
-    public System.Threading.Tasks.Task<ExternalUsersSubmitDeleteJobResponseV2025R0> CreateExternalUserSubmitDeleteJobV2025R0Async(ExternalUsersSubmitDeleteJobRequestV2025R0 requestBody, CreateExternalUserSubmitDeleteJobV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+    public System.Threading.Tasks.Task<ExternalUsersSubmitDeleteJobResponseV2025R0> SubmitJobToDeleteExternalUsersV2025R0Async(ExternalUsersSubmitDeleteJobRequestV2025R0 requestBody, SubmitJobToDeleteExternalUsersV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
     }
 }
