@@ -25,7 +25,12 @@
   </ItemGroup>
     
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' != 'SignedRelease'">
+    <InternalsVisibleTo Include="Box.Sdk.Gen.NetFramework.Tests.Integration"/>
+  </ItemGroup>
+    
+
+  <ItemGroup Condition="'$(Configuration)' == 'SignedRelease'">
     <InternalsVisibleTo Include="Box.Sdk.Gen.NetFramework.Tests.Integration" PublicKey="ddda8fe64dde1ac3"/>
   </ItemGroup>
     
