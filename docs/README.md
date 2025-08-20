@@ -23,6 +23,7 @@ the SDK are available by topic:
 * [Downloads](Downloads.md)
 * [Email aliases](EmailAliases.md)
 * [Events](Events.md)
+* [External users](ExternalUsers.md)
 * [File classifications](FileClassifications.md)
 * [File metadata](FileMetadata.md)
 * [File requests](FileRequests.md)

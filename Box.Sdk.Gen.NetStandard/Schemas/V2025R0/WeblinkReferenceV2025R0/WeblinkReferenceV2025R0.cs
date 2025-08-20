@@ -13,7 +13,7 @@ namespace Box.Sdk.Gen.Schemas {
         public StringEnum<WeblinkReferenceV2025R0TypeField> Type { get; set; }
 
         /// <summary>
-        /// ID of the weblink.
+        /// ID of the web link.
         /// </summary>
         [JsonPropertyName("id")]
         public string Id { get; set; }
