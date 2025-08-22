@@ -18,7 +18,7 @@ namespace Box.Sdk.Gen.Schemas {
         public long Status { get; }
 
         /// <summary>
-        /// Deletion request status details.
+        /// Deletion request status details. This property is only present when the deletion request is not successful.
         /// </summary>
         [JsonPropertyName("detail")]
         public string? Detail { get; init; }
