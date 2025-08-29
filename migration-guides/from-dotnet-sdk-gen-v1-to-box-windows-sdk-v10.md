@@ -3,18 +3,76 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Union classes name changes](#union-classes-name-changes)
+- [Installation](#installation)
   - [How to migrate](#how-to-migrate)
-- [Dropping support for .NET 6](#dropping-support-for-net-6)
+- [Union classes name changes](#union-classes-name-changes)
   - [How to migrate](#how-to-migrate-1)
-- [Removed unused models from schemas namespace](#removed-unused-models-from-schemas-namespace)
+- [Dropping support for .NET 6](#dropping-support-for-net-6)
   - [How to migrate](#how-to-migrate-2)
+- [Removed unused models from schemas namespace](#removed-unused-models-from-schemas-namespace)
+  - [How to migrate](#how-to-migrate-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Installation
+
+In order to start using v10 version of the Box Windows SDK V2, you need to change the dependency in your project.
+The artifact name has changed from `Box.Sdk.Gen` to `Box.V2`/`Box.V2.Core`.
+You also need to set the version to `10.0.0` or higher.
+
+### How to migrate
+
+To start using v10 version of Box Windows SDK V2 in your project replace the dependency in your project file (.csproj)
+or install the new package via the command line.
+
+**Old (`dotnet-sdk-gen-v1`)**
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Box.Sdk.Gen" Version="1.x.x" />
+</ItemGroup>
+```
+
+```console
+Install-Package Box.Sdk.Gen
+```
+
+**New (`Box Windows V2 SDK v10`)**
+
+You can find Box.V2.Core package, and it's latest version on [nuget](https://www.nuget.org/packages/Box.V2.Core).
+You can install this SDK via powershell:
+
+```pwsh
+Install-Package Box.V2.Core
+```
+
+Alternatively, you can manually add it to the .csproj file as a reference:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Box.V2.Core" Version="10.x.x" />
+</ItemGroup>
+```
+
+Box.V2 version of the SDK can also be found on [nuget](https://www.nuget.org/packages/Box.V2).
+If you were using Box.V2 previously, consider migrating to Box.V2.Core.
+If that is not possible, you can still keep using Box.V2 by installing it with the following powershell command:
+
+```pwsh
+Install-Package Box.V2
+```
+
+Alternatively, you can manually add it to the .csproj file as a reference:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Box.V2" Version="10.x.x" />
+</ItemGroup>
+```
+
 ## Union classes name changes
 
-In the v1 version of the `dotnet-sdk-gen` our `OneOf` class names (representing unions from the OpenAPI specification) were fully auto-generated based on the included variants..
+In the v1 version of the `dotnet-sdk-gen` our `OneOf` class names (representing unions from the OpenAPI specification) were fully auto-generated based on the included variants.
 This often resulted in overly long names that were difficult to work with in tools like Git. For example: `MetadataFieldFilterDateRangeOrMetadataFieldFilterFloatRangeOrArrayOfStringOrNumberOrString`. Additionally, every time the new variant was added to the `OneOf`, the class name itself changed.
 Starting in v10, the names of `OneOf` classes are defined directly in the specification. This ensures that they are meaningful, short, and stable over time.
 
