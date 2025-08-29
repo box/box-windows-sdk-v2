@@ -124,7 +124,7 @@ Browse the [docs](docs/README.md) or see [API Reference](https://developer.box.c
 
 # Upgrades
 
-The SDK is updated regularly to include new features, enhancements, and bug fixes. If you are upgrading from manual SDK to this new generated SDK checkout the [migration guide](MIGRATION_GUIDE.md) and [changelog](CHANGELOG.md) for more information.
+The SDK is updated regularly to include new features, enhancements, and bug fixes. If you are upgrading from manual SDK to this new generated SDK checkout the [migration guide](migration-guides/from-v5-to-v10.md) and [changelog](CHANGELOG.md) for more information.
 
 # Integration Tests
 
