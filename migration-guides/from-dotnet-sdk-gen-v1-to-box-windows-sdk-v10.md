@@ -98,6 +98,7 @@ List of changed `OneOf` classes and types associated with them:
 | FileMiniOrFolderMini                                                                       | Resource                                                           |
 | FileOrFolderOrWebLink                                                                      | LegalHoldPolicyAssignedItem/CollaborationItem                      |
 | FileOrFolderScope                                                                          | ResourceScope                                                      |
+| FileOrFolderScopeScopeField                                                                | ResourceScopeScopeField                                            |
 | FileReferenceOrFolderReferenceOrWeblinkReferenceV2025R0                                    | HubItemReferenceV2025R0                                            |
 | GroupMiniOrUserCollaborations                                                              | CollaborationAccessGrantee                                         |
 | IntegrationMappingPartnerItemSlackUnion                                                    | IntegrationMappingPartnerItemSlack                                 |
