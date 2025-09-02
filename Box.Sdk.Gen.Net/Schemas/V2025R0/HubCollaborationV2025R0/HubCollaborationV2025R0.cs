@@ -26,7 +26,7 @@ namespace Box.Sdk.Gen.Schemas {
         public HubAccessGranteeV2025R0? AccessibleBy { get; init; }
 
         /// <summary>
-        /// The level of access granted to hub.
+        /// The level of access granted to a Box Hub.
         /// Possible values are `editor`, `viewer`, and `co-owner`.
         /// </summary>
         [JsonPropertyName("role")]

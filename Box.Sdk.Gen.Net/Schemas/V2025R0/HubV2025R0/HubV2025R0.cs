@@ -7,13 +7,13 @@ using Box.Sdk.Gen.Schemas;
 namespace Box.Sdk.Gen.Schemas {
     public class HubV2025R0 : HubBaseV2025R0, ISerializable {
         /// <summary>
-        /// The title given to the hub.
+        /// The title given to the Box Hub.
         /// </summary>
         [JsonPropertyName("title")]
         public string? Title { get; init; }
 
         /// <summary>
-        /// The description of the hub. First 200 characters are returned.
+        /// The description of the Box Hub. First 200 characters are returned.
         /// </summary>
         [JsonPropertyName("description")]
         public string? Description { get; init; }
@@ -27,7 +27,7 @@ namespace Box.Sdk.Gen.Schemas {
         public System.DateTimeOffset? CreatedAt { get; init; }
 
         /// <summary>
-        /// The date and time when the hub was last updated.
+        /// The date and time when the Box Hub was last updated.
         /// </summary>
         [JsonPropertyName("updated_at")]
         public System.DateTimeOffset? UpdatedAt { get; init; }
@@ -39,13 +39,13 @@ namespace Box.Sdk.Gen.Schemas {
         public UserMiniV2025R0? UpdatedBy { get; init; }
 
         /// <summary>
-        /// The number of views for the hub.
+        /// The number of views for the Box Hub.
         /// </summary>
         [JsonPropertyName("view_count")]
         public int? ViewCount { get; init; }
 
         /// <summary>
-        /// Indicates if AI features are enabled for the hub.
+        /// Indicates if AI features are enabled for the Box Hub.
         /// </summary>
         [JsonPropertyName("is_ai_enabled")]
         public bool? IsAiEnabled { get; init; }
@@ -57,13 +57,13 @@ namespace Box.Sdk.Gen.Schemas {
         public bool? IsCollaborationRestrictedToEnterprise { get; init; }
 
         /// <summary>
-        /// Indicates if non-owners can invite others to the hub.
+        /// Indicates if non-owners can invite others to the Box Hub.
         /// </summary>
         [JsonPropertyName("can_non_owners_invite")]
         public bool? CanNonOwnersInvite { get; init; }
 
         /// <summary>
-        /// Indicates if a shared link can be created for the hub.
+        /// Indicates if a shared link can be created for the Box Hub.
         /// </summary>
         [JsonPropertyName("can_shared_link_be_created")]
         public bool? CanSharedLinkBeCreated { get; init; }

@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Parameters;
 namespace Box.Sdk.Gen.Managers {
     public interface IHubCollaborationsManager {
         /// <summary>
-    /// Retrieves all collaborations for a hub.
+    /// Retrieves all collaborations for a Box Hub.
     /// </summary>
     /// <param name="queryParams">
     /// Query parameters of getHubCollaborationsV2025R0 method
@@ -22,7 +22,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubCollaborationsV2025R0> GetHubCollaborationsV2025R0Async(GetHubCollaborationsV2025R0QueryParams queryParams, GetHubCollaborationsV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Adds a collaboration for a single user or a single group to a hub.
+    /// Adds a collaboration for a single user or a single group to a Box Hub.
     /// 
     /// Collaborations can be created using email address, user IDs, or group IDs.
     /// </summary>
@@ -38,7 +38,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubCollaborationV2025R0> CreateHubCollaborationV2025R0Async(HubCollaborationCreateRequestV2025R0 requestBody, CreateHubCollaborationV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Retrieves details for a hub collaboration by collaboration ID.
+    /// Retrieves details for a Box Hub collaboration by collaboration ID.
     /// </summary>
     /// <param name="hubCollaborationId">
     /// The ID of the hub collaboration.
@@ -53,8 +53,8 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubCollaborationV2025R0> GetHubCollaborationByIdV2025R0Async(string hubCollaborationId, GetHubCollaborationByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Updates a hub collaboration.
-    /// Can be used to change the hub role.
+    /// Updates a Box Hub collaboration.
+    /// Can be used to change the Box Hub role.
     /// </summary>
     /// <param name="hubCollaborationId">
     /// The ID of the hub collaboration.
@@ -72,7 +72,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubCollaborationV2025R0> UpdateHubCollaborationByIdV2025R0Async(string hubCollaborationId, HubCollaborationUpdateRequestV2025R0 requestBody, UpdateHubCollaborationByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Deletes a single hub collaboration.
+    /// Deletes a single Box Hub collaboration.
     /// </summary>
     /// <param name="hubCollaborationId">
     /// The ID of the hub collaboration.

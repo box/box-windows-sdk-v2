@@ -15,7 +15,7 @@ namespace Box.Sdk.Gen.Managers {
             NetworkSession = networkSession ?? new NetworkSession();
         }
         /// <summary>
-        /// Retrieves all items associated with a Hub.
+        /// Retrieves all items associated with a Box Hub.
         /// </summary>
         /// <param name="queryParams">
         /// Query parameters of getHubItemsV2025R0 method
@@ -35,7 +35,7 @@ namespace Box.Sdk.Gen.Managers {
         }
 
         /// <summary>
-        /// Adds and/or removes Hub items from a Hub.
+        /// Adds and/or removes Box Hub items from a Box Hub.
         /// </summary>
         /// <param name="hubId">
         /// The unique identifier that represent a hub.

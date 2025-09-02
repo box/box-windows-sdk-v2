@@ -7,7 +7,7 @@ using Box.Sdk.Gen.Schemas;
 namespace Box.Sdk.Gen.Schemas {
     public class HubItemOperationV2025R0 : ISerializable {
         /// <summary>
-        /// The action to perform on a Hub item.
+        /// The action to perform on a Box Hub item.
         /// </summary>
         [JsonPropertyName("action")]
         [JsonConverter(typeof(StringEnumConverter<HubItemOperationV2025R0ActionField>))]

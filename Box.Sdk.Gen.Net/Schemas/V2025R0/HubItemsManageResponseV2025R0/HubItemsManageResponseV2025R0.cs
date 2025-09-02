@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Schemas;
 namespace Box.Sdk.Gen.Schemas {
     public class HubItemsManageResponseV2025R0 : ISerializable {
         /// <summary>
-        /// List of operations performed on Hub items.
+        /// List of operations performed on Box Hub items.
         /// </summary>
         [JsonPropertyName("operations")]
         public IReadOnlyList<HubItemOperationResultV2025R0> Operations { get; }

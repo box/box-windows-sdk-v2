@@ -8,12 +8,12 @@ using Box.Sdk.Gen.Parameters;
 namespace Box.Sdk.Gen.Managers {
     public class GetHubsV2025R0QueryParams {
         /// <summary>
-        /// The query string to search for hubs.
+        /// The query string to search for Box Hubs.
         /// </summary>
         public string? Query { get; init; }
 
         /// <summary>
-        /// The scope of the hubs to retrieve. Possible values include `editable`,
+        /// The scope of the Box Hubs to retrieve. Possible values include `editable`,
         /// `view_only`, and `all`. Default is `all`.
         /// </summary>
         public string? Scope { get; init; }

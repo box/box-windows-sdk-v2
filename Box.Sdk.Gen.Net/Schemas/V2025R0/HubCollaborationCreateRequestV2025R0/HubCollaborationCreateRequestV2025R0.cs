@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Box.Sdk.Gen.Schemas {
     public class HubCollaborationCreateRequestV2025R0 : ISerializable {
         /// <summary>
-        /// Hubs reference.
+        /// Box Hubs reference.
         /// </summary>
         [JsonPropertyName("hub")]
         public HubCollaborationCreateRequestV2025R0HubField Hub { get; }
@@ -18,7 +18,7 @@ namespace Box.Sdk.Gen.Schemas {
         public HubCollaborationCreateRequestV2025R0AccessibleByField AccessibleBy { get; }
 
         /// <summary>
-        /// The level of access granted to hub.
+        /// The level of access granted to a Box Hub.
         /// Possible values are `editor`, `viewer`, and `co-owner`.
         /// </summary>
         [JsonPropertyName("role")]

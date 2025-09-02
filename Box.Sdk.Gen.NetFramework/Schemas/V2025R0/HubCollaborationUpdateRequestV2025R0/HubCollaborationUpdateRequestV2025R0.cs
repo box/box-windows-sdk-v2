@@ -6,7 +6,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     public class HubCollaborationUpdateRequestV2025R0 : ISerializable {
         /// <summary>
-        /// The level of access granted to hub.
+        /// The level of access granted to a Box Hub.
         /// Possible values are `editor`, `viewer`, and `co-owner`.
         /// </summary>
         [JsonPropertyName("role")]

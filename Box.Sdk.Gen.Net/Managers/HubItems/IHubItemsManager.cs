@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Parameters;
 namespace Box.Sdk.Gen.Managers {
     public interface IHubItemsManager {
         /// <summary>
-    /// Retrieves all items associated with a Hub.
+    /// Retrieves all items associated with a Box Hub.
     /// </summary>
     /// <param name="queryParams">
     /// Query parameters of getHubItemsV2025R0 method
@@ -22,7 +22,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubItemsV2025R0> GetHubItemsV2025R0Async(GetHubItemsV2025R0QueryParams queryParams, GetHubItemsV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Adds and/or removes Hub items from a Hub.
+    /// Adds and/or removes Box Hub items from a Box Hub.
     /// </summary>
     /// <param name="hubId">
     /// The unique identifier that represent a hub.
