@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Parameters;
 namespace Box.Sdk.Gen.Managers {
     public interface IHubsManager {
         /// <summary>
-    /// Retrieves all hubs for requesting user.
+    /// Retrieves all Box Hubs for requesting user.
     /// </summary>
     /// <param name="queryParams">
     /// Query parameters of getHubsV2025R0 method
@@ -22,7 +22,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubsV2025R0> GetHubsV2025R0Async(GetHubsV2025R0QueryParams? queryParams = default, GetHubsV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Creates a new Hub.
+    /// Creates a new Box Hub.
     /// </summary>
     /// <param name="requestBody">
     /// Request body of createHubV2025R0 method
@@ -36,7 +36,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubV2025R0> CreateHubV2025R0Async(HubCreateRequestV2025R0 requestBody, CreateHubV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Retrieves all hubs for a given enterprise.
+    /// Retrieves all Box Hubs for a given enterprise.
     /// 
     /// Admins or Hub Co-admins of an enterprise
     /// with GCM scope can make this call.
@@ -53,7 +53,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubsV2025R0> GetEnterpriseHubsV2025R0Async(GetEnterpriseHubsV2025R0QueryParams? queryParams = default, GetEnterpriseHubsV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Retrieves details for a hub by its ID.
+    /// Retrieves details for a Box Hub by its ID.
     /// </summary>
     /// <param name="hubId">
     /// The unique identifier that represent a hub.
@@ -74,7 +74,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubV2025R0> GetHubByIdV2025R0Async(string hubId, GetHubByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Updates a Hub. Can be used to change title, description, or Hub settings.
+    /// Updates a Box Hub. Can be used to change title, description, or Box Hub settings.
     /// </summary>
     /// <param name="hubId">
     /// The unique identifier that represent a hub.
@@ -98,7 +98,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<HubV2025R0> UpdateHubByIdV2025R0Async(string hubId, HubUpdateRequestV2025R0 requestBody, UpdateHubByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Deletes a single hub.
+    /// Deletes a single Box Hub.
     /// </summary>
     /// <param name="hubId">
     /// The unique identifier that represent a hub.
@@ -119,9 +119,9 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task DeleteHubByIdV2025R0Async(string hubId, DeleteHubByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Creates a copy of a Hub.
+    /// Creates a copy of a Box Hub.
     /// 
-    /// The original Hub will not be modified.
+    /// The original Box Hub will not be modified.
     /// </summary>
     /// <param name="hubId">
     /// The unique identifier that represent a hub.

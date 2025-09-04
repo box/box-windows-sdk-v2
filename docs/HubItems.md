@@ -1,12 +1,12 @@
 # IHubItemsManager
 
 
-- [Get hub items](#get-hub-items)
-- [Manage hub items](#manage-hub-items)
+- [Get Box Hub items](#get-box-hub-items)
+- [Manage Box Hub items](#manage-box-hub-items)
 
-## Get hub items
+## Get Box Hub items
 
-Retrieves all items associated with a Hub.
+Retrieves all items associated with a Box Hub.
 
 This operation is performed by calling function `GetHubItemsV2025R0`.
 
@@ -32,12 +32,12 @@ await client.HubItems.GetHubItemsV2025R0Async(queryParams: new GetHubItemsV2025R
 
 This function returns a value of type `HubItemsV2025R0`.
 
-Retrieves the items associated with the specified Hub.
+Retrieves the items associated with the specified Box Hub.
 
 
-## Manage hub items
+## Manage Box Hub items
 
-Adds and/or removes Hub items from a Hub.
+Adds and/or removes Box Hub items from a Box Hub.
 
 This operation is performed by calling function `ManageHubItemsV2025R0`.
 

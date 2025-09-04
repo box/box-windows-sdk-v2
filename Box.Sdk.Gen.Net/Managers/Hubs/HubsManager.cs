@@ -15,7 +15,7 @@ namespace Box.Sdk.Gen.Managers {
             NetworkSession = networkSession ?? new NetworkSession();
         }
         /// <summary>
-        /// Retrieves all hubs for requesting user.
+        /// Retrieves all Box Hubs for requesting user.
         /// </summary>
         /// <param name="queryParams">
         /// Query parameters of getHubsV2025R0 method
@@ -36,7 +36,7 @@ namespace Box.Sdk.Gen.Managers {
         }
 
         /// <summary>
-        /// Creates a new Hub.
+        /// Creates a new Box Hub.
         /// </summary>
         /// <param name="requestBody">
         /// Request body of createHubV2025R0 method
@@ -55,7 +55,7 @@ namespace Box.Sdk.Gen.Managers {
         }
 
         /// <summary>
-        /// Retrieves all hubs for a given enterprise.
+        /// Retrieves all Box Hubs for a given enterprise.
         /// 
         /// Admins or Hub Co-admins of an enterprise
         /// with GCM scope can make this call.
@@ -79,7 +79,7 @@ namespace Box.Sdk.Gen.Managers {
         }
 
         /// <summary>
-        /// Retrieves details for a hub by its ID.
+        /// Retrieves details for a Box Hub by its ID.
         /// </summary>
         /// <param name="hubId">
         /// The unique identifier that represent a hub.
@@ -105,7 +105,7 @@ namespace Box.Sdk.Gen.Managers {
         }
 
         /// <summary>
-        /// Updates a Hub. Can be used to change title, description, or Hub settings.
+        /// Updates a Box Hub. Can be used to change title, description, or Box Hub settings.
         /// </summary>
         /// <param name="hubId">
         /// The unique identifier that represent a hub.
@@ -134,7 +134,7 @@ namespace Box.Sdk.Gen.Managers {
         }
 
         /// <summary>
-        /// Deletes a single hub.
+        /// Deletes a single Box Hub.
         /// </summary>
         /// <param name="hubId">
         /// The unique identifier that represent a hub.
@@ -159,9 +159,9 @@ namespace Box.Sdk.Gen.Managers {
         }
 
         /// <summary>
-        /// Creates a copy of a Hub.
+        /// Creates a copy of a Box Hub.
         /// 
-        /// The original Hub will not be modified.
+        /// The original Box Hub will not be modified.
         /// </summary>
         /// <param name="hubId">
         /// The unique identifier that represent a hub.

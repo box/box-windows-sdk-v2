@@ -15,7 +15,7 @@ namespace Box.Sdk.Gen.Schemas {
         protected string? _nextMarker { get; set; }
 
         /// <summary>
-        /// A list of hub collaborations.
+        /// A list of Box Hub collaborations.
         /// </summary>
         [JsonPropertyName("entries")]
         public IReadOnlyList<HubCollaborationV2025R0>? Entries { get; init; }

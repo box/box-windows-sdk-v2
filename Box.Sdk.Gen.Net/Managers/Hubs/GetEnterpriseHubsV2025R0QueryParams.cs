@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Parameters;
 namespace Box.Sdk.Gen.Managers {
     public class GetEnterpriseHubsV2025R0QueryParams {
         /// <summary>
-        /// The query string to search for hubs.
+        /// The query string to search for Box Hubs.
         /// </summary>
         public string? Query { get; init; }
 

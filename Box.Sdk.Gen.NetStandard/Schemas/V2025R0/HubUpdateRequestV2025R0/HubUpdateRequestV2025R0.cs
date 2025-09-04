@@ -6,19 +6,19 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     public class HubUpdateRequestV2025R0 : ISerializable {
         /// <summary>
-        /// Title of the Hub. It cannot be empty and should be less than 50 characters.
+        /// Title of the Box Hub. It cannot be empty and should be less than 50 characters.
         /// </summary>
         [JsonPropertyName("title")]
         public string Title { get; set; }
 
         /// <summary>
-        /// Description of the Hub.
+        /// Description of the Box Hub.
         /// </summary>
         [JsonPropertyName("description")]
         public string Description { get; set; }
 
         /// <summary>
-        /// Indicates if AI features are enabled for the Hub.
+        /// Indicates if AI features are enabled for the Box Hub.
         /// </summary>
         [JsonPropertyName("is_ai_enabled")]
         public bool? IsAiEnabled { get; set; }
@@ -30,13 +30,13 @@ namespace Box.Sdk.Gen.Schemas {
         public bool? IsCollaborationRestrictedToEnterprise { get; set; }
 
         /// <summary>
-        /// Indicates if non-owners can invite others to the Hub.
+        /// Indicates if non-owners can invite others to the Box Hub.
         /// </summary>
         [JsonPropertyName("can_non_owners_invite")]
         public bool? CanNonOwnersInvite { get; set; }
 
         /// <summary>
-        /// Indicates if a shared link can be created for the Hub.
+        /// Indicates if a shared link can be created for the Box Hub.
         /// </summary>
         [JsonPropertyName("can_shared_link_be_created")]
         public bool? CanSharedLinkBeCreated { get; set; }

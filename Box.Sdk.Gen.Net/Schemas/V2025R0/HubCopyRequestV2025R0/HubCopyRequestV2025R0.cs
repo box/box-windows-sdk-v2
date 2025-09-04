@@ -6,13 +6,13 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     public class HubCopyRequestV2025R0 : ISerializable {
         /// <summary>
-        /// Title of the Hub. It cannot be empty and should be less than 50 characters.
+        /// Title of the Box Hub. It cannot be empty and should be less than 50 characters.
         /// </summary>
         [JsonPropertyName("title")]
         public string? Title { get; init; }
 
         /// <summary>
-        /// Description of the Hub.
+        /// Description of the Box Hub.
         /// </summary>
         [JsonPropertyName("description")]
         public string? Description { get; init; }

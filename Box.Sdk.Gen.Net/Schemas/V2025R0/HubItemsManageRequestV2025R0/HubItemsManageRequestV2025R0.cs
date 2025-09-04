@@ -9,7 +9,7 @@ using Box.Sdk.Gen.Schemas;
 namespace Box.Sdk.Gen.Schemas {
     public class HubItemsManageRequestV2025R0 : ISerializable {
         /// <summary>
-        /// List of operations to perform on Hub items.
+        /// List of operations to perform on Box Hub items.
         /// </summary>
         [JsonPropertyName("operations")]
         public IReadOnlyList<HubItemOperationV2025R0>? Operations { get; init; }
