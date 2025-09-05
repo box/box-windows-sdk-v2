@@ -2,11 +2,12 @@
   <img src="https://github.com/box/sdks/blob/master/images/box-dev-logo.png" alt= “box-dev-logo” width="30%" height="50%">
 </p>
 
-# Deprecation notice
+# Migration to v10
 
-This version of the Box .NET SDK is under maintenance mode, and will be deprecated soon, only critical security updates and bug fixes will be provided. We recommend using the new version Box .NET SDK, which can be found at [box/box-dotnet-sdk-gen](https://github.com/box/box-dotnet-sdk-gen)
+The `sdk-gen` branch contains the generated code for the `v10` version of the Box .NET SDK. This is intended primarily for developers migrating from [Box .NET SDK Gen](https://github.com/box/box-dotnet-sdk-gen) to the v10 version.
+As part of our upcoming major release, we will be introducing a combined SDK that consolidates the previously separate generated SDK into one unified SDK package for improved usability and maintenance.
 
-You can find the migration guide [here](https://github.com/box/box-dotnet-sdk-gen/blob/main/migration-guide.md) for transitioning from Box .NET SDK v5.x to the new `box-sdk-gen` package. If you have any questions, please create an issue in the new repository or reach out to [Box Developer Support](https://developer.box.com/support/).
+You can find the migration guide [here](https://github.com/box/box-windows-sdk-v2/blob/sdk-gen/migration-guides/from-dotnet-sdk-gen-v1-to-box-windows-sdk-v10.md) for transitioning from Box .NET SDK Gen to Box .NET SDK v10. If you have any questions, please create an issue in the new repository or reach out to [Box Developer Support](https://developer.box.com/support/).
 
 # Box Windows V2 SDK
 
