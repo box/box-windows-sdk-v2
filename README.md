@@ -4,7 +4,7 @@
 
 # Migration to v10
 
-The `sdk-gen` branch contains the generated code for the `v10` version of the Box .NET SDK. This is intended primarily for developers migrating from [Box .NET SDK Gen](https://github.com/box/box-dotnet-sdk-gen) to the v10 version.
+The [sdk-gen](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen) branch contains the generated code for the `v10` version of the Box .NET SDK. This is intended primarily for developers migrating from [Box .NET SDK Gen](https://github.com/box/box-dotnet-sdk-gen) to the v10 version.
 As part of our upcoming major release, we will be introducing a combined SDK that consolidates the previously separate generated SDK into one unified SDK package for improved usability and maintenance.
 
 You can find the migration guide [here](https://github.com/box/box-windows-sdk-v2/blob/sdk-gen/migration-guides/from-dotnet-sdk-gen-v1-to-box-windows-sdk-v10.md) for transitioning from Box .NET SDK Gen to Box .NET SDK v10. If you have any questions, please create an issue in the repository or reach out to [Box Developer Support](https://developer.box.com/support/).
