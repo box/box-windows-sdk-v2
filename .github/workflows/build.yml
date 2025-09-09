@@ -1,8 +1,7 @@
 name: build-and-test
 on:
   schedule:
-    - cron: '0 0 * * *'
-on:
+    - cron: "0 0 * * *"
   pull_request:
     branches:
       - sdk-gen
@@ -55,7 +54,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
       - name: Build
         run: dotnet build ./Box.Sdk.Gen
       - name: All Tests
