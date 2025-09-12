@@ -83,6 +83,12 @@ namespace Box.Sdk.Gen.Schemas {
         [Description("SIGN_REQUEST.EXPIRED")]
         SignRequestExpired,
         [Description("SIGN_REQUEST.SIGNER_EMAIL_BOUNCED")]
-        SignRequestSignerEmailBounced
+        SignRequestSignerEmailBounced,
+        [Description("SIGN_REQUEST.SIGN_SIGNER_SIGNED")]
+        SignRequestSignSignerSigned,
+        [Description("SIGN_REQUEST.SIGN_DOCUMENT_CREATED")]
+        SignRequestSignDocumentCreated,
+        [Description("SIGN_REQUEST.SIGN_ERROR_FINALIZING")]
+        SignRequestSignErrorFinalizing
     }
 }
