@@ -1,7 +1,7 @@
 name: Build and Test daily (sdk-gen)
 on:
   schedule:
-    - cron: "05 2 * * 1-5"
+    - cron: "20 23 * * 1-5"
 jobs:
   framework:
     name: Box.V2 (.NET Framework 4.6.2)
