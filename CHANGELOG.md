@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/box/box-windows-sdk-v2/compare/v5.8.0...v10.0.0) (2025-09-17)
+
+Introducing **`Box SDK v10`**, a major release designed to elevate your developer experience and streamline integration with Box Content Cloud. Currently available as a separate [`sdk-gen`](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen) branch, `v10` will ultimately become the main branch.
+
+### Breaking Changes
+
+- This SDK version is auto-generated and introduces a new interface for all methods. Extensive documentation is available [here](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen/docs).
+
+### What's New in `v10`
+
+- **Full API Support** — Complete coverage of the Box API ecosystem, giving you access to all the latest features and functionalities to build feature-rich applications.  
+
+- **Rapid API Updates** — Our new auto-generation approach enables Box API additions within days, ensuring you can leverage the most up-to-date features without delay.  
+
+- **Embedded Documentation** — All objects and parameters are documented directly in the SDK source code, keeping essential information in one place.  
+
+- **Enhanced Convenience Methods** — New methods for authentication, chunk uploads, automatic retries, retry strategy, and more.
+
+### Important Notes
+
+This version includes the Box Next Generation SDK artifact, previously developed in parallel to core Box SDKs. To facilitate migration and provide access to the newest features, we'll soon release an additional major version combining both artifacts. Migration to `v10` includes breaking changes, please review the [migration guide](https://github.com/box/box-windows-sdk-v2/blob/sdk-gen/migration-guides/from-v5-to-v10.md) for details.  For more information, see the [SDK versioning strategy document](https://developer.box.com/tooling/sdks/sdk-versioning). Follow developer changelog for future updates.
+
+---
+
+### What’s New Compared to [Dotnet SDK Gen](https://github.com/box/box-dotnet-sdk-gen) `v1.12.0`
+
+#### ⚠ BREAKING CHANGES
+
+* Change names of unions (box/box-openapi[#549](https://github.com/box/box-windows-sdk-v2/issues/549)) ([#1007](https://github.com/box/box-windows-sdk-v2/issues/1007)) ([fcef4ec](https://github.com/box/box-windows-sdk-v2/commit/fcef4ecab38435fb4a79e2db8fcf2c5ad931986b))
+* Remove unused models from schemas (box/box-openapi[#547](https://github.com/box/box-windows-sdk-v2/issues/547)) ([#999](https://github.com/box/box-windows-sdk-v2/issues/999)) ([ffcb488](https://github.com/box/box-windows-sdk-v2/commit/ffcb4888e6ad52f10028f92c49b5d919cb1ac620))
+
+#### Bug Fixes
+
+* Fix `net462` debug build ([#1020](https://github.com/box/box-windows-sdk-v2/issues/1020)) ([04f8343](https://github.com/box/box-windows-sdk-v2/commit/04f8343c200e45ebe65bd29f03f55a44e76bcbde))
+* Rename external user deletion method (box/box-codegen[#796](https://github.com/box/box-windows-sdk-v2/issues/796)) ([#1024](https://github.com/box/box-windows-sdk-v2/issues/1024)) ([13928c5](https://github.com/box/box-windows-sdk-v2/commit/13928c559bd3e97d060c48997b05ca384333d03d))
+
+
+#### New Features and Enhancements
+
+* Add External User Deletion API (box/box-openapi[#550](https://github.com/box/box-windows-sdk-v2/issues/550)) ([#1009](https://github.com/box/box-windows-sdk-v2/issues/1009)) ([2178bc8](https://github.com/box/box-windows-sdk-v2/commit/2178bc87c8b724598616e99f0a528c7b21ff12c6))
+* Add missing webhook events (box/box-openapi[#554](https://github.com/box/box-windows-sdk-v2/issues/554)) ([#1068](https://github.com/box/box-windows-sdk-v2/issues/1068)) ([7fe3b99](https://github.com/box/box-windows-sdk-v2/commit/7fe3b99cae1cf5be9ad3ec7bec54c97f198fd8c7))
+* Add Net Framework 462 support for `v10` (box/box-codegen[#773](https://github.com/box/box-windows-sdk-v2/issues/773)) ([#986](https://github.com/box/box-windows-sdk-v2/issues/986)) ([67366c7](https://github.com/box/box-windows-sdk-v2/commit/67366c7274faa5c758490d393605c76220aa6a79))
+* Allow injecting custom decryption mechanism for `jwt` ([#974](https://github.com/box/box-windows-sdk-v2/issues/974)) ([b877355](https://github.com/box/box-windows-sdk-v2/commit/b877355493b60dc6f9c1a576927d6e0c62ec27f3))
+
+For more details check [migration guide](https://github.com/box/box-windows-sdk-v2/blob/sdk-gen/migration-guides/from-dotnet-sdk-gen-v1-to-box-windows-sdk-v10.md) from `box-dotnet-sdk-gen` `v1` to `box-windows-sdk-v2` `v10`.
+
 ## [5.8.0](https://github.com/box/box-windows-sdk-v2/compare/v5.7.1...v5.8.0) (2024-07-22)
 
 
@@ -449,21 +495,3 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
