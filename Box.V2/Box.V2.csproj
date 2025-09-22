@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>Box.V2</PackageId>
+    <PackageId>Box.V2.Legacy</PackageId>
     <TargetFramework>net462</TargetFramework>
     <Version>5.8.0</Version>
     <Description>Box SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.6.2</Description>
@@ -38,8 +38,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.3.1" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.35.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.35.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.12.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>
