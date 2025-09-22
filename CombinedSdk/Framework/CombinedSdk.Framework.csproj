@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net462</TargetFrameworks>
+    <Version>0.1.0</Version>
+    <Description>Official Box .Net Generated SDK</Description>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <isPackable>true</isPackable>
+    <PackageId>Box.V2</PackageId>
+    <AssemblyName>Box.V2.Root</AssemblyName>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.12.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BoxSdkGen\Box.Sdk.Gen.NetFramework\Box.Sdk.Gen.NetFramework.csproj" Condition="'$(Configuration)' != 'SignedRelease'" />
+    <ProjectReference Include="..\..\BoxSdkGen\Box.Sdk.Gen.NetFramework\Box.Sdk.Gen.NetFramework.csproj" Condition="'$(Configuration)' == 'SignedRelease'">
+        <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Box.V2\Box.V2.csproj" Condition="'$(Configuration)' != 'SignedRelease'" />
+    <ProjectReference Include="..\..\Box.V2\Box.V2.csproj" Condition="'$(Configuration)' == 'SignedRelease'">
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <_PackageFiles Include="bin\SignedRelease\net462\Box.V2.dll">
+        <BuildAction>None</BuildAction>
+        <PackagePath>lib\net462</PackagePath>
+    </_PackageFiles>
+    <_PackageFiles Include="bin\SignedRelease\net462\Box.Sdk.Gen.NetFramework.dll">
+      <BuildAction>None</BuildAction>
+      <PackagePath>lib\net462</PackagePath>
+    </_PackageFiles>
+  </ItemGroup>
+
+</Project>
