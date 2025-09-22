@@ -6,7 +6,7 @@
     <Description>Official Box .Net Generated SDK</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <isPackable>true</isPackable>
-    <AssemblyName>Box.V2</AssemblyName>
+    <AssemblyName>Box.Sdk.Gen.NetFramework</AssemblyName>
   </PropertyGroup>
   
 
