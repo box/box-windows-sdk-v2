@@ -13,7 +13,9 @@ namespace Box.Sdk.Gen.Schemas {
         public StringEnum<AiAgentReferenceTypeField> Type { get; }
 
         /// <summary>
-        /// The ID of an Agent.
+        /// The ID of an Agent. This can be a numeric ID for custom agents (for example, `14031`) 
+        /// or a unique identifier for pre-built agents (for example, `enhanced_extract_agent` 
+        /// for the [Enhanced Extract Agent](g://box-ai/ai-tutorials/extract-metadata-structured/#enhanced-extract-agent)).
         /// </summary>
         [JsonPropertyName("id")]
         public string? Id { get; init; }
