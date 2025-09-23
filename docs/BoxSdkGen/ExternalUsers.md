@@ -13,10 +13,7 @@ This operation is performed by calling function `SubmitJobToDeleteExternalUsersV
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2025.0/post-external-users-submit-delete-job/).
 
-<!-- sample post_external_users_submit_delete_job_v2025.0 -->
-```
-await client.ExternalUsers.SubmitJobToDeleteExternalUsersV2025R0Async(requestBody: new ExternalUsersSubmitDeleteJobRequestV2025R0(externalUsers: Array.AsReadOnly(new [] {new UserReferenceV2025R0(id: Utils.GetEnvVar(name: "BOX_EXTERNAL_USER_ID"))})));
-```
+*Currently we don't have an example for calling `SubmitJobToDeleteExternalUsersV2025R0` in integration tests*
 
 ### Arguments
 
