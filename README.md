@@ -91,16 +91,18 @@ We use a modified version of [Semantic Versioning](https://semver.org/) for all 
 
 ### Supported Version
 <!-- textlint-disable -->
-Only the current MAJOR version of SDK is supported. New features, functionality, bug fixes, and security updates will only be added to the current MAJOR version.
+Currently, we support the v10 version and v5 version of the SDK. New features, functionality, bug fixes, and security updates will only be added to these versions.
 <!-- textlint-enable -->
-A current release is on the leading edge of our SDK development, and is intended for customers who are in active development and want the latest and greatest features.  Instead of stating a release date for a new feature, we set a fixed minor or patch release cadence of maximum 2-3 months (while we may release more often). At the same time, there is no schedule for major or breaking release. Instead, we will communicate one quarter in advance the upcoming breaking change to allow customers to plan for the upgrade. We always recommend that all users run the latest available minor release for whatever major version is in use. We highly recommend upgrading to the latest SDK major release at the earliest convenient time and before the EOL date.
+A current release is on the leading edge of our SDK development, and is intended for customers who are in active development and want the latest and greatest features. Instead of stating a release date for a new feature, we set a fixed minor or patch release cadence of maximum 2-3 months (while we may release more often). At the same time, there is no schedule for major or breaking release. Instead, we will communicate one quarter in advance the upcoming breaking change to allow customers to plan for the upgrade. We always recommend that all users run the latest available minor release for whatever major version is in use. We highly recommend upgrading to the latest SDK major release at the earliest convenient time and before the EOL date.
 
 ### Version schedule
 
 | Version | Supported Environments                   | State     | First Release | EOL/Terminated |
-|---------|------------------------------------------|-----------|---------------|----------------|
-| 5       | .NET Framework 4.6.2+ and .NET Core 2.0+ | Supported | 02 Nov 2021   | TBD            |
-| 4       | .NET Framework 4.5+ and .NET Core 2.0+   | EOL       | 02 Nov 2021   | TBD            |
+| ------- | ---------------------------------------- | --------- | ------------- | -------------- |
+| 10      | .NET Framework 4.6.2+ and .NET 8+        | Supported | 17 Sep 2025   | TBD            |
+| 6       | .NET Framework 4.6.2+ and .NET 8+        | Supported | Q4 2025       | TBD            |
+| 5       | .NET Framework 4.6.2+ and .NET Core 2.0+ | Supported | 12 Jan 2023   | TBD            |
+| 4       | .NET Framework 4.5+ and .NET Core 2.0+   | EOL       | 02 Nov 2021   | 12 Jan 2023    |
 | 3       |                                          | EOL       | 28 Jul 2017   | 02 Nov 2021    |
 | 2       |                                          | EOL       | 05 Nov 2015   | 28 Jul 2017    |
 
