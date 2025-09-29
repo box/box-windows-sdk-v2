@@ -29,8 +29,8 @@
     <ProjectReference Include="..\..\BoxSdkGen\Box.Sdk.Gen.NetFramework\Box.Sdk.Gen.NetFramework.csproj" Condition="'$(Configuration)' == 'SignedRelease'">
         <PrivateAssets>all</PrivateAssets>
     </ProjectReference>
-    <ProjectReference Include="..\..\Box.V2\Box.V2.csproj" Condition="'$(Configuration)' != 'SignedRelease'" />
-    <ProjectReference Include="..\..\Box.V2\Box.V2.csproj" Condition="'$(Configuration)' == 'SignedRelease'">
+    <ProjectReference Include="..\..\LegacySdk\Box.V2\Box.V2.csproj" Condition="'$(Configuration)' != 'SignedRelease'" />
+    <ProjectReference Include="..\..\LegacySdk\Box.V2\Box.V2.csproj" Condition="'$(Configuration)' == 'SignedRelease'">
       <PrivateAssets>all</PrivateAssets>
     </ProjectReference>
   </ItemGroup>
