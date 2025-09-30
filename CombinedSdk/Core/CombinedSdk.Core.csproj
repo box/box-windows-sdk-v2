@@ -37,8 +37,8 @@
     <ProjectReference Include="..\..\BoxSdkGen\Box.Sdk.Gen.NetStandard\Box.Sdk.Gen.NetStandard.csproj" Condition="'$(TargetFramework)' == 'netstandard2.0' and '$(Configuration)' == 'Release'">
         <PrivateAssets>all</PrivateAssets>
     </ProjectReference>
-    <ProjectReference Include="..\..\Box.V2.Core\Box.V2.Core.csproj" Condition="'$(Configuration)' != 'Release'" />
-    <ProjectReference Include="..\..\Box.V2.Core\Box.V2.Core.csproj" Condition="'$(Configuration)' == 'Release'">
+    <ProjectReference Include="..\..\LegacySdk\Box.V2.Core\Box.V2.Core.csproj" Condition="'$(Configuration)' != 'Release'" />
+    <ProjectReference Include="..\..\LegacySdk\Box.V2.Core\Box.V2.Core.csproj" Condition="'$(Configuration)' == 'Release'">
       <PrivateAssets>all</PrivateAssets>
     </ProjectReference>
   </ItemGroup>
