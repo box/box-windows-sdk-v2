@@ -34,6 +34,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// the type of the corresponding metadata template field.
         /// </summary>
         [JsonPropertyName("query_params")]
+        [JsonConverter(typeof(DictionaryObjectValuesConverter))]
         public Dictionary<string, object>? QueryParams { get; init; }
 
         /// <summary>
