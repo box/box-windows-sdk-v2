@@ -260,4 +260,33 @@ namespace Box.Sdk.Gen.Internal
         internal void SetJson(string json);
         internal string? GetJson();
     }
+
+    class DictionaryObjectValuesConverter : JsonConverter<Dictionary<string, object>>
+    {
+        public override Dictionary<string, object> Read(
+            ref Utf8JsonReader reader,
+            Type typeToConvert,
+            JsonSerializerOptions options)
+        {
+            var dict = new Dictionary<string, object>();
+
+            using (var doc = JsonDocument.ParseValue(ref reader))
+            {
+                foreach (var property in doc.RootElement.EnumerateObject())
+                {
+                    dict[property.Name] = SimpleJsonSerializer.ConvertJsonElement(property.Value)!;
+                }
+            }
+
+            return dict;
+        }
+
+        public override void Write(
+            Utf8JsonWriter writer,
+            Dictionary<string, object> value,
+            JsonSerializerOptions options)
+        {
+            JsonSerializer.Serialize(writer, value, options);
+        }
+    }
 }

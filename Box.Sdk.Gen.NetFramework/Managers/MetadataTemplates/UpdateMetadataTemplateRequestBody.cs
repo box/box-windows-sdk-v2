@@ -21,6 +21,7 @@ namespace Box.Sdk.Gen.Managers {
         /// operation being performed.
         /// </summary>
         [JsonPropertyName("data")]
+        [JsonConverter(typeof(DictionaryObjectValuesConverter))]
         public Dictionary<string, object> Data { get; set; }
 
         /// <summary>
