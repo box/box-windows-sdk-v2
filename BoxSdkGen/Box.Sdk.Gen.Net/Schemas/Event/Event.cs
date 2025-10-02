@@ -1,6 +1,7 @@
 using Box.Sdk.Gen;
-using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 using Box.Sdk.Gen.Internal;
 using Box.Sdk.Gen.Schemas;
 
@@ -56,7 +57,8 @@ namespace Box.Sdk.Gen.Schemas {
         /// Enterprise Events.
         /// </summary>
         [JsonPropertyName("additional_details")]
-        public EventAdditionalDetailsField? AdditionalDetails { get; init; }
+        [JsonConverter(typeof(DictionaryObjectValuesConverter))]
+        public Dictionary<string, object>? AdditionalDetails { get; init; }
 
         public Event() {
             
