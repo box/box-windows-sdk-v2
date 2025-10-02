@@ -1,13 +1,15 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Box.Sdk.Gen;
 using System.Text.Json.Serialization;
-using System.Collections.Generic;
 using Box.Sdk.Gen.Internal;
 using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Schemas {
     public class AiExtractStructuredResponse : ISerializable {
         [JsonPropertyName("answer")]
-        public AiExtractResponse Answer { get; }
+        [JsonConverter(typeof(DictionaryObjectValuesConverter))]
+        public Dictionary<string, object> Answer { get; }
 
         /// <summary>
         /// The ISO date formatted timestamp of when the answer to the prompt was created.
@@ -24,7 +26,7 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("ai_agent_info")]
         public AiAgentInfo? AiAgentInfo { get; init; }
 
-        public AiExtractStructuredResponse(AiExtractResponse answer, System.DateTimeOffset createdAt) {
+        public AiExtractStructuredResponse(Dictionary<string, object> answer, System.DateTimeOffset createdAt) {
             Answer = answer;
             CreatedAt = createdAt;
         }
