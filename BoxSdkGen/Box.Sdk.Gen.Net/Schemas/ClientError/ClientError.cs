@@ -44,6 +44,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// a per-endpoint basis. `message` is only one example.
         /// </summary>
         [JsonPropertyName("context_info")]
+        [JsonConverter(typeof(DictionaryObjectValuesConverter))]
         public Dictionary<string, object>? ContextInfo { get => _contextInfo; init { _contextInfo = value; _isContextInfoSet = true; } }
 
         /// <summary>

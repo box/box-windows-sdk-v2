@@ -12,6 +12,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string GeneratedFileName { get; set; }
 
         [JsonPropertyName("user_input")]
+        [JsonConverter(typeof(DictionaryObjectValuesConverter))]
         public Dictionary<string, object> UserInput { get; set; }
 
         public DocGenDocumentGenerationDataV2025R0(string generatedFileName, Dictionary<string, object> userInput) {
