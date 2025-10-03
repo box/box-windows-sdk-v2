@@ -43,7 +43,7 @@ namespace Box.Sdk.Gen.Managers {
         /// <summary>
         /// Updates a collaboration.
         /// Can be used to change the owner of an item, or to
-        /// accept collaboration invites.
+        /// accept collaboration invites. In case of accepting collaboration invite, role is not required.
         /// </summary>
         /// <param name="collaborationId">
         /// The ID of the collaboration.
@@ -58,7 +58,8 @@ namespace Box.Sdk.Gen.Managers {
         /// <param name="cancellationToken">
         /// Token used for request cancellation.
         /// </param>
-        public async System.Threading.Tasks.Task<Collaboration?> UpdateCollaborationByIdAsync(string collaborationId, UpdateCollaborationByIdRequestBody requestBody, UpdateCollaborationByIdHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) {
+        public async System.Threading.Tasks.Task<Collaboration?> UpdateCollaborationByIdAsync(string collaborationId, UpdateCollaborationByIdRequestBody? requestBody = default, UpdateCollaborationByIdHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) {
+            requestBody = requestBody ?? new UpdateCollaborationByIdRequestBody();
             headers = headers ?? new UpdateCollaborationByIdHeaders();
             Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string?>() {  }, headers.ExtraHeaders));
             FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/collaborations/", StringUtils.ToStringRepresentation(collaborationId)), method: "PUT", contentType: "application/json", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Data = SimpleJsonSerializer.Serialize(requestBody), Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);

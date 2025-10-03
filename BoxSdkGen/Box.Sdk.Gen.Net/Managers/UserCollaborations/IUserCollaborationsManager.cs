@@ -29,7 +29,7 @@ namespace Box.Sdk.Gen.Managers {
         /// <summary>
     /// Updates a collaboration.
     /// Can be used to change the owner of an item, or to
-    /// accept collaboration invites.
+    /// accept collaboration invites. In case of accepting collaboration invite, role is not required.
     /// </summary>
     /// <param name="collaborationId">
     /// The ID of the collaboration.
@@ -44,7 +44,7 @@ namespace Box.Sdk.Gen.Managers {
     /// <param name="cancellationToken">
     /// Token used for request cancellation.
     /// </param>
-    public System.Threading.Tasks.Task<Collaboration?> UpdateCollaborationByIdAsync(string collaborationId, UpdateCollaborationByIdRequestBody requestBody, UpdateCollaborationByIdHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+    public System.Threading.Tasks.Task<Collaboration?> UpdateCollaborationByIdAsync(string collaborationId, UpdateCollaborationByIdRequestBody? requestBody = default, UpdateCollaborationByIdHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
     /// Deletes a single collaboration.

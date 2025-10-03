@@ -13,7 +13,7 @@ namespace Box.Sdk.Gen.Managers {
         /// </summary>
         [JsonPropertyName("role")]
         [JsonConverter(typeof(StringEnumConverter<UpdateCollaborationByIdRequestBodyRoleField>))]
-        public StringEnum<UpdateCollaborationByIdRequestBodyRoleField> Role { get; }
+        public StringEnum<UpdateCollaborationByIdRequestBodyRoleField>? Role { get; init; }
 
         /// <summary>
         /// Set the status of a `pending` collaboration invitation,
@@ -59,13 +59,8 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("can_view_path")]
         public bool? CanViewPath { get; init; }
 
-        public UpdateCollaborationByIdRequestBody(UpdateCollaborationByIdRequestBodyRoleField role) {
-            Role = role;
-        }
-        
-        [JsonConstructorAttribute]
-        internal UpdateCollaborationByIdRequestBody(StringEnum<UpdateCollaborationByIdRequestBodyRoleField> role) {
-            Role = role;
+        public UpdateCollaborationByIdRequestBody() {
+            
         }
         internal string? RawJson { get; set; } = default;
 
