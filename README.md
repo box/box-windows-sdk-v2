@@ -22,7 +22,7 @@ For full guidance on SDK versioning, see the [Box SDK Versioning Guide](https://
 | Creating a new application                                                                        | Use [v10](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen)  | `Install-Package Box.Sdk.Gen -Version 10.0.0` |
 | Existing app using [Box.Sdk.Gen](https://www.nuget.org/packages/Box.Sdk.Gen/) artifact     | Upgrade to [v10](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen) | `Install-Package Box.Sdk.Gen -Version 10.0.0` |
 | Existing app using [Box.V2](https://www.nuget.org/packages/Box.V2/) and planning to use new features | Wait for v6 to start migration process                             | TBD                                           |
-| Existing app using [Box.V2](https://www.nuget.org/packages/Box.V2/) and not planning changes      | Stay on your current version                                       | `Install-Package Box.V2 -Version 5.8.0`)      |
+| Existing app using [Box.V2](https://www.nuget.org/packages/Box.V2/) and not planning changes      | Stay on your current version                                       | `Install-Package Box.V2.Core -Version 5.8.0`)      |
 
 # Box Windows V2 SDK
 
