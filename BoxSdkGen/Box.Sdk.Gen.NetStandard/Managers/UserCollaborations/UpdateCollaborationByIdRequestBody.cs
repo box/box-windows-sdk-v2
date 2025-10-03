@@ -59,13 +59,8 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("can_view_path")]
         public bool? CanViewPath { get; set; }
 
-        public UpdateCollaborationByIdRequestBody(UpdateCollaborationByIdRequestBodyRoleField role) {
-            Role = role;
-        }
-        
-        [JsonConstructorAttribute]
-        internal UpdateCollaborationByIdRequestBody(StringEnum<UpdateCollaborationByIdRequestBodyRoleField> role) {
-            Role = role;
+        public UpdateCollaborationByIdRequestBody() {
+            
         }
         internal string RawJson { get; set; } = default;
 
