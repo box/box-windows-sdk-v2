@@ -2,12 +2,27 @@
   <img src="https://github.com/box/sdks/blob/master/images/box-dev-logo.png" alt= “box-dev-logo” width="30%" height="50%">
 </p>
 
-# Migration to v10
+# Versioning Strategy
 
-The [sdk-gen](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen) branch contains the generated code for the `v10` version of the Box .NET SDK. This is intended primarily for developers migrating from [Box .NET SDK Gen](https://github.com/box/box-dotnet-sdk-gen) to the v10 version.
-As part of our upcoming major release, we will be introducing a combined SDK that consolidates the previously separate generated SDK into one unified SDK package for improved usability and maintenance.
+Starting with v10 of the SDK, we’ve introduced a new generated codebase designed to enhance your experience with the Box API.  
+It is currently available on the [sdk-gen](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen) branch and uses the new `Box.Sdk.Gen` namespace instead of the old `Box.V2`.
 
-You can find the migration guide [here](https://github.com/box/box-windows-sdk-v2/blob/sdk-gen/migration-guides/from-dotnet-sdk-gen-v1-to-box-windows-sdk-v10.md) for transitioning from Box .NET SDK Gen to Box .NET SDK v10. If you have any questions, please create an issue in the repository or reach out to [Box Developer Support](https://developer.box.com/support/).
+v10 is targeted at new users of Box .NET SDK and users already working with the generated Box .NET SDK previously available under the [Box Dotnet SDK Gen repository](https://github.com/box/box-dotnet-sdk-gen).
+
+For users of v5 of the Box .NET SDK, no action is required at this time — we’ll be providing an upcoming v6 release that will include both `Box.V2` and `Box.Sdk.Gen` namespaces for a smooth migration path. To avoid unintentional upgrades, pin your version to `5.x.x` in your dependency manager.
+
+For full guidance on SDK versioning, see the [Box SDK Versioning Guide](https://developer.box.com/guides/tooling/sdks/sdk-versioning/).
+
+---
+
+## Which Version Should I Use?
+
+| Scenario                                                                                          | Recommended Version                                                | Example Dependency                            |
+|---------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|-----------------------------------------------|
+| Creating a new application                                                                        | Use [v10](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen)  | `Install-Package Box.Sdk.Gen -Version 10.0.0` |
+| Existing app using [Box.Sdk.Gen](https://www.nuget.org/packages/Box.Sdk.Gen/) artifact     | Upgrade to [v10](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen) | `Install-Package Box.Sdk.Gen -Version 10.0.0` |
+| Existing app using [Box.V2](https://www.nuget.org/packages/Box.V2/) and planning to use new features | Wait for v6 to start migration process                             | TBD                                           |
+| Existing app using [Box.V2](https://www.nuget.org/packages/Box.V2/) and not planning changes      | Stay on your current version                                       | `Install-Package Box.V2 -Version 5.8.0`)      |
 
 # Box Windows V2 SDK
 
@@ -44,12 +59,12 @@ You can install SDK library using Nuget
 
 If you want to use .NET Core
 ```bash
-PM> Install-Package Box.V2.Core
+PM> Install-Package Box.V2.Core -Version 5.8.0
 ```
 
 If you want to use .NET Framework
 ```bash
-PM> Install-Package Box.V2
+PM> Install-Package Box.V2 -Version 5.8.0
 ```
 
 Or you can add it to your project directly in Visual Studio.
