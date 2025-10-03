@@ -76,11 +76,11 @@ namespace Box.Sdk.Gen.Tests.Integration {
             FileFull file = NullableUtils.Unwrap(uploadedFiles.Entries)[0];
             await Utils.DelayInSecondsAsync(seconds: 5);
             AiExtractStructuredResponse response = await client.Ai.CreateAiExtractStructuredAsync(requestBody: new AiExtractStructured(items: Array.AsReadOnly(new [] {new AiItemBase(id: file.Id)})) { Fields = Array.AsReadOnly(new [] {new AiExtractStructuredFieldsField(key: "firstName") { DisplayName = "First name", Description = "Person first name", Prompt = "What is the your first name?", Type = "string" },new AiExtractStructuredFieldsField(key: "lastName") { DisplayName = "Last name", Description = "Person last name", Prompt = "What is the your last name?", Type = "string" },new AiExtractStructuredFieldsField(key: "dateOfBirth") { DisplayName = "Birth date", Description = "Person date of birth", Prompt = "What is the date of your birth?", Type = "date" },new AiExtractStructuredFieldsField(key: "age") { DisplayName = "Age", Description = "Person age", Prompt = "How old are you?", Type = "float" },new AiExtractStructuredFieldsField(key: "hobby") { DisplayName = "Hobby", Description = "Person hobby", Prompt = "What is your hobby?", Type = "multiSelect", Options = Array.AsReadOnly(new [] {new AiExtractStructuredFieldsOptionsField(key: "guitar"),new AiExtractStructuredFieldsOptionsField(key: "books")}) }}) });
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.hobby")) == StringUtils.ToStringRepresentation(Array.AsReadOnly(new [] {"guitar"})));
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.firstName")) == "John");
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.lastName")) == "Doe");
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.dateOfBirth")) == "1990-07-04");
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.age")) == "34");
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["hobby"]) == StringUtils.ToStringRepresentation(Array.AsReadOnly(new [] {"guitar"})));
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["firstName"]) == "John");
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["lastName"]) == "Doe");
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["dateOfBirth"]) == "1990-07-04");
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["age"]) == "34");
             Assert.IsTrue(response.CompletionReason == "done");
             await client.Files.DeleteFileByIdAsync(fileId: file.Id);
         }
@@ -93,11 +93,11 @@ namespace Box.Sdk.Gen.Tests.Integration {
             string templateKey = string.Concat("key", Utils.GetUUID());
             MetadataTemplate template = await client.MetadataTemplates.CreateMetadataTemplateAsync(requestBody: new CreateMetadataTemplateRequestBody(scope: "enterprise", displayName: templateKey) { TemplateKey = templateKey, Fields = Array.AsReadOnly(new [] {new CreateMetadataTemplateRequestBodyFieldsField(key: "firstName", displayName: "First name", type: CreateMetadataTemplateRequestBodyFieldsTypeField.String) { Description = "Person first name" },new CreateMetadataTemplateRequestBodyFieldsField(key: "lastName", displayName: "Last name", type: CreateMetadataTemplateRequestBodyFieldsTypeField.String) { Description = "Person last name" },new CreateMetadataTemplateRequestBodyFieldsField(key: "dateOfBirth", displayName: "Birth date", type: CreateMetadataTemplateRequestBodyFieldsTypeField.Date) { Description = "Person date of birth" },new CreateMetadataTemplateRequestBodyFieldsField(key: "age", displayName: "Age", type: CreateMetadataTemplateRequestBodyFieldsTypeField.Float) { Description = "Person age" },new CreateMetadataTemplateRequestBodyFieldsField(key: "hobby", displayName: "Hobby", type: CreateMetadataTemplateRequestBodyFieldsTypeField.MultiSelect) { Description = "Person hobby", Options = Array.AsReadOnly(new [] {new CreateMetadataTemplateRequestBodyFieldsOptionsField(key: "guitar"),new CreateMetadataTemplateRequestBodyFieldsOptionsField(key: "books")}) }}) });
             AiExtractStructuredResponse response = await client.Ai.CreateAiExtractStructuredAsync(requestBody: new AiExtractStructured(items: Array.AsReadOnly(new [] {new AiItemBase(id: file.Id)})) { MetadataTemplate = new AiExtractStructuredMetadataTemplateField() { TemplateKey = templateKey, Scope = "enterprise" } });
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.firstName")) == "John");
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.lastName")) == "Doe");
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.dateOfBirth")) == "1990-07-04T00:00:00Z");
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.age")) == "34");
-            Assert.IsTrue(StringUtils.ToStringRepresentation(Utils.GetValueFromObjectRawData(obj: response, key: "answer.hobby")) == StringUtils.ToStringRepresentation(Array.AsReadOnly(new [] {"guitar"})));
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["firstName"]) == "John");
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["lastName"]) == "Doe");
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["dateOfBirth"]) == "1990-07-04T00:00:00Z");
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["age"]) == "34");
+            Assert.IsTrue(StringUtils.ToStringRepresentation(response.Answer["hobby"]) == StringUtils.ToStringRepresentation(Array.AsReadOnly(new [] {"guitar"})));
             Assert.IsTrue(response.CompletionReason == "done");
             await client.MetadataTemplates.DeleteMetadataTemplateAsync(scope: DeleteMetadataTemplateScope.Enterprise, templateKey: NullableUtils.Unwrap(template.TemplateKey));
             await client.Files.DeleteFileByIdAsync(fileId: file.Id);
