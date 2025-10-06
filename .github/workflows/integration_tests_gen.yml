@@ -1,4 +1,4 @@
-name: build-and-test
+name: Build and Test (Generated)
 on:
   pull_request:
     branches:
@@ -52,7 +52,7 @@ jobs:
         with:
           dotnet-version: "8.0.x"
       - name: Build
-        run: dotnet build ./BoxSdkGen/Box.Sdk.Gen
+        run: dotnet build ./BoxSdkGen/Box.Sdk.Gen.Net
       - name: All Tests
         if: startsWith(github.head_ref, 'codegen-release')
         env:
