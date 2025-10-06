@@ -29,15 +29,15 @@ jobs:
         env:
           INTEGRATION_TESTING_CONFIG: ${{ secrets.INTEGRATION_TESTING_CONFIG }}
         run: |
-          dotnet test .\LegacySdk\Box.V2.Test.Integration -f netcoreapp2.0 --logger "console;verbosity=normal" --filter ^ 
-          "FullyQualifiedName~BoxFilesManagerIntegrationTest.UploadAsync_ForSmallFile_ShouldUploadFileToFolder^
-          |FullyQualifiedName~BoxFilesManagerIntegrationTest.DownloadAsync_ForUploadedFile_ShouldReturnSameFileAsTheUploadedFile^
-          |FullyQualifiedName~BoxFilesManagerIntegrationTest.GetInformationAsync_ForCorrectFileId_ShouldReturnSameFileAsUploadedFile^
-          |FullyQualifiedName~BoxFilesManagerIntegrationTest.UploadBigFileInSession_ShouldUploadTheFile_OnlyIfCommitIsCalled^
-          |FullyQualifiedName~BoxFolderManagerIntegrationTest.CreateAsync_ForCorrectBoxFolderRequest_ShouldCreateNewFolder^
-          |FullyQualifiedName~BoxFolderManagerIntegrationTest.GetInformationAsync_ForExistingFolder_ShouldReturnInformationRelatedToThisFolder^
-          |FullyQualifiedName~BoxFolderManagerIntegrationTest.UpdateInformationAsync_ForExistingFolder_ShouldCorrectlyUpdateThisFolderName^
-          |FullyQualifiedName~BoxFolderManagerIntegrationTest.CopyAsync_ForExistingFolder_ShouldCopyThisFolder^
-          |FullyQualifiedName~BoxFolderManagerIntegrationTest.DeleteAsync_ForExistingFolder_ShouldDeleteThisFolder^
-          |FullyQualifiedName~BoxFolderManagerIntegrationTest.GetFolderItemsAsync_WithOffsetPagination_ShouldReturnCorrectNumberOfFolderItems^
-          |FullyQualifiedName~BoxFolderManagerIntegrationTest.GetFolderItemsMarkerBasedAsync_WithMarkerPagination_ShouldReturnCorrectNumberOfFolderItems^"
+          dotnet test .\LegacySdk\Box.V2.Test.Integration -f netcoreapp2.0 --logger "console;verbosity=normal" --filter `
+          "FullyQualifiedName~BoxFilesManagerIntegrationTest.UploadAsync_ForSmallFile_ShouldUploadFileToFolder|`
+          FullyQualifiedName~BoxFilesManagerIntegrationTest.DownloadAsync_ForUploadedFile_ShouldReturnSameFileAsTheUploadedFile|`
+          FullyQualifiedName~BoxFilesManagerIntegrationTest.GetInformationAsync_ForCorrectFileId_ShouldReturnSameFileAsUploadedFile|`
+          FullyQualifiedName~BoxFilesManagerIntegrationTest.UploadBigFileInSession_ShouldUploadTheFile_OnlyIfCommitIsCalled|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.CreateAsync_ForCorrectBoxFolderRequest_ShouldCreateNewFolder|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.GetInformationAsync_ForExistingFolder_ShouldReturnInformationRelatedToThisFolder|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.UpdateInformationAsync_ForExistingFolder_ShouldCorrectlyUpdateThisFolderName|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.CopyAsync_ForExistingFolder_ShouldCopyThisFolder|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.DeleteAsync_ForExistingFolder_ShouldDeleteThisFolder|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.GetFolderItemsAsync_WithOffsetPagination_ShouldReturnCorrectNumberOfFolderItems|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.GetFolderItemsMarkerBasedAsync_WithMarkerPagination_ShouldReturnCorrectNumberOfFolderItems"
