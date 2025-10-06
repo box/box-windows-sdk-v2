@@ -3,7 +3,7 @@ name: Build and Test (Legacy)
 on:
   push:
     branches:
-      - main
+      - combined-sdk
   pull_request:
     types: [opened, synchronize]
 

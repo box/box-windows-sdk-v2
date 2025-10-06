@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Lint Code Base
-        uses: github/super-linter@v4
+        uses: super-linter/super-linter@v8
         env:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_YAML: false
@@ -24,5 +24,6 @@ jobs:
           VALIDATE_EDITORCONFIG: false
           VALIDATE_MARKDOWN: false
           NATURAL_LANGUAGE_CONFIG_FILE: .textlintrc
-          DEFAULT_BRANCH: main
+          DEFAULT_BRANCH: combined-sdk
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FILTER_REGEX_EXCLUDE: ".*BoxSdkGen/.*"
