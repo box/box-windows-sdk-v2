@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.1.0](https://github.com/box/box-windows-sdk-v2/compare/v10.0.0...v10.1.0) (2025-10-06)
+
+
+### Bug Fixes
+
+* Allow flexible key-value data in `AiExtractResponse.answer` and `Event.additionalDetails` (box/box-openapi[#556](https://github.com/box/box-windows-sdk-v2/issues/556)) ([#1147](https://github.com/box/box-windows-sdk-v2/issues/1147)) ([c41a444](https://github.com/box/box-windows-sdk-v2/commit/c41a4449a27be4484f986c3260950ae863c1285c))
+* Make `role` parameter of update collaboration optional (box/box-openapi[#557](https://github.com/box/box-windows-sdk-v2/issues/557)) ([#1156](https://github.com/box/box-windows-sdk-v2/issues/1156)) ([8247918](https://github.com/box/box-windows-sdk-v2/commit/824791817bd4c65770f2ef65bb7b0eb3b48b892b))
+
+
+### New Features and Enhancements
+
+* Handle Dictionary with object values deserialization (box/box-codegen[#850](https://github.com/box/box-windows-sdk-v2/issues/850)) ([#1144](https://github.com/box/box-windows-sdk-v2/issues/1144)) ([611b474](https://github.com/box/box-windows-sdk-v2/commit/611b47424ff8773b9aabfb772a65f0ebca754e9e))
+
 ## [10.0.0](https://github.com/box/box-windows-sdk-v2/compare/v5.8.0...v10.0.0) (2025-09-17)
 
 Introducing **`Box SDK v10`**, a major release designed to elevate your developer experience and streamline integration with Box Content Cloud. Currently available as a separate [`sdk-gen`](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen) branch, `v10` will ultimately become the main branch.
