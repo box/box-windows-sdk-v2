@@ -3,7 +3,7 @@ name: Build and Test (Legacy)
 on:
   push:
     branches:
-      - main
+      - combined-sdk
   pull_request:
     types: [opened, synchronize]
 
@@ -28,7 +28,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             2.0.0

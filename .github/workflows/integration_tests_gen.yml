@@ -1,0 +1,84 @@
+name: Build and Test (Generated)
+on:
+  pull_request:
+    branches:
+      - combined-sdk
+jobs:
+  framework:
+    name: Box.V2 (.NET Framework 4.6.2)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: dotnet build ./BoxSdkGen/Box.Sdk.Gen.NetFramework
+      - name: All Tests
+        if: startsWith(github.head_ref, 'codegen-release')
+        env:
+          JWT_CONFIG_BASE_64: ${{ secrets.JWT_CONFIG_BASE_64 }}
+          ADMIN_USER_ID: ${{ secrets.ADMIN_USER_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          USER_ID: ${{ secrets.USER_ID }}
+          ENTERPRISE_ID: ${{ secrets.ENTERPRISE_ID }}
+          BOX_FILE_REQUEST_ID: ${{ secrets.BOX_FILE_REQUEST_ID }}
+          BOX_EXTERNAL_USER_EMAIL: ${{ secrets.BOX_EXTERNAL_USER_EMAIL }}
+          BOX_EXTERNAL_USER_ID: ${{ secrets.BOX_EXTERNAL_USER_ID }}
+          WORKFLOW_FOLDER_ID: ${{ secrets.WORKFLOW_FOLDER_ID }}
+          APP_ITEM_ASSOCIATION_FILE_ID: ${{ secrets.APP_ITEM_ASSOCIATION_FILE_ID }}
+          APP_ITEM_ASSOCIATION_FOLDER_ID: ${{ secrets.APP_ITEM_ASSOCIATION_FOLDER_ID }}
+          APP_ITEM_SHARED_LINK: ${{ secrets.APP_ITEM_SHARED_LINK }}
+          SLACK_AUTOMATION_USER_ID: ${{ secrets.SLACK_AUTOMATION_USER_ID }}
+          SLACK_ORG_ID: ${{ secrets.SLACK_ORG_ID }}
+          SLACK_PARTNER_ITEM_ID: ${{ secrets.SLACK_PARTNER_ITEM_ID }}
+        run: dotnet test -f net462 ./BoxSdkGen/Box.Sdk.Gen.NetFramework.Tests.Integration --settings ./BoxSdkGen/Box.Sdk.Gen.NetFramework.Tests.Integration/TestSettings.runsettings --logger "console;verbosity=normal"
+      - name: Smoke Tests
+        if: "!startsWith(github.head_ref, 'codegen-release')"
+        env:
+          JWT_CONFIG_BASE_64: ${{ secrets.JWT_CONFIG_BASE_64 }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          USER_ID: ${{ secrets.USER_ID }}
+          ENTERPRISE_ID: ${{ secrets.ENTERPRISE_ID }}
+        run: dotnet test -f net462 ./BoxSdkGen/Box.Sdk.Gen.NetFramework.Tests.Integration --settings ./BoxSdkGen/Box.Sdk.Gen.NetFramework.Tests.Integration/TestSettings.runsettings --logger "console;verbosity=normal" --filter "AuthManagerTests|FilesManagerTests|DownloadsManagerTests|UploadsManagerTests"
+  core:
+    name: Box.V2.Core (.NET 8)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Build
+        run: dotnet build ./BoxSdkGen/Box.Sdk.Gen.Net
+      - name: All Tests
+        if: startsWith(github.head_ref, 'codegen-release')
+        env:
+          JWT_CONFIG_BASE_64: ${{ secrets.JWT_CONFIG_BASE_64 }}
+          ADMIN_USER_ID: ${{ secrets.ADMIN_USER_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          USER_ID: ${{ secrets.USER_ID }}
+          ENTERPRISE_ID: ${{ secrets.ENTERPRISE_ID }}
+          BOX_FILE_REQUEST_ID: ${{ secrets.BOX_FILE_REQUEST_ID }}
+          BOX_EXTERNAL_USER_EMAIL: ${{ secrets.BOX_EXTERNAL_USER_EMAIL }}
+          BOX_EXTERNAL_USER_ID: ${{ secrets.BOX_EXTERNAL_USER_ID }}
+          WORKFLOW_FOLDER_ID: ${{ secrets.WORKFLOW_FOLDER_ID }}
+          APP_ITEM_ASSOCIATION_FILE_ID: ${{ secrets.APP_ITEM_ASSOCIATION_FILE_ID }}
+          APP_ITEM_ASSOCIATION_FOLDER_ID: ${{ secrets.APP_ITEM_ASSOCIATION_FOLDER_ID }}
+          APP_ITEM_SHARED_LINK: ${{ secrets.APP_ITEM_SHARED_LINK }}
+          SLACK_AUTOMATION_USER_ID: ${{ secrets.SLACK_AUTOMATION_USER_ID }}
+          SLACK_ORG_ID: ${{ secrets.SLACK_ORG_ID }}
+          SLACK_PARTNER_ITEM_ID: ${{ secrets.SLACK_PARTNER_ITEM_ID }}
+        run: dotnet test -f net8.0 ./BoxSdkGen/Box.Sdk.Gen.Tests.Integration.Net --settings ./BoxSdkGen/Box.Sdk.Gen.Tests.Integration.Net/TestSettings.runsettings --logger "console;verbosity=normal" /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+      - name: Smoke Tests
+        if: "!startsWith(github.head_ref, 'codegen-release')"
+        env:
+          JWT_CONFIG_BASE_64: ${{ secrets.JWT_CONFIG_BASE_64 }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          USER_ID: ${{ secrets.USER_ID }}
+          ENTERPRISE_ID: ${{ secrets.ENTERPRISE_ID }}
+        run: dotnet test -f net8.0 ./BoxSdkGen/Box.Sdk.Gen.Tests.Integration.Net --settings ./BoxSdkGen/Box.Sdk.Gen.Tests.Integration.Net/TestSettings.runsettings --logger "console;verbosity=normal" --filter "AuthManagerTests|FilesManagerTests|DownloadsManagerTests|UploadsManagerTests"

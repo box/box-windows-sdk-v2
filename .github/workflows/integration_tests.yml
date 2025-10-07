@@ -3,7 +3,7 @@ name: Integration tests (Legacy)
 on:
   push:
     branches:
-      - main
+      - combined-sdk
   pull_request:
     types: [opened, synchronize]
 
@@ -16,10 +16,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "2.0.0"
-      - name: Test
+      - name: All Tests
+        if: startsWith(github.head_ref, 'codegen-release')
         env:
           INTEGRATION_TESTING_CONFIG: ${{ secrets.INTEGRATION_TESTING_CONFIG }}
-        run: dotnet test .\LegacySdk\Box.V2.Test.Integration -f netcoreapp2.0
+        run: dotnet test .\LegacySdk\Box.V2.Test.Integration -f netcoreapp2.0  --logger "console;verbosity=normal"
+      - name: Smoke Tests
+        if: "!startsWith(github.head_ref, 'codegen-release')"
+        env:
+          INTEGRATION_TESTING_CONFIG: ${{ secrets.INTEGRATION_TESTING_CONFIG }}
+        run: |
+          dotnet test .\LegacySdk\Box.V2.Test.Integration -f netcoreapp2.0 --logger "console;verbosity=normal" --filter `
+          "FullyQualifiedName~BoxFilesManagerIntegrationTest.UploadAsync_ForSmallFile_ShouldUploadFileToFolder|`
+          FullyQualifiedName~BoxFilesManagerIntegrationTest.DownloadAsync_ForUploadedFile_ShouldReturnSameFileAsTheUploadedFile|`
+          FullyQualifiedName~BoxFilesManagerIntegrationTest.GetInformationAsync_ForCorrectFileId_ShouldReturnSameFileAsUploadedFile|`
+          FullyQualifiedName~BoxFilesManagerIntegrationTest.UploadBigFileInSession_ShouldUploadTheFile_OnlyIfCommitIsCalled|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.CreateAsync_ForCorrectBoxFolderRequest_ShouldCreateNewFolder|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.GetInformationAsync_ForExistingFolder_ShouldReturnInformationRelatedToThisFolder|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.UpdateInformationAsync_ForExistingFolder_ShouldCorrectlyUpdateThisFolderName|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.CopyAsync_ForExistingFolder_ShouldCopyThisFolder|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.DeleteAsync_ForExistingFolder_ShouldDeleteThisFolder|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.GetFolderItemsAsync_WithOffsetPagination_ShouldReturnCorrectNumberOfFolderItems|`
+          FullyQualifiedName~BoxFolderManagerIntegrationTest.GetFolderItemsMarkerBasedAsync_WithMarkerPagination_ShouldReturnCorrectNumberOfFolderItems"
