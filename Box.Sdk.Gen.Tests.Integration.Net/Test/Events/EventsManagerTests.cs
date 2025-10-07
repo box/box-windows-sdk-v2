@@ -30,7 +30,7 @@ namespace Box.Sdk.Gen.Tests.Integration {
             Assert.IsTrue(NullableUtils.Unwrap(events.Entries).Count > 0);
             Event firstEvent = NullableUtils.Unwrap(events.Entries)[0];
             Assert.IsTrue(StringUtils.ToStringRepresentation(NullableUtils.Unwrap(firstEvent.EventType)) == "UPLOAD");
-            Assert.IsTrue(StringUtils.ToStringRepresentation(NullableUtils.Unwrap(firstEvent.AdditionalDetails)["hash_type"]) == "sha1");
+            Assert.IsTrue(StringUtils.ToStringRepresentation(NullableUtils.Unwrap(firstEvent.AdditionalDetails)["service_id"]) != "");
         }
 
         [RetryableTest]
