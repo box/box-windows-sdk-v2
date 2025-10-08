@@ -44,7 +44,7 @@
   </ItemGroup>
     
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(IncludePdbs)' != 'true'">
     <_PackageFiles Include="bin\Release\net8.0\Box.V2.Core.dll">
         <BuildAction>None</BuildAction>
         <PackagePath>lib\net8.0</PackagePath>
@@ -61,6 +61,26 @@
       <BuildAction>None</BuildAction>
       <PackagePath>lib\netstandard2.0</PackagePath>
     </_PackageFiles>
+  </ItemGroup>
+  
+  
+  <ItemGroup Condition="'$(IncludePdbs)' == 'true'">
+    <None Include="bin\Release\net8.0\Box.V2.Core.pdb">
+      <Pack>true</Pack>
+      <PackagePath>lib/net8.0/</PackagePath>
+    </None>
+    <None Include="bin\Release\net8.0\Box.Sdk.Gen.Net.pdb">
+      <Pack>true</Pack>
+      <PackagePath>lib/net8.0/</PackagePath>
+    </None>
+    <None Include="bin\Release\netstandard2.0\Box.V2.Core.pdb">
+      <Pack>true</Pack>
+      <PackagePath>lib/netstandard2.0/</PackagePath>
+    </None>
+    <None Include="bin\Release\netstandard2.0\Box.Sdk.Gen.NetStandard.pdb">
+      <Pack>true</Pack>
+      <PackagePath>lib/netstandard2.0/</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
