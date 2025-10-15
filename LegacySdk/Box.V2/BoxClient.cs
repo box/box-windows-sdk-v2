@@ -13,6 +13,8 @@ namespace Box.V2
     /// The central entrypoint for all SDK interaction. The BoxClient houses all of the API endpoints and are represented 
     /// as resource managers for each distinct endpoint
     /// </summary>
+    [Obsolete("This class and the whole Box.V2 namespace are getting deprecated. They will be removed from the SDK in the future. " +
+        "Use BoxClient from Box.Sdk.Gen namespace instead.")]
     public class BoxClient : IBoxClient
     {
         protected readonly IBoxService _service;
