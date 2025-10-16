@@ -16,7 +16,7 @@ This project adheres to the [Box Open Code of Conduct](http://opensource.box.com
 
 ## How to contribute
 
-* **File an issue** - if you found a bug, want to request an enhancement, or want to implement something (bug fix or feature).
+* **File an issue** - if you found a bug, want to request an enhancement, or want to implement something (bugfix or feature).
 * **Send a pull request** - if you want to contribute code. Please be sure to file an issue first.
 
 ## Pull request best practices
@@ -74,7 +74,7 @@ Shown below are examples of the release type that will be done based on a commit
 
 #### Commit Types
 
-"Semantic versioning" means that changes to the version number of the package (e.g. `3.42.11` to `3.43.0`) are done according to rules that indicate how the change will affect consumers. Read more on the [semver page](https://semver.org/).
+"Semantic versioning" means that changes to the version number of the package (e.g. `3.42.11` to `3.43.0`) are done according to rules that indicate how the change will affect consumers. Read more on the [SemVer page](https://semver.org/).
 
 The version number is broken into 3 positions &mdash; `Major.Minor.Patch`. In semantic release terms, changes to the numbers follow `Breaking.Feature.Fix`. The `release` script parses commit messages and decides what type of release to make based on the types of commits detected since the last release.
 
@@ -117,4 +117,4 @@ Make sure that all tests are passing before submitting a pull request by running
 
 Send the pull request from your feature branch to us. Be sure to include a description that lets us know what work you did.
 
-Keep in mind that we like to see one issue addressed per pull request, as this helps keep our git history clean and we can more easily track down issues.
+Keep in mind that we like to see one issue addressed per pull request, as this helps keep our Git history clean and we can more easily track down issues.
