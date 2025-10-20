@@ -189,7 +189,7 @@ Developer Token, OAuth 2.0 and Client Credentials Grant.
 You can find detailed instructions and example code for each authentication method in the following documentation:
 
 - [Authentication for `Box.Sdk.Gen` namespace](./docs/BoxSdkGen/Authentication.md)
-- [Authentication for `Box.V2` namespace](./docs/BoxSDK/authentication.md)
+- [Authentication for `Box.V2` namespace](./docs/authentication.md)
 
 # Using both Box.Sdk.Gen and Box.V2 namespaces simultaneously
 
