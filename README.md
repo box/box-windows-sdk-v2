@@ -84,7 +84,7 @@ and the new generated namespace (`Box.Sdk.Gen`) depends on how you want to integ
 
 ## Nuget
 
-You can find `Box.V2.Core` package, and it's versions [on nuget](https://www.nuget.org/packages/Box.V2.Core). You can install this SDK via powershell:
+You can find `Box.V2.Core` package, and it's versions [on nuget](https://www.nuget.org/packages/Box.V2.Core). You can install this SDK via PowerShell:
 
 ```pwsh
 Install-Package Box.V2.Core --version 6.x.x
@@ -98,7 +98,7 @@ Alternatively, you can manually add it to the `.csproj` file as a reference:
 </ItemGroup>
 ```
 
-`Box.V2` version of the SDK can also be found [on nuget](https://www.nuget.org/packages/Box.V2). If you were using `Box.V2` previously, consider migrating to `Box.V2.Core`. If that is not possible, you can still keep using `Box.V2` by installing it with the following powershell command:
+`Box.V2` version of the SDK can also be found [on nuget](https://www.nuget.org/packages/Box.V2). If you were using `Box.V2` previously, consider migrating to `Box.V2.Core`. If that is not possible, you can still keep using `Box.V2` by installing it with the following PowerShell command:
 
 ```pwsh
 Install-Package Box.V2 --version 6.x.x
