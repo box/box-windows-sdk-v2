@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/box/box-windows-sdk-v2/compare/v5.8.0...v6.0.0) (2025-10-21)
+
+
+### **Bug Fixes:**
+
+* Allow flexible key-value data in `AiExtractResponse.answer` and `Event.additionalDetails` (box/box-openapi[#556](https://github.com/box/box-windows-sdk-v2/issues/556)) ([#1149](https://github.com/box/box-windows-sdk-v2/issues/1149)) ([1dba172](https://github.com/box/box-windows-sdk-v2/commit/1dba1722bf17b54e5d1756cc4f9968a338ab5995))
+* Make `role` parameter of update collaboration optional (box/box-openapi[#557](https://github.com/box/box-windows-sdk-v2/issues/557)) ([#1155](https://github.com/box/box-windows-sdk-v2/issues/1155)) ([e9625d4](https://github.com/box/box-windows-sdk-v2/commit/e9625d4d97d5fc7b8788d345c2436c8c365c028c))
+
+
+### **New Features and Enhancements:**
+
+* Add `BoxSdkGen` related projects (box/box-codegen[#835](https://github.com/box/box-windows-sdk-v2/issues/835)) ([#1103](https://github.com/box/box-windows-sdk-v2/issues/1103)) ([c9e1ee3](https://github.com/box/box-windows-sdk-v2/commit/c9e1ee3b704447565af8c3cd7261c181aba46a2d))
+* Allow injecting custom decryption mechanism for `jwt` ([#974](https://github.com/box/box-windows-sdk-v2/issues/974)) ([b877355](https://github.com/box/box-windows-sdk-v2/commit/b877355493b60dc6f9c1a576927d6e0c62ec27f3))
+* Handle Dictionary with object values deserialization (box/box-codegen[#850](https://github.com/box/box-windows-sdk-v2/issues/850)) ([#1145](https://github.com/box/box-windows-sdk-v2/issues/1145)) ([3fab7ea](https://github.com/box/box-windows-sdk-v2/commit/3fab7eab933358517e8bfc1baa19d896b73538b5))
+* include pdb files in the package ([#1168](https://github.com/box/box-windows-sdk-v2/issues/1168)) ([260bfc6](https://github.com/box/box-windows-sdk-v2/commit/260bfc62817760749c601780884f4eeb5974efb7))
+
 ## [5.8.0](https://github.com/box/box-windows-sdk-v2/compare/v5.7.1...v5.8.0) (2024-07-22)
 
 
@@ -449,21 +465,3 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
