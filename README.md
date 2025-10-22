@@ -16,6 +16,7 @@
 - [Supported versions](#supported-versions)
   - [Version v6](#version-v6)
   - [Version v10](#version-v10)
+  - [Deprecation of `Box.V2`](#deprecation-of-boxv2)
   - [Which Version Should I Use?](#which-version-should-i-use)
 - [Installing](#installing)
   - [Nuget](#nuget)
@@ -27,7 +28,7 @@
 - [Documentation](#documentation)
 - [Migration guides](#migration-guides)
 - [Versioning](#versioning)
-  - [Version schedule](#version-schedule)
+    - [Version schedule](#version-schedule)
 - [Contributing](#contributing)
 - [Questions, Bugs, and Feature Requests?](#questions-bugs-and-feature-requests)
   - [Copyright and License](#copyright-and-license)
@@ -43,10 +44,6 @@ The `Box.Sdk.Gen` namespace is available in two major supported versions: v6 and
 
 In v6 of the Box Windows SDK V2, we are introducing a version that consolidates both the manually written namespace (`Box.V2`)
 and the new generated namespace (`Box.Sdk.Gen`). This allows developers to use both namespaces simultaneously within a single project
-
-Version v6 of the Box Windows SDK V2 will be supported until 2027. During this period,
-the `Box.V2` namespace will be marked as deprecated and will receive only bug fixes and security patches.
-All new features and support for new Box APIs will be provided exclusively in the `Box.Sdk.Gen` namespace.
 
 The codebase for v6 of the Box Windows SDK V2 is currently available on the [combined-sdk](https://github.com/box/box-windows-sdk-v2/tree/combined-sdk) branch.
 Migration guide which would help with migration from `Box.V2` to `Box.Sdk.Gen` can be found [here](./migration-guides/from-dotnet-sdk-gen-v1-to-box-windows-sdk.md).
@@ -65,6 +62,11 @@ Version v10 is intended for:
 
 - New users of the Box Windows SDK V2.
 - Developers already working with the generated Box Windows SDK V2 previously available under the [Box Dotnet SDK Gen repository](https://github.com/box/box-dotnet-sdk-gen).
+
+## Deprecation of `Box.V2`
+
+The `Box.V2` namespace will be marked as deprecated, will receive only bug fixes and security patches, and reach end of support in 2027.
+All new features and support for new Box APIs will be provided exclusively in the `Box.Sdk.Gen` namespace.
 
 ## Which Version Should I Use?
 
@@ -225,14 +227,14 @@ We highly recommend upgrading to the latest SDK major release at the earliest co
 
 ### Version schedule
 
-| Version | Supported Environments                   | State     | First Release | EOL/Terminated |
-| ------- | ---------------------------------------- | --------- | ------------- | -------------- |
-| 10      | .NET Framework 4.6.2+ and .NET 8+        | Supported | 17 Sep 2025   | TBD            |
-| 6       | .NET Framework 4.6.2+ and .NET 8+        | Supported | Q4 2025       | 2027           |
-| 5       | .NET Framework 4.6.2+ and .NET Core 2.0+ | Supported | 12 Jan 2023   | 23 Oct 2025    |
-| 4       | .NET Framework 4.5+ and .NET Core 2.0+   | EOL       | 02 Nov 2021   | 12 Jan 2023    |
-| 3       |                                          | EOL       | 28 Jul 2017   | 02 Nov 2021    |
-| 2       |                                          | EOL       | 05 Nov 2015   | 28 Jul 2017    |
+| Version | Supported Environments                   | State     | First Release | EOL/Terminated         |
+| ------- | ---------------------------------------- | --------- | ------------- | ---------------------- |
+| 10      | .NET Framework 4.6.2+ and .NET 8+        | Supported | 17 Sep 2025   | TBD                    |
+| 6       | .NET Framework 4.6.2+ and .NET 8+        | Supported | Q4 2025       | 2027 or v7 is released |
+| 5       | .NET Framework 4.6.2+ and .NET Core 2.0+ | Supported | 12 Jan 2023   | 23 Oct 2025            |
+| 4       | .NET Framework 4.5+ and .NET Core 2.0+   | EOL       | 02 Nov 2021   | 12 Jan 2023            |
+| 3       |                                          | EOL       | 28 Jul 2017   | 02 Nov 2021            |
+| 2       |                                          | EOL       | 05 Nov 2015   | 28 Jul 2017            |
 
 # Contributing
 
