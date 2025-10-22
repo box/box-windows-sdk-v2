@@ -2,7 +2,7 @@
   <img src="https://github.com/box/sdks/blob/master/images/box-dev-logo.png" alt= “box-dev-logo” width="30%" height="50%">
 </p>
 
-# Box Windows V2 SDK
+# Box Windows V2 SDK v6
 
 [![Project Status](http://opensource.box.com/badges/active.svg)](http://opensource.box.com/badges)
 ![Platform Framework](https://img.shields.io/badge/.NET%20Framework-%3E%3D4.6.2-blue)
@@ -13,6 +13,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+- [Introduction](#introduction)
 - [Supported versions](#supported-versions)
   - [Version v6](#version-v6)
   - [Version v10](#version-v10)
@@ -35,9 +36,24 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Introduction
+
+We are excited to introduce the v10 major release of the Box Windows V2 SDK,
+designed to elevate the developer experience and streamline your integration with the Box Content Cloud.
+
+With this SDK, we provide the `Box.Sdk.Gen` namespace, which gives you access to:
+
+1. Full API Support: The new generation of Box SDKs empowers developers with complete coverage of the Box API ecosystem. You can now access all the latest features and functionalities offered by Box, allowing you to build even more sophisticated and feature-rich applications.
+2. Rapid API Updates: Say goodbye to waiting for new Box APIs to be incorporated into the SDK. With our new auto-generation development approach, we can now add new Box APIs to the SDK at a much faster pace (in a matter of days). This means you can leverage the most up-to-date features in your applications without delay.
+3. Embedded Documentation: We understand that easy access to information is crucial for developers. With our new approach, we have included comprehensive documentation for all objects and parameters directly in the source code of the SDK. This means you no longer need to look up this information on the developer portal, saving you time and streamlining your development process.
+4. Enhanced Convenience Methods: Our commitment to enhancing your development experience continues with the introduction of convenience methods. These methods cover various aspects such as chunk uploads, classification, and much more.
+5. Seamless Start: The new SDKs integrate essential functionalities like authentication, automatic retries with exponential backoff, exception handling, request cancellation, and type checking, enabling you to focus solely on your application's business logic.
+
+Embrace the new generation of Box SDKs and unlock the full potential of the Box Content Cloud.
+
 # Supported versions
 
-To enhance developer experience, provide full Box API coverage, and rapid updates we have introduced the new generated codebase through the `Box.Sdk.Gen` namespace.
+To enhance developer experience, we have introduced the new generated codebase through the `Box.Sdk.Gen` namespace.
 The `Box.Sdk.Gen` namespace is available in two major supported versions: v6 and v10.
 
 ## Version v6
@@ -248,7 +264,7 @@ back to you. If you have general questions about the Box API, you can post to th
 
 ## Copyright and License
 
-Copyright 2018 Box, Inc. All rights reserved.
+Copyright 2025 Box, Inc. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
