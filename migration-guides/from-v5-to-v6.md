@@ -6,8 +6,8 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
   - [How to migrate](#how-to-migrate)
-- [Dropping support for .NET 6](#supported-environments)
-  - [How to migrate](#how-to-migrate)
+- [Dropping support for .NET 6](#dropping-support-for-net-6)
+  - [How to migrate](#how-to-migrate-1)
 - [Highlighting the Key Differences](#highlighting-the-key-differences)
 - [Using both `Box.Sdk.Gen` and `Box.V2` namespaces](#using-both-boxsdkgen-and-boxv2-namespaces)
 
