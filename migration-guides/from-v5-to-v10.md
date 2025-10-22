@@ -5,6 +5,7 @@
 
 - [Introduction](#introduction)
 - [Installation](#installation)
+- [Dropping support for .NET 6](#dropping-support-for-net-6)
 - [Highlighting the Key Differences](#highlighting-the-key-differences)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -58,6 +59,12 @@ Alternatively, you can manually add it to the `.csproj` file as a reference:
   <PackageReference Include="Box.V2" Version="10.x.x" />
 </ItemGroup>
 ```
+
+## Dropping support for .NET 6
+
+With v10 of `Box Windows SDK V2`, support for .NET 6 has been dropped.
+We follow the official [.NET release lifecycle](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core).
+Since November 12, 2024, .NET 6 is no longer officially supported. While it may still be possible to compile and use this SDK under .NET 6, we do not provide support for issues encountered on that version.
 
 ## Highlighting the Key Differences
 
