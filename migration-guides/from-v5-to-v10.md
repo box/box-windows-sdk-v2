@@ -24,12 +24,12 @@ More information and benefits of using the new can be found in the
 The library is available on nuget in form of [Box.V2.Core](https://www.nuget.org/packages/Box.V2.Core) and [Box.V2](https://www.nuget.org/packages/Box.V2) package.
 Using `Box.V2.Core` artifact should be preferred as it is compatible with the same target frameworks as `Box.V2` and more.
 
-Soon we are going to introduce v6 version of Box Windows SDK V2 that will combine namespace `Box.V2` from
-the v5 and `Box.Sdk.Gen` namespace from the v10 version of the SDK so that code from both versions could be used in the same project.
+We have also introduced v6 version of Box Windows SDK V2 that consolidates both the manually maintained `Box.V2` namespace from v5
+and the new, auto-generated `Box.Sdk.Gen` namespace from v10.
 If you would like to use a feature available only in the new SDK, you won't need to necessarily migrate all your code
 to use generated SDK at once. You will be able to use a new feature from the `Box.Sdk.Gen` namespace,
-while keeping the rest of your code unchanged. Note that it may be required to use fully qualified class names
-to avoid conflicts between two packages. However, we recommend to fully migrate to the v10 of the SDK eventually.
+while keeping the rest of your code unchanged. However, we recommend to fully migrate to the v10 of the SDK eventually.
+More information about v6 version can be found in the [migration guide from v5 to v6](./from-v5-to-v6.md).
 
 You can find `Box.V2.Core` package, and it's latest version [on nuget](https://www.nuget.org/packages/Box.V2.Core). You can install this SDK via powershell:
 
