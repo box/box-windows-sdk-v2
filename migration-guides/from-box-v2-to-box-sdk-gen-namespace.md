@@ -5,7 +5,7 @@
 
 - [Introduction](#introduction)
   - [Who is this for?](#who-is-this-for)
-  - [Migration at a glance](#migration-at-a-glance)
+- [Migration at a glance](#migration-at-a-glance)
 - [Highlighting the Key Differences](#highlighting-the-key-differences)
   - [Nullable reference types support](#nullable-reference-types-support)
   - [Self-documenting object creation](#self-documenting-object-creation)
