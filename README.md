@@ -38,7 +38,7 @@
 
 # Introduction
 
-We are excited to introduce the v10 major release of the Box Windows V2 SDK,
+We are excited to introduce the v6 major release of the Box Windows V2 SDK,
 designed to elevate the developer experience and streamline your integration with the Box Content Cloud.
 
 With this SDK version, alongside the existing `Box.V2` namespace, we’re introducing a new `Box.Sdk.Gen` namespace, which gives you access to:
