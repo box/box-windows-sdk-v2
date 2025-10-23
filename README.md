@@ -191,7 +191,7 @@ We highly recommend upgrading to the latest SDK major release at the earliest co
 | ------- | ---------------------------------------- | --------- | ------------- | ---------------------- |
 | 10      | .NET Framework 4.6.2+ and .NET 8+        | Supported | 17 Sep 2025   | TBD                    |
 | 6       | .NET Framework 4.6.2+ and .NET 8+        | Supported | 23 Oct 2025   | 2027 or v7 is released |
-| 5       | .NET Framework 4.6.2+ and .NET Core 2.0+ | Supported | 12 Jan 2023   | 23 Oct 2025            |
+| 5       | .NET Framework 4.6.2+ and .NET Core 2.0+ | EOL       | 12 Jan 2023   | 23 Oct 2025            |
 | 4       | .NET Framework 4.5+ and .NET Core 2.0+   | EOL       | 02 Nov 2021   | 12 Jan 2023            |
 | 3       |                                          | EOL       | 28 Jul 2017   | 02 Nov 2021            |
 | 2       |                                          | EOL       | 05 Nov 2015   | 28 Jul 2017            |
