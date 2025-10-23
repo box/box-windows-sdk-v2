@@ -157,6 +157,8 @@ namespace Box.Sdk.Gen {
 
         public IDocgenManager Docgen { get; }
 
+        public IEnterpriseConfigurationsManager EnterpriseConfigurations { get; }
+
         public IHubsManager Hubs { get; }
 
         public IHubCollaborationsManager HubCollaborations { get; }
@@ -246,6 +248,7 @@ namespace Box.Sdk.Gen {
             AiStudio = new AiStudioManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             DocgenTemplate = new DocgenTemplateManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             Docgen = new DocgenManager(networkSession: this.NetworkSession) { Auth = this.Auth };
+            EnterpriseConfigurations = new EnterpriseConfigurationsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             Hubs = new HubsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             HubCollaborations = new HubCollaborationsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             HubItems = new HubItemsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
