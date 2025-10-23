@@ -10,7 +10,7 @@ Introducing a new major version of Box Windows SDK V2 `v6` that includes two nam
 
 - With `v6` of Box Windows SDK V2, support for .NET 6 has been dropped. We follow the official [.NET Release Lifecycle](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core). Since November 12, 2024, .NET 6 is no longer officially supported. While it may still be possible to compile and use this SDK under .NET 6, we do not provide support for issues encountered on that version.
 
-For more information about migrating to v6 visit [v5 to v6 migration guide](https://github.com/box/box-windows-sdk-v2/blob/combined-sdk/migration-guides/from-v5-to-v6.md#dropping-support-for-net-6)
+For more information about migrating to v6 visit [v5 to v6 migration guide](https://github.com/box/box-windows-sdk-v2/blob/combined-sdk/migration-guides/from-v5-to-v6.md)
 
 ### What's New in `v6`
 
