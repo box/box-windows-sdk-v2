@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Box.V2.Core.Legacy</PackageId>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>5.8.0</Version>
+    <Version>6.0.0</Version>
     <Description>Box SDK for v2 of the Box API. The SDK is targeting .Net Standard 2.0</Description>
     <Authors>Box Inc.</Authors>
 	  <PackageProjectUrl>https://github.com/box/box-windows-sdk-v2</PackageProjectUrl>

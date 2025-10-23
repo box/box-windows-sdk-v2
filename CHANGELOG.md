@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/box/box-windows-sdk-v2/compare/v5.8.0...v6.0.0) (2025-10-23)
+
+Introducing a new major version of Box Windows SDK V2 `v6` that includes two namespaces — the manually maintained namespace and the generated namespace. The coexisting namespaces provide easier access to the latest Box API features and support gradual migration to the standalone generated namespace.
+
+### Breaking Changes
+
+- With `v6` of Box Windows SDK V2, support for .NET 6 has been dropped. We follow the official [.NET Release Lifecycle](https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core). Since November 12, 2024, .NET 6 is no longer officially supported. While it may still be possible to compile and use this SDK under .NET 6, we do not provide support for issues encountered on that version.
+
+For more information about migrating to v6 visit [v5 to v6 migration guide](https://github.com/box/box-windows-sdk-v2/blob/combined-sdk/migration-guides/from-v5-to-v6.md)
+
+### What's New in `v6`
+
+With this SDK version, alongside the existing `Box.V2` namespace, we’re introducing a new `Box.Sdk.Gen` namespace, which gives you access to:
+
+- **Full API Support** — Complete coverage of the Box API ecosystem, giving you access to all the latest features and functionalities to build feature-rich applications.  
+
+- **Rapid API Updates** — Our new auto-generation approach enables Box API additions within days, ensuring you can leverage the most up-to-date features without delay.  
+
+- **Embedded Documentation** — All objects and parameters are documented directly in the SDK source code, keeping essential information in one place.  
+
+- **Enhanced Convenience Methods** — New methods for authentication, chunk uploads, automatic retries, retry strategy, and more.
+
+### Important Notes
+
+This version allows you to gradually migrate your codebase to the `Box.Sdk.Gen` namespace. The key differences between the namespaces are documented in the [namespace migration guide](https://github.com/box/box-windows-sdk-v2/blob/combined-sdk/migration-guides/from-box-v2-to-box-sdk-gen-namespace.md).
+
+Ultimately, we recommend to migrate to `v10` which includes only the generated namespace `Box.Sdk.Gen`. To migrate from `v6` to `v10` follow this [migration guide](https://github.com/box/box-windows-sdk-v2/blob/combined-sdk/migration-guides/from-v6-to-v10.md). 
+
+For more information, see the [SDK versioning strategy document](https://developer.box.com/guides/tooling/sdks/sdk-versioning/). Follow developer changelog for future updates.
+
 ## [5.8.0](https://github.com/box/box-windows-sdk-v2/compare/v5.7.1...v5.8.0) (2024-07-22)
 
 
@@ -449,21 +479,3 @@ All notable changes to this project will be documented in this file. See [standa
 - New operation on [Metadata](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxMetadataManager.cs#L1) endpoint
 - Progress on [Chunked Upload New File](https://github.com/box/box-windows-sdk-v2/blob/main/Box.V2/Managers/BoxFilesManager.cs#L463)
 - Minor bug fixes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
