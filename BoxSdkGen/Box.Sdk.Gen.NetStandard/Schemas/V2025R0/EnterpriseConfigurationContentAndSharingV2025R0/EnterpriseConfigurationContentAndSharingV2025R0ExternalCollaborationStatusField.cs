@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Box.Sdk.Gen.Internal;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Schemas {
@@ -13,14 +12,13 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("_isvalueSet")]
         protected bool _isValueSet { get; set; }
 
-        protected StringEnum<EnterpriseConfigurationContentAndSharingV2025R0ExternalCollaborationStatusFieldValueField> _value { get; set; }
+        protected string _value { get; set; }
 
         /// <summary>
         /// The external collaboration status.
         /// </summary>
         [JsonPropertyName("value")]
-        [JsonConverter(typeof(StringEnumConverter<EnterpriseConfigurationContentAndSharingV2025R0ExternalCollaborationStatusFieldValueField>))]
-        public StringEnum<EnterpriseConfigurationContentAndSharingV2025R0ExternalCollaborationStatusFieldValueField> Value { get => _value; set { _value = value; _isValueSet = true; } }
+        public string Value { get => _value; set { _value = value; _isValueSet = true; } }
 
         public EnterpriseConfigurationContentAndSharingV2025R0ExternalCollaborationStatusField() {
             
