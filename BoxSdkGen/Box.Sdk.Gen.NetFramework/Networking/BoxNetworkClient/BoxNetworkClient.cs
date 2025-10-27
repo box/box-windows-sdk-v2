@@ -50,10 +50,10 @@ namespace Box.Sdk.Gen.Internal
 
             var client = GetOrCreateHttpClient(networkSession);
 
-            var attempt = 1;
-
-            var cancellationToken = options.CancellationToken != default
-                ? options.CancellationToken : CancellationToken.None;
+            var retryAttempt = 1;
+            var networkExceptionRetryAttempt = 1;
+            var cancellationToken = options.CancellationToken == default
+                ? options.CancellationToken : default;
 
             bool isStreamResponse = options.ResponseFormat == ResponseFormat.Binary;
 
@@ -75,20 +75,6 @@ namespace Box.Sdk.Gen.Internal
 
                     var url = response.RequestMessage?.RequestUri?.ToString() ?? request.RequestUri?.ToString() ?? options.Url;
                     var statusCode = (int)response.StatusCode;
-                    var isRetryAfterPresent = response.Headers.Contains("retry-after");
-                    var isRetryAfterWithAcceptedPresent = isRetryAfterPresent && statusCode == 202;
-
-                    if (response.IsSuccessStatusCode && (!isRetryAfterWithAcceptedPresent || attempt >= networkSession.RetryAttempts))
-                    {
-                        seekableStream?.Dispose();
-                        return await ReadResponse(isStreamResponse, response, statusCode, url, cancellationToken).ConfigureAwait(false);
-                    }
-
-                    if (attempt >= networkSession.RetryAttempts)
-                    {
-                        seekableStream?.Dispose();
-                        throw new BoxSdkException($"Max retry attempts excedeed.", DateTimeOffset.UtcNow);
-                    }
 
                     if (statusCode >= 300 & statusCode < 400)
                     {
@@ -113,24 +99,26 @@ namespace Box.Sdk.Gen.Internal
                         { Auth = sameOrigin ? options.Auth : null, NetworkSession = networkSession }).ConfigureAwait(false);
                     }
 
-                    if (statusCode == 401)
-                    {
-                        if (options.Auth != null)
-                        {
-                            await options.Auth.RefreshTokenAsync(networkSession).ConfigureAwait(false);
-                        }
-                    }
-                    else if (statusCode == 429 || statusCode >= 500 || isRetryAfterWithAcceptedPresent)
-                    {
-                        var retryTimeout = isRetryAfterPresent ?
-                            int.Parse(response.Headers.GetValues("retry-after").First()) :
-                            networkSession.RetryStrategy.GetRetryTimeout(attempt);
-
-                        await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(retryTimeout)).ConfigureAwait(false);
-                    }
-                    else if (statusCode == 407)
+                    if (statusCode == 407)
                     {
                         throw new BoxSdkException($"Proxy authorization required. Check provided credentials in proxy configuration.", DateTimeOffset.UtcNow);
+                    }
+
+                    var fetchResponse = await ReadResponse(isStreamResponse, response, statusCode, url, cancellationToken).ConfigureAwait(false);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        seekableStream?.Dispose();
+                        return fetchResponse;
+                    }
+
+                    var shouldRetry = await networkSession.RetryStrategy.ShouldRetryAsync(options, fetchResponse, retryAttempt).ConfigureAwait(false);
+
+                    if (shouldRetry)
+                    {
+                        var retryAfter = networkSession.RetryStrategy.RetryAfter(options, fetchResponse, retryAttempt);
+
+                        await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(retryAfter)).ConfigureAwait(false);
                     }
                     else
                     {
@@ -139,31 +127,36 @@ namespace Box.Sdk.Gen.Internal
                     }
 
                     response?.Dispose();
+
+                    retryAttempt++;
                 }
                 else
                 {
+                    var fetchResponse = new FetchResponse(0, new Dictionary<string, string>());
+                    var shouldRetry = await networkSession.RetryStrategy.ShouldRetryAsync(options, fetchResponse, networkExceptionRetryAttempt).ConfigureAwait(false);
                     if (!result.IsRetryable)
                     {
                         seekableStream?.Dispose();
                         throw new BoxSdkException($"Request was not retried. Inner exception: {result.Exception?.ToString()}", DateTimeOffset.UtcNow);
                     }
-                    else if (attempt >= networkSession.RetryAttempts)
+                    else if (!shouldRetry)
                     {
                         seekableStream?.Dispose();
                         throw new BoxSdkException($"Network error. Max retry attempts excedeed. {result.Exception?.ToString()}", DateTimeOffset.UtcNow);
                     }
 
-                    var retryTimeout = networkSession.RetryStrategy.GetRetryTimeout(attempt);
-                    await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(retryTimeout)).ConfigureAwait(false);
+                    var retryAfter = networkSession.RetryStrategy.RetryAfter(options, fetchResponse, networkExceptionRetryAttempt);
+
+                    await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(retryAfter)).ConfigureAwait(false);
 
                     // reauth in case of terminated connection by the peer
                     if (options.Auth != null)
                     {
                         await options.Auth.RefreshTokenAsync(networkSession).ConfigureAwait(false);
                     }
-                }
 
-                attempt++;
+                    networkExceptionRetryAttempt++;
+                }
             }
 
         }
