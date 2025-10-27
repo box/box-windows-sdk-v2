@@ -390,5 +390,16 @@ namespace Box.Sdk.Gen.Internal
 
         }
 
+        /// <summary>
+        /// Generates a random Double value within the specified range..
+        /// </summary>
+        /// <param name="min">The minimum value of the range (inclusive).</param>
+        /// <param name="max">The maximum value of the range (inclusive).</param>
+        /// <returns>A random Double value between min and max.</returns>
+        internal static Double Random(Double min, Double max)
+        {
+            var random = new System.Random();
+            return random.NextDouble() * (max - min) + min;
+        }
     }
 }

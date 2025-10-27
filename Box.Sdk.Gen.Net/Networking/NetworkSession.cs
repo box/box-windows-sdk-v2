@@ -19,14 +19,9 @@ namespace Box.Sdk.Gen
         public BaseUrls BaseUrls { get; } = new BaseUrls();
 
         /// <summary>
-        /// Number of request retries.
-        /// </summary>
-        public int RetryAttempts { get; init; } = 5;
-
-        /// <summary>
         /// IRetryStrategy used when retrying http/s request.
         /// </summary>
-        public IRetryStrategy RetryStrategy { get; init; } = new ExponentialBackoffRetryStrategy();
+        public IRetryStrategy RetryStrategy { get; init; } = new BoxRetryStrategy();
 
         /// <summary>
         /// Proxy configuration
@@ -55,7 +50,7 @@ namespace Box.Sdk.Gen
         /// </summary>
         public NetworkSession WithNetworkClient(INetworkClient networkClient)
         {
-            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryAttempts = this.RetryAttempts, RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = networkClient, DataSanitizer = this.DataSanitizer };
+            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = networkClient, DataSanitizer = this.DataSanitizer };
         }
 
         /// <summary>
@@ -67,7 +62,7 @@ namespace Box.Sdk.Gen
         /// </param>
         public NetworkSession WithAdditionalHeaders(Dictionary<string, string> additionalHeaders)
         {
-            return new NetworkSession(DictionaryUtils.MergeDictionaries(this.AdditionalHeaders, additionalHeaders), this.BaseUrls) { RetryAttempts = this.RetryAttempts, RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, DataSanitizer = this.DataSanitizer };
+            return new NetworkSession(DictionaryUtils.MergeDictionaries(this.AdditionalHeaders, additionalHeaders), this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, DataSanitizer = this.DataSanitizer };
         }
 
         /// <summary>
@@ -79,7 +74,7 @@ namespace Box.Sdk.Gen
         /// </param>
         public NetworkSession WithCustomBaseUrls(BaseUrls baseUrls)
         {
-            return new NetworkSession(this.AdditionalHeaders, baseUrls) { RetryAttempts = this.RetryAttempts, RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, DataSanitizer = this.DataSanitizer  };
+            return new NetworkSession(this.AdditionalHeaders, baseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, DataSanitizer = this.DataSanitizer };
         }
 
         /// <summary>
@@ -91,7 +86,7 @@ namespace Box.Sdk.Gen
         /// </param>
         public NetworkSession WithProxy(ProxyConfig config)
         {
-            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryAttempts = this.RetryAttempts, RetryStrategy = this.RetryStrategy, proxyConfig = config, NetworkClient = this.NetworkClient, DataSanitizer = this.DataSanitizer };
+            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = config, NetworkClient = this.NetworkClient, DataSanitizer = this.DataSanitizer };
         }
 
         /// <summary>
@@ -99,7 +94,7 @@ namespace Box.Sdk.Gen
         /// while also including a data sanitizer to be used to sanitize sensitive data for logging.
         public NetworkSession WithDataSanitizer(DataSanitizer dataSanitizer)
         {
-            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryAttempts = this.RetryAttempts, RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, DataSanitizer = dataSanitizer };
+            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, DataSanitizer = dataSanitizer };
         }
     }
 }
