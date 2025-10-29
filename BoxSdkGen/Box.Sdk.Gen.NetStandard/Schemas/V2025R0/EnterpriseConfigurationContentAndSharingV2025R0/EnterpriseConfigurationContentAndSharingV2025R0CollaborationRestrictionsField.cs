@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using Box.Sdk.Gen.Internal;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Schemas {
     public class EnterpriseConfigurationContentAndSharingV2025R0CollaborationRestrictionsField : EnterpriseConfigurationItemV2025R0, ISerializable {
         [JsonPropertyName("value")]
-        [JsonConverter(typeof(StringEnumListConverter<CollaborationRestrictionV2025R0>))]
-        public IReadOnlyList<StringEnum<CollaborationRestrictionV2025R0>> Value { get; set; }
+        public IReadOnlyList<string> Value { get; set; }
 
         public EnterpriseConfigurationContentAndSharingV2025R0CollaborationRestrictionsField() {
             

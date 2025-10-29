@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Box.Sdk.Gen.Internal;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Schemas {
