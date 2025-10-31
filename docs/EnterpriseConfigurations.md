@@ -12,7 +12,10 @@ This operation is performed by calling function `GetEnterpriseConfigurationByIdV
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2025.0/get-enterprise-configurations-id/).
 
-*Currently we don't have an example for calling `GetEnterpriseConfigurationByIdV2025R0` in integration tests*
+<!-- sample get_enterprise_configurations_id_v2025.0 -->
+```
+await adminClient.EnterpriseConfigurations.GetEnterpriseConfigurationByIdV2025R0Async(enterpriseId: enterpriseId, queryParams: new GetEnterpriseConfigurationByIdV2025R0QueryParams(categories: Array.AsReadOnly(new [] {"user_settings","content_and_sharing","security","shield"})));
+```
 
 ### Arguments
 
