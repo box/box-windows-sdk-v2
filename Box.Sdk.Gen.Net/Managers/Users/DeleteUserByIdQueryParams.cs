@@ -15,8 +15,8 @@ namespace Box.Sdk.Gen.Managers {
         public bool? Notify { get; init; }
 
         /// <summary>
-        /// Whether the user should be deleted even if this user
-        /// still own files.
+        /// Specifies whether to delete the user even if they still own files,
+        /// were recently active, or recently joined the enterprise from a free account.
         /// </summary>
         public bool? Force { get; init; }
 
