@@ -52,8 +52,8 @@ namespace Box.Sdk.Gen.Internal
 
             var retryAttempt = 1;
             var networkExceptionRetryAttempt = 1;
-            var cancellationToken = options.CancellationToken == default
-                ? options.CancellationToken : default;
+            var cancellationToken = options.CancellationToken != default
+                ? options.CancellationToken : CancellationToken.None;
 
             bool isStreamResponse = options.ResponseFormat == ResponseFormat.Binary;
 
