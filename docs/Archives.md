@@ -4,6 +4,7 @@
 - [List archives](#list-archives)
 - [Create archive](#create-archive)
 - [Delete archive](#delete-archive)
+- [Update archive](#update-archive)
 
 ## List archives
 
@@ -102,5 +103,37 @@ await client.Archives.DeleteArchiveByIdV2025R0Async(archiveId: archive.Id);
 This function returns a value of type `null`.
 
 Returns an empty response when the archive has been deleted.
+
+
+## Update archive
+
+Updates an archive.
+
+To learn more about the archive APIs, see the [Archive API Guide](g://archives).
+
+This operation is performed by calling function `UpdateArchiveByIdV2025R0`.
+
+See the endpoint docs at
+[API Reference](https://developer.box.com/reference/v2025.0/put-archives-id/).
+
+*Currently we don't have an example for calling `UpdateArchiveByIdV2025R0` in integration tests*
+
+### Arguments
+
+- archiveId `string`
+  - The ID of the archive. Example: "982312"
+- requestBody `UpdateArchiveByIdV2025R0RequestBody`
+  - Request body of updateArchiveByIdV2025R0 method
+- headers `UpdateArchiveByIdV2025R0Headers`
+  - Headers of updateArchiveByIdV2025R0 method
+- cancellationToken `System.Threading.CancellationToken?`
+  - Token used for request cancellation.
+
+
+### Returns
+
+This function returns a value of type `ArchiveV2025R0`.
+
+Returns the updated archive object.
 
 

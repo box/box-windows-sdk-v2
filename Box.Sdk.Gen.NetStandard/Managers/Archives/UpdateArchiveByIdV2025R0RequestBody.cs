@@ -7,42 +7,36 @@ using Box.Sdk.Gen.Schemas;
 using Box.Sdk.Gen.Parameters;
 
 namespace Box.Sdk.Gen.Managers {
-    public class CreateArchiveV2025R0RequestBody : ISerializable {
+    public class UpdateArchiveByIdV2025R0RequestBody : ISerializable {
         /// <summary>
         /// The name of the archive.
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; }
+        public string Name { get; set; }
 
         /// <summary>
         /// The description of the archive.
         /// </summary>
         [JsonPropertyName("description")]
-        public string? Description { get; init; }
+        public string Description { get; set; }
 
-        /// <summary>
-        /// The ID of the storage policy that the archive is assigned to.
-        /// </summary>
-        [JsonPropertyName("storage_policy_id")]
-        public string? StoragePolicyId { get; init; }
-
-        public CreateArchiveV2025R0RequestBody(string name) {
-            Name = name;
+        public UpdateArchiveByIdV2025R0RequestBody() {
+            
         }
-        internal string? RawJson { get; set; } = default;
+        internal string RawJson { get; set; } = default;
 
         void ISerializable.SetJson(string json) {
             RawJson = json;
         }
 
-        string? ISerializable.GetJson() {
+        string ISerializable.GetJson() {
             return RawJson;
         }
 
         /// <summary>
         /// Returns raw json response returned from the API.
         /// </summary>
-        public Dictionary<string, object?>? GetRawData() {
+        public Dictionary<string, object> GetRawData() {
             return SimpleJsonSerializer.GetAllFields(this);
         }
 

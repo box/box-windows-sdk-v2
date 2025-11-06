@@ -1,10 +1,16 @@
 using Box.Sdk.Gen;
 using System.Text.Json.Serialization;
-using Box.Sdk.Gen.Internal;
 using System.Collections.Generic;
+using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Schemas {
     public class ArchiveV2025R0 : ISerializable {
+        [JsonInclude]
+        [JsonPropertyName("_isdescriptionSet")]
+        protected bool _isDescriptionSet { get; set; }
+
+        protected string? _description { get; set; }
+
         /// <summary>
         /// The unique identifier that represents an archive.
         /// </summary>
@@ -12,7 +18,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string Id { get; }
 
         /// <summary>
-        /// The value will always be `archive`.
+        /// The value is always `archive`.
         /// </summary>
         [JsonPropertyName("type")]
         [JsonConverter(typeof(StringEnumConverter<ArchiveV2025R0TypeField>))]
@@ -34,6 +40,18 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("size")]
         public long Size { get; }
+
+        /// <summary>
+        /// The description of the archive.
+        /// </summary>
+        [JsonPropertyName("description")]
+        public string? Description { get => _description; init { _description = value; _isDescriptionSet = true; } }
+
+        /// <summary>
+        /// The part of an archive API response that describes the user who owns the archive.
+        /// </summary>
+        [JsonPropertyName("owned_by")]
+        public ArchiveV2025R0OwnedByField? OwnedBy { get; init; }
 
         public ArchiveV2025R0(string id, string name, long size, ArchiveV2025R0TypeField type = ArchiveV2025R0TypeField.Archive) {
             Id = id;
