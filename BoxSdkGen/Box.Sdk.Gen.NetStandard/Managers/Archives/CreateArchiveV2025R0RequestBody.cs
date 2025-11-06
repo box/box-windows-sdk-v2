@@ -14,6 +14,18 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// The description of the archive.
+        /// </summary>
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// The ID of the storage policy that the archive is assigned to.
+        /// </summary>
+        [JsonPropertyName("storage_policy_id")]
+        public string StoragePolicyId { get; set; }
+
         public CreateArchiveV2025R0RequestBody(string name) {
             Name = name;
         }
