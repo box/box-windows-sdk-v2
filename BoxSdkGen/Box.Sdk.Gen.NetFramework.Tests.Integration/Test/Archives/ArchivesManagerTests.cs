@@ -19,9 +19,16 @@ namespace Box.Sdk.Gen.Tests.Integration {
         [RetryableTest]
         public async System.Threading.Tasks.Task TestArchivesCreateListDelete() {
             string archiveName = Utils.GetUUID();
-            ArchiveV2025R0 archive = await client.Archives.CreateArchiveV2025R0Async(requestBody: new CreateArchiveV2025R0RequestBody(name: archiveName));
+            const string archiveDescription = "Test Archive Description";
+            ArchiveV2025R0 archive = await client.Archives.CreateArchiveV2025R0Async(requestBody: new CreateArchiveV2025R0RequestBody(name: archiveName) { Description = archiveDescription });
             Assert.IsTrue(StringUtils.ToStringRepresentation(archive.Type?.Value) == "archive");
             Assert.IsTrue(archive.Name == archiveName);
+            Assert.IsTrue(archive.Description == archiveDescription);
+            string newArchiveName = Utils.GetUUID();
+            const string newArchiveDescription = "Updated Archive Description";
+            ArchiveV2025R0 updatedArchive = await client.Archives.UpdateArchiveByIdV2025R0Async(archiveId: archive.Id, requestBody: new UpdateArchiveByIdV2025R0RequestBody() { Name = newArchiveName, Description = newArchiveDescription });
+            Assert.IsTrue(updatedArchive.Name == newArchiveName);
+            Assert.IsTrue(NullableUtils.Unwrap(updatedArchive.Description) == newArchiveDescription);
             ArchivesV2025R0 archives = await client.Archives.GetArchivesV2025R0Async(queryParams: new GetArchivesV2025R0QueryParams() { Limit = 100 });
             Assert.IsTrue(NullableUtils.Unwrap(archives.Entries).Count > 0);
             await client.Archives.DeleteArchiveByIdV2025R0Async(archiveId: archive.Id);

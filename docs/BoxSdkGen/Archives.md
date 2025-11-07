@@ -52,7 +52,7 @@ See the endpoint docs at
 
 <!-- sample post_archives_v2025.0 -->
 ```
-await client.Archives.CreateArchiveV2025R0Async(requestBody: new CreateArchiveV2025R0RequestBody(name: archiveName));
+await client.Archives.CreateArchiveV2025R0Async(requestBody: new CreateArchiveV2025R0RequestBody(name: archiveName) { Description = archiveDescription });
 ```
 
 ### Arguments
@@ -116,7 +116,10 @@ This operation is performed by calling function `UpdateArchiveByIdV2025R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2025.0/put-archives-id/).
 
-*Currently we don't have an example for calling `UpdateArchiveByIdV2025R0` in integration tests*
+<!-- sample put_archives_id_v2025.0 -->
+```
+await client.Archives.UpdateArchiveByIdV2025R0Async(archiveId: archive.Id, requestBody: new UpdateArchiveByIdV2025R0RequestBody() { Name = newArchiveName, Description = newArchiveDescription });
+```
 
 ### Arguments
 
