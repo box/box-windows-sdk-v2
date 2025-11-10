@@ -5,7 +5,7 @@ on:
     branches:
       - combined-sdk
 
-permissions: 
+permissions:
   contents: read
 
 jobs:
