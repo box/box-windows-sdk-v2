@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Box.Sdk.Gen.Schemas {
     public class WeblinkReferenceV2025R0 : ISerializable {
         /// <summary>
-        /// The value will always be `weblink`.
+        /// The value will always be `web_link`.
         /// </summary>
         [JsonPropertyName("type")]
         [JsonConverter(typeof(StringEnumConverter<WeblinkReferenceV2025R0TypeField>))]
@@ -18,14 +18,14 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("id")]
         public string Id { get; }
 
-        public WeblinkReferenceV2025R0(string id, WeblinkReferenceV2025R0TypeField type = WeblinkReferenceV2025R0TypeField.Weblink) {
+        public WeblinkReferenceV2025R0(string id, WeblinkReferenceV2025R0TypeField type = WeblinkReferenceV2025R0TypeField.WebLink) {
             Type = type;
             Id = id;
         }
         
         [JsonConstructorAttribute]
         internal WeblinkReferenceV2025R0(string id, StringEnum<WeblinkReferenceV2025R0TypeField> type) {
-            Type = WeblinkReferenceV2025R0TypeField.Weblink;
+            Type = WeblinkReferenceV2025R0TypeField.WebLink;
             Id = id;
         }
         internal string? RawJson { get; set; } = default;
