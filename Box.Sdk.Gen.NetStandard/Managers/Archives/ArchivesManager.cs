@@ -80,5 +80,31 @@ namespace Box.Sdk.Gen.Managers {
             FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/archives/", StringUtils.ToStringRepresentation(archiveId)), method: "DELETE", responseFormat: Box.Sdk.Gen.ResponseFormat.NoContent) { Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Updates an archive.
+        /// 
+        /// To learn more about the archive APIs, see the [Archive API Guide](g://archives).
+        /// </summary>
+        /// <param name="archiveId">
+        /// The ID of the archive.
+        /// Example: "982312"
+        /// </param>
+        /// <param name="requestBody">
+        /// Request body of updateArchiveByIdV2025R0 method
+        /// </param>
+        /// <param name="headers">
+        /// Headers of updateArchiveByIdV2025R0 method
+        /// </param>
+        /// <param name="cancellationToken">
+        /// Token used for request cancellation.
+        /// </param>
+        public async System.Threading.Tasks.Task<ArchiveV2025R0> UpdateArchiveByIdV2025R0Async(string archiveId, UpdateArchiveByIdV2025R0RequestBody requestBody = default, UpdateArchiveByIdV2025R0Headers headers = default, System.Threading.CancellationToken cancellationToken = default) {
+            requestBody = requestBody ?? new UpdateArchiveByIdV2025R0RequestBody();
+            headers = headers ?? new UpdateArchiveByIdV2025R0Headers();
+            Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string>() { { "box-version", StringUtils.ToStringRepresentation(headers.BoxVersion) } }, headers.ExtraHeaders));
+            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/archives/", StringUtils.ToStringRepresentation(archiveId)), method: "PUT", contentType: "application/json", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Data = SimpleJsonSerializer.Serialize(requestBody), Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
+            return SimpleJsonSerializer.Deserialize<ArchiveV2025R0>(NullableUtils.Unwrap(response.Data));
+        }
+
     }
 }
