@@ -38,7 +38,7 @@ namespace Box.Sdk.Gen.Schemas {
                             return JsonSerializer.Deserialize<FileReferenceV2025R0>(document) ?? throw new Exception($"Could not deserialize {document} to FileReferenceV2025R0");
                         case "folder":
                             return JsonSerializer.Deserialize<FolderReferenceV2025R0>(document) ?? throw new Exception($"Could not deserialize {document} to FolderReferenceV2025R0");
-                        case "weblink":
+                        case "web_link":
                             return JsonSerializer.Deserialize<WeblinkReferenceV2025R0>(document) ?? throw new Exception($"Could not deserialize {document} to WeblinkReferenceV2025R0");
                     }
                 }

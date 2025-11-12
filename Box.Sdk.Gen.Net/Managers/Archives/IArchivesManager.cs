@@ -57,5 +57,25 @@ namespace Box.Sdk.Gen.Managers {
     /// </param>
     public System.Threading.Tasks.Task DeleteArchiveByIdV2025R0Async(string archiveId, DeleteArchiveByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
+        /// <summary>
+    /// Updates an archive.
+    /// 
+    /// To learn more about the archive APIs, see the [Archive API Guide](g://archives).
+    /// </summary>
+    /// <param name="archiveId">
+    /// The ID of the archive.
+    /// Example: "982312"
+    /// </param>
+    /// <param name="requestBody">
+    /// Request body of updateArchiveByIdV2025R0 method
+    /// </param>
+    /// <param name="headers">
+    /// Headers of updateArchiveByIdV2025R0 method
+    /// </param>
+    /// <param name="cancellationToken">
+    /// Token used for request cancellation.
+    /// </param>
+    public System.Threading.Tasks.Task<ArchiveV2025R0> UpdateArchiveByIdV2025R0Async(string archiveId, UpdateArchiveByIdV2025R0RequestBody? requestBody = default, UpdateArchiveByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+
     }
 }
