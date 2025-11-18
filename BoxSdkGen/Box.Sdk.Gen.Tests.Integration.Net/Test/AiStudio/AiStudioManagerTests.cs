@@ -42,8 +42,8 @@ namespace Box.Sdk.Gen.Tests.Integration {
             string agentName = Utils.GetUUID();
             AiSingleAgentResponseFull createdAgent = await client.AiStudio.CreateAiAgentAsync(requestBody: new CreateAiAgent(name: agentName, accessState: "enabled") { Ask = new AiStudioAgentAsk(accessState: "enabled", description: "desc1") });
             FileFull fileToAsk = await new CommonsManager().UploadNewFileAsync();
-            AiResponseFull? response = await client.Ai.CreateAiAskAsync(requestBody: new AiAsk(mode: AiAskModeField.SingleItemQa, prompt: "which direction sun rises", items: Array.AsReadOnly(new [] {new AiItemAsk(id: fileToAsk.Id, type: AiItemAskTypeField.File) { Content = "Sun rises in the East" }})) { AiAgent = new AiAgentReference() { Id = createdAgent.Id } });
-            Assert.IsTrue(NullableUtils.Unwrap(response).Answer.Contains("East"));
+            AiResponseFull? response = await client.Ai.CreateAiAskAsync(requestBody: new AiAsk(mode: AiAskModeField.SingleItemQa, prompt: "Which direction does the Sun rise?", items: Array.AsReadOnly(new [] {new AiItemAsk(id: fileToAsk.Id, type: AiItemAskTypeField.File) { Content = "The Sun rises in the east." }})) { AiAgent = new AiAgentReference() { Id = createdAgent.Id } });
+            Assert.IsTrue(NullableUtils.Unwrap(response).Answer.Contains("east"));
             Assert.IsTrue(NullableUtils.Unwrap(response).CompletionReason == "done");
             Assert.IsTrue(NullableUtils.Unwrap(NullableUtils.Unwrap(NullableUtils.Unwrap(response).AiAgentInfo).Models).Count > 0);
             await client.Files.DeleteFileByIdAsync(fileId: fileToAsk.Id);
