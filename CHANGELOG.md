@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.2.0](https://github.com/box/box-windows-sdk-v2/compare/v10.1.0...v10.2.0) (2025-11-19)
+
+
+### New Features and Enhancements
+
+* Support Archive API (box/box-codegen[#865](https://github.com/box/box-windows-sdk-v2/issues/865)) ([#1266](https://github.com/box/box-windows-sdk-v2/issues/1266)) ([bca0473](https://github.com/box/box-windows-sdk-v2/commit/bca0473d9ff02f286f3face267a30c2ab17d5b7b))
+* Support GET enterprise configuration API (box/box-openapi[#559](https://github.com/box/box-windows-sdk-v2/issues/559)) ([#1198](https://github.com/box/box-windows-sdk-v2/issues/1198)) ([426aaed](https://github.com/box/box-windows-sdk-v2/commit/426aaed8418baf6cbd31dbe884aa91ce9bb7ef52))
+* Include `pdb` files when packing .net root project (box/box-codegen[#859](https://github.com/box/box-windows-sdk-v2/issues/859)) ([#1169](https://github.com/box/box-windows-sdk-v2/issues/1169)) ([8b7e7c8](https://github.com/box/box-windows-sdk-v2/commit/8b7e7c89f9f533ee09a8c096afd141abbbc72080))
+* Use generated `RetryStrategy` for retrying requests (box/box-codegen[#872](https://github.com/box/box-windows-sdk-v2/issues/872)) ([#1232](https://github.com/box/box-windows-sdk-v2/issues/1232)) ([5567fef](https://github.com/box/box-windows-sdk-v2/commit/5567feff459b91e7b018bda5def60ad45548599f))
+
 ## [10.1.0](https://github.com/box/box-windows-sdk-v2/compare/v10.0.0...v10.1.0) (2025-10-06)
 
 
