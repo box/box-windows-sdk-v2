@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.2.0](https://github.com/box/box-windows-sdk-v2/compare/v10.1.0...v10.2.0) (2025-11-19)
+
+
+### Bug Fixes
+
+* remove enum types from GET enterprise configurations endpoint (box/box-openapi[#560](https://github.com/box/box-windows-sdk-v2/issues/560)) ([#1240](https://github.com/box/box-windows-sdk-v2/issues/1240)) ([deae784](https://github.com/box/box-windows-sdk-v2/commit/deae784f6b5e7c637c3f170f33c49abe2be4baa6))
+* update descriptions of the user deletion endpoint (box/box-openapi[#562](https://github.com/box/box-windows-sdk-v2/issues/562)) ([#1249](https://github.com/box/box-windows-sdk-v2/issues/1249)) ([6ce7036](https://github.com/box/box-windows-sdk-v2/commit/6ce70364605e884ddb79a5f0a50e581fbbad6e74))
+
+
+### New Features and Enhancements
+
+* Add endpoint to update archive (box/box-codegen[#865](https://github.com/box/box-windows-sdk-v2/issues/865)) ([#1266](https://github.com/box/box-windows-sdk-v2/issues/1266)) ([bca0473](https://github.com/box/box-windows-sdk-v2/commit/bca0473d9ff02f286f3face267a30c2ab17d5b7b))
+* Add GET enterprise configuration endpoint (box/box-openapi[#559](https://github.com/box/box-windows-sdk-v2/issues/559)) ([#1198](https://github.com/box/box-windows-sdk-v2/issues/1198)) ([426aaed](https://github.com/box/box-windows-sdk-v2/commit/426aaed8418baf6cbd31dbe884aa91ce9bb7ef52))
+* include `pdb` files when packing .net root project (box/box-codegen[#859](https://github.com/box/box-windows-sdk-v2/issues/859)) ([#1169](https://github.com/box/box-windows-sdk-v2/issues/1169)) ([8b7e7c8](https://github.com/box/box-windows-sdk-v2/commit/8b7e7c89f9f533ee09a8c096afd141abbbc72080))
+* use generated `RetryStrategy` for retrying requests (box/box-codegen[#872](https://github.com/box/box-windows-sdk-v2/issues/872)) ([#1232](https://github.com/box/box-windows-sdk-v2/issues/1232)) ([5567fef](https://github.com/box/box-windows-sdk-v2/commit/5567feff459b91e7b018bda5def60ad45548599f))
+
 ## [10.1.0](https://github.com/box/box-windows-sdk-v2/compare/v10.0.0...v10.1.0) (2025-10-06)
 
 
