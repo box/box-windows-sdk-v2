@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/box/box-windows-sdk-v2/compare/v6.0.0...v6.1.0) (2025-11-19)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** Support Archive API (box/box-codegen[#865](https://github.com/box/box-windows-sdk-v2/issues/865)) ([#1270](https://github.com/box/box-windows-sdk-v2/issues/1270)) ([307a5d4](https://github.com/box/box-windows-sdk-v2/commit/307a5d43f8ba2b93ce35b3607026b4232cc92042))
+* **boxsdkgen:** Support GET enterprise configuration API (box/box-openapi[#559](https://github.com/box/box-windows-sdk-v2/issues/559)) ([#1212](https://github.com/box/box-windows-sdk-v2/issues/1212)) ([0d97d4d](https://github.com/box/box-windows-sdk-v2/commit/0d97d4d858c4bba8b3df0d01234691294a7c8998))
+* **boxsdkgen:** Use generated `RetryStrategy` for retrying requests (box/box-codegen[#872](https://github.com/box/box-windows-sdk-v2/issues/872)) ([#1227](https://github.com/box/box-windows-sdk-v2/issues/1227)) ([5b42a3e](https://github.com/box/box-windows-sdk-v2/commit/5b42a3e666751f1a1e529b875eafa8e7b0fbe930))
+
 ## [6.0.0](https://github.com/box/box-windows-sdk-v2/compare/v5.8.0...v6.0.0) (2025-10-23)
 
 Introducing a new major version of Box Windows SDK V2 `v6` that includes two namespaces — the manually maintained namespace and the generated namespace. The coexisting namespaces provide easier access to the latest Box API features and support gradual migration to the standalone generated namespace.
