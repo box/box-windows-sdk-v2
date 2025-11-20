@@ -18,7 +18,7 @@ based on Open API Specification. This means you can leverage the most up-to-date
 applications without delay. We introduced this major version bump to reflect the significant codebase changes
 and to align with other Box SDKs, which will also adopt generated code starting from their v10 releases.
 More information and benefits of using the new can be found in the
-[README](https://github.com/box/box-windows-sdk-v2/blob/sdk-gen/README.md) file.
+[README](https://github.com/box/box-windows-sdk-v2/blob/main/README.md) file.
 
 ## Installation
 
