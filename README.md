@@ -10,7 +10,7 @@
 [![image](https://img.shields.io/nuget/dt/box.v2.core.svg)](https://badge.fury.io/nu/box.v2.core)
 ![Platform](https://img.shields.io/badge/.NET-8%2B-brightgreen)
 ![Platform](https://img.shields.io/badge/.NET-462%2B-brightgreen)
-[![Coverage](https://coveralls.io/repos/github/box/box-windows-sdk-v2/badge.svg?branch=sdk-gen)](https://coveralls.io/github/box/box-windows-sdk-v2?branch=sdk-gen)
+[![Coverage](https://coveralls.io/repos/github/box/box-windows-sdk-v2/badge.svg?branch=main)](https://coveralls.io/github/box/box-windows-sdk-v2?branch=main)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -69,7 +69,7 @@ Version v6 is intended for:
 ## Version v10
 
 Starting with v10, the SDK is built entirely on the generated `Box.Sdk.Gen` namespace, which fully and exclusively replaces the old `Box.V2` namespace.
-The codebase for v10 of the Box Windows SDK V2 is currently available on the [sdk-gen](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen) branch.
+The codebase for v10 of the Box Windows SDK V2 is currently available on the [main](https://github.com/box/box-windows-sdk-v2/tree/main) branch.
 
 Version v10 is intended for:
 
@@ -80,8 +80,8 @@ Version v10 is intended for:
 
 | Scenario                                                                                                                        | Recommended Version                                                          | Example dependency (.csproj / NuGet)                          |
 | ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| Creating a new application                                                                                                      | Use [v10](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen)            | `<PackageReference Include="Box.Sdk.Gen" Version="10.0.0" />` |
-| App using [Box.Sdk.Gen](https://github.com/box/box-dotnet-sdk-gen)                                                              | Migrate to [v10](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen)     | `<PackageReference Include="Box.Sdk.Gen" Version="10.0.0" />` |
+| Creating a new application                                                                                                      | Use [v10](https://github.com/box/box-windows-sdk-v2/tree/main)               | `<PackageReference Include="Box.Sdk.Gen" Version="10.0.0" />` |
+| App using [Box.Sdk.Gen](https://github.com/box/box-dotnet-sdk-gen)                                                              | Migrate to [v10](https://github.com/box/box-windows-sdk-v2/tree/main)        | `<PackageReference Include="Box.Sdk.Gen" Version="10.0.0" />` |
 | App using both [Box.Sdk.Gen](https://github.com/box/box-dotnet-sdk-gen) and [Box.V2](https://github.com/box/box-windows-sdk-v2) | Upgrade to [v6](https://github.com/box/box-windows-sdk-v2/tree/combined-sdk) | `<PackageReference Include="Box.V2.Core" Version="6.0.0" />`  |
 | App using v5 of [Box.V2](https://github.com/box/box-windows-sdk-v2)                                                             | Upgrade to [v6](https://github.com/box/box-windows-sdk-v2/tree/combined-sdk) | `<PackageReference Include="Box.V2.Core" Version="6.0.0" />`  |
 
@@ -155,9 +155,9 @@ if (items.Entries != null)
 }
 ```
 
-The usage docs that show how to make calls to the Box API with the SDK can be found [here](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen/docs).
+The usage docs that show how to make calls to the Box API with the SDK can be found [here](https://github.com/box/box-windows-sdk-v2/tree/main/docs).
 
-We recommend, familiarizing yourself with the remaining [authentication methods](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen/docs/Authentication.md), [uploading files](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen/docs/Uploads.md) and [downloading files](https://github.com/box/box-windows-sdk-v2/tree/sdk-gen/docs/Downloads.md).
+We recommend, familiarizing yourself with the remaining [authentication methods](https://github.com/box/box-windows-sdk-v2/tree/main/docs/Authentication.md), [uploading files](https://github.com/box/box-windows-sdk-v2/tree/main/docs/Uploads.md) and [downloading files](https://github.com/box/box-windows-sdk-v2/tree/main/docs/Downloads.md).
 
 # Authentication
 
