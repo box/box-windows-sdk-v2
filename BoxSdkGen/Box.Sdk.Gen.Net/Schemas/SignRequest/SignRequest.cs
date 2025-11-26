@@ -25,6 +25,10 @@ namespace Box.Sdk.Gen.Schemas {
         protected bool _isCollaboratorLevelSet { get; set; }
 
         [JsonInclude]
+        [JsonPropertyName("_isfinished_atSet")]
+        protected bool _isFinishedAtSet { get; set; }
+
+        [JsonInclude]
         [JsonPropertyName("_issender_emailSet")]
         protected bool _isSenderEmailSet { get; set; }
 
@@ -39,6 +43,8 @@ namespace Box.Sdk.Gen.Schemas {
         protected System.DateTimeOffset? _autoExpireAt { get; set; }
 
         protected string? _collaboratorLevel { get; set; }
+
+        protected System.DateTimeOffset? _finishedAt { get; set; }
 
         protected string? _senderEmail { get; set; }
 
@@ -118,6 +124,24 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("collaborator_level")]
         public string? CollaboratorLevel { get => _collaboratorLevel; init { _collaboratorLevel = value; _isCollaboratorLevelSet = true; } }
+
+        /// <summary>
+        /// Short identifier for the sign request.
+        /// </summary>
+        [JsonPropertyName("short_id")]
+        public string? ShortId { get; init; }
+
+        /// <summary>
+        /// Timestamp marking when the sign request was created.
+        /// </summary>
+        [JsonPropertyName("created_at")]
+        public System.DateTimeOffset? CreatedAt { get; init; }
+
+        /// <summary>
+        /// Timestamp indicating when all signing actions completed.
+        /// </summary>
+        [JsonPropertyName("finished_at")]
+        public System.DateTimeOffset? FinishedAt { get => _finishedAt; init { _finishedAt = value; _isFinishedAtSet = true; } }
 
         /// <summary>
         /// The email address of the sender of the sign request.
