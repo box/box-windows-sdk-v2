@@ -20,11 +20,17 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("_isiframeable_embed_urlSet")]
         protected bool _isIframeableEmbedUrlSet { get; set; }
 
+        [JsonInclude]
+        [JsonPropertyName("_isattachmentsSet")]
+        protected bool _isAttachmentsSet { get; set; }
+
         protected SignRequestSignerSignerDecisionField _signerDecision { get; set; }
 
         protected string _embedUrl { get; set; }
 
         protected string _iframeableEmbedUrl { get; set; }
+
+        protected IReadOnlyList<SignRequestSignerAttachment> _attachments { get; set; }
 
         /// <summary>
         /// Set to `true` if the signer views the document.
@@ -57,6 +63,12 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("iframeable_embed_url")]
         public string IframeableEmbedUrl { get => _iframeableEmbedUrl; set { _iframeableEmbedUrl = value; _isIframeableEmbedUrlSet = true; } }
+
+        /// <summary>
+        /// Attachments that the signer uploaded.
+        /// </summary>
+        [JsonPropertyName("attachments")]
+        public IReadOnlyList<SignRequestSignerAttachment> Attachments { get => _attachments; set { _attachments = value; _isAttachmentsSet = true; } }
 
         public SignRequestSigner() {
             
