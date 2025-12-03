@@ -72,5 +72,19 @@ namespace Box.Sdk.Gen.Managers {
     /// </param>
     public System.Threading.Tasks.Task<Events> GetEventsAsync(GetEventsQueryParams? queryParams = default, GetEventsHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
+        /// <summary>
+    /// Get an event stream for the Box API
+    /// </summary>
+    /// <param name="queryParams">
+    /// Query parameters of getEvents method
+    /// </param>
+    /// <param name="headers">
+    /// Headers of getEvents method
+    /// </param>
+    /// <param name="cancellationToken">
+    /// Token used for request cancellation.
+    /// </param>
+    public EventStream GetEventStream(GetEventStreamQueryParams? queryParams = default, GetEventStreamHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+
     }
 }
