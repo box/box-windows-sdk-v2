@@ -66,5 +66,11 @@ namespace Box.Sdk.Gen.Tests.Integration {
             Assert.IsTrue(NullableUtils.Unwrap(servers.Entries).Count == 1);
         }
 
+        [RetryableTest]
+        public void TestGetEventStream() {
+            EventStream eventStream = client.Events.GetEventStream();
+            Assert.IsTrue(eventStream != null);
+        }
+
     }
 }

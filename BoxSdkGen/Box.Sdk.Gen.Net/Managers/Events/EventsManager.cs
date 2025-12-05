@@ -91,5 +91,23 @@ namespace Box.Sdk.Gen.Managers {
             return SimpleJsonSerializer.Deserialize<Events>(NullableUtils.Unwrap(response.Data));
         }
 
+        /// <summary>
+        /// Get an event stream for the Box API
+        /// </summary>
+        /// <param name="queryParams">
+        /// Query parameters of getEvents method
+        /// </param>
+        /// <param name="headers">
+        /// Headers of getEvents method
+        /// </param>
+        /// <param name="cancellationToken">
+        /// Token used for request cancellation.
+        /// </param>
+        public EventStream GetEventStream(GetEventStreamQueryParams? queryParams = default, GetEventStreamHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) {
+            queryParams = queryParams ?? new GetEventStreamQueryParams();
+            headers = headers ?? new GetEventStreamHeaders();
+            return new EventStream(eventsManager: this, queryParams: queryParams) { HeadersInput = headers };
+        }
+
     }
 }
