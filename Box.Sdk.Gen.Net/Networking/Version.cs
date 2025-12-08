@@ -4,6 +4,6 @@ namespace Box.Sdk.Gen.Internal
 {
     static class Version
     {
-        internal static string sdkVersion = "10.2.0";
+        internal static string sdkVersion = "10.2.1";
     }
 }
