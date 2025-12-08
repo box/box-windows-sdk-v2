@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.3.0](https://github.com/box/box-windows-sdk-v2/compare/v10.2.0...v10.3.0) (2025-12-08)
+
+
+### Bug Fixes
+
+* fix string extension in dotnet (box/box-codegen[#899](https://github.com/box/box-windows-sdk-v2/issues/899)) ([#1307](https://github.com/box/box-windows-sdk-v2/issues/1307)) ([8c46af4](https://github.com/box/box-windows-sdk-v2/commit/8c46af45398c2002b5de8475672923bac524e4d1))
+
+
+### New Features and Enhancements
+
+* Support long polling event for dotnet (box/box-codegen[#893](https://github.com/box/box-windows-sdk-v2/issues/893)) ([#1298](https://github.com/box/box-windows-sdk-v2/issues/1298)) ([e35cd67](https://github.com/box/box-windows-sdk-v2/commit/e35cd67fe29d9af969ac88dee30896303d4fdc79))
+* Support new sign request metadata (box/box-openapi[#565](https://github.com/box/box-windows-sdk-v2/issues/565)) ([#1294](https://github.com/box/box-windows-sdk-v2/issues/1294)) ([da19f7c](https://github.com/box/box-windows-sdk-v2/commit/da19f7cdd4df6537acec50463330944e9d6d4632))
+
 ## [10.2.0](https://github.com/box/box-windows-sdk-v2/compare/v10.1.0...v10.2.0) (2025-11-19)
 
 
