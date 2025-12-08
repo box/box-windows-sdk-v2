@@ -15,8 +15,7 @@ namespace Box.Sdk.Gen.Internal
                 return null;
             }
             Type objType = obj.GetType();
-            var isList = (obj is IList || obj is IEnumerable) && objType.IsGenericType;
-            if (obj != null && isList)
+            if (obj is IList)
             {
                 var listOfStrings = new List<string?>();
                 var asList = (IList)obj;
@@ -47,7 +46,7 @@ namespace Box.Sdk.Gen.Internal
                 DescriptionAttribute[] attributes =
                     (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-                return attributes[0].Description;
+                return attributes.Length > 0 ? attributes[0].Description : objectAsString;
             }
             else if (objType != null && objType.IsGenericType && objType.GetGenericTypeDefinition() == typeof(StringEnum<>))
             {
