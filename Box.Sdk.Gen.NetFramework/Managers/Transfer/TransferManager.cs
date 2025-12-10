@@ -17,7 +17,7 @@ namespace Box.Sdk.Gen.Managers {
         }
         /// <summary>
         /// Move all of the items (files, folders and workflows) owned by a user into
-        /// another user's account
+        /// another user's account.
         /// 
         /// Only the root folder (`0`) can be transferred.
         /// 
