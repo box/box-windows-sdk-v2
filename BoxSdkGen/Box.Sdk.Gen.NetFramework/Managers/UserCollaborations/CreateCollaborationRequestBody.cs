@@ -51,6 +51,10 @@ namespace Box.Sdk.Gen.Managers {
         /// `true`. Only an owner can update `can_view_path` on existing collaborations.
         /// 
         /// `can_view_path` can only be used for folder collaborations.
+        /// 
+        /// When you delete a folder with `can_view_path=true`, collaborators may still see the parent path. 
+        /// For instructions on how to remove this, see 
+        /// [Even though a folder invited via can_view_path is deleted, the path remains displayed](https://support.box.com/hc/en-us/articles/37472814319891-Even-though-a-folder-invited-via-can-view-path-is-deleted-the-path-remains-displayed).
         /// </summary>
         [JsonPropertyName("can_view_path")]
         public bool? CanViewPath { get; set; }
