@@ -98,10 +98,17 @@ namespace Box.Sdk.Gen.Schemas {
         public string? Label { get => _label; init { _label = value; _isLabelSet = true; } }
 
         /// <summary>
-        /// Whether this input was defined as read-only(immutable by signers) or not.
+        /// Indicates whether this input is read-only (cannot be modified by signers).
         /// </summary>
         [JsonPropertyName("read_only")]
         public bool? ReadOnly { get; init; }
+
+        /// <summary>
+        /// Specifies the formatting rules that signers must follow for text field inputs.
+        /// If set, this validation is mandatory.
+        /// </summary>
+        [JsonPropertyName("validation")]
+        public SignRequestSignerInputValidation? Validation { get; init; }
 
         public TemplateSignerInput(long pageIndex) {
             PageIndex = pageIndex;
