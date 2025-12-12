@@ -47,7 +47,7 @@ namespace Box.Sdk.Gen {
         }
 
         public double RetryAfter(FetchOptions fetchOptions, FetchResponse fetchResponse, int attemptNumber) {
-            string? retryAfterHeader = fetchResponse.Headers["Retry-After"];
+            string? retryAfterHeader = fetchResponse.Headers.ContainsKey("Retry-After") ? fetchResponse.Headers["Retry-After"] : null;
             if (retryAfterHeader != null) {
                 return double.Parse(NullableUtils.Unwrap(retryAfterHeader));
             }
