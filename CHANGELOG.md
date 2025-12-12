@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.3.0](https://github.com/box/box-windows-sdk-v2/compare/v6.2.0...v6.3.0) (2025-12-12)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** Remove `confidence_score` and `include_confidence_score` from AI extract (box/box-openapi[#567](https://github.com/box/box-windows-sdk-v2/issues/567)) ([#1314](https://github.com/box/box-windows-sdk-v2/issues/1314)) ([1733727](https://github.com/box/box-windows-sdk-v2/commit/1733727b25c9e7b5a8995daa0e5aa5c63860e77f))
+
+
+### **Bug Fixes:**
+
+* **boxsdkgen:** fix `RetryAfter` function when there's no Retry-After header (box/box-codegen[#903](https://github.com/box/box-windows-sdk-v2/issues/903)) ([#1319](https://github.com/box/box-windows-sdk-v2/issues/1319)) ([1647641](https://github.com/box/box-windows-sdk-v2/commit/164764159a2f041253ebf0b665286a06526fb3b2))
+* **boxsdkgen:** remove duplicate optional tag (box/box-codegen[#898](https://github.com/box/box-windows-sdk-v2/issues/898)) ([#1313](https://github.com/box/box-windows-sdk-v2/issues/1313)) ([5c3cca9](https://github.com/box/box-windows-sdk-v2/commit/5c3cca937949a52502848d92080aa3d69f891208))
+
 ## [6.2.0](https://github.com/box/box-windows-sdk-v2/compare/v6.1.0...v6.2.0) (2025-12-08)
 
 
