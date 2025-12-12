@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
-    <Version>10.3.0</Version>
+    <Version>10.4.0</Version>
     <Description>Official Box .Net Generated SDK</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <isPackable>true</isPackable>
