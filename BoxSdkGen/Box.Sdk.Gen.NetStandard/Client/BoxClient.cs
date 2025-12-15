@@ -153,6 +153,8 @@ namespace Box.Sdk.Gen {
 
         public AiStudioManager AiStudio { get; set; }
 
+        public MetadataTaxonomiesManager MetadataTaxonomies { get; set; }
+
         public DocgenTemplateManager DocgenTemplate { get; set; }
 
         public DocgenManager Docgen { get; set; }
@@ -246,6 +248,7 @@ namespace Box.Sdk.Gen {
             IntegrationMappings = new IntegrationMappingsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             Ai = new AiManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             AiStudio = new AiStudioManager(networkSession: this.NetworkSession) { Auth = this.Auth };
+            MetadataTaxonomies = new MetadataTaxonomiesManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             DocgenTemplate = new DocgenTemplateManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             Docgen = new DocgenManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             EnterpriseConfigurations = new EnterpriseConfigurationsManager(networkSession: this.NetworkSession) { Auth = this.Auth };

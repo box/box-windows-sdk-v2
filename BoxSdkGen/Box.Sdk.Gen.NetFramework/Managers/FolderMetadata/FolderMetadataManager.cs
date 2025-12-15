@@ -32,16 +32,21 @@ namespace Box.Sdk.Gen.Managers {
         /// always represented by the ID `0`.
         /// Example: "12345"
         /// </param>
+        /// <param name="queryParams">
+        /// Query parameters of getFolderMetadata method
+        /// </param>
         /// <param name="headers">
         /// Headers of getFolderMetadata method
         /// </param>
         /// <param name="cancellationToken">
         /// Token used for request cancellation.
         /// </param>
-        public async System.Threading.Tasks.Task<Metadatas> GetFolderMetadataAsync(string folderId, GetFolderMetadataHeaders headers = default, System.Threading.CancellationToken cancellationToken = default) {
+        public async System.Threading.Tasks.Task<Metadatas> GetFolderMetadataAsync(string folderId, GetFolderMetadataQueryParams queryParams = default, GetFolderMetadataHeaders headers = default, System.Threading.CancellationToken cancellationToken = default) {
+            queryParams = queryParams ?? new GetFolderMetadataQueryParams();
             headers = headers ?? new GetFolderMetadataHeaders();
+            Dictionary<string, string> queryParamsMap = Utils.PrepareParams(map: new Dictionary<string, string>() { { "view", StringUtils.ToStringRepresentation(queryParams.View) } });
             Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string>() {  }, headers.ExtraHeaders));
-            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/folders/", StringUtils.ToStringRepresentation(folderId), "/metadata"), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
+            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/folders/", StringUtils.ToStringRepresentation(folderId), "/metadata"), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Parameters = queryParamsMap, Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
             return SimpleJsonSerializer.Deserialize<Metadatas>(NullableUtils.Unwrap(response.Data));
         }
 

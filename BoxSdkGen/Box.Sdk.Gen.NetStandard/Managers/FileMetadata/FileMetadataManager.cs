@@ -28,16 +28,21 @@ namespace Box.Sdk.Gen.Managers {
         /// the `file_id` is `123`.
         /// Example: "12345"
         /// </param>
+        /// <param name="queryParams">
+        /// Query parameters of getFileMetadata method
+        /// </param>
         /// <param name="headers">
         /// Headers of getFileMetadata method
         /// </param>
         /// <param name="cancellationToken">
         /// Token used for request cancellation.
         /// </param>
-        public async System.Threading.Tasks.Task<Metadatas> GetFileMetadataAsync(string fileId, GetFileMetadataHeaders headers = default, System.Threading.CancellationToken cancellationToken = default) {
+        public async System.Threading.Tasks.Task<Metadatas> GetFileMetadataAsync(string fileId, GetFileMetadataQueryParams queryParams = default, GetFileMetadataHeaders headers = default, System.Threading.CancellationToken cancellationToken = default) {
+            queryParams = queryParams ?? new GetFileMetadataQueryParams();
             headers = headers ?? new GetFileMetadataHeaders();
+            Dictionary<string, string> queryParamsMap = Utils.PrepareParams(map: new Dictionary<string, string>() { { "view", StringUtils.ToStringRepresentation(queryParams.View) } });
             Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string>() {  }, headers.ExtraHeaders));
-            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/files/", StringUtils.ToStringRepresentation(fileId), "/metadata"), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
+            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/files/", StringUtils.ToStringRepresentation(fileId), "/metadata"), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Parameters = queryParamsMap, Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
             return SimpleJsonSerializer.Deserialize<Metadatas>(NullableUtils.Unwrap(response.Data));
         }
 
@@ -63,16 +68,21 @@ namespace Box.Sdk.Gen.Managers {
         /// The name of the metadata template.
         /// Example: "properties"
         /// </param>
+        /// <param name="queryParams">
+        /// Query parameters of getFileMetadataById method
+        /// </param>
         /// <param name="headers">
         /// Headers of getFileMetadataById method
         /// </param>
         /// <param name="cancellationToken">
         /// Token used for request cancellation.
         /// </param>
-        public async System.Threading.Tasks.Task<MetadataFull> GetFileMetadataByIdAsync(string fileId, GetFileMetadataByIdScope scope, string templateKey, GetFileMetadataByIdHeaders headers = default, System.Threading.CancellationToken cancellationToken = default) {
+        public async System.Threading.Tasks.Task<MetadataFull> GetFileMetadataByIdAsync(string fileId, GetFileMetadataByIdScope scope, string templateKey, GetFileMetadataByIdQueryParams queryParams = default, GetFileMetadataByIdHeaders headers = default, System.Threading.CancellationToken cancellationToken = default) {
+            queryParams = queryParams ?? new GetFileMetadataByIdQueryParams();
             headers = headers ?? new GetFileMetadataByIdHeaders();
+            Dictionary<string, string> queryParamsMap = Utils.PrepareParams(map: new Dictionary<string, string>() { { "view", StringUtils.ToStringRepresentation(queryParams.View) } });
             Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string>() {  }, headers.ExtraHeaders));
-            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/files/", StringUtils.ToStringRepresentation(fileId), "/metadata/", StringUtils.ToStringRepresentation(scope), "/", StringUtils.ToStringRepresentation(templateKey)), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
+            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/files/", StringUtils.ToStringRepresentation(fileId), "/metadata/", StringUtils.ToStringRepresentation(scope), "/", StringUtils.ToStringRepresentation(templateKey)), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Parameters = queryParamsMap, Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
             return SimpleJsonSerializer.Deserialize<MetadataFull>(NullableUtils.Unwrap(response.Data));
         }
 
