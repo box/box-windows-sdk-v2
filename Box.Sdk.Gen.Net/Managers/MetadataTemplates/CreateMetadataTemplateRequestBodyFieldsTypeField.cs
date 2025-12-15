@@ -13,6 +13,8 @@ namespace Box.Sdk.Gen.Managers {
         [Description("enum")]
         Enum,
         [Description("multiSelect")]
-        MultiSelect
+        MultiSelect,
+        [Description("taxonomy")]
+        Taxonomy
     }
 }
