@@ -25,13 +25,16 @@ namespace Box.Sdk.Gen.Managers {
     /// always represented by the ID `0`.
     /// Example: "12345"
     /// </param>
+    /// <param name="queryParams">
+    /// Query parameters of getFolderMetadata method
+    /// </param>
     /// <param name="headers">
     /// Headers of getFolderMetadata method
     /// </param>
     /// <param name="cancellationToken">
     /// Token used for request cancellation.
     /// </param>
-    public System.Threading.Tasks.Task<Metadatas> GetFolderMetadataAsync(string folderId, GetFolderMetadataHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+    public System.Threading.Tasks.Task<Metadatas> GetFolderMetadataAsync(string folderId, GetFolderMetadataQueryParams? queryParams = default, GetFolderMetadataHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
     /// Retrieves the instance of a metadata template that has been applied to a

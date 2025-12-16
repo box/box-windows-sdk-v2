@@ -21,13 +21,16 @@ namespace Box.Sdk.Gen.Managers {
     /// the `file_id` is `123`.
     /// Example: "12345"
     /// </param>
+    /// <param name="queryParams">
+    /// Query parameters of getFileMetadata method
+    /// </param>
     /// <param name="headers">
     /// Headers of getFileMetadata method
     /// </param>
     /// <param name="cancellationToken">
     /// Token used for request cancellation.
     /// </param>
-    public System.Threading.Tasks.Task<Metadatas> GetFileMetadataAsync(string fileId, GetFileMetadataHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+    public System.Threading.Tasks.Task<Metadatas> GetFileMetadataAsync(string fileId, GetFileMetadataQueryParams? queryParams = default, GetFileMetadataHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
     /// Retrieves the instance of a metadata template that has been applied to a
@@ -51,13 +54,16 @@ namespace Box.Sdk.Gen.Managers {
     /// The name of the metadata template.
     /// Example: "properties"
     /// </param>
+    /// <param name="queryParams">
+    /// Query parameters of getFileMetadataById method
+    /// </param>
     /// <param name="headers">
     /// Headers of getFileMetadataById method
     /// </param>
     /// <param name="cancellationToken">
     /// Token used for request cancellation.
     /// </param>
-    public System.Threading.Tasks.Task<MetadataFull> GetFileMetadataByIdAsync(string fileId, GetFileMetadataByIdScope scope, string templateKey, GetFileMetadataByIdHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+    public System.Threading.Tasks.Task<MetadataFull> GetFileMetadataByIdAsync(string fileId, GetFileMetadataByIdScope scope, string templateKey, GetFileMetadataByIdQueryParams? queryParams = default, GetFileMetadataByIdHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
     /// Applies an instance of a metadata template to a file.

@@ -25,6 +25,8 @@ await client.FileMetadata.GetFileMetadataAsync(fileId: file.Id);
 
 - fileId `string`
   - The unique identifier that represents a file.  The ID for any file can be determined by visiting a file in the web application and copying the ID from the URL. For example, for the URL `https://*.app.box.com/files/123` the `file_id` is `123`. Example: "12345"
+- queryParams `GetFileMetadataQueryParams`
+  - Query parameters of getFileMetadata method
 - headers `GetFileMetadataHeaders`
   - Headers of getFileMetadata method
 - cancellationToken `System.Threading.CancellationToken?`
@@ -64,6 +66,8 @@ await client.FileMetadata.GetFileMetadataByIdAsync(fileId: file.Id, scope: GetFi
   - The scope of the metadata template. Example: "global"
 - templateKey `string`
   - The name of the metadata template. Example: "properties"
+- queryParams `GetFileMetadataByIdQueryParams`
+  - Query parameters of getFileMetadataById method
 - headers `GetFileMetadataByIdHeaders`
   - Headers of getFileMetadataById method
 - cancellationToken `System.Threading.CancellationToken?`
