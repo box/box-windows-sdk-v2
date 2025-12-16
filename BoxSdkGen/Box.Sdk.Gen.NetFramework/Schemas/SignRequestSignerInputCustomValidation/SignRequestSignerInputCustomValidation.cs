@@ -37,17 +37,13 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("custom_error_message")]
         public string CustomErrorMessage { get => _customErrorMessage; set { _customErrorMessage = value; _isCustomErrorMessageSet = true; } }
 
-        public SignRequestSignerInputCustomValidation(string customRegex, string customErrorMessage, SignRequestSignerInputCustomValidationValidationTypeField validationType = SignRequestSignerInputCustomValidationValidationTypeField.Custom) {
+        public SignRequestSignerInputCustomValidation(SignRequestSignerInputCustomValidationValidationTypeField validationType = SignRequestSignerInputCustomValidationValidationTypeField.Custom) {
             ValidationType = validationType;
-            CustomRegex = customRegex;
-            CustomErrorMessage = customErrorMessage;
         }
         
         [JsonConstructorAttribute]
-        internal SignRequestSignerInputCustomValidation(string customRegex, string customErrorMessage, StringEnum<SignRequestSignerInputCustomValidationValidationTypeField> validationType) {
+        internal SignRequestSignerInputCustomValidation(StringEnum<SignRequestSignerInputCustomValidationValidationTypeField> validationType) {
             ValidationType = SignRequestSignerInputCustomValidationValidationTypeField.Custom;
-            CustomRegex = customRegex;
-            CustomErrorMessage = customErrorMessage;
         }
         internal string RawJson { get; set; } = default;
 
