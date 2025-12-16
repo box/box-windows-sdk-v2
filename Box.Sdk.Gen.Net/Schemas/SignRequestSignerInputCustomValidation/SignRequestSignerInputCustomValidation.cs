@@ -13,9 +13,9 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("_iscustom_error_messageSet")]
         protected bool _isCustomErrorMessageSet { get; set; }
 
-        protected string _customRegex { get; set; }
+        protected string? _customRegex { get; set; }
 
-        protected string _customErrorMessage { get; set; }
+        protected string? _customErrorMessage { get; set; }
 
         /// <summary>
         /// Defines the validation format for the text input as custom.
@@ -29,25 +29,21 @@ namespace Box.Sdk.Gen.Schemas {
         /// Regular expression used for validation.
         /// </summary>
         [JsonPropertyName("custom_regex")]
-        public string CustomRegex { get => _customRegex; }
+        public string? CustomRegex { get => _customRegex; init { _customRegex = value; _isCustomRegexSet = true; } }
 
         /// <summary>
         /// Error message shown if input fails custom regular expression validation.
         /// </summary>
         [JsonPropertyName("custom_error_message")]
-        public string CustomErrorMessage { get => _customErrorMessage; }
+        public string? CustomErrorMessage { get => _customErrorMessage; init { _customErrorMessage = value; _isCustomErrorMessageSet = true; } }
 
-        public SignRequestSignerInputCustomValidation(string customRegex, string customErrorMessage, SignRequestSignerInputCustomValidationValidationTypeField validationType = SignRequestSignerInputCustomValidationValidationTypeField.Custom) {
+        public SignRequestSignerInputCustomValidation(SignRequestSignerInputCustomValidationValidationTypeField validationType = SignRequestSignerInputCustomValidationValidationTypeField.Custom) {
             ValidationType = validationType;
-            CustomRegex = customRegex;
-            CustomErrorMessage = customErrorMessage;
         }
         
         [JsonConstructorAttribute]
-        internal SignRequestSignerInputCustomValidation(string customRegex, string customErrorMessage, StringEnum<SignRequestSignerInputCustomValidationValidationTypeField> validationType) {
+        internal SignRequestSignerInputCustomValidation(StringEnum<SignRequestSignerInputCustomValidationValidationTypeField> validationType) {
             ValidationType = SignRequestSignerInputCustomValidationValidationTypeField.Custom;
-            CustomRegex = customRegex;
-            CustomErrorMessage = customErrorMessage;
         }
         internal string? RawJson { get; set; } = default;
 
