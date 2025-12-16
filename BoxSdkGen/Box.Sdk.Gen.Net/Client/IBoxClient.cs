@@ -151,6 +151,8 @@ namespace Box.Sdk.Gen {
 
         public IAiStudioManager AiStudio { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
 
+        public IMetadataTaxonomiesManager MetadataTaxonomies { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
+
         public IDocgenTemplateManager DocgenTemplate { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
 
         public IDocgenManager Docgen { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
