@@ -17,9 +17,9 @@ namespace Box.Sdk.Gen.Managers {
         /// Retrieves all file version retentions for the given enterprise.
         /// 
         /// **Note**:
-        /// File retention API is now **deprecated**. 
+        /// File retention API is now **deprecated**.
         /// To get information about files and file versions under retention,
-        /// see [files under retention](e://get-retention-policy-assignments-id-files-under-retention) or [file versions under retention](e://get-retention-policy-assignments-id-file-versions-under-retention) endpoints.
+        /// see [files under retention](https://developer.box.com/reference/get-retention-policy-assignments-id-files-under-retention) or [file versions under retention](https://developer.box.com/reference/get-retention-policy-assignments-id-file-versions-under-retention) endpoints.
         /// </summary>
         /// <param name="queryParams">
         /// Query parameters of getFileVersionRetentions method
@@ -43,9 +43,9 @@ namespace Box.Sdk.Gen.Managers {
         /// Returns information about a file version retention.
         /// 
         /// **Note**:
-        /// File retention API is now **deprecated**. 
+        /// File retention API is now **deprecated**.
         /// To get information about files and file versions under retention,
-        /// see [files under retention](e://get-retention-policy-assignments-id-files-under-retention) or [file versions under retention](e://get-retention-policy-assignments-id-file-versions-under-retention) endpoints.
+        /// see [files under retention](https://developer.box.com/reference/get-retention-policy-assignments-id-files-under-retention) or [file versions under retention](https://developer.box.com/reference/get-retention-policy-assignments-id-file-versions-under-retention) endpoints.
         /// </summary>
         /// <param name="fileVersionRetentionId">
         /// The ID of the file version retention.

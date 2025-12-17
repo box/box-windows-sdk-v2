@@ -69,7 +69,7 @@ namespace Box.Sdk.Gen.Managers {
         /// This allows to always upload your content to the closest Box data center and can significantly improve upload speed.
         ///  Return information about an upload session.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions) endpoint.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions) endpoint.
         /// </summary>
         /// <param name="url">
         /// URL of getFileUploadSessionById method
@@ -90,7 +90,7 @@ namespace Box.Sdk.Gen.Managers {
         /// <summary>
         /// Return information about an upload session.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions) endpoint.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions) endpoint.
         /// </summary>
         /// <param name="uploadSessionId">
         /// The ID of the upload session.
@@ -114,8 +114,8 @@ namespace Box.Sdk.Gen.Managers {
         /// This allows to always upload your content to the closest Box data center and can significantly improve upload speed.
         ///  Uploads a chunk of a file for an upload session.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-        /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+        /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
         /// </summary>
         /// <param name="url">
         /// URL of uploadFilePart method
@@ -138,8 +138,8 @@ namespace Box.Sdk.Gen.Managers {
         /// <summary>
         /// Uploads a chunk of a file for an upload session.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-        /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+        /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
         /// </summary>
         /// <param name="uploadSessionId">
         /// The ID of the upload session.
@@ -167,8 +167,8 @@ namespace Box.Sdk.Gen.Managers {
         /// 
         /// This cannot be reversed.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-        /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+        /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
         /// </summary>
         /// <param name="url">
         /// URL of deleteFileUploadSessionById method
@@ -190,8 +190,8 @@ namespace Box.Sdk.Gen.Managers {
         /// 
         /// This cannot be reversed.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-        /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+        /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
         /// </summary>
         /// <param name="uploadSessionId">
         /// The ID of the upload session.
@@ -214,8 +214,8 @@ namespace Box.Sdk.Gen.Managers {
         /// This allows to always upload your content to the closest Box data center and can significantly improve upload speed.
         ///  Return a list of the chunks uploaded to the upload session so far.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-        /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+        /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
         /// </summary>
         /// <param name="url">
         /// URL of getFileUploadSessionParts method
@@ -241,8 +241,8 @@ namespace Box.Sdk.Gen.Managers {
         /// <summary>
         /// Return a list of the chunks uploaded to the upload session so far.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-        /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+        /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
         /// </summary>
         /// <param name="uploadSessionId">
         /// The ID of the upload session.
@@ -271,8 +271,8 @@ namespace Box.Sdk.Gen.Managers {
         /// This allows to always upload your content to the closest Box data center and can significantly improve upload speed.
         ///  Close an upload session and create a file from the uploaded chunks.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-        /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+        /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
         /// </summary>
         /// <param name="url">
         /// URL of createFileUploadSessionCommit method
@@ -298,8 +298,8 @@ namespace Box.Sdk.Gen.Managers {
         /// <summary>
         /// Close an upload session and create a file from the uploaded chunks.
         /// 
-        /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-        /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+        /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+        /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
         /// </summary>
         /// <param name="uploadSessionId">
         /// The ID of the upload session.

@@ -36,9 +36,9 @@ namespace Box.Sdk.Gen.Managers {
         /// get all instances on a [file][file] or [folder][folder]
         /// to inspect a template's key.
         /// 
-        /// [list]: e://get-metadata-templates-enterprise
-        /// [file]: e://get-files-id-metadata
-        /// [folder]: e://get-folders-id-metadata
+        /// [list]: https://developer.box.com/reference/get-metadata-templates-enterprise
+        /// [file]: https://developer.box.com/reference/get-files-id-metadata
+        /// [folder]: https://developer.box.com/reference/get-folders-id-metadata
         /// </summary>
         [JsonPropertyName("templateKey")]
         public string TemplateKey { get; }
