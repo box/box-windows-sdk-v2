@@ -14,6 +14,8 @@ namespace Box.Sdk.Gen.Schemas {
         [Description("multiSelect")]
         MultiSelect,
         [Description("integer")]
-        Integer
+        Integer,
+        [Description("taxonomy")]
+        Taxonomy
     }
 }
