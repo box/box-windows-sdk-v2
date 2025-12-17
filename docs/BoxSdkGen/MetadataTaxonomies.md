@@ -27,7 +27,10 @@ This operation is performed by calling function `CreateMetadataTaxonomy`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/post-metadata-taxonomies/).
 
-*Currently we don't have an example for calling `CreateMetadataTaxonomy` in integration tests*
+<!-- sample post_metadata_taxonomies -->
+```
+await client.MetadataTaxonomies.CreateMetadataTaxonomyAsync(requestBody: new CreateMetadataTaxonomyRequestBody(displayName: displayName, namespaceParam: namespaceParam) { Key = taxonomyKey });
+```
 
 ### Arguments
 
@@ -55,7 +58,10 @@ This operation is performed by calling function `GetMetadataTaxonomies`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/get-metadata-taxonomies-id/).
 
-*Currently we don't have an example for calling `GetMetadataTaxonomies` in integration tests*
+<!-- sample get_metadata_taxonomies_id -->
+```
+await client.MetadataTaxonomies.GetMetadataTaxonomiesAsync(namespaceParam: namespaceParam);
+```
 
 ### Arguments
 
@@ -86,7 +92,10 @@ This operation is performed by calling function `GetMetadataTaxonomyByKey`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/get-metadata-taxonomies-id-id/).
 
-*Currently we don't have an example for calling `GetMetadataTaxonomyByKey` in integration tests*
+<!-- sample get_metadata_taxonomies_id_id -->
+```
+await client.MetadataTaxonomies.GetMetadataTaxonomyByKeyAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey);
+```
 
 ### Arguments
 
@@ -116,7 +125,10 @@ This operation is performed by calling function `UpdateMetadataTaxonomy`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/patch-metadata-taxonomies-id-id/).
 
-*Currently we don't have an example for calling `UpdateMetadataTaxonomy` in integration tests*
+<!-- sample patch_metadata_taxonomies_id_id -->
+```
+await client.MetadataTaxonomies.UpdateMetadataTaxonomyAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, requestBody: new UpdateMetadataTaxonomyRequestBody(displayName: updatedDisplayName));
+```
 
 ### Arguments
 
@@ -149,7 +161,10 @@ This operation is performed by calling function `DeleteMetadataTaxonomy`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/delete-metadata-taxonomies-id-id/).
 
-*Currently we don't have an example for calling `DeleteMetadataTaxonomy` in integration tests*
+<!-- sample delete_metadata_taxonomies_id_id -->
+```
+await client.MetadataTaxonomies.DeleteMetadataTaxonomyAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey);
+```
 
 ### Arguments
 
@@ -179,7 +194,10 @@ This operation is performed by calling function `CreateMetadataTaxonomyLevel`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/post-metadata-taxonomies-id-id-levels/).
 
-*Currently we don't have an example for calling `CreateMetadataTaxonomyLevel` in integration tests*
+<!-- sample post_metadata_taxonomies_id_id_levels -->
+```
+await client.MetadataTaxonomies.CreateMetadataTaxonomyLevelAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, requestBody: Array.AsReadOnly(new [] {new MetadataTaxonomyLevel() { DisplayName = "Continent", Description = "Continent Level" },new MetadataTaxonomyLevel() { DisplayName = "Country", Description = "Country Level" }}));
+```
 
 ### Arguments
 
@@ -246,7 +264,10 @@ This operation is performed by calling function `AddMetadataTaxonomyLevel`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/post-metadata-taxonomies-id-id-levels:append/).
 
-*Currently we don't have an example for calling `AddMetadataTaxonomyLevel` in integration tests*
+<!-- sample post_metadata_taxonomies_id_id_levels:append -->
+```
+await client.MetadataTaxonomies.AddMetadataTaxonomyLevelAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, requestBody: new AddMetadataTaxonomyLevelRequestBody(displayName: "Region") { Description = "Region Description" });
+```
 
 ### Arguments
 
@@ -278,7 +299,10 @@ This operation is performed by calling function `DeleteMetadataTaxonomyLevel`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/post-metadata-taxonomies-id-id-levels:trim/).
 
-*Currently we don't have an example for calling `DeleteMetadataTaxonomyLevel` in integration tests*
+<!-- sample post_metadata_taxonomies_id_id_levels:trim -->
+```
+await client.MetadataTaxonomies.DeleteMetadataTaxonomyLevelAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey);
+```
 
 ### Arguments
 
@@ -310,7 +334,10 @@ This operation is performed by calling function `GetMetadataTaxonomyNodes`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/get-metadata-taxonomies-id-id-nodes/).
 
-*Currently we don't have an example for calling `GetMetadataTaxonomyNodes` in integration tests*
+<!-- sample get_metadata_taxonomies_id_id_nodes -->
+```
+await client.MetadataTaxonomies.GetMetadataTaxonomyNodesAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey);
+```
 
 ### Arguments
 
@@ -342,7 +369,10 @@ This operation is performed by calling function `CreateMetadataTaxonomyNode`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/post-metadata-taxonomies-id-id-nodes/).
 
-*Currently we don't have an example for calling `CreateMetadataTaxonomyNode` in integration tests*
+<!-- sample post_metadata_taxonomies_id_id_nodes -->
+```
+await client.MetadataTaxonomies.CreateMetadataTaxonomyNodeAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, requestBody: new CreateMetadataTaxonomyNodeRequestBody(displayName: "Europe", level: 1));
+```
 
 ### Arguments
 
@@ -374,7 +404,10 @@ This operation is performed by calling function `GetMetadataTaxonomyNodeById`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/get-metadata-taxonomies-id-id-nodes-id/).
 
-*Currently we don't have an example for calling `GetMetadataTaxonomyNodeById` in integration tests*
+<!-- sample get_metadata_taxonomies_id_id_nodes_id -->
+```
+await client.MetadataTaxonomies.GetMetadataTaxonomyNodeByIdAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, nodeId: countryNode.Id);
+```
 
 ### Arguments
 
@@ -406,7 +439,10 @@ This operation is performed by calling function `UpdateMetadataTaxonomyNode`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/patch-metadata-taxonomies-id-id-nodes-id/).
 
-*Currently we don't have an example for calling `UpdateMetadataTaxonomyNode` in integration tests*
+<!-- sample patch_metadata_taxonomies_id_id_nodes_id -->
+```
+await client.MetadataTaxonomies.UpdateMetadataTaxonomyNodeAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, nodeId: countryNode.Id, requestBody: new UpdateMetadataTaxonomyNodeRequestBody() { DisplayName = "Poland UPDATED" });
+```
 
 ### Arguments
 
@@ -442,7 +478,10 @@ This operation is performed by calling function `DeleteMetadataTaxonomyNode`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/delete-metadata-taxonomies-id-id-nodes-id/).
 
-*Currently we don't have an example for calling `DeleteMetadataTaxonomyNode` in integration tests*
+<!-- sample delete_metadata_taxonomies_id_id_nodes_id -->
+```
+await client.MetadataTaxonomies.DeleteMetadataTaxonomyNodeAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, nodeId: countryNode.Id);
+```
 
 ### Arguments
 
