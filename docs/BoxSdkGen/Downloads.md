@@ -39,7 +39,7 @@ redirects** setting enabled to automatically
 follow HTTP `3xx` responses as redirects. If not, the request
 will return `302` instead.
 For details, see
-the [download file guide](g://downloads/file#download-url).If the file is not ready to be downloaded yet `Retry-After` header will
+the [download file guide](https://developer.box.com/guides/downloads/file#download-url).If the file is not ready to be downloaded yet `Retry-After` header will
 be returned indicating the time in seconds after which the file will
 be available for the client to download.
 
@@ -82,7 +82,7 @@ redirects** setting enabled to automatically
 follow HTTP `3xx` responses as redirects. If not, the request
 will return `302` instead.
 For details, see
-the [download file guide](g://downloads/file#download-url).If the file is not ready to be downloaded yet `Retry-After` header will
+the [download file guide](https://developer.box.com/guides/downloads/file#download-url).If the file is not ready to be downloaded yet `Retry-After` header will
 be returned indicating the time in seconds after which the file will
 be available for the client to download.
 
