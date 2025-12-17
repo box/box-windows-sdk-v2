@@ -30,7 +30,7 @@ namespace Box.Sdk.Gen.Managers {
         /// An optional different name for the file. This can be used to
         /// rename the file.
         /// 
-        /// File names must be unique within their parent folder. The name check is case-insensitive, so a file 
+        /// File names must be unique within their parent folder. The name check is case-insensitive, so a file
         /// named `New File` cannot be created in a parent folder that already contains a folder named `new file`.
         /// </summary>
         [JsonPropertyName("name")]
@@ -85,7 +85,7 @@ namespace Box.Sdk.Gen.Managers {
         /// Passing an empty array `[]` or `null` will remove
         /// the file from all collections.
         /// 
-        /// [1]: e://get-collections
+        /// [1]: https://developer.box.com/reference/get-collections
         /// </summary>
         [JsonPropertyName("collections")]
         public IReadOnlyList<UpdateFileByIdRequestBodyCollectionsField>? Collections { get => _collections; init { _collections = value; _isCollectionsSet = true; } }

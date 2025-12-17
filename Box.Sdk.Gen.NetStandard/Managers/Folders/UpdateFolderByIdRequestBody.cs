@@ -28,8 +28,8 @@ namespace Box.Sdk.Gen.Managers {
         /// (`/`, `\`), names with trailing spaces, and names `.` and `..` are
         /// not allowed.
         /// 
-        /// Folder names must be unique within their parent folder. The name check is case-insensitive, 
-        /// so a folder named `New Folder` cannot be created in a parent folder that already contains 
+        /// Folder names must be unique within their parent folder. The name check is case-insensitive,
+        /// so a folder named `New Folder` cannot be created in a parent folder that already contains
         /// a folder named `new folder`.
         /// </summary>
         [JsonPropertyName("name")]
@@ -98,7 +98,7 @@ namespace Box.Sdk.Gen.Managers {
         /// Passing an empty array `[]` or `null` will remove
         /// the folder from all collections.
         /// 
-        /// [1]: e://get-collections
+        /// [1]: https://developer.box.com/reference/get-collections
         /// </summary>
         [JsonPropertyName("collections")]
         public IReadOnlyList<UpdateFolderByIdRequestBodyCollectionsField> Collections { get => _collections; set { _collections = value; _isCollectionsSet = true; } }
