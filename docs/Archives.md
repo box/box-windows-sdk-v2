@@ -10,7 +10,7 @@
 
 Retrieves archives for an enterprise.
 
-To learn more about the archive APIs, see the [Archive API Guide](g://archives).
+To learn more about the archive APIs, see the [Archive API Guide](https://developer.box.com/guides/archives).
 
 This operation is performed by calling function `GetArchivesV2025R0`.
 
@@ -43,7 +43,7 @@ Returns a list of archives in the enterprise.
 
 Creates an archive.
 
-To learn more about the archive APIs, see the [Archive API Guide](g://archives).
+To learn more about the archive APIs, see the [Archive API Guide](https://developer.box.com/guides/archives).
 
 This operation is performed by calling function `CreateArchiveV2025R0`.
 
@@ -76,7 +76,7 @@ Returns a new archive object.
 
 Permanently deletes an archive.
 
-To learn more about the archive APIs, see the [Archive API Guide](g://archives).
+To learn more about the archive APIs, see the [Archive API Guide](https://developer.box.com/guides/archives).
 
 This operation is performed by calling function `DeleteArchiveByIdV2025R0`.
 
@@ -109,7 +109,7 @@ Returns an empty response when the archive has been deleted.
 
 Updates an archive.
 
-To learn more about the archive APIs, see the [Archive API Guide](g://archives).
+To learn more about the archive APIs, see the [Archive API Guide](https://developer.box.com/guides/archives).
 
 This operation is performed by calling function `UpdateArchiveByIdV2025R0`.
 

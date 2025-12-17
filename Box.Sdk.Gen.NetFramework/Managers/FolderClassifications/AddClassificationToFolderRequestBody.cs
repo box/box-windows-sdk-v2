@@ -13,7 +13,7 @@ namespace Box.Sdk.Gen.Managers {
         /// 
         /// To list the available classifications in an enterprise,
         /// use the classification API to retrieve the
-        /// [classification template](e://get_metadata_templates_enterprise_securityClassification-6VMVochwUWo_schema)
+        /// [classification template](https://developer.box.com/reference/get-metadata-templates-enterprise-securityClassification-6VMVochwUWo-schema)
         /// which lists all available classification keys.
         /// </summary>
         [JsonPropertyName("Box__Security__Classification__Key")]
