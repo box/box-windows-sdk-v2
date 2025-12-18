@@ -398,9 +398,9 @@ namespace Box.Sdk.Gen.Managers {
         /// Results are sorted in lexicographic order unless a `query` parameter is passed. 
         /// With a `query` parameter specified, results are sorted in order of relevance.
         /// </summary>
-        /// <param name="scope">
-        /// The scope of the metadata template.
-        /// Example: "global"
+        /// <param name="namespaceParam">
+        /// The namespace of the metadata taxonomy.
+        /// Example: "enterprise_123456"
         /// </param>
         /// <param name="templateKey">
         /// The name of the metadata template.
@@ -419,12 +419,12 @@ namespace Box.Sdk.Gen.Managers {
         /// <param name="cancellationToken">
         /// Token used for request cancellation.
         /// </param>
-        public async System.Threading.Tasks.Task<MetadataTaxonomyNodes> GetMetadataTemplateFieldOptionsAsync(GetMetadataTemplateFieldOptionsScope scope, string templateKey, string fieldKey, GetMetadataTemplateFieldOptionsQueryParams? queryParams = default, GetMetadataTemplateFieldOptionsHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) {
+        public async System.Threading.Tasks.Task<MetadataTaxonomyNodes> GetMetadataTemplateFieldOptionsAsync(string namespaceParam, string templateKey, string fieldKey, GetMetadataTemplateFieldOptionsQueryParams? queryParams = default, GetMetadataTemplateFieldOptionsHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) {
             queryParams = queryParams ?? new GetMetadataTemplateFieldOptionsQueryParams();
             headers = headers ?? new GetMetadataTemplateFieldOptionsHeaders();
             Dictionary<string, string> queryParamsMap = Utils.PrepareParams(map: new Dictionary<string, string?>() { { "level", StringUtils.ToStringRepresentation(queryParams.Level) }, { "parent", StringUtils.ToStringRepresentation(queryParams.Parent) }, { "ancestor", StringUtils.ToStringRepresentation(queryParams.Ancestor) }, { "query", StringUtils.ToStringRepresentation(queryParams.Query) }, { "include-total-result-count", StringUtils.ToStringRepresentation(queryParams.IncludeTotalResultCount) }, { "only-selectable-options", StringUtils.ToStringRepresentation(queryParams.OnlySelectableOptions) }, { "marker", StringUtils.ToStringRepresentation(queryParams.Marker) }, { "limit", StringUtils.ToStringRepresentation(queryParams.Limit) } });
             Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string?>() {  }, headers.ExtraHeaders));
-            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/metadata_templates/", StringUtils.ToStringRepresentation(scope), "/", StringUtils.ToStringRepresentation(templateKey), "/fields/", StringUtils.ToStringRepresentation(fieldKey), "/options"), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Parameters = queryParamsMap, Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
+            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/metadata_templates/", StringUtils.ToStringRepresentation(namespaceParam), "/", StringUtils.ToStringRepresentation(templateKey), "/fields/", StringUtils.ToStringRepresentation(fieldKey), "/options"), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Parameters = queryParamsMap, Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
             return SimpleJsonSerializer.Deserialize<MetadataTaxonomyNodes>(NullableUtils.Unwrap(response.Data));
         }
 
