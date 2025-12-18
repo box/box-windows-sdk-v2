@@ -71,7 +71,7 @@ namespace Box.Sdk.Gen.Managers {
         public async System.Threading.Tasks.Task<HubCollaborationV2025R0> GetHubCollaborationByIdV2025R0Async(string hubCollaborationId, GetHubCollaborationByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) {
             headers = headers ?? new GetHubCollaborationByIdV2025R0Headers();
             Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string?>() { { "box-version", StringUtils.ToStringRepresentation(headers.BoxVersion) } }, headers.ExtraHeaders));
-            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/hub_collaborations/", StringUtils.ToStringRepresentation(hubCollaborationId)), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
+            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/hub_collaborations/", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(hubCollaborationId))), method: "GET", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
             return SimpleJsonSerializer.Deserialize<HubCollaborationV2025R0>(NullableUtils.Unwrap(response.Data));
         }
 
@@ -95,7 +95,7 @@ namespace Box.Sdk.Gen.Managers {
         public async System.Threading.Tasks.Task<HubCollaborationV2025R0> UpdateHubCollaborationByIdV2025R0Async(string hubCollaborationId, HubCollaborationUpdateRequestV2025R0 requestBody, UpdateHubCollaborationByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) {
             headers = headers ?? new UpdateHubCollaborationByIdV2025R0Headers();
             Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string?>() { { "box-version", StringUtils.ToStringRepresentation(headers.BoxVersion) } }, headers.ExtraHeaders));
-            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/hub_collaborations/", StringUtils.ToStringRepresentation(hubCollaborationId)), method: "PUT", contentType: "application/json", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Data = SimpleJsonSerializer.Serialize(requestBody), Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
+            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/hub_collaborations/", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(hubCollaborationId))), method: "PUT", contentType: "application/json", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Data = SimpleJsonSerializer.Serialize(requestBody), Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
             return SimpleJsonSerializer.Deserialize<HubCollaborationV2025R0>(NullableUtils.Unwrap(response.Data));
         }
 
@@ -115,7 +115,7 @@ namespace Box.Sdk.Gen.Managers {
         public async System.Threading.Tasks.Task DeleteHubCollaborationByIdV2025R0Async(string hubCollaborationId, DeleteHubCollaborationByIdV2025R0Headers? headers = default, System.Threading.CancellationToken? cancellationToken = null) {
             headers = headers ?? new DeleteHubCollaborationByIdV2025R0Headers();
             Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string?>() { { "box-version", StringUtils.ToStringRepresentation(headers.BoxVersion) } }, headers.ExtraHeaders));
-            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/hub_collaborations/", StringUtils.ToStringRepresentation(hubCollaborationId)), method: "DELETE", responseFormat: Box.Sdk.Gen.ResponseFormat.NoContent) { Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
+            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/hub_collaborations/", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(hubCollaborationId))), method: "DELETE", responseFormat: Box.Sdk.Gen.ResponseFormat.NoContent) { Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
         }
 
     }
