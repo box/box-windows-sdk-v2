@@ -224,12 +224,15 @@ Returns an array of all taxonomy levels.
 
 Updates an existing metadata taxonomy level.
 
-This operation is performed by calling function `PatchMetadataTaxonomiesIdIdLevelsId`.
+This operation is performed by calling function `UpdateMetadataTaxonomyLevelById`.
 
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/patch-metadata-taxonomies-id-id-levels-id/).
 
-*Currently we don't have an example for calling `PatchMetadataTaxonomiesIdIdLevelsId` in integration tests*
+<!-- sample patch_metadata_taxonomies_id_id_levels_id -->
+```
+await client.MetadataTaxonomies.UpdateMetadataTaxonomyLevelByIdAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, levelIndex: 1, requestBody: new UpdateMetadataTaxonomyLevelByIdRequestBody(displayName: "Continent UPDATED") { Description = "Continent Level UPDATED" });
+```
 
 ### Arguments
 
@@ -239,10 +242,10 @@ See the endpoint docs at
   - The key of the metadata taxonomy. Example: "geography"
 - levelIndex `long`
   - The index of the metadata taxonomy level. Example: 1
-- requestBody `PatchMetadataTaxonomiesIdIdLevelsIdRequestBody`
-  - Request body of patchMetadataTaxonomiesIdIdLevelsId method
-- headers `PatchMetadataTaxonomiesIdIdLevelsIdHeaders`
-  - Headers of patchMetadataTaxonomiesIdIdLevelsId method
+- requestBody `UpdateMetadataTaxonomyLevelByIdRequestBody`
+  - Request body of updateMetadataTaxonomyLevelById method
+- headers `UpdateMetadataTaxonomyLevelByIdHeaders`
+  - Headers of updateMetadataTaxonomyLevelById method
 - cancellationToken `System.Threading.CancellationToken?`
   - Token used for request cancellation.
 
@@ -516,7 +519,10 @@ This operation is performed by calling function `GetMetadataTemplateFieldOptions
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/get-metadata-templates-id-id-fields-id-options/).
 
-*Currently we don't have an example for calling `GetMetadataTemplateFieldOptions` in integration tests*
+<!-- sample get_metadata_templates_id_id_fields_id_options -->
+```
+await client.MetadataTaxonomies.GetMetadataTemplateFieldOptionsAsync(namespaceParam: namespaceParam, templateKey: metadataTemplateKey, fieldKey: "taxonomy");
+```
 
 ### Arguments
 

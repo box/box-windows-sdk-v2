@@ -7,7 +7,7 @@ using System;
 using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Managers {
-    public class PatchMetadataTaxonomiesIdIdLevelsIdRequestBody : ISerializable {
+    public class UpdateMetadataTaxonomyLevelByIdRequestBody : ISerializable {
         /// <summary>
         /// The display name of the taxonomy level.
         /// </summary>
@@ -20,7 +20,7 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        public PatchMetadataTaxonomiesIdIdLevelsIdRequestBody(string displayName) {
+        public UpdateMetadataTaxonomyLevelByIdRequestBody(string displayName) {
             DisplayName = displayName;
         }
         internal string RawJson { get; set; } = default;
