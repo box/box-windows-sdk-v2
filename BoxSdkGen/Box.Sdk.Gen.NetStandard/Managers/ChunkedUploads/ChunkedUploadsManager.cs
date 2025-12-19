@@ -333,7 +333,7 @@ namespace Box.Sdk.Gen.Managers {
             string digest = string.Concat("sha=", sha1);
             int chunkSize = Utils.BufferLength(buffer: chunkBuffer);
             long bytesStart = lastIndex + 1;
-            long bytesEnd = lastIndex + chunkSize;
+            long bytesEnd = lastIndex + (long)(chunkSize);
             string contentRange = string.Concat("bytes ", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(bytesStart)), "-", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(bytesEnd)), "/", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(acc.FileSize)));
             UploadedPart uploadedPart = await this.UploadFilePartByUrlAsync(url: acc.UploadPartUrl, requestBody: Utils.GenerateByteStreamFromBuffer(buffer: chunkBuffer), headers: new UploadFilePartByUrlHeaders(digest: digest, contentRange: contentRange)).ConfigureAwait(false);
             UploadPart part = NullableUtils.Unwrap(uploadedPart.Part);
@@ -376,7 +376,7 @@ namespace Box.Sdk.Gen.Managers {
             string listPartsUrl = NullableUtils.Unwrap(NullableUtils.Unwrap(uploadSession.SessionEndpoints).ListParts);
             long partSize = NullableUtils.Unwrap(uploadSession.PartSize);
             int totalParts = NullableUtils.Unwrap(uploadSession.TotalParts);
-            if (!(partSize * totalParts >= fileSize)) {
+            if (!(partSize * (long)(totalParts) >= fileSize)) {
                 throw new Exception(message: "Assertion failed");
             }
             if (!(uploadSession.NumPartsProcessed == 0)) {

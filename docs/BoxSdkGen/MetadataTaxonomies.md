@@ -231,7 +231,7 @@ See the endpoint docs at
 
 <!-- sample patch_metadata_taxonomies_id_id_levels_id -->
 ```
-await client.MetadataTaxonomies.UpdateMetadataTaxonomyLevelByIdAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, levelIndex: 1, requestBody: new UpdateMetadataTaxonomyLevelByIdRequestBody(displayName: "Continent UPDATED") { Description = "Continent Level UPDATED" });
+await client.MetadataTaxonomies.UpdateMetadataTaxonomyLevelByIdAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, levelIndex: 1L, requestBody: new UpdateMetadataTaxonomyLevelByIdRequestBody(displayName: "Continent UPDATED") { Description = "Continent Level UPDATED" });
 ```
 
 ### Arguments
