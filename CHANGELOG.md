@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.4.0](https://github.com/box/box-windows-sdk-v2/compare/v6.3.0...v6.4.0) (2025-12-19)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** add Metadata Taxonomies api (box/box-openapi[#569](https://github.com/box/box-windows-sdk-v2/issues/569)) ([#1329](https://github.com/box/box-windows-sdk-v2/issues/1329)) ([5908cf2](https://github.com/box/box-windows-sdk-v2/commit/5908cf22ffeb8c14bb727d44fd58b57a3f7d6ea0))
+* **boxsdkgen:** text input validation for Box Sign (box/box-openapi[#568](https://github.com/box/box-windows-sdk-v2/issues/568)) ([#1323](https://github.com/box/box-windows-sdk-v2/issues/1323)) ([d094726](https://github.com/box/box-windows-sdk-v2/commit/d094726711e982b889d6caa4378736cb3dde673a))
+* **boxsdkgen:** Treat `nullable` fields as Optional (box/box-codegen[#906](https://github.com/box/box-windows-sdk-v2/issues/906)) ([#1333](https://github.com/box/box-windows-sdk-v2/issues/1333)) ([1b61619](https://github.com/box/box-windows-sdk-v2/commit/1b61619142c0896856791a12cae709d5d0d138f6))
+
+
+### **Bug Fixes:**
+
+* **boxsdkgen:** add taxonomy to Metadata Field (read) definition (box/box-openapi[#572](https://github.com/box/box-windows-sdk-v2/issues/572)) ([#1343](https://github.com/box/box-windows-sdk-v2/issues/1343)) ([8152df7](https://github.com/box/box-windows-sdk-v2/commit/8152df75926b0ee5bad504b0707adb31f099ef9b))
+* **boxsdkgen:** Fix convert to long in CSharp (box/box-codegen[#911](https://github.com/box/box-windows-sdk-v2/issues/911)) ([#1354](https://github.com/box/box-windows-sdk-v2/issues/1354)) ([25433e5](https://github.com/box/box-windows-sdk-v2/commit/25433e5a1044cc36ebdb604b4ead55d0db5d1158))
+
 ## [6.3.0](https://github.com/box/box-windows-sdk-v2/compare/v6.2.0...v6.3.0) (2025-12-12)
 
 
