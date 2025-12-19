@@ -140,15 +140,15 @@ namespace Box.Sdk.Gen.Managers {
     /// Example: 1
     /// </param>
     /// <param name="requestBody">
-    /// Request body of patchMetadataTaxonomiesIdIdLevelsId method
+    /// Request body of updateMetadataTaxonomyLevelById method
     /// </param>
     /// <param name="headers">
-    /// Headers of patchMetadataTaxonomiesIdIdLevelsId method
+    /// Headers of updateMetadataTaxonomyLevelById method
     /// </param>
     /// <param name="cancellationToken">
     /// Token used for request cancellation.
     /// </param>
-    public System.Threading.Tasks.Task<MetadataTaxonomyLevel> PatchMetadataTaxonomiesIdIdLevelsIdAsync(string namespaceParam, string taxonomyKey, long levelIndex, PatchMetadataTaxonomiesIdIdLevelsIdRequestBody requestBody, PatchMetadataTaxonomiesIdIdLevelsIdHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+    public System.Threading.Tasks.Task<MetadataTaxonomyLevel> UpdateMetadataTaxonomyLevelByIdAsync(string namespaceParam, string taxonomyKey, long levelIndex, UpdateMetadataTaxonomyLevelByIdRequestBody requestBody, UpdateMetadataTaxonomyLevelByIdHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
     /// Creates a new metadata taxonomy level and appends it to the existing levels.
@@ -318,9 +318,9 @@ namespace Box.Sdk.Gen.Managers {
     /// Results are sorted in lexicographic order unless a `query` parameter is passed. 
     /// With a `query` parameter specified, results are sorted in order of relevance.
     /// </summary>
-    /// <param name="scope">
-    /// The scope of the metadata template.
-    /// Example: "global"
+    /// <param name="namespaceParam">
+    /// The namespace of the metadata taxonomy.
+    /// Example: "enterprise_123456"
     /// </param>
     /// <param name="templateKey">
     /// The name of the metadata template.
@@ -339,7 +339,7 @@ namespace Box.Sdk.Gen.Managers {
     /// <param name="cancellationToken">
     /// Token used for request cancellation.
     /// </param>
-    public System.Threading.Tasks.Task<MetadataTaxonomyNodes> GetMetadataTemplateFieldOptionsAsync(GetMetadataTemplateFieldOptionsScope scope, string templateKey, string fieldKey, GetMetadataTemplateFieldOptionsQueryParams? queryParams = default, GetMetadataTemplateFieldOptionsHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+    public System.Threading.Tasks.Task<MetadataTaxonomyNodes> GetMetadataTemplateFieldOptionsAsync(string namespaceParam, string templateKey, string fieldKey, GetMetadataTemplateFieldOptionsQueryParams? queryParams = default, GetMetadataTemplateFieldOptionsHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
     }
 }

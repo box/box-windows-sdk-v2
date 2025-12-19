@@ -2,6 +2,10 @@ name: Build and Test daily
 on:
   schedule:
     - cron: '20 23 * * 1-5'
+
+permissions:
+  contents: read
+
 jobs:
   framework:
     name: Box.V2 (.NET Framework 4.6.2)

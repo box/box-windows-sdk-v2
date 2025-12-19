@@ -19,7 +19,7 @@ See the endpoint docs at
 
 <!-- sample get_archives_v2025.0 -->
 ```
-await client.Archives.GetArchivesV2025R0Async(queryParams: new GetArchivesV2025R0QueryParams() { Limit = 100 });
+await client.Archives.GetArchivesV2025R0Async(queryParams: new GetArchivesV2025R0QueryParams() { Limit = 100L });
 ```
 
 ### Arguments

@@ -33,7 +33,7 @@ namespace Box.Sdk.Gen.Tests.Integration {
             Assert.IsTrue(StringUtils.ToStringRepresentation(NullableUtils.Unwrap(docgenBatchJobs.Entries)[0].Status) != "");
             Assert.IsTrue(NullableUtils.Unwrap(docgenBatchJobs.Entries)[0].TemplateFile.Id == uploadedFileDocx.Id);
             Assert.IsTrue(NullableUtils.Unwrap(docgenBatchJobs.Entries)[0].Batch.Id == docgenBatch.Id);
-            DocGenJobsFullV2025R0 docgenJobs = await client.Docgen.GetDocgenJobsV2025R0Async(queryParams: new GetDocgenJobsV2025R0QueryParams() { Limit = 10000 });
+            DocGenJobsFullV2025R0 docgenJobs = await client.Docgen.GetDocgenJobsV2025R0Async(queryParams: new GetDocgenJobsV2025R0QueryParams() { Limit = 10000L });
             Assert.IsTrue(NullableUtils.Unwrap(docgenJobs.Entries).Count >= 1);
             Assert.IsTrue(NullableUtils.Unwrap(docgenJobs.Entries)[0].Batch.Id != "");
             Assert.IsTrue(NullableUtils.Unwrap(docgenJobs.Entries)[0].CreatedBy.Id != "");

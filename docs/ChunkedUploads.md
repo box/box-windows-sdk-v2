@@ -26,7 +26,7 @@ See the endpoint docs at
 
 <!-- sample post_files_upload_sessions -->
 ```
-await client.ChunkedUploads.CreateFileUploadSessionAsync(requestBody: new CreateFileUploadSessionRequestBody(fileName: fileName, fileSize: fileSize, folderId: parentFolderId));
+await client.ChunkedUploads.CreateFileUploadSessionAsync(requestBody: new CreateFileUploadSessionRequestBody(fileName: fileName, fileSize: (long)(fileSize), folderId: parentFolderId));
 ```
 
 ### Arguments
@@ -449,7 +449,7 @@ This operation is performed by calling function `UploadBigFile`.
 
 
 ```
-await client.ChunkedUploads.UploadBigFileAsync(file: fileByteStream, fileName: fileName, fileSize: fileSize, parentFolderId: parentFolderId);
+await client.ChunkedUploads.UploadBigFileAsync(file: fileByteStream, fileName: fileName, fileSize: (long)(fileSize), parentFolderId: parentFolderId);
 ```
 
 ### Arguments

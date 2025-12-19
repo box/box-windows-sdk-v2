@@ -62,7 +62,7 @@ namespace Box.Sdk.Gen.Tests.Integration {
             long epochTimeInSecondsAWeekAgo = currentEpochTimeInSeconds - 7 * 24 * 60 * 60;
             System.DateTimeOffset createdAfterDate = Utils.EpochSecondsToDateTime(seconds: epochTimeInSecondsAWeekAgo);
             System.DateTimeOffset createdBeforeDate = Utils.EpochSecondsToDateTime(seconds: currentEpochTimeInSeconds);
-            Events servers = await client.Events.GetEventsAsync(queryParams: new GetEventsQueryParams() { StreamType = GetEventsQueryParamsStreamTypeField.AdminLogs, Limit = 1, CreatedAfter = createdAfterDate, CreatedBefore = createdBeforeDate });
+            Events servers = await client.Events.GetEventsAsync(queryParams: new GetEventsQueryParams() { StreamType = GetEventsQueryParamsStreamTypeField.AdminLogs, Limit = 1L, CreatedAfter = createdAfterDate, CreatedBefore = createdBeforeDate });
             Assert.IsTrue(NullableUtils.Unwrap(servers.Entries).Count == 1);
         }
 
