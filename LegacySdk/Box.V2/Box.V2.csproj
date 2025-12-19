@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageId>Box.V2.Legacy</PackageId>
     <TargetFramework>net462</TargetFramework>
-    <Version>6.3.0</Version>
+    <Version>6.4.0</Version>
     <Description>Box SDK for v2 of the Box API. The SDK is targeting .NET Framework 4.6.2</Description>
     <Authors>Box Inc.</Authors>
     <RepositoryUrl>https://github.com/box/box-windows-sdk-v2.git</RepositoryUrl>
