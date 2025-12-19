@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.5.0](https://github.com/box/box-windows-sdk-v2/compare/v10.4.0...v10.5.0) (2025-12-19)
+
+
+### Bug Fixes
+
+* add taxonomy to Metadata Field (read) definition (box/box-openapi[#572](https://github.com/box/box-windows-sdk-v2/issues/572)) ([#1344](https://github.com/box/box-windows-sdk-v2/issues/1344)) ([03aea9b](https://github.com/box/box-windows-sdk-v2/commit/03aea9b2aee4ff98d91d0ebdb477e8ebaa3ee22d))
+* Fix convert to long in CSharp (box/box-codegen[#911](https://github.com/box/box-windows-sdk-v2/issues/911)) ([#1353](https://github.com/box/box-windows-sdk-v2/issues/1353)) ([aacee77](https://github.com/box/box-windows-sdk-v2/commit/aacee77366a76d18afbd1e7c19600ee4ddd21b54))
+
+
+### New Features and Enhancements
+
+* add Metadata Taxonomies api (box/box-openapi[#569](https://github.com/box/box-windows-sdk-v2/issues/569)) ([#1330](https://github.com/box/box-windows-sdk-v2/issues/1330)) ([e054a76](https://github.com/box/box-windows-sdk-v2/commit/e054a76609c710a92d998ee1b8622edf495b7bc0))
+* text input validation for Box Sign (box/box-openapi[#568](https://github.com/box/box-windows-sdk-v2/issues/568)) ([#1324](https://github.com/box/box-windows-sdk-v2/issues/1324)) ([9710ac9](https://github.com/box/box-windows-sdk-v2/commit/9710ac93223a18959fa30b49c1fcdc4913645dbb))
+* Treat `nullable` fields as Optional (box/box-codegen[#906](https://github.com/box/box-windows-sdk-v2/issues/906)) ([#1334](https://github.com/box/box-windows-sdk-v2/issues/1334)) ([0c53bda](https://github.com/box/box-windows-sdk-v2/commit/0c53bda54c30b9afd0b48f7e22a6b7c8a09a770c))
+
 ## [10.4.0](https://github.com/box/box-windows-sdk-v2/compare/v10.3.0...v10.4.0) (2025-12-12)
 
 
