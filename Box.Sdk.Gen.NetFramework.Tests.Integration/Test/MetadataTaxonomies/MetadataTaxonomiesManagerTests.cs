@@ -53,7 +53,7 @@ namespace Box.Sdk.Gen.Tests.Integration {
             Assert.IsTrue(NullableUtils.Unwrap(taxonomyLevels.Entries).Count == 2);
             Assert.IsTrue(NullableUtils.Unwrap(taxonomyLevels.Entries)[0].DisplayName == "Continent");
             Assert.IsTrue(NullableUtils.Unwrap(taxonomyLevels.Entries)[1].DisplayName == "Country");
-            MetadataTaxonomyLevel updatedTaxonomyLevels = await client.MetadataTaxonomies.UpdateMetadataTaxonomyLevelByIdAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, levelIndex: 1, requestBody: new UpdateMetadataTaxonomyLevelByIdRequestBody(displayName: "Continent UPDATED") { Description = "Continent Level UPDATED" });
+            MetadataTaxonomyLevel updatedTaxonomyLevels = await client.MetadataTaxonomies.UpdateMetadataTaxonomyLevelByIdAsync(namespaceParam: namespaceParam, taxonomyKey: taxonomyKey, levelIndex: 1L, requestBody: new UpdateMetadataTaxonomyLevelByIdRequestBody(displayName: "Continent UPDATED") { Description = "Continent Level UPDATED" });
             Assert.IsTrue(updatedTaxonomyLevels.DisplayName == "Continent UPDATED");
             Assert.IsTrue(updatedTaxonomyLevels.Description == "Continent Level UPDATED");
             Assert.IsTrue(updatedTaxonomyLevels.Level == NullableUtils.Unwrap(taxonomyLevels.Entries)[0].Level);
@@ -83,7 +83,7 @@ namespace Box.Sdk.Gen.Tests.Integration {
             Assert.IsTrue(getCountryNode.DisplayName == "Poland UPDATED");
             Assert.IsTrue(getCountryNode.Id == countryNode.Id);
             string metadataTemplateKey = string.Concat("templateKey", Utils.GetUUID());
-            MetadataTemplate metadataTemplate = await client.MetadataTemplates.CreateMetadataTemplateAsync(requestBody: new CreateMetadataTemplateRequestBody(scope: "enterprise", displayName: metadataTemplateKey) { TemplateKey = metadataTemplateKey, Fields = Array.AsReadOnly(new [] {new CreateMetadataTemplateRequestBodyFieldsField(type: CreateMetadataTemplateRequestBodyFieldsTypeField.Taxonomy, key: "taxonomy", displayName: "taxonomy") { TaxonomyKey = taxonomyKey, NamespaceParam = namespaceParam, OptionsRules = new CreateMetadataTemplateRequestBodyFieldsOptionsRulesField() { MultiSelect = true, SelectableLevels = Array.AsReadOnly(new [] {1}) } }}) });
+            MetadataTemplate metadataTemplate = await client.MetadataTemplates.CreateMetadataTemplateAsync(requestBody: new CreateMetadataTemplateRequestBody(scope: "enterprise", displayName: metadataTemplateKey) { TemplateKey = metadataTemplateKey, Fields = Array.AsReadOnly(new [] {new CreateMetadataTemplateRequestBodyFieldsField(type: CreateMetadataTemplateRequestBodyFieldsTypeField.Taxonomy, key: "taxonomy", displayName: "taxonomy") { TaxonomyKey = taxonomyKey, NamespaceParam = namespaceParam, OptionsRules = new CreateMetadataTemplateRequestBodyFieldsOptionsRulesField() { MultiSelect = true, SelectableLevels = Array.AsReadOnly(new [] {1L}) } }}) });
             Assert.IsTrue(metadataTemplate.TemplateKey == metadataTemplateKey);
             Assert.IsTrue(metadataTemplate.DisplayName == metadataTemplateKey);
             Assert.IsTrue(NullableUtils.Unwrap(metadataTemplate.Fields).Count == 1);

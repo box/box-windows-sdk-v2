@@ -10,14 +10,14 @@ namespace Box.Sdk.Gen.Tests.Integration {
         [RetryableTest]
         public async System.Threading.Tasks.Task TestGetSignTemplates() {
             BoxClient client = new CommonsManager().GetDefaultClientWithUserSubject(userId: Utils.GetEnvVar(name: "USER_ID"));
-            SignTemplates signTemplates = await client.SignTemplates.GetSignTemplatesAsync(queryParams: new GetSignTemplatesQueryParams() { Limit = 2 });
+            SignTemplates signTemplates = await client.SignTemplates.GetSignTemplatesAsync(queryParams: new GetSignTemplatesQueryParams() { Limit = 2L });
             Assert.IsTrue(NullableUtils.Unwrap(signTemplates.Entries).Count >= 0);
         }
 
         [RetryableTest]
         public async System.Threading.Tasks.Task TestGetSignTemplate() {
             BoxClient client = new CommonsManager().GetDefaultClientWithUserSubject(userId: Utils.GetEnvVar(name: "USER_ID"));
-            SignTemplates signTemplates = await client.SignTemplates.GetSignTemplatesAsync(queryParams: new GetSignTemplatesQueryParams() { Limit = 2 });
+            SignTemplates signTemplates = await client.SignTemplates.GetSignTemplatesAsync(queryParams: new GetSignTemplatesQueryParams() { Limit = 2L });
             Assert.IsTrue(NullableUtils.Unwrap(signTemplates.Entries).Count >= 0);
             if (NullableUtils.Unwrap(signTemplates.Entries).Count > 0) {
                 SignTemplate signTemplate = await client.SignTemplates.GetSignTemplateByIdAsync(templateId: NullableUtils.Unwrap(NullableUtils.Unwrap(signTemplates.Entries)[0].Id));
