@@ -58,7 +58,7 @@ See the endpoint docs at
 
 <!-- sample put_metadata_templates_enterprise_securityClassification-6VMVochwUWo_schema#add -->
 ```
-await client.Classifications.AddClassificationAsync(requestBody: Array.AsReadOnly(new [] {new AddClassificationRequestBody(data: new AddClassificationRequestBodyDataField(key: Utils.GetUUID()) { StaticConfig = new AddClassificationRequestBodyDataStaticConfigField() { Classification = new AddClassificationRequestBodyDataStaticConfigClassificationField() { ColorId = 4, ClassificationDefinition = "Other description" } } })}));
+await client.Classifications.AddClassificationAsync(requestBody: Array.AsReadOnly(new [] {new AddClassificationRequestBody(data: new AddClassificationRequestBodyDataField(key: Utils.GetUUID()) { StaticConfig = new AddClassificationRequestBodyDataStaticConfigField() { Classification = new AddClassificationRequestBodyDataStaticConfigClassificationField() { ColorId = 4L, ClassificationDefinition = "Other description" } } })}));
 ```
 
 ### Arguments
@@ -96,7 +96,7 @@ See the endpoint docs at
 
 <!-- sample put_metadata_templates_enterprise_securityClassification-6VMVochwUWo_schema#update -->
 ```
-await client.Classifications.UpdateClassificationAsync(requestBody: Array.AsReadOnly(new [] {new UpdateClassificationRequestBody(enumOptionKey: classification.Key, data: new UpdateClassificationRequestBodyDataField(key: updatedClassificationName) { StaticConfig = new UpdateClassificationRequestBodyDataStaticConfigField() { Classification = new UpdateClassificationRequestBodyDataStaticConfigClassificationField() { ColorId = 2, ClassificationDefinition = updatedClassificationDescription } } })}));
+await client.Classifications.UpdateClassificationAsync(requestBody: Array.AsReadOnly(new [] {new UpdateClassificationRequestBody(enumOptionKey: classification.Key, data: new UpdateClassificationRequestBodyDataField(key: updatedClassificationName) { StaticConfig = new UpdateClassificationRequestBodyDataStaticConfigField() { Classification = new UpdateClassificationRequestBodyDataStaticConfigClassificationField() { ColorId = 2L, ClassificationDefinition = updatedClassificationDescription } } })}));
 ```
 
 ### Arguments

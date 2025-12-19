@@ -15,7 +15,7 @@ See the endpoint docs at
 
 <!-- sample get_sign_templates -->
 ```
-await client.SignTemplates.GetSignTemplatesAsync(queryParams: new GetSignTemplatesQueryParams() { Limit = 2 });
+await client.SignTemplates.GetSignTemplatesAsync(queryParams: new GetSignTemplatesQueryParams() { Limit = 2L });
 ```
 
 ### Arguments
