@@ -434,7 +434,7 @@ namespace Box.Sdk.Gen.Internal
             { "GET", HttpMethod.Get },
             { "POST", HttpMethod.Post },
             { "PUT", HttpMethod.Put },
-            { "PATCH", new HttpMethod("Patch") },
+            { "PATCH", new HttpMethod("PATCH") },
             { "DELETE", HttpMethod.Delete },
             { "OPTIONS", HttpMethod.Options },
             { "HEAD", HttpMethod.Head },
