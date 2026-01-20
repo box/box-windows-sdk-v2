@@ -17,7 +17,7 @@ namespace Box.Sdk.Gen.Tests.Integration {
         }
         [RetryableTest]
         public async System.Threading.Tasks.Task TestCreateGetCancelAndListSignRequest() {
-            string signerEmail = string.Concat(Utils.GetUUID(), "@box.com");
+            string signerEmail = string.Concat(Utils.GetUUID(), "@boxdemo.com");
             FileFull fileToSign = await new CommonsManager().UploadNewFileAsync();
             FolderFull destinationFolder = await new CommonsManager().CreateNewFolderAsync();
             SignRequest createdSignRequest = await client.SignRequests.CreateSignRequestAsync(requestBody: new SignRequestCreateRequest(signers: Array.AsReadOnly(new [] {new SignRequestCreateSigner() { Email = signerEmail, SuppressNotifications = true, DeclinedRedirectUrl = "https://www.box.com", EmbedUrlExternalUserId = "123", IsInPerson = false, LoginRequired = false, Password = "password", Role = SignRequestCreateSignerRoleField.Signer }})) { AreRemindersEnabled = true, AreTextSignaturesEnabled = true, DaysValid = 30L, DeclinedRedirectUrl = "https://www.box.com", EmailMessage = "Please sign this document", EmailSubject = "Sign this document", ExternalId = "123", ExternalSystemName = "BoxSignIntegration", IsDocumentPreparationNeeded = false, Name = "Sign Request", ParentFolder = new FolderMini(id: destinationFolder.Id), RedirectUrl = "https://www.box.com", PrefillTags = Array.AsReadOnly(new [] {new SignRequestPrefillTag() { DateValue = Utils.DateFromString(date: "2035-01-01"), DocumentTagId = "0" }}), SourceFiles = Array.AsReadOnly(new [] {new FileBase(id: fileToSign.Id)}) });
@@ -56,8 +56,8 @@ namespace Box.Sdk.Gen.Tests.Integration {
 
         [RetryableTest]
         public async System.Threading.Tasks.Task TestCreateSignRequestWithSignerGroupId() {
-            string signer1Email = string.Concat(Utils.GetUUID(), "@box.com");
-            string signer2Email = string.Concat(Utils.GetUUID(), "@box.com");
+            string signer1Email = string.Concat(Utils.GetUUID(), "@boxdemo.com");
+            string signer2Email = string.Concat(Utils.GetUUID(), "@boxdemo.com");
             FileFull fileToSign = await new CommonsManager().UploadNewFileAsync();
             FolderFull destinationFolder = await new CommonsManager().CreateNewFolderAsync();
             SignRequest createdSignRequest = await client.SignRequests.CreateSignRequestAsync(requestBody: new SignRequestCreateRequest(signers: Array.AsReadOnly(new [] {new SignRequestCreateSigner() { Email = signer1Email, SignerGroupId = "user" },new SignRequestCreateSigner() { Email = signer2Email, SignerGroupId = "user" }})) { ParentFolder = new FolderMini(id: destinationFolder.Id), SourceFiles = Array.AsReadOnly(new [] {new FileBase(id: fileToSign.Id)}) });
