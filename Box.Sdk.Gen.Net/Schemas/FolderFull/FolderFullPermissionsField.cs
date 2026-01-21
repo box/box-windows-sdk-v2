@@ -52,6 +52,12 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("can_upload")]
         public bool CanUpload { get; }
 
+        /// <summary>
+        /// Specifies if the user can apply a watermark to this folder and its contents.
+        /// </summary>
+        [JsonPropertyName("can_apply_watermark")]
+        public bool? CanApplyWatermark { get; init; }
+
         public FolderFullPermissionsField(bool canDelete, bool canDownload, bool canInviteCollaborator, bool canRename, bool canSetShareAccess, bool canShare, bool canUpload) {
             CanDelete = canDelete;
             CanDownload = canDownload;

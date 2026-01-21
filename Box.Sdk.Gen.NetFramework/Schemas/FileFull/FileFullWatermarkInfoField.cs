@@ -1,7 +1,7 @@
+using Box.Sdk.Gen;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using Box.Sdk.Gen.Internal;
-using Box.Sdk.Gen;
 using System;
 using System.Collections.ObjectModel;
 using Box.Sdk.Gen.Schemas;
@@ -13,6 +13,18 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("is_watermarked")]
         public bool? IsWatermarked { get; set; }
+
+        /// <summary>
+        /// Specifies if the watermark is inherited from any parent folder in the hierarchy.
+        /// </summary>
+        [JsonPropertyName("is_watermark_inherited")]
+        public bool? IsWatermarkInherited { get; set; }
+
+        /// <summary>
+        /// Specifies if the watermark is enforced by an access policy.
+        /// </summary>
+        [JsonPropertyName("is_watermarked_by_access_policy")]
+        public bool? IsWatermarkedByAccessPolicy { get; set; }
 
         public FileFullWatermarkInfoField() {
             

@@ -1,7 +1,7 @@
+using Box.Sdk.Gen;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using Box.Sdk.Gen.Internal;
-using Box.Sdk.Gen;
 using System;
 using System.Collections.ObjectModel;
 using Box.Sdk.Gen.Schemas;
