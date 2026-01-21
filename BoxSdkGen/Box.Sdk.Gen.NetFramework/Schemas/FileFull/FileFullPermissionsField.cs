@@ -1,3 +1,4 @@
+using Box.Sdk.Gen;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using Box.Sdk.Gen.Internal;
@@ -81,6 +82,12 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("can_view_annotations_self")]
         public bool CanViewAnnotationsSelf { get; set; }
+
+        /// <summary>
+        /// Specifies if the user can apply a watermark to this file.
+        /// </summary>
+        [JsonPropertyName("can_apply_watermark")]
+        public bool? CanApplyWatermark { get; set; }
 
         public FileFullPermissionsField(bool canDelete, bool canDownload, bool canInviteCollaborator, bool canRename, bool canSetShareAccess, bool canShare, bool canAnnotate, bool canComment, bool canPreview, bool canUpload, bool canViewAnnotationsAll, bool canViewAnnotationsSelf) {
             CanDelete = canDelete;
