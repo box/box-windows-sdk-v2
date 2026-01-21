@@ -26,7 +26,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// <summary>
         /// The maximum number of retries this server will
         /// allow before a new long poll should be started by
-        /// getting a [new list of server](#options-events).
+        /// getting a [new list of server](https://developer.box.com/reference/options-events).
         /// </summary>
         [JsonPropertyName("max_retries")]
         public string MaxRetries { get; set; }

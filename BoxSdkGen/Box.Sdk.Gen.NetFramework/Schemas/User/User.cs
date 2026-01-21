@@ -26,7 +26,7 @@ namespace Box.Sdk.Gen.Schemas {
 
         /// <summary>
         /// The language of the user, formatted in modified version of the
-        /// [ISO 639-1](/guides/api-calls/language-codes) format.
+        /// [ISO 639-1](https://developer.box.com/guides/api-calls/language-codes) format.
         /// </summary>
         [JsonPropertyName("language")]
         public string Language { get; set; }
