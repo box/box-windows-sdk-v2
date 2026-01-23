@@ -41,7 +41,7 @@ This function returns a value of type `FileFull`.
 Returns a file object.
 
 Not all available fields are returned by default. Use the
-[fields](#param-fields) query parameter to explicitly request
+[fields](#parameter-fields) query parameter to explicitly request
 any specific fields.
 
 
@@ -81,7 +81,7 @@ This function returns a value of type `FileFull`.
 Returns a file object.
 
 Not all available fields are returned by default. Use the
-[fields](#param-fields) query parameter to explicitly request
+[fields](#parameter-fields) query parameter to explicitly request
 any specific fields.
 
 
@@ -156,7 +156,7 @@ This function returns a value of type `FileFull`.
 Returns a new file object representing the copied file.
 
 Not all available fields are returned by default. Use the
-[fields](#param-fields) query parameter to explicitly request
+[fields](#parameter-fields) query parameter to explicitly request
 any specific fields.
 
 
