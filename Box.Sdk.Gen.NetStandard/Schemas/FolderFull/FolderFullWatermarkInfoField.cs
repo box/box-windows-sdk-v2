@@ -14,6 +14,18 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("is_watermarked")]
         public bool? IsWatermarked { get; set; }
 
+        /// <summary>
+        /// Specifies if the watermark is inherited from any parent folder in the hierarchy.
+        /// </summary>
+        [JsonPropertyName("is_watermark_inherited")]
+        public bool? IsWatermarkInherited { get; set; }
+
+        /// <summary>
+        /// Specifies if the watermark is enforced by an access policy.
+        /// </summary>
+        [JsonPropertyName("is_watermarked_by_access_policy")]
+        public bool? IsWatermarkedByAccessPolicy { get; set; }
+
         public FolderFullWatermarkInfoField() {
             
         }
