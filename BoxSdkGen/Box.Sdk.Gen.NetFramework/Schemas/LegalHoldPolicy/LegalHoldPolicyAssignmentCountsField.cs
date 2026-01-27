@@ -7,7 +7,7 @@ using Box.Sdk.Gen.Schemas;
 namespace Box.Sdk.Gen.Schemas {
     public class LegalHoldPolicyAssignmentCountsField : ISerializable {
         /// <summary>
-        /// The number of users this policy is applied to.
+        /// The number of users this policy is applied to with the `access` type assignment.
         /// </summary>
         [JsonPropertyName("user")]
         public long? User { get; set; }
@@ -29,6 +29,18 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("file_version")]
         public long? FileVersion { get; set; }
+
+        /// <summary>
+        /// The number of users this policy is applied to with the `ownership` type assignment.
+        /// </summary>
+        [JsonPropertyName("ownership")]
+        public long? Ownership { get; set; }
+
+        /// <summary>
+        /// The number of users this policy is applied to with the `interactions` type assignment.
+        /// </summary>
+        [JsonPropertyName("interactions")]
+        public long? Interactions { get; set; }
 
         public LegalHoldPolicyAssignmentCountsField() {
             
