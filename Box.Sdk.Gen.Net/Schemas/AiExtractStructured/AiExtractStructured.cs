@@ -28,6 +28,12 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("fields")]
         public IReadOnlyList<AiExtractStructuredFieldsField>? Fields { get; init; }
 
+        /// <summary>
+        /// A flag to indicate whether confidence scores for every extracted field should be returned.
+        /// </summary>
+        [JsonPropertyName("include_confidence_score")]
+        public bool? IncludeConfidenceScore { get; init; }
+
         [JsonPropertyName("ai_agent")]
         public AiExtractStructuredAgent? AiAgent { get; init; }
 
