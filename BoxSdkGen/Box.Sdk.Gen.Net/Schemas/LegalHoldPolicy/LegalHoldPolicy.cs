@@ -33,7 +33,7 @@ namespace Box.Sdk.Gen.Schemas {
         public StringEnum<LegalHoldPolicyStatusField>? Status { get; init; }
 
         /// <summary>
-        /// Counts of assignments within this a legal hold policy by item type.
+        /// Counts of assignments within a legal hold policy by item type.
         /// </summary>
         [JsonPropertyName("assignment_counts")]
         public LegalHoldPolicyAssignmentCountsField? AssignmentCounts { get; init; }

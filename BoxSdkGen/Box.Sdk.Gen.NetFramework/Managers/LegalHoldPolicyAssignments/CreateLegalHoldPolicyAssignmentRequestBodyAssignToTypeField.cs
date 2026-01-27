@@ -14,7 +14,7 @@ namespace Box.Sdk.Gen.Managers {
         User,
         [Description("ownership")]
         Ownership,
-        [Description("interaction")]
-        Interaction
+        [Description("interactions")]
+        Interactions
     }
 }
