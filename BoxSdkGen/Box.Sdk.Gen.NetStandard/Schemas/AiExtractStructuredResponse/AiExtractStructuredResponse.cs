@@ -23,6 +23,13 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("completion_reason")]
         public string CompletionReason { get; set; }
 
+        /// <summary>
+        /// The confidence score numeric values for each extracted field as a JSON dictionary. This can be empty if no field could be extracted.
+        /// </summary>
+        [JsonPropertyName("confidence_score")]
+        [JsonConverter(typeof(DictionaryObjectValuesConverter))]
+        public Dictionary<string, object> ConfidenceScore { get; set; }
+
         [JsonPropertyName("ai_agent_info")]
         public AiAgentInfo AiAgentInfo { get; set; }
 
