@@ -14,13 +14,16 @@ namespace Box.Sdk.Gen.Managers {
     /// The ID of the signature request.
     /// Example: "33243242"
     /// </param>
+    /// <param name="requestBody">
+    /// Request body of cancelSignRequest method
+    /// </param>
     /// <param name="headers">
     /// Headers of cancelSignRequest method
     /// </param>
     /// <param name="cancellationToken">
     /// Token used for request cancellation.
     /// </param>
-    public System.Threading.Tasks.Task<SignRequest> CancelSignRequestAsync(string signRequestId, CancelSignRequestHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+    public System.Threading.Tasks.Task<SignRequest> CancelSignRequestAsync(string signRequestId, SignRequestCancelRequest? requestBody = null, CancelSignRequestHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
     /// Resends a signature request email to all outstanding signers.

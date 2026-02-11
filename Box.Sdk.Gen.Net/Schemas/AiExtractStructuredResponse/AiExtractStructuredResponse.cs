@@ -24,7 +24,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string? CompletionReason { get; init; }
 
         /// <summary>
-        /// The confidence score numeric values for each extracted field as a JSON dictionary. This can be empty if no field could be extracted.
+        /// The confidence score levels and numeric values for each extracted field as a JSON dictionary. This can be empty if no field could be extracted.
         /// </summary>
         [JsonPropertyName("confidence_score")]
         [JsonConverter(typeof(DictionaryObjectValuesConverter))]
