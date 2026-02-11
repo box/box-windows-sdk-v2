@@ -48,9 +48,8 @@ namespace Box.Sdk.Gen.Managers {
         /// <summary>
         /// The offset of the item at which to begin the response.
         /// 
-        /// Queries with offset parameter value
-        /// exceeding 10000 will be rejected
-        /// with a 400 response.
+        /// Offset-based pagination is not guaranteed to work reliably for high offset values and may fail for large datasets. In
+        /// those cases, use marker-based pagination by setting `usemarker` to `true`.
         /// </summary>
         public long? Offset { get; set; }
 

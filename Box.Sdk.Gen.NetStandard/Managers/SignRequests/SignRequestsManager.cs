@@ -21,16 +21,19 @@ namespace Box.Sdk.Gen.Managers {
         /// The ID of the signature request.
         /// Example: "33243242"
         /// </param>
+        /// <param name="requestBody">
+        /// Request body of cancelSignRequest method
+        /// </param>
         /// <param name="headers">
         /// Headers of cancelSignRequest method
         /// </param>
         /// <param name="cancellationToken">
         /// Token used for request cancellation.
         /// </param>
-        public async System.Threading.Tasks.Task<SignRequest> CancelSignRequestAsync(string signRequestId, CancelSignRequestHeaders headers = default, System.Threading.CancellationToken cancellationToken = default) {
+        public async System.Threading.Tasks.Task<SignRequest> CancelSignRequestAsync(string signRequestId, SignRequestCancelRequest requestBody = null, CancelSignRequestHeaders headers = default, System.Threading.CancellationToken cancellationToken = default) {
             headers = headers ?? new CancelSignRequestHeaders();
             Dictionary<string, string> headersMap = Utils.PrepareParams(map: DictionaryUtils.MergeDictionaries(new Dictionary<string, string>() {  }, headers.ExtraHeaders));
-            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/sign_requests/", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(signRequestId)), "/cancel"), method: "POST", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
+            FetchResponse response = await this.NetworkSession.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(this.NetworkSession.BaseUrls.BaseUrl, "/2.0/sign_requests/", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(signRequestId)), "/cancel"), method: "POST", contentType: "application/json", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { Headers = headersMap, Data = requestBody != null ? SimpleJsonSerializer.Serialize(requestBody) : null, Auth = this.Auth, NetworkSession = this.NetworkSession, CancellationToken = cancellationToken }).ConfigureAwait(false);
             return SimpleJsonSerializer.Deserialize<SignRequest>(NullableUtils.Unwrap(response.Data));
         }
 
