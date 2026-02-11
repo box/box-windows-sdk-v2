@@ -25,6 +25,8 @@ await client.SignRequests.CancelSignRequestAsync(signRequestId: NullableUtils.Un
 
 - signRequestId `string`
   - The ID of the signature request. Example: "33243242"
+- requestBody `SignRequestCancelRequest?`
+  - Request body of cancelSignRequest method
 - headers `CancelSignRequestHeaders`
   - Headers of cancelSignRequest method
 - cancellationToken `System.Threading.CancellationToken?`
