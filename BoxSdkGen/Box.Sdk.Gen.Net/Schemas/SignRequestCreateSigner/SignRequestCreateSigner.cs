@@ -41,6 +41,10 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("_issuppress_notificationsSet")]
         protected bool _isSuppressNotificationsSet { get; set; }
 
+        [JsonInclude]
+        [JsonPropertyName("_islanguageSet")]
+        protected bool _isLanguageSet { get; set; }
+
         protected string? _email { get; set; }
 
         protected string? _embedUrlExternalUserId { get; set; }
@@ -58,6 +62,8 @@ namespace Box.Sdk.Gen.Schemas {
         protected string? _signerGroupId { get; set; }
 
         protected bool? _suppressNotifications { get; set; }
+
+        protected string? _language { get; set; }
 
         /// <summary>
         /// Email address of the signer.
@@ -157,6 +163,13 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("suppress_notifications")]
         public bool? SuppressNotifications { get => _suppressNotifications; init { _suppressNotifications = value; _isSuppressNotificationsSet = true; } }
+
+        /// <summary>
+        /// The language of the user, formatted in modified version of the
+        /// [ISO 639-1](https://developer.box.com/guides/api-calls/language-codes) format.
+        /// </summary>
+        [JsonPropertyName("language")]
+        public string? Language { get => _language; init { _language = value; _isLanguageSet = true; } }
 
         public SignRequestCreateSigner() {
             
