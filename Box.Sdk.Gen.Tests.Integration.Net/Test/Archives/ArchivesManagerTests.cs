@@ -31,7 +31,6 @@ namespace Box.Sdk.Gen.Tests.Integration {
             Assert.IsTrue(NullableUtils.Unwrap(updatedArchive.Description) == newArchiveDescription);
             ArchivesV2025R0 archives = await client.Archives.GetArchivesV2025R0Async(queryParams: new GetArchivesV2025R0QueryParams() { Limit = 100L });
             Assert.IsTrue(NullableUtils.Unwrap(archives.Entries).Count > 0);
-            await client.Archives.DeleteArchiveByIdV2025R0Async(archiveId: archive.Id);
             await Assert.That.IsExceptionAsync(async() => await client.Archives.DeleteArchiveByIdV2025R0Async(archiveId: archive.Id));
         }
 
