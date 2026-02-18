@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.5.0](https://github.com/box/box-windows-sdk-v2/compare/v6.4.0...v6.5.0) (2026-02-18)
+
+
+### **Bug Fixes:**
+
+* **boxsdkgen:** Correct enum value for legal hold policy changes (box/box-openapi[#581](https://github.com/box/box-windows-sdk-v2/issues/581)) ([#1377](https://github.com/box/box-windows-sdk-v2/issues/1377)) ([dbd17a9](https://github.com/box/box-windows-sdk-v2/commit/dbd17a92e3670f58357e70ec19cbfa22f089f412))
+* **boxsdkgen:** Fix casing for `PATCH` in `Network Client` (box/box-codegen[#913](https://github.com/box/box-windows-sdk-v2/issues/913)) ([#1365](https://github.com/box/box-windows-sdk-v2/issues/1365)) ([c90bfaf](https://github.com/box/box-windows-sdk-v2/commit/c90bfafba4ac5d6b3a018d5c8291609e30ec2530))
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** add confidence scores for structured extract (box/box-openapi[#582](https://github.com/box/box-windows-sdk-v2/issues/582)) ([#1379](https://github.com/box/box-windows-sdk-v2/issues/1379)) ([769f39f](https://github.com/box/box-windows-sdk-v2/commit/769f39f3b1504fbd48804fdb16bf7faf26893450))
+* **boxsdkgen:** Add configurable timeouts (box/box-codegen[#924](https://github.com/box/box-windows-sdk-v2/issues/924)) ([#1404](https://github.com/box/box-windows-sdk-v2/issues/1404)) ([5824149](https://github.com/box/box-windows-sdk-v2/commit/5824149d9ea5c2c5ea81550f5ad01971aca04087))
+* **boxsdkgen:** add signer language, cancel sign request reason (box/box-openapi[#584](https://github.com/box/box-windows-sdk-v2/issues/584)) ([#1395](https://github.com/box/box-windows-sdk-v2/issues/1395)) ([ab436df](https://github.com/box/box-windows-sdk-v2/commit/ab436dfeb06a158d105bd488b488174cc50df07b))
+* **boxsdkgen:** Add watermarking permissions and sources information (box/box-openapi[#579](https://github.com/box/box-windows-sdk-v2/issues/579)) ([#1369](https://github.com/box/box-windows-sdk-v2/issues/1369)) ([04bc507](https://github.com/box/box-windows-sdk-v2/commit/04bc507abfab95a04a01152b7684fc63d27d3e27))
+
 ## [6.4.0](https://github.com/box/box-windows-sdk-v2/compare/v6.3.0...v6.4.0) (2025-12-19)
 
 
