@@ -1,3 +1,4 @@
+using Box.Sdk.Gen;
 using Box.Sdk.Gen.Schemas;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -19,11 +20,15 @@ namespace Box.Sdk.Gen.Internal
 
         private static ProxyClient? _proxyClient;
 
+        private const long DefaultTimeoutMs = 100000; // Matches HttpClient default timeout (100s)
+
         static BoxNetworkClient()
         {
             var serviceCollection = new ServiceCollection();
 
             serviceCollection.AddHttpClient("DefaultHttpClient")
+                // Avoid HttpClient.Timeout interfering with per-request timeouts
+                .ConfigureHttpClient(client => client.Timeout = Timeout.InfiniteTimeSpan)
                 .ConfigurePrimaryHttpMessageHandler(() =>
             {
                 return new HttpClientHandler
@@ -48,6 +53,7 @@ namespace Box.Sdk.Gen.Internal
         async Task<FetchResponse> INetworkClient.FetchAsync(FetchOptions options)
         {
             var networkSession = options.NetworkSession ?? new NetworkSession();
+            var timeoutConfig = networkSession.TimeoutConfig;
 
             var client = GetOrCreateHttpClient(networkSession);
 
@@ -66,8 +72,9 @@ namespace Box.Sdk.Gen.Internal
 
             while (true)
             {
-                var request = await BuildHttpRequest(options, seekableStream).ConfigureAwait(false);
-                var result = await ExecuteRequest(client, request, isStreamResponse, cancellationToken).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+                var request = await BuildHttpRequest(options, seekableStream, cancellationToken).ConfigureAwait(false);
+                var result = await ExecuteRequest(client, request, isStreamResponse, timeoutConfig, cancellationToken).ConfigureAwait(false);
 
                 if (result.IsSuccess)
                 {
@@ -118,7 +125,7 @@ namespace Box.Sdk.Gen.Internal
                     {
                         var retryAfter = networkSession.RetryStrategy.RetryAfter(options, fetchResponse, retryAttempt);
 
-                        await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(retryAfter)).ConfigureAwait(false);
+                        await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(retryAfter), cancellationToken).ConfigureAwait(false);
                     }
                     else
                     {
@@ -137,17 +144,28 @@ namespace Box.Sdk.Gen.Internal
                     if (!result.IsRetryable)
                     {
                         seekableStream?.Dispose();
+                        if (cancellationToken.IsCancellationRequested && result.Exception is TaskCanceledException canceledException)
+                        {
+                            throw canceledException;
+                        }
+                        if (result.Exception is TimeoutException tex)
+                        {
+                            throw new BoxSdkException($"Request timed out ({tex.Message}).", DateTimeOffset.UtcNow);
+                        }
                         throw new BoxSdkException($"Request was not retried. Inner exception: {result.Exception?.ToString()}", DateTimeOffset.UtcNow);
                     }
                     else if (!shouldRetry)
                     {
                         seekableStream?.Dispose();
-                        throw new BoxSdkException($"Network error. Max retry attempts excedeed. {result.Exception?.ToString()}", DateTimeOffset.UtcNow);
+                        if (result.Exception is TimeoutException tex)
+                        {
+                            throw new BoxSdkException($"Request timed out ({tex.Message}). Max retry attempts exceeded.", DateTimeOffset.UtcNow);
+                        }
+                        throw new BoxSdkException($"Network error. Max retry attempts exceeded. {result.Exception?.ToString()}", DateTimeOffset.UtcNow);
                     }
 
                     var retryAfter = networkSession.RetryStrategy.RetryAfter(options, fetchResponse, networkExceptionRetryAttempt);
-
-                    await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(retryAfter)).ConfigureAwait(false);
+                    await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(retryAfter), cancellationToken).ConfigureAwait(false);
 
                     // reauth in case of terminated connection by the peer
                     if (options.Auth != null)
@@ -204,7 +222,9 @@ namespace Box.Sdk.Gen.Internal
                 AllowAutoRedirect = false
             };
 
-            return new HttpClient(handler, disposeHandler: true);
+            var client = new HttpClient(handler, disposeHandler: true);
+            client.Timeout = Timeout.InfiniteTimeSpan;
+            return client;
         }
 
         private static HttpMethod MapHttpMethod(string method)
@@ -258,7 +278,7 @@ namespace Box.Sdk.Gen.Internal
             return new BoxApiException(responseContent, DateTimeOffset.UtcNow, requestInfo, responseInfo) { DataSanitizer = dataSanitizer };
         }
 
-        private static async Task<HttpRequestMessage> BuildHttpRequest(FetchOptions options, Stream? stream)
+        private static async Task<HttpRequestMessage> BuildHttpRequest(FetchOptions options, Stream? stream, CancellationToken cancellationToken)
         {
             var httpRequest = new HttpRequestMessage
             {
@@ -304,15 +324,20 @@ namespace Box.Sdk.Gen.Internal
 
             if (options.Auth != null)
             {
-                var authHeaderValue = await options.Auth.RetrieveAuthorizationHeaderAsync(options.NetworkSession).ConfigureAwait(false);
+                var authHeaderTask = options.Auth.RetrieveAuthorizationHeaderAsync(options.NetworkSession);
+                var authHeaderValue = await AwaitWithCancellation(authHeaderTask, cancellationToken).ConfigureAwait(false);
                 httpRequest.Headers.Add("Authorization", authHeaderValue);
             }
 
             return httpRequest;
         }
 
-        private static async Task<Result<HttpResponseMessage>> ExecuteRequest(HttpClient client, HttpRequestMessage httpRequestMessage, bool isStreamResponse,
-           CancellationToken cancellationToken)
+        private static async Task<Result<HttpResponseMessage>> ExecuteRequest(
+            HttpClient client,
+            HttpRequestMessage httpRequestMessage,
+            bool isStreamResponse,
+            TimeoutConfig? timeoutConfig,
+            CancellationToken cancellationToken)
         {
             try
             {
@@ -320,12 +345,34 @@ namespace Box.Sdk.Gen.Internal
                     HttpCompletionOption.ResponseHeadersRead :
                     HttpCompletionOption.ResponseContentRead;
 
-                var response = await client.SendAsync(httpRequestMessage, completionOption, cancellationToken).ConfigureAwait(false);
-                return Result<HttpResponseMessage>.Ok(response);
+                // Apply default timeout if the config (or value) is missing.
+                // To explicitly disable the timeout, set TimeoutMs <= 0.
+                var timeoutMs = timeoutConfig?.TimeoutMs ?? DefaultTimeoutMs;
+                if (timeoutMs > 0)
+                {
+                    using (var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken))
+                    {
+                        timeoutCts.CancelAfter(TimeSpan.FromMilliseconds((double)timeoutMs));
+                        var response = await client.SendAsync(httpRequestMessage, completionOption, timeoutCts.Token).ConfigureAwait(false);
+                        return Result<HttpResponseMessage>.Ok(response);
+                    }
+                }
+
+                var defaultResponse = await client.SendAsync(httpRequestMessage, completionOption, cancellationToken).ConfigureAwait(false);
+                return Result<HttpResponseMessage>.Ok(defaultResponse);
             }
             catch (TaskCanceledException ex)
             {
-                return Result<HttpResponseMessage>.Fail(ex, isRetryable: false);
+                // If the user canceled, do not retry. Otherwise treat as timeout and allow retry strategy to decide.
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return Result<HttpResponseMessage>.Fail(ex, isRetryable: false);
+                }
+
+                var timeoutMs = timeoutConfig?.TimeoutMs ?? DefaultTimeoutMs;
+                return Result<HttpResponseMessage>.Fail(
+                    new TimeoutException($"Request timeout after {timeoutMs}ms", ex),
+                    isRetryable: true);
             }
             catch (HttpRequestException ex)
             {
@@ -416,6 +463,18 @@ namespace Box.Sdk.Gen.Internal
             await inputStream.CopyToAsync(memoryStream).ConfigureAwait(false);
             memoryStream.Position = 0;
             return memoryStream;
+        }
+
+        private static async System.Threading.Tasks.Task<T> AwaitWithCancellation<T>(System.Threading.Tasks.Task<T> task, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await task.WaitAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw new TaskCanceledException();
+            }
         }
 
         private class ProxyClient

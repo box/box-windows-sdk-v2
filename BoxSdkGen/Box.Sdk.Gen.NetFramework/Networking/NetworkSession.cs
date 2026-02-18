@@ -34,6 +34,11 @@ namespace Box.Sdk.Gen
         public INetworkClient NetworkClient { get; set; } = new BoxNetworkClient();
 
         /// <summary>
+        /// Timeout configuration used for each API call.
+        /// </summary>
+        public TimeoutConfig TimeoutConfig { get; set; }
+
+        /// <summary>
         /// Data sanitizer used to sanitize sensitive data for logging.
         /// </summary>
         public DataSanitizer DataSanitizer { get; set; } = new DataSanitizer();
@@ -50,7 +55,7 @@ namespace Box.Sdk.Gen
         /// </summary>
         public NetworkSession WithNetworkClient(INetworkClient networkClient)
         {
-            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = networkClient, DataSanitizer = this.DataSanitizer };
+            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = networkClient, TimeoutConfig = this.TimeoutConfig, DataSanitizer = this.DataSanitizer };
         }
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace Box.Sdk.Gen
         /// </param>
         public NetworkSession WithAdditionalHeaders(Dictionary<string, string> additionalHeaders)
         {
-            return new NetworkSession(DictionaryUtils.MergeDictionaries(this.AdditionalHeaders, additionalHeaders), this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, DataSanitizer = this.DataSanitizer };
+            return new NetworkSession(DictionaryUtils.MergeDictionaries(this.AdditionalHeaders, additionalHeaders), this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, TimeoutConfig = this.TimeoutConfig, DataSanitizer = this.DataSanitizer };
         }
 
         /// <summary>
@@ -74,7 +79,7 @@ namespace Box.Sdk.Gen
         /// </param>
         public NetworkSession WithCustomBaseUrls(BaseUrls baseUrls)
         {
-            return new NetworkSession(this.AdditionalHeaders, baseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, DataSanitizer = this.DataSanitizer };
+            return new NetworkSession(this.AdditionalHeaders, baseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, TimeoutConfig = this.TimeoutConfig, DataSanitizer = this.DataSanitizer };
         }
 
         /// <summary>
@@ -86,7 +91,19 @@ namespace Box.Sdk.Gen
         /// </param>
         public NetworkSession WithProxy(ProxyConfig config)
         {
-            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = config, NetworkClient = this.NetworkClient, DataSanitizer = this.DataSanitizer };
+            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = config, NetworkClient = this.NetworkClient, TimeoutConfig = this.TimeoutConfig, DataSanitizer = this.DataSanitizer };
+        }
+
+        /// <summary>
+        /// Generate a fresh network session by duplicating the existing configuration and network parameters,
+        /// while also including a timeout configuration to be used for each API call.
+        /// </summary>
+        /// <param name="config">
+        /// Timeout configuration.
+        /// </param>
+        public NetworkSession WithTimeoutConfig(TimeoutConfig timeoutConfig)
+        {
+            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, TimeoutConfig = timeoutConfig, DataSanitizer = this.DataSanitizer };
         }
 
         /// <summary>
@@ -94,7 +111,7 @@ namespace Box.Sdk.Gen
         /// while also including a data sanitizer to be used to sanitize sensitive data for logging.
         public NetworkSession WithDataSanitizer(DataSanitizer dataSanitizer)
         {
-            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, DataSanitizer = dataSanitizer };
+            return new NetworkSession(this.AdditionalHeaders, this.BaseUrls) { RetryStrategy = this.RetryStrategy, proxyConfig = this.proxyConfig, NetworkClient = this.NetworkClient, TimeoutConfig = this.TimeoutConfig, DataSanitizer = dataSanitizer };
         }
     }
 }
