@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.5.1](https://github.com/box/box-windows-sdk-v2/compare/v6.5.0...v6.5.1) (2026-02-18)
+
 ## [6.5.0](https://github.com/box/box-windows-sdk-v2/compare/v6.4.0...v6.5.0) (2026-02-18)
 
 
