@@ -103,5 +103,19 @@ namespace Box.Sdk.Gen.Tests.Integration {
             await Assert.That.IsExceptionAsync(async() => await customBaseClient.Users.GetUserMeAsync());
         }
 
+        [RetryableTest]
+        public async System.Threading.Tasks.Task TestWithTimeoutWhenTimeoutOccurs() {
+            const long timeoutMs = 1;
+            BoxClient clientWithTimeout = client.WithTimeouts(config: new TimeoutConfig() { TimeoutMs = timeoutMs });
+            await Assert.That.IsExceptionAsync(async() => await clientWithTimeout.Users.GetUserMeAsync());
+        }
+
+        [RetryableTest]
+        public async System.Threading.Tasks.Task TestWithTimeoutWhenTimeoutDoesNotOccur() {
+            const long timeoutMs = 10000;
+            BoxClient clientWithTimeout = client.WithTimeouts(config: new TimeoutConfig() { TimeoutMs = timeoutMs });
+            await clientWithTimeout.Users.GetUserMeAsync();
+        }
+
     }
 }
