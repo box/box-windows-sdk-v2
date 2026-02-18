@@ -320,5 +320,15 @@ namespace Box.Sdk.Gen {
             return new BoxClient(auth: this.Auth, networkSession: this.NetworkSession.WithProxy(config: config));
         }
 
+        /// <summary>
+        /// Create a new client with custom timeouts that will be used for every API call
+        /// </summary>
+        /// <param name="config">
+        /// Timeout configuration.
+        /// </param>
+        public BoxClient WithTimeouts(TimeoutConfig config) {
+            return new BoxClient(auth: this.Auth, networkSession: this.NetworkSession.WithTimeoutConfig(timeoutConfig: config));
+        }
+
     }
 }

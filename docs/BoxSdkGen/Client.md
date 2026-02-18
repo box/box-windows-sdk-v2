@@ -15,6 +15,7 @@ divided across resource managers.
   - [Suppress notifications](#suppress-notifications)
   - [Custom headers](#custom-headers)
 - [Custom Base URLs](#custom-base-urls)
+- [Use Timeouts for API calls](#use-timeouts-for-api-calls)
 - [Use Proxy for API calls](#use-proxy-for-api-calls)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -127,6 +128,15 @@ var newClient = client.WithCustomBaseUrls(new BaseUrls(
   uploadUrl: "https://upload.box.com/api",
   oauth2Url: "https://account.box.com/api/oauth2"
 ));
+```
+
+# Use Timeouts for API calls
+
+In order to configure timeout for API calls, calling the `client.WithTimeouts(config)` method creates a new client with timeout settings, leaving the original client unmodified.
+
+```c#
+var timeoutConfig = new TimeoutConfig(timeoutMs: 30000);
+var newClient = client.WithTimeouts(timeoutConfig);
 ```
 
 # Use Proxy for API calls
