@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.6.0](https://github.com/box/box-windows-sdk-v2/compare/v10.5.0...v10.6.0) (2026-02-18)
+
+
+### Bug Fixes
+
+* Correct enum value for legal hold policy changes (box/box-openapi[#581](https://github.com/box/box-windows-sdk-v2/issues/581)) ([#1378](https://github.com/box/box-windows-sdk-v2/issues/1378)) ([d756351](https://github.com/box/box-windows-sdk-v2/commit/d756351f13b49da69e4fbd66fe274af38c5d56a1))
+* Fix casing for `PATCH` in `Network Client` (box/box-codegen[#913](https://github.com/box/box-windows-sdk-v2/issues/913)) ([#1366](https://github.com/box/box-windows-sdk-v2/issues/1366)) ([53333a0](https://github.com/box/box-windows-sdk-v2/commit/53333a0a53a89435e277332e609f4981a19b547e))
+
+
+### New Features and Enhancements
+
+* add confidence scores for structured extract (box/box-openapi[#582](https://github.com/box/box-windows-sdk-v2/issues/582)) ([#1380](https://github.com/box/box-windows-sdk-v2/issues/1380)) ([8c18af1](https://github.com/box/box-windows-sdk-v2/commit/8c18af18b5b26e84f256e93a8eeefd7080b9708c))
+* Add configurable timeouts (box/box-codegen[#924](https://github.com/box/box-windows-sdk-v2/issues/924)) ([#1403](https://github.com/box/box-windows-sdk-v2/issues/1403)) ([fed7629](https://github.com/box/box-windows-sdk-v2/commit/fed7629d663c2ac868d79855d3ba0236d6df6f77))
+* add signer language, cancel sign request reason (box/box-openapi[#584](https://github.com/box/box-windows-sdk-v2/issues/584)) ([#1396](https://github.com/box/box-windows-sdk-v2/issues/1396)) ([29a5332](https://github.com/box/box-windows-sdk-v2/commit/29a5332490a994d955f4aae2285e1d6520c7ddfc))
+* Add watermarking permissions and sources information (box/box-openapi[#579](https://github.com/box/box-windows-sdk-v2/issues/579)) ([#1371](https://github.com/box/box-windows-sdk-v2/issues/1371)) ([16e2c6a](https://github.com/box/box-windows-sdk-v2/commit/16e2c6a80c9cb2570220a9814b3a86576e22dcc1))
+
 ## [10.5.0](https://github.com/box/box-windows-sdk-v2/compare/v10.4.0...v10.5.0) (2025-12-19)
 
 
