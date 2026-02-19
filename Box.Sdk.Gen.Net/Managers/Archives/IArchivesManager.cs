@@ -44,6 +44,10 @@ namespace Box.Sdk.Gen.Managers {
     /// Permanently deletes an archive.
     /// 
     /// To learn more about the archive APIs, see the [Archive API Guide](https://developer.box.com/guides/archives).
+    /// 
+    /// <Danger>
+    /// This endpoint is currently unavailable. Please contact support for assistance.
+    /// </Danger>
     /// </summary>
     /// <param name="archiveId">
     /// The ID of the archive.
