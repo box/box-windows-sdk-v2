@@ -78,6 +78,10 @@ Permanently deletes an archive.
 
 To learn more about the archive APIs, see the [Archive API Guide](https://developer.box.com/guides/archives).
 
+<Danger>
+This endpoint is currently unavailable. Please contact support for assistance.
+</Danger>
+
 This operation is performed by calling function `DeleteArchiveByIdV2025R0`.
 
 See the endpoint docs at
