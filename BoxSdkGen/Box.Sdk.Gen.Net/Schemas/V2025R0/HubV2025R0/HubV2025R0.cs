@@ -68,6 +68,12 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("can_shared_link_be_created")]
         public bool? CanSharedLinkBeCreated { get; init; }
 
+        /// <summary>
+        /// Indicates if a public shared link can be created for the Box Hub.
+        /// </summary>
+        [JsonPropertyName("can_public_shared_link_be_created")]
+        public bool? CanPublicSharedLinkBeCreated { get; init; }
+
         public HubV2025R0(string id, HubBaseV2025R0TypeField type = HubBaseV2025R0TypeField.Hubs) : base(id, type) {
             
         }
