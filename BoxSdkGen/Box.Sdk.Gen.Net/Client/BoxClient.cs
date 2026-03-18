@@ -167,8 +167,6 @@ namespace Box.Sdk.Gen {
 
         public IHubItemsManager HubItems { get; }
 
-        public IHubDocumentManager HubDocument { get; }
-
         public IShieldListsManager ShieldLists { get; }
 
         public IArchivesManager Archives { get; }
@@ -257,7 +255,6 @@ namespace Box.Sdk.Gen {
             Hubs = new HubsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             HubCollaborations = new HubCollaborationsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             HubItems = new HubItemsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
-            HubDocument = new HubDocumentManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             ShieldLists = new ShieldListsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             Archives = new ArchivesManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             ExternalUsers = new ExternalUsersManager(networkSession: this.NetworkSession) { Auth = this.Auth };
