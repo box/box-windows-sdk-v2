@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.7.0](https://github.com/box/box-windows-sdk-v2/compare/v10.6.0...v10.7.0) (2026-03-18)
+
+
+### New Features and Enhancements
+
+* add `canPublicSharedLinkBeCreated` to `Hubs` (box/box-codegen[#928](https://github.com/box/box-windows-sdk-v2/issues/928)) ([#1414](https://github.com/box/box-windows-sdk-v2/issues/1414)) ([29ebe15](https://github.com/box/box-windows-sdk-v2/commit/29ebe15915bef4d5d90d7005f857436ea44ce7ac))
+
 ## [10.6.0](https://github.com/box/box-windows-sdk-v2/compare/v10.5.0...v10.6.0) (2026-02-18)
 
 
