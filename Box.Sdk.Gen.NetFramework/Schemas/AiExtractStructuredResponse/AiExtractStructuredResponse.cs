@@ -30,6 +30,13 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonConverter(typeof(DictionaryObjectValuesConverter))]
         public Dictionary<string, object> ConfidenceScore { get; set; }
 
+        /// <summary>
+        /// The reference for each extracted field as a JSON dictionary. This can be empty if no field could be extracted.
+        /// </summary>
+        [JsonPropertyName("reference")]
+        [JsonConverter(typeof(DictionaryObjectValuesConverter))]
+        public Dictionary<string, object> Reference { get; set; }
+
         [JsonPropertyName("ai_agent_info")]
         public AiAgentInfo AiAgentInfo { get; set; }
 

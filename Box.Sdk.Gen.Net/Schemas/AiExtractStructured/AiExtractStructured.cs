@@ -34,6 +34,12 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("include_confidence_score")]
         public bool? IncludeConfidenceScore { get; init; }
 
+        /// <summary>
+        /// A flag to indicate whether references for every extracted field should be returned.
+        /// </summary>
+        [JsonPropertyName("include_reference")]
+        public bool? IncludeReference { get; init; }
+
         [JsonPropertyName("ai_agent")]
         public AiExtractStructuredAgent? AiAgent { get; init; }
 

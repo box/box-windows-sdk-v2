@@ -16,6 +16,12 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("item")]
         public HubItemReferenceV2025R0 Item { get; set; }
 
+        /// <summary>
+        /// The ID of the parent block to add the item to. Must be an Item List block. If not provided, the item will be added to the first page's first Item List block.
+        /// </summary>
+        [JsonPropertyName("parent_id")]
+        public string ParentId { get; set; }
+
         public HubItemOperationV2025R0(HubItemOperationV2025R0ActionField action, HubItemReferenceV2025R0 item) {
             Action = action;
             Item = item;
