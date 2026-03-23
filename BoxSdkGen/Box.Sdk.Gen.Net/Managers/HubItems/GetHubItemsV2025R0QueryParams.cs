@@ -19,6 +19,15 @@ namespace Box.Sdk.Gen.Managers {
         public string HubId { get; }
 
         /// <summary>
+        /// The unique identifier of an item list block within the Box Hub.
+        /// 
+        /// When provided, the response will only include items that belong
+        /// to the specified item list, allowing you to filter results to
+        /// items on a specific page or section.
+        /// </summary>
+        public string? ParentId { get; init; }
+
+        /// <summary>
         /// Defines the position marker at which to begin returning results. This is
         /// used when paginating using marker-based pagination.
         /// 
