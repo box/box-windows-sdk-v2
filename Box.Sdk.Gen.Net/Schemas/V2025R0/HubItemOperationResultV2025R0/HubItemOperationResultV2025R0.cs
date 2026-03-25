@@ -16,6 +16,12 @@ namespace Box.Sdk.Gen.Schemas {
         public HubItemReferenceV2025R0? Item { get; init; }
 
         /// <summary>
+        /// The ID of the parent block the item was added to.
+        /// </summary>
+        [JsonPropertyName("parent_id")]
+        public string? ParentId { get; init; }
+
+        /// <summary>
         /// The HTTP status code of the operation.
         /// </summary>
         [JsonPropertyName("status")]
