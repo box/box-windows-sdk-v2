@@ -12,7 +12,7 @@ namespace Box.Sdk.Gen.Managers {
         FileContent,
         [Description("comments")]
         Comments,
-        [Description("tag")]
-        Tag
+        [Description("tags")]
+        Tags
     }
 }
