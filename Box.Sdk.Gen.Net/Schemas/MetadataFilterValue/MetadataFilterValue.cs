@@ -10,7 +10,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(MetadataFilterValueConverter))]
     public class MetadataFilterValue {
-        internal OneOf<string, double, IReadOnlyList<string>, MetadataFieldFilterFloatRange, MetadataFieldFilterDateRange> _oneOf;
+        internal OneOf<string?, double?, IReadOnlyList<string>?, MetadataFieldFilterFloatRange?, MetadataFieldFilterDateRange?> _oneOf;
         
         public string? StringVal => _oneOf._val0;
         
@@ -22,15 +22,15 @@ namespace Box.Sdk.Gen.Schemas {
         
         public MetadataFieldFilterDateRange? MetadataFieldFilterDateRange => _oneOf._val4;
         
-        public MetadataFilterValue(string value) {_oneOf = new OneOf<string, double, IReadOnlyList<string>, MetadataFieldFilterFloatRange, MetadataFieldFilterDateRange>(value);}
+        public MetadataFilterValue(string value) {_oneOf = new OneOf<string?, double?, IReadOnlyList<string>?, MetadataFieldFilterFloatRange?, MetadataFieldFilterDateRange?>(value);}
         
-        public MetadataFilterValue(double value) {_oneOf = new OneOf<string, double, IReadOnlyList<string>, MetadataFieldFilterFloatRange, MetadataFieldFilterDateRange>(value);}
+        public MetadataFilterValue(double value) {_oneOf = new OneOf<string?, double?, IReadOnlyList<string>?, MetadataFieldFilterFloatRange?, MetadataFieldFilterDateRange?>(value);}
         
-        public MetadataFilterValue(IReadOnlyList<string> value) {_oneOf = new OneOf<string, double, IReadOnlyList<string>, MetadataFieldFilterFloatRange, MetadataFieldFilterDateRange>(value);}
+        public MetadataFilterValue(IReadOnlyList<string> value) {_oneOf = new OneOf<string?, double?, IReadOnlyList<string>?, MetadataFieldFilterFloatRange?, MetadataFieldFilterDateRange?>(value);}
         
-        public MetadataFilterValue(MetadataFieldFilterFloatRange value) {_oneOf = new OneOf<string, double, IReadOnlyList<string>, MetadataFieldFilterFloatRange, MetadataFieldFilterDateRange>(value);}
+        public MetadataFilterValue(MetadataFieldFilterFloatRange value) {_oneOf = new OneOf<string?, double?, IReadOnlyList<string>?, MetadataFieldFilterFloatRange?, MetadataFieldFilterDateRange?>(value);}
         
-        public MetadataFilterValue(MetadataFieldFilterDateRange value) {_oneOf = new OneOf<string, double, IReadOnlyList<string>, MetadataFieldFilterFloatRange, MetadataFieldFilterDateRange>(value);}
+        public MetadataFilterValue(MetadataFieldFilterDateRange value) {_oneOf = new OneOf<string?, double?, IReadOnlyList<string>?, MetadataFieldFilterFloatRange?, MetadataFieldFilterDateRange?>(value);}
         
         public static implicit operator MetadataFilterValue(string value) => new MetadataFilterValue(value);
         

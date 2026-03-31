@@ -8,15 +8,15 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(HubAccessGranteeV2025R0Converter))]
     public class HubAccessGranteeV2025R0 {
-        internal OneOf<HubCollaborationUserV2025R0, GroupMiniV2025R0> _oneOf;
+        internal OneOf<HubCollaborationUserV2025R0?, GroupMiniV2025R0?> _oneOf;
         
         public HubCollaborationUserV2025R0? HubCollaborationUserV2025R0 => _oneOf._val0;
         
         public GroupMiniV2025R0? GroupMiniV2025R0 => _oneOf._val1;
         
-        public HubAccessGranteeV2025R0(HubCollaborationUserV2025R0 value) {_oneOf = new OneOf<HubCollaborationUserV2025R0, GroupMiniV2025R0>(value);}
+        public HubAccessGranteeV2025R0(HubCollaborationUserV2025R0 value) {_oneOf = new OneOf<HubCollaborationUserV2025R0?, GroupMiniV2025R0?>(value);}
         
-        public HubAccessGranteeV2025R0(GroupMiniV2025R0 value) {_oneOf = new OneOf<HubCollaborationUserV2025R0, GroupMiniV2025R0>(value);}
+        public HubAccessGranteeV2025R0(GroupMiniV2025R0 value) {_oneOf = new OneOf<HubCollaborationUserV2025R0?, GroupMiniV2025R0?>(value);}
         
         public static implicit operator HubAccessGranteeV2025R0(HubCollaborationUserV2025R0 value) => new HubAccessGranteeV2025R0(value);
         
