@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(CollaborationItemConverter))]
     public class CollaborationItem {
-        internal OneOf<File, Folder, WebLink> _oneOf;
+        internal OneOf<File?, Folder?, WebLink?> _oneOf;
         
         public File? File => _oneOf._val0;
         
@@ -16,11 +16,11 @@ namespace Box.Sdk.Gen.Schemas {
         
         public WebLink? WebLink => _oneOf._val2;
         
-        public CollaborationItem(File value) {_oneOf = new OneOf<File, Folder, WebLink>(value);}
+        public CollaborationItem(File value) {_oneOf = new OneOf<File?, Folder?, WebLink?>(value);}
         
-        public CollaborationItem(Folder value) {_oneOf = new OneOf<File, Folder, WebLink>(value);}
+        public CollaborationItem(Folder value) {_oneOf = new OneOf<File?, Folder?, WebLink?>(value);}
         
-        public CollaborationItem(WebLink value) {_oneOf = new OneOf<File, Folder, WebLink>(value);}
+        public CollaborationItem(WebLink value) {_oneOf = new OneOf<File?, Folder?, WebLink?>(value);}
         
         public static implicit operator CollaborationItem(File value) => new CollaborationItem(value);
         

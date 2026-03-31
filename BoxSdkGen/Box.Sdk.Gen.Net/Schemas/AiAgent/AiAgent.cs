@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(AiAgentConverter))]
     public class AiAgent {
-        internal OneOf<AiAgentAsk, AiAgentTextGen, AiAgentExtract, AiAgentExtractStructured> _oneOf;
+        internal OneOf<AiAgentAsk?, AiAgentTextGen?, AiAgentExtract?, AiAgentExtractStructured?> _oneOf;
         
         public AiAgentAsk? AiAgentAsk => _oneOf._val0;
         
@@ -18,13 +18,13 @@ namespace Box.Sdk.Gen.Schemas {
         
         public AiAgentExtractStructured? AiAgentExtractStructured => _oneOf._val3;
         
-        public AiAgent(AiAgentAsk value) {_oneOf = new OneOf<AiAgentAsk, AiAgentTextGen, AiAgentExtract, AiAgentExtractStructured>(value);}
+        public AiAgent(AiAgentAsk value) {_oneOf = new OneOf<AiAgentAsk?, AiAgentTextGen?, AiAgentExtract?, AiAgentExtractStructured?>(value);}
         
-        public AiAgent(AiAgentTextGen value) {_oneOf = new OneOf<AiAgentAsk, AiAgentTextGen, AiAgentExtract, AiAgentExtractStructured>(value);}
+        public AiAgent(AiAgentTextGen value) {_oneOf = new OneOf<AiAgentAsk?, AiAgentTextGen?, AiAgentExtract?, AiAgentExtractStructured?>(value);}
         
-        public AiAgent(AiAgentExtract value) {_oneOf = new OneOf<AiAgentAsk, AiAgentTextGen, AiAgentExtract, AiAgentExtractStructured>(value);}
+        public AiAgent(AiAgentExtract value) {_oneOf = new OneOf<AiAgentAsk?, AiAgentTextGen?, AiAgentExtract?, AiAgentExtractStructured?>(value);}
         
-        public AiAgent(AiAgentExtractStructured value) {_oneOf = new OneOf<AiAgentAsk, AiAgentTextGen, AiAgentExtract, AiAgentExtractStructured>(value);}
+        public AiAgent(AiAgentExtractStructured value) {_oneOf = new OneOf<AiAgentAsk?, AiAgentTextGen?, AiAgentExtract?, AiAgentExtractStructured?>(value);}
         
         public static implicit operator AiAgent(AiAgentAsk value) => new AiAgent(value);
         

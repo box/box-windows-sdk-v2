@@ -8,15 +8,15 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(CollaborationAccessGranteeConverter))]
     public class CollaborationAccessGrantee {
-        internal OneOf<UserCollaborations, GroupMini> _oneOf;
+        internal OneOf<UserCollaborations?, GroupMini?> _oneOf;
         
         public UserCollaborations? UserCollaborations => _oneOf._val0;
         
         public GroupMini? GroupMini => _oneOf._val1;
         
-        public CollaborationAccessGrantee(UserCollaborations value) {_oneOf = new OneOf<UserCollaborations, GroupMini>(value);}
+        public CollaborationAccessGrantee(UserCollaborations value) {_oneOf = new OneOf<UserCollaborations?, GroupMini?>(value);}
         
-        public CollaborationAccessGrantee(GroupMini value) {_oneOf = new OneOf<UserCollaborations, GroupMini>(value);}
+        public CollaborationAccessGrantee(GroupMini value) {_oneOf = new OneOf<UserCollaborations?, GroupMini?>(value);}
         
         public static implicit operator CollaborationAccessGrantee(UserCollaborations value) => new CollaborationAccessGrantee(value);
         

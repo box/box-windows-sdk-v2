@@ -8,15 +8,15 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(AiExtractStructuredAgentConverter))]
     public class AiExtractStructuredAgent {
-        internal OneOf<AiAgentReference, AiAgentExtractStructured> _oneOf;
+        internal OneOf<AiAgentReference?, AiAgentExtractStructured?> _oneOf;
         
         public AiAgentReference? AiAgentReference => _oneOf._val0;
         
         public AiAgentExtractStructured? AiAgentExtractStructured => _oneOf._val1;
         
-        public AiExtractStructuredAgent(AiAgentReference value) {_oneOf = new OneOf<AiAgentReference, AiAgentExtractStructured>(value);}
+        public AiExtractStructuredAgent(AiAgentReference value) {_oneOf = new OneOf<AiAgentReference?, AiAgentExtractStructured?>(value);}
         
-        public AiExtractStructuredAgent(AiAgentExtractStructured value) {_oneOf = new OneOf<AiAgentReference, AiAgentExtractStructured>(value);}
+        public AiExtractStructuredAgent(AiAgentExtractStructured value) {_oneOf = new OneOf<AiAgentReference?, AiAgentExtractStructured?>(value);}
         
         public static implicit operator AiExtractStructuredAgent(AiAgentReference value) => new AiExtractStructuredAgent(value);
         

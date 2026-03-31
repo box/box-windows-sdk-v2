@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(ItemConverter))]
     public class Item {
-        internal OneOf<FileFull, FolderMini, WebLink> _oneOf;
+        internal OneOf<FileFull?, FolderMini?, WebLink?> _oneOf;
         
         public FileFull? FileFull => _oneOf._val0;
         
@@ -16,11 +16,11 @@ namespace Box.Sdk.Gen.Schemas {
         
         public WebLink? WebLink => _oneOf._val2;
         
-        public Item(FileFull value) {_oneOf = new OneOf<FileFull, FolderMini, WebLink>(value);}
+        public Item(FileFull value) {_oneOf = new OneOf<FileFull?, FolderMini?, WebLink?>(value);}
         
-        public Item(FolderMini value) {_oneOf = new OneOf<FileFull, FolderMini, WebLink>(value);}
+        public Item(FolderMini value) {_oneOf = new OneOf<FileFull?, FolderMini?, WebLink?>(value);}
         
-        public Item(WebLink value) {_oneOf = new OneOf<FileFull, FolderMini, WebLink>(value);}
+        public Item(WebLink value) {_oneOf = new OneOf<FileFull?, FolderMini?, WebLink?>(value);}
         
         public static implicit operator Item(FileFull value) => new Item(value);
         

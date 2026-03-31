@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(SkillCardConverter))]
     public class SkillCard {
-        internal OneOf<KeywordSkillCard, TimelineSkillCard, TranscriptSkillCard, StatusSkillCard> _oneOf;
+        internal OneOf<KeywordSkillCard?, TimelineSkillCard?, TranscriptSkillCard?, StatusSkillCard?> _oneOf;
         
         public KeywordSkillCard? KeywordSkillCard => _oneOf._val0;
         
@@ -18,13 +18,13 @@ namespace Box.Sdk.Gen.Schemas {
         
         public StatusSkillCard? StatusSkillCard => _oneOf._val3;
         
-        public SkillCard(KeywordSkillCard value) {_oneOf = new OneOf<KeywordSkillCard, TimelineSkillCard, TranscriptSkillCard, StatusSkillCard>(value);}
+        public SkillCard(KeywordSkillCard value) {_oneOf = new OneOf<KeywordSkillCard?, TimelineSkillCard?, TranscriptSkillCard?, StatusSkillCard?>(value);}
         
-        public SkillCard(TimelineSkillCard value) {_oneOf = new OneOf<KeywordSkillCard, TimelineSkillCard, TranscriptSkillCard, StatusSkillCard>(value);}
+        public SkillCard(TimelineSkillCard value) {_oneOf = new OneOf<KeywordSkillCard?, TimelineSkillCard?, TranscriptSkillCard?, StatusSkillCard?>(value);}
         
-        public SkillCard(TranscriptSkillCard value) {_oneOf = new OneOf<KeywordSkillCard, TimelineSkillCard, TranscriptSkillCard, StatusSkillCard>(value);}
+        public SkillCard(TranscriptSkillCard value) {_oneOf = new OneOf<KeywordSkillCard?, TimelineSkillCard?, TranscriptSkillCard?, StatusSkillCard?>(value);}
         
-        public SkillCard(StatusSkillCard value) {_oneOf = new OneOf<KeywordSkillCard, TimelineSkillCard, TranscriptSkillCard, StatusSkillCard>(value);}
+        public SkillCard(StatusSkillCard value) {_oneOf = new OneOf<KeywordSkillCard?, TimelineSkillCard?, TranscriptSkillCard?, StatusSkillCard?>(value);}
         
         public static implicit operator SkillCard(KeywordSkillCard value) => new SkillCard(value);
         
