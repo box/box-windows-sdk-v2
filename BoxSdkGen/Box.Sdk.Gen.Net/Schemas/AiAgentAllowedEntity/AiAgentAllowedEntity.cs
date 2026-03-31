@@ -8,15 +8,15 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(AiAgentAllowedEntityConverter))]
     public class AiAgentAllowedEntity {
-        internal OneOf<UserBase, GroupBase> _oneOf;
+        internal OneOf<UserBase?, GroupBase?> _oneOf;
         
         public UserBase? UserBase => _oneOf._val0;
         
         public GroupBase? GroupBase => _oneOf._val1;
         
-        public AiAgentAllowedEntity(UserBase value) {_oneOf = new OneOf<UserBase, GroupBase>(value);}
+        public AiAgentAllowedEntity(UserBase value) {_oneOf = new OneOf<UserBase?, GroupBase?>(value);}
         
-        public AiAgentAllowedEntity(GroupBase value) {_oneOf = new OneOf<UserBase, GroupBase>(value);}
+        public AiAgentAllowedEntity(GroupBase value) {_oneOf = new OneOf<UserBase?, GroupBase?>(value);}
         
         public static implicit operator AiAgentAllowedEntity(UserBase value) => new AiAgentAllowedEntity(value);
         

@@ -8,15 +8,15 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(EventsNextStreamPositionFieldConverter))]
     public class EventsNextStreamPositionField {
-        internal OneOf<string, long> _oneOf;
+        internal OneOf<string, long?> _oneOf;
         
         public string StringVal => _oneOf._val0;
         
         public long? LongVal => _oneOf._val1;
         
-        public EventsNextStreamPositionField(string value) {_oneOf = new OneOf<string, long>(value);}
+        public EventsNextStreamPositionField(string value) {_oneOf = new OneOf<string, long?>(value);}
         
-        public EventsNextStreamPositionField(long value) {_oneOf = new OneOf<string, long>(value);}
+        public EventsNextStreamPositionField(long value) {_oneOf = new OneOf<string, long?>(value);}
         
         public static implicit operator EventsNextStreamPositionField(string value) => new EventsNextStreamPositionField(value);
         

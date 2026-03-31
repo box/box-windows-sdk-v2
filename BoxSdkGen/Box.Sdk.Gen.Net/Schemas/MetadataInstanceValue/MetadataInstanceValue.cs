@@ -9,7 +9,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(MetadataInstanceValueConverter))]
     public class MetadataInstanceValue {
-        internal OneOf<string, long, double, IReadOnlyList<string>> _oneOf;
+        internal OneOf<string?, long?, double?, IReadOnlyList<string>?> _oneOf;
         
         public string? StringVal => _oneOf._val0;
         
@@ -19,13 +19,13 @@ namespace Box.Sdk.Gen.Schemas {
         
         public IReadOnlyList<string>? ListVal => _oneOf._val3;
         
-        public MetadataInstanceValue(string value) {_oneOf = new OneOf<string, long, double, IReadOnlyList<string>>(value);}
+        public MetadataInstanceValue(string value) {_oneOf = new OneOf<string?, long?, double?, IReadOnlyList<string>?>(value);}
         
-        public MetadataInstanceValue(long value) {_oneOf = new OneOf<string, long, double, IReadOnlyList<string>>(value);}
+        public MetadataInstanceValue(long value) {_oneOf = new OneOf<string?, long?, double?, IReadOnlyList<string>?>(value);}
         
-        public MetadataInstanceValue(double value) {_oneOf = new OneOf<string, long, double, IReadOnlyList<string>>(value);}
+        public MetadataInstanceValue(double value) {_oneOf = new OneOf<string?, long?, double?, IReadOnlyList<string>?>(value);}
         
-        public MetadataInstanceValue(IReadOnlyList<string> value) {_oneOf = new OneOf<string, long, double, IReadOnlyList<string>>(value);}
+        public MetadataInstanceValue(IReadOnlyList<string> value) {_oneOf = new OneOf<string?, long?, double?, IReadOnlyList<string>?>(value);}
         
         public static implicit operator MetadataInstanceValue(string value) => new MetadataInstanceValue(value);
         

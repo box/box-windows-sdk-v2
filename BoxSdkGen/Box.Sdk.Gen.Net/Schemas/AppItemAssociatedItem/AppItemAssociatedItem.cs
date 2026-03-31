@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(AppItemAssociatedItemConverter))]
     public class AppItemAssociatedItem {
-        internal OneOf<FileBase, FolderBase, WebLinkBase> _oneOf;
+        internal OneOf<FileBase?, FolderBase?, WebLinkBase?> _oneOf;
         
         public FileBase? FileBase => _oneOf._val0;
         
@@ -16,11 +16,11 @@ namespace Box.Sdk.Gen.Schemas {
         
         public WebLinkBase? WebLinkBase => _oneOf._val2;
         
-        public AppItemAssociatedItem(FileBase value) {_oneOf = new OneOf<FileBase, FolderBase, WebLinkBase>(value);}
+        public AppItemAssociatedItem(FileBase value) {_oneOf = new OneOf<FileBase?, FolderBase?, WebLinkBase?>(value);}
         
-        public AppItemAssociatedItem(FolderBase value) {_oneOf = new OneOf<FileBase, FolderBase, WebLinkBase>(value);}
+        public AppItemAssociatedItem(FolderBase value) {_oneOf = new OneOf<FileBase?, FolderBase?, WebLinkBase?>(value);}
         
-        public AppItemAssociatedItem(WebLinkBase value) {_oneOf = new OneOf<FileBase, FolderBase, WebLinkBase>(value);}
+        public AppItemAssociatedItem(WebLinkBase value) {_oneOf = new OneOf<FileBase?, FolderBase?, WebLinkBase?>(value);}
         
         public static implicit operator AppItemAssociatedItem(FileBase value) => new AppItemAssociatedItem(value);
         

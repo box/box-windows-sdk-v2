@@ -8,15 +8,15 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(SearchResultsResponseConverter))]
     public class SearchResultsResponse {
-        internal OneOf<SearchResults, SearchResultsWithSharedLinks> _oneOf;
+        internal OneOf<SearchResults?, SearchResultsWithSharedLinks?> _oneOf;
         
         public SearchResults? SearchResults => _oneOf._val0;
         
         public SearchResultsWithSharedLinks? SearchResultsWithSharedLinks => _oneOf._val1;
         
-        public SearchResultsResponse(SearchResults value) {_oneOf = new OneOf<SearchResults, SearchResultsWithSharedLinks>(value);}
+        public SearchResultsResponse(SearchResults value) {_oneOf = new OneOf<SearchResults?, SearchResultsWithSharedLinks?>(value);}
         
-        public SearchResultsResponse(SearchResultsWithSharedLinks value) {_oneOf = new OneOf<SearchResults, SearchResultsWithSharedLinks>(value);}
+        public SearchResultsResponse(SearchResultsWithSharedLinks value) {_oneOf = new OneOf<SearchResults?, SearchResultsWithSharedLinks?>(value);}
         
         public static implicit operator SearchResultsResponse(SearchResults value) => new SearchResultsResponse(value);
         

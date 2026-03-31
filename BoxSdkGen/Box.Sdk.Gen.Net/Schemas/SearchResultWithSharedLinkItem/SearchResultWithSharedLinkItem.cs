@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(SearchResultWithSharedLinkItemConverter))]
     public class SearchResultWithSharedLinkItem {
-        internal OneOf<FileFull, FolderFull, WebLink> _oneOf;
+        internal OneOf<FileFull?, FolderFull?, WebLink?> _oneOf;
         
         public FileFull? FileFull => _oneOf._val0;
         
@@ -16,11 +16,11 @@ namespace Box.Sdk.Gen.Schemas {
         
         public WebLink? WebLink => _oneOf._val2;
         
-        public SearchResultWithSharedLinkItem(FileFull value) {_oneOf = new OneOf<FileFull, FolderFull, WebLink>(value);}
+        public SearchResultWithSharedLinkItem(FileFull value) {_oneOf = new OneOf<FileFull?, FolderFull?, WebLink?>(value);}
         
-        public SearchResultWithSharedLinkItem(FolderFull value) {_oneOf = new OneOf<FileFull, FolderFull, WebLink>(value);}
+        public SearchResultWithSharedLinkItem(FolderFull value) {_oneOf = new OneOf<FileFull?, FolderFull?, WebLink?>(value);}
         
-        public SearchResultWithSharedLinkItem(WebLink value) {_oneOf = new OneOf<FileFull, FolderFull, WebLink>(value);}
+        public SearchResultWithSharedLinkItem(WebLink value) {_oneOf = new OneOf<FileFull?, FolderFull?, WebLink?>(value);}
         
         public static implicit operator SearchResultWithSharedLinkItem(FileFull value) => new SearchResultWithSharedLinkItem(value);
         

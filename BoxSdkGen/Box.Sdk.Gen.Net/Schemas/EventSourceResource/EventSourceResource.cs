@@ -10,7 +10,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(EventSourceResourceConverter))]
     public class EventSourceResource {
-        internal OneOf<User, EventSource, File, Folder, Dictionary<string, object>, AppItemEventSource> _oneOf;
+        internal OneOf<User?, EventSource?, File?, Folder?, Dictionary<string, object>?, AppItemEventSource?> _oneOf;
         
         public User? User => _oneOf._val0;
         
@@ -24,17 +24,17 @@ namespace Box.Sdk.Gen.Schemas {
         
         public AppItemEventSource? AppItemEventSource => _oneOf._val5;
         
-        public EventSourceResource(User value) {_oneOf = new OneOf<User, EventSource, File, Folder, Dictionary<string, object>, AppItemEventSource>(value);}
+        public EventSourceResource(User value) {_oneOf = new OneOf<User?, EventSource?, File?, Folder?, Dictionary<string, object>?, AppItemEventSource?>(value);}
         
-        public EventSourceResource(EventSource value) {_oneOf = new OneOf<User, EventSource, File, Folder, Dictionary<string, object>, AppItemEventSource>(value);}
+        public EventSourceResource(EventSource value) {_oneOf = new OneOf<User?, EventSource?, File?, Folder?, Dictionary<string, object>?, AppItemEventSource?>(value);}
         
-        public EventSourceResource(File value) {_oneOf = new OneOf<User, EventSource, File, Folder, Dictionary<string, object>, AppItemEventSource>(value);}
+        public EventSourceResource(File value) {_oneOf = new OneOf<User?, EventSource?, File?, Folder?, Dictionary<string, object>?, AppItemEventSource?>(value);}
         
-        public EventSourceResource(Folder value) {_oneOf = new OneOf<User, EventSource, File, Folder, Dictionary<string, object>, AppItemEventSource>(value);}
+        public EventSourceResource(Folder value) {_oneOf = new OneOf<User?, EventSource?, File?, Folder?, Dictionary<string, object>?, AppItemEventSource?>(value);}
         
-        public EventSourceResource(Dictionary<string, object> value) {_oneOf = new OneOf<User, EventSource, File, Folder, Dictionary<string, object>, AppItemEventSource>(value);}
+        public EventSourceResource(Dictionary<string, object> value) {_oneOf = new OneOf<User?, EventSource?, File?, Folder?, Dictionary<string, object>?, AppItemEventSource?>(value);}
         
-        public EventSourceResource(AppItemEventSource value) {_oneOf = new OneOf<User, EventSource, File, Folder, Dictionary<string, object>, AppItemEventSource>(value);}
+        public EventSourceResource(AppItemEventSource value) {_oneOf = new OneOf<User?, EventSource?, File?, Folder?, Dictionary<string, object>?, AppItemEventSource?>(value);}
         
         public static implicit operator EventSourceResource(User value) => new EventSourceResource(value);
         
