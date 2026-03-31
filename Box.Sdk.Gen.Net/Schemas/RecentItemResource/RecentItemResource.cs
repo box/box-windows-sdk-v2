@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(RecentItemResourceConverter))]
     public class RecentItemResource {
-        internal OneOf<FileFull, FolderFull, WebLink> _oneOf;
+        internal OneOf<FileFull?, FolderFull?, WebLink?> _oneOf;
         
         public FileFull? FileFull => _oneOf._val0;
         
@@ -16,11 +16,11 @@ namespace Box.Sdk.Gen.Schemas {
         
         public WebLink? WebLink => _oneOf._val2;
         
-        public RecentItemResource(FileFull value) {_oneOf = new OneOf<FileFull, FolderFull, WebLink>(value);}
+        public RecentItemResource(FileFull value) {_oneOf = new OneOf<FileFull?, FolderFull?, WebLink?>(value);}
         
-        public RecentItemResource(FolderFull value) {_oneOf = new OneOf<FileFull, FolderFull, WebLink>(value);}
+        public RecentItemResource(FolderFull value) {_oneOf = new OneOf<FileFull?, FolderFull?, WebLink?>(value);}
         
-        public RecentItemResource(WebLink value) {_oneOf = new OneOf<FileFull, FolderFull, WebLink>(value);}
+        public RecentItemResource(WebLink value) {_oneOf = new OneOf<FileFull?, FolderFull?, WebLink?>(value);}
         
         public static implicit operator RecentItemResource(FileFull value) => new RecentItemResource(value);
         

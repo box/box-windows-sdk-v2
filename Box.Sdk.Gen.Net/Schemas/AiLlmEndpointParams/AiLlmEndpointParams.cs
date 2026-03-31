@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(AiLlmEndpointParamsConverter))]
     public class AiLlmEndpointParams {
-        internal OneOf<AiLlmEndpointParamsOpenAi, AiLlmEndpointParamsGoogle, AiLlmEndpointParamsAws, AiLlmEndpointParamsIbm> _oneOf;
+        internal OneOf<AiLlmEndpointParamsOpenAi?, AiLlmEndpointParamsGoogle?, AiLlmEndpointParamsAws?, AiLlmEndpointParamsIbm?> _oneOf;
         
         public AiLlmEndpointParamsOpenAi? AiLlmEndpointParamsOpenAi => _oneOf._val0;
         
@@ -18,13 +18,13 @@ namespace Box.Sdk.Gen.Schemas {
         
         public AiLlmEndpointParamsIbm? AiLlmEndpointParamsIbm => _oneOf._val3;
         
-        public AiLlmEndpointParams(AiLlmEndpointParamsOpenAi value) {_oneOf = new OneOf<AiLlmEndpointParamsOpenAi, AiLlmEndpointParamsGoogle, AiLlmEndpointParamsAws, AiLlmEndpointParamsIbm>(value);}
+        public AiLlmEndpointParams(AiLlmEndpointParamsOpenAi value) {_oneOf = new OneOf<AiLlmEndpointParamsOpenAi?, AiLlmEndpointParamsGoogle?, AiLlmEndpointParamsAws?, AiLlmEndpointParamsIbm?>(value);}
         
-        public AiLlmEndpointParams(AiLlmEndpointParamsGoogle value) {_oneOf = new OneOf<AiLlmEndpointParamsOpenAi, AiLlmEndpointParamsGoogle, AiLlmEndpointParamsAws, AiLlmEndpointParamsIbm>(value);}
+        public AiLlmEndpointParams(AiLlmEndpointParamsGoogle value) {_oneOf = new OneOf<AiLlmEndpointParamsOpenAi?, AiLlmEndpointParamsGoogle?, AiLlmEndpointParamsAws?, AiLlmEndpointParamsIbm?>(value);}
         
-        public AiLlmEndpointParams(AiLlmEndpointParamsAws value) {_oneOf = new OneOf<AiLlmEndpointParamsOpenAi, AiLlmEndpointParamsGoogle, AiLlmEndpointParamsAws, AiLlmEndpointParamsIbm>(value);}
+        public AiLlmEndpointParams(AiLlmEndpointParamsAws value) {_oneOf = new OneOf<AiLlmEndpointParamsOpenAi?, AiLlmEndpointParamsGoogle?, AiLlmEndpointParamsAws?, AiLlmEndpointParamsIbm?>(value);}
         
-        public AiLlmEndpointParams(AiLlmEndpointParamsIbm value) {_oneOf = new OneOf<AiLlmEndpointParamsOpenAi, AiLlmEndpointParamsGoogle, AiLlmEndpointParamsAws, AiLlmEndpointParamsIbm>(value);}
+        public AiLlmEndpointParams(AiLlmEndpointParamsIbm value) {_oneOf = new OneOf<AiLlmEndpointParamsOpenAi?, AiLlmEndpointParamsGoogle?, AiLlmEndpointParamsAws?, AiLlmEndpointParamsIbm?>(value);}
         
         public static implicit operator AiLlmEndpointParams(AiLlmEndpointParamsOpenAi value) => new AiLlmEndpointParams(value);
         

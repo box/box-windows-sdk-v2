@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(ShieldListContentRequestV2025R0Converter))]
     public class ShieldListContentRequestV2025R0 {
-        internal OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0> _oneOf;
+        internal OneOf<ShieldListContentCountryV2025R0?, ShieldListContentDomainV2025R0?, ShieldListContentEmailV2025R0?, ShieldListContentIpV2025R0?> _oneOf;
         
         public ShieldListContentCountryV2025R0? ShieldListContentCountryV2025R0 => _oneOf._val0;
         
@@ -18,13 +18,13 @@ namespace Box.Sdk.Gen.Schemas {
         
         public ShieldListContentIpV2025R0? ShieldListContentIpV2025R0 => _oneOf._val3;
         
-        public ShieldListContentRequestV2025R0(ShieldListContentCountryV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0>(value);}
+        public ShieldListContentRequestV2025R0(ShieldListContentCountryV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0?, ShieldListContentDomainV2025R0?, ShieldListContentEmailV2025R0?, ShieldListContentIpV2025R0?>(value);}
         
-        public ShieldListContentRequestV2025R0(ShieldListContentDomainV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0>(value);}
+        public ShieldListContentRequestV2025R0(ShieldListContentDomainV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0?, ShieldListContentDomainV2025R0?, ShieldListContentEmailV2025R0?, ShieldListContentIpV2025R0?>(value);}
         
-        public ShieldListContentRequestV2025R0(ShieldListContentEmailV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0>(value);}
+        public ShieldListContentRequestV2025R0(ShieldListContentEmailV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0?, ShieldListContentDomainV2025R0?, ShieldListContentEmailV2025R0?, ShieldListContentIpV2025R0?>(value);}
         
-        public ShieldListContentRequestV2025R0(ShieldListContentIpV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0, ShieldListContentDomainV2025R0, ShieldListContentEmailV2025R0, ShieldListContentIpV2025R0>(value);}
+        public ShieldListContentRequestV2025R0(ShieldListContentIpV2025R0 value) {_oneOf = new OneOf<ShieldListContentCountryV2025R0?, ShieldListContentDomainV2025R0?, ShieldListContentEmailV2025R0?, ShieldListContentIpV2025R0?>(value);}
         
         public static implicit operator ShieldListContentRequestV2025R0(ShieldListContentCountryV2025R0 value) => new ShieldListContentRequestV2025R0(value);
         

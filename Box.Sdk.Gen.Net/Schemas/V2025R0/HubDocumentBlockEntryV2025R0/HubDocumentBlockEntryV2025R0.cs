@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(HubDocumentBlockEntryV2025R0Converter))]
     public class HubDocumentBlockEntryV2025R0 {
-        internal OneOf<HubParagraphTextBlockV2025R0, HubSectionTitleTextBlockV2025R0, HubCalloutBoxTextBlockV2025R0, HubItemListBlockV2025R0, HubDividerBlockV2025R0> _oneOf;
+        internal OneOf<HubParagraphTextBlockV2025R0?, HubSectionTitleTextBlockV2025R0?, HubCalloutBoxTextBlockV2025R0?, HubItemListBlockV2025R0?, HubDividerBlockV2025R0?> _oneOf;
         
         public HubParagraphTextBlockV2025R0? HubParagraphTextBlockV2025R0 => _oneOf._val0;
         
@@ -20,15 +20,15 @@ namespace Box.Sdk.Gen.Schemas {
         
         public HubDividerBlockV2025R0? HubDividerBlockV2025R0 => _oneOf._val4;
         
-        public HubDocumentBlockEntryV2025R0(HubParagraphTextBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0, HubSectionTitleTextBlockV2025R0, HubCalloutBoxTextBlockV2025R0, HubItemListBlockV2025R0, HubDividerBlockV2025R0>(value);}
+        public HubDocumentBlockEntryV2025R0(HubParagraphTextBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0?, HubSectionTitleTextBlockV2025R0?, HubCalloutBoxTextBlockV2025R0?, HubItemListBlockV2025R0?, HubDividerBlockV2025R0?>(value);}
         
-        public HubDocumentBlockEntryV2025R0(HubSectionTitleTextBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0, HubSectionTitleTextBlockV2025R0, HubCalloutBoxTextBlockV2025R0, HubItemListBlockV2025R0, HubDividerBlockV2025R0>(value);}
+        public HubDocumentBlockEntryV2025R0(HubSectionTitleTextBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0?, HubSectionTitleTextBlockV2025R0?, HubCalloutBoxTextBlockV2025R0?, HubItemListBlockV2025R0?, HubDividerBlockV2025R0?>(value);}
         
-        public HubDocumentBlockEntryV2025R0(HubCalloutBoxTextBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0, HubSectionTitleTextBlockV2025R0, HubCalloutBoxTextBlockV2025R0, HubItemListBlockV2025R0, HubDividerBlockV2025R0>(value);}
+        public HubDocumentBlockEntryV2025R0(HubCalloutBoxTextBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0?, HubSectionTitleTextBlockV2025R0?, HubCalloutBoxTextBlockV2025R0?, HubItemListBlockV2025R0?, HubDividerBlockV2025R0?>(value);}
         
-        public HubDocumentBlockEntryV2025R0(HubItemListBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0, HubSectionTitleTextBlockV2025R0, HubCalloutBoxTextBlockV2025R0, HubItemListBlockV2025R0, HubDividerBlockV2025R0>(value);}
+        public HubDocumentBlockEntryV2025R0(HubItemListBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0?, HubSectionTitleTextBlockV2025R0?, HubCalloutBoxTextBlockV2025R0?, HubItemListBlockV2025R0?, HubDividerBlockV2025R0?>(value);}
         
-        public HubDocumentBlockEntryV2025R0(HubDividerBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0, HubSectionTitleTextBlockV2025R0, HubCalloutBoxTextBlockV2025R0, HubItemListBlockV2025R0, HubDividerBlockV2025R0>(value);}
+        public HubDocumentBlockEntryV2025R0(HubDividerBlockV2025R0 value) {_oneOf = new OneOf<HubParagraphTextBlockV2025R0?, HubSectionTitleTextBlockV2025R0?, HubCalloutBoxTextBlockV2025R0?, HubItemListBlockV2025R0?, HubDividerBlockV2025R0?>(value);}
         
         public static implicit operator HubDocumentBlockEntryV2025R0(HubParagraphTextBlockV2025R0 value) => new HubDocumentBlockEntryV2025R0(value);
         

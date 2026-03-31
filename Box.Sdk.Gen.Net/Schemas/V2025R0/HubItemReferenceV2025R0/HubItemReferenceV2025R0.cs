@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(HubItemReferenceV2025R0Converter))]
     public class HubItemReferenceV2025R0 {
-        internal OneOf<FileReferenceV2025R0, FolderReferenceV2025R0, WeblinkReferenceV2025R0> _oneOf;
+        internal OneOf<FileReferenceV2025R0?, FolderReferenceV2025R0?, WeblinkReferenceV2025R0?> _oneOf;
         
         public FileReferenceV2025R0? FileReferenceV2025R0 => _oneOf._val0;
         
@@ -16,11 +16,11 @@ namespace Box.Sdk.Gen.Schemas {
         
         public WeblinkReferenceV2025R0? WeblinkReferenceV2025R0 => _oneOf._val2;
         
-        public HubItemReferenceV2025R0(FileReferenceV2025R0 value) {_oneOf = new OneOf<FileReferenceV2025R0, FolderReferenceV2025R0, WeblinkReferenceV2025R0>(value);}
+        public HubItemReferenceV2025R0(FileReferenceV2025R0 value) {_oneOf = new OneOf<FileReferenceV2025R0?, FolderReferenceV2025R0?, WeblinkReferenceV2025R0?>(value);}
         
-        public HubItemReferenceV2025R0(FolderReferenceV2025R0 value) {_oneOf = new OneOf<FileReferenceV2025R0, FolderReferenceV2025R0, WeblinkReferenceV2025R0>(value);}
+        public HubItemReferenceV2025R0(FolderReferenceV2025R0 value) {_oneOf = new OneOf<FileReferenceV2025R0?, FolderReferenceV2025R0?, WeblinkReferenceV2025R0?>(value);}
         
-        public HubItemReferenceV2025R0(WeblinkReferenceV2025R0 value) {_oneOf = new OneOf<FileReferenceV2025R0, FolderReferenceV2025R0, WeblinkReferenceV2025R0>(value);}
+        public HubItemReferenceV2025R0(WeblinkReferenceV2025R0 value) {_oneOf = new OneOf<FileReferenceV2025R0?, FolderReferenceV2025R0?, WeblinkReferenceV2025R0?>(value);}
         
         public static implicit operator HubItemReferenceV2025R0(FileReferenceV2025R0 value) => new HubItemReferenceV2025R0(value);
         

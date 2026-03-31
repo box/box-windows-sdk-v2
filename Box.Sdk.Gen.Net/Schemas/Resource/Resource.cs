@@ -8,15 +8,15 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(ResourceConverter))]
     public class Resource {
-        internal OneOf<FolderMini, FileMini> _oneOf;
+        internal OneOf<FolderMini?, FileMini?> _oneOf;
         
         public FolderMini? FolderMini => _oneOf._val0;
         
         public FileMini? FileMini => _oneOf._val1;
         
-        public Resource(FolderMini value) {_oneOf = new OneOf<FolderMini, FileMini>(value);}
+        public Resource(FolderMini value) {_oneOf = new OneOf<FolderMini?, FileMini?>(value);}
         
-        public Resource(FileMini value) {_oneOf = new OneOf<FolderMini, FileMini>(value);}
+        public Resource(FileMini value) {_oneOf = new OneOf<FolderMini?, FileMini?>(value);}
         
         public static implicit operator Resource(FolderMini value) => new Resource(value);
         

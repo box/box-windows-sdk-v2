@@ -8,15 +8,15 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(MetadataQueryResultItemConverter))]
     public class MetadataQueryResultItem {
-        internal OneOf<FileFull, FolderFull> _oneOf;
+        internal OneOf<FileFull?, FolderFull?> _oneOf;
         
         public FileFull? FileFull => _oneOf._val0;
         
         public FolderFull? FolderFull => _oneOf._val1;
         
-        public MetadataQueryResultItem(FileFull value) {_oneOf = new OneOf<FileFull, FolderFull>(value);}
+        public MetadataQueryResultItem(FileFull value) {_oneOf = new OneOf<FileFull?, FolderFull?>(value);}
         
-        public MetadataQueryResultItem(FolderFull value) {_oneOf = new OneOf<FileFull, FolderFull>(value);}
+        public MetadataQueryResultItem(FolderFull value) {_oneOf = new OneOf<FileFull?, FolderFull?>(value);}
         
         public static implicit operator MetadataQueryResultItem(FileFull value) => new MetadataQueryResultItem(value);
         
