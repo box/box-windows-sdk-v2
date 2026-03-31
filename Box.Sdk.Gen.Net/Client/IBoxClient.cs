@@ -165,6 +165,8 @@ namespace Box.Sdk.Gen {
 
         public IHubItemsManager HubItems { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
 
+        public IHubDocumentManager HubDocument { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
+
         public IShieldListsManager ShieldLists { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
 
         public IArchivesManager Archives { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
