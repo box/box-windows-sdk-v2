@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.8.0](https://github.com/box/box-windows-sdk-v2/compare/v10.7.0...v10.8.0) (2026-04-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* Correct search content type 'tags' to match API (box/box-openapi#591) (#1431)
+* Align `LegalHoldPolicyAssignedItem` with API (box/box-openapi#1554) (box/box-openapi#590) (#1427)
+
+### Bug Fixes
+
+* Align `LegalHoldPolicyAssignedItem` with API (box/box-openapi[#1554](https://github.com/box/box-windows-sdk-v2/issues/1554)) (box/box-openapi[#590](https://github.com/box/box-windows-sdk-v2/issues/590)) ([#1427](https://github.com/box/box-windows-sdk-v2/issues/1427)) ([2079002](https://github.com/box/box-windows-sdk-v2/commit/207900280c25d40b500b4771e163b6fa10228cc7))
+* Correct search content type 'tags' to match API (box/box-openapi[#591](https://github.com/box/box-windows-sdk-v2/issues/591)) ([#1431](https://github.com/box/box-windows-sdk-v2/issues/1431)) ([d6bd881](https://github.com/box/box-windows-sdk-v2/commit/d6bd881890f442c80d5fdda9c9ebe0bdda3a8c32))
+* Fix Union members to default to null and Enum deserialization (box/box-codegen[#933](https://github.com/box/box-windows-sdk-v2/issues/933)) ([#1438](https://github.com/box/box-windows-sdk-v2/issues/1438)) ([7a5756a](https://github.com/box/box-windows-sdk-v2/commit/7a5756afaedf66009efe1f8d96eb844706a4f676))
+* Handle empty API error bodies (box/box-codegen[#934](https://github.com/box/box-windows-sdk-v2/issues/934)) ([#1441](https://github.com/box/box-windows-sdk-v2/issues/1441)) ([183449e](https://github.com/box/box-windows-sdk-v2/commit/183449ea98e2ca073d8f98d41213452070eb1cc1))
+
+
+### New Features and Enhancements
+
+* Add `reference` to `AI` and `parent_id` to `HubsItems` (box/box-openapi[#588](https://github.com/box/box-windows-sdk-v2/issues/588)) ([#1418](https://github.com/box/box-windows-sdk-v2/issues/1418)) ([8527a35](https://github.com/box/box-windows-sdk-v2/commit/8527a35f5977c4f2721bf33923f3578e111d810a))
+* Support Hub Document API (box/box-codegen[#930](https://github.com/box/box-windows-sdk-v2/issues/930)) ([#1433](https://github.com/box/box-windows-sdk-v2/issues/1433)) ([a57db33](https://github.com/box/box-windows-sdk-v2/commit/a57db33fd43ad6f04f33ec81fd74353e83e02714))
+
 ## [10.7.0](https://github.com/box/box-windows-sdk-v2/compare/v10.6.0...v10.7.0) (2026-03-18)
 
 
