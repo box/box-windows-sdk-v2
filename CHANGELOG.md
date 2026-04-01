@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.7.0](https://github.com/box/box-windows-sdk-v2/compare/v6.6.0...v6.7.0) (2026-04-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **boxsdkgen:** Correct search content type 'tags' to match API (box/box-openapi#591) (#1432)
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** Add `reference` to `AI` and `parent_id` to `HubsItems` (box/box-openapi[#588](https://github.com/box/box-windows-sdk-v2/issues/588)) ([#1417](https://github.com/box/box-windows-sdk-v2/issues/1417)) ([a9ad210](https://github.com/box/box-windows-sdk-v2/commit/a9ad2107d31a36af4b0e91f9079295f1dc8e9d2a))
+* **boxsdkgen:** Support Hub Document API (box/box-codegen[#930](https://github.com/box/box-windows-sdk-v2/issues/930)) ([#1434](https://github.com/box/box-windows-sdk-v2/issues/1434)) ([3893c0c](https://github.com/box/box-windows-sdk-v2/commit/3893c0c976aed671712e88eab7b66c38c722f129))
+
+
+### **Bug Fixes:**
+
+* **boxsdkgen:** Correct search content type 'tags' to match API (box/box-openapi[#591](https://github.com/box/box-windows-sdk-v2/issues/591)) ([#1432](https://github.com/box/box-windows-sdk-v2/issues/1432)) ([189afe9](https://github.com/box/box-windows-sdk-v2/commit/189afe958b3f13b68db0167b37ee5eb60eaf8cef))
+* **boxsdkgen:** Fix Union members to default to null and Enum deserialization (box/box-codegen[#933](https://github.com/box/box-windows-sdk-v2/issues/933)) ([#1437](https://github.com/box/box-windows-sdk-v2/issues/1437)) ([8d32a69](https://github.com/box/box-windows-sdk-v2/commit/8d32a6929ebc32ddaf39cb945c297a6d0a23dedf))
+* **boxsdkgen:** Handle empty API error bodies (box/box-codegen[#934](https://github.com/box/box-windows-sdk-v2/issues/934)) ([#1440](https://github.com/box/box-windows-sdk-v2/issues/1440)) ([63f1d8c](https://github.com/box/box-windows-sdk-v2/commit/63f1d8ca3ccbf74d39fb2d5215e8399688248458))
+
 ## [6.6.0](https://github.com/box/box-windows-sdk-v2/compare/v6.5.0...v6.6.0) (2026-03-18)
 
 
