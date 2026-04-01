@@ -255,7 +255,7 @@ namespace Box.Sdk.Gen.Internal
             }
             else
             {
-                responseContent = "empty";
+                responseContent = string.Empty;
                 responseHeaders = new Dictionary<string, string>();
             }
 
@@ -267,8 +267,22 @@ namespace Box.Sdk.Gen.Internal
 
             var requestInfo = new RequestInfo(request.Method.ToString(), request.RequestUri?.ToString(), options.Parameters, requestHeaders);
 
-            var responseAsSerializedData = JsonUtils.JsonToSerializedData(responseContent);
-            var errorDetails = SimpleJsonSerializer.DeserializeWithoutRawJson<BoxApiExceptionDetails>(responseAsSerializedData);
+            var responseAsSerializedData = JsonUtils.JsonToSerializedData("{}");
+            var errorDetails = new BoxApiExceptionDetails();
+
+            if (!string.IsNullOrWhiteSpace(responseContent))
+            {
+                try
+                {
+                    responseAsSerializedData = JsonUtils.JsonToSerializedData(responseContent);
+                    errorDetails = SimpleJsonSerializer.DeserializeWithoutRawJson<BoxApiExceptionDetails>(responseAsSerializedData) ?? new BoxApiExceptionDetails();
+                }
+                catch (Exception)
+                {
+                    responseAsSerializedData = JsonUtils.JsonToSerializedData("{}");
+                    errorDetails = new BoxApiExceptionDetails();
+                }
+            }
 
             var responseInfo = new ResponseInfo(statusCode, responseHeaders, responseAsSerializedData, responseContent, errorDetails.Code, errorDetails.ContextInfo,
                 errorDetails.RequestId, errorDetails.HelpUrl);
