@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file. See [standa
 ## [6.8.0](https://github.com/box/box-windows-sdk-v2/compare/v6.7.0...v6.8.0) (2026-04-16)
 
 
-### ⚠ BREAKING CHANGES
+### **New Features and Enhancements:**
 
 * **boxsdkgen:** Update `RetentionLength` field to accept both string and integer (box/box-codegen#932) (#1444)
 
