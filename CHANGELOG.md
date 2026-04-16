@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.9.0](https://github.com/box/box-windows-sdk-v2/compare/v10.8.0...v10.9.0) (2026-04-16)
+
+### Bug Fixes
+
+* Update `RetentionLength` field to accept both string and integer (box/box-codegen[#932](https://github.com/box/box-windows-sdk-v2/issues/932)) ([#1445](https://github.com/box/box-windows-sdk-v2/issues/1445)) ([ed3110e](https://github.com/box/box-windows-sdk-v2/commit/ed3110e0d40544c80a289c48ba7cd34910933e65))
+
+
+### New Features and Enhancements
+
+* Extensible enum in DotNet (box/box-codegen[#937](https://github.com/box/box-windows-sdk-v2/issues/937)) ([#1460](https://github.com/box/box-windows-sdk-v2/issues/1460)) ([ccb4dd9](https://github.com/box/box-windows-sdk-v2/commit/ccb4dd985a35a674d0e0deeda1f43524ffc7c166))
+
 ## [10.8.0](https://github.com/box/box-windows-sdk-v2/compare/v10.7.0...v10.8.0) (2026-04-01)
 
 
