@@ -23,7 +23,7 @@ namespace Box.Sdk.Gen
             }
         }
 
-        internal StringEnum(string value)
+        public StringEnum(string value)
         {
             Value = null;
             StringValue = value;
