@@ -122,7 +122,7 @@ namespace Box.Sdk.Gen.Managers {
 
         /// <summary>
     /// Deletes a user. By default, this operation fails if the user
-    /// still owns any content, was recently active, or recently joined the enterprise from a free account. 
+    /// still owns any content. 
     /// To proceed, move their owned content first, or use the `force` parameter to delete
     /// the user and their files.
     /// </summary>
