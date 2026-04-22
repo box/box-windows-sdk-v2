@@ -128,6 +128,9 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("can_owner_extend_retention")]
         public bool? CanOwnerExtendRetention { get => _canOwnerExtendRetention; init { _canOwnerExtendRetention = value; _isCanOwnerExtendRetentionSet = true; } }
 
+        [JsonPropertyName("max_extension_length")]
+        public RetentionPolicyMaxExtensionLengthRequest? MaxExtensionLength { get; init; }
+
         /// <summary>
         /// Determines if owners and co-owners of items
         /// under the policy are notified when
