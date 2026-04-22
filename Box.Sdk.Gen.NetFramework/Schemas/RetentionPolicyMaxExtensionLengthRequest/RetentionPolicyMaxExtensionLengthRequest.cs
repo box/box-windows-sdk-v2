@@ -9,7 +9,7 @@ namespace Box.Sdk.Gen.Schemas {
     public class RetentionPolicyMaxExtensionLengthRequest {
         internal OneOf<RetentionPolicyMaxExtensionLengthRequestEnum?, string, int?> _oneOf;
         
-        public RetentionPolicyMaxExtensionLengthRequestEnum RetentionPolicyMaxExtensionLengthRequestEnum => _oneOf._val0;
+        public RetentionPolicyMaxExtensionLengthRequestEnum? RetentionPolicyMaxExtensionLengthRequestEnum => _oneOf._val0;
         
         public string StringVal => _oneOf._val1;
         
