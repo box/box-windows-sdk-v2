@@ -2,6 +2,6 @@ namespace Box.V2.Utility
 {
     internal class AssemblyInfo
     {
-        public const string NuGetVersion = "6.8.0";
+        public const string NuGetVersion = "6.9.0";
     }
 }
