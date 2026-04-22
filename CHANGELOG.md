@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.9.0](https://github.com/box/box-windows-sdk-v2/compare/v6.8.0...v6.9.0) (2026-04-22)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** Add `max_extension_length` field to Retention Policies (box/box-codegen[#941](https://github.com/box/box-windows-sdk-v2/issues/941)) ([#1472](https://github.com/box/box-windows-sdk-v2/issues/1472)) ([bf0e681](https://github.com/box/box-windows-sdk-v2/commit/bf0e6819d32e4bb08d512c27cccc733dc620144c))
+
 ## [6.8.0](https://github.com/box/box-windows-sdk-v2/compare/v6.7.0...v6.8.0) (2026-04-16)
 
 
