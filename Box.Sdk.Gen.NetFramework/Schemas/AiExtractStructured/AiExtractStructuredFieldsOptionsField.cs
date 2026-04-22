@@ -7,7 +7,7 @@ using Box.Sdk.Gen.Schemas;
 namespace Box.Sdk.Gen.Schemas {
     public class AiExtractStructuredFieldsOptionsField : ISerializable {
         /// <summary>
-        /// A unique identifier for the field.
+        /// A unique identifier for the option.
         /// </summary>
         [JsonPropertyName("key")]
         public string Key { get; set; }

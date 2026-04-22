@@ -33,13 +33,13 @@ namespace Box.Sdk.Gen.Schemas {
         public string? Prompt { get; init; }
 
         /// <summary>
-        /// The type of the field. It include but is not limited to string, float, date, enum, and multiSelect.
+        /// The type of the field. It can include but is not limited to `string`, `float`, `date`, `enum`, and `multiSelect`.
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; init; }
 
         /// <summary>
-        /// A list of options for this field. This is most often used in combination with the enum and multiSelect field types.
+        /// A list of options for this field. This is most often used in combination with the `enum` and `multiSelect` field types.
         /// </summary>
         [JsonPropertyName("options")]
         public IReadOnlyList<AiExtractStructuredFieldsOptionsField>? Options { get; init; }
