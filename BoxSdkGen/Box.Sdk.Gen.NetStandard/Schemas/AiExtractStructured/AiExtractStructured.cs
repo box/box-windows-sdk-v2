@@ -28,6 +28,9 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("fields")]
         public IReadOnlyList<AiExtractStructuredFieldsField> Fields { get; set; }
 
+        [JsonPropertyName("ai_agent")]
+        public AiExtractStructuredAgent AiAgent { get; set; }
+
         /// <summary>
         /// A flag to indicate whether confidence scores for every extracted field should be returned.
         /// </summary>
@@ -39,9 +42,6 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("include_reference")]
         public bool? IncludeReference { get; set; }
-
-        [JsonPropertyName("ai_agent")]
-        public AiExtractStructuredAgent AiAgent { get; set; }
 
         public AiExtractStructured(IReadOnlyList<AiItemBase> items) {
             Items = items;

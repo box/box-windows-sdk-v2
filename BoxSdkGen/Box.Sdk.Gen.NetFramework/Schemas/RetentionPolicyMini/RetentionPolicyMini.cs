@@ -36,6 +36,9 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonConverter(typeof(StringEnumConverter<RetentionPolicyMiniDispositionActionField>))]
         public StringEnum<RetentionPolicyMiniDispositionActionField> DispositionAction { get; set; }
 
+        [JsonPropertyName("max_extension_length")]
+        public RetentionPolicyMaxExtensionLengthResponse MaxExtensionLength { get; set; }
+
         public RetentionPolicyMini(string id, RetentionPolicyBaseTypeField type = RetentionPolicyBaseTypeField.RetentionPolicy) : base(id, type) {
             
         }

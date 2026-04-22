@@ -83,6 +83,9 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("can_owner_extend_retention")]
         public bool? CanOwnerExtendRetention { get; set; }
 
+        [JsonPropertyName("max_extension_length")]
+        public RetentionPolicyMaxExtensionLengthRequest MaxExtensionLength { get; set; }
+
         /// <summary>
         /// Whether owner and co-owners of a file are notified
         /// when the policy nears expiration.
