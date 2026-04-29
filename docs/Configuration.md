@@ -191,7 +191,7 @@ BoxClient client = new BoxClient(auth: auth, networkSession: networkSession);
 
 How timeout handling works:
 
-- If `TimeoutConfig` is not provided (or `TimeoutMs` is `null`), the SDK uses the default timeout of `100000` ms (100 seconds).
+- If timeout config is not provided, the SDK uses the default timeout of `100000` ms (100 seconds).
 - To disable the SDK HTTP request timeout, set `TimeoutMs` to `0` or a negative value.
 - Timeout failures are handled as request exceptions, then retry behavior is controlled by the configured retry strategy.
 - If all retry attempts are exhausted after HTTP request timeout errors, the SDK throws a timeout-related `BoxSdkException`.
