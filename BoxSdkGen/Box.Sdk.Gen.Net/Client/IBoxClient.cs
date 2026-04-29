@@ -173,5 +173,7 @@ namespace Box.Sdk.Gen {
 
         public IExternalUsersManager ExternalUsers { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
 
+        public IAutomateWorkflowsManager AutomateWorkflows { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
+
     }
 }
