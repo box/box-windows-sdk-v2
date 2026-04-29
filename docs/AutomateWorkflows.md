@@ -14,7 +14,10 @@ This operation is performed by calling function `GetAutomateWorkflowsV2026R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/get-automate-workflows/).
 
-*Currently we don't have an example for calling `GetAutomateWorkflowsV2026R0` in integration tests*
+<!-- sample get_automate_workflows_v2026.0 -->
+```
+await adminClient.AutomateWorkflows.GetAutomateWorkflowsV2026R0Async(queryParams: new GetAutomateWorkflowsV2026R0QueryParams(folderId: workflowFolderId));
+```
 
 ### Arguments
 
@@ -42,7 +45,10 @@ This operation is performed by calling function `CreateAutomateWorkflowStartV202
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/post-automate-workflows-id-start/).
 
-*Currently we don't have an example for calling `CreateAutomateWorkflowStartV2026R0` in integration tests*
+<!-- sample post_automate_workflows_id_start_v2026.0 -->
+```
+await adminClient.AutomateWorkflows.CreateAutomateWorkflowStartV2026R0Async(workflowId: workflowAction.Workflow.Id, requestBody: new AutomateWorkflowStartRequestV2026R0(workflowActionId: workflowAction.Id, fileIds: Array.AsReadOnly(new [] {workflowFileId})));
+```
 
 ### Arguments
 
