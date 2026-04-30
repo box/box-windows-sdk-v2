@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.11.0](https://github.com/box/box-windows-sdk-v2/compare/v10.10.0...v10.11.0) (2026-04-30)
+
+
+### New Features and Enhancements
+
+* Automate Public API (box/box-openapi[#594](https://github.com/box/box-windows-sdk-v2/issues/594)) ([#1488](https://github.com/box/box-windows-sdk-v2/issues/1488)) ([ba6f6be](https://github.com/box/box-windows-sdk-v2/commit/ba6f6befe999820ac60d70514ecb827dbfaf26b2))
+
 ## [10.10.0](https://github.com/box/box-windows-sdk-v2/compare/v10.9.0...v10.10.0) (2026-04-22)
 
 
