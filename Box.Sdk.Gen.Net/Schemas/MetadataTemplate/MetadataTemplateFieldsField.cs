@@ -13,8 +13,11 @@ namespace Box.Sdk.Gen.Schemas {
         /// date-time picker.
         /// 
         /// Additionally, metadata templates support an `enum` field for a basic list
-        /// of items, and ` multiSelect` field for a similar list of items where the
+        /// of items, and `multiSelect` field for a similar list of items where the
         /// user can select more than one value.
+        /// 
+        /// Metadata taxonomies are also supported as a `taxonomy` field type 
+        /// with a specific set of additional properties, which describe its structure.
         /// 
         /// **Note**: The `integer` value is deprecated.
         /// It is still present in the response,
@@ -57,6 +60,34 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("options")]
         public IReadOnlyList<MetadataTemplateFieldsOptionsField>? Options { get; init; }
+
+        /// <summary>
+        /// The unique key of the metadata taxonomy to use for this taxonomy field.
+        /// This property is required when the field `type` is set to `taxonomy`.
+        /// </summary>
+        [JsonPropertyName("taxonomyKey")]
+        public string? TaxonomyKey { get; init; }
+
+        /// <summary>
+        /// The unique ID of the metadata taxonomy to use for this taxonomy field.
+        /// This property is required when the field `type` is set to `taxonomy`.
+        /// </summary>
+        [JsonPropertyName("taxonomyId")]
+        public string? TaxonomyId { get; init; }
+
+        /// <summary>
+        /// The namespace of the metadata taxonomy to use for this taxonomy field.
+        /// This property is required when the field `type` is set to `taxonomy`.
+        /// </summary>
+        [JsonPropertyName("namespace")]
+        public string? NamespaceParam { get; init; }
+
+        /// <summary>
+        /// An object defining additional rules for the options of the taxonomy field.
+        /// This property is required when the field `type` is set to `taxonomy`.
+        /// </summary>
+        [JsonPropertyName("optionsRules")]
+        public MetadataTemplateFieldsOptionsRulesField? OptionsRules { get; init; }
 
         /// <summary>
         /// The unique ID of the metadata template field.

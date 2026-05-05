@@ -14,7 +14,7 @@ namespace Box.Sdk.Gen.Managers {
         /// date-time picker.
         /// 
         /// Additionally, metadata templates support an `enum` field for a basic list
-        /// of items, and ` multiSelect` field for a similar list of items where the
+        /// of items, and `multiSelect` field for a similar list of items where the
         /// user can select more than one value.
         /// 
         /// Metadata taxonomies are also supported as a `taxonomy` field type 
@@ -64,6 +64,13 @@ namespace Box.Sdk.Gen.Managers {
         /// </summary>
         [JsonPropertyName("taxonomyKey")]
         public string? TaxonomyKey { get; init; }
+
+        /// <summary>
+        /// The unique ID of the metadata taxonomy to use for this taxonomy field.
+        /// This property is required when the field `type` is set to `taxonomy`.
+        /// </summary>
+        [JsonPropertyName("taxonomyId")]
+        public string? TaxonomyId { get; init; }
 
         /// <summary>
         /// The namespace of the metadata taxonomy to use for this taxonomy field.

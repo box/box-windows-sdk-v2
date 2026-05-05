@@ -13,9 +13,9 @@ namespace Box.Sdk.Gen.Schemas {
         Enum,
         [Description("multiSelect")]
         MultiSelect,
-        [Description("integer")]
-        Integer,
         [Description("taxonomy")]
-        Taxonomy
+        Taxonomy,
+        [Description("integer")]
+        Integer
     }
 }
