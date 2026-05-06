@@ -521,7 +521,7 @@ See the endpoint docs at
 
 <!-- sample get_metadata_templates_id_id_fields_id_options -->
 ```
-await client.MetadataTaxonomies.GetMetadataTemplateFieldOptionsAsync(namespaceParam: namespaceParam, templateKey: metadataTemplateKey, fieldKey: "taxonomy");
+await client.MetadataTaxonomies.GetMetadataTemplateFieldOptionsAsync(namespaceParam: namespaceParam, templateKey: metadataTemplateKey, fieldKey: fieldKey);
 ```
 
 ### Arguments
