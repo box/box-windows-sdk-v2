@@ -20,13 +20,15 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        public AiAgentReference(AiAgentReferenceTypeField type = AiAgentReferenceTypeField.AiAgentId) {
+        public AiAgentReference(string id, AiAgentReferenceTypeField type = AiAgentReferenceTypeField.AiAgentId) {
             Type = type;
+            Id = id;
         }
         
         [JsonConstructorAttribute]
-        internal AiAgentReference(StringEnum<AiAgentReferenceTypeField> type) {
+        internal AiAgentReference(string id, StringEnum<AiAgentReferenceTypeField> type) {
             Type = AiAgentReferenceTypeField.AiAgentId;
+            Id = id;
         }
         internal string RawJson { get; set; } = default;
 

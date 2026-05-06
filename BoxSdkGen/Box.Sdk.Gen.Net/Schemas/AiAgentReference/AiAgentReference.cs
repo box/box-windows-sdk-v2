@@ -18,15 +18,17 @@ namespace Box.Sdk.Gen.Schemas {
         /// for the [Enhanced Extract Agent](https://developer.box.com/guides/box-ai/ai-tutorials/extract-metadata-structured#enhanced-extract-agent)).
         /// </summary>
         [JsonPropertyName("id")]
-        public string? Id { get; init; }
+        public string Id { get; }
 
-        public AiAgentReference(AiAgentReferenceTypeField type = AiAgentReferenceTypeField.AiAgentId) {
+        public AiAgentReference(string id, AiAgentReferenceTypeField type = AiAgentReferenceTypeField.AiAgentId) {
             Type = type;
+            Id = id;
         }
         
         [JsonConstructorAttribute]
-        internal AiAgentReference(StringEnum<AiAgentReferenceTypeField> type) {
+        internal AiAgentReference(string id, StringEnum<AiAgentReferenceTypeField> type) {
             Type = AiAgentReferenceTypeField.AiAgentId;
+            Id = id;
         }
         internal string? RawJson { get; set; } = default;
 
