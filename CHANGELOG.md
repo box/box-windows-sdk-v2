@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.12.0](https://github.com/box/box-windows-sdk-v2/compare/v10.11.0...v10.12.0) (2026-05-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Mark `id` field of `AIAgentReference` required (box/box-openapi#1629) (box/box-openapi#595) (#1499)
+
+### Bug Fixes
+
+* Fix error handling for binary responses (box/box-codegen[#947](https://github.com/box/box-windows-sdk-v2/issues/947)) ([#1506](https://github.com/box/box-windows-sdk-v2/issues/1506)) ([b0db448](https://github.com/box/box-windows-sdk-v2/commit/b0db448e4b6e6b080cbff5a90f4de544cc609150))
+* Fix metadata template schema (box/box-openapi[#596](https://github.com/box/box-windows-sdk-v2/issues/596)) ([#1500](https://github.com/box/box-windows-sdk-v2/issues/1500)) ([4145bfc](https://github.com/box/box-windows-sdk-v2/commit/4145bfcaa816b80f353518664dec14be383faeef))
+* Mark `id` field of `AIAgentReference` required (box/box-openapi[#1629](https://github.com/box/box-windows-sdk-v2/issues/1629)) (box/box-openapi[#595](https://github.com/box/box-windows-sdk-v2/issues/595)) ([#1499](https://github.com/box/box-windows-sdk-v2/issues/1499)) ([dcb59f8](https://github.com/box/box-windows-sdk-v2/commit/dcb59f8bebe8ef516fe04b0b3bb2f1f936500839))
+
 ## [10.11.0](https://github.com/box/box-windows-sdk-v2/compare/v10.10.0...v10.11.0) (2026-04-30)
 
 
