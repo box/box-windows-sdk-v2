@@ -118,7 +118,13 @@ namespace Box.Sdk.Gen.Internal
                         throw new BoxSdkException($"Proxy authorization required. Check provided credentials in proxy configuration.", DateTimeOffset.UtcNow);
                     }
 
-                    var fetchResponse = await ReadResponse(isStreamResponse, response, statusCode, url, cancellationToken).ConfigureAwait(false);
+                    // Success path returns fetchResponse to the caller, so we read/stream the body now.
+                    // Error path still needs a FetchResponse (status/headers) for retry strategy decisions,
+                    // but must not parse/read the body here. BuildApiException reads it once later to avoid
+                    // double-consumption and to preserve the raw error payload in BoxApiException.
+                    var fetchResponse = response.IsSuccessStatusCode
+                        ? await ReadResponse(isStreamResponse, response, statusCode, url, cancellationToken).ConfigureAwait(false)
+                        : new FetchResponse(status: statusCode, headers: response.Headers.ToDictionary(x => x.Key, x => x.Value.First())) { Url = url };
 
                     if (response.IsSuccessStatusCode)
                     {
