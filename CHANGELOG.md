@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### ⚠ BREAKING CHANGES
 
-* **boxsdkgen:** Mark `id` field of `AIAgentReference` required (box/box-openapi#1629) (box/box-openapi#595) (#1498)
+* **boxsdkgen:** Mark `id` field of `AIAgentReference` required (box/box-openapi[#1629](https://github.com/box/box-windows-sdk-v2/issues/1629)) (box/box-openapi[#595](https://github.com/box/box-windows-sdk-v2/issues/595)) ([#1498](https://github.com/box/box-windows-sdk-v2/issues/1498)) ([0feb396](https://github.com/box/box-windows-sdk-v2/commit/0feb3963d02f245c18d4558c91637e0fa4236795))
 
 ### **Bug Fixes:**
 
