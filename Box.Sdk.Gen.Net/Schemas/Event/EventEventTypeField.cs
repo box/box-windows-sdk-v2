@@ -14,12 +14,24 @@ namespace Box.Sdk.Gen.Schemas {
         AddLoginActivityDevice,
         [Description("ADMIN_LOGIN")]
         AdminLogin,
+        [Description("AI_SECURITY_DETECTION")]
+        AiSecurityDetection,
+        [Description("ANNOTATIONV2_CREATE")]
+        Annotationv2Create,
+        [Description("ANNOTATIONV2_DELETE")]
+        Annotationv2Delete,
+        [Description("ANNOTATIONV2_EDIT")]
+        Annotationv2Edit,
         [Description("APPLICATION_CREATED")]
         ApplicationCreated,
         [Description("APPLICATION_PUBLIC_KEY_ADDED")]
         ApplicationPublicKeyAdded,
         [Description("APPLICATION_PUBLIC_KEY_DELETED")]
         ApplicationPublicKeyDeleted,
+        [Description("BOX_AI_USER_FAILED_REQUEST")]
+        BoxAiUserFailedRequest,
+        [Description("BOX_AI_USER_REQUEST")]
+        BoxAiUserRequest,
         [Description("CHANGE_ADMIN_ROLE")]
         ChangeAdminRole,
         [Description("CHANGE_FOLDER_PERMISSION")]
@@ -42,12 +54,30 @@ namespace Box.Sdk.Gen.Schemas {
         CollabRemoveCollaborator,
         [Description("COLLAB_ROLE_CHANGE")]
         CollabRoleChange,
+        [Description("COLLECTION_CREATE")]
+        CollectionCreate,
+        [Description("COLLECTION_DELETE")]
+        CollectionDelete,
+        [Description("COLLECTION_ITEM_CREATE")]
+        CollectionItemCreate,
+        [Description("COLLECTION_ITEM_DELETE")]
+        CollectionItemDelete,
+        [Description("COLLECTION_ITEM_UPDATE")]
+        CollectionItemUpdate,
+        [Description("COLLECTION_UPDATE")]
+        CollectionUpdate,
         [Description("COMMENT_CREATE")]
         CommentCreate,
         [Description("COMMENT_DELETE")]
         CommentDelete,
         [Description("CONTENT_ACCESS")]
         ContentAccess,
+        [Description("CONTENT_RECOVERY_REPORT_CREATE")]
+        ContentRecoveryReportCreate,
+        [Description("CONTENT_RECOVERY_REPORT_DELETE")]
+        ContentRecoveryReportDelete,
+        [Description("CONTENT_RECOVERY_REPORT_INITIATE")]
+        ContentRecoveryReportInitiate,
         [Description("CONTENT_WORKFLOW_ABNORMAL_DOWNLOAD_ACTIVITY")]
         ContentWorkflowAbnormalDownloadActivity,
         [Description("CONTENT_WORKFLOW_AUTOMATION_ADD")]
@@ -72,32 +102,38 @@ namespace Box.Sdk.Gen.Schemas {
         DeleteUser,
         [Description("DEVICE_TRUST_CHECK_FAILED")]
         DeviceTrustCheckFailed,
+        [Description("DISABLE_MULTI_FACTOR_AUTH")]
+        DisableMultiFactorAuth,
         [Description("DOWNLOAD")]
         Download,
         [Description("EDIT")]
         Edit,
         [Description("EDIT_USER")]
         EditUser,
-        [Description("EDR_CROWDSTRIKE_DEVICE_DETECTED")]
-        EdrCrowdstrikeDeviceDetected,
-        [Description("EDR_CROWDSTRIKE_NO_BOX_TOOLS")]
-        EdrCrowdstrikeNoBoxTools,
-        [Description("EDR_CROWDSTRIKE_BOX_TOOLS_OUTDATED")]
-        EdrCrowdstrikeBoxToolsOutdated,
-        [Description("EDR_CROWDSTRIKE_DRIVE_OUTDATED")]
-        EdrCrowdstrikeDriveOutdated,
         [Description("EDR_CROWDSTRIKE_ACCESS_ALLOWED_NO_CROWDSTRIKE_DEVICE")]
         EdrCrowdstrikeAccessAllowedNoCrowdstrikeDevice,
         [Description("EDR_CROWDSTRIKE_ACCESS_REVOKED")]
         EdrCrowdstrikeAccessRevoked,
+        [Description("EDR_CROWDSTRIKE_BOX_TOOLS_OUTDATED")]
+        EdrCrowdstrikeBoxToolsOutdated,
+        [Description("EDR_CROWDSTRIKE_DEVICE_DETECTED")]
+        EdrCrowdstrikeDeviceDetected,
+        [Description("EDR_CROWDSTRIKE_DRIVE_OUTDATED")]
+        EdrCrowdstrikeDriveOutdated,
+        [Description("EDR_CROWDSTRIKE_NO_BOX_TOOLS")]
+        EdrCrowdstrikeNoBoxTools,
         [Description("EMAIL_ALIAS_CONFIRM")]
         EmailAliasConfirm,
         [Description("EMAIL_ALIAS_REMOVE")]
         EmailAliasRemove,
+        [Description("ENABLE_MULTI_FACTOR_AUTH")]
+        EnableMultiFactorAuth,
         [Description("ENABLE_TWO_FACTOR_AUTH")]
         EnableTwoFactorAuth,
         [Description("ENTERPRISE_APP_AUTHORIZATION_UPDATE")]
         EnterpriseAppAuthorizationUpdate,
+        [Description("EXTERNAL_COLLAB_SECURITY_SETTINGS")]
+        ExternalCollabSecuritySettings,
         [Description("FAILED_LOGIN")]
         FailedLogin,
         [Description("FILE_MARKED_MALICIOUS")]
@@ -108,6 +144,12 @@ namespace Box.Sdk.Gen.Schemas {
         GroupAddItem,
         [Description("GROUP_ADD_USER")]
         GroupAddUser,
+        [Description("GROUP_ADMIN_CREATED")]
+        GroupAdminCreated,
+        [Description("GROUP_ADMIN_DELETED")]
+        GroupAdminDeleted,
+        [Description("GROUP_ADMIN_PERMISSIONS_UPDATED")]
+        GroupAdminPermissionsUpdated,
         [Description("GROUP_CREATION")]
         GroupCreation,
         [Description("GROUP_DELETION")]
@@ -118,6 +160,12 @@ namespace Box.Sdk.Gen.Schemas {
         GroupRemoveItem,
         [Description("GROUP_REMOVE_USER")]
         GroupRemoveUser,
+        [Description("ITEM_ASSOCIATION_CREATED")]
+        ItemAssociationCreated,
+        [Description("ITEM_ASSOCIATION_DELETED")]
+        ItemAssociationDeleted,
+        [Description("ITEM_ASSOCIATION_UPDATED")]
+        ItemAssociationUpdated,
         [Description("ITEM_COPY")]
         ItemCopy,
         [Description("ITEM_CREATE")]
@@ -194,6 +242,8 @@ namespace Box.Sdk.Gen.Schemas {
         Move,
         [Description("NEW_USER")]
         NewUser,
+        [Description("OAUTH2_ACCESS_TOKEN_REVOKE")]
+        Oauth2AccessTokenRevoke,
         [Description("PREVIEW")]
         Preview,
         [Description("REMOVE_DEVICE_ASSOCIATION")]
@@ -206,12 +256,22 @@ namespace Box.Sdk.Gen.Schemas {
         RetentionPolicyAssignmentAdd,
         [Description("SHARE")]
         Share,
+        [Description("SHARED_LINK_REDIRECT_OUT_OF_SHARED_CONTEXT")]
+        SharedLinkRedirectOutOfSharedContext,
         [Description("SHARED_LINK_SEND")]
         SharedLinkSend,
         [Description("SHARE_EXPIRATION")]
         ShareExpiration,
+        [Description("SHIELD_ACCESS_POLICY_CREATED")]
+        ShieldAccessPolicyCreated,
+        [Description("SHIELD_ACCESS_POLICY_DELETED")]
+        ShieldAccessPolicyDeleted,
+        [Description("SHIELD_ACCESS_POLICY_UPDATED")]
+        ShieldAccessPolicyUpdated,
         [Description("SHIELD_ALERT")]
         ShieldAlert,
+        [Description("SHIELD_DOWNLOAD_BLOCKED")]
+        ShieldDownloadBlocked,
         [Description("SHIELD_EXTERNAL_COLLAB_ACCESS_BLOCKED")]
         ShieldExternalCollabAccessBlocked,
         [Description("SHIELD_EXTERNAL_COLLAB_ACCESS_BLOCKED_MISSING_JUSTIFICATION")]
@@ -220,6 +280,26 @@ namespace Box.Sdk.Gen.Schemas {
         ShieldExternalCollabInviteBlocked,
         [Description("SHIELD_EXTERNAL_COLLAB_INVITE_BLOCKED_MISSING_JUSTIFICATION")]
         ShieldExternalCollabInviteBlockedMissingJustification,
+        [Description("SHIELD_EXTERNAL_COLLAB_INVITE_JUSTIFIED")]
+        ShieldExternalCollabInviteJustified,
+        [Description("SHIELD_INFORMATION_BARRIER_COLLAB_BLOCKED")]
+        ShieldInformationBarrierCollabBlocked,
+        [Description("SHIELD_INFORMATION_BARRIER_DISABLED")]
+        ShieldInformationBarrierDisabled,
+        [Description("SHIELD_INFORMATION_BARRIER_ENABLED")]
+        ShieldInformationBarrierEnabled,
+        [Description("SHIELD_INFORMATION_BARRIER_GROUP_ADD_USER_BLOCKED")]
+        ShieldInformationBarrierGroupAddUserBlocked,
+        [Description("SHIELD_INFORMATION_BARRIER_ITEM_COPY_BLOCKED")]
+        ShieldInformationBarrierItemCopyBlocked,
+        [Description("SHIELD_INFORMATION_BARRIER_ITEM_MOVE_BLOCKED")]
+        ShieldInformationBarrierItemMoveBlocked,
+        [Description("SHIELD_INFORMATION_BARRIER_ITEM_OWNER_TRANSFER_BLOCKED")]
+        ShieldInformationBarrierItemOwnerTransferBlocked,
+        [Description("SHIELD_INFORMATION_BARRIER_PENDING")]
+        ShieldInformationBarrierPending,
+        [Description("SHIELD_INFORMATION_BARRIER_SHARED_ITEM_ACCESS_BLOCKED")]
+        ShieldInformationBarrierSharedItemAccessBlocked,
         [Description("SHIELD_JUSTIFICATION_APPROVAL")]
         ShieldJustificationApproval,
         [Description("SHIELD_SHARED_LINK_ACCESS_BLOCKED")]
@@ -246,6 +326,8 @@ namespace Box.Sdk.Gen.Schemas {
         SignDocumentSigned,
         [Description("SIGN_DOCUMENT_VIEWED_BY_SIGNED")]
         SignDocumentViewedBySigned,
+        [Description("SIGN_DOCUMENT_VIEWED_BY_SIGNER")]
+        SignDocumentViewedBySigner,
         [Description("SIGNER_DOWNLOADED")]
         SignerDownloaded,
         [Description("SIGNER_FORWARDED")]
