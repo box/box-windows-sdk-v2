@@ -15,6 +15,8 @@ namespace Box.Sdk.Gen.Internal
 {
     static class ContentTypes
     {
+        internal const string Json = "application/json";
+        internal const string JsonPatch = "application/json-patch+json";
         internal const string FormUrlEncoded = "application/x-www-form-urlencoded";
         internal const string MultipartFormData = "multipart/form-data";
         internal const string OctetStream = "application/octet-stream";
@@ -281,7 +283,10 @@ namespace Box.Sdk.Gen.Internal
                 .Where(x => x.Value.Any())
                 .ToDictionary(x => x.Key, x => x.Value.First());
 
-            var requestInfo = new RequestInfo(request.Method.ToString(), request.RequestUri?.ToString(), options.Parameters, requestHeaders);
+            var requestInfo = new RequestInfo(request.Method.ToString(), request.RequestUri?.ToString(), options.Parameters, requestHeaders, options.ContentType)
+            {
+                Body = GetRequestBody(options)
+            };
 
             var responseAsSerializedData = JsonUtils.JsonToSerializedData("{}");
             var errorDetails = new BoxApiExceptionDetails();
@@ -304,6 +309,26 @@ namespace Box.Sdk.Gen.Internal
                 errorDetails.RequestId, errorDetails.HelpUrl);
 
             return new BoxApiException(responseContent, DateTimeOffset.UtcNow, requestInfo, responseInfo);
+        }
+
+        private static string? GetRequestBody(FetchOptions options)
+        {
+            if (options.Data == null)
+            {
+                return null;
+            }
+
+            if (options.ContentType == ContentTypes.FormUrlEncoded)
+            {
+                return JsonUtils.SdToUrlParams(options.Data);
+            }
+
+            if (options.ContentType == ContentTypes.Json || options.ContentType == ContentTypes.JsonPatch)
+            {
+                return JsonUtils.SdToJson(options.Data);
+            }
+
+            return null;
         }
 
         private static async Task<HttpRequestMessage> BuildHttpRequest(FetchOptions options, Stream? stream, CancellationToken cancellationToken)

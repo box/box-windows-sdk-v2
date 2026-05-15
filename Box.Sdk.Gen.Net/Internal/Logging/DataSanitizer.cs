@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Box.Sdk.Gen;
 using Box.Sdk.Gen.Internal;
 
 namespace Box.Sdk.Gen.Internal {
@@ -15,6 +16,24 @@ namespace Box.Sdk.Gen.Internal {
 
         public SerializedData SanitizeBody(SerializedData body) {
             return JsonUtils.SanitizeSerializedData(sd: body, keysToSanitize: this.KeysToSanitize);
+        }
+
+        public string SanitizeFormEncodedBody(string body) {
+            return JsonUtils.SanitizeFormEncodedBodyFromString(body: body, keysToSanitize: this.KeysToSanitize);
+        }
+
+        public string SanitizeStringBody(string body, string? contentType = null) {
+            if (contentType == "application/json" || contentType == "application/json-patch+json") {
+                try {
+                    return JsonUtils.SdToJson(data: this.SanitizeBody(body: JsonUtils.JsonToSerializedData(text: body)));
+                } catch {
+                    return body;
+                }
+            }
+            if (contentType == "application/x-www-form-urlencoded") {
+                return this.SanitizeFormEncodedBody(body: body);
+            }
+            return body;
         }
 
     }
