@@ -93,7 +93,71 @@ namespace Box.Sdk.Gen
         /// <returns>Sanitized SerializedData.</returns>
         internal static SerializedData SanitizeSerializedData(SerializedData sd, Dictionary<string, string> keysToSanitize)
         {
-            return sd;
+            try
+            {
+                using (var document = JsonDocument.Parse(sd.AsJson()))
+                {
+                    return new SerializedData(SanitizeJsonElement(document.RootElement, keysToSanitize));
+                }
+            }
+            catch
+            {
+                return sd;
+            }
+        }
+
+        private static object? SanitizeJsonElement(JsonElement element, Dictionary<string, string> keysToSanitize)
+        {
+            return element.ValueKind switch
+            {
+                JsonValueKind.Object => SanitizeJsonObject(element, keysToSanitize),
+                JsonValueKind.Array => element.EnumerateArray().Select(item => SanitizeJsonElement(item, keysToSanitize)).ToList(),
+                JsonValueKind.String => element.GetString(),
+                JsonValueKind.Number => element.TryGetInt32(out int intValue) ? (object)intValue : element.GetDouble(),
+                JsonValueKind.True => true,
+                JsonValueKind.False => false,
+                JsonValueKind.Null => null,
+                _ => throw new JsonException($"Unexpected JsonValueKind: {element.ValueKind}")
+            };
+        }
+
+        private static Dictionary<string, object?> SanitizeJsonObject(JsonElement element, Dictionary<string, string> keysToSanitize)
+        {
+            var sanitizedDictionary = new Dictionary<string, object?>();
+
+            foreach (var property in element.EnumerateObject())
+            {
+                var sanitizedValue = SanitizeJsonElement(property.Value, keysToSanitize);
+                sanitizedDictionary[property.Name] = keysToSanitize.ContainsKey(property.Name.ToLower()) && sanitizedValue is string
+                    ? SanitizedValue()
+                    : sanitizedValue;
+            }
+
+            return sanitizedDictionary;
+        }
+
+        internal static string? SanitizeFormEncodedBodyFromString(string? body, Dictionary<string, string> keysToSanitize)
+        {
+            if (body == null)
+            {
+                return null;
+            }
+
+            return string.Join("&", body.Split('&').Select(parameter => SanitizeFormEncodedParameter(parameter, keysToSanitize)));
+        }
+
+        private static string SanitizeFormEncodedParameter(string parameter, Dictionary<string, string> keysToSanitize)
+        {
+            var separatorIndex = parameter.IndexOf('=');
+            if (separatorIndex < 0)
+            {
+                return parameter;
+            }
+
+            var key = parameter.Substring(0, separatorIndex);
+            var value = parameter.Substring(separatorIndex + 1);
+            var sanitizedValue = keysToSanitize.ContainsKey(key.ToLower()) ? SanitizedValue() : value;
+            return $"{key}={sanitizedValue}";
         }
     }
 }

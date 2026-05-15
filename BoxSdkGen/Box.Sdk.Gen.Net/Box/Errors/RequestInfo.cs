@@ -17,12 +17,15 @@ namespace Box.Sdk.Gen
 
         public string? Body { get; init; }
 
-        public RequestInfo(string method, string? url, IReadOnlyDictionary<string, string>? queryParams, IReadOnlyDictionary<string, string> headers)
+        public string? ContentType { get; }
+
+        public RequestInfo(string method, string? url, IReadOnlyDictionary<string, string>? queryParams, IReadOnlyDictionary<string, string> headers, string? contentType = null)
         {
             Method = method;
             Url = url ?? "";
             QueryParams = queryParams ?? new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
             Headers = headers;
+            ContentType = contentType;
         }
 
         internal string Print(DataSanitizer dataSanitizer)
@@ -40,7 +43,7 @@ namespace Box.Sdk.Gen
                    $"\tURL: {Url}\n" +
                    $"\tQuery Params: {queryParamsString}\n" +
                    $"\tHeaders: {headersString}\n" +
-                   $"\tBody: {(string.IsNullOrEmpty(Body) ? "None" : Body)}";
+                   $"\tBody: {(string.IsNullOrEmpty(Body) ? "None" : dataSanitizer.SanitizeStringBody(Body!, ContentType))}";
         }
     }
 }
