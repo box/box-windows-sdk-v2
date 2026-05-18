@@ -5,7 +5,10 @@ Configuration
   - [Base URL](#base-url)
   - [Account URL](#account-url)
   - [Upload URL](#upload-url)
-- [Timeout](#timeout)
+- [Network timeouts](#network-timeouts)
+  - [Default behavior](#default-behavior)
+  - [Request timeout](#request-timeout)
+  - [Complete example](#complete-example)
 - [Proxy](#proxy)
 - [Supress notifications](#supress-notifications)
 - [Make API calls As-User](#make-api-calls-as-user)
@@ -47,10 +50,18 @@ var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
     .Build();
 ```
 
-Timeout
--------
+Network timeouts
+----------------
 
-The default request timeout can be changed by calling `SetTimeout()` method. Default timeout is 100 seconds.
+The **`Box.V2`** namespace uses `HttpRequestHandler` for HTTP calls. Request timeouts are controlled through [`BoxConfig.Timeout`](https://github.com/box/box-windows-sdk-v2/blob/main/LegacySdk/Box.V2/Config/IBoxConfig.cs) and [`BoxConfigBuilder.SetTimeout`](https://github.com/box/box-windows-sdk-v2/blob/main/LegacySdk/Box.V2/Config/BoxConfigBuilder.cs).
+
+### Default behavior
+
+When `BoxConfig.Timeout` is not set, `HttpRequestHandler` applies a default request timeout of **100 seconds** (the same default as `HttpClient`).
+
+### Request timeout
+
+**On configuration** — set the timeout when building `BoxConfig` with `SetTimeout()` on `BoxConfigBuilder`:
 
 ```c#
 var timeout = TimeSpan.FromSeconds(200);
@@ -58,6 +69,19 @@ var timeout = TimeSpan.FromSeconds(200);
 var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
     .SetTimeout(timeout)
     .Build();
+```
+
+`BoxClient` passes `boxConfig.Timeout` into `HttpRequestHandler` when the client is created.
+
+### Complete example
+
+```c#
+var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
+    .SetTimeout(TimeSpan.FromSeconds(200))
+    .Build();
+
+var auth = new OAuthSession("access_token", "refresh_token", 3600, "bearer");
+var client = new BoxClient(boxConfig, auth);
 ```
 
 Proxy
