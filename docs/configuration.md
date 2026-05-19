@@ -1,20 +1,22 @@
-Configuration
-=============
+# Configuration
 
 - [URLs configuration](#urls-configuration)
   - [Base URL](#base-url)
   - [Account URL](#account-url)
   - [Upload URL](#upload-url)
-- [Timeout](#timeout)
+- [Network timeouts](#network-timeouts)
+  - [Default behavior](#default-behavior)
+  - [Request timeout](#request-timeout)
+  - [Complete example](#complete-example)
 - [Proxy](#proxy)
-- [Supress notifications](#supress-notifications)
+- [Suppress notifications](#suppress-notifications)
 - [Make API calls As-User](#make-api-calls-as-user)
 - [Custom private key decryptor for JWT](#custom-private-key-decryptor-for-jwt)
 
-URLs configuration
-------------------
+## URLs configuration
 
 ### Base URL
+
 The default base URL used for making API calls to Box can be changed by calling `SetBoxApiHostUri()` method. Default value is https://api.box.com/.
 
 ```c#
@@ -26,6 +28,7 @@ var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
 ```
 
 ### Account URL
+
 The default account URL used to create OAuth authorization URL can be changed by calling `SetBoxAccountApiHostUri()` method. Default value is https://account.box.com/api/.
 
 ```c#
@@ -37,6 +40,7 @@ var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
 ```
 
 ### Upload URL
+
 The default URL used for uploads can be changed by calling `SetBoxUploadApiUri()` method. Default value is https://upload.box.com/api/.
 
 ```c#
@@ -47,10 +51,17 @@ var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
     .Build();
 ```
 
-Timeout
--------
+## Network timeouts
 
-The default request timeout can be changed by calling `SetTimeout()` method. Default timeout is 100 seconds.
+The **`Box.V2`** namespace uses `HttpRequestHandler` for HTTP calls. Request timeouts are controlled through [`BoxConfig.Timeout`](https://github.com/box/box-windows-sdk-v2/blob/main/LegacySdk/Box.V2/Config/IBoxConfig.cs) and [`BoxConfigBuilder.SetTimeout`](https://github.com/box/box-windows-sdk-v2/blob/main/LegacySdk/Box.V2/Config/BoxConfigBuilder.cs).
+
+### Default behavior
+
+When `BoxConfig.Timeout` is not set, `HttpRequestHandler` applies a default request timeout of **100 seconds** (the same default as `HttpClient`).
+
+### Request timeout
+
+**On configuration** — set the timeout when building `BoxConfig` with `SetTimeout()` on `BoxConfigBuilder`:
 
 ```c#
 var timeout = TimeSpan.FromSeconds(200);
@@ -60,8 +71,20 @@ var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
     .Build();
 ```
 
-Proxy
--------
+`BoxClient` passes `boxConfig.Timeout` into `HttpRequestHandler` when the client is created.
+
+### Complete example
+
+```c#
+var boxConfig = new BoxConfigBuilder("clientID", "clientSecret")
+    .SetTimeout(TimeSpan.FromSeconds(200))
+    .Build();
+
+var auth = new OAuthSession("access_token", "refresh_token", 3600, "bearer");
+var client = new BoxClient(boxConfig, auth);
+```
+
+## Proxy
 
 `BoxClient` uses .NET `WebProxy` class to support Proxy. To use proxy you need to call `SetWebProxy()` when building configuration.
 
@@ -82,10 +105,10 @@ var config = new BoxConfigBuilder("clientID", "clientSecret")
     .Build();
 ```
 
-Supress Notifications
----------------------
+## Suppress Notifications
 
 If you are making administrative API calls (that is, your application has “Manage an Enterprise” scope, and the user making the API call is a co-admin with the correct "Edit settings for your company" permission) then you can suppress both email and webhook notifications.
+
 ```c#
 var config = new BoxConfigBuilder("clientID", "clientSecret", "redirect_uri").Build();
 var auth = new OAuthSession("access_token", "refresh_token", 3600, "bearer");
@@ -93,10 +116,9 @@ var auth = new OAuthSession("access_token", "refresh_token", 3600, "bearer");
 var adminClient = new BoxClient(config, auth, suppressNotifications: true);
 ```
 
-Make API calls As-User
-----------------------
+## Make API calls As-User
 
-If you have an admin token with appropriate permissions, you can make API calls in the context of a managed user. In order to do this you must request Box.com to activate As-User functionality for your API key (see developer site for instructions). 
+If you have an admin token with appropriate permissions, you can make API calls in the context of a managed user. In order to do this you must request Box.com to activate As-User functionality for your API key (see developer site for instructions).
 
 ```c#
 var config = new BoxConfigBuilder("clientID", "clientSecret", "redirect_uri").Build();
@@ -109,10 +131,9 @@ var userClient = new BoxClient(config, auth, asUser: userId);
 var items  = await userClient.FoldersManager.GetFolderItemsAsync("0", 500);
 ```
 
-Custom private key decryptor for JWT
-----------------------
+## Custom private key decryptor for JWT
 
-To generate a Json Web Signature used for retrieving tokens in the JWT authentication method, the SDK decrypts an encrypted private key passed in the config. The SDK implementation currently uses `BouncyCastle.Cryptography` library. If you want to use a different implementation (e.g. for FIPS compliance reasons) you need provide implementation for `IPrivateKeyDecryptor` and pass it during creation of `BoxJwtAuth` object.
+To generate a JSON Web Signature used for retrieving tokens in the JWT authentication method, the SDK decrypts an encrypted private key passed in the config. The SDK implementation currently uses `BouncyCastle.Cryptography` library. If you want to use a different implementation (e.g. for FIPS compliance reasons) you need provide implementation for `IPrivateKeyDecryptor` and pass it during creation of `BoxJwtAuth` object.
 
 ```c#
 public class MyPrivateKeyDecryptor : IPrivateKeyDecryptor
