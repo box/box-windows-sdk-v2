@@ -1,11 +1,19 @@
 using Box.Sdk.Gen;
+using System;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Box.Sdk.Gen.Internal;
-using System.Collections.Generic;
 using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Schemas {
     public class DocGenJobV2025R0 : DocGenJobBaseV2025R0, ISerializable {
+        [JsonInclude]
+        [JsonPropertyName("_isfailuresSet")]
+        protected bool _isFailuresSet { get; set; }
+
+        protected DocGenJobV2025R0FailuresField? _failures { get; set; }
+
         [JsonPropertyName("batch")]
         public DocGenBatchBaseV2025R0 Batch { get; }
 
@@ -33,6 +41,12 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("output_type")]
         public string OutputType { get; }
+
+        /// <summary>
+        /// Errors and warnings that occurred during document generation.
+        /// </summary>
+        [JsonPropertyName("failures")]
+        public DocGenJobV2025R0FailuresField? Failures { get => _failures; init { _failures = value; _isFailuresSet = true; } }
 
         public DocGenJobV2025R0(string id, DocGenBatchBaseV2025R0 batch, FileReferenceV2025R0 templateFile, FileVersionBaseV2025R0 templateFileVersion, DocGenJobV2025R0StatusField status, string outputType, DocGenJobBaseV2025R0TypeField type = DocGenJobBaseV2025R0TypeField.DocgenJob) : base(id, type) {
             Batch = batch;
