@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.13.0](https://github.com/box/box-windows-sdk-v2/compare/v10.12.0...v10.13.0) (2026-05-20)
+
+
+### New Features and Enhancements
+
+* add failure related fields to `DocGenJob` (box/box-openapi[#598](https://github.com/box/box-windows-sdk-v2/issues/598)) ([#1523](https://github.com/box/box-windows-sdk-v2/issues/1523)) ([8e1ae71](https://github.com/box/box-windows-sdk-v2/commit/8e1ae71c79d9929b1b4543d32fc526094313fea7))
+* Add new event types (box/box-openapi[#597](https://github.com/box/box-windows-sdk-v2/issues/597)) ([#1513](https://github.com/box/box-windows-sdk-v2/issues/1513)) ([64fd0ba](https://github.com/box/box-windows-sdk-v2/commit/64fd0ba56f9784bef307083f6d56ab56b5178094))
+* Sanitize request and response body in `BoxAPIException` (box/box-codegen[#948](https://github.com/box/box-windows-sdk-v2/issues/948)) ([#1517](https://github.com/box/box-windows-sdk-v2/issues/1517)) ([7b6453c](https://github.com/box/box-windows-sdk-v2/commit/7b6453c14ddb71360e6f947757f117b73a6db97c))
+
 ## [10.12.0](https://github.com/box/box-windows-sdk-v2/compare/v10.11.0...v10.12.0) (2026-05-07)
 
 
