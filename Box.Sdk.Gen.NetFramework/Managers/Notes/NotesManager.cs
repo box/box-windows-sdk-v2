@@ -6,12 +6,12 @@ using Box.Sdk.Gen.Schemas;
 using Box.Sdk.Gen.Parameters;
 
 namespace Box.Sdk.Gen.Managers {
-    public class ConvertMarkdownToBoxNoteManager {
+    public class NotesManager {
         public IAuthentication Auth { get; set; }
 
         public NetworkSession NetworkSession { get; set; }
 
-        public ConvertMarkdownToBoxNoteManager(NetworkSession networkSession = default) {
+        public NotesManager(NetworkSession networkSession = default) {
             NetworkSession = networkSession ?? new NetworkSession();
         }
         /// <summary>
