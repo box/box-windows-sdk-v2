@@ -177,7 +177,7 @@ namespace Box.Sdk.Gen {
 
         public IAutomateWorkflowsManager AutomateWorkflows { get; }
 
-        public IConvertMarkdownToBoxNoteManager ConvertMarkdownToBoxNote { get; }
+        public INotesManager Notes { get; }
 
         public BoxClient(IAuthentication auth, NetworkSession? networkSession = default) {
             Auth = auth;
@@ -266,7 +266,7 @@ namespace Box.Sdk.Gen {
             Archives = new ArchivesManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             ExternalUsers = new ExternalUsersManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             AutomateWorkflows = new AutomateWorkflowsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
-            ConvertMarkdownToBoxNote = new ConvertMarkdownToBoxNoteManager(networkSession: this.NetworkSession) { Auth = this.Auth };
+            Notes = new NotesManager(networkSession: this.NetworkSession) { Auth = this.Auth };
         }
         /// <summary>
         /// Make a custom http request using the client authentication and network session.

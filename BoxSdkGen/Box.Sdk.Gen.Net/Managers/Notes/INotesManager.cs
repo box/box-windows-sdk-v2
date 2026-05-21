@@ -6,7 +6,7 @@ using Box.Sdk.Gen.Schemas;
 using Box.Sdk.Gen.Parameters;
 
 namespace Box.Sdk.Gen.Managers {
-    public interface IConvertMarkdownToBoxNoteManager {
+    public interface INotesManager {
         /// <summary>
     /// Creates a Box Note (`.boxnote` file) from supported source content. See the `content_format` field for supported formats.
     /// </summary>

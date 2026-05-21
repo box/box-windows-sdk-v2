@@ -18,6 +18,8 @@ namespace Box.Sdk.Gen.Schemas {
         Cancelled,
         [Description("declined")]
         Declined,
+        [Description("error")]
+        Error,
         [Description("error_converting")]
         ErrorConverting,
         [Description("error_sending")]
