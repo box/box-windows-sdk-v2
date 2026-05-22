@@ -12,7 +12,10 @@ This operation is performed by calling function `CreateNoteConvertV2026R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/post-notes-convert/).
 
-*Currently we don't have an example for calling `CreateNoteConvertV2026R0` in integration tests*
+<!-- sample post_notes_convert_v2026.0 -->
+```
+await downscopedClient.Notes.CreateNoteConvertV2026R0Async(requestBody: new NotesConvertRequestBodyV2026R0(content: markdownContent, contentFormat: NotesConvertRequestBodyV2026R0ContentFormatField.Markdown, parent: new FolderReferenceV2026R0(id: "0"), name: noteName));
+```
 
 ### Arguments
 
