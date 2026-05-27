@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.13.0](https://github.com/box/box-windows-sdk-v2/compare/v6.12.0...v6.13.0) (2026-05-27)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** Add Convert Note API (box/box-codegen[#955](https://github.com/box/box-windows-sdk-v2/issues/955)) ([#1535](https://github.com/box/box-windows-sdk-v2/issues/1535)) ([0b4c196](https://github.com/box/box-windows-sdk-v2/commit/0b4c19655b2371affd17e65d7837aa3427460524))
+
 ## [6.12.0](https://github.com/box/box-windows-sdk-v2/compare/v6.11.0...v6.12.0) (2026-05-20)
 
 
