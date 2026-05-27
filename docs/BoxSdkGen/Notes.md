@@ -14,7 +14,7 @@ See the endpoint docs at
 
 <!-- sample post_notes_convert_v2026.0 -->
 ```
-await downscopedClient.Notes.CreateNoteConvertV2026R0Async(requestBody: new NotesConvertRequestBodyV2026R0(content: markdownContent, contentFormat: NotesConvertRequestBodyV2026R0ContentFormatField.Markdown, parent: new FolderReferenceV2026R0(id: "0"), name: noteName));
+await client.Notes.CreateNoteConvertV2026R0Async(requestBody: new NotesConvertRequestBodyV2026R0(content: markdownContent, contentFormat: NotesConvertRequestBodyV2026R0ContentFormatField.Markdown, parent: new FolderReferenceV2026R0(id: "0"), name: noteName));
 ```
 
 ### Arguments
