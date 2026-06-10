@@ -43,6 +43,13 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("include_reference")]
         public bool? IncludeReference { get; init; }
 
+        /// <summary>
+        /// The taxonomy sources to be used for the structured extraction. They can either be an existing file or a taxonomy.
+        /// For your request to work, `fields` must also be provided. `taxonomy_sources` is not supported with `metadata_template`.
+        /// </summary>
+        [JsonPropertyName("taxonomy_sources")]
+        public IReadOnlyList<AiTaxonomySource>? TaxonomySources { get; init; }
+
         public AiExtractStructured(IReadOnlyList<AiItemBase> items) {
             Items = items;
         }

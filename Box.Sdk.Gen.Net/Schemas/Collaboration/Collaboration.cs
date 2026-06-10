@@ -85,7 +85,7 @@ namespace Box.Sdk.Gen.Schemas {
 
         /// <summary>
         /// The status of the collaboration invitation. If the status
-        /// is `pending`, `login` and `name` return an empty string.
+        /// is `pending`, `name` returns an empty string.
         /// </summary>
         [JsonPropertyName("status")]
         [JsonConverter(typeof(StringEnumConverter<CollaborationStatusField>))]
