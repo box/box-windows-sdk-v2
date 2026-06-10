@@ -14,6 +14,8 @@ namespace Box.Sdk.Gen.Managers {
         AddLoginActivityDevice,
         [Description("ADMIN_LOGIN")]
         AdminLogin,
+        [Description("ADVANCED_FOLDER_SETTINGS_UPDATE")]
+        AdvancedFolderSettingsUpdate,
         [Description("APPLICATION_CREATED")]
         ApplicationCreated,
         [Description("APPLICATION_PUBLIC_KEY_ADDED")]
@@ -38,6 +40,8 @@ namespace Box.Sdk.Gen.Managers {
         CommentCreate,
         [Description("COMMENT_DELETE")]
         CommentDelete,
+        [Description("COMMENT_EDIT")]
+        CommentEdit,
         [Description("CONTENT_WORKFLOW_ABNORMAL_DOWNLOAD_ACTIVITY")]
         ContentWorkflowAbnormalDownloadActivity,
         [Description("CONTENT_WORKFLOW_AUTOMATION_ADD")]
@@ -70,16 +74,32 @@ namespace Box.Sdk.Gen.Managers {
         EditUser,
         [Description("EMAIL_ALIAS_CONFIRM")]
         EmailAliasConfirm,
+        [Description("EMAIL_ALIAS_PRIMARY")]
+        EmailAliasPrimary,
         [Description("EMAIL_ALIAS_REMOVE")]
         EmailAliasRemove,
+        [Description("EMAIL_UPLOAD_DISABLED")]
+        EmailUploadDisabled,
+        [Description("EMAIL_UPLOAD_ENABLED")]
+        EmailUploadEnabled,
         [Description("ENTERPRISE_APP_AUTHORIZATION_UPDATE")]
         EnterpriseAppAuthorizationUpdate,
         [Description("EXTERNAL_COLLAB_SECURITY_SETTINGS")]
         ExternalCollabSecuritySettings,
         [Description("FAILED_LOGIN")]
         FailedLogin,
+        [Description("FAVORITE")]
+        Favorite,
         [Description("FILE_MARKED_MALICIOUS")]
         FileMarkedMalicious,
+        [Description("FILE_REQUEST_CREATE")]
+        FileRequestCreate,
+        [Description("FILE_REQUEST_DELETE")]
+        FileRequestDelete,
+        [Description("FILE_REQUEST_UPDATE")]
+        FileRequestUpdate,
+        [Description("FILE_VERSION_RESTORE")]
+        FileVersionRestore,
         [Description("FILE_WATERMARKED_DOWNLOAD")]
         FileWatermarkedDownload,
         [Description("GROUP_ADD_ITEM")]
@@ -96,6 +116,8 @@ namespace Box.Sdk.Gen.Managers {
         GroupRemoveItem,
         [Description("GROUP_REMOVE_USER")]
         GroupRemoveUser,
+        [Description("ILLEGAL_ITEM_OWNERSHIP_TRANSFER_BY_USER")]
+        IllegalItemOwnershipTransferByUser,
         [Description("ITEM_EMAIL_SEND")]
         ItemEmailSend,
         [Description("ITEM_MODIFY")]
@@ -122,6 +144,12 @@ namespace Box.Sdk.Gen.Managers {
         Lock,
         [Description("LOGIN")]
         Login,
+        [Description("METADATA_CASCADE_POLICY_APPLY")]
+        MetadataCascadePolicyApply,
+        [Description("METADATA_CASCADE_POLICY_CREATE")]
+        MetadataCascadePolicyCreate,
+        [Description("METADATA_INSTANCE_COPY")]
+        MetadataInstanceCopy,
         [Description("METADATA_INSTANCE_CREATE")]
         MetadataInstanceCreate,
         [Description("METADATA_INSTANCE_DELETE")]
@@ -140,6 +168,8 @@ namespace Box.Sdk.Gen.Managers {
         NewUser,
         [Description("OAUTH2_ACCESS_TOKEN_REVOKE")]
         Oauth2AccessTokenRevoke,
+        [Description("OAUTH2_REFRESH_TOKEN_REVOKE")]
+        Oauth2RefreshTokenRevoke,
         [Description("PREVIEW")]
         Preview,
         [Description("REMOVE_DEVICE_ASSOCIATION")]
@@ -214,6 +244,8 @@ namespace Box.Sdk.Gen.Managers {
         TermsOfServiceReject,
         [Description("UNDELETE")]
         Undelete,
+        [Description("UNFAVORITE")]
+        Unfavorite,
         [Description("UNLOCK")]
         Unlock,
         [Description("UNSHARE")]
@@ -229,6 +261,12 @@ namespace Box.Sdk.Gen.Managers {
         [Description("WATERMARK_LABEL_CREATE")]
         WatermarkLabelCreate,
         [Description("WATERMARK_LABEL_DELETE")]
-        WatermarkLabelDelete
+        WatermarkLabelDelete,
+        [Description("WORKFLOW_AUTOMATION_CREATE")]
+        WorkflowAutomationCreate,
+        [Description("WORKFLOW_AUTOMATION_DELETE")]
+        WorkflowAutomationDelete,
+        [Description("WORKFLOW_AUTOMATION_UPDATE")]
+        WorkflowAutomationUpdate
     }
 }
