@@ -33,7 +33,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string? Prompt { get; init; }
 
         /// <summary>
-        /// The type of the field. It can include but is not limited to `string`, `float`, `date`, `enum`, and `multiSelect`.
+        /// The type of the field. It can include but is not limited to `string`, `float`, `date`, `enum`, `multiSelect`,`taxonomy`, `struct`, and `table`.
         /// </summary>
         [JsonPropertyName("type")]
         public string? Type { get; init; }
@@ -43,6 +43,27 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("options")]
         public IReadOnlyList<AiExtractStructuredFieldsOptionsField>? Options { get; init; }
+
+        /// <summary>
+        /// The nested fields for this field. Used with `struct` and `table` field types to define the nested structure.
+        /// </summary>
+        [JsonPropertyName("fields")]
+        public IReadOnlyList<AiExtractSubField>? Fields { get; init; }
+
+        /// <summary>
+        /// The identifier for a taxonomy, which corresponds to the `key` of the taxonomy source. Required if using `taxonomy` type field.
+        /// </summary>
+        [JsonPropertyName("taxonomy_key")]
+        public string? TaxonomyKey { get; init; }
+
+        /// <summary>
+        /// The namespace of the taxonomy source. Required if using `taxonomy` type field from an existing taxonomy.
+        /// </summary>
+        [JsonPropertyName("namespace")]
+        public string? NamespaceParam { get; init; }
+
+        [JsonPropertyName("options_rules")]
+        public AiOptionsRules? OptionsRules { get; init; }
 
         public AiExtractStructuredFieldsField(string key) {
             Key = key;

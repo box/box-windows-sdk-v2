@@ -13,7 +13,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string Name { get; set; }
 
         /// <summary>
-        /// The primary email address of this user. If the collaboration status is `pending`, an empty string is returned.
+        /// The primary email address of this user. If the collaboration status is `pending`, a login value is returned.
         /// </summary>
         [JsonPropertyName("login")]
         public string Login { get; set; }
