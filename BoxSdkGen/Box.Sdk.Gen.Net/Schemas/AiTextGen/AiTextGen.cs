@@ -18,8 +18,8 @@ namespace Box.Sdk.Gen.Schemas {
         /// The items to be processed by the LLM, often files.
         /// The array can include **exactly one** element.
         /// 
-        /// **Note**: Box AI handles documents with text representations up to 1MB in size.
-        /// If the file size exceeds 1MB, the first 1MB of text representation will be processed.
+        /// **Note**: Box AI handles documents with text representations up to 2MB in size.
+        /// If the file size exceeds 2MB, the first 2MB of text representation will be processed.
         /// </summary>
         [JsonPropertyName("items")]
         public IReadOnlyList<AiTextGenItemsField> Items { get; }
