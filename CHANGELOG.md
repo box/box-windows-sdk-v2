@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.14.0](https://github.com/box/box-windows-sdk-v2/compare/v6.13.0...v6.14.0) (2026-06-11)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** Add new event types (box/box-openapi[#1703](https://github.com/box/box-windows-sdk-v2/issues/1703)) (box/box-openapi[#605](https://github.com/box/box-windows-sdk-v2/issues/605)) ([#1552](https://github.com/box/box-windows-sdk-v2/issues/1552)) ([ffcf62b](https://github.com/box/box-windows-sdk-v2/commit/ffcf62b42302d014d1b5f0e799cfcb75cda44a76))
+* **boxsdkgen:** Add new parameters to ai extract structured method (box/box-openapi[#604](https://github.com/box/box-windows-sdk-v2/issues/604)) ([#1551](https://github.com/box/box-windows-sdk-v2/issues/1551)) ([02d0970](https://github.com/box/box-windows-sdk-v2/commit/02d0970f8ff9b3531b2a314f1d3076ef0c5be52f))
+* **boxsdkgen:** Expose  `errorCode` in sign request schemas (box/box-openapi[#601](https://github.com/box/box-windows-sdk-v2/issues/601)) ([#1550](https://github.com/box/box-windows-sdk-v2/issues/1550)) ([e986f27](https://github.com/box/box-windows-sdk-v2/commit/e986f27122f5d8544dac48f2e0247d4994d1d772))
+
 ## [6.13.0](https://github.com/box/box-windows-sdk-v2/compare/v6.12.0...v6.13.0) (2026-05-27)
 
 
