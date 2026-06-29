@@ -1,7 +1,7 @@
 using Box.Sdk.Gen;
 using System.Text.Json.Serialization;
-using System.Collections.Generic;
 using Box.Sdk.Gen.Internal;
+using System.Collections.Generic;
 
 namespace Box.Sdk.Gen.Schemas {
     public class HubUpdateRequestV2025R0 : ISerializable {
@@ -46,6 +46,17 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("can_public_shared_link_be_created")]
         public bool? CanPublicSharedLinkBeCreated { get; init; }
+
+        /// <summary>
+        /// Specifies who is allowed to copy the Box Hub.
+        /// 
+        /// * `all` - Any user with access to the Hub can copy it.
+        /// * `company` - Only users within the same enterprise as the Hub can copy it.
+        /// * `none` - No one can copy the Hub.
+        /// </summary>
+        [JsonPropertyName("copy_hub_access")]
+        [JsonConverter(typeof(StringEnumConverter<HubUpdateRequestV2025R0CopyHubAccessField>))]
+        public StringEnum<HubUpdateRequestV2025R0CopyHubAccessField>? CopyHubAccess { get; init; }
 
         public HubUpdateRequestV2025R0() {
             

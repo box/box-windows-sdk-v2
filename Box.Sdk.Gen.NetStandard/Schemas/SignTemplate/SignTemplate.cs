@@ -33,6 +33,10 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("_iscustom_brandingSet")]
         protected bool _isCustomBrandingSet { get; set; }
 
+        [JsonInclude]
+        [JsonPropertyName("_isrequest_flowSet")]
+        protected bool _isRequestFlowSet { get; set; }
+
         protected string _name { get; set; }
 
         protected string _emailSubject { get; set; }
@@ -44,6 +48,8 @@ namespace Box.Sdk.Gen.Schemas {
         protected SignTemplateReadySignLinkField _readySignLink { get; set; }
 
         protected SignTemplateCustomBrandingField _customBranding { get; set; }
+
+        protected string _requestFlow { get; set; }
 
         /// <summary>
         /// The value will always be `sign-template`.
@@ -181,6 +187,12 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("custom_branding")]
         public SignTemplateCustomBrandingField CustomBranding { get => _customBranding; set { _customBranding = value; _isCustomBrandingSet = true; } }
+
+        /// <summary>
+        /// The sign flow of sign requests created from the template. Values can include `standard` or `cfr11`.
+        /// </summary>
+        [JsonPropertyName("request_flow")]
+        public string RequestFlow { get => _requestFlow; set { _requestFlow = value; _isRequestFlowSet = true; } }
 
         public SignTemplate() {
             
