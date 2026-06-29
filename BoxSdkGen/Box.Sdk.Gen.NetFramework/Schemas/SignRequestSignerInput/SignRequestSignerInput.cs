@@ -6,6 +6,18 @@ using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Schemas {
     public class SignRequestSignerInput : SignRequestPrefillTag, ISerializable {
+        [JsonInclude]
+        [JsonPropertyName("_isreasonSet")]
+        protected bool _isReasonSet { get; set; }
+
+        [JsonInclude]
+        [JsonPropertyName("_isis_validatedSet")]
+        protected bool _isIsValidatedSet { get; set; }
+
+        protected string _reason { get; set; }
+
+        protected bool? _isValidated { get; set; }
+
         /// <summary>
         /// Type of input.
         /// </summary>
@@ -38,6 +50,21 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("validation")]
         public SignRequestSignerInputValidation Validation { get; set; }
+
+        /// <summary>
+        /// The reason for the signer's input, applicable to signature or initial content types
+        /// in a `cfr11` request flow. The value is `null` when not applicable.
+        /// </summary>
+        [JsonPropertyName("reason")]
+        public string Reason { get => _reason; set { _reason = value; _isReasonSet = true; } }
+
+        /// <summary>
+        /// Indicates whether the signer's input has been validated through re-authentication.
+        /// Applicable only for signature or initial content types in a `cfr11` request flow.
+        /// The value is `null` for standard request flows or non-applicable input types.
+        /// </summary>
+        [JsonPropertyName("is_validated")]
+        public bool? IsValidated { get => _isValidated; set { _isValidated = value; _isIsValidatedSet = true; } }
 
         public SignRequestSignerInput(long pageIndex) {
             PageIndex = pageIndex;
