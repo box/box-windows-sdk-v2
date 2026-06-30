@@ -134,8 +134,13 @@ var newClient = client.WithCustomBaseUrls(new BaseUrls(
 
 In order to configure timeout for API calls, calling the `client.WithTimeouts(config)` method creates a new client with timeout settings, leaving the original client unmodified.
 
+All timeout values are in milliseconds.
+
 ```c#
-var timeoutConfig = new TimeoutConfig(timeoutMs: 30000);
+var timeoutConfig = new TimeoutConfig()
+{
+    TimeoutMs = 60000
+};
 var newClient = client.WithTimeouts(timeoutConfig);
 ```
 

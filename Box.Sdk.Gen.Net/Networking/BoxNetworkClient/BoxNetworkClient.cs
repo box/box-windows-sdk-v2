@@ -20,7 +20,7 @@ namespace Box.Sdk.Gen.Internal
 
         private static ProxyClient? _proxyClient;
 
-        private const long DefaultTimeoutMs = 100000; // Matches HttpClient default timeout (100s)
+        private const long DefaultTimeoutMs = 100000; // 100 seconds
 
         static BoxNetworkClient()
         {

@@ -177,21 +177,29 @@ BoxClient client = new BoxClient(auth: auth, networkSession: networkSession);
 
 ## Timeouts
 
-You can configure request timeout with `TimeoutConfig` on `NetworkSession`.
-`TimeoutMs` is in milliseconds and applies to each HTTP request attempt.
+You can configure request timeouts with `TimeoutConfig` on `NetworkSession`.
+The SDK supports the following timeout values, all in milliseconds:
+
+| Parameter   | Description                                                                                                                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `TimeoutMs` | Maximum time for the HTTP request. For JSON responses this covers the full request (connect + send + receive). For binary/stream downloads it covers only until headers arrive. |
 
 ```c#
 BoxDeveloperTokenAuth auth = new BoxDeveloperTokenAuth("DEVELOPER_TOKEN");
 NetworkSession networkSession = new NetworkSession()
 {
-    TimeoutConfig = new TimeoutConfig(timeoutMs: 30000)
+    TimeoutConfig = new TimeoutConfig()
+    {
+        TimeoutMs = 60000
+    }
 };
 BoxClient client = new BoxClient(auth: auth, networkSession: networkSession);
 ```
 
 How timeout handling works:
 
-- If timeout config is not provided, the SDK uses the default timeout of `100000` ms (100 seconds).
+- If timeout config is not provided, the SDK uses a default timeout of `TimeoutMs: 100000` (100 seconds).
+- `TimeoutMs` is enforced via a cancellation token that aborts the request after the specified duration.
 - To disable the SDK HTTP request timeout, set `TimeoutMs` to `0` or a negative value.
 - Timeout failures are handled as request exceptions, then retry behavior is controlled by the configured retry strategy.
 - If all retry attempts are exhausted after HTTP request timeout errors, the SDK throws a timeout-related `BoxSdkException`.
