@@ -17,6 +17,13 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("description")]
         public string? Description { get; init; }
 
+        /// <summary>
+        /// If true, the items which the user has Editor or Owner access to in the original Box Hub will be copied to the new Box Hub.
+        /// Defaults to false.
+        /// </summary>
+        [JsonPropertyName("include_items")]
+        public bool? IncludeItems { get; init; }
+
         public HubCopyRequestV2025R0() {
             
         }

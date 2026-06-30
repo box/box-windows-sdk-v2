@@ -30,6 +30,9 @@ namespace Box.Sdk.Gen.Schemas {
 
         /// <summary>
         /// The items to be processed by the LLM, often files.
+        /// To search across and ask questions about the contents of a Box Hub,
+        /// pass a single item with `type` set to `hubs`. See the item `type`
+        /// property for details.
         /// </summary>
         [JsonPropertyName("items")]
         public IReadOnlyList<AiItemAsk> Items { get; }
