@@ -40,6 +40,10 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("_isexternal_system_nameSet")]
         protected bool _isExternalSystemNameSet { get; set; }
 
+        [JsonInclude]
+        [JsonPropertyName("_isrequest_flowSet")]
+        protected bool _isRequestFlowSet { get; set; }
+
         protected string _redirectUrl { get; set; }
 
         protected string _declinedRedirectUrl { get; set; }
@@ -55,6 +59,8 @@ namespace Box.Sdk.Gen.Schemas {
         protected string _templateId { get; set; }
 
         protected string _externalSystemName { get; set; }
+
+        protected string _requestFlow { get; set; }
 
         /// <summary>
         /// Indicates if the sender should receive a `prepare_url` in the response to complete document preparation using the UI.
@@ -133,6 +139,13 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("external_system_name")]
         public string ExternalSystemName { get => _externalSystemName; set { _externalSystemName = value; _isExternalSystemNameSet = true; } }
+
+        /// <summary>
+        /// The flow type of the sign request. Values can include `standard` or `cfr11`.
+        /// When not specified during creation, a default is chosen based on admin settings.
+        /// </summary>
+        [JsonPropertyName("request_flow")]
+        public string RequestFlow { get => _requestFlow; set { _requestFlow = value; _isRequestFlowSet = true; } }
 
         public SignRequestBase() {
             
