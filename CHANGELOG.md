@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.15.0](https://github.com/box/box-windows-sdk-v2/compare/v6.14.0...v6.15.0) (2026-07-09)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** Add new fields to Hubs (box/box-openapi[#606](https://github.com/box/box-windows-sdk-v2/issues/606)) ([#1570](https://github.com/box/box-windows-sdk-v2/issues/1570)) ([6d22a92](https://github.com/box/box-windows-sdk-v2/commit/6d22a921fd6245c27b97c8f614732ed9f5e5cda8))
+* **boxsdkgen:** Setup common default timeout (box/box-codegen[#965](https://github.com/box/box-windows-sdk-v2/issues/965)) ([#1576](https://github.com/box/box-windows-sdk-v2/issues/1576)) ([fe5cfd9](https://github.com/box/box-windows-sdk-v2/commit/fe5cfd95ae155ddffbffdc72433a030f60c581f9))
+
 ## [6.14.0](https://github.com/box/box-windows-sdk-v2/compare/v6.13.0...v6.14.0) (2026-06-11)
 
 
