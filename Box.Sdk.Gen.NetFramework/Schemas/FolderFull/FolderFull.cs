@@ -43,11 +43,12 @@ namespace Box.Sdk.Gen.Schemas {
         public bool? IsCollaborationRestrictedToEnterprise { get; set; }
 
         /// <summary>
-        /// A list of access levels that are available
-        /// for this folder.
+        /// The shared link access levels the authenticated user is allowed to
+        /// use when creating or updating a shared link for this folder.
         /// 
-        /// For some folders, like the root folder, this will always
-        /// be an empty list as sharing is not allowed at that level.
+        /// The list depends on item policy and user authorization. For some
+        /// folders, like the root folder, this is always empty as sharing is
+        /// not allowed at that level.
         /// </summary>
         [JsonPropertyName("allowed_shared_link_access_levels")]
         [JsonConverter(typeof(StringEnumListConverter<FolderFullAllowedSharedLinkAccessLevelsField>))]
@@ -94,6 +95,15 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("is_associated_with_app_item")]
         public bool? IsAssociatedWithAppItem { get; set; }
+
+        /// <summary>
+        /// The collections that this folder belongs to.
+        /// 
+        /// For more information, see the
+        /// [collections guide](https://developer.box.com/guides/collections).
+        /// </summary>
+        [JsonPropertyName("collections")]
+        public IReadOnlyList<Collection> Collections { get; set; }
 
         public FolderFull(string id, FolderBaseTypeField type = FolderBaseTypeField.Folder) : base(id, type) {
             

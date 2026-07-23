@@ -145,6 +145,57 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("is_associated_with_app_item")]
         public bool? IsAssociatedWithAppItem { get; set; }
 
+        /// <summary>
+        /// The collections that this file belongs to.
+        /// 
+        /// For more information, see the
+        /// [collections guide](https://developer.box.com/guides/collections).
+        /// </summary>
+        [JsonPropertyName("collections")]
+        public IReadOnlyList<Collection> Collections { get; set; }
+
+        /// <summary>
+        /// Whether the file's binary content is eligible to be downloaded.
+        /// 
+        /// This is a content-level flag and does not reflect whether the
+        /// current user is authorized to download the file. Use
+        /// `permissions.can_download`, when available, for that.
+        /// </summary>
+        [JsonPropertyName("is_download_available")]
+        public bool? IsDownloadAvailable { get; set; }
+
+        /// <summary>
+        /// A pre-authorized, expiring URL for directly downloading the file's
+        /// content. Requires authentication and is valid only for the current
+        /// session.
+        /// 
+        /// This field is only returned for files, not folders or web links.
+        /// </summary>
+        [JsonPropertyName("download_url")]
+        public string DownloadUrl { get; set; }
+
+        /// <summary>
+        /// A stable API URL for the file content endpoint,
+        /// `/2.0/files/{id}/content`. Unlike `download_url`, authorization is
+        /// evaluated when the URL is requested with a valid access token.
+        /// 
+        /// This field is only returned for files, not folders or web links.
+        /// </summary>
+        [JsonPropertyName("authenticated_download_url")]
+        public string AuthenticatedDownloadUrl { get; set; }
+
+        /// <summary>
+        /// The shared link access levels the authenticated user is allowed to
+        /// use when creating or updating a shared link for this file.
+        /// 
+        /// The list depends on item policy and user authorization, so it may be
+        /// narrower than the levels available to the owner. An empty array means
+        /// no access level is available to this user.
+        /// </summary>
+        [JsonPropertyName("allowed_shared_link_access_levels")]
+        [JsonConverter(typeof(StringEnumListConverter<FileFullAllowedSharedLinkAccessLevelsField>))]
+        public IReadOnlyList<StringEnum<FileFullAllowedSharedLinkAccessLevelsField>> AllowedSharedLinkAccessLevels { get; set; }
+
         public FileFull(string id, FileBaseTypeField type = FileBaseTypeField.File) : base(id, type) {
             
         }
