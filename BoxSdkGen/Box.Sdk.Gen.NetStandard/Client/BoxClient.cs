@@ -179,6 +179,8 @@ namespace Box.Sdk.Gen {
 
         public NotesManager Notes { get; set; }
 
+        public QueryManager Query { get; set; }
+
         public BoxClient(IAuthentication auth, NetworkSession networkSession = default) {
             Auth = auth;
             NetworkSession = networkSession ?? new NetworkSession(baseUrls: new BaseUrls());
@@ -267,6 +269,7 @@ namespace Box.Sdk.Gen {
             ExternalUsers = new ExternalUsersManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             AutomateWorkflows = new AutomateWorkflowsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             Notes = new NotesManager(networkSession: this.NetworkSession) { Auth = this.Auth };
+            Query = new QueryManager(networkSession: this.NetworkSession) { Auth = this.Auth };
         }
         /// <summary>
         /// Make a custom http request using the client authentication and network session.
