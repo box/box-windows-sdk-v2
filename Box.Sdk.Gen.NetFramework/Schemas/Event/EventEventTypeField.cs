@@ -332,6 +332,8 @@ namespace Box.Sdk.Gen.Schemas {
         ShieldInformationBarrierSharedItemAccessBlocked,
         [Description("SHIELD_JUSTIFICATION_APPROVAL")]
         ShieldJustificationApproval,
+        [Description("SHIELD_PREVIEW_BLOCKED")]
+        ShieldPreviewBlocked,
         [Description("SHIELD_SHARED_LINK_ACCESS_BLOCKED")]
         ShieldSharedLinkAccessBlocked,
         [Description("SHIELD_SHARED_LINK_STATUS_RESTRICTED_ON_CREATE")]
