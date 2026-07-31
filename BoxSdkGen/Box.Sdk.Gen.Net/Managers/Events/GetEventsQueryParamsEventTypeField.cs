@@ -188,6 +188,8 @@ namespace Box.Sdk.Gen.Managers {
         ShareExpiration,
         [Description("SHIELD_ALERT")]
         ShieldAlert,
+        [Description("SHIELD_DOWNLOAD_BLOCKED")]
+        ShieldDownloadBlocked,
         [Description("SHIELD_EXTERNAL_COLLAB_ACCESS_BLOCKED")]
         ShieldExternalCollabAccessBlocked,
         [Description("SHIELD_EXTERNAL_COLLAB_ACCESS_BLOCKED_MISSING_JUSTIFICATION")]
@@ -198,6 +200,8 @@ namespace Box.Sdk.Gen.Managers {
         ShieldExternalCollabInviteBlockedMissingJustification,
         [Description("SHIELD_JUSTIFICATION_APPROVAL")]
         ShieldJustificationApproval,
+        [Description("SHIELD_PREVIEW_BLOCKED")]
+        ShieldPreviewBlocked,
         [Description("SHIELD_SHARED_LINK_ACCESS_BLOCKED")]
         ShieldSharedLinkAccessBlocked,
         [Description("SHIELD_SHARED_LINK_STATUS_RESTRICTED_ON_CREATE")]
