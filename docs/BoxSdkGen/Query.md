@@ -15,7 +15,10 @@ This operation is performed by calling function `CreateQueryV2026R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/post-query/).
 
-*Currently we don't have an example for calling `CreateQueryV2026R0` in integration tests*
+<!-- sample post_query_v2026.0 -->
+```
+await client.Query.CreateQueryV2026R0Async(requestBody: new QueryRequestBodyV2026R0(query: new QueryRequestBodyV2026R0QueryField(predicate: predicate) { Parameters = new Dictionary<string, object>() { { "name", "John" }, { "age", 50 } }, Ancestors = Array.AsReadOnly(new [] {new QueryAncestorReferenceV2026R0(id: "0", type: "folder")}) }) { Limit = 10, Fields = Array.AsReadOnly(new [] {"box:item:name",searchFrom}) });
+```
 
 ### Arguments
 
@@ -46,7 +49,10 @@ This operation is performed by calling function `CreateQueryInsightV2026R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/post-query-insights/).
 
-*Currently we don't have an example for calling `CreateQueryInsightV2026R0` in integration tests*
+<!-- sample post_query_insights_v2026.0 -->
+```
+await client.Query.CreateQueryInsightV2026R0Async(requestBody: new QueryInsightsRequestBodyV2026R0(query: new QueryInsightsRequestBodyV2026R0QueryField(predicate: predicate) { Parameters = new Dictionary<string, object>() { { "minAmount", 0 } }, Ancestors = Array.AsReadOnly(new [] {new QueryAncestorReferenceV2026R0(id: "0", type: "folder")}), GroupBy = Array.AsReadOnly(new [] {new QueryInsightsGroupByV2026R0(field: string.Concat(mdPrefix, ".category")) { BucketLimit = 5 }}) }, metrics: metrics));
+```
 
 ### Arguments
 
