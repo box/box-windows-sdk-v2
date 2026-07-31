@@ -177,5 +177,7 @@ namespace Box.Sdk.Gen {
 
         public INotesManager Notes { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
 
+        public IQueryManager Query { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
+
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Box.Sdk.Gen.Internal;
 using Box.Sdk.Gen;
+using System.Linq;
 using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Schemas {
@@ -78,6 +79,27 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("item_status")]
         [JsonConverter(typeof(StringEnumConverter<WebLinkItemStatusField>))]
         public StringEnum<WebLinkItemStatusField>? ItemStatus { get; init; }
+
+        /// <summary>
+        /// The collections that this web link belongs to.
+        /// 
+        /// For more information, see the
+        /// [collections guide](https://developer.box.com/guides/collections).
+        /// </summary>
+        [JsonPropertyName("collections")]
+        public IReadOnlyList<Collection>? Collections { get; init; }
+
+        /// <summary>
+        /// The shared link access levels the authenticated user is allowed to
+        /// use when creating or updating a shared link for this web link.
+        /// 
+        /// The list depends on item policy and user authorization, so it may be
+        /// narrower than the levels available to the owner. An empty array means
+        /// no access level is available to this user.
+        /// </summary>
+        [JsonPropertyName("allowed_shared_link_access_levels")]
+        [JsonConverter(typeof(StringEnumListConverter<WebLinkAllowedSharedLinkAccessLevelsField>))]
+        public IReadOnlyList<StringEnum<WebLinkAllowedSharedLinkAccessLevelsField>>? AllowedSharedLinkAccessLevels { get; init; }
 
         public WebLink(string id, WebLinkBaseTypeField type = WebLinkBaseTypeField.WebLink) : base(id, type) {
             
