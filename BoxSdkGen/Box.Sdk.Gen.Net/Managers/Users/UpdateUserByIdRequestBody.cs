@@ -135,6 +135,14 @@ namespace Box.Sdk.Gen.Managers {
         public bool? IsPasswordResetRequired { get; init; }
 
         /// <summary>
+        /// Whether collaborators can access content owned by the user when
+        /// the user is inactive. This setting preserves existing
+        /// collaborator access and does not grant new permissions.
+        /// </summary>
+        [JsonPropertyName("is_collaborated_content_available_when_owner_inactive")]
+        public bool? IsCollaboratedContentAvailableWhenOwnerInactive { get; init; }
+
+        /// <summary>
         /// The user's account status.
         /// </summary>
         [JsonPropertyName("status")]
