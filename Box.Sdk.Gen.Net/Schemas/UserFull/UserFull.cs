@@ -55,6 +55,14 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("is_exempt_from_login_verification")]
         public bool? IsExemptFromLoginVerification { get; init; }
 
+        /// <summary>
+        /// Whether collaborators can access content owned by the user when the
+        /// user is inactive. This setting preserves existing collaborator access
+        /// and does not grant new permissions.
+        /// </summary>
+        [JsonPropertyName("is_collaborated_content_available_when_owner_inactive")]
+        public bool? IsCollaboratedContentAvailableWhenOwnerInactive { get; init; }
+
         [JsonPropertyName("enterprise")]
         public UserFullEnterpriseField? Enterprise { get; init; }
 
