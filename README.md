@@ -180,6 +180,7 @@ Migration guides which help you to migrate to supported major SDK versions can b
 We use a modified version of [Semantic Versioning](https://semver.org/) for all changes. See [version strategy](VERSIONS.md) for details which is effective from 30 July 2022.
 
 A current release is on the leading edge of our SDK development, and is intended for customers who are in active development and want the latest and greatest features.  
+
 We always recommend that all users run the latest available minor release for whatever major version is in use.
 We highly recommend upgrading to the latest SDK major release at the earliest convenient time and before the EOL date.
 
