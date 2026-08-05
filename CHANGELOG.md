@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.16.0](https://github.com/box/box-windows-sdk-v2/compare/v10.15.0...v10.16.0) (2026-08-05)
+
+
+### New Features and Enhancements
+
+* add `is_collaborated_content_available_when_owner_inactive` property (box/box-openapi[#613](https://github.com/box/box-windows-sdk-v2/issues/613)) ([#1605](https://github.com/box/box-windows-sdk-v2/issues/1605)) ([b22993d](https://github.com/box/box-windows-sdk-v2/commit/b22993dbd89f1b419c7125ee511da1bfdc5245b1))
+* Added two missing event types (box/box-openapi[#611](https://github.com/box/box-windows-sdk-v2/issues/611)) ([#1599](https://github.com/box/box-windows-sdk-v2/issues/1599)) ([cdbc6c1](https://github.com/box/box-windows-sdk-v2/commit/cdbc6c112ec4fc99d9a1f417bdb8f303a3ce039b))
+* Support query APIs (box/box-openapi[#610](https://github.com/box/box-windows-sdk-v2/issues/610))  ([#1597](https://github.com/box/box-windows-sdk-v2/issues/1597)) ([23ba173](https://github.com/box/box-windows-sdk-v2/commit/23ba173b2357b3b0453135287f1208043813dcc9))
+
 ## [10.15.0](https://github.com/box/box-windows-sdk-v2/compare/v10.14.0...v10.15.0) (2026-07-10)
 
 
