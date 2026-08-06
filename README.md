@@ -29,7 +29,7 @@
 - [Documentation](#documentation)
 - [Migration guides](#migration-guides)
 - [Versioning](#versioning)
-    - [Version schedule](#version-schedule)
+  - [Version schedule](#version-schedule)
 - [Contributing](#contributing)
 - [Questions, Bugs, and Feature Requests?](#questions-bugs-and-feature-requests)
   - [Copyright and License](#copyright-and-license)
