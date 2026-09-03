@@ -8,7 +8,7 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     [JsonConverter(typeof(SignRequestSignerInputValidationConverter))]
     public class SignRequestSignerInputValidation {
-        internal OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?> _oneOf;
+        internal OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?> _oneOf;
         
         public SignRequestSignerInputEmailValidation? SignRequestSignerInputEmailValidation => _oneOf._val0;
         
@@ -18,41 +18,45 @@ namespace Box.Sdk.Gen.Schemas {
         
         public SignRequestSignerInputZip4Validation? SignRequestSignerInputZip4Validation => _oneOf._val3;
         
-        public SignRequestSignerInputSsnValidation? SignRequestSignerInputSsnValidation => _oneOf._val4;
+        public SignRequestSignerInputZipjpValidation? SignRequestSignerInputZipjpValidation => _oneOf._val4;
         
-        public SignRequestSignerInputNumberWithPeriodValidation? SignRequestSignerInputNumberWithPeriodValidation => _oneOf._val5;
+        public SignRequestSignerInputSsnValidation? SignRequestSignerInputSsnValidation => _oneOf._val5;
         
-        public SignRequestSignerInputNumberWithCommaValidation? SignRequestSignerInputNumberWithCommaValidation => _oneOf._val6;
+        public SignRequestSignerInputNumberWithPeriodValidation? SignRequestSignerInputNumberWithPeriodValidation => _oneOf._val6;
         
-        public SignRequestSignerInputDateIsoValidation? SignRequestSignerInputDateIsoValidation => _oneOf._val7;
+        public SignRequestSignerInputNumberWithCommaValidation? SignRequestSignerInputNumberWithCommaValidation => _oneOf._val7;
         
-        public SignRequestSignerInputDateUsValidation? SignRequestSignerInputDateUsValidation => _oneOf._val8;
+        public SignRequestSignerInputDateIsoValidation? SignRequestSignerInputDateIsoValidation => _oneOf._val8;
         
-        public SignRequestSignerInputDateEuValidation? SignRequestSignerInputDateEuValidation => _oneOf._val9;
+        public SignRequestSignerInputDateUsValidation? SignRequestSignerInputDateUsValidation => _oneOf._val9;
         
-        public SignRequestSignerInputDateAsiaValidation? SignRequestSignerInputDateAsiaValidation => _oneOf._val10;
+        public SignRequestSignerInputDateEuValidation? SignRequestSignerInputDateEuValidation => _oneOf._val10;
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputEmailValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputDateAsiaValidation? SignRequestSignerInputDateAsiaValidation => _oneOf._val11;
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputCustomValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputEmailValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputZipValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputCustomValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputZip4Validation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputZipValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputSsnValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputZip4Validation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputNumberWithPeriodValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputZipjpValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputNumberWithCommaValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputSsnValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputDateIsoValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputNumberWithPeriodValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputDateUsValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputNumberWithCommaValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputDateEuValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputDateIsoValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
-        public SignRequestSignerInputValidation(SignRequestSignerInputDateAsiaValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        public SignRequestSignerInputValidation(SignRequestSignerInputDateUsValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        
+        public SignRequestSignerInputValidation(SignRequestSignerInputDateEuValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
+        
+        public SignRequestSignerInputValidation(SignRequestSignerInputDateAsiaValidation value) {_oneOf = new OneOf<SignRequestSignerInputEmailValidation?, SignRequestSignerInputCustomValidation?, SignRequestSignerInputZipValidation?, SignRequestSignerInputZip4Validation?, SignRequestSignerInputZipjpValidation?, SignRequestSignerInputSsnValidation?, SignRequestSignerInputNumberWithPeriodValidation?, SignRequestSignerInputNumberWithCommaValidation?, SignRequestSignerInputDateIsoValidation?, SignRequestSignerInputDateUsValidation?, SignRequestSignerInputDateEuValidation?, SignRequestSignerInputDateAsiaValidation?>(value);}
         
         public static implicit operator SignRequestSignerInputValidation(SignRequestSignerInputEmailValidation value) => new SignRequestSignerInputValidation(value);
         
@@ -61,6 +65,8 @@ namespace Box.Sdk.Gen.Schemas {
         public static implicit operator SignRequestSignerInputValidation(SignRequestSignerInputZipValidation value) => new SignRequestSignerInputValidation(value);
         
         public static implicit operator SignRequestSignerInputValidation(SignRequestSignerInputZip4Validation value) => new SignRequestSignerInputValidation(value);
+        
+        public static implicit operator SignRequestSignerInputValidation(SignRequestSignerInputZipjpValidation value) => new SignRequestSignerInputValidation(value);
         
         public static implicit operator SignRequestSignerInputValidation(SignRequestSignerInputSsnValidation value) => new SignRequestSignerInputValidation(value);
         
@@ -105,6 +111,14 @@ namespace Box.Sdk.Gen.Schemas {
                 }
                 try {
                     var result = JsonSerializer.Deserialize<SignRequestSignerInputZip4Validation>(document, new JsonSerializerOptions() { UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow });
+                    if (result != null) {
+                        return result;
+                    }
+                } catch {
+                    
+                }
+                try {
+                    var result = JsonSerializer.Deserialize<SignRequestSignerInputZipjpValidation>(document, new JsonSerializerOptions() { UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow });
                     if (result != null) {
                         return result;
                     }
@@ -185,6 +199,10 @@ namespace Box.Sdk.Gen.Schemas {
                 }
                 if (value?.SignRequestSignerInputZip4Validation != null) {
                     JsonSerializer.Serialize(writer, value.SignRequestSignerInputZip4Validation, options);
+                    return;
+                }
+                if (value?.SignRequestSignerInputZipjpValidation != null) {
+                    JsonSerializer.Serialize(writer, value.SignRequestSignerInputZipjpValidation, options);
                     return;
                 }
                 if (value?.SignRequestSignerInputSsnValidation != null) {
