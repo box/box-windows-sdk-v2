@@ -6,6 +6,13 @@ using Box.Sdk.Gen.Internal;
 namespace Box.Sdk.Gen.Schemas {
     public class UploadSessionSessionEndpointsField : ISerializable {
         /// <summary>
+        /// The URL used to plan the upload session by checking which parts
+        /// already exist on the server.
+        /// </summary>
+        [JsonPropertyName("plan")]
+        public string? Plan { get; init; }
+
+        /// <summary>
         /// The URL to upload parts to.
         /// </summary>
         [JsonPropertyName("upload_part")]
