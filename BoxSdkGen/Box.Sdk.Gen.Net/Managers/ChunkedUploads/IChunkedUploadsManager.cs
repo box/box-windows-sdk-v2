@@ -209,6 +209,53 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<UploadParts> GetFileUploadSessionPartsAsync(string uploadSessionId, GetFileUploadSessionPartsQueryParams? queryParams = default, GetFileUploadSessionPartsHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
+    /// Using this method with urls provided in response when creating a new upload session is preferred to use over CreateFileUploadSessionPlan method. 
+    /// This allows to always upload your content to the closest Box data center and can significantly improve upload speed.
+    ///  Plan an upload session by checking which parts already exist on the server.
+    /// This endpoint allows clients to optimize uploads by skipping parts that
+    /// have already been uploaded (cache hits) and only uploading missing parts.
+    /// 
+    /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
+    /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+    /// </summary>
+    /// <param name="url">
+    /// URL of createFileUploadSessionPlan method
+    /// </param>
+    /// <param name="requestBody">
+    /// Request body of createFileUploadSessionPlan method
+    /// </param>
+    /// <param name="headers">
+    /// Headers of createFileUploadSessionPlan method
+    /// </param>
+    /// <param name="cancellationToken">
+    /// Token used for request cancellation.
+    /// </param>
+    public System.Threading.Tasks.Task<UploadSessionPlanResponse> CreateFileUploadSessionPlanByUrlAsync(string url, UploadSessionPlanRequest requestBody, CreateFileUploadSessionPlanByUrlHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+
+        /// <summary>
+    /// Plan an upload session by checking which parts already exist on the server.
+    /// This endpoint allows clients to optimize uploads by skipping parts that
+    /// have already been uploaded (cache hits) and only uploading missing parts.
+    /// 
+    /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
+    /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+    /// </summary>
+    /// <param name="uploadSessionId">
+    /// The ID of the upload session.
+    /// Example: "D5E3F7A"
+    /// </param>
+    /// <param name="requestBody">
+    /// Request body of createFileUploadSessionPlan method
+    /// </param>
+    /// <param name="headers">
+    /// Headers of createFileUploadSessionPlan method
+    /// </param>
+    /// <param name="cancellationToken">
+    /// Token used for request cancellation.
+    /// </param>
+    public System.Threading.Tasks.Task<UploadSessionPlanResponse> CreateFileUploadSessionPlanAsync(string uploadSessionId, UploadSessionPlanRequest requestBody, CreateFileUploadSessionPlanHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+
+        /// <summary>
     /// Using this method with urls provided in response when creating a new upload session is preferred to use over CreateFileUploadSessionCommit method. 
     /// This allows to always upload your content to the closest Box data center and can significantly improve upload speed.
     ///  Close an upload session and create a file from the uploaded chunks.
