@@ -57,7 +57,10 @@ This operation is performed by calling function `CreateFileUploadSessionForExist
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/post-files-id-upload-sessions/).
 
-*Currently we don't have an example for calling `CreateFileUploadSessionForExistingFile` in integration tests*
+<!-- sample post_files_id_upload_sessions -->
+```
+await client.ChunkedUploads.CreateFileUploadSessionForExistingFileAsync(fileId: uploadedFile.Id, requestBody: new CreateFileUploadSessionForExistingFileRequestBody(fileSize: (long)(fileSize)));
+```
 
 ### Arguments
 
@@ -376,7 +379,10 @@ This operation is performed by calling function `CreateFileUploadSessionPlanByUr
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/post-files-upload-sessions-id-plan/).
 
-*Currently we don't have an example for calling `CreateFileUploadSessionPlanByUrl` in integration tests*
+<!-- sample post_files_upload_sessions_id_plan -->
+```
+await client.ChunkedUploads.CreateFileUploadSessionPlanByUrlAsync(url: planUrl, requestBody: new UploadSessionPlanRequest(parts: parts));
+```
 
 ### Arguments
 
@@ -523,7 +529,7 @@ This operation is performed by calling function `UploadBigFile`.
 
 
 ```
-await client.ChunkedUploads.UploadBigFileAsync(file: fileByteStream, fileName: fileName, fileSize: (long)(fileSize), parentFolderId: parentFolderId);
+await client.ChunkedUploads.UploadBigFileAsync(file: Utils.GenerateByteStreamFromBuffer(buffer: fileBuffer), fileName: fileName, fileSize: (long)(fileSize), parentFolderId: parentFolderId);
 ```
 
 ### Arguments
