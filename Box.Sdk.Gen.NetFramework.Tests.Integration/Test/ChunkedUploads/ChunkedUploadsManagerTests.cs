@@ -119,6 +119,51 @@ namespace Box.Sdk.Gen.Tests.Integration {
             await client.ChunkedUploads.DeleteFileUploadSessionByUrlAsync(url: abortUrl);
         }
 
+        internal async System.Threading.Tasks.Task<TestPartPlanAccumulator> ReducerForUploadSessionPlanAsync(TestPartPlanAccumulator acc, System.IO.Stream chunk) {
+            int lastIndex = acc.LastIndex;
+            IReadOnlyList<UploadPartPlan> parts = acc.Parts;
+            byte[] chunkBuffer = await Utils.ReadByteStreamAsync(byteStream: chunk);
+            Hash hash = new Hash(algorithm: HashName.Sha512);
+            hash.UpdateHash(data: chunkBuffer);
+            string sha512 = await hash.DigestHashAsync(encoding: "hex");
+            int chunkSize = Utils.BufferLength(buffer: chunkBuffer);
+            int bytesStart = lastIndex + 1;
+            int bytesEnd = lastIndex + chunkSize;
+            UploadPartPlan part = new UploadPartPlan(offset: (long)(bytesStart), size: (long)(chunkSize), sha512: sha512);
+            return new TestPartPlanAccumulator(lastIndex: bytesEnd, parts: parts.Concat(Array.AsReadOnly(new [] {part})).ToList(), fileSize: acc.FileSize);
+        }
+
+        [RetryableTest]
+        public async System.Threading.Tasks.Task TestUploadSessionPlan() {
+            int fileSize = 20 * 1024 * 1024;
+            string fileName = Utils.GetUUID();
+            const string parentFolderId = "0";
+            System.IO.Stream fileContentStream = Utils.GenerateByteStream(size: fileSize);
+            byte[] fileBuffer = await Utils.ReadByteStreamAsync(byteStream: fileContentStream);
+            File uploadedFile = await client.ChunkedUploads.UploadBigFileAsync(file: Utils.GenerateByteStreamFromBuffer(buffer: fileBuffer), fileName: fileName, fileSize: (long)(fileSize), parentFolderId: parentFolderId);
+            await Utils.DelayInSecondsAsync(seconds: 5);
+            UploadSession uploadSession = await client.ChunkedUploads.CreateFileUploadSessionForExistingFileAsync(fileId: uploadedFile.Id, requestBody: new CreateFileUploadSessionForExistingFileRequestBody(fileSize: (long)(fileSize)));
+            string uploadSessionId = NullableUtils.Unwrap(uploadSession.Id);
+            string planUrl = NullableUtils.Unwrap(NullableUtils.Unwrap(uploadSession.SessionEndpoints).Plan);
+            long partSize = NullableUtils.Unwrap(uploadSession.PartSize);
+            int totalParts = NullableUtils.Unwrap(uploadSession.TotalParts);
+            IEnumerable<System.IO.Stream> chunksIterator = Utils.IterateChunks(stream: Utils.GenerateByteStreamFromBuffer(buffer: fileBuffer), chunkSize: partSize, fileSize: (long)(fileSize));
+            TestPartPlanAccumulator results = await Utils.ReduceIteratorAsync(iterator: chunksIterator, reducer: ReducerForUploadSessionPlanAsync, initialValue: new TestPartPlanAccumulator(lastIndex: -1, parts: Enumerable.Empty<UploadPartPlan>().ToList(), fileSize: (long)(fileSize)));
+            IReadOnlyList<UploadPartPlan> parts = results.Parts;
+            UploadSessionPlanResponse plan = await client.ChunkedUploads.CreateFileUploadSessionPlanByUrlAsync(url: planUrl, requestBody: new UploadSessionPlanRequest(parts: parts));
+            Assert.IsTrue(plan.UploadSessionId == uploadSessionId);
+            Assert.IsTrue(plan.Hits.Count == totalParts);
+            Assert.IsTrue(plan.Misses.Count == 0);
+            UploadPartPlan firstPart = parts.ElementAt(0);
+            UploadPartPlanHit firstHit = plan.Hits.ElementAt(0);
+            Assert.IsTrue(firstHit.Offset == firstPart.Offset);
+            Assert.IsTrue(firstHit.Size == firstPart.Size);
+            Assert.IsTrue(firstHit.Sha512 == firstPart.Sha512);
+            Assert.IsTrue(firstHit.PartId != "");
+            await client.ChunkedUploads.DeleteFileUploadSessionByIdAsync(uploadSessionId: uploadSessionId);
+            await client.Files.DeleteFileByIdAsync(fileId: uploadedFile.Id);
+        }
+
         [RetryableTest]
         public async System.Threading.Tasks.Task TestChunkedUploadConvenienceMethod() {
             int fileSize = 20 * 1024 * 1024;
