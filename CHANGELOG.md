@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.17.0](https://github.com/box/box-windows-sdk-v2/compare/v10.16.0...v10.17.0) (2026-09-09)
+
+
+### New Features and Enhancements
+
+* add Japanese ZIP code validation to sign request (box/box-openapi[#615](https://github.com/box/box-windows-sdk-v2/issues/615)) ([#1627](https://github.com/box/box-windows-sdk-v2/issues/1627)) ([ba8a130](https://github.com/box/box-windows-sdk-v2/commit/ba8a130f3900d75fa44f1d3bd594b4f9fc0e0b7e))
+* Support chunk upload session plan API  (box/box-openapi[#616](https://github.com/box/box-windows-sdk-v2/issues/616)) ([#1630](https://github.com/box/box-windows-sdk-v2/issues/1630)) ([339b2c6](https://github.com/box/box-windows-sdk-v2/commit/339b2c6a57fcc2d04d957aed5bb6cd5217fe1fb8))
+
 ## [10.16.0](https://github.com/box/box-windows-sdk-v2/compare/v10.15.0...v10.16.0) (2026-08-05)
 
 
