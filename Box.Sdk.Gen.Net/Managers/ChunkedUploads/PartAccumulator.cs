@@ -16,12 +16,15 @@ namespace Box.Sdk.Gen.Managers {
 
         internal Hash FileHash { get; }
 
-        public PartAccumulator(long lastIndex, IReadOnlyList<UploadPart> parts, long fileSize, string uploadPartUrl, Hash fileHash) {
+        internal string PlanUrl { get; }
+
+        public PartAccumulator(long lastIndex, IReadOnlyList<UploadPart> parts, long fileSize, string uploadPartUrl, Hash fileHash, string planUrl = "") {
             LastIndex = lastIndex;
             Parts = parts;
             FileSize = fileSize;
             UploadPartUrl = uploadPartUrl;
             FileHash = fileHash;
+            PlanUrl = planUrl;
         }
     }
 }
