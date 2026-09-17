@@ -318,5 +318,25 @@ namespace Box.Sdk.Gen.Managers {
     /// </param>
     public System.Threading.Tasks.Task<FileFull> UploadBigFileAsync(System.IO.Stream file, string fileName, long fileSize, string parentFolderId, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
+        /// <summary>
+    /// Starts the process of chunk uploading a new version of a big file. Should return a File object representing the uploaded file version. Returns nothing when commit responds with 202 because the file did not change.
+    /// </summary>
+    /// <param name="fileId">
+    /// The ID of the file to upload a new version of.
+    /// </param>
+    /// <param name="file">
+    /// The stream of the file to upload.
+    /// </param>
+    /// <param name="fileSize">
+    /// The total size of the file for the chunked upload in bytes.
+    /// </param>
+    /// <param name="fileName">
+    /// The optional new name of the file.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// Token used for request cancellation.
+    /// </param>
+    public System.Threading.Tasks.Task<FileFull?> UploadBigFileVersionAsync(string fileId, System.IO.Stream file, long fileSize, string? fileName = null, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
+
     }
 }

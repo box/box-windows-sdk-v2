@@ -177,5 +177,25 @@ namespace Box.Sdk.Gen.Tests.Integration {
             await client.Files.DeleteFileByIdAsync(fileId: uploadedFile.Id);
         }
 
+        [RetryableTest]
+        public async System.Threading.Tasks.Task TestChunkedUploadFileVersionConvenienceMethod() {
+            string fileName = Utils.GetUUID();
+            int fileSize = 20 * 1024 * 1024;
+            const string parentFolderId = "0";
+            File uploadedFile = await client.ChunkedUploads.UploadBigFileAsync(file: Utils.GenerateByteStream(size: fileSize), fileName: fileName, fileSize: (long)(fileSize), parentFolderId: parentFolderId);
+            Assert.IsTrue(NullableUtils.Unwrap(uploadedFile.Name) == fileName);
+            Assert.IsTrue(NullableUtils.Unwrap(uploadedFile.Size) == fileSize);
+            int versionFileSize = 21 * 1024 * 1024;
+            string versionName = Utils.GetUUID();
+            FileFull? uploadedFileVersion = await client.ChunkedUploads.UploadBigFileVersionAsync(fileId: uploadedFile.Id, file: Utils.GenerateByteStream(size: versionFileSize), fileSize: (long)(versionFileSize), fileName: versionName);
+            Assert.IsTrue(uploadedFileVersion != null);
+            Assert.IsTrue(NullableUtils.Unwrap(uploadedFileVersion).Id == uploadedFile.Id);
+            Assert.IsTrue(NullableUtils.Unwrap(NullableUtils.Unwrap(uploadedFileVersion).Name) == versionName);
+            Assert.IsTrue(NullableUtils.Unwrap(NullableUtils.Unwrap(uploadedFileVersion).Size) == versionFileSize);
+            Assert.IsTrue(NullableUtils.Unwrap(NullableUtils.Unwrap(uploadedFileVersion).Name) != fileName);
+            Assert.IsTrue(NullableUtils.Unwrap(NullableUtils.Unwrap(uploadedFileVersion).Size) != uploadedFile.Size);
+            await client.Files.DeleteFileByIdAsync(fileId: uploadedFile.Id);
+        }
+
     }
 }
