@@ -405,7 +405,7 @@ namespace Box.Sdk.Gen.Managers {
                 throw new Exception(message: "Assertion failed");
             }
             acc.FileHash.UpdateHash(data: chunkBuffer);
-            return new PartAccumulator(lastIndex: bytesEnd, parts: parts.Concat(Array.AsReadOnly(new [] {part})).ToList(), fileSize: acc.FileSize, uploadPartUrl: acc.UploadPartUrl, fileHash: acc.FileHash);
+            return new PartAccumulator(lastIndex: bytesEnd, parts: parts.Concat(Array.AsReadOnly(new [] {part})).ToList(), fileSize: acc.FileSize, uploadPartUrl: acc.UploadPartUrl, fileHash: acc.FileHash, planUrl: acc.PlanUrl);
         }
 
         /// <summary>
@@ -450,6 +450,95 @@ namespace Box.Sdk.Gen.Managers {
             string sha1 = await fileHash.DigestHashAsync(encoding: "base64").ConfigureAwait(false);
             string digest = string.Concat("sha=", sha1);
             Files committedSession = await this.CreateFileUploadSessionCommitByUrlAsync(url: commitUrl, requestBody: new CreateFileUploadSessionCommitByUrlRequestBody(parts: parts), headers: new CreateFileUploadSessionCommitByUrlHeaders(digest: digest), cancellationToken: cancellationToken).ConfigureAwait(false);
+            return NullableUtils.Unwrap(NullableUtils.Unwrap(committedSession).Entries)[0];
+        }
+
+        internal async System.Threading.Tasks.Task<UploadPart> GetCachedUploadPartAsync(string planUrl, long offset, long size, string sha512) {
+            UploadSessionPlanResponse plan = await this.CreateFileUploadSessionPlanByUrlAsync(url: planUrl, requestBody: new UploadSessionPlanRequest(parts: Array.AsReadOnly(new [] {new UploadPartPlan(offset: offset, size: size, sha512: sha512)}))).ConfigureAwait(false);
+            if (plan.Hits.Count > 0) {
+                UploadPartPlanHit hit = plan.Hits.ElementAt(0);
+                return new UploadPart() { PartId = hit.PartId, Offset = hit.Offset, Size = hit.Size };
+            }
+            return null;
+        }
+
+        internal async System.Threading.Tasks.Task<PartAccumulator> ReducerForFileVersionAsync(PartAccumulator acc, System.IO.Stream chunk) {
+            long lastIndex = acc.LastIndex;
+            IReadOnlyList<UploadPart> parts = acc.Parts;
+            byte[] chunkBuffer = await Utils.ReadByteStreamAsync(byteStream: chunk).ConfigureAwait(false);
+            Hash hash = new Hash(algorithm: HashName.Sha1);
+            hash.UpdateHash(data: chunkBuffer);
+            string sha1 = await hash.DigestHashAsync(encoding: "base64").ConfigureAwait(false);
+            string digest = string.Concat("sha=", sha1);
+            int chunkSize = Utils.BufferLength(buffer: chunkBuffer);
+            long bytesStart = lastIndex + 1;
+            long bytesEnd = lastIndex + (long)(chunkSize);
+            string contentRange = string.Concat("bytes ", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(bytesStart)), "-", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(bytesEnd)), "/", NullableUtils.Unwrap(StringUtils.ToStringRepresentation(acc.FileSize)));
+            Hash sha512Hash = new Hash(algorithm: HashName.Sha512);
+            sha512Hash.UpdateHash(data: chunkBuffer);
+            string sha512 = await sha512Hash.DigestHashAsync(encoding: "hex").ConfigureAwait(false);
+            UploadPart cachedPart = await this.GetCachedUploadPartAsync(planUrl: acc.PlanUrl, offset: bytesStart, size: (long)(chunkSize), sha512: sha512).ConfigureAwait(false);
+            if (cachedPart != null) {
+                acc.FileHash.UpdateHash(data: chunkBuffer);
+                return new PartAccumulator(lastIndex: bytesEnd, parts: parts.Concat(Array.AsReadOnly(new [] {NullableUtils.Unwrap(cachedPart)})).ToList(), fileSize: acc.FileSize, uploadPartUrl: acc.UploadPartUrl, fileHash: acc.FileHash, planUrl: acc.PlanUrl);
+            }
+            UploadedPart uploadedPart = await this.UploadFilePartByUrlAsync(url: acc.UploadPartUrl, requestBody: Utils.GenerateByteStreamFromBuffer(buffer: chunkBuffer), headers: new UploadFilePartByUrlHeaders(digest: digest, contentRange: contentRange)).ConfigureAwait(false);
+            UploadPart part = NullableUtils.Unwrap(uploadedPart.Part);
+            string partSha1 = Utils.HexToBase64(value: NullableUtils.Unwrap(part.Sha1));
+            if (!(partSha1 == sha1)) {
+                throw new Exception(message: "Assertion failed");
+            }
+            if (!(NullableUtils.Unwrap(part.Size) == chunkSize)) {
+                throw new Exception(message: "Assertion failed");
+            }
+            if (!(NullableUtils.Unwrap(part.Offset) == bytesStart)) {
+                throw new Exception(message: "Assertion failed");
+            }
+            acc.FileHash.UpdateHash(data: chunkBuffer);
+            return new PartAccumulator(lastIndex: bytesEnd, parts: parts.Concat(Array.AsReadOnly(new [] {part})).ToList(), fileSize: acc.FileSize, uploadPartUrl: acc.UploadPartUrl, fileHash: acc.FileHash, planUrl: acc.PlanUrl);
+        }
+
+        /// <summary>
+        /// Starts the process of chunk uploading a new version of a big file. Should return a File object representing the uploaded file version. Returns nothing when commit responds with 202 because the file did not change.
+        /// </summary>
+        /// <param name="fileId">
+        /// The ID of the file to upload a new version of.
+        /// </param>
+        /// <param name="file">
+        /// The stream of the file to upload.
+        /// </param>
+        /// <param name="fileSize">
+        /// The total size of the file for the chunked upload in bytes.
+        /// </param>
+        /// <param name="fileName">
+        /// The optional new name of the file.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// Token used for request cancellation.
+        /// </param>
+        public async System.Threading.Tasks.Task<FileFull> UploadBigFileVersionAsync(string fileId, System.IO.Stream file, long fileSize, string fileName = null, System.Threading.CancellationToken cancellationToken = default) {
+            UploadSession uploadSession = await this.CreateFileUploadSessionForExistingFileAsync(fileId: fileId, requestBody: new CreateFileUploadSessionForExistingFileRequestBody(fileSize: fileSize) { FileName = fileName }, headers: new CreateFileUploadSessionForExistingFileHeaders(), cancellationToken: cancellationToken).ConfigureAwait(false);
+            string uploadPartUrl = NullableUtils.Unwrap(NullableUtils.Unwrap(uploadSession.SessionEndpoints).UploadPart);
+            string commitUrl = NullableUtils.Unwrap(NullableUtils.Unwrap(uploadSession.SessionEndpoints).Commit);
+            string planUrl = NullableUtils.Unwrap(NullableUtils.Unwrap(uploadSession.SessionEndpoints).Plan);
+            long partSize = NullableUtils.Unwrap(uploadSession.PartSize);
+            int totalParts = NullableUtils.Unwrap(uploadSession.TotalParts);
+            if (!(partSize * (long)(totalParts) >= fileSize)) {
+                throw new Exception(message: "Assertion failed");
+            }
+            if (!(uploadSession.NumPartsProcessed == 0)) {
+                throw new Exception(message: "Assertion failed");
+            }
+            Hash fileHash = new Hash(algorithm: HashName.Sha1);
+            IEnumerable<System.IO.Stream> chunksIterator = Utils.IterateChunks(stream: file, chunkSize: partSize, fileSize: fileSize);
+            PartAccumulator results = await Utils.ReduceIteratorAsync(iterator: chunksIterator, reducer: this.ReducerForFileVersionAsync, initialValue: new PartAccumulator(lastIndex: -1, parts: Enumerable.Empty<UploadPart>().ToList(), fileSize: fileSize, uploadPartUrl: uploadPartUrl, fileHash: fileHash, planUrl: planUrl)).ConfigureAwait(false);
+            IReadOnlyList<UploadPart> parts = results.Parts;
+            string sha1 = await fileHash.DigestHashAsync(encoding: "base64").ConfigureAwait(false);
+            string digest = string.Concat("sha=", sha1);
+            Files committedSession = await this.CreateFileUploadSessionCommitByUrlAsync(url: commitUrl, requestBody: new CreateFileUploadSessionCommitByUrlRequestBody(parts: parts), headers: new CreateFileUploadSessionCommitByUrlHeaders(digest: digest), cancellationToken: cancellationToken).ConfigureAwait(false);
+            if (committedSession == null) {
+                return null;
+            }
             return NullableUtils.Unwrap(NullableUtils.Unwrap(committedSession).Entries)[0];
         }
 
