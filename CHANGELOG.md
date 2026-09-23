@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.18.0](https://github.com/box/box-windows-sdk-v2/compare/v6.17.0...v6.18.0) (2026-09-23)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** Support upload big file version convenience method (box/box-codegen[#988](https://github.com/box/box-windows-sdk-v2/issues/988)) ([9b2c587](https://github.com/box/box-windows-sdk-v2/commit/9b2c587ecf9f369459e5645fe9e7cc14f1d7c246))
+
 ## [6.17.0](https://github.com/box/box-windows-sdk-v2/compare/v6.16.0...v6.17.0) (2026-09-09)
 
 
