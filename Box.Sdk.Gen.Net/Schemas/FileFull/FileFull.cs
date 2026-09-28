@@ -19,6 +19,10 @@ namespace Box.Sdk.Gen.Schemas {
         protected bool _isExpiresAtSet { get; set; }
 
         [JsonInclude]
+        [JsonPropertyName("_isclassificationSet")]
+        protected bool _isClassificationSet { get; set; }
+
+        [JsonInclude]
         [JsonPropertyName("_isdisposition_atSet")]
         protected bool _isDispositionAtSet { get; set; }
 
@@ -29,6 +33,8 @@ namespace Box.Sdk.Gen.Schemas {
         protected FileFullLockField? _lock { get; set; }
 
         protected System.DateTimeOffset? _expiresAt { get; set; }
+
+        protected FileFullClassificationField? _classification { get; set; }
 
         protected System.DateTimeOffset? _dispositionAt { get; set; }
 
@@ -117,7 +123,7 @@ namespace Box.Sdk.Gen.Schemas {
         public FileFullRepresentationsField? Representations { get; init; }
 
         [JsonPropertyName("classification")]
-        public FileFullClassificationField? Classification { get; init; }
+        public FileFullClassificationField? Classification { get => _classification; init { _classification = value; _isClassificationSet = true; } }
 
         [JsonPropertyName("uploader_display_name")]
         public string? UploaderDisplayName { get; init; }
