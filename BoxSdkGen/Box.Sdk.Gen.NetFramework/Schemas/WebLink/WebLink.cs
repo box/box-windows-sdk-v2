@@ -17,9 +17,15 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("_ispurged_atSet")]
         protected bool _isPurgedAtSet { get; set; }
 
+        [JsonInclude]
+        [JsonPropertyName("_isshared_linkSet")]
+        protected bool _isSharedLinkSet { get; set; }
+
         protected System.DateTimeOffset? _trashedAt { get; set; }
 
         protected System.DateTimeOffset? _purgedAt { get; set; }
+
+        protected WebLinkSharedLinkField _sharedLink { get; set; }
 
         [JsonPropertyName("parent")]
         public FolderMini Parent { get; set; }
@@ -69,7 +75,7 @@ namespace Box.Sdk.Gen.Schemas {
         public UserMini OwnedBy { get; set; }
 
         [JsonPropertyName("shared_link")]
-        public WebLinkSharedLinkField SharedLink { get; set; }
+        public WebLinkSharedLinkField SharedLink { get => _sharedLink; set { _sharedLink = value; _isSharedLinkSet = true; } }
 
         /// <summary>
         /// Whether this item is deleted or not. Values include `active`,
