@@ -25,6 +25,10 @@ namespace Box.Sdk.Gen.Schemas {
         protected bool _isContentModifiedAtSet { get; set; }
 
         [JsonInclude]
+        [JsonPropertyName("_isshared_linkSet")]
+        protected bool _isSharedLinkSet { get; set; }
+
+        [JsonInclude]
         [JsonPropertyName("_isparentSet")]
         protected bool _isParentSet { get; set; }
 
@@ -35,6 +39,8 @@ namespace Box.Sdk.Gen.Schemas {
         protected System.DateTimeOffset? _contentCreatedAt { get; set; }
 
         protected System.DateTimeOffset? _contentModifiedAt { get; set; }
+
+        protected FileSharedLinkField? _sharedLink { get; set; }
 
         protected FolderMini? _parent { get; set; }
 
@@ -105,7 +111,7 @@ namespace Box.Sdk.Gen.Schemas {
         public UserMini? OwnedBy { get; init; }
 
         [JsonPropertyName("shared_link")]
-        public FileSharedLinkField? SharedLink { get; init; }
+        public FileSharedLinkField? SharedLink { get => _sharedLink; init { _sharedLink = value; _isSharedLinkSet = true; } }
 
         [JsonPropertyName("parent")]
         public FolderMini? Parent { get => _parent; init { _parent = value; _isParentSet = true; } }
