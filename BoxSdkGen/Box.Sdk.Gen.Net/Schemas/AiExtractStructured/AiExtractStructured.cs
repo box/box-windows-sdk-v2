@@ -32,13 +32,13 @@ namespace Box.Sdk.Gen.Schemas {
         public AiExtractStructuredAgent? AiAgent { get; init; }
 
         /// <summary>
-        /// A flag to indicate whether confidence scores for every extracted field should be returned.
+        /// A flag to indicate whether confidence scores for every extracted field should be returned. Estimates the likelihood that an extracted metadata field value is accurate and correct. Displays a numerical and categorical confidence score to help users and automated systems quickly determine extraction reliability.
         /// </summary>
         [JsonPropertyName("include_confidence_score")]
         public bool? IncludeConfidenceScore { get; init; }
 
         /// <summary>
-        /// A flag to indicate whether references for every extracted field should be returned.
+        /// A flag to indicate whether references for every extracted field should be returned. References and bounding boxes show where the agent extracted the metadata from. They help you check for accuracy and fix any mistakes. References are short, exact quotes from the original document used to verify results. Bounding boxes highlight the specific areas on the page where that text is found.
         /// </summary>
         [JsonPropertyName("include_reference")]
         public bool? IncludeReference { get; init; }
