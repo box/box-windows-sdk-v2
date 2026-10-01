@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [10.19.0](https://github.com/box/box-windows-sdk-v2/compare/v10.18.0...v10.19.0) (2026-10-01)
 
+### ⚠ BREAKING CHANGES
+
+* use `FileMini`/`FolderMini`/`WebLinkMini` in `CollaborationItem` (box/box-openapi[#619](https://github.com/box/box-openapi/pull/619)) ([0403b76](https://github.com/box/box-windows-sdk-v2/commit/0403b76e32e979e4f5a0d5328134b60797f45a57))
+
+### Bug Fixes
+
+* use `FileMini`/`FolderMini`/`WebLinkMini` in `CollaborationItem` (box/box-openapi[#619](https://github.com/box/box-openapi/pull/619)) ([0403b76](https://github.com/box/box-windows-sdk-v2/commit/0403b76e32e979e4f5a0d5328134b60797f45a57))
+
 ## [10.18.0](https://github.com/box/box-windows-sdk-v2/compare/v10.17.0...v10.18.0) (2026-09-23)
 
 
