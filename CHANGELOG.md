@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.19.0](https://github.com/box/box-windows-sdk-v2/compare/v6.18.0...v6.19.0) (2026-10-01)
+
+### ⚠ BREAKING CHANGES
+
+* **boxsdkgen:** use `FileMini`/`FolderMini`/`WebLinkMini` in `CollaborationItem` (box/box-openapi[#619](https://github.com/box/box-openapi/pull/619)) ([e4f7d0a](https://github.com/box/box-windows-sdk-v2/commit/e4f7d0a76414a0315ec840263c935277273b2c9b))
+
+### **Bug Fixes:**
+
+* **boxsdkgen:** use `FileMini`/`FolderMini`/`WebLinkMini` in `CollaborationItem` (box/box-openapi[#619](https://github.com/box/box-openapi/pull/619)) ([e4f7d0a](https://github.com/box/box-windows-sdk-v2/commit/e4f7d0a76414a0315ec840263c935277273b2c9b))
+
 ## [6.18.0](https://github.com/box/box-windows-sdk-v2/compare/v6.17.0...v6.18.0) (2026-09-23)
 
 
