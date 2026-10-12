@@ -183,6 +183,9 @@ This function returns a value of type `UploadedPart`.
 
 Chunk has been uploaded successfully.
 
+The response always includes `sha512`. It also includes
+`sha1` if the `Digest` header used `SHA-1`.
+
 
 ## Upload part of file
 
@@ -218,6 +221,9 @@ await client.ChunkedUploads.UploadFilePartAsync(uploadSessionId: acc.UploadSessi
 This function returns a value of type `UploadedPart`.
 
 Chunk has been uploaded successfully.
+
+The response always includes `sha512`. It also includes
+`sha1` if the `Digest` header used `SHA-1`.
 
 
 ## Remove upload session by URL
@@ -329,6 +335,9 @@ This function returns a value of type `UploadParts`.
 
 Returns a list of parts that have been uploaded.
 
+Each part includes the hash type used to upload it. Parts
+uploaded with a `SHA-512` `Digest` header don't include `sha1`.
+
 
 ## List parts
 
@@ -365,6 +374,9 @@ This function returns a value of type `UploadParts`.
 
 Returns a list of parts that have been uploaded.
 
+Each part includes the hash type used to upload it. Parts
+uploaded with a `SHA-512` `Digest` header don't include `sha1`.
+
 
 ## Plan upload session by URL
 
@@ -372,8 +384,8 @@ Plan an upload session by checking which parts already exist on the server.
 This endpoint allows clients to optimize uploads by skipping parts that
 have already been uploaded (cache hits) and only uploading missing parts.
 
-The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
 
 This operation is performed by calling function `CreateFileUploadSessionPlanByUrl`.
 
@@ -411,8 +423,8 @@ Plan an upload session by checking which parts already exist on the server.
 This endpoint allows clients to optimize uploads by skipping parts that
 have already been uploaded (cache hits) and only uploading missing parts.
 
-The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
 
 This operation is performed by calling function `CreateFileUploadSessionPlan`.
 

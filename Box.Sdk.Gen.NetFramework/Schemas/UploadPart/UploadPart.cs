@@ -12,6 +12,13 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("sha1")]
         public string Sha1 { get; set; }
 
+        /// <summary>
+        /// The `SHA-512` hash of the chunk, as a hex string
+        /// of 128 lower case characters.
+        /// </summary>
+        [JsonPropertyName("sha512")]
+        public string Sha512 { get; set; }
+
         public UploadPart() {
             
         }
