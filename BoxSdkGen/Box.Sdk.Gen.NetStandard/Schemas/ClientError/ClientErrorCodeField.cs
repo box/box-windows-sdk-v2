@@ -27,6 +27,8 @@ namespace Box.Sdk.Gen.Schemas {
         Conflict,
         [Description("precondition_failed")]
         PreconditionFailed,
+        [Description("unprocessable_entity")]
+        UnprocessableEntity,
         [Description("too_many_requests")]
         TooManyRequests,
         [Description("internal_server_error")]
