@@ -14,6 +14,15 @@ namespace Box.Sdk.Gen.Schemas {
 
         protected DocGenJobV2025R0FailuresField? _failures { get; set; }
 
+        /// <summary>
+        /// An optional identifier supplied by the caller when the Box Doc Gen
+        /// job was created. Returned for correlation only. It is not a Box
+        /// resource ID, is not required to be unique, and cannot be used to
+        /// look up the job.
+        /// </summary>
+        [JsonPropertyName("external_id")]
+        public string? ExternalId { get; init; }
+
         [JsonPropertyName("batch")]
         public DocGenBatchBaseV2025R0 Batch { get; }
 

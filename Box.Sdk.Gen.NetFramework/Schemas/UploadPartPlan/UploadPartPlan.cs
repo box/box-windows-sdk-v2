@@ -19,7 +19,8 @@ namespace Box.Sdk.Gen.Schemas {
         public long Size { get; set; }
 
         /// <summary>
-        /// The `SHA-512` hash of the chunk.
+        /// The `SHA-512` hash of the chunk, as a hex string
+        /// of 128 lower case characters.
         /// </summary>
         [JsonPropertyName("sha512")]
         public string Sha512 { get; set; }
