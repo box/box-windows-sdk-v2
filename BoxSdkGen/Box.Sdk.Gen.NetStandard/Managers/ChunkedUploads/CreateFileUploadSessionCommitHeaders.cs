@@ -15,6 +15,9 @@ namespace Box.Sdk.Gen.Managers {
         /// encoded. The format of this header is as
         /// `sha=BASE64_ENCODED_DIGEST`.
         /// 
+        /// `SHA-512` is not supported for the whole-file digest, even if
+        /// the parts were uploaded with `SHA-512` digests.
+        /// 
         /// [1]: https://tools.ietf.org/html/rfc3230
         /// </summary>
         public string Digest { get; set; }

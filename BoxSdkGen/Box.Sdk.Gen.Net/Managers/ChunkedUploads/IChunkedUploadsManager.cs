@@ -215,8 +215,8 @@ namespace Box.Sdk.Gen.Managers {
     /// This endpoint allows clients to optimize uploads by skipping parts that
     /// have already been uploaded (cache hits) and only uploading missing parts.
     /// 
-    /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-    /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+    /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+    /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
     /// </summary>
     /// <param name="url">
     /// URL of createFileUploadSessionPlan method
@@ -237,8 +237,8 @@ namespace Box.Sdk.Gen.Managers {
     /// This endpoint allows clients to optimize uploads by skipping parts that
     /// have already been uploaded (cache hits) and only uploading missing parts.
     /// 
-    /// The actual endpoint URL is returned by the [`Create upload session`](e://post-files-upload-sessions)
-    /// and [`Get upload session`](e://get-files-upload-sessions-id) endpoints.
+    /// The actual endpoint URL is returned by the [`Create upload session`](https://developer.box.com/reference/post-files-upload-sessions)
+    /// and [`Get upload session`](https://developer.box.com/reference/get-files-upload-sessions-id) endpoints.
     /// </summary>
     /// <param name="uploadSessionId">
     /// The ID of the upload session.
