@@ -135,23 +135,28 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("preview_count")]
         public long PreviewCount { get; }
 
-        public WebLinkSharedLinkField(string url, WebLinkSharedLinkEffectiveAccessField effectiveAccess, WebLinkSharedLinkEffectivePermissionField effectivePermission, bool isPasswordEnabled, long downloadCount, long previewCount) {
+        [JsonPropertyName("one_time_passcode")]
+        public WebLinkSharedLinkOneTimePasscodeField OneTimePasscode { get; }
+
+        public WebLinkSharedLinkField(string url, WebLinkSharedLinkEffectiveAccessField effectiveAccess, WebLinkSharedLinkEffectivePermissionField effectivePermission, bool isPasswordEnabled, long downloadCount, long previewCount, WebLinkSharedLinkOneTimePasscodeField oneTimePasscode) {
             Url = url;
             EffectiveAccess = effectiveAccess;
             EffectivePermission = effectivePermission;
             IsPasswordEnabled = isPasswordEnabled;
             DownloadCount = downloadCount;
             PreviewCount = previewCount;
+            OneTimePasscode = oneTimePasscode;
         }
         
         [JsonConstructorAttribute]
-        internal WebLinkSharedLinkField(string url, StringEnum<WebLinkSharedLinkEffectiveAccessField> effectiveAccess, StringEnum<WebLinkSharedLinkEffectivePermissionField> effectivePermission, bool isPasswordEnabled, long downloadCount, long previewCount) {
+        internal WebLinkSharedLinkField(string url, StringEnum<WebLinkSharedLinkEffectiveAccessField> effectiveAccess, StringEnum<WebLinkSharedLinkEffectivePermissionField> effectivePermission, bool isPasswordEnabled, long downloadCount, long previewCount, WebLinkSharedLinkOneTimePasscodeField oneTimePasscode) {
             Url = url;
             EffectiveAccess = effectiveAccess;
             EffectivePermission = effectivePermission;
             IsPasswordEnabled = isPasswordEnabled;
             DownloadCount = downloadCount;
             PreviewCount = previewCount;
+            OneTimePasscode = oneTimePasscode;
         }
         internal string? RawJson { get; set; } = default;
 
