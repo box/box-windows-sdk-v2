@@ -56,7 +56,7 @@ namespace Box.Sdk.Gen.Schemas {
         public long? Duration { get; init; }
 
         /// <summary>
-        /// An list of entries for the card. This represents the individual entries of
+        /// A list of entries for the card. This represents the individual entries of
         /// the transcription.
         /// </summary>
         [JsonPropertyName("entries")]
