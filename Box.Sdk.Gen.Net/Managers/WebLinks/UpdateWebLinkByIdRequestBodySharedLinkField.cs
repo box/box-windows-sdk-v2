@@ -62,6 +62,9 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("unshared_at")]
         public System.DateTimeOffset? UnsharedAt { get; init; }
 
+        [JsonPropertyName("one_time_passcode")]
+        public SharedLinkOtpWritable? OneTimePasscode { get; init; }
+
         public UpdateWebLinkByIdRequestBodySharedLinkField() {
             
         }
