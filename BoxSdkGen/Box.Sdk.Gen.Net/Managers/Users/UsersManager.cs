@@ -168,6 +168,12 @@ namespace Box.Sdk.Gen.Managers {
         /// still owns any content. 
         /// To proceed, move their owned content first, or use the `force` parameter to delete
         /// the user and their files.
+        /// 
+        /// If the enterprise has a retention policy, including a retired one, or a
+        /// legal hold that is not fully released, you can't delete a user who owns
+        /// content, even with `force`. Transfer the user's content first by using the
+        /// [Transfer owned folders](https://developer.box.com/reference/put-users-id-folders-0)
+        /// endpoint.
         /// </summary>
         /// <param name="userId">
         /// The ID of the user.
