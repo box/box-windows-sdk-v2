@@ -135,23 +135,28 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("preview_count")]
         public long PreviewCount { get; }
 
-        public FileSharedLinkField(string url, FileSharedLinkEffectiveAccessField effectiveAccess, FileSharedLinkEffectivePermissionField effectivePermission, bool isPasswordEnabled, long downloadCount, long previewCount) {
+        [JsonPropertyName("one_time_passcode")]
+        public FileSharedLinkOneTimePasscodeField OneTimePasscode { get; }
+
+        public FileSharedLinkField(string url, FileSharedLinkEffectiveAccessField effectiveAccess, FileSharedLinkEffectivePermissionField effectivePermission, bool isPasswordEnabled, long downloadCount, long previewCount, FileSharedLinkOneTimePasscodeField oneTimePasscode) {
             Url = url;
             EffectiveAccess = effectiveAccess;
             EffectivePermission = effectivePermission;
             IsPasswordEnabled = isPasswordEnabled;
             DownloadCount = downloadCount;
             PreviewCount = previewCount;
+            OneTimePasscode = oneTimePasscode;
         }
         
         [JsonConstructorAttribute]
-        internal FileSharedLinkField(string url, StringEnum<FileSharedLinkEffectiveAccessField> effectiveAccess, StringEnum<FileSharedLinkEffectivePermissionField> effectivePermission, bool isPasswordEnabled, long downloadCount, long previewCount) {
+        internal FileSharedLinkField(string url, StringEnum<FileSharedLinkEffectiveAccessField> effectiveAccess, StringEnum<FileSharedLinkEffectivePermissionField> effectivePermission, bool isPasswordEnabled, long downloadCount, long previewCount, FileSharedLinkOneTimePasscodeField oneTimePasscode) {
             Url = url;
             EffectiveAccess = effectiveAccess;
             EffectivePermission = effectivePermission;
             IsPasswordEnabled = isPasswordEnabled;
             DownloadCount = downloadCount;
             PreviewCount = previewCount;
+            OneTimePasscode = oneTimePasscode;
         }
         internal string? RawJson { get; set; } = default;
 

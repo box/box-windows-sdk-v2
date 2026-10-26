@@ -47,7 +47,7 @@ namespace Box.Sdk.Gen.Schemas {
         public KeywordSkillCardInvocationField Invocation { get; set; }
 
         /// <summary>
-        /// An list of entries in the metadata card.
+        /// A list of entries in the metadata card.
         /// </summary>
         [JsonPropertyName("entries")]
         public IReadOnlyList<KeywordSkillCardEntriesField> Entries { get; set; }
