@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.20.0](https://github.com/box/box-windows-sdk-v2/compare/v6.19.0...v6.20.0) (2026-10-26)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** support `sha512` for chunked upload parts and add `external_id` (box/box-openapi[#620](https://github.com/box/box-windows-sdk-v2/issues/620)) ([6e20d76](https://github.com/box/box-windows-sdk-v2/commit/6e20d76190b6591ccdd0698beee6aa123b79b092))
+
 ## [6.19.0](https://github.com/box/box-windows-sdk-v2/compare/v6.18.0...v6.19.0) (2026-10-01)
 
 ### ⚠ BREAKING CHANGES
