@@ -286,6 +286,10 @@ namespace Box.Sdk.Gen.Schemas {
         RetentionPolicyAssignmentAdd,
         [Description("SHARE")]
         Share,
+        [Description("SHARED_LINK_ONE_TIME_PASSCODE_ACCESS")]
+        SharedLinkOneTimePasscodeAccess,
+        [Description("SHARED_LINK_ONE_TIME_PASSCODE_CHALLENGE")]
+        SharedLinkOneTimePasscodeChallenge,
         [Description("SHARED_LINK_REDIRECT_OUT_OF_SHARED_CONTEXT")]
         SharedLinkRedirectOutOfSharedContext,
         [Description("SHARED_LINK_SEND")]
@@ -306,6 +310,8 @@ namespace Box.Sdk.Gen.Schemas {
         ShieldExternalCollabAccessBlocked,
         [Description("SHIELD_EXTERNAL_COLLAB_ACCESS_BLOCKED_MISSING_JUSTIFICATION")]
         ShieldExternalCollabAccessBlockedMissingJustification,
+        [Description("SHIELD_EXTERNAL_COLLAB_ACCESS_JUSTIFIED")]
+        ShieldExternalCollabAccessJustified,
         [Description("SHIELD_EXTERNAL_COLLAB_INVITE_BLOCKED")]
         ShieldExternalCollabInviteBlocked,
         [Description("SHIELD_EXTERNAL_COLLAB_INVITE_BLOCKED_MISSING_JUSTIFICATION")]
