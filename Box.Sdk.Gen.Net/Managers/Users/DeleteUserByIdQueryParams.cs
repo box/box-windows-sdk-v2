@@ -16,6 +16,12 @@ namespace Box.Sdk.Gen.Managers {
 
         /// <summary>
         /// Specifies whether to delete the user even if they still own files.
+        /// 
+        /// If the user owns content and the enterprise has a retention policy,
+        /// including a retired one, or a legal hold that is not fully released,
+        /// setting `force` to `true` doesn't delete the user. The request returns
+        /// a `403` error, and you must transfer the user's content before deleting
+        /// the user.
         /// </summary>
         public bool? Force { get; init; }
 
