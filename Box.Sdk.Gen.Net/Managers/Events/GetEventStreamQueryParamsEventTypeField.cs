@@ -182,6 +182,10 @@ namespace Box.Sdk.Gen.Managers {
         RetentionPolicyAssignmentAdd,
         [Description("SHARE")]
         Share,
+        [Description("SHARED_LINK_ONE_TIME_PASSCODE_ACCESS")]
+        SharedLinkOneTimePasscodeAccess,
+        [Description("SHARED_LINK_ONE_TIME_PASSCODE_CHALLENGE")]
+        SharedLinkOneTimePasscodeChallenge,
         [Description("SHARED_LINK_SEND")]
         SharedLinkSend,
         [Description("SHARE_EXPIRATION")]
@@ -194,10 +198,14 @@ namespace Box.Sdk.Gen.Managers {
         ShieldExternalCollabAccessBlocked,
         [Description("SHIELD_EXTERNAL_COLLAB_ACCESS_BLOCKED_MISSING_JUSTIFICATION")]
         ShieldExternalCollabAccessBlockedMissingJustification,
+        [Description("SHIELD_EXTERNAL_COLLAB_ACCESS_JUSTIFIED")]
+        ShieldExternalCollabAccessJustified,
         [Description("SHIELD_EXTERNAL_COLLAB_INVITE_BLOCKED")]
         ShieldExternalCollabInviteBlocked,
         [Description("SHIELD_EXTERNAL_COLLAB_INVITE_BLOCKED_MISSING_JUSTIFICATION")]
         ShieldExternalCollabInviteBlockedMissingJustification,
+        [Description("SHIELD_EXTERNAL_COLLAB_INVITE_JUSTIFIED")]
+        ShieldExternalCollabInviteJustified,
         [Description("SHIELD_JUSTIFICATION_APPROVAL")]
         ShieldJustificationApproval,
         [Description("SHIELD_PREVIEW_BLOCKED")]

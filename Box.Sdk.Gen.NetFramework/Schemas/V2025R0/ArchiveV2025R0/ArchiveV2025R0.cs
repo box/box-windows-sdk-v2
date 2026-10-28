@@ -53,19 +53,21 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("owned_by")]
         public ArchiveV2025R0OwnedByField OwnedBy { get; set; }
 
-        public ArchiveV2025R0(string id, string name, long size, ArchiveV2025R0TypeField type = ArchiveV2025R0TypeField.Archive) {
+        public ArchiveV2025R0(string id, string name, long size, ArchiveV2025R0OwnedByField ownedBy, ArchiveV2025R0TypeField type = ArchiveV2025R0TypeField.Archive) {
             Id = id;
             Type = type;
             Name = name;
             Size = size;
+            OwnedBy = ownedBy;
         }
         
         [JsonConstructorAttribute]
-        internal ArchiveV2025R0(string id, string name, long size, StringEnum<ArchiveV2025R0TypeField> type) {
+        internal ArchiveV2025R0(string id, string name, long size, ArchiveV2025R0OwnedByField ownedBy, StringEnum<ArchiveV2025R0TypeField> type) {
             Id = id;
             Type = ArchiveV2025R0TypeField.Archive;
             Name = name;
             Size = size;
+            OwnedBy = ownedBy;
         }
         internal string RawJson { get; set; } = default;
 
