@@ -159,7 +159,9 @@ namespace Box.Sdk.Gen.Schemas {
         public string? SignerGroupId { get => _signerGroupId; init { _signerGroupId = value; _isSignerGroupIdSet = true; } }
 
         /// <summary>
-        /// If true, no emails about the sign request will be sent.
+        /// If true, no emails about the sign request are sent.
+        /// The `embed_url_external_user_id` parameter is required when using
+        /// `suppress_notifications` for a signer.
         /// </summary>
         [JsonPropertyName("suppress_notifications")]
         public bool? SuppressNotifications { get => _suppressNotifications; init { _suppressNotifications = value; _isSuppressNotificationsSet = true; } }
