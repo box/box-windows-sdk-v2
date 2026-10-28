@@ -25,7 +25,7 @@ namespace Box.Sdk.Gen.Schemas {
         public System.DateTimeOffset? SessionExpiresAt { get; set; }
 
         /// <summary>
-        /// The  size in bytes that must be used for all parts of of the
+        /// The size in bytes that must be used for all parts of the
         /// upload.
         /// 
         /// Only the last part is allowed to be of a smaller size.
@@ -44,7 +44,7 @@ namespace Box.Sdk.Gen.Schemas {
         /// The number of parts that have been uploaded and processed
         /// by the server. This starts at `0`.
         /// 
-        /// When committing a file files, inspecting this property can
+        /// When committing a file, inspecting this property can
         /// provide insight if all parts have been uploaded correctly.
         /// </summary>
         [JsonPropertyName("num_parts_processed")]

@@ -66,6 +66,9 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("permissions")]
         public AddShareLinkToFileRequestBodySharedLinkPermissionsField Permissions { get; set; }
 
+        [JsonPropertyName("one_time_passcode")]
+        public SharedLinkOtpWritable OneTimePasscode { get; set; }
+
         public AddShareLinkToFileRequestBodySharedLinkField() {
             
         }
