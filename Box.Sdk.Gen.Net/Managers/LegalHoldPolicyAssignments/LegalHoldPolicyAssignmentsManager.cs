@@ -36,7 +36,7 @@ namespace Box.Sdk.Gen.Managers {
         }
 
         /// <summary>
-        /// Assign a legal hold to an item type of: file, file version, folder, user, ownership, or interactions.
+        /// Assign a legal hold to an item type of: file, file version, folder, user, ownership, interactions, or metadata template.
         /// </summary>
         /// <param name="requestBody">
         /// Request body of createLegalHoldPolicyAssignment method

@@ -20,6 +20,12 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("assign_to")]
         public CreateLegalHoldPolicyAssignmentRequestBodyAssignToField AssignTo { get; }
 
+        /// <summary>
+        /// List of metadata template field filters. Only required when `assign_to.type` is `metadata_template`.
+        /// </summary>
+        [JsonPropertyName("filter_fields")]
+        public IReadOnlyList<LegalHoldPolicyAssignmentFilterField>? FilterFields { get; init; }
+
         public CreateLegalHoldPolicyAssignmentRequestBody(string policyId, CreateLegalHoldPolicyAssignmentRequestBodyAssignToField assignTo) {
             PolicyId = policyId;
             AssignTo = assignTo;
