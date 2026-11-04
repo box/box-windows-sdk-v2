@@ -42,6 +42,12 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("interactions")]
         public long? Interactions { get; init; }
 
+        /// <summary>
+        /// The number of metadata templates this policy is applied to.
+        /// </summary>
+        [JsonPropertyName("metadata_template")]
+        public long? MetadataTemplate { get; init; }
+
         public LegalHoldPolicyAssignmentCountsField() {
             
         }

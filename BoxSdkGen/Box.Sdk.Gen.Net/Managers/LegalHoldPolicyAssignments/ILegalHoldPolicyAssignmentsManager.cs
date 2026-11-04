@@ -23,7 +23,7 @@ namespace Box.Sdk.Gen.Managers {
     public System.Threading.Tasks.Task<LegalHoldPolicyAssignments> GetLegalHoldPolicyAssignmentsAsync(GetLegalHoldPolicyAssignmentsQueryParams queryParams, GetLegalHoldPolicyAssignmentsHeaders? headers = default, System.Threading.CancellationToken? cancellationToken = null) => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it.");
 
         /// <summary>
-    /// Assign a legal hold to an item type of: file, file version, folder, user, ownership, or interactions.
+    /// Assign a legal hold to an item type of: file, file version, folder, user, ownership, interactions, or metadata template.
     /// </summary>
     /// <param name="requestBody">
     /// Request body of createLegalHoldPolicyAssignment method
