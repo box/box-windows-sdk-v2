@@ -2,6 +2,7 @@ using Box.Sdk.Gen;
 using System.Text.Json.Serialization;
 using Box.Sdk.Gen.Internal;
 using System.Collections.Generic;
+using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Schemas {
     public class SignRequestCreateSigner : ISerializable {
@@ -172,6 +173,12 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("language")]
         public string Language { get => _language; set { _language = value; _isLanguageSet = true; } }
+
+        /// <summary>
+        /// The verification method for the signer.
+        /// </summary>
+        [JsonPropertyName("verification_method")]
+        public SignRequestSignerVerificationMethod VerificationMethod { get; set; }
 
         public SignRequestCreateSigner() {
             
