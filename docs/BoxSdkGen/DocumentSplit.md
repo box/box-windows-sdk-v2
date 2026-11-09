@@ -26,7 +26,10 @@ This operation is performed by calling function `CreateDocumentSplitV2026R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/post-document-splits/).
 
-*Currently we don't have an example for calling `CreateDocumentSplitV2026R0` in integration tests*
+<!-- sample post_document_splits_v2026.0 -->
+```
+await client.DocumentSplit.CreateDocumentSplitV2026R0Async(requestBody: new DocumentSplitCreateRequestV2026R0(sourceFileId: file.Id, destinationFolderId: folder.Id, inputSource: DocumentSplitCreateRequestV2026R0InputSourceField.Api, splitInput: new DocumentSplitCreateRequestManualV2026R0(splitType: DocumentSplitCreateRequestManualV2026R0SplitTypeField.Manual, splitDefinition: Array.AsReadOnly(new [] {new DocumentSplitPageRangeV2026R0(start: 1, end: 1)}))) { ExternalId = externalId });
+```
 
 ### Arguments
 
@@ -56,7 +59,10 @@ This operation is performed by calling function `GetDocumentSplitsV2026R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/get-document-splits/).
 
-*Currently we don't have an example for calling `GetDocumentSplitsV2026R0` in integration tests*
+<!-- sample get_document_splits_v2026.0 -->
+```
+await client.DocumentSplit.GetDocumentSplitsV2026R0Async(queryParams: new GetDocumentSplitsV2026R0QueryParams() { Limit = 10L });
+```
 
 ### Arguments
 
@@ -86,7 +92,10 @@ This operation is performed by calling function `GetDocumentSplitByIdV2026R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/get-document-splits-id/).
 
-*Currently we don't have an example for calling `GetDocumentSplitByIdV2026R0` in integration tests*
+<!-- sample get_document_splits_id_v2026.0 -->
+```
+await client.DocumentSplit.GetDocumentSplitByIdV2026R0Async(documentSplitId: createdDocumentSplit.Id);
+```
 
 ### Arguments
 
