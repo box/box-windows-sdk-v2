@@ -14,6 +14,8 @@ namespace Box.Sdk.Gen.Schemas {
         [Description("ownership")]
         Ownership,
         [Description("interactions")]
-        Interactions
+        Interactions,
+        [Description("metadata_template")]
+        MetadataTemplate
     }
 }

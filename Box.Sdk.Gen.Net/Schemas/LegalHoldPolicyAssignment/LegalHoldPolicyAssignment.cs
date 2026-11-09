@@ -1,6 +1,8 @@
 using Box.Sdk.Gen;
-using System.Text.Json.Serialization;
+using System;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Box.Sdk.Gen.Internal;
 using Box.Sdk.Gen.Schemas;
 
@@ -31,6 +33,12 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("deleted_at")]
         public System.DateTimeOffset? DeletedAt { get; init; }
+
+        /// <summary>
+        /// List of metadata template field filters. Only present when `assigned_to.type` is `metadata_template`.
+        /// </summary>
+        [JsonPropertyName("filter_fields")]
+        public IReadOnlyList<LegalHoldPolicyAssignmentFilterField>? FilterFields { get; init; }
 
         public LegalHoldPolicyAssignment() {
             
