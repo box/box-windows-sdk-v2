@@ -118,6 +118,12 @@ namespace Box.Sdk.Gen.Schemas {
         [JsonPropertyName("login_required")]
         public bool? LoginRequired { get => _loginRequired; init { _loginRequired = value; _isLoginRequiredSet = true; } }
 
+        /// <summary>
+        /// The verification method for the signer.
+        /// </summary>
+        [JsonPropertyName("verification_method")]
+        public TemplateSignerVerificationMethod? VerificationMethod { get; init; }
+
         public TemplateSigner() {
             
         }
