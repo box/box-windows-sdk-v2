@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.21.0](https://github.com/box/box-windows-sdk-v2/compare/v6.20.2...v6.21.0) (2026-11-10)
+
+
+### **New Features and Enhancements:**
+
+* **boxsdkgen:** add `DocumentSplit` manager and one-time passcode fields for shared links (box/box-openapi[#621](https://github.com/box/box-windows-sdk-v2/issues/621)) ([660db37](https://github.com/box/box-windows-sdk-v2/commit/660db3727e99769f600f7f02727b69e8adc4d8f6))
+* **boxsdkgen:** add `metadata_template` assign type and `filter_fields` to legal hold assignments (box/box-openapi[#625](https://github.com/box/box-windows-sdk-v2/issues/625)) ([1171a34](https://github.com/box/box-windows-sdk-v2/commit/1171a34767fc39ecfda1bcbd3491625b81404e71))
+* **boxsdkgen:** add `ShuttleManager` and generate shuttle API models/docs (box/box-openapi[#622](https://github.com/box/box-windows-sdk-v2/issues/622)) ([00c2f8e](https://github.com/box/box-windows-sdk-v2/commit/00c2f8e034c87aaed762030fcf7895514ed0ca8f))
+* **boxsdkgen:** add `verification_method` union types for Signer in BoxSign schemas (box/box-openapi[#626](https://github.com/box/box-windows-sdk-v2/issues/626)) ([75fb623](https://github.com/box/box-windows-sdk-v2/commit/75fb62385cb26f5a2465351015c37efa5925ce16))
+
 ### [6.20.2](https://github.com/box/box-windows-sdk-v2/compare/v6.20.1...v6.20.2) (2026-10-27)
 
 ### [6.20.1](https://github.com/box/box-windows-sdk-v2/compare/v6.20.0...v6.20.1) (2026-10-26)
