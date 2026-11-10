@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.20.0](https://github.com/box/box-windows-sdk-v2/compare/v10.19.0...v10.20.0) (2026-11-10)
+
+
+### New Features and Enhancements
+
+* add `DocumentSplitManager` and document split APIs + OTP for shared links (box/box-openapi[#621](https://github.com/box/box-windows-sdk-v2/issues/621)) ([401ef4f](https://github.com/box/box-windows-sdk-v2/commit/401ef4f9f1a490a5e4d20139f04921d4bd2ff708))
+* Add `metadata_template` support and `filter_fields` to legal holds (box/box-openapi[#625](https://github.com/box/box-windows-sdk-v2/issues/625)) ([26578fa](https://github.com/box/box-windows-sdk-v2/commit/26578fa720fa779d477e2a0aabafe0ba41678990))
+* add `Shuttle` manager and `V2026R0` shuttle APIs and models (box/box-openapi[#622](https://github.com/box/box-windows-sdk-v2/issues/622)) ([7f4fd64](https://github.com/box/box-windows-sdk-v2/commit/7f4fd6411bbc79f9c2d5dcc08b7d5f8fcb66aa64))
+* add `verification_method` union types for Signer in BoxSign schemas (box/box-openapi[#626](https://github.com/box/box-windows-sdk-v2/issues/626)) ([b5a216e](https://github.com/box/box-windows-sdk-v2/commit/b5a216ef75134f962ca3153567faccc6926a88cc))
+* update chunked upload to support `sha512` and add `external_id` to DocGen (box/box-openapi[#620](https://github.com/box/box-windows-sdk-v2/issues/620)) ([0f2ba4d](https://github.com/box/box-windows-sdk-v2/commit/0f2ba4d63524e5f2a899326fc5ade292c0160cf5))
+
 ## [10.19.0](https://github.com/box/box-windows-sdk-v2/compare/v10.18.0...v10.19.0) (2026-10-01)
 
 ### ⚠ BREAKING CHANGES
