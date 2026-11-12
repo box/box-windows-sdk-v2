@@ -6,6 +6,12 @@ using Box.Sdk.Gen.Schemas;
 
 namespace Box.Sdk.Gen.Schemas {
     public class Invite : ISerializable {
+        [JsonInclude]
+        [JsonPropertyName("_isauto_roll_in_atSet")]
+        protected bool _isAutoRollInAtSet { get; set; }
+
+        protected System.DateTimeOffset? _autoRollInAt { get; set; }
+
         /// <summary>
         /// The unique identifier for this invite.
         /// </summary>
@@ -48,6 +54,21 @@ namespace Box.Sdk.Gen.Schemas {
         /// </summary>
         [JsonPropertyName("modified_at")]
         public System.DateTimeOffset? ModifiedAt { get; set; }
+
+        /// <summary>
+        /// The date and time when the user is added to the enterprise
+        /// automatically, or `null` if the user has to accept the invite.
+        /// </summary>
+        [JsonPropertyName("auto_roll_in_at")]
+        public System.DateTimeOffset? AutoRollInAt { get => _autoRollInAt; set { _autoRollInAt = value; _isAutoRollInAtSet = true; } }
+
+        /// <summary>
+        /// Whether the user is added to the enterprise automatically, without
+        /// having to accept the invite. When `true`, `auto_roll_in_at` contains
+        /// the date and time of the roll-in.
+        /// </summary>
+        [JsonPropertyName("is_auto_roll_in")]
+        public bool? IsAutoRollIn { get; set; }
 
         public Invite(string id, InviteTypeField type = InviteTypeField.Invite) {
             Id = id;
