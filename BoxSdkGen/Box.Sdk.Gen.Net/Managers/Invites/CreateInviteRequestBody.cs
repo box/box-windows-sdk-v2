@@ -20,6 +20,15 @@ namespace Box.Sdk.Gen.Managers {
         [JsonPropertyName("actionable_by")]
         public CreateInviteRequestBodyActionableByField ActionableBy { get; }
 
+        /// <summary>
+        /// If set to `true`, the user is added to the enterprise
+        /// automatically after 14 days instead of having to accept the
+        /// invite. Only unmanaged users can be invited this way.
+        /// Availability depends on the enterprise's plan.
+        /// </summary>
+        [JsonPropertyName("is_auto_roll_in_enabled")]
+        public bool? IsAutoRollInEnabled { get; init; }
+
         public CreateInviteRequestBody(CreateInviteRequestBodyEnterpriseField enterprise, CreateInviteRequestBodyActionableByField actionableBy) {
             Enterprise = enterprise;
             ActionableBy = actionableBy;
