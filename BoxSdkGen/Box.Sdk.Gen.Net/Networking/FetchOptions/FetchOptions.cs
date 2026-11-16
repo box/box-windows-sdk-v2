@@ -32,6 +32,11 @@ namespace Box.Sdk.Gen {
         public SerializedData? Data { get; init; }
 
         /// <summary>
+        /// Factory that builds a request body when `data` is not provided and rebuilds it for each retry.
+        /// </summary>
+        public IRequestDataFactory? DataFactory { get; init; }
+
+        /// <summary>
         /// Stream data of the request
         /// </summary>
         public System.IO.Stream? FileStream { get; init; }
