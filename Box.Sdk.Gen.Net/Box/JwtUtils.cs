@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 
 namespace Box.Sdk.Gen.Internal
 {
@@ -24,13 +23,7 @@ namespace Box.Sdk.Gen.Internal
         {
             var jwtClaims = claims.Select(x => new Claim(x.Key, x.Value.ToString()!)).ToList();
 
-            var randomNumber = new byte[64];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-            }
-
-            jwtClaims.Add(new Claim("jti", Convert.ToBase64String(randomNumber)));
+            jwtClaims.Add(new Claim("jti", options.Jwtid));
             jwtClaims.Add(new Claim("sub", options.Subject));
 
             var expClaim = claims["exp"].ToString();
