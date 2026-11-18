@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.21.0](https://github.com/box/box-windows-sdk-v2/compare/v10.20.0...v10.21.0) (2026-11-18)
+
+
+### Bug Fixes
+
+* Regenerate JWT assertions on token request retries (box/box-codegen[#1001](https://github.com/box/box-windows-sdk-v2/issues/1001)) ([29b17a4](https://github.com/box/box-windows-sdk-v2/commit/29b17a4b61425f0bd6c61b735e9a11f24afc14ae))
+
+
+### New Features and Enhancements
+
+* add `is_auto_roll_in_enabled` and `auto_roll_in_at` to invites API (box/box-openapi[#627](https://github.com/box/box-windows-sdk-v2/issues/627)) ([737401b](https://github.com/box/box-windows-sdk-v2/commit/737401bea812dfbc00f63234b8daaafd92c80091))
+
 ## [10.20.0](https://github.com/box/box-windows-sdk-v2/compare/v10.19.0...v10.20.0) (2026-11-10)
 
 
