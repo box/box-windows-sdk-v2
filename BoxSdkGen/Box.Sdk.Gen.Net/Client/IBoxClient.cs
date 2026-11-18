@@ -183,5 +183,7 @@ namespace Box.Sdk.Gen {
 
         public IShuttleManager Shuttle { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
 
+        public IAiSessionsManager AiSessions { get => throw new System.NotImplementedException("This method needs to be implemented by the derived class before calling it."); }
+
     }
 }
