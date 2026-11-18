@@ -45,13 +45,10 @@ namespace Box.Sdk.Gen {
             if (Utils.IsBrowser()) {
                 throw new BoxSdkException(message: "JWT auth is not supported in browser environment.");
             }
-            JwtAlgorithm alg = this.Config.Algorithm != null ? NullableUtils.Unwrap(this.Config.Algorithm) : JwtAlgorithm.Rs256;
-            Dictionary<string, object> claims = new Dictionary<string, object>() { { "exp", Utils.GetEpochTimeInSeconds() + 30 }, { "box_sub_type", this.SubjectType } };
-            JwtSignOptions jwtOptions = new JwtSignOptions(algorithm: alg, audience: "https://api.box.com/oauth2/token", subject: this.SubjectId, issuer: this.Config.ClientId, jwtid: Utils.GetUUID(), keyid: this.Config.JwtKeyId, privateKeyDecryptor: this.Config.PrivateKeyDecryptor);
-            JwtKey jwtKey = new JwtKey(key: this.Config.PrivateKey, passphrase: this.Config.PrivateKeyPassphrase);
-            string assertion = JwtUtils.CreateJwtAssertion(claims: claims, key: jwtKey, options: jwtOptions);
-            AuthorizationManager authManager = new AuthorizationManager(networkSession: networkSession != null ? NullableUtils.Unwrap(networkSession) : new NetworkSession());
-            AccessToken token = await authManager.RequestAccessTokenAsync(requestBody: new PostOAuth2Token(grantType: PostOAuth2TokenGrantTypeField.UrnIetfParamsOauthGrantTypeJwtBearer) { Assertion = assertion, ClientId = this.Config.ClientId, ClientSecret = this.Config.ClientSecret }).ConfigureAwait(false);
+            NetworkSession networkSessionToUse = networkSession != null ? NullableUtils.Unwrap(networkSession) : new NetworkSession();
+            JwtAccessTokenDataFactory dataFactory = new JwtAccessTokenDataFactory(config: this.Config) { SubjectId = this.SubjectId, SubjectType = this.SubjectType };
+            FetchResponse response = await networkSessionToUse.NetworkClient.FetchAsync(options: new FetchOptions(url: string.Concat(networkSessionToUse.BaseUrls.BaseUrl, "/oauth2/token"), method: "POST", contentType: "application/x-www-form-urlencoded", responseFormat: Box.Sdk.Gen.ResponseFormat.Json) { DataFactory = dataFactory, NetworkSession = networkSessionToUse }).ConfigureAwait(false);
+            AccessToken token = SimpleJsonSerializer.Deserialize<AccessToken>(NullableUtils.Unwrap(response.Data));
             await this.TokenStorage.StoreAsync(token).ConfigureAwait(false);
             return token;
         }
