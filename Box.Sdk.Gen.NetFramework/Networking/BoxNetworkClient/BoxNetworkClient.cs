@@ -73,6 +73,10 @@ namespace Box.Sdk.Gen.Internal
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
+                if ((retryAttempt > 1 || networkExceptionRetryAttempt > 1 || options.Data == null) && options.DataFactory != null)
+                {
+                    options = WithData(options, options.DataFactory.Create());
+                }
                 var request = await BuildHttpRequest(options, seekableStream, cancellationToken).ConfigureAwait(false);
                 var result = await ExecuteRequest(client, request, isStreamResponse, timeoutConfig, cancellationToken).ConfigureAwait(false);
 
@@ -184,6 +188,23 @@ namespace Box.Sdk.Gen.Internal
                 }
             }
 
+        }
+
+        private static FetchOptions WithData(FetchOptions options, SerializedData data)
+        {
+            return new FetchOptions(options.Url, options.Method, options.ContentType, options.ResponseFormat)
+            {
+                Parameters = options.Parameters,
+                Headers = options.Headers,
+                Data = data,
+                DataFactory = options.DataFactory,
+                FileStream = options.FileStream,
+                MultipartData = options.MultipartData,
+                Auth = options.Auth,
+                NetworkSession = options.NetworkSession,
+                CancellationToken = options.CancellationToken,
+                FollowRedirects = options.FollowRedirects,
+            };
         }
 
         private static HttpClient GetOrCreateHttpClient(NetworkSession networkSession)
