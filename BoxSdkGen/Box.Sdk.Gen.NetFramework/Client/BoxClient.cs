@@ -185,6 +185,8 @@ namespace Box.Sdk.Gen {
 
         public ShuttleManager Shuttle { get; set; }
 
+        public AiSessionsManager AiSessions { get; set; }
+
         public BoxClient(IAuthentication auth, NetworkSession networkSession = default) {
             Auth = auth;
             NetworkSession = networkSession ?? new NetworkSession(baseUrls: new BaseUrls());
@@ -276,6 +278,7 @@ namespace Box.Sdk.Gen {
             DocumentSplit = new DocumentSplitManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             Query = new QueryManager(networkSession: this.NetworkSession) { Auth = this.Auth };
             Shuttle = new ShuttleManager(networkSession: this.NetworkSession) { Auth = this.Auth };
+            AiSessions = new AiSessionsManager(networkSession: this.NetworkSession) { Auth = this.Auth };
         }
         /// <summary>
         /// Make a custom http request using the client authentication and network session.
