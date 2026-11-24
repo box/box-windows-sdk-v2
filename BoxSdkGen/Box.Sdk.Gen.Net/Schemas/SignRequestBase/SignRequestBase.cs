@@ -93,7 +93,7 @@ namespace Box.Sdk.Gen.Schemas {
         public string? EmailSubject { get => _emailSubject; init { _emailSubject = value; _isEmailSubjectSet = true; } }
 
         /// <summary>
-        /// Message to include in sign request email. The field is cleaned through sanitization of specific characters. However, some html tags are allowed. Links included in the message are also converted to hyperlinks in the email. The message may contain the following html tags including `a`, `abbr`, `acronym`, `b`, `blockquote`, `code`, `em`, `i`, `ul`, `li`, `ol`, and `strong`. Be aware that when the text to html ratio is too high, the email may end up in spam filters. Custom styles on these tags are not allowed. If this field is not passed, a default message will be used.
+        /// Message to include in sign request email. The field is cleaned through sanitization of specific characters. However, some html tags are allowed. Links included in the message are also converted to hyperlinks in the email. The message may contain the following html tags including `a`, `abbr`, `b`, `blockquote`, `code`, `em`, `i`, `ul`, `li`, `ol`, and `strong`. Be aware that when the text to html ratio is too high, the email may end up in spam filters. Custom styles on these tags are not allowed. If this field is not passed, a default message will be used.
         /// </summary>
         [JsonPropertyName("email_message")]
         public string? EmailMessage { get => _emailMessage; init { _emailMessage = value; _isEmailMessageSet = true; } }
