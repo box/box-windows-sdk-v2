@@ -22,7 +22,10 @@ This operation is performed by calling function `GetAiSessionsV2026R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/get-ai-sessions/).
 
-*Currently we don't have an example for calling `GetAiSessionsV2026R0` in integration tests*
+<!-- sample get_ai_sessions_v2026.0 -->
+```
+await client.AiSessions.GetAiSessionsV2026R0Async(queryParams: new GetAiSessionsV2026R0QueryParams(source: GetAiSessionsV2026R0QueryParamsSourceField.Api));
+```
 
 ### Arguments
 
@@ -57,7 +60,10 @@ This operation is performed by calling function `DeleteAiSessionByIdV2026R0`.
 See the endpoint docs at
 [API Reference](https://developer.box.com/reference/v2026.0/delete-ai-sessions-id/).
 
-*Currently we don't have an example for calling `DeleteAiSessionByIdV2026R0` in integration tests*
+<!-- sample delete_ai_sessions_id_v2026.0 -->
+```
+await client.AiSessions.DeleteAiSessionByIdV2026R0Async(aiSessionId: aiSessionId);
+```
 
 ### Arguments
 
