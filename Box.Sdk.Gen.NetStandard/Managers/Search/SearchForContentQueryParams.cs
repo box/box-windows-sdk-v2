@@ -285,7 +285,7 @@ namespace Box.Sdk.Gen.Managers {
         /// 
         /// Data available from 2023-02-01 onwards.
         /// </summary>
-        public IReadOnlyList<string> DeletedUserIds { get; set; }
+        public IReadOnlyList<string> DeleterUserIds { get; set; }
 
         /// <summary>
         /// Limits the search results to any items deleted within a given
